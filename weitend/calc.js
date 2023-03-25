@@ -7,7 +7,7 @@ function calc(operation, a, b) {
             console.log(a * b);
         break;
         case 'subtract':
-            console.log(a % b);
+            console.log(a - b);
         break;
     };
 };
