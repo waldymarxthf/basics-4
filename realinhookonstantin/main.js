@@ -2,15 +2,15 @@
 
 function сalc(a, b, operation) {
   // if (operation === 'add') {
-  //   return console.log(a + b)
+  //   return a + b
   // }
 
   // if (operation == 'multi') {
-  //   return console.log(a * b)
+  //   return a * b
   // }
 
   // if (operation == 'subtract') {
-  //   return console.log(a - b)
+  //   return a - b
   // }
 
   switch(operation) {
