@@ -17,3 +17,4 @@ calc('add', 1, 2)
 calc('multi', 1, 2)
 
 calc('subtract', 3, 2)
+//
