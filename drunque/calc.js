@@ -20,8 +20,8 @@ function calc2(operation, a, b) {
   return operations[operation] || "Invalid input";
 }
 
-console.log(calc("add", 1, 2), calc("multi", 1, 2), calc("subtract", 3, 2));
-console.log(calc2("add", 1, 2), calc2("multi", 1, 2), calc2("subtract", 3, 2));
+console.log(calc("add", 1, 2), calc("multi", 1, 2), calc("subtract", 3, 2)); // 3 2 1
+console.log(calc2("add", 1, 2), calc2("multi", 1, 2), calc2("subtract", 3, 2)); // 3 2 1
 
-console.log(calc("bebebee", 2, 3))
-console.log(calc2('dududude', 2, 44))
+console.log(calc("bebebee", 2, 3)) // Invalid input
+console.log(calc2('dududude', 2, 44)) // Invalid input
