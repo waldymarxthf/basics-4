@@ -4,7 +4,7 @@ const OPERATIONS = {
   SUBSTRACT: 'substract',
 };
 
-const errorMessage = 'Error';
+const ERROR_MESSAGE = 'Error';
 
 function checkNumber(num) {
   return typeof num === 'number' ? true : false;
@@ -12,9 +12,10 @@ function checkNumber(num) {
 
 function calc(num1, num2, operation) {
   if (!(checkNumber(num1) && checkNumber(num2))) {
-    console.log(errorMessage);
+    console.log(ERROR_MESSAGE);
     return null;
   }
+
   switch (operation) {
     case OPERATIONS.ADD:
       return num1 + num2;
@@ -23,7 +24,7 @@ function calc(num1, num2, operation) {
     case OPERATIONS.SUBSTRACT:
       return num1 - num2;
     default:
-      console.log(errorMessage);
+      console.log(ERROR_MESSAGE);
       return null;
   }
 }
