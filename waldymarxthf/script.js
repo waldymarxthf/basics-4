@@ -1,15 +1,30 @@
+const ADD = 'add'
+const MULTI = 'multi'
+const SUBTRACT = 'subtract'
+const ERROR = 'its not a number'
+
+function checkNumber(a) {
+	return isNaN(a)
+}
+
+
 function calc(operation, a, b) {
+	if(checkNumber(a) || checkNumber(b)) {
+		return ERROR
+	}
+
 	switch (operation) {
-		case 'add':
+		case ADD:
 			return a + b
-		case 'multi':
+		case MULTI:
 			return a * b
-		case 'subtract':
+		case SUBTRACT:
 			return a - b
 		default:
 			console.log('omg where is your eyes')
-			break
+			return null
 	}
 }
 
 console.log(calc('add', 1, 2))
+console.log(calc('add', 1, NaN))
