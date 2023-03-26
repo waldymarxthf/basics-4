@@ -1,14 +1,19 @@
-function Calc(a, b, operation) {
-    if (operation === 'add' && typeof a !== 'number') {
-        return a + b 
-    } else if (operation === 'multi') {
-        return a * b 
-    } else if (operation === 'subtract') {
-        return a - b
+const error = "please enter number"
+function calc(num1, num2, operation) {
+    if(isFinite(num1) && isFinite(num2)) {
+    switch (operation) {
+    case 'add':
+        return num1 + num2;
+    case 'multi':
+        return num1 * num2;
+    case 'subtract':
+        return num1 - num2;
+    } 
+    } else {
+        return error
     }
-    
-    }
-    
-    console.log(Calc(f, 12, 'add'))
-    console.log(Calc(24, 12, 'multi'))
-    console.log(Calc(24, 12, 'subtract'))
+}
+
+console.log(calc(NaN, false, 'add'))
+console.log(calc(24, NaN, 'multi'))
+console.log(calc(24, 12, 'subtract'))
