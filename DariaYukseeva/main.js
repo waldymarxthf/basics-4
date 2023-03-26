@@ -1,34 +1,22 @@
-// function calc(operation, a, b) {
-//     if (operation == 'add') {
-//         return a + b;
-//     }
-//     else if (operation == 'multi') {
-//         return a * b;
-//     }
-//     else if (operation == 'subtract') {
-//         return a - b;
-//     }
-//     else {
-//         return 'Something went wrong';
-//     }
-// }
-
-// console.log(calc('hjgf', 1, 1));
-
-function calc(operation, a, b,) {
-    switch (operation) {
-        case "add":
-            return a + b;
-            break;
-        case "multi":
-            return a * b;
-            break;
-        case "subtract":
-            return a - b;
-            break;
-        default:
-            return "something went wrong"
-            break;
+function calc(operation, a, b) {
+    if (isNumber(a) && isNumber(b)) {
+        switch (operation) {
+            case "add":
+                return a + b;
+            case "multi":
+                return a * b;
+            case "subtract":
+                return a - b;
+            default:
+                return null;
+        }
+    }
+    else {
+        return null;
     }
 }
-console.log(calc('add', 1, 1));
+console.log(calc('add', 10, 1));
+
+function isNumber(value) {
+    return typeof value === 'number' && !isNaN(value);
+}
