@@ -1,3 +1,5 @@
+//создаю функцию
+
 function calc(operation, a, b) {
   if (operation === "multi") {
     return a * b
