@@ -15,5 +15,5 @@ function calc(num1, num2, operation) {
 }
 
 console.log(calc(NaN, false, 'add'))
-console.log(calc(24, NaN, 'multi'))
+console.log(calc(24, 080, 'multi'))
 console.log(calc(24, 12, 'subtract'))
