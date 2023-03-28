@@ -22,6 +22,7 @@ console.log(calc('add', 2, 4));
 console.log(calc('add', '2s', 4));
 console.log(calc('multi', 2, '4s'));
 console.log(calc('mdulti', 2, '4s'));
+console.log(calc('subtract', 22, 2));
 
 
 
