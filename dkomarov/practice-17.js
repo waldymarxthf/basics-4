@@ -22,11 +22,19 @@ const phoneBook = {
             console.log('This name not in List')
         }
         
-    }
+    }, 
+
+    
 
 };
 
-
 phoneBook.add('Oleg Sav', 9201112233);
 phoneBook.del("John");
-console.log(phoneBook);
+
+for (const name in phoneBook.list) {
+    console.log(`${name}` + " - " + `${phoneBook.list[name]}`)
+        
+}
+
+
+
