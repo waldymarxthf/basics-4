@@ -18,3 +18,8 @@ const telegramBook = {
 telegramBook.add("Kirill", 90878789);
 telegramBook.remove("Лерочка");
 telegramBook.log();
+
+for (const name in telegramBook.list) {
+  console.log(name + " - " + telegramBook.list[name]);
+}
+telegramBook.log();
