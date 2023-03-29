@@ -43,3 +43,7 @@ console.log(contacts);
 
 contacts.remove('Olga');
 console.log(contacts);
+
+for (const name in contacts) {
+    console.log(`${name} - ${contacts[name]}`);
+}
