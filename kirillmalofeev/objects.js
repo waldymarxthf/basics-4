@@ -8,13 +8,5 @@ const telegramBook = {
   log() {
     console.log(this.list);
   },
-  add(name, number) {
-    this.list[name] = number;
-  },
-  remove(name) {
-    delete this.list[name];
-  },
 };
-telegramBook.add("Kirill", 90878789);
-telegramBook.remove("Лерочка");
 telegramBook.log();
