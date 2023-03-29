@@ -1,13 +1,18 @@
 const phoneBook = {
-  Oleg: 79531111111,
-  Sergey: 79532222222,
-  Stasik: 79533333333,
-  'My number': 79534444444,
+  list: {
+    Oleg: 79531111111,
+    Sergey: 79532222222,
+    Stasik: 79533333333,
+    'My number': 79534444444,
+  },
+  add(firstName, phoneNumber) {
+    this.list[firstName] = phoneNumber;
+  },
+  remove(firstName) {
+    delete this.list[firstName];
+  },
 };
 
-console.log(phoneBook.Oleg);
-phoneBook.jobs = 79215555555;
-console.log(phoneBook);
-console.log(phoneBook['My number']);
-delete phoneBook.Oleg;
-console.log(phoneBook);
+for (const name in phoneBook.list) {
+  console.log(`${name} - ${phoneBook.list[name]}`);
+}
