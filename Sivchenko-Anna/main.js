@@ -19,3 +19,8 @@ phoneBook.addContact("Misha", 88991122);
 phoneBook.deleteContact("Sasha");
 
 console.log(phoneBook);
+console.log("Sasha" in phoneBook.list);
+
+for (const name in phoneBook.list) {
+  console.log(name + " - " + phoneBook.list[name]);
+}
