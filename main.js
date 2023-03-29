@@ -1,49 +1,51 @@
 const contacts = {
-    'Alyona': '@aaaaa',
-    'Olga': '@oooooo',
-    'beloved son': '@mmmmm',
-}
+    list: {
+        'Alyona': '72022222222',
+        'Olga': '75069875311',
+        'beloved son': '75486325744',
+    }
+};
 
 console.log(contacts);
-console.log(contacts.Olga);
-console.log(contacts['beloved son']);
+console.log(contacts.list.Olga);
+console.log(contacts.list['beloved son']);
 
-contacts['dad'] = '@ddddddddd';
-console.log(contacts);
+contacts.list['dad'] = '@ddddddddd';
+console.log(contacts.list);
 
-contacts.Olga = '@ooooo1';
-console.log(contacts.Olga);
+contacts.list.Olga = '@ooooo1';
+console.log(contacts.list.Olga);
 
-contacts['beloved son'] = '@max';
-console.log(contacts['beloved son']);
+contacts.list['beloved son'] = '@max';
+console.log(contacts.list['beloved son']);
 
-contacts.mom = '@mother';
-console.log(contacts);
+contacts.list.mom = 78963254788;
+console.log(contacts.list);
 
-delete contacts.Alyona;
-console.log(contacts);
+delete contacts.list.Alyona;
+console.log(contacts.list);
 
 contacts.log = function () {
-    console.log(this.dad);
+    console.log(this.list.dad);
 }
 console.log(contacts.log());
 
-contacts.add = function(name, nickname) {
-    this[name] = nickname;
+contacts.add = function(name, number) {
+    this.list[name] = number;
 }
 contacts.remove = function(name) {
-    delete this[name];
+    delete this.list[name];
 }
 
 delete contacts.log;
 console.log(contacts);
 
-contacts.add('brother', '@ssssssssss');
-console.log(contacts);
+contacts.add('brother', 76598734522);
+console.log(contacts.list);
 
 contacts.remove('Olga');
-console.log(contacts);
+console.log(contacts.list);
 
-for (const name in contacts) {
-    console.log(`${name} - ${contacts[name]}`);
+for (const name in contacts.list) {
+    console.log(`${name} - ${contacts.list[name]}`);
 }
