@@ -6,9 +6,6 @@ const contacts = {
     }
 };
 
-console.log(contacts);
-console.log(contacts.list.Olga);
-console.log(contacts.list['beloved son']);
 
 contacts.list['dad'] = '@ddddddddd';
 console.log(contacts.list);
@@ -25,20 +22,24 @@ console.log(contacts.list);
 delete contacts.list.Alyona;
 console.log(contacts.list);
 
-contacts.log = function () {
-    console.log(this.list.dad);
-}
-console.log(contacts.log());
 
 contacts.add = function(name, number) {
-    this.list[name] = number;
+    if (name in this.list) {
+        console.log('The contact already exists. Add new number?');
+        let add = true;
+        if (add) {
+            this.list[name] = this.list[name] +', ' + number;
+        }
+    }
+    else {    
+        this.list[name] = number;
+    }
 }
 contacts.remove = function(name) {
-    delete this.list[name];
+    if (name in this.list) {
+        delete this.list[name];
+    }
 }
-
-delete contacts.log;
-console.log(contacts);
 
 contacts.add('brother', 76598734522);
 console.log(contacts.list);
@@ -49,3 +50,6 @@ console.log(contacts.list);
 for (const name in contacts.list) {
     console.log(`${name} - ${contacts.list[name]}`);
 }
+
+contacts.add('brother', 454621);
+console.log(contacts.list);
