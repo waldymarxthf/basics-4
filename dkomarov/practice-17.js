@@ -4,18 +4,15 @@ const phoneBook = {
 		"Jane Doe": 987654321,
 		"Jim Smith": 111111111
 	},
-    add(name, number) {
+    addContact(name, number) {
         if (typeof name === 'string' && typeof number === 'number') {
             this.list[name] = number;
         } else {
             console.log('incorrect value...')
         }
-        
-       
-        
     },
 
-    del(name) {
+    delContact(name) {
         if (this.list[name]) {
             delete this.list[name];
         } else {
@@ -24,17 +21,25 @@ const phoneBook = {
         
     }, 
 
-    
-
+    changeContact(name, number) {
+        if (this.list[name]) {
+            this.list[name] = number;
+        }
+    }
 };
 
-phoneBook.add('Oleg Sav', 9201112233);
-phoneBook.del("John");
+phoneBook.addContact('Oleg Sav', 9201112233);
+phoneBook.delContact("John");
+phoneBook.changeContact('Jane Doe', 9999999);
 
-for (const name in phoneBook.list) {
-    console.log(`${name}` + " - " + `${phoneBook.list[name]}`)
-        
-}
+function showPhoneBook () {
+    for (const name in phoneBook.list) {
+        console.log(`${name} - ${phoneBook.list[name]}`)
+            
+    };
+};
+
+showPhoneBook();
 
 
 
