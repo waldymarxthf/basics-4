@@ -9,24 +9,24 @@ const phoneBook = {
 	},
 	add(name, number) {
 		if (name in this.list || number === Object.values(this.list)) {
-			console.log('Этот человек есть уже в записной книге \n')
+			console.log('Этот человек есть уже в записной книге\n')
 		} else {
 			this.list[name] = number
-			console.log(`Человека с именем ${name} добавлен \n`)
+			console.log(`Человека с именем ${name} добавлен\n`)
 		}
 	},
 	delete(name) {
 		if (!(name === this.list[name])) {
 			delete this.list[name]
-			console.log(`Человек с именем ${name} удален \n` ) 
+			console.log(`Человек с именем ${name} удален\n` ) 
 		} else {
-			console.log(`Человек с именем ${name} не существует \n`)
+			console.log(`Человек с именем ${name} не существует\n`)
 		}
 	},
 	showContact() {
 		console.log('Contacts:')
-		for(const name in phoneBook.list) {
-			console.log(`\t ${name} - ${phoneBook.list[name]}`)
+		for(const name in this.list) {
+			console.log(`\t${name} - ${this.list[name]}`)
 		}
 	}
 }
