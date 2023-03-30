@@ -1,1 +1,1 @@
-practice 18
+console.log('Practice #18');
