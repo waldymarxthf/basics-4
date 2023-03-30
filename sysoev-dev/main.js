@@ -5,7 +5,13 @@ const phoneBook = {
     Stasik: 79533333333,
     'My number': 79534444444,
   },
+  check(firstName) {
+    return firstName in this.list;
+  },
   add(firstName, phoneNumber) {
+    if (this.check(firstName)) {
+      console.log('This name already exists. The number will be changed');
+    }
     this.list[firstName] = phoneNumber;
   },
   remove(firstName) {
@@ -19,5 +25,6 @@ const phoneBook = {
 };
 
 phoneBook.add('FBI', 911);
+phoneBook.add('FBI', 911911);
 phoneBook.remove('My number');
 phoneBook.show();
