@@ -27,7 +27,7 @@ contacts.add = function(name, number) {
     if (name in this.list) {
         console.log('The contact already exists. Add new number?');
         let add = true;
-        if (add) {
+        if (add && this.list[name] !== number) {
             this.list[name] = this.list[name] +', ' + number;
         }
     }
@@ -51,5 +51,5 @@ for (const name in contacts.list) {
     console.log(`${name} - ${contacts.list[name]}`);
 }
 
-contacts.add('brother', 454621);
+contacts.add('brother', 75454);
 console.log(contacts.list);
