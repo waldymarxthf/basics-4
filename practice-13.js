@@ -7,6 +7,7 @@ function calc(operation, a, b) {
         case 'subtract':
             return a - b;
         default: console.log('Нет операций');
+        
     }
 }
 console.log(calc('add', 1, 2));
