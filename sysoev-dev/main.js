@@ -11,8 +11,13 @@ const phoneBook = {
   remove(firstName) {
     delete this.list[firstName];
   },
+  show() {
+    for (const item in this.list) {
+      console.log(`${item} - ${this.list[item]}`);
+    }
+  },
 };
 
-for (const name in phoneBook.list) {
-  console.log(`${name} - ${phoneBook.list[name]}`);
-}
+phoneBook.add('FBI', 911);
+phoneBook.remove('My number');
+phoneBook.show();
