@@ -19,7 +19,7 @@ const phoneBook = {
 				console.log(`Человек с именем ${name} добавлен\n`)
 			}
 		} else {
-      console.log('Неверный формат номера', name, number, '\n')
+      console.log(`Неверный формат номера ${name} ${number}\n`)
     }
 	},
 	delete(name) {
