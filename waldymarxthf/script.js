@@ -1,18 +1,18 @@
 const phoneBook = {
 	list: {
-		Iliya: +649738218,
-		Falikul: +364825197,
-		Egorik: +845136498,
+		Iliya: '+649738218',
+		Falikul: '+364825197',
+		Egorik: '+845136498',
 	},
 	log() {
 		console.log(this.list)
 	},
 	add(name, number) {
-		if (name === this.list[name]) {
+		if (name in this.list || number === Object.values(this.list)) {
 			console.log('Этот человек есть уже в записной книге \n')
 		} else {
 			this.list[name] = number
-			console.log(`Человека с именем ${name} добавил \n`)
+			console.log(`Человека с именем ${name} добавлен \n`)
 		}
 	},
 	delete(name) {
@@ -32,7 +32,7 @@ const phoneBook = {
 }
 
 
-phoneBook.add('galya', 7392756481)
-phoneBook.add('galyasdaa', 73935456481)
+phoneBook.add('Iliyusha', '+649738218')
+phoneBook.add('galyasdaa', '+73935456481')
 phoneBook.delete('Egorik')
 phoneBook.showContact()
