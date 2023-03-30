@@ -8,7 +8,7 @@ const phoneBook = {
 		console.log(this.list)
 	},
 	add(name, number) {
-		if (name in this.list || number === Object.values(this.list)) {
+		if (name in this.list || Object.values(this.list).includes(number)) {
 			console.log('Этот человек есть уже в записной книге\n')
 		} else {
 			this.list[name] = number
