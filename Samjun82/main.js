@@ -1,13 +1,24 @@
-function chekAge(age) {
-    if(age < 18) {
-     console.log("you are not allowed")
-    } else if(age >= 18 && age <=99) {
-     console.log("you are welcome!")
-    } else if(age >= 100 && age <=120) {
-     console.log("are you still breathing?")
-    } else {
-     console.log("are you human?")
-    }
-    
-    }
-    chekAge(200)
+const error = "Please enter number"
+function сalc(num1, num2, operation) {
+if (operation === 'add' && typeof num1 === 'number' && typeof num2 === 'number') {
+    return num1 + num2 
+} else if (operation === 'multi' && typeof num1 === 'number' && typeof num2 === 'number') {
+    return num1 * num2 
+} else if (operation === 'subtract' && typeof num1 === 'number' && typeof num2 === 'number') {
+    return num1 - num2
+} else {
+    return error
+}
+
+}
+
+console.log(сalc(12, 12, 'add'))
+console.log(сalc('24', 12, 'multi'))
+console.log(сalc(24, false, 'subtract'))
+
+// let num1 = 'numb';
+// if(typeof num1 === 'number') {
+//     console.log('ok')
+// } else {
+//     console.log('please enter number')
+// }
