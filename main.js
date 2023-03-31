@@ -9,6 +9,9 @@ const toDoList = {
         if (task in this.list) {
             console.log('Такая задача уже существует. ');
         }
+        else if (task === '') {
+            console.log('Введите задачу');
+        }
         else {
         this.list[task] = statusToDo;
         }
@@ -68,6 +71,7 @@ toDoList.addTask('Провести тренировку');
 toDoList.addTask('Сходить за продуктами');
 toDoList.changeStatus('Сделать ToDo list', statusDone)
 toDoList.changeStatus('Составить план тренировки', statusDone)
+toDoList.addTask('');
 
 console.log(toDoList.showlist());
 
