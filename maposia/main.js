@@ -48,7 +48,7 @@ const toDoList = {
       }
     }
 
-    if (inToDo === undefined) {
+    if (inToDo === '') {
       console.log('в To Do ниего нет')
     } else {
       console.log('Todo:\n' + inToDo)
@@ -58,7 +58,7 @@ const toDoList = {
     } else {
       console.log('in Progress:\n' + inProgress)
     }
-    if (isDone === undefined) {
+    if (isDone === '') {
       console.log('в Done ничего нет')
     } else {
       console.log('Done:\n' + isDone)
