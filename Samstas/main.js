@@ -1,5 +1,3 @@
-const practice = 19;
-
 const toDoList = {
   list: {
     "Buy food": "To Do",
