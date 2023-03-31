@@ -21,36 +21,45 @@ function deleteTask(task) {
 
 function showList() {
 	console.log('Todo:')
-	for(const task in list) {
-		if(list[task] === 'To Do') {
+	let hasToDo = false
+	for (const task in list) {
+		if (list[task] === 'To Do') {
 			console.log(`\t${task}`)
-		} else if (list[task] === 'In Progress' || list[task] === 'Done') {
-			console.log(`\t-`)
-			break;
+			hasToDo = true
 		}
 	}
+	if (!hasToDo) {
+		console.log('\t-')
+	}
+	
 	console.log('In Progress:')
-	for(const task in list) {
-		if(list[task] === 'In Progress') {
+	let hasInProgress = false
+	for (const task in list) {
+		if (list[task] === 'In Progress') {
 			console.log(`\t${task}`)
-		} else if (list[task] === 'To Do' || list[task] === 'Done') {
-			console.log(`\t-`)
-			break;
+			hasInProgress = true
 		}
 	}
+	if (!hasInProgress) {
+		console.log('\t-')
+	}
+	
 	console.log('Done:')
-	for(const task in list) {
-		if(list[task] === 'Done') {
+	let hasDone = false
+	for (const task in list) {
+		if (list[task] === 'Done') {
 			console.log(`\t${task}`)
-		} else if (list[task] === 'To Do' || list[task] === 'In Progress') {
-			console.log(`\t-`)
-			break;
+			hasDone = true
 		}
+	}
+	if (!hasDone) {
+		console.log('\t-')
 	}
 }
 
-changeStatus("create a new practice task", "Done")
+
 changeStatus("create a new practice task", "To Do")
+changeStatus("make a bed", "In Progress")
 addTask('hello my name')
-deleteTask("make a bed")
+// deleteTask("make a bed")
 showList()
