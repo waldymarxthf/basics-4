@@ -1,31 +1,41 @@
-let userName = 'Serh';
-let userAge = 40;
-console.log(userName + ' is ' + userAge + ' years old');
+let name = "Ilya";
+let age = 30;
+let job = true;
+let housing ;
+let car = null;
 
-let userHeight; // не присвоенное знаяение 
+console.log(typeof name);
+console.log(typeof age);
+console.log(typeof job);
+console.log(typeof housing);
+console.log(typeof car);
 
-console.log(userHeight); // undefined
-userHeight = 170; // Number
-console.log(userHeight); // 170
+console.log(name+age);
+console.log(name+job);
+console.log(name+housing);
+console.log(name+car);
+console.log(name+name);
 
+console.log(age+age);
+console.log(age+job);
+console.log(age+housing);
+console.log(age+car);
 
-console.log(`18 + 82 = ${18+82}`) 
+console.log(job+job);
+console.log(job+housing);
+console.log(job+car);
 
-let user = null; // null - определенное нулевое значение, undefined - неопределенное. 
+console.log(housing+housing);
+console.log(housing+car);
 
-let nameFieldChecked = true; // boolean
-let ageFieldChecked = false; 
+console.log(car+car);
 
-let a = 65;
-let b = a;
-let c = b;
-console.log(c);
+console.log(+name+age);
 
-const myBirthday = '18.04.1982';
-// myBirthday = '01.01.2001'; // ошибка, константу нельзя перезаписать!
+console.log(Number(job)+age);
 
-const COLOR_ORANGE = "#FF7F00";
-let color = COLOR_ORANGE; 
-console.log(color); 
+console.log(String(job)+name);
 
-console.log(c + myBirthday + b + color + 45 + '6' + nameFieldChecked)
+console.log(age+'123');
+
+console.log(1-'age');
