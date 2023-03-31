@@ -48,21 +48,13 @@ const toDoList = {
       }
     }
 
-    if (inToDo === '') {
-      console.log('в To Do ниего нет')
-    } else {
-      console.log('Todo:\n' + inToDo)
-    }
-    if (inProgress == '') {
-      console.log('in Progress ничего нет\n')
-    } else {
-      console.log('in Progress:\n' + inProgress)
-    }
-    if (isDone === '') {
-      console.log('в Done ничего нет')
-    } else {
-      console.log('Done:\n' + isDone)
-    }
+    console.log(inToDo.length < 1 ? 'в To Do ниего нет' : 'Todo:\n' + inToDo)
+    console.log(
+      inProgress.length < 1
+        ? 'in Progress ничего нет\n'
+        : 'in Progress:\n' + inProgress
+    )
+    console.log(isDone.length < 1 ? 'в Done ничего нет' : 'Done:\n' + isDone)
   },
 }
 
