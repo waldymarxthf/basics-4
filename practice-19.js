@@ -52,7 +52,6 @@ const taskForToday = {
     }
 }
 
-
 taskForToday.changeStatus('Write a post', 'Done');
 console.log(taskForToday.list);
 taskForToday.changeStatus('Make a bed', 'In Progress');
