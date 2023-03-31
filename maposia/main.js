@@ -47,9 +47,22 @@ const toDoList = {
         }
       }
     }
-    console.log('Todo:\n' + inToDo)
-    console.log('inProgress:\n' + inProgress)
-    console.log('isDone:\n' + isDone)
+
+    if (inToDo === undefined) {
+      console.log('в To Do ниего нет')
+    } else {
+      console.log('Todo:\n' + inToDo)
+    }
+    if (inProgress == '') {
+      console.log('in Progress ничего нет\n')
+    } else {
+      console.log('in Progress:\n' + inProgress)
+    }
+    if (isDone === undefined) {
+      console.log('в Done ничего нет')
+    } else {
+      console.log('Done:\n' + isDone)
+    }
   },
 }
 
@@ -60,6 +73,7 @@ toDoList.addTask('Заменить десктоп')
 toDoList.addTask('Купить витамины')
 
 toDoList.changeStatus('Тренировка в 12', 'In Progress')
+toDoList.changeStatus('Тренировка в 12', 'Done')
 toDoList.changeStatus('Съездить в горы', 'Done')
 
 toDoList.deleteTask('Заменить десктоп')
