@@ -3,6 +3,7 @@ const DONE = 'Done';
 const TO_DO = 'To Do';
 const NOTHING = '';
 
+
 const taskForToday = {
     list: {
         'Create a new practice task': 'In Progress',
