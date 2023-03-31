@@ -1,56 +1,75 @@
+const IN_PROGRESS = 'In Progress';
+const DONE = 'Done';
+const TO_DO = 'To Do';
+const NOTHING = '';
+
 const taskForToday = {
     list: {
         'Create a new practice task': 'In Progress',
         'Make a bed': 'Done',
         'Write a post': 'To Do',
+        'Have a breakfast': 'To Do',
+        'Go to gym': '',
+        'Read the book': 'In Progress',
     },
-    // changeStatus(key, status) {
-    //     this.list[key] = status;
+    changeStatus(key, status) {
+        this.list[key] = status;
 
-    // },
+    },
 
-    // addTask(key) {
-    //     this.list[key] = 'In Progress';
-    // },
+    addTask(key) {
+        this.list[key] = DONE;
+    },
 
-    // delete(key) {
-    //     delete this.list[key];
-    // },
+    deleteTask(key) {
+        delete this.list[key];
+    },
 
     showList() {
-        for (const key in this.list) {
-            console.log(`${'Create a new practice task'}: Todo `);
-            console.log(`${'Make a bed'}: Todo `);
-            console.log('');
-            console.log(`${'write a post'}: In Progress `);
-            console.log('');
-            console.log('Nothing is Done');
+        for (const key in taskForToday.list) {
+            if (taskForToday.list[key] == TO_DO) {
+                console.log(`${key} : ${taskForToday.list[key]}`);
+            }
+        } console.log();
+        for (const key in taskForToday.list) {
+            if (taskForToday.list[key] == IN_PROGRESS) {
+                console.log(`${key} : ${taskForToday.list[key]}`);
+            }
+
+        } console.log();
+        for (const key in taskForToday.list) {
+            if (taskForToday.list[key] == DONE) {
+                console.log(`${key} : ${taskForToday.list[key]}`);
+            }
+        } console.log();
+        for (const key in taskForToday.list) {
+            if (taskForToday.list[key] == NOTHING) {
+                console.log('Nothing is Done');
+            }
 
         }
-       
     }
-
-
-
 }
 
-// taskForToday.changeStatus('Write a post', 'Done');
-// console.log(taskForToday.list);
-// taskForToday.changeStatus('Make a bed', 'In Progress');
-// console.log(taskForToday.list);
 
-// taskForToday.addTask('Have a walk');
-// console.log(taskForToday.list);
-// taskForToday.addTask('Go to the cinema');
-// console.log(taskForToday.list);
+taskForToday.changeStatus('Write a post', 'Done');
+console.log(taskForToday.list);
+taskForToday.changeStatus('Make a bed', 'In Progress');
+console.log(taskForToday.list);
+
+taskForToday.addTask('Have a walk');
+console.log(taskForToday.list);
+taskForToday.addTask('Go to the cinema');
+console.log(taskForToday.list);
 
 
-// taskForToday.delete('Create a new practice task');
-// console.log(taskForToday.list);
-// taskForToday.delete('Write a post');
-// console.log(taskForToday.list);
+taskForToday.deleteTask('Create a new practice task');
+console.log(taskForToday.list);
+taskForToday.deleteTask('Write a post');
+console.log(taskForToday.list);
 
-showList();
+taskForToday.showList();
+
 
 
 
