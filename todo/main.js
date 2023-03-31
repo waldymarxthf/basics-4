@@ -4,9 +4,9 @@ const toDoList = {
     "Создать файл js": "done",
     "Создать функции для выполнения задачи": "done",
     "Написать код для функций": "done",
-    "Леч спать": "wait",
-    "Проверить код, что-бы убедится что он работает правильно": "wait",
-    "Отправить код на проверку": "wait",
+    "Леч спать": "waiting",
+    "Проверить код, что-бы убедится что он работает правильно": "waiting",
+    "Отправить код на проверку": "waiting",
   },
 
   check(task) {
@@ -14,50 +14,59 @@ const toDoList = {
   },
 
   changeStatus(task, status) {
-    this.check(task);
-    if (this.check(task) === "err") {
+    const checkedTask = this.check(task);
+    if (checkedTask === "err") {
       return `Задачи "${task}" не существует`;
     }
 
     status = status.toLowerCase().trim();
-    if (status === "done") {
-      this.listTasks[task] = "done";
-    } else if (status === "inprogress") {
-      this.listTasks[task] = "inProgress";
-    } else {
-      return "Такого статуса не существует, используйте(inProgress или done)регистр не важен";
+    switch (status) {
+      case "done":
+        this.listTasks[checkedTask] = "done";
+        break;
+      case "inprogress":
+        this.listTasks[checkedTask] = "inProgress";
+        break;
+      default:
+        return "Такого статуса не существует, используйте (inProgress или done), регистр не важен";
     }
   },
 
   addTask(task) {
-    if (task === "") return;
-    this.listTasks[task] = "wait";
+    if (!task) return;
+    this.listTasks[task] = "waiting";
   },
 
   deleteTask(task) {
-    this.check(task);
-    if (this.check(task) === "err") {
+    const checkedTask = this.check(task);
+    if (checkedTask === "err") {
       return `Задачи "${task}" не существует`;
     }
-    delete this.listTasks[task];
+    delete this.listTasks[checkedTask];
   },
 
   showListTasks() {
-    const wait = [];
-    const inProgress = [];
-    const done = [];
+    const waitingTasks = [];
+    const inProgressTasks = [];
+    const completedTasks = [];
 
     for (const key in this.listTasks) {
-      if (this.listTasks[key] === "wait") {
-        wait.push(key);
-      } else if (this.listTasks[key] === "inProgress") {
-        inProgress.push(key);
-      } else if (this.listTasks[key] === "done") {
-        done.push(key);
+      switch (this.listTasks[key]) {
+        case "waiting":
+          waitingTasks.push(key);
+          break;
+
+        case "inProgress":
+          inProgressTasks.push(key);
+          break;
+
+        case "done":
+          completedTasks.push(key);
+          break;
       }
     }
 
-    return { wait, inProgress, done };
+    return { waitingTasks, inProgressTasks, completedTasks };
   },
 };
 
