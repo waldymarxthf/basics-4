@@ -31,28 +31,19 @@ const todoList = {
       console.log('Complete! Task was удалена')
     }
   },
-  showList() {
-    let todo = '';
-    let done = '';
-    let inprogress = '';
+  displayStatus(status) {
+    let tasks = '';
     for (const key in this.todos) {
-      switch (this.todos[key].toLowerCase()) {
-        case 'done':
-          done += '\n    ' + key;
-          break;
-        case 'todo':
-          todo += '\n    ' + key;
-          break;
-        case 'inprogress':
-          inprogress += '\n    ' + key;
-          break;
-        default:
-          break;
+      if (this.todos[key].toLowerCase() === status.toLowerCase()) {
+        tasks += '\n    ' + key;
       }
     }
-    console.log('Todo:', todo ? todo: '\n   -')
-    console.log('Done:', done ? done: '\n   -')
-    console.log('In progress:', inprogress ? inprogress: '\n   -')
+    console.log(status + ':', tasks ? tasks : '\n    -');
+  },
+  showList() {
+    this.displayStatus('Todo');
+    this.displayStatus('Done');
+    this.displayStatus('In Progress');
   }
 }
 
