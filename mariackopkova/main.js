@@ -16,13 +16,7 @@
 	"Brother":159753456,
 	"Sister":357159456
     },
-	add(name, number){
-		this.list[name] = number;
-	},
-	delete(name){
-		delete this.list[name]
-	},
   }
-  phoneBook.delete("Aleks");
-  phoneBook.add("Babyshka",951357456)
-  console.log(phoneBook.list);
+  for (const name in phoneBook.list){
+	console.log(name+' ' +"-"+' '+ phoneBook.list[name]);
+  }
