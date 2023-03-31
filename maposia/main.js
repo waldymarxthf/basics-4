@@ -31,12 +31,37 @@ const toDoList = {
     }
   },
   showList() {
-    console.log(``)
+    let inToDo = ''
+    let inProgress = ''
+    let isDone = ''
+    for (task in this) {
+      if (typeof this[task] === 'string') {
+        if (this[task] === 'To Do') {
+          inToDo += task + '\n'
+        }
+        if (this[task] === 'In Progress') {
+          inProgress += task + '\n'
+        }
+        if (this[task] === 'Done') {
+          isDone += task + '\n'
+        }
+      }
+    }
+    console.log('Todo:\n' + inToDo)
+    console.log('inProgress:\n' + inProgress)
+    console.log('isDone:\n' + isDone)
   },
 }
 
 toDoList.addTask('Тренировка в 12')
+toDoList.addTask('Изучить React')
+toDoList.addTask('Съездить в горы')
+toDoList.addTask('Заменить десктоп')
+toDoList.addTask('Купить витамины')
 
-toDoList.changeStatus('Тренировка в 12', 'To Do')
-toDoList.deleteTask('Тренировка в 12')
-console.log(toDoList)
+toDoList.changeStatus('Тренировка в 12', 'In Progress')
+toDoList.changeStatus('Съездить в горы', 'Done')
+
+toDoList.deleteTask('Заменить десктоп')
+
+toDoList.showList()
