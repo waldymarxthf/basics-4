@@ -11,7 +11,7 @@ const toDo = {
         "write a post": "To Do",
     },
     changeStatus(nameTDL, statusTDL) {
-        this.list[nameTDL] = statusTDL;
+        nameTDL in this.list ? this.list[nameTDL] = statusTDL : false;
     },
     addTask(nameTDL) {
         this.list[nameTDL] = statusList["Todo"];
