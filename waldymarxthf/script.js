@@ -5,9 +5,9 @@ const DONE = 'Done'
 //добавил строки в константу
 
 const list = {
-	"create a new practice task": "In Progress", 
-	"make a bed": "Done",
-	"write a post": "To Do",
+	"create a new practice task": TODO, 
+	"make a bed": IN_PROGRESS,
+	"write a post": DONE,
 }
 
 function changeStatus(task, newCondition) {
