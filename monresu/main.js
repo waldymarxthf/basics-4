@@ -1,10 +1,12 @@
+const errorNotTask = 'Sorry! Такой задачи нет!'
+
 const todoList = {
 	todos: {
     'sleep': 'ToDo',
   },
   changeStatus(task, text) {
     if (task in this.todos == false) {
-      console.log('Sorry! Такой задачи нет!')
+      console.log(errorNotTask)
     }
     else {
       this.todos[task] = text;
@@ -22,7 +24,7 @@ const todoList = {
   },
   deleteTask(task) {
     if (task in this.todos == false) {
-      console.log('Sorry! Такой задачи нет!')
+      console.log(errorNotTask)
     }
     else {
       delete this.todos[task];
@@ -30,33 +32,27 @@ const todoList = {
     }
   },
   showList() {
-    console.log('Todo:');
-    let c = 0;
-    for (key in this.todos) {
-      if (this.todos[key].toLowerCase() == 'todo') {
-        console.log('    ', key);
-        c++;
+    let todo = '';
+    let done = '';
+    let inprogress = '';
+    for (const key in this.todos) {
+      switch (this.todos[key].toLowerCase()) {
+        case 'done':
+          done += '\n    ' + key;
+          break;
+        case 'todo':
+          todo += '\n    ' + key;
+          break;
+        case 'inprogress':
+          inprogress += '\n    ' + key;
+          break;
+        default:
+          break;
       }
     }
-    if (c == 0) console.log('    -')
-    c = 0;
-    console.log('In Progress:');
-    for (key in this.todos) {
-      if (this.todos[key].toLowerCase() == 'in progress') {
-        console.log('    ', key);
-        c++;
-      }
-    }
-    if (c == 0) console.log('    -')
-    c = 0
-    console.log('Done:');
-    for (key in this.todos) {
-      if (this.todos[key].toLowerCase() == 'done') {
-        console.log('    ', key);
-        c++;
-      }
-    }
-    if (c == 0) console.log('    -')
+    console.log('Todo:', todo ? todo: '\n   -')
+    console.log('Done:', done ? done: '\n   -')
+    console.log('In progress:', inprogress ? inprogress: '\n   -')
   }
 }
 
@@ -64,4 +60,5 @@ todoList.addTask('have a walk');
 todoList.addTask('SLEEPY');
 todoList.addTask('delete JSON from web');
 todoList.deleteTask('drink tea');
+todoList.changeStatus('delete JSON from web', 'Done');
 todoList.showList()
