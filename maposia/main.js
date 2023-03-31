@@ -37,13 +37,13 @@ const toDoList = {
     for (task in this) {
       if (typeof this[task] === 'string') {
         if (this[task] === 'To Do') {
-          inToDo += task + '\n'
+          inToDo += '     ' + task + '\n'
         }
         if (this[task] === 'In Progress') {
-          inProgress += task + '\n'
+          inProgress += '     ' + task + '\n'
         }
         if (this[task] === 'Done') {
-          isDone += task + '\n'
+          isDone += '     ' + task + '\n'
         }
       }
     }
