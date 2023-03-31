@@ -2,6 +2,8 @@ const TODO = 'To Do'
 const IN_PROGRESS = "In Progress"
 const DONE = 'Done'
 
+//добавил строки в константу
+
 const list = {
 	"create a new practice task": "In Progress", 
 	"make a bed": "Done",
@@ -15,17 +17,21 @@ function changeStatus(task, newCondition) {
 	}
 	for (const key in list) {
     if (list[key] === newCondition && key !== task) {
-      console.log(`Свойство '${newCondition}' уже используется для задачи '${key}' ⚠\n`);
+      console.log(`Статус '${newCondition}' уже используется для задачи '${key}' ⚠\n`);
       break;
     }
   }
 	list[task] = newCondition
 }
 
+//функция которая меняет статус задачи, также добавлена валидация на существоваение задачи, 
+//и также если если мы пытаемся поменять один и тот же статус у задачи, то нам выдается ошибка
 
 function addTask(newTask) {
 	list[newTask] = TODO
 }
+
+//функция добавления задачи
 
 function deleteTask(task) {
 	if(task in list) {
@@ -35,9 +41,11 @@ function deleteTask(task) {
 	}
 }
 
+//функция удаления задачи с валидацией на существование задачи
+
 function showList() {
 	console.log('Todo:')
-	let hasToDo = false
+	let hasToDo = false //ключ для проверки на существование задачи
 	for (const task in list) {
 		if (list[task] === TODO) {
 			console.log(`\t${task}`)
@@ -49,7 +57,7 @@ function showList() {
 	}
 	
 	console.log('In Progress:')
-	let hasInProgress = false
+	let hasInProgress = false //ключ для проверки на существование задачи
 	for (const task in list) {
 		if (list[task] === IN_PROGRESS) {
 			console.log(`\t${task}`)
@@ -61,7 +69,7 @@ function showList() {
 	}
 	
 	console.log('Done:')
-	let hasDone = false
+	let hasDone = false //ключ для проверки на существование задачи
 	for (const task in list) {
 		if (list[task] === DONE) {
 			console.log(`\t${task}`)
@@ -71,7 +79,7 @@ function showList() {
 	if (!hasDone) {
 		console.log('\t-')
 	}
-	return null
+	return null //undefinf возвращать нельзя, поэтому должно возвращаться null
 }
 
 
