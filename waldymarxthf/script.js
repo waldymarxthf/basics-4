@@ -15,12 +15,10 @@ function changeStatus(task, newCondition) {
 		console.log(`Задача '${task}' не найдена 🚫\n`)
 		return
 	}
-	for (const key in list) {
-    if (list[key] === newCondition && key !== task) {
-      console.log(`Статус '${newCondition}' уже используется для задачи '${key}' ⚠\n`);
-      break;
-    }
-  }
+	if (list[task] === newCondition) {
+		console.log(`Новое состояние '${newCondition}' уже присвоено задаче '${task}' ⚠\n`);
+		return;
+	}
 	list[task] = newCondition
 }
 
@@ -41,50 +39,34 @@ function deleteTask(task) {
 	}
 }
 
-//функция удаления задачи с валидацией на существование задачи
+function showList(list) {
+	const statuses = [TODO, IN_PROGRESS, DONE];
 
-function showList() {
-	console.log('Todo:')
-	let hasToDo = false //ключ для проверки на существование задачи
-	for (const task in list) {
-		if (list[task] === TODO) {
-			console.log(`\t${task}`)
-			hasToDo = true
+	for (const status of statuses) {
+		let hasTasks = false;
+
+		console.log(`${status}:`);
+		for (const task in list) {
+			if (list[task] === status) {
+				console.log(`\t${task}`);
+				hasTasks = true;
+			}
+		}
+
+		if (!hasTasks) {
+			console.log('\t-');
 		}
 	}
-	if (!hasToDo) {
-		console.log('\t-')
-	}
-	
-	console.log('In Progress:')
-	let hasInProgress = false //ключ для проверки на существование задачи
-	for (const task in list) {
-		if (list[task] === IN_PROGRESS) {
-			console.log(`\t${task}`)
-			hasInProgress = true
-		}
-	}
-	if (!hasInProgress) {
-		console.log('\t-')
-	}
-	
-	console.log('Done:')
-	let hasDone = false //ключ для проверки на существование задачи
-	for (const task in list) {
-		if (list[task] === DONE) {
-			console.log(`\t${task}`)
-			hasDone = true
-		}
-	}
-	if (!hasDone) {
-		console.log('\t-')
-	}
-	return null //undefinf возвращать нельзя, поэтому должно возвращаться null
+
+	return null;
 }
+
+
 
 
 changeStatus("create a new practice task", "In Progress")
 changeStatus("make a bed", "In Progress")
 addTask('hello my name')
 deleteTask("make a bedв")
-showList()
+deleteTask("write a post")
+showList(list)
