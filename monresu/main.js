@@ -1,8 +1,5 @@
 const todoList = {
 	todos: {
-    'learn KISS': 'In progress',
-    'drink cofee': 'Done',
-    'drink tea': 'Done',
     'sleep': 'ToDo',
   },
   changeStatus(task, text) {
@@ -33,23 +30,38 @@ const todoList = {
     }
   },
   showList() {
-    const todo = Object.keys(this.todos).filter(key => this.todos[key].toLowerCase() === 'todo');
-    const inprogress = Object.keys(this.todos).filter(key => this.todos[key].toLowerCase() === 'in progress');
-    const done = Object.keys(this.todos).filter(key => this.todos[key].toLowerCase() === 'done');
-  
     console.log('Todo:');
-    console.log(todo.length > 0 ? todo.join('\n') : '-');
+    let c = 0;
+    for (key in this.todos) {
+      if (this.todos[key].toLowerCase() == 'todo') {
+        console.log('    ', key);
+        c++;
+      }
+    }
+    if (c == 0) console.log('    -')
+    c = 0;
     console.log('In Progress:');
-    console.log(inprogress.length > 0 ? inprogress.join('\n') : '-');
+    for (key in this.todos) {
+      if (this.todos[key].toLowerCase() == 'in progress') {
+        console.log('    ', key);
+        c++;
+      }
+    }
+    if (c == 0) console.log('    -')
+    c = 0
     console.log('Done:');
-    console.log(done.length > 0 ? done.join('\n') : '-');
+    for (key in this.todos) {
+      if (this.todos[key].toLowerCase() == 'done') {
+        console.log('    ', key);
+        c++;
+      }
+    }
+    if (c == 0) console.log('    -')
   }
 }
 
-todoList.changeStatus("sleep", "Done")
-todoList.changeStatus("qwerty", "Done")
 todoList.addTask('have a walk');
 todoList.addTask('SLEEPY');
 todoList.addTask('delete JSON from web');
 todoList.deleteTask('drink tea');
-todoList.showList
+todoList.showList()
