@@ -1,5 +1,5 @@
 const toDoList = {
-  listTasks: {
+  tasks: {
     "Ознакомьтя с требованиями задачи": "done",
     "Создать файл js": "done",
     "Создать функции для выполнения задачи": "done",
@@ -9,40 +9,51 @@ const toDoList = {
     "Отправить код на проверку": "waiting",
   },
 
-  check(task) {
-    return task in this.listTasks ? task : "err";
+  checkTask(task) {
+    if (!this.tasks.hasOwnProperty(task)) {
+      throw new Error(`Задачи "${task}" не существует`);
+    }
+    return true;
   },
 
   changeStatus(task, status) {
-    const checkedTask = this.check(task);
-    if (checkedTask === "err") {
-      return `Задачи "${task}" не существует`;
-    }
-
-    status = status.toLowerCase().trim();
-    switch (status) {
-      case "done":
-        this.listTasks[checkedTask] = "done";
-        break;
-      case "inprogress":
-        this.listTasks[checkedTask] = "inProgress";
-        break;
-      default:
-        return "Такого статуса не существует, используйте (inProgress или done), регистр не важен";
+    try {
+      this.checkTask(task);
+      status = status.toLowerCase().trim();
+      if (status === "inprogress") {
+        this.tasks[task] = "inProgress";
+      } else if (status === "done") {
+        this.tasks[task] = "done";
+      } else {
+        throw new Error(
+          "Такого статуса не существует, используйте (inProgress или done), регистр не важен"
+        );
+      }
+      console.log(`Статус задачи "${task}" успешно изменен на "${status}"`);
+    } catch (error) {
+      console.error(error.message);
     }
   },
 
   addTask(task) {
-    if (!task) return;
-    this.listTasks[task] = "waiting";
+    if (!task) {
+      return console.error("Некорректный ввод");
+    }
+    if (this.tasks.hasOwnProperty(task)) {
+      return console.error(`Задача "${task}" уже существует`);
+    }
+    this.tasks[task] = "waiting";
+    console.log(`Задача "${task}" успешно добавлена`);
   },
 
   deleteTask(task) {
-    const checkedTask = this.check(task);
-    if (checkedTask === "err") {
-      return `Задачи "${task}" не существует`;
+    try {
+      this.checkTask(task);
+      delete this.tasks[task];
+      console.log(`Задача "${task}" успешно удалена`);
+    } catch (error) {
+      console.error(error.message);
     }
-    delete this.listTasks[checkedTask];
   },
 
   showListTasks() {
@@ -50,23 +61,36 @@ const toDoList = {
     const inProgressTasks = [];
     const completedTasks = [];
 
-    for (const key in this.listTasks) {
-      switch (this.listTasks[key]) {
-        case "waiting":
-          waitingTasks.push(key);
-          break;
-
-        case "inProgress":
-          inProgressTasks.push(key);
-          break;
-
-        case "done":
-          completedTasks.push(key);
-          break;
+    for (const [task, status] of Object.entries(this.tasks)) {
+      if (status === "waiting") {
+        waitingTasks.push(task);
+      } else if (status === "inProgress") {
+        inProgressTasks.push(task);
+      } else if (status === "done") {
+        completedTasks.push(task);
       }
     }
 
-    return { waitingTasks, inProgressTasks, completedTasks };
+    console.log("Todo:");
+    if (waitingTasks.length === 0) {
+      console.log("    -");
+    } else {
+      waitingTasks.forEach((task) => console.log(`    ${task}`));
+    }
+
+    console.log("In Progress:");
+    if (inProgressTasks.length === 0) {
+      console.log("    -");
+    } else {
+      inProgressTasks.forEach((task) => console.log(`    ${task}`));
+    }
+
+    console.log("Done:");
+    if (completedTasks.length === 0) {
+      console.log("    -");
+    } else {
+      completedTasks.forEach((task) => console.log(`    ${task}`));
+    }
   },
 };
 
@@ -81,9 +105,9 @@ toDoList.changeStatus(
 toDoList.changeStatus("Отправить код на проверку", "done");
 toDoList.changeStatus("Отправить код на проверку", "done");
 
-console.log(toDoList.changeStatus("Леч спать", "done"));
-console.log(toDoList.deleteTask("Леч спать", "done"));
+toDoList.changeStatus("Леч спать", "done");
+toDoList.deleteTask("Леч спать", "done");
 
 toDoList.changeStatus("Отдыхать", "inprogress");
 
-console.log(toDoList.showListTasks());
+toDoList.showListTasks();
