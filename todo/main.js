@@ -4,7 +4,7 @@ const toDoList = {
     "Создать файл js": "done",
     "Создать функции для выполнения задачи": "done",
     "Написать код для функций": "done",
-    "Леч спать": "waiting",
+    "Лечь спать": "waiting",
     "Проверить код, что-бы убедится что он работает правильно": "waiting",
     "Отправить код на проверку": "waiting",
   },
@@ -96,7 +96,7 @@ const toDoList = {
 
 toDoList.addTask("Отдыхать");
 toDoList.addTask("Исправить код, если вернут на доработку");
-toDoList.deleteTask("Леч спать");
+toDoList.deleteTask("Лечь спать");
 
 toDoList.changeStatus(
   "Проверить код, что-бы убедится что он работает правильно",
@@ -105,8 +105,8 @@ toDoList.changeStatus(
 toDoList.changeStatus("Отправить код на проверку", "done");
 toDoList.changeStatus("Отправить код на проверку", "done");
 
-toDoList.changeStatus("Леч спать", "done");
-toDoList.deleteTask("Леч спать", "done");
+toDoList.changeStatus("Лечь спать", "done");
+toDoList.deleteTask("Лечь спать", "done");
 
 toDoList.changeStatus("Отдыхать", "inprogress");
 
