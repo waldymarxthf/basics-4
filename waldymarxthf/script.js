@@ -22,7 +22,7 @@ function changeStatus(task, newCondition) {
 	list[task] = newCondition
 }
 
-//функция которая меняет статус задачи, также добавлена валидация на существоваение задачи, 
+//функция которая меняет статус задачи, также добавлена валидация на существоваение задачи,
 //и также если если мы пытаемся поменять один и тот же статус у задачи, то нам выдается ошибка
 
 function addTask(newTask) {
@@ -39,26 +39,41 @@ function deleteTask(task) {
 	}
 }
 
-function showList(list) {
-	const statuses = [TODO, IN_PROGRESS, DONE];
+//функция удаления свойства из объекта
 
-	for (const status of statuses) {
-		let hasTasks = false;
-
-		console.log(`${status}:`);
-		for (const task in list) {
-			if (list[task] === status) {
-				console.log(`\t${task}`);
-				hasTasks = true;
-			}
-		}
-
-		if (!hasTasks) {
-			console.log('\t-');
+function showList() {
+	const statuses = {
+		[TODO]: {
+			label: 'To Do',
+			description: 'Новая задача, которую нужно выполнить'
+		},
+		[IN_PROGRESS]: {
+			label: 'In Progress',
+			description: 'Задача, над которой ведется работа'
+		},
+		[DONE]: {
+			label: 'Done',
+			description: 'Выполненная задача'
 		}
 	}
 
-	return null;
+	for(const status in statuses) {
+		console.log(`${status}:`)
+		let hasStatus = false
+
+		for(const task in list) {
+			if (list[task] === status) {
+				console.log(`\t${task}`)
+				hasStatus = true
+			}
+		}
+
+		if(!hasStatus) {
+			console.log(`\t-`)
+		}
+	}
+
+	return null
 }
 
 
@@ -69,4 +84,4 @@ changeStatus("make a bed", "In Progress")
 addTask('hello my name')
 deleteTask("make a bedв")
 deleteTask("write a post")
-showList(list)
+showList()
