@@ -81,7 +81,7 @@ const taskManager = {
     console.log(`${status}:`);
 
     let isEmpty = true;
-    for (let task in this.list) {
+    for (const task in this.list) {
       if (this.list[task] === status) {
         console.log(`${tab}"${task}"`);
         isEmpty = false;
@@ -91,9 +91,9 @@ const taskManager = {
   },
 
   showList() {
-    this.showStatus("To do");
-    this.showStatus("In Progress");
-    this.showStatus("Done");
+    for (const status in this.availableStatuses) {
+      this.showStatus(status)
+    }
   },
 };
 
@@ -104,3 +104,4 @@ taskManager.deleteTask("Listen to House")
 taskManager.addTask("Drink a cup of coffee")
 taskManager.changeStatus("Drink a cup of coffee", "Done")
 taskManager.deleteTask("Drink a cup of coffee")
+taskManager.showList()
