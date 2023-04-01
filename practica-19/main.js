@@ -19,11 +19,11 @@ const task = {
     },
     showList() {
         
-        // const result = {};
-        // Object.entries(task.list).forEach(([key, value]) => {
-        //     result[value] = key
-        // })
-        // console.log(result);
+        const result = {};
+        Object.entries(task.list).forEach(([key, value]) => {
+            result[value] = key
+        })
+        console.log(result);
 
     }
 
