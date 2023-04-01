@@ -24,22 +24,22 @@ function showList() {
     for(const name in list) {
       switch(list[name]) {
         case 'To Do':
-                    toDo += name + '\n    '
+                    toDo += name + '\n\t'
                     break
         case 'In Progress':
-                    inProg += name + '\n    '
+                    inProg += name + '\n\t'
                     break
         case 'Done':
-                    done += name + '\n    '
+                    done += name + '\n\t'
                     break
                     
       }
     }
-console.log(`To Do:\n    ${toDo}\nIn Progress:\n    ${inProg}\nDone:\n    ${done}`)
+console.log(`To Do:\n\t${toDo}\nIn Progress:\n\t${inProg}\nDone:\n\t${done}`)
 }
 
 changeStatus('create a new practice task', 'Done')
-addTask('something')
+addTask('learning english')
 addTask('swiming')
 changeStatus('swiming', 'In Progress')
 deleteTask('somthin')
