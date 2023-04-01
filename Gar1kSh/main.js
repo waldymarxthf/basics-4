@@ -29,6 +29,11 @@ const phoneBook = {
     }
     return null;
   },
+  outputList(name) {
+    for (const name in phoneBook.list) {
+      console.log(name + " - " + phoneBook.list[name]);
+    }
+  },
 };
 
 phoneBook.ShowList();
@@ -46,7 +51,4 @@ phoneBook.editList("Vadim", 222222);
 phoneBook.ShowList();
 phoneBook.editList("Valera", 22);
 phoneBook.ShowList();
-
-for (const name in phoneBook.list) {
-  console.log(name + " - " + phoneBook.list[name]);
-}
+phoneBook.outputList();
