@@ -1,37 +1,46 @@
-const sim1 = {
-      "Анастасия Резникова": 74155434543,
-      "Петр Голованин": 74876543213,
-      "Сергей Усс": 7487894363,
-      "Илья Прокофьев": 74876576217
+const list = {
+	"create a new practice task": "In Progress", 
+	"make a bed": "Done",
+	"write a post": "To Do",
 }
 
-const phoneBook = {
-    "Анастасия Резникова": 7465534543,
-    "Петр Голованин": 74876543213,
-    "Сергей Усс": 7487894363,
-    "Илья Прокофьев": 74876576217,
-    "Василий Пупкин": 74876576453,
-    "Андрей Петров": 74876576865,
-    "Денис Сафонов": 74876576143,
-    "Илья Резников": 74876576778,
+function changeStatus(name, status) {  // меняет статус задачи
+  return list[name] = status
 }
 
-const cloudContacts = {
-    "Сергей Антонов": 7487894231,
-    "Илья Понамарев": 74856776217,
-    "Василий Шишкин": 74856646453,
-    "Андрей Афанасьев": 74873546865,
-    "Денис Верещягин": 74876546143,
-    "Илья Кива": 74875677778,
+function addTask(name) {              // добавляет новую задачу
+  return list[name] = "To Do"
 }
 
-const all = {}
-for(const key in phoneBook) {
-  all[key] = phoneBook[key]
+function deleteTask(name) {           // удаляет задачу
+  return delete list[name]
+}; 
+
+function showList() {
+  let toDo = ''
+  let inProg = ''
+  let done = ''
+
+    for(const name in list) {
+      switch(list[name]) {
+        case 'To Do':
+                    toDo += name + '\n    '
+                    break
+        case 'In Progress':
+                    inProg += name + '\n    '
+                    break
+        case 'Done':
+                    done += name + '\n    '
+                    break
+                    
+      }
+    }
+console.log(`To Do:\n    ${toDo}\nIn Progress:\n    ${inProg}\nDone:\n    ${done}`)
 }
-console.log(all)
 
-Object.assign(sim1, phoneBook, cloudContacts);
-
-console.log(sim1)
-
+changeStatus('create a new practice task', 'Done')
+addTask('something')
+addTask('swiming')
+changeStatus('swiming', 'In Progress')
+deleteTask('somthin')
+showList()
