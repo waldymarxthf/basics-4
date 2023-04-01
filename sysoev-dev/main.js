@@ -21,12 +21,12 @@ function checkTask(taskName) {
   return taskName in list;
 }
 
-function addTask(taskName) {
+function addTask(taskName, taskStatus = TODO_STATUSES.DEFAULT_STATUS) {
   if (checkTask(taskName)) {
     return console.log(ERROR_STATUSES.EXISTS);
   }
 
-  list[taskName] = TODO_STATUSES.DEFAULT_STATUS;
+  list[taskName] = taskStatus;
 }
 
 function changeStatus(taskName, newStatus) {
@@ -70,9 +70,9 @@ function showList() {
   strInProgress = strInProgress || '\n   -';
   strDone = strDone || '\n   -';
 
-  console.log(`Todo: ${strToDo}`);
-  console.log(`In Progress: ${strInProgress}`);
-  console.log(`Done: ${strDone}`);
+  console.log(`${TODO_STATUSES.TODO}: ${strToDo}`);
+  console.log(`${TODO_STATUSES.IN_PROGRESS}: ${strInProgress}`);
+  console.log(`${TODO_STATUSES.DONE} ${strDone}`);
 }
 
 changeStatus('make a bed', TODO_STATUSES.TODO);
