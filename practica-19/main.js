@@ -18,12 +18,7 @@ const task = {
         delete this.list[nameTask];
     },
     showList() {
-        
-        const result = {};
-        Object.entries(task.list).forEach(([key, value]) => {
-            result[value] = key
-        })
-        console.log(result);
+        console.log(this.list);
 
     }
 
