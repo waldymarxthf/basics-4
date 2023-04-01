@@ -1,17 +1,17 @@
 "use strict"
 
 function сalc(a, b, operation) {
-  // if (operation === 'add') {
-  //   return a + b
-  // }
+  if (operation === 'add') {
+    return a + b
+  }
 
-  // if (operation == 'multi') {
-  //   return a * b
-  // }
+  if (operation == 'multi') {
+    return a * b
+  }
 
-  // if (operation == 'subtract') {
-  //   return a - b
-  // }
+  if (operation == 'subtract') {
+    return a - b
+  }
 
   switch(operation) {
 
