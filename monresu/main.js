@@ -1,8 +1,11 @@
 const errorNotTask = 'Sorry! Такой задачи нет!'
+const errorIsTask = 'Sorry! Такая задача уже в наличии'
+const deleteTaskConst = 'Complete! Task was удалена'
+const addTaskConst = 'Task was добавлена'
+const changeTaskConst = 'Task was изменена'
 
 const todoList = {
 	todos: {
-    'sleep': 'ToDo',
   },
   changeStatus(task, text) {
     if (task in this.todos == false) {
@@ -10,16 +13,16 @@ const todoList = {
     }
     else {
       this.todos[task] = text;
-      console.log('Task was изменена')
+      console.log(changeTaskConst)
     }
   },
   addTask(task, status = 'todo') {
     if (task in this.todos == true) {
-      console.log('Sorry! Такая задача уже в наличии')
+      console.log(errorIsTask)
     }
     else {
       this.todos[task] = status;
-      console.log('Task was добавлена')
+      console.log(addTaskConst)
     }
   },
   deleteTask(task) {
@@ -28,17 +31,17 @@ const todoList = {
     }
     else {
       delete this.todos[task];
-      console.log('Complete! Task was удалена')
+      console.log(deleteTaskConst)
     }
   },
   displayStatus(status) {
     let tasks = '';
     for (const key in this.todos) {
       if (this.todos[key].toLowerCase() === status.toLowerCase()) {
-        tasks += '\n    ' + key;
+        tasks += `\n\t${key}`
       }
     }
-    console.log(status + ':', tasks ? tasks : '\n    -');
+    console.log(status + ':', tasks ? tasks : '\n\t-');
   },
   showList() {
     this.displayStatus('Todo');
@@ -52,4 +55,5 @@ todoList.addTask('SLEEPY');
 todoList.addTask('delete JSON from web');
 todoList.deleteTask('drink tea');
 todoList.changeStatus('delete JSON from web', 'Done');
+todoList.changeStatus('SLEEPY', 'in progress');
 todoList.showList()
