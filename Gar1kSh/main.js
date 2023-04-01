@@ -38,8 +38,57 @@ const ToDoList = {
     this.list[name] = status;
   },
   ShowListTodo() {
-    console.log(this.list);
+    ShowListSort();
   },
 };
+
+function ShowListSort() {
+  let strProgressIn = "";
+  let strToDo = "";
+  let strDone = "";
+  let strNothingTask = ""; // строка состояния task
+
+  for (const name in ToDoList.list) {
+    if (ToDoList.list[name] === progressTask) {
+      strProgressIn += "\t" + name + "\n";
+      strNothingTask += strProgressIn;
+    } else if (ToDoList.list[name] === toDoTask) {
+      strToDo += "\t" + name + "\n";
+      strNothingTask += strToDo;
+    } else if (ToDoList.list[name] === statusTask) {
+      strDone += "\t" + name + "\n";
+      strNothingTask += strDone;
+    }
+  }
+
+  console.log("To Do:");
+  if (strToDo === stringEmpty) {
+    console.log("\t -");
+  }
+  console.log(strToDo);
+
+  console.log("In progress:");
+  if (strProgressIn === stringEmpty) {
+    console.log("\t -");
+  }
+  console.log(strProgressIn);
+
+  console.log("Done:");
+  if (strDone === stringEmpty) {
+    console.log("\t -");
+  }
+  console.log(strDone);
+
+  if (strNothingTask === stringEmpty) {
+    console.log(nothingTask);
+  }
+  return null;
+}
+
+ToDoList.addTask();
+ToDoList.editTask("make a bed", progressTask);
+ToDoList.addTask("reading book", statusTask);
+ToDoList.ShowListTodo();
+ToDoList.deleteTask("write a post");
 
 ToDoList.ShowListTodo();
