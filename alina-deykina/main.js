@@ -10,9 +10,9 @@ const сalc = (operation, a, b) => {
 };
 
 
-сalc('add', 1, 2);
-сalc('multi', 1, 2);
-сalc('subtract', 3, 2);
+сalc('add', 6, 7);
+сalc('multi', 5, 7);
+сalc('subtract', 6, 7);
 
 
 
