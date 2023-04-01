@@ -1,7 +1,7 @@
-const tab = " ".repeat(4);
+const indentation = " ".repeat(4);
 
 const taskManager = {
-  list: {},
+  tasks: {},
 
   availableStatuses: {
     "To do": true,
@@ -12,35 +12,36 @@ const taskManager = {
   validation: {
     isValidString(str) {
       if (!(typeof str === "string" && str.length > 0)) {
-        console.log("Invalid input. Try again.");
+        console.log("Input must be a non-empty string.");
         return false;
       }
       return true;
     },
 
-    isTaskExist(list, task, should = true) {
-      if (should && !list[task]) {
-        console.log("No such task in the list.");
+    isTaskExist(tasks, task, shouldExist = true) {
+      const taskExist = tasks[task] !== undefined;
+      if (shouldExist && !taskExist) {
+        console.log(`Task "${task}" does not exist.`);
         return false;
       }
-      if (!should && list[task]) {
-        console.log("The task is already in the list.");
-        return false;
-      }
-      return true;
-    },
-
-    isStatusAvailable(availableStatuses, status) {
-      if (!availableStatuses[status]) {
-        console.log("This status is not available.");
+      if (!shouldExist && taskExist) {
+        console.log(`Task "${task}" already exists.`);
         return false;
       }
       return true;
     },
 
-    isSameStatuses(list, task, status) {
-      if (list[task] === status) {
-        console.log("The status is the same.");
+    isStatusAvailable(status) {
+      if (!this.taskManager.availableStatuses[status]) {
+        console.log(`Status "${status}" is not available.`);
+        return false;
+      }
+      return true;
+    },
+
+    isSameStatus(tasks, task, status) {
+      if (tasks[task] === status) {
+        console.log(`Task "${task}" is already "${status}"`);
         return false;
       }
       return true;
@@ -48,53 +49,60 @@ const taskManager = {
   },
 
   changeStatus(task, status) {
-    const isValid =
-      this.validation.isValidString(task) &&
-      this.validation.isValidString(status) &&
-      this.validation.isTaskExist(this.list, task) &&
-      this.validation.isStatusAvailable(this.availableStatuses, status) &&
-      this.validation.isSameStatuses(this.list, task, status);
+    const tasks = this.tasks;
+    const validation = this.validation;
 
-    if (isValid) this.list[task] = status;
+    const isValid =
+      validation.isValidString(task) &&
+      validation.isValidString(status) &&
+      validation.isTaskExist(tasks, task) &&
+      validation.isStatusAvailable(status) &&
+      validation.isSameStatus(tasks, task, status);
+
+    if (isValid) this.tasks[task] = status;
   },
 
   addTask(task, status = "To do") {
+    const validation = this.validation;
     const isValid =
-      this.validation.isValidString(task) &&
-      this.validation.isValidString(status) &&
-      this.validation.isTaskExist(this.list, task, false) &&
-      this.validation.isStatusAvailable(this.availableStatuses, status);
+      validation.isValidString(task) &&
+      validation.isValidString(status) &&
+      validation.isTaskExist(this.tasks, task, false) &&
+      validation.isStatusAvailable(this.availableStatuses, status);
 
-    if (isValid) taskManager.list[task] = status;
+    if (isValid) taskManager.tasks[task] = status;
   },
 
   deleteTask(task) {
-    const isValid = this.validation.isTaskExist(this.list, task);
+    const isValid = this.validation.isTaskExist(this.tasks, task);
 
-    if (isValid) delete this.list[task];
+    if (isValid) delete this.tasks[task];
   },
 
   showStatus(status) {
     const isValid =
       this.validation.isValidString(status) &&
-      this.validation.isStatusAvailable(this.availableStatuses, status);
-    
-      if (!isValid) return;
+      this.validation.isStatusAvailable(status);
+
+    if (!isValid) return;
 
     console.log(`${status}:`);
+    const tasks = this.tasks;
     let isEmpty = true;
-    for (let task in this.list) {
-      if (this.list[task] === status) {
-        console.log(`${tab}"${task}"`);
+
+    for (const task in tasks) {
+      if (tasks[task] === status) {
+        console.log(`${indentation}"${task}"`);
         isEmpty = false;
       }
     }
-    if (isEmpty) console.log(`${tab}-`);
+
+    if (isEmpty) console.log(`${indentation}-`);
   },
 
   showList() {
     for (const status in this.availableStatuses) {
-      this.showStatus(status)
+      this.showStatus(status);
     }
   },
 };
