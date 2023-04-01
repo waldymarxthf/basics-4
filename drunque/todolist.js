@@ -62,7 +62,7 @@ const taskManager = {
     const isValid =
       this.validation.isValidString(task) &&
       this.validation.isTaskExist(this.list, task, false);
-    if (isValid) taskManager.list[task] = "To do";
+    if (isValid) this.list[task] = "To do";
   },
 
   deleteTask(task) {
