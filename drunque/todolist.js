@@ -31,8 +31,8 @@ const taskManager = {
       return true;
     },
 
-    isStatusAvailable(status) {
-      if (!this.taskManager.availableStatuses[status]) {
+    isStatusAvailable(availableStatuses, status) {
+      if (!availableStatuses[status]) {
         console.log(`Status "${status}" is not available.`);
         return false;
       }
@@ -41,7 +41,7 @@ const taskManager = {
 
     isSameStatus(tasks, task, status) {
       if (tasks[task] === status) {
-        console.log(`Task "${task}" is already "${status}"`);
+        console.log(`Task "${task}" is already in "${status}"`);
         return false;
       }
       return true;
@@ -49,47 +49,54 @@ const taskManager = {
   },
 
   changeStatus(task, status) {
-    const tasks = this.tasks;
     const validation = this.validation;
+    const tasks = this.tasks;
 
     const isValid =
       validation.isValidString(task) &&
       validation.isValidString(status) &&
       validation.isTaskExist(tasks, task) &&
-      validation.isStatusAvailable(status) &&
+      validation.isStatusAvailable(this.availableStatuses, status) &&
       validation.isSameStatus(tasks, task, status);
 
-    if (isValid) this.tasks[task] = status;
+    if (isValid) tasks[task] = status;
   },
 
   addTask(task, status = "To do") {
     const validation = this.validation;
+    const tasks = this.tasks;
+
     const isValid =
       validation.isValidString(task) &&
       validation.isValidString(status) &&
-      validation.isTaskExist(this.tasks, task, false) &&
+      validation.isTaskExist(tasks, task, false) &&
       validation.isStatusAvailable(this.availableStatuses, status);
 
-    if (isValid) taskManager.tasks[task] = status;
+    if (isValid) tasks[task] = status;
   },
 
   deleteTask(task) {
-    const isValid = this.validation.isTaskExist(this.tasks, task);
+    const validation = this.validation;
+    const tasks = this.tasks;
 
-    if (isValid) delete this.tasks[task];
+    const isValid = validation.isTaskExist(tasks, task);
+
+    if (isValid) delete tasks[task];
   },
 
   showStatus(status) {
+    const validation = this.validation;
+    const tasks = this.tasks;
+
     const isValid =
-      this.validation.isValidString(status) &&
-      this.validation.isStatusAvailable(status);
+      validation.isValidString(status) &&
+      validation.isStatusAvailable(this.availableStatuses, status);
 
     if (!isValid) return;
 
     console.log(`${status}:`);
-    const tasks = this.tasks;
-    let isEmpty = true;
 
+    let isEmpty = true;
     for (const task in tasks) {
       if (tasks[task] === status) {
         console.log(`${indentation}"${task}"`);
@@ -101,7 +108,8 @@ const taskManager = {
   },
 
   showList() {
-    for (const status in this.availableStatuses) {
+    const availableStatuses = this.availableStatuses;
+    for (const status in availableStatuses) {
       this.showStatus(status);
     }
   },
@@ -114,3 +122,4 @@ taskManager.deleteTask("Listen to House");
 taskManager.addTask("Drink a cup of coffee");
 taskManager.changeStatus("Drink a cup of coffee", "Done");
 taskManager.deleteTask("Drink a cup of coffee");
+taskManager.showList()
