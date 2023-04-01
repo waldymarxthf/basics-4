@@ -1,4 +1,5 @@
 const list = {
+    "test": 'To Do'
 }
 
 // Статусы задач
@@ -15,6 +16,7 @@ let nameTask = undefined;
 // Вопрос, если список пуст
 let question = null;
 
+// Запуск программы
 startProgramm();
 
 //Старт программы
