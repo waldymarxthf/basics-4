@@ -78,11 +78,10 @@ const taskManager = {
     const isValid =
       this.validation.isValidString(status) &&
       this.validation.isStatusAvailable(this.availableStatuses, status);
-
-    if (!isValid) return;
+    
+      if (!isValid) return;
 
     console.log(`${status}:`);
-
     let isEmpty = true;
     for (let task in this.list) {
       if (this.list[task] === status) {
@@ -94,9 +93,9 @@ const taskManager = {
   },
 
   showList() {
-    this.showStatus("To do");
-    this.showStatus("In Progress");
-    this.showStatus("Done");
+    for (const status in this.availableStatuses) {
+      this.showStatus(status)
+    }
   },
 };
 
