@@ -16,7 +16,7 @@ function changeStatus(task, newCondition) {
 		return
 	}
 	if (list[task] === newCondition) {
-		console.log(`Новое состояние '${newCondition}' уже присвоено задаче '${task}' ⚠\n`);
+		console.log(`Новое состояние '${newCondition}' уже присвоено для этой задаче'${task}' ⚠\n`);
 		return;
 	}
 	list[task] = newCondition
