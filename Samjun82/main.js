@@ -1,35 +1,24 @@
-let i = 1;
-while (i < 20) {
-  console.log(i)
-  i = i + 1;
+const phoneBook = {
+    list: {
+      "Анастасия Резникова": 74155434543,
+      "Петр Голованин": 74876543213,
+      "Сергей Усс": 7487894363,
+      "Илья Прокофьев": 74876576217,
+      "Denis Smirnov": 74876343213
+    },
+    log() {
+          console.log(this.list)
+    }
+  };
+  
+  phoneBook.log();
+
+phoneBook.list = {"Илья Прокофьев": 74876576217, "Denis Smirnov": 74876343213}
+delete phoneBook.list;
+phoneBook["new List"] = {"Анастасия Резникова": 74155434543, "Петр Голованин": 74876543213, "Сергей Усс": 7487894363};
+phoneBook.log = function log() {
+console.log(this["new List"])  
 }
 
-while (true) {
-	console.log('начало');
-	break;
-  console.log('конец, который не случится');
-}
-console.log('конец');
-
-do {
-  console.log(i);
-	i = i + 1;
-} while (i < 20);
- 
-for (let i = 0; i <= 6; i++) {
-  console.log(i);
-}
-
-for (; i < 6; i++) {
-  console.log(i);
-}
-
-for (; i > 0;) {
-  console.log(i);
-	i = i - 1;
-}
-
-for (let i = 0; i < 15; i++) {
-  if (i % 3 === 0) continue;
-  console.log(i);
-}
+console.log(phoneBook)
+phoneBook.log();
