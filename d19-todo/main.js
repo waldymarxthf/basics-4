@@ -18,7 +18,11 @@ const tasks = {
   },
 
   addTask(task) {
-    this.list[task] = TO_DO;
+		if (task == false) {
+			console.log("Add a task name!")
+		} else {
+			this.list[task] = TO_DO;
+		}
   },
 
   deleteTask(task) {
@@ -26,6 +30,7 @@ const tasks = {
       console.log(ERROR);
     } else {
       delete this.list[task];
+			console.log(`The task "${task}" was deleted!`)
     }
   },
 
