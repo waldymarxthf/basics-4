@@ -2,33 +2,36 @@ const TO_DO = 'To Do';
 const IN_PROGRESS = 'In progress';
 const DONE = 'Done';
 
-const list = {
-    "create a new practice task": IN_PROGRESS,
-    "make a bed": DONE,
-    "write a post": TO_DO
+const TO_DO_LIST = {
+    list:{
+        "create a new practice task": IN_PROGRESS,
+        "make a bed": DONE,
+        "write a post": TO_DO
+    },
+    addTask(task){
+        this.list[task] = TO_DO;
+    },
+    deleteTask(task){
+        if (task in this.list) delete this.list[task];
+    },
+    showList(){
+        for (const task in this.list){
+            console.log(`${task}: ${this.list[task]}`);
+        }
+    },
+    changeStatus(task, status){
+        if (task in this.list) this.list[task] = status;
+    },
+
+
 };
 
-function addTask(task){
-    list[task] = TO_DO;
-}
+TO_DO_LIST.addTask('do todo list');
+TO_DO_LIST.deleteTask('make a bed and go');
+TO_DO_LIST.addTask('write change status function');
+TO_DO_LIST.changeStatus('do todo list', DONE);
+TO_DO_LIST.addTask('commit and push pull request');
+TO_DO_LIST.deleteTask('do todo list');
+TO_DO_LIST.changeStatus('do todo list',IN_PROGRESS);
+TO_DO_LIST.showList();
 
-function deleteTask(task){
-    delete list[task];
-}
-
-function showList(){
-    for (const task in list){
-        console.log(`${task}: ${list[task]}`);
-    }
-}
-function changeStatus(task, status){
-    list[task] = status;
-}
-
-addTask('do todo list');
-deleteTask('make a bed');
-addTask('write change status function');
-changeStatus('write a post', DONE);
-changeStatus('do todo list', DONE);
-addTask('commit and push pull request');
-showList();
