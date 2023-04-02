@@ -1,22 +1,60 @@
-/*const phoneBook = {
-	list: {
-	  "John": 123456789,
-	  "Jane Doe": 987654321,
-	  "Jim Smith": 111111111
-	},
-	add(name, number) { // добавили метод add с параметрами name и number
-	  this.list[name] = number; // добавили number в свойство [name] свойства list
-	}
-  };*/
-  const phoneBook = {
-	list:{
-	"Aleks": 123456789,
-	"Mama": 7894561323,
-	"Papa": 4561237989,
-	"Brother":159753456,
-	"Sister":357159456
-    },
+const todo = {
+  list:{
+    "create a new practice task":"In Progress",
+    "make a bed":"Done",
+    "write a post":" To Do"
+  },
+  changeStatus(task,status){
+    this.list[task] = status
+  },
+  addTask(newTask){
+    this.list[newTask] = "To Do"
+  },
+  deleteTask(task){
+    delete this.list[task]
+  },
+  showList(){
+    let i = 0;
+    console.log(("---To Do List---"))
+    console.log("In Progress:")
+    for(const name in todo.list){
+      if(this.list[name] === "In Progress"){
+        console.log(`\t`+ name)
+        i++
+      }
+      if( i === 0){
+        console.log(`\t`+ "-")
+        break
+      }
+    }
+    console.log("Done:")
+    for(const name in todo.list){
+      if(this.list[name] === "Done"){
+        console.log(`\t` + name)
+        i++
+      }
+      if( i === 0){
+        console.log(`\t`+ "Nothing is Done")
+        break
+      }
+    }
+    console.log("To Do:")
+    for(const name in todo.list){
+      if(this.list[name]==="To Do"){
+        console.log(`\t`+ name)
+        i++
+      }
+      if( i===0){
+        console.log(`\t`+ "-")
+        break
+      }
+    }
   }
-  for (const name in phoneBook.list){
-	console.log(name+' ' +"-"+' '+ phoneBook.list[name]);
-  }
+}
+    
+todo.addTask("do a jog","To Do");
+todo.deleteTask("make a bed");
+todo.changeStatus("make a bed","Done");
+todo.showList();
+
+
