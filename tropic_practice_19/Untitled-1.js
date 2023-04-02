@@ -29,7 +29,7 @@ function showList() {
     }
 
     if (!hasProgress){
-        console.log('-')
+        console.log(`\t-`)
     }
 
     let hasDone = false;
@@ -42,7 +42,7 @@ function showList() {
     }
 
     if (!hasDone){
-        console.log('-')
+        console.log(`\t-`)
     }
         
     let hasTodo = false;
