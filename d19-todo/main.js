@@ -2,7 +2,6 @@ const TO_DO = "To Do";
 const DONE = "Done";
 const IN_PROGRESS = "In Progress";
 const ERROR = "Error! There is no such task";
-const STATUS = "Status changed!";
 
 const tasks = {
   list: {},
@@ -10,13 +9,16 @@ const tasks = {
   changeStatus(task, status) {
     if (task in this.list === false) {
       console.log(ERROR);
+    } else if (status !== TO_DO && status !== DONE && status !== IN_PROGRESS) {
+      console.log(`This status cannot be assigned,\nAvailable statuses: ${TO_DO}, ${DONE}, ${IN_PROGRESS}.`);
     } else {
       this.list[task] = status;
+      console.log(`The status of the task "${task}" has been changed!`);
     }
   },
 
-  addTask(task, status) {
-    this.list[task] = status;
+  addTask(task) {
+    this.list[task] = TO_DO;
   },
 
   deleteTask(task) {
@@ -33,36 +35,36 @@ const tasks = {
     let inProgress = "";
     let done = "";
 
-    for (let status in this.list) {
-      if (this.list[status] === TO_DO) {
-        toDo += `\t \t"${status}" \n`;
-      } else if (this.list[status] === IN_PROGRESS) {
-        inProgress += `\t \t"${status}" \n`;
-      } else if (this.list[status] === DONE) {
-        done += `\t \t"${status}" \n`;
+    for (let task in this.list) {
+      if (this.list[task] === TO_DO) {
+        toDo += `\t \t"${task}" \n`;
+      } else if (this.list[task] === IN_PROGRESS) {
+        inProgress += `\t \t"${task}" \n`;
+      } else if (this.list[task] === DONE) {
+        done += `\t \t"${task}" \n`;
       }
     }
 
     if (toDo === "") {
-      toDo = "\t -\n";
+      toDo = "\t \t-\n";
     }
     if (inProgress === "") {
-      inProgress = "\t -\n";
+      inProgress = "\t \t-\n";
     }
     if (done === "") {
-      done = "\t -\n";
+      done = "\t \t-\n";
     }
 
-    list = ` Todo: \n${toDo} In Progress: \n${inProgress} Done: \n${done}`;
+    list = `Todo: \n${toDo}In Progress: \n${inProgress}Done: \n${done}`;
     console.log(list);
   },
 };
 
-tasks.addTask("Write a post", TO_DO);
-tasks.addTask("Clean up", TO_DO);
-tasks.changeStatus("Write a post", DONE);
-tasks.addTask("Create a new practice task", TO_DO);
-tasks.changeStatus("Create a new practice task", IN_PROGRESS)
-tasks.deleteTask("Write a post")
+tasks.addTask("Write a post");
+tasks.addTask("Clean up");
+tasks.changeStatus("Write a post", IN_PROGRESS);
+tasks.addTask("Create a new practice task");
+tasks.changeStatus("Create a new practice task", "Done");
+tasks.deleteTask("Write a post");
 
 tasks.showList();
