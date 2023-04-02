@@ -1,67 +1,71 @@
 
-const statusInProgress = "In Progress";
-const statusDone = "Done";
-const statusToDo = "To Do";
+const states = {
+    "To Do": "To Do",
+    "In Progress": "In Progress",
+    "Done": "Done",
+}
+function addStatus(statusName) {
+    if (statusName in states) {
+        console.log('Такой статус уже существует.');
+    }
+    else if (statusName === '') {
+        console.error('Введите статус');
+    }
+    else {
+        states[statusName] = statusName;
+    }
+}
+function deleteStatus(status) {
+    delete states[status];
+    console.log(`Статус ${status} удален`);
+}
+
+
 const toDoList = {
     list: {},
-    
+    defaultState: "To Do",
     addTask(task) {
         if (task in this.list) {
             console.log('Такая задача уже существует. ');
         }
         else if (task === '') {
-            console.log('Введите задачу');
+            console.error('Введите задачу');
         }
         else {
-        this.list[task] = statusToDo;
+        this.list[task] = this.defaultState;
+        console.log('Добавлена задача');
         }
     },
 
     deleteTask(task) {
         delete this.list[task];
+        console.log('Задача удалена');
     },
 
-    changeStatus(task, status) {
-        if (status === statusToDo) {
-            this.list[task] = statusToDo;
-        }
-        else if (status === statusInProgress) {
-            this.list[task] = statusInProgress;
-        }
-        else if (status === statusDone) {
-            this.list[task] = statusDone;
-        }
+    changeStatus(task, newStatus) {
+        this.list[task] = newStatus;
+
     },
     showlist() {
-        let list = '';
-        let toDo = '';
-        let inProgress = '';
-        let done = '';
-
-        for (key in this.list) {
-            if (this.list[key] === statusToDo) {
-                toDo += `\t "${key}" \n`;
+        for (key in states) {
+            console.log(`${key}:`);
+            let out = '';
+            for (task in this.list) {
+                if (states[key] === this.list[task]) {
+                    out += `\t "${task}" \n`;
+                }
+                
             }
-            else if (this.list[key] === statusInProgress) {
-                inProgress += `\t "${key}" \n`;
+            if (out !== '') {
+                console.log(out);
+                out = '';
             }
-            else if (this.list[key] === statusDone) {
-                done += `\t "${key}" \n`;
+            else {
+                console.log('\t -');
             }
-            
-            
+  
         }
-        if (toDo === '') {
-            toDo = '\t -\n';
-        }
-        else if (inProgress === '') {
-            inProgress = '\t -\n';
-        }
-        else if (done === '') {
-            done = '\t -\n';
-        }
-        
-        return list = ` Todo: \n${toDo} In Progress: \n${inProgress} Done: \n${done}`;
+    
     }
 };
 toDoList.addTask('Сделать ToDo list');
@@ -69,11 +73,15 @@ toDoList.addTask('Позаниматься английским');
 toDoList.addTask('Составить план тренировки');
 toDoList.addTask('Провести тренировку');
 toDoList.addTask('Сходить за продуктами');
-toDoList.changeStatus('Сделать ToDo list', statusDone)
-toDoList.changeStatus('Составить план тренировки', statusDone)
+toDoList.changeStatus('Сделать ToDo list', "Done")
+toDoList.changeStatus('Составить план тренировки', 'Done')
 toDoList.addTask('');
 
-console.log(toDoList.showlist());
+addStatus('Postponed');
+toDoList.changeStatus('Сходить за продуктами', 'Postponed');
+
+toDoList.showlist();
+
 
 
 
