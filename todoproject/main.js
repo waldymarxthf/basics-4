@@ -8,37 +8,35 @@ const todoList = {
     "Learn English": todotask,
     "Home work": inprogress
   },
-  changeStatus(name, status) {
-    if (status === todotask || status === donetask || status === inprogress) {
-      if (name in this.list) {
-        this.list[name] = status;
-      } else {
-        console.log('Такой задачи нет в списке!');
-      };
-    } else {
-      console.log('Введите корректный статус!');
-    };
-  },
-  addTask(name) {
-    if (name in this.list) {
-      console.log('Эта задача уже есть в списке!');
-    } else {
-      this.list[name] = todotask;
-    };
-  },
-  deleteTask(name) {
-    if (name in this.list) {
-      delete this.list[name];
+};
+
+function changeStatus(name, status) {
+  if (status === todotask || status === donetask || status === inprogress) {
+    if (name in todoList.list) {
+      todoList.list[name] = status;
     } else {
       console.log('Такой задачи нет в списке!');
     };
-  },
-  showList() {
-    showListfunc();
-  }
+  } else {
+    console.log('Введите корректный статус!');
+  };
+};
+function addTask(name) {
+  if (name in todoList.list) {
+    console.log('Эта задача уже есть в списке!');
+  } else {
+    todoList.list[name] = todotask;
+  };
 };
 
-function showListfunc() {
+function deleteTask(name) {
+  if (name in todoList.list) {
+    delete todoList.list[name];
+  } else {
+    console.log('Такой задачи нет в списке!');
+  };
+};
+function showList() {
   let strToDo = '';
   let strInProgress = '';
   let strDone = '';
@@ -52,22 +50,22 @@ function showListfunc() {
       strInProgress +=name + ':' + todoList.list[name] + '\n';
     };
   };
-  console.log(strToDo);
-  console.log(strDone);
-  console.log(strInProgress);
+  strToDo !== '' ? console.log(strToDo): console.log('Nothing is To Do');
+  strDone !== '' ? console.log(strDone): console.log('Nothing is Done');
+  strInProgress !== '' ? console.log(strInProgress): console.log('Nothing in progress');;
 };
 
 
 
-todoList.deleteTask("Learn English");
-todoList.addTask("Walk white my frends");
-todoList.addTask("Walk white my frends");
-todoList.changeStatus("Walk white my frends", donetask);
-todoList.changeStatus("Home work", todotask);
-todoList.changeStatus("Home work", "Hello");
-todoList.changeStatus("Home work", donetask);
-todoList.addTask("Cinema time");
-todoList.showList();
+deleteTask("Learn English");
+addTask("Walk white my frends");
+addTask("Walk white my frends");
+changeStatus("Walk white my frends", donetask);
+changeStatus("Home work", todotask);
+changeStatus("Home work", "Hello");
+changeStatus("Home work", donetask);
+addTask("Cinema time");
+showList();
 
 
 
