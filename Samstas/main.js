@@ -1,6 +1,6 @@
 
 // arrow functions
-common way
+// common way
 function sum(num, num2) {
   return num + num2;
 }
