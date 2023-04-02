@@ -17,30 +17,45 @@ const Todo = {
         console.log(task + " --Task deleted--")
     },
     showList(){
+        const noTask = '\t' + '-';
         console.log("---To Do List---")
         console.log("In Progress:")
+        let i = 0;
         for (const name in Todo.list) {
             if (this.list[name] === "In Progress") {
                 console.log(`\t` + name)
+                i += 1;
             }
         }
+        if (i === 0) {
+            console.log(noTask);
+        }
         console.log("Done:")
+        i = 0;
         for (const name in Todo.list){
             if (this.list[name]=== "Done"){
                 console.log(`\t` + name)
+                i+= 1;
             }
         }
+        if (i === 0) {
+            console.log(noTask);
+        }
         console.log("To Do:")
+        i = 0;
         for (const name in Todo.list){
             if (this.list[name] === "To Do"){
                 console.log(`\t` + name)
+                i+= 1;
             }
+        }
+        if (i === 0) {
+            console.log(noTask);
         }
     }
 }
 Todo.addTask("shower")
 Todo.changeStatus("make a bed","Done")
-Todo.deleteTask("shower")
+Todo.deleteTask("write a post")
 Todo.deleteTask("create a new practice task")
-Todo.deleteTask("make a bed")
 Todo.showList()
