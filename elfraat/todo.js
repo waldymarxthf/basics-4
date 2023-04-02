@@ -1,15 +1,18 @@
-const TO_DO = 'To Do';
-const IN_PROGRESS = 'In progress';
-const DONE = 'Done';
+const STATUS = {
+    TO_DO: 'To Do',
+    IN_PROGRESS: 'In progress',
+    DONE: 'Done'
+}
+
 
 const TO_DO_LIST = {
     list:{
-        "create a new practice task": IN_PROGRESS,
-        "make a bed": DONE,
-        "write a post": TO_DO
+        "create a new practice task": STATUS.IN_PROGRESS,
+        "make a bed": STATUS.DONE,
+        "write a post": STATUS.TO_DO
     },
     addTask(task){
-        this.list[task] = TO_DO;
+        this.list[task] = STATUS.TO_DO;
     },
     deleteTask(task){
         if (task in this.list) delete this.list[task];
@@ -29,9 +32,9 @@ const TO_DO_LIST = {
 TO_DO_LIST.addTask('do todo list');
 TO_DO_LIST.deleteTask('make a bed and go');
 TO_DO_LIST.addTask('write change status function');
-TO_DO_LIST.changeStatus('do todo list', DONE);
+TO_DO_LIST.changeStatus('do todo list', STATUS.DONE);
 TO_DO_LIST.addTask('commit and push pull request');
-TO_DO_LIST.deleteTask('do todo list');
-TO_DO_LIST.changeStatus('do todo list',IN_PROGRESS);
+TO_DO_LIST.deleteTask('do todo listt');
+TO_DO_LIST.changeStatus('do todo list',STATUS.IN_PROGRESS);
 TO_DO_LIST.showList();
 
