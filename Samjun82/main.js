@@ -1,3 +1,9 @@
+// константы на статусы
+// проверки
+// вывод  "-" если нет задач
+
+// test run and remove addTask('swiming')
+
 const list = {
 	"create a new practice task": "In Progress", 
 	"make a bed": "Done",
@@ -40,7 +46,7 @@ console.log(`To Do:\n\t${toDo}\nIn Progress:\n\t${inProg}\nDone:\n\t${done}`)
 
 changeStatus('create a new practice task', 'Done')
 addTask('learning english')
-addTask('swiming')
+// addTask('swiming')
 changeStatus('swiming', 'In Progress')
 deleteTask('somthin')
 showList()

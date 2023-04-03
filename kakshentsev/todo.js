@@ -5,7 +5,10 @@ const list = {
 
   changeStatus(taskName, status) {
     if (
+      // сложность проверки
       taskName in list &&
+      // сама идея того, что статус должен быть валиден - правильная
+      // а можно так Object.values(list).includes(status), но далеко не лучший вариант
       (status === "To Do" || status === "In Progress" || status === "Done")
     ) {
       list[taskName] = status;

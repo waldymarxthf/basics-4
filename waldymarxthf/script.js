@@ -4,6 +4,7 @@ const DONE = 'Done'
 
 //добавил строки в константу
 
+// использовать константы везде(*ну почти) - это хорошо
 const list = {
 	"create a new practice task": TODO, 
 	"make a bed": IN_PROGRESS,
@@ -42,9 +43,11 @@ function deleteTask(task) {
 //функция удаления свойства из объекта
 
 function showList() {
+	// вцелом решение приятное, но вносить изменения больно
+	//интересное решение, но всетаки для гарантии очередности лучше заиспользовать массив
 	const statuses = {
 		[TODO]: {
-			label: 'To Do',
+			label: TODO, // тут тоже могли взять из констант
 			description: 'Новая задача, которую нужно выполнить'
 		},
 		[IN_PROGRESS]: {

@@ -1,4 +1,5 @@
-const yaroslavMentorovich = 'gay'
+// naming rly? Why do I have to look into this PR further? I've seen enough!
+const yaroslavMentorovich = 'guy'
 const not = 'not'
 
 const list = {

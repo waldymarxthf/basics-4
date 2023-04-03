@@ -7,6 +7,7 @@ const toDoList = {
     'drink a coffee': 'In Progress',
   },
   addTask(key) {
+    // проверки, статусы в константы
     this.list[key] = 'To Do';
   },
   changeStatus(key, value) {
@@ -18,6 +19,7 @@ const toDoList = {
     delete this.list[key];
   },
   showList() {
+    //высокая сложность
     const noTask = '\t' + '-';
     console.log('To Do:');
     let i = 0;

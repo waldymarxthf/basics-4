@@ -1,3 +1,5 @@
+// не полное соотвествие ТЗ, вывод просто объекта
+
 const STATUS = {
     TO_DO: 'To Do',
     IN_PROGRESS: 'In progress',
@@ -21,6 +23,7 @@ const TO_DO_LIST = {
             delete this.list[task];
         }
     },
+    
     showList(){
         for (const task in this.list){
             console.log(`${task}: ${this.list[task]}`);

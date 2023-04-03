@@ -2,7 +2,7 @@ const progressTask = "In Progress";
 const statusTask = "Done";
 const toDoTask = "To Do";
 const nothingTask = "Nothing is done";
-let stringEmpty = ""; // ,базовая строка для сравнения наличия задач
+const stringEmpty = ""; // ,базовая строка для сравнения наличия задач
 
 const ToDoList = {
   list: {
@@ -12,6 +12,8 @@ const ToDoList = {
     "learning day task": progressTask,
   },
   addTask(name, status) {
+    //много проверок, нужен isValid,
+    // stringEmpty ??
     if (name !== stringEmpty && name !== null && name !== undefined) {
       if (name in this.list && Object.values(this.list).includes(status)) {
         console.log(`This task:\n${name} ${status} already done.`);
@@ -38,6 +40,7 @@ const ToDoList = {
     this.list[name] = status;
   },
   ShowListTodo() {
+    //Вызов метода вызывающего другой метод, тут я не понял зачем?
     ShowListSort();
   },
 };
@@ -48,6 +51,8 @@ function ShowListSort() {
   let strDone = "";
   let strNothingTask = ""; // строка состояния task
 
+
+  //Там где многие использовали 3 цикла удалось все поместить в 1 - экономно +1
   for (const name in ToDoList.list) {
     if (ToDoList.list[name] === progressTask) {
       strProgressIn += "\t" + name + "\n";
@@ -62,10 +67,11 @@ function ShowListSort() {
   }
 
   console.log("To Do:");
+  // // Рефакторим ИФАКИ тернарниками
   if (strToDo === stringEmpty) {
     console.log("\t -");
   }
-  console.log(strToDo);
+  // console.log(strToDo ? strToDo : "\t -");
 
   console.log("In progress:");
   if (strProgressIn === stringEmpty) {

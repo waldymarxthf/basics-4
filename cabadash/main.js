@@ -10,6 +10,7 @@ const toDoList = {
 }
 
 function changeStatus(task, status) {
+    //отлично, что есть много проверок, может тогда отдать все в функцию isValid?
     if (typeof task === 'string' && (status === TODO || status === DONE || status === IN_PROGRESS)) {
         toDoList[task] = status;
         console.log(`Task status "${task}" successfully changed to "${status}"!`);
@@ -41,6 +42,9 @@ function showList() {
     let todo;
     let inProgress;
     let list;
+
+    // интересное решение, компактней выглядит чем те, что видел раньше
+    // легкость изменений не легкая
 
     for (let key in toDoList) {
         if (toDoList[key] === DONE) {

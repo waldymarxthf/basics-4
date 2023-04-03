@@ -1,3 +1,5 @@
+// CONST ??
+
 const list = {
 	"Сделать зарядку": "In Progress", 
 	"Умыться": "Done",
@@ -5,6 +7,7 @@ const list = {
 }
 
 function changeStatus(item, status) {
+    // validation?
     if (!(item in list)) {
         console.log(`Ошибка в changeStatus ${item}: Нет такой задачи`);
     } else {
@@ -28,7 +31,8 @@ function addTask(item) {
     }
 }
 
-function showList() {
+// сложновао showList , а что если мы еще пару доп статусов накинем?
+function showList() {    
     let checkToDo = false;
     let checkInProg = false;
     let checkDone = false;

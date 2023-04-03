@@ -1,3 +1,4 @@
+// константу нужно использовать везде
 const Status = {
     Todo: "To Do",
     Done: "Done",
@@ -9,7 +10,7 @@ const ToDo ={
     list : {
         "create a new practice task": "In Progress", 
         "make a bed": "Done", // задача "заправить кровать" в статусе "Готово"
-        "write a post": "To Do",
+        "write a post": "To Do", // TYT
     },
     addTask(task, status) {
         this.list[task] = status;
@@ -18,11 +19,12 @@ const ToDo ={
         delete this.list[task];
     },
     changeStatus(task, status){
-        if (status == "To Do" || "In Progress" || "Done" ) {
+        if (status == "To Do" || "In Progress" || "Done"  ) { // TYT
             return this.list[task] = status;
         }
     },
     showList() {
+        // TYT
         console.log('To Do:')
         for (task in ToDo.list ) {
             if(ToDo.list[task]===Status.Todo){console.log('     '+ task)};

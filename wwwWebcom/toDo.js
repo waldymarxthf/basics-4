@@ -4,10 +4,12 @@ const toDoList = {
     "brush teeth": "ToDo",
   },
   changeStatus(task, status) {
-    let lowStatus = status.toLowerCase();
+    //интересное решение, но решаеться константами "ToDo" "todo" много шансов выстрелить в ногу себе
+    let lowStatus = status.toLowerCase(); 
     if (
+      // очень тяжелая валидация в функцию
       task in this.tasks &&
-      (lowStatus === "todo" ||
+      (lowStatus ===  "todo"||
         lowStatus === "done" ||
         lowStatus === "in progress")
     ) {

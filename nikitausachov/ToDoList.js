@@ -1,3 +1,7 @@
+// константы на статусы
+// оптимизация вывода
+// проверки
+
 const Todo = {
     list:{
         "create a new practice task": "In Progress",

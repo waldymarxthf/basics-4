@@ -3,6 +3,11 @@ const taskDeletedMessage = 'Okay, task was successfully removed from the list.'
 const taskStatusChangedMessage = 'Task status has been changed.'
 const taskNotInListMessage = 'It seems like the task not in list yet.'
 const taskAlreadyInListMessage = 'It seems like the task is already in list.'
+
+// все сообщения в константах хорошо, легко будет делать интернализацию, но стоит собрать их в один объект
+// статусы тоже хорошо положить в константы
+
+
 const indentation = ' '.repeat(4)
 
 const toDoList = {

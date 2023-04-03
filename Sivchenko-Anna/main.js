@@ -1,3 +1,4 @@
+// -
 const ToDo = {
   list: {
     "сomplete new Strada practice task": "In Progress",

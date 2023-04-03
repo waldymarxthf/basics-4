@@ -1,3 +1,8 @@
+// видел такой подход с сообщениями в константах в каком-то ПР который был позже по времени
+// константы на статусы
+// оптимизация вывода
+// не будет работать еси задач нет, не будет прочерка.
+
 const errorNotTask = 'Sorry! Такой задачи нет!'
 const errorIsTask = 'Sorry! Такая задача уже в наличии'
 const deleteTaskConst = 'Complete! Task was удалена'
@@ -8,6 +13,8 @@ const todoList = {
 	todos: {
   },
   changeStatus(task, text) {
+    // зачем нам нестрогое сравнение с false?
+    // if (!(task in this.todos)) {
     if (task in this.todos == false) {
       console.log(errorNotTask)
     }
@@ -16,7 +23,10 @@ const todoList = {
       console.log(changeTaskConst)
     }
   },
-  addTask(task, status = 'todo') {
+  addTask(task, status = 'todo') { // тут ошибочка подкралась везде 'Todo' а тут 'todo'
+    //нестрогое сравнение с true?
+    // if (task in this.todos) {
+    // можно было бы проверить на валидность входные данные  
     if (task in this.todos == true) {
       console.log(errorIsTask)
     }
@@ -44,6 +54,7 @@ const todoList = {
     console.log(status + ':', tasks ? tasks : '\n\t-');
   },
   showList() {
+    // вот тут хорошо, но всетаки внесение изменений будет больно
     this.displayStatus('Todo');
     this.displayStatus('Done');
     this.displayStatus('In Progress');

@@ -1,3 +1,8 @@
+// проверки входных данных
+// константы на статусы
+// оптимизация вывода
+// не будет работать еси задач нет, не будет прочерка.
+
 const Status = {
     Done: "Done",
     InProgress: "In Progress",
@@ -38,7 +43,7 @@ const ToDo ={
 
 ToDo.addTask("awake", "To Do");
 ToDo.addTask("wash up", "To Do");
-ToDo.addTask("read the book", "Done");
+// ToDo.addTask("read the book", "Done");
 ToDo.addTask("sleep", "Done");
 ToDo.changeStatus("wash up", "In Progress");
 ToDo.changeStatus("make a bed", "To Do")

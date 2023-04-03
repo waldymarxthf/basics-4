@@ -10,6 +10,7 @@ function changeStatus(prop, status) {
   list[prop] = status;
 }
 
+//лаконично, но тернарники не для этого, нет места для валидаций
 const addTask = task =>
   task in list ? 'Property already exists!' : (list[task] = 'To Do');
 

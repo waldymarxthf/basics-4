@@ -1,9 +1,12 @@
+// Статусы в константы
+
 const toDoList = {
   addTask(name) {
     this[name] = 'To Do'
   },
   changeStatus(name, status) {
     if (this[name] !== status) {
+      // плохо подходит для проверки, а если статусов еще +3 ?
       switch (status) {
         case 'To Do':
           this[name] = status

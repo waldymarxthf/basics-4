@@ -1,3 +1,9 @@
+// проверки входных данных
+// константы на статусы
+// оптимизация вывода
+// счетчик i не нужен
+
+
 const toDoList = {
     list : {
         "Create a new todo list" : "In progress",

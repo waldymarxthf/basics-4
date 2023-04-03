@@ -17,6 +17,7 @@ const list = {
 };
 
 function addTask(text) {
+  // валидацию в функцию
   if (!text) {
     return 'Task is not created. Please add text';
   } else {
@@ -50,6 +51,7 @@ function editTask(text, status) {
   }
 }
 
+// называеться шоу, но шоу не произошло а вернулась строка.
 function showList() {
   let todo = '';
   let inProgress = '';

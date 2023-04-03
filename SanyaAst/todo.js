@@ -1,6 +1,10 @@
+// константы на статусы
+// проверки
+// вывод  "-" если нет задач
+
 const list = {
     'create' : 'In progress',
-    'make' :  'Done',
+    'make' :  'To Do',
     'write' : 'To Do',
     'cock' : 'To Do',
 }

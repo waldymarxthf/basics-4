@@ -34,6 +34,8 @@ function deleteTask(name) {
 
 
 function defStatus(status) {
+    //а если undefined?
+    // отступы, красиво, нравиться, но сложно и не расширяемо
     if (!(todoList === null)) {
         let count = 0;
         let key;
@@ -62,6 +64,8 @@ function defStatus(status) {
 
 
 function showList() {
+    // выглядит красиво, но не могу добавить еще один статус
+    // по defStatus я не знаю что там будет внутри? 
     defStatus(STATUS.DONE);
     defStatus(STATUS.TODO);
     defStatus(STATUS.IN_PROGRESS);
