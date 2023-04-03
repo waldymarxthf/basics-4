@@ -20,7 +20,7 @@ const ERROR_NUMBER_MESSAGE = 'Number Error';
 const ERROR_OPERATION_MESSAGE = 'Unknow operation';
 
 function isNumber(num) {
-  return isFinite(num);
+  return Number.isFinite(num);
 }
 
 function calc(num1, num2, operation) {
@@ -42,8 +42,9 @@ function calc(num1, num2, operation) {
   }
 }
 
-console.log(calc(3, '4', OPERATION.ADD));
+console.log(calc(3, 4, OPERATION.ADD));
 console.log(calc(5, 5, OPERATION.MULTI));
 console.log(calc(25, 10, OPERATION.SUBSTRACT));
+console.log(calc(3, '4', OPERATION.ADD));
 console.log(calc(5, 5, 'plus'));
 console.log(calc('5five', 5, 'plus'));
