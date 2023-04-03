@@ -1,3 +1,9 @@
+const defaultStatus = {
+    TO_DO :'To Do',
+    IN_PROGRESS : 'In progress',
+    DONE : 'Done'
+}
+
 const list = {
     'create' : 'In progress',
     'make' :  'Done',
@@ -9,7 +15,7 @@ function addTask (taskName) {
     if (taskName in list) {
         console.log('task already added');
     } else {
-        list[taskName] = 'To Do';
+        list[taskName] = defaultStatus.TO_DO;
     }
 }
 
@@ -17,7 +23,7 @@ function deleteTask (taskName) {
     if (taskName in list) {
         delete list[taskName];
     } else {
-        console.log('no have task');
+        console.log('task has been deleted');
     }
 }
 
@@ -36,13 +42,13 @@ function showList () {
 
     for (taskName in list) {
         switch (list[taskName]) {
-            case 'To Do' : 
+            case defaultStatus.TO_DO : 
                 toDo += `\t${taskName} \n`;
                 break;
-            case 'In progress' :
+            case defaultStatus.IN_PROGRESS :
                 inProgress += `\t${taskName} \n`;
                 break;
-            case 'Done' :
+            case defaultStatus.DONE :
                 done += `\t${taskName} \n`;
                 break;
         }
