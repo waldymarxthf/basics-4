@@ -37,22 +37,22 @@ function deleteTask(task) {
 }
 
 function showList() {
-    let done;
-    let todo;
-    let inProgress;
+    let done = '';
+    let todo = '';
+    let inProgress = '';
     let list;
 
     for (let key in toDoList) {
         if (toDoList[key] === DONE) {
-            done = `\t ${key} \n`;
+            done += `\t ${key} \n`;
         } else if (toDoList[key] === TODO) {
-            todo = `\t ${key} \n`;
+            todo += `\t ${key} \n`;
         } else if (toDoList[key] === IN_PROGRESS) {
-            inProgress = `\t ${key} \n`;
+            inProgress += `\t ${key} \n`;
         }
     }
 
-    if (todo === undefined) {
+    if (todo === '') {
         todo = '\t - \n';
     } else if (done === undefined) {
         done = '\t - \n';
