@@ -44,15 +44,15 @@ function deleteTask(task) {
 function showList() {
 	const statuses = {
 		[TODO]: {
-			label: 'To Do',
+			label: TODO,
 			description: 'Новая задача, которую нужно выполнить'
 		},
 		[IN_PROGRESS]: {
-			label: 'In Progress',
+			label: IN_PROGRESS,
 			description: 'Задача, над которой ведется работа'
 		},
 		[DONE]: {
-			label: 'Done',
+			label: DONE,
 			description: 'Выполненная задача'
 		}
 	}
