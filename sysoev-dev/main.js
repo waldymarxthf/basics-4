@@ -20,7 +20,7 @@ const ERROR_NUMBER_MESSAGE = 'Number Error';
 const ERROR_OPERATION_MESSAGE = 'Unknow operation';
 
 function isNumber(num) {
-  return !isNaN(num);
+  return isFinite(num);
 }
 
 function calc(num1, num2, operation) {
