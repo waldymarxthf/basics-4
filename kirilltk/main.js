@@ -1,7 +1,6 @@
 
-const letterS = 's';
 function showVerticalMessage(str) {
-	if (str.length  > 7 && str[0] === letterS) {
+	if (str.length  > 7 && str.startsWith('s')) {
 		for (let i = 0; i < 7; i++) {
 			(i === 0) ? console.log(str[i].toUpperCase()) : console.log(str[i]);
 		};
@@ -9,7 +8,7 @@ function showVerticalMessage(str) {
 		for (let i = 0; i < 7; i++) {
 			console.log(str[i]);
 		};
-	} else if (str[0] === letterS) {
+	} else if (str.startsWith('s')) {
 		for (let i = 0; i < str.length; i++) {
 			(i === 0) ? console.log(str[i].toUpperCase()) : console.log(str[i]);
 		};
@@ -20,4 +19,4 @@ function showVerticalMessage(str) {
 	};
 };
 
-showVerticalMessage('strada');
+showVerticalMessage('stradaaaaaa');
