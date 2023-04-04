@@ -1,22 +1,22 @@
 function showVerticalMessage(message) {
   let resultStr = '';
 
-  if (message.length > 8) {
-    message = message.slice(0, 7);
-  }
-
   if (message[0] === 's') {
     message = 'S' + message.slice(1);
   }
 
-  for (const char of message) {
-    resultStr += '\n' + char;
+  for (let i = 0; i < message.length; i++) {
+    if (i < 7) {
+      resultStr += message[i] + '\n';
+    } else {
+      break;
+    }
   }
 
   console.log(resultStr);
 }
 
-showVerticalMessage('strada');
+showVerticalMessage('stradafasf');
 showVerticalMessage('stradafsdfsdfdsf');
 showVerticalMessage('test');
 showVerticalMessage('qwertyuiop');
