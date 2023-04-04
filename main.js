@@ -14,9 +14,28 @@ const list = {
 }
 
 function showList() {
+    console.log(statusToDo.TO_DO + ': ');
     for (const task in list) {
-        const result = `${task} : ${list[task]} `
-        console.log(result);
+        if (list[task] === statusToDo.TO_DO) {
+            const result = `"${task}"`;
+            console.log(result);
+        } else {
+            console.log('None task');
+        }
+    }
+    console.log("\n" + statusToDo.IN_PROGRESS + ': ');
+    for (const task in list) {
+        if (list[task] === statusToDo.IN_PROGRESS) {
+            const result = `"${task}"`;
+            console.log(result);
+        }
+    }
+    console.log("\n" + statusToDo.DONE + ': ');
+    for (const task in list) {
+        if (list[task] === statusToDo.DONE) {
+            const result = `"${task}"`;
+            console.log(result);
+        }
     }
 }
 
