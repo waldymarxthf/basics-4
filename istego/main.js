@@ -1,16 +1,16 @@
 const maxLength = 7;
 const firstSymbolUpperCase = 's';
-const errorEmptyStr = 'Была передана пустая строка';
+const errorEmptyStr = `Нужно передать строку в формате 'strada'`;
 
-const str = 'stradaxxxx';
+const str = 'stradaxxxxxxx';
 
 let result = null;
 
 showVerticalMessage(str);
 
 function showVerticalMessage(str) {
-    //Проверяем строку на пустоту
-    if (!str) return console.log(errorEmptyStr);
+    //Проверяем строку на пустоту и тип
+    if (!str || typeof(str) !== 'string') return console.log(errorEmptyStr);
 
     result = str.slice(0, maxLength);
     //Убираем чувствительность к регистру и проверяем первый символ на 's'
