@@ -1,10 +1,3 @@
-const list = {
-  'create a new practice task': 'In Progress',
-  'make a bed': 'Done',
-  'write a post': 'To Do',
-  'test': 'To Do',
-};
-
 const TODO_STATUSES = {
   TODO: 'To Do',
   IN_PROGRESS: 'In Progress',
@@ -15,33 +8,70 @@ const TODO_STATUSES = {
 const ERROR_STATUSES = {
   EXISTS: 'The task exists',
   NOT_FOUND: 'Task not found',
+  BAD_TITLE: 'Task title is empty',
+  BAD_STATUS: 'Task status not supported',
 };
 
-function checkTask(taskName) {
-  return taskName in list;
+const list = {
+  'create a new practice task': TODO_STATUSES.IN_PROGRESS,
+  'make a bed': TODO_STATUSES.DONE,
+  'write a post': TODO_STATUSES.TODO,
+  'test': TODO_STATUSES.TODO,
+};
+
+function isTaskNameValid(taskName) {
+  if (!taskName) {
+    console.log(ERROR_STATUSES.BAD_TITLE);
+    return;
+  }
+
+  return true;
+}
+
+function isTaskStatusValid(taskStatus) {
+  for (const key in TODO_STATUSES) {
+    if (taskStatus === TODO_STATUSES[key]) {
+      return true;
+    }
+  }
+
+  console.log(ERROR_STATUSES.BAD_STATUS);
+  return;
+}
+
+function isTaskExist(taskName) {
+  if (!taskName in list) {
+    console.log(ERROR_STATUSES.NOT_FOUND);
+    return;
+  }
+  return true;
 }
 
 function addTask(taskName, taskStatus = TODO_STATUSES.DEFAULT_STATUS) {
-  if (checkTask(taskName)) {
-    return console.log(ERROR_STATUSES.EXISTS);
+  if (!isTaskNameValid(taskName)) {
+    return;
+  }
+
+  if (!isTaskStatusValid(taskStatus)) {
+    return;
   }
 
   list[taskName] = taskStatus;
 }
 
 function changeStatus(taskName, newStatus) {
-  if (!checkTask(taskName)) {
-    return console.log(ERROR_STATUSES.NOT_FOUND);
+  if (!isTaskExist(taskName)) {
+    return;
+  }
+
+  if (!isTaskStatusValid(newStatus)) {
+    return;
   }
 
   list[taskName] = newStatus;
 }
 
 function deleteTask(taskName) {
-  if (!checkTask(taskName)) {
-    return console.log(ERROR_STATUSES.NOT_FOUND);
-  }
-
   delete list[taskName];
 }
 
@@ -79,4 +109,7 @@ changeStatus('make a bed', TODO_STATUSES.TODO);
 changeStatus('test', TODO_STATUSES.IN_PROGRESS);
 deleteTask('make a bed');
 changeStatus('write a post', TODO_STATUSES.DONE);
+addTask('Qwerty', TODO_STATUSES.DEFAULT_STATUS);
+changeStatus('Qwerty', TODO_STATUSES.DONE);
 showList();
+console.log(list);
