@@ -13,10 +13,11 @@ function showVerticalMessage(message) {
     resultStr += '\n' + char;
   }
 
-  return resultStr;
+  console.log(resultStr);
 }
 
-console.log(showVerticalMessage('strada'));
-console.log(showVerticalMessage('stradafsdfsdfdsf'));
-console.log(showVerticalMessage('test'));
-console.log(showVerticalMessage('qwertyuiop'));
+showVerticalMessage('strada');
+showVerticalMessage('stradafsdfsdfdsf');
+showVerticalMessage('test');
+showVerticalMessage('qwertyuiop');
+showVerticalMessage('strada');
