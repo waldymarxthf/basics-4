@@ -1,68 +1,85 @@
+const STATUS = {
+  TODO: "ToDo",
+  IN_PROGRESS: "In Progress",
+  DONE: "Done",
+};
+const MESSAGE = {
+  STATUS_CHANGED: "Статус изменен!",
+  ERROR_CHANGED_TASK: "Такой задачи не существует!",
+  ADDED_TASK: "Задача добавлена!",
+  ERROR_ADDED_TASK: "Такая задача уже есть!",
+  DELETED_TASK: "Задача удалена!",
+  ERROR_DELETED_TASK: "Такой задачи нет в списке!",
+};
+
+function isTaskNameValid(task) {
+  if (task in toDoList.tasks) {
+    return true;
+  }
+  return false;
+}
+
+function showStatus(status) {
+  let showTask = "";
+  console.log(`${status}:`);
+  for (let task in toDoList.tasks) {
+    if (toDoList.tasks[task] === status) {
+      console.log("\t", task);
+      showTask = "!";
+    }
+  }
+  if (showTask === "") console.log("\t -");
+}
+
 const toDoList = {
   tasks: {
-    "wake up": "ToDo",
-    "brush teeth": "ToDo",
+    "wake up": STATUS.TODO,
+    "brush teeth": STATUS.TODO,
   },
   changeStatus(task, status) {
-    let lowStatus = status.toLowerCase();
-    if (
-      task in this.tasks &&
-      (lowStatus === "todo" ||
-        lowStatus === "done" ||
-        lowStatus === "in progress")
-    ) {
+    if (isTaskNameValid(task)) {
       this.tasks[task] = status;
-      console.log('Статус изменен')
+      console.log(MESSAGE.STATUS_CHANGED);
     } else {
-      console.log("Такой задачи/такого статуса не существует");
+      console.log(MESSAGE.ERROR_CHANGED_TASK);
     }
   },
-  addTask(task) {
-    if (!(task in this.tasks)) {
-      this.tasks[task] = "ToDo";
-      console.log('Задача добавлена')
+  addTask(task,status = STATUS.TODO) {
+    if (!isTaskNameValid(task)) {
+      this.tasks[task] = status;
+      console.log(MESSAGE.ADDED_TASK);
     } else {
-      console.log("Такая задача уже есть!");
+      console.log(MESSAGE.ERROR_ADDED_TASK);
     }
   },
   deleteTask(task) {
-    if (task in this.tasks) {
+    if (isTaskNameValid(task)) {
       delete this.tasks[task];
-      console.log('Задача удалена')
+      console.log(MESSAGE.DELETED_TASK);
     } else {
-      console.log("Такой задачи нет в списке!");
+      console.log(MESSAGE.ERROR_DELETED_TASK);
     }
-  },
-  checkStatus(status) {
-    let checkTask = "";
-    console.log(`${status}:`);
-    for (let task in this.tasks) {
-      if (this.tasks[task].toLowerCase() === status.toLowerCase()) {
-        console.log("\t", task);
-        checkTask = "!";
-      }
-    }
-    if (checkTask === "") console.log("\t -");
   },
   showTasks() {
-    this.checkStatus("ToDo");
-    this.checkStatus("In Progress");
-    this.checkStatus("Done");
+    showStatus(STATUS.TODO);
+    showStatus(STATUS.IN_PROGRESS);
+    showStatus(STATUS.DONE);
   },
-}
+};
 
 // Добавление задачи
 toDoList.addTask("learn English");
 toDoList.addTask("learn Programming");
-toDoList.addTask("go to sleep")
+toDoList.addTask("go to sleep");
 
 // Изменение статуса
-toDoList.changeStatus("wake up", "Done");
-toDoList.changeStatus("learn English", "Done");
-toDoList.changeStatus("go to sleep", 'Done')
+toDoList.changeStatus("wake up", STATUS.DONE);
+toDoList.changeStatus("learn Programming", STATUS.DONE);
+toDoList.changeStatus("go to sleep", STATUS.DONE);
 
 // Удаление задачи
 toDoList.deleteTask("brush teeth");
+toDoList.deleteTask("wake up")
 
 //Показать текущие задачи
 toDoList.showTasks();
