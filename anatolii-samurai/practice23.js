@@ -1,8 +1,8 @@
 // функция которая преобразует полученную строку в "вертикальный вид" и выводит ее в консоль
 function showVerticalMessage(str){
    //проверка на букву "s"
-    if(str[0] == "s"){
-        str = str[0].toUpperCase() + str.slice(1);
+    if(str[0] == "s" || str.length > 7){
+        str = str[0].toUpperCase() + str.slice(1,7);
         showChar(str);
     }else if(str.length > 7){   //проверка на длину строки
         str = str.slice(0, 7);
@@ -20,6 +20,6 @@ function showChar(str){
         console.log(char);
     }
 }
+// showVerticalMessage("strada\t");
+// showVerticalMessage("work\t");
 showVerticalMessage("strada\t");
-showVerticalMessage("work\t");
-showVerticalMessage("t1reatment\t");
