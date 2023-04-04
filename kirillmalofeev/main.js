@@ -19,11 +19,15 @@ const TODOLIST = {
   deleteTask(task) {
     delete this.list[task];
   },
-  showTask(task, status) {
-    for (const task in this.list) {
-      if (this.list[status] === STATUS.DONE) {
-        console.log(STATUS.DONE + ":" + this.list[task]);
-      } else {
+  showTask() {
+    for (let key in this.list) {
+      if (this.list[key] === STATUS.DONE) {
+        console.log(STATUS.DONE + ":", key);
+      } else if (this.list[key] === STATUS.INPROGRESS) {
+        console.log(STATUS.INPROGRESS + ":", key);
+      } else if (this.list[key] === STATUS.TODO) {
+        console.log(STATUS.TODO + ":", key);
+      } else if (this.list[key] !== STATUS.DONE) {
         console.log(NOTHINGISDONE);
       }
     }
