@@ -1,4 +1,6 @@
 function showVerticalMessage(message) {
+  let resultStr = '';
+
   if (message.length > 8) {
     message = message.slice(0, 7);
   }
@@ -7,7 +9,11 @@ function showVerticalMessage(message) {
     message = 'S' + message.slice(1);
   }
 
-  return message;
+  for (const char of message) {
+    resultStr += '\n' + char;
+  }
+
+  return resultStr;
 }
 
 console.log(showVerticalMessage('strada'));
