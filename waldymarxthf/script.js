@@ -13,8 +13,8 @@ function showVerticalMessage(string) {
 	const maxLength = Math.min(string.length, 7)
 	string = string.slice(0, maxLength);
 
-	for (let num of string) {
-		console.log(num);
+	for(let i = 0; i < string.length; i++) {
+		console.log(string.charAt(i))
 	}
 	return null;
 }
