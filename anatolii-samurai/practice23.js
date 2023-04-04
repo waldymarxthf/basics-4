@@ -5,11 +5,14 @@ function showVerticalMessage(str){
         str = str[0].toUpperCase() + str.slice(1);
         showChar(str);
     }else if(str.length > 7){   //проверка на длину строки
-        str = str.slice(0, 5);
+        str = str.slice(0, 7);
         showChar(str);
-    } else{
+    }else if (str){
+        showChar(str);
+    }
+     else{
         console.log("error");
-    }  // 
+    }  
 }
 // функция для вывода цикла for...of
 function showChar(str){
@@ -17,5 +20,6 @@ function showChar(str){
         console.log(char);
     }
 }
-
-showVerticalMessage("sum");
+showVerticalMessage("strada\t");
+showVerticalMessage("work\t");
+showVerticalMessage("t1reatment\t");
