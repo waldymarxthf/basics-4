@@ -7,8 +7,7 @@ function showVerticalMessage(string) {
 	}
 	for(let num of string) {
 		console.log(num)
-		return null
 	}
 }
 
-showVerticalMessage('stradas')
+showVerticalMessage('stradastr')
