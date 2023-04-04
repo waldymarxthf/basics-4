@@ -14,7 +14,7 @@ function showVerticalMessage(str) {
 
     result = str.slice(0, maxLength);
     //Убираем чувствительность к регистру и проверяем первый символ на 's'
-    if(str.at(0).toLowerCase() === firstSymbolUpperCase) {
+    if (str.at(0).toLowerCase() === firstSymbolUpperCase) {
         result = str.at(0).toUpperCase() + str.slice(1, maxLength);
     }
     for (const symbol of result) {
