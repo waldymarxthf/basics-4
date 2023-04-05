@@ -1,5 +1,6 @@
 // create array
 let toDoList = ["coding", "workout", "read"];
+
 // create a new task
 toDoList.unshift("morning stretch");
 toDoList.push("meditation");
