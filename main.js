@@ -1,11 +1,8 @@
 const statusToDo = {
-    DEFAULT_TASK: "In Progress",
     IN_PROGRESS: "In Progress",
     DONE: "Done",
     TO_DO: "To Do",
 }
-
-
 
 const list = {
     "create a new practice task": statusToDo.IN_PROGRESS,
@@ -13,35 +10,31 @@ const list = {
     "write a post": statusToDo.TO_DO,
 }
 
+let countToDo = false;
+
+function showItemList(itemList) {
+
+    console.log(`${itemList}: `);
+    for (item in list) {
+        if (list[item] === itemList) {
+            console.log(`"${item}"`);
+            countToDo = true;
+        }
+    }
+    if (!countToDo) {
+        console.log("-");
+    }
+}
+
 function showList() {
-    console.log(statusToDo.TO_DO + ': ');
-    for (const task in list) {
-        if (list[task] === statusToDo.TO_DO) {
-            const result = `"${task}"`;
-            console.log(result);
-        } else {
-            console.log('None task');
-        }
-    }
-    console.log("\n" + statusToDo.IN_PROGRESS + ': ');
-    for (const task in list) {
-        if (list[task] === statusToDo.IN_PROGRESS) {
-            const result = `"${task}"`;
-            console.log(result);
-        }
-    }
-    console.log("\n" + statusToDo.DONE + ': ');
-    for (const task in list) {
-        if (list[task] === statusToDo.DONE) {
-            const result = `"${task}"`;
-            console.log(result);
-        }
+    for (statusTask in statusToDo) {
+        showItemList(statusToDo[statusTask]);
     }
 }
 
 function addTask(task) {
     if (!(task in list)) {
-        list.task = statusToDo.DEFAULT_TASK;
+        list[task] = statusToDo.TO_DO;
     } else {
         return console.log('This is task is already create');
     }
