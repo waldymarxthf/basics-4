@@ -53,8 +53,6 @@ function addTask(addTask) {
     }
 }
 
-
-
 // Удаление задачи
 function deleteTask(delTask) {
     if (!validationTask(delTask)) {
