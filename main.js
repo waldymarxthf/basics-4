@@ -15,11 +15,37 @@ function addStatus(statusName) {
         states[statusName] = statusName;
     }
 }
-function deleteStatus(status) {
-    delete states[status];
-    console.log(`Статус ${status} удален`);
+function deleteStatus(statusName, replacedStatusName) {
+    for (task in toDoList.list) {
+        if (statusName === toDoList.list[task]){
+            console.log(`У Вас есть задачи с удаляемым статусом, он будет заменён на статус ${replacedStatusName}`);
+            toDoList.changeStatus(task, replacedStatusName)
+            
+        }
+        else if (statusName in states) {
+            delete states[statusName];
+            console.log(`Статус ${statusName} удален`);
+        }
+    }
+ 
 }
+function renameStatus (oldStatusName, newStatusName) {
+    for (key in states) {
+        if (oldStatusName === key) {
+        key = newStatusName;
+        states[key] = newStatusName;
+        delete states[oldStatusName];
+        for (task in toDoList.list) {
+            if (oldStatusName === toDoList.list[task]){
+                toDoList.changeStatus(task, newStatusName)
+                
+            }
+        }
+        }
+        
+    }
 
+}
 
 const toDoList = {
     list: {},
@@ -79,7 +105,8 @@ toDoList.addTask('');
 
 addStatus('Postponed');
 toDoList.changeStatus('Сходить за продуктами', 'Postponed');
-
+deleteStatus('Postponed', 'In Progress');
+renameStatus('To Do', "TD")
 toDoList.showlist();
 
 
