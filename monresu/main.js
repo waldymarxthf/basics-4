@@ -3,7 +3,7 @@ const todoList = [];
 const error = 'Something went wrong!';
 
 function isValid(task) {
-  const validation = !(task == '\0') || (task == '\n') || (task == '\r');
+  const validation = !(task == '\0') || !(task == '\n') || !(task == '\r') || !(task == '');
   return validation;
 }
 
