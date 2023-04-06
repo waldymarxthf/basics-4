@@ -1,46 +1,35 @@
-const todoList = [];
+/* Task 1 */
+const a = [1, 2, 3, 4, 5, 6, 7];
 
-const error = 'Something went wrong!';
+a.forEach(number => {
+    console.log(`Number is ${number}`)
+})
 
-function isValid(task) {
-  const validation = !(task == '\0') || (task == '\n') || (task == '\r');
-  return validation;
-}
+/* Task 2 */
+const animals = ['cat', 'dog', 'elephant', 'tiger', 'lion'];
 
-function inTodo(task) {
-  return todoList.includes(task);
-}
+let longerAnimal = animals.find(animal => animal.length > 7);
+console.log(longerAnimal)
 
-function add(task) {
-  if (!isValid(task) || inTodo(task)) {
-    console.log(error);
-    return;
-  }
-  todoList.push(task);
-}
+/* Task 3 */
+const nums= [1, 11, -2, 3, -10, 4];
+const negativeNums = nums.filter(num => num < 0);
 
-function del(task) {
-  if (!isValid(task) || !inTodo(task)) {
-    console.log(error)
-    return;
-  }
-  for (let i = 0; i < todoList.length; i++) {
-    if (todoList[i] == task) {
-      todoList.splice(i, 1);
-      break;
-    }
-  };
-}
+console.log(negativeNums)
 
-function showList() {
-  for (const task of todoList) {
-    console.log(task);
-  }
-}
+/* Task 4 */
+const differnceNumbers = [1, 11, -2, 3, -10, 4];
+const absoluteNumbers = differnceNumbers.map(num => Math.abs(num));
 
-add('Поспать!');
-del('Пока кать!');
-add('Попить чаю!');
-del('Попить чаю!');
+console.log(absoluteNumbers)
 
-showList();
+/* Task 5 */
+
+const differnceNums = [1, 11, -2, 3, -10, 4];
+const sortedNums = differnceNums.sort((b, a) => a - b)
+
+console.log(sortedNums)
+
+const numbers = [1, 2, 3, 4, 3, 5, 1];
+const oneIndex = numbers.indexOf(7);
+console.log(oneIndex); // 0
