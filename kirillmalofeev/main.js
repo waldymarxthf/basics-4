@@ -1,10 +1,12 @@
 function showVerticalMessage(str) {
   if (str[0] === str[0].toLowerCase()) {
-    console.log(str[0].toUpperCase() + str.slice(1, 7));
+    str = str[0].toUpperCase() + str.slice(1, 6);
   }
-  let strVertical = '';
-  for (let i = 0, i < 7, i++) {
-    strVertical += i + '\n';
-  }console.log(strVertical);
+  let strVertical = str;
+  for (let char of strVertical) {
+    strVertical = char;
+    console.log(strVertical);
+  } break;
 }
 console.log(showVerticalMessage(`strada`));
+console.log(showVerticalMessage(`stradaaaaaaaa`));
