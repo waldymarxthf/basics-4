@@ -20,6 +20,7 @@ function showVerticalMessage(string) {
         console.log(char);
     }
     
+    
 }
 showVerticalMessage('stradadddd');
 
