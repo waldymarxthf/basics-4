@@ -1,19 +1,12 @@
-function showVerticalMessage (message) {
-    let i = 0;
-    if (message[i] == "s"){
-        console.log(message[i].toUpperCase());
-        i++;
-    }
+let toDoList = ["Пойти на работу", "Закрыть задачи по проектам", "Покушать"];
 
-    for (i; i < message.length; i++) {
-        if (message[0] == "s"){
-            
-        }
-        if (i >= 7) {
-            break;
-        }
-        console.log(message[i]);
-    }
+toDoList.push("Встретить жену после работы");
+
+console.log(toDoList);
+
+toDoList.shift();
+console.log(toDoList);
+
+for (let task of toDoList){
+    console.log(task);
 }
-
-showVerticalMessage("sssstrada");
