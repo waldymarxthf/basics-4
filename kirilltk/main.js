@@ -1,5 +1,4 @@
-const numbers = [1, 5, 1000, 3, 34, 56];
+const animals = ['cat', 'dog', 'elephant', 'tiger', 'lion'];
 
-numbers.forEach(number => {
-	console.log(`Number is ${number}`);
-});
+let rightWord = animals.find(word => word.length > 7);
+console.log(rightWord);
