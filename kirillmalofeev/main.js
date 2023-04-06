@@ -1,6 +1,6 @@
 function showVerticalMessage(str) {
-  if (str[0] === str[0].toLowerCase()) {
-    str = str[0].toUpperCase() + str.slice(1, 6);
+  if (str[0] === "s") {
+    str = str[0].toUpperCase() + str.slice(1, 7);
   }
   let strVertical = str;
   for (let char of strVertical) {
@@ -8,5 +8,6 @@ function showVerticalMessage(str) {
     console.log(strVertical);
   }
 }
-console.log(showVerticalMessage(`strada`));
-console.log(showVerticalMessage(`stradaaaaaaaa`));
+
+showVerticalMessage(`stradaa`);
+showVerticalMessage(`Stradaaaaaaaa`);
