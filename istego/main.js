@@ -16,6 +16,6 @@ console.log(negativeNumbers);
 const absoluteNumbers = randomNambers.map(number => number < 0 ? number * -1 : number);
 console.log(absoluteNumbers);
 
-// $5 Вывод элементов массива по убыванию
+// #5 Вывод элементов массива по убыванию
 const sortedNumbers = randomNambers.sort((a, b) => b - a);
 console.log(sortedNumbers);
