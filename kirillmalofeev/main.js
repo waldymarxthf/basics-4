@@ -6,7 +6,7 @@ function showVerticalMessage(str) {
   for (let char of strVertical) {
     strVertical = char;
     console.log(strVertical);
-  } break;
+  }
 }
 console.log(showVerticalMessage(`strada`));
 console.log(showVerticalMessage(`stradaaaaaaaa`));
