@@ -141,29 +141,33 @@ function deleteTask(name) {
 
 function showList(method) {
   if (method === 'status') {
-    let strTodo = `${TODO_STATUSES.TODO}:`;
-    let strInProgress = `${TODO_STATUSES.IN_PROGRESS}:`;
-    let strDone = `${TODO_STATUSES.DONE}:`;
-    list.forEach(item => {
-      switch (item.status) {
-        case TODO_STATUSES.TODO:
-          strTodo += '\n   ' + item.name;
-          break;
-        case TODO_STATUSES.IN_PROGRESS:
-          strInProgress += '\n   ' + item.name;
-          break;
-        case TODO_STATUSES.DONE:
-          strDone += '\n   ' + item.name;
-          break;
-      }
+    const todoArr = list.filter(item => item.status === TODO_STATUSES.TODO);
+    const inProgressArr = list.filter(item => item.status === TODO_STATUSES.IN_PROGRESS);
+    const doneArr = list.filter(item => item.status === TODO_STATUSES.DONE);
+    let strTodo = '';
+    let strInProgress = '';
+    let strDone = '';
+    todoArr.forEach(item => {
+      strTodo += '\n   ' + item.name;
     });
-    console.log(strTodo);
-    console.log(strInProgress);
-    console.log(strDone);
+    inProgressArr.forEach(item => {
+      strInProgress += '\n   ' + item.name;
+    });
+    doneArr.forEach(item => {
+      strDone += '\n   ' + item.name;
+    });
+
+    strTodo = strTodo || '\n   -';
+    strInProgress = strInProgress || '\n   -';
+    strDone = strDone || '\n   -';
+
+    console.log(`${TODO_STATUSES.TODO}: ${strTodo}`);
+    console.log(`${TODO_STATUSES.IN_PROGRESS}: ${strInProgress}`);
+    console.log(`${TODO_STATUSES.DONE}: ${strDone}`);
   }
 }
 
 addTask('Sleep', TODO_STATUSES.DONE, TODO_PRIORITIES.HIGH);
-// deleteTask('testTest');
-// console.log(list);
+deleteTask('testTest');
+deleteTask('Sleep');
 showList('status');
