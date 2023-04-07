@@ -45,20 +45,10 @@ function delTask(thetask){
     }
     error();
 };
-// метод для проверки наличия задачи в списке
-function avaliableTask(thetask){
-    let i = 0;
-    for (task in toDo){
-        if (task === thetask) {i++}
-    }
-    if (i===0) {
-        return false;
-    } else {return true};
-}
 // метод для смены статуса задачи
 function changeStatus(thetask, status) {
     // проверка наличия такой задачи
-    if (avaliableTask(thetask)){
+    if (thetask in toDo){
         // проверка статуса задачи на корректность
         if (status==='to do' || status==='done' || status==='in progress') {
             toDo[thetask] = status;
@@ -69,7 +59,7 @@ function changeStatus(thetask, status) {
     } else {error()};
 }
 // метод для вывода в консоль списка задач с одним статусом
-function showCheck(status) {
+function showTaskWithStatus(status) {
     console.log(status + ' :');
     if (emptyCheck(status)){
         console.log('                ' + 'nothing in here!');
@@ -84,9 +74,9 @@ function showCheck(status) {
 };
 // метод для вывода всего списка
 function showList(){
-    showCheck('to do');
-    showCheck('in progress');
-    showCheck('done');
+    showTaskWithStatus('to do');
+    showTaskWithStatus('in progress');
+    showTaskWithStatus('done');
 };
 
 showList(); // изначальный список
