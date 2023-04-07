@@ -1,4 +1,10 @@
-const DUPLICATE_TASK_TEXT = `Такая задача уже существует`
+const DUPLICATE_TASK_TEXT = `Такая задача уже существует`;
+const STATUSES = {
+    NOT_DISTRIBUTED_TASKS: 'Не распределенные',
+    PLANED_TASKS: 'Запланированные',
+    IN_PROGRESS_TASKS: 'В процессе выполнения',
+    DONE_TASKS: 'Выполненные',
+};
 
 const list = [
     {
@@ -99,13 +105,13 @@ const showList = (list) => {
     const notDistributedTitles = notDistributedTasks.map(item => item.title).join('\n\t')
 
     console.log(`
-        Не распределенные: 
+        ${STATUSES.NOT_DISTRIBUTED_TASKS}: 
 \t${notDistributedTitles}
-        Запланированные: 
+        ${STATUSES.PLANED_TASKS}: 
 \t${itemsTodo}
-        In progress:
+        ${STATUSES.IN_PROGRESS_TASKS}: 
 \t${itemsInProgress}
-        Done: 
+        ${STATUSES.DONE_TASKS}:  
 \t${itemDone}
         `
             )
