@@ -96,24 +96,23 @@ const makeFinalArray = (arr) => {
 const showList = (list) => {
     let itemsTodo = list.filter((item, index) => list[index].isPlanned);
     let itemsInProgress = list.filter((item, index) => list[index].inProgress);
-    let itemDone = list.filter((item, index) => list[index].isDone);
+    let itemsDone = list.filter((item, index) => list[index].isDone);
+    let itemsNotDistributed = list.filter((item, index) => !list[index].isPlanned && !list[index].inProgress && !list[index].isDone)
 
     itemsTodo = makeFinalArray(itemsTodo)
     itemsInProgress = makeFinalArray(itemsInProgress)
-    itemDone = makeFinalArray(itemDone)
-
-    const notDistributedTasks = list.filter((item, index) => !list[index].isPlanned && !list[index].inProgress && !list[index].isDone)
-    const notDistributedTitles = notDistributedTasks.map(item => item.title).join('\n\t')
+    itemsDone = makeFinalArray(itemsDone)
+    itemsNotDistributed = makeFinalArray(itemsNotDistributed)
 
     console.log(`
         ${STATUSES.NOT_DISTRIBUTED_TASKS}: 
-\t${notDistributedTitles}
+\t${itemsNotDistributed}
         ${STATUSES.PLANED_TASKS}: 
 \t${itemsTodo}
         ${STATUSES.IN_PROGRESS_TASKS}: 
 \t${itemsInProgress}
         ${STATUSES.DONE_TASKS}:  
-\t${itemDone}
+\t${itemsDone}
         `
             )
 }
