@@ -15,6 +15,12 @@ const priorities = {
 	LOW: 'low'
 }
 
+const errors = {
+	TASK_NOT_FOUND: 'Задача не найдена 🚫\n',
+	STATUS_ALREADY_IN_USE: 'Новое состояние  уже присвоено для этой задаче ⚠\n',
+	TASK_NOT_EXIST: 'Задача не существует\n'
+}
+
 function changeStatus(task, status) {
 	const findTask = list.find(element => element.name === task)
 
