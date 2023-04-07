@@ -72,7 +72,7 @@ const addTask = (title) => {
        return console.log(DUPLICATE_TASK_TEXT)
     } else {
         list.push({
-            id: Math.random().toString(),
+            id: "id" + Math.random().toString(16).slice(2),
             title,
             isPlanned: false,
             isDone: false,
