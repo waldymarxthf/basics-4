@@ -1,8 +1,3 @@
-function showVerticalMessage(newString) {
-	newString = newString[0].toUpperCase() + newString.slice(1, 7);
-	for (let strMassege of newString) {
-		console.log(`// ${strMassege}`);
-	}
-}
-
-showVerticalMessage("strada");
+let toDoList = ['Make gymnastics', 'run in the park', 'readFiction', 'Listen to music'];
+toDoList.splice(2, 1, 'Read the literature on programming');
+console.log(toDoList);
