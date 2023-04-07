@@ -46,6 +46,24 @@ const addTaskToDo = (nameTask, status, priority) => {
   }
 };
 
+const editStatusToDo = (nameTask, statusNew, priorityNew) => {
+  const entryTask = entryInToDoList(nameTask);
+  const indexToDo = indexNameToDo(nameTask);
+  if (indexToDo >= 0) {
+    ToDoList[entryTask] = {
+      name: nameTask,
+      status: statusNew,
+      priority: priorityNew,
+    };
+    ToDoList.splice(indexToDo, 1, ToDoList[entryTask]);
+    console.log(
+      `This task:\n\t\'${nameTask}\' \'${statusNew}\' \'${priorityNew}\' edited.`
+    );
+  } else {
+    console.log(`This task \'${nameTask}\' doesn\'t exist. `);
+  }
+};
+
 const showList = () => {
   for (const index of ToDoList) {
     console.log(index);
@@ -53,4 +71,6 @@ const showList = () => {
 };
 
 addTaskToDo("test doing", STATUS.DONE, PRIORITY.HIGH);
+showList();
+editStatusToDo("Swimming", STATUS.TO_DO, PRIORITY.HIGH);
 showList();
