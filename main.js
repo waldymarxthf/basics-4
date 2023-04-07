@@ -1,62 +1,51 @@
-{
-    console.log('This is task #1\n');
+const STATUS = {
+    TO_DO: 'To do',
+    DONE: 'Done',
+    IN_PROGRESS: 'In progress',
+};
 
-    const arrayNumbersOne = [1, 5, 2, 7, 9, 8, 5, 6, 8, 6, 7, 7, 0];
+const PRIORITY = {
+    HIGH: 'High',
+    AVERAGE: 'Average',
+    LOW: 'Low',
+};
 
-    arrayNumbersOne.forEach(element => {
-        console.log(`Number is ${element}`);
-    });
+const toDoList = [
+    { name: 'create a post', status: STATUS.IN_PROGRESS, priority: PRIORITY.LOW },
+    { name: 'test', status: STATUS.DONE, priority: PRIORITY.HIGH },
+];
+
+function showToDoList() {
+    let countToDoElement = false;
+    for (item in STATUS) {
+        console.log(`-------"${STATUS[item]}"--------`);
+        toDoList.forEach(element => {
+            if (element.status === STATUS[item]) {
+                console.log(element.name);
+                countToDoElement = true;
+            }
+        });
+        if (!countToDoElement) {
+            console.log('-');
+
+        }
+        countToDoElement = false;
+        console.log();
+    }
 }
 
-{
-    console.log('\nThis is task #2\n');
+function addTask(name, status, priority) {
 
-    const animals = ['cat', 'dog', 'elephant', 'tiger', 'lion'];
+    const isExists = toDoList.find(isExists => isExists.name === name);
 
-    const animal = animals.find(animal => animal.length > 7);
+    if (isExists === undefined) {
+        toDoList.splice(toDoList.length, 0, { name, status, priority });
 
-    console.log(`Method 1: ${animal}`);
-
-    animals.unshift('dogecoin');
-
-    const animalFirstIndex = animals.findIndex(animal => animal.length > 7);
-
-    console.log(`Method 2: ${animals[animalFirstIndex]} with index ${animalFirstIndex}`);
-
-    animals.push('dogecoin');
-
-    const dogecoinIndex = animals.indexOf('dogecoin'); //0
-    const secondDogecoinIndex = animals.indexOf('dogecoin', dogecoinIndex + 1);
-
-    console.log(`Method 3: ${animals[secondDogecoinIndex]} with index ${secondDogecoinIndex}`);
+    } else {
+        console.log(`This is task is already`);
+    }
 }
 
-{
-    console.log('\nThis is task #3\n');
+addTask('create a posts', STATUS.TO_DO, PRIORITY.AVERAGE);
 
-    const arrayNumbersTwo = [1, 11, -2, 3, -10, 4];
-    const arrayNumbersThree = arrayNumbersTwo.filter(element => element < 0);
-    console.log(arrayNumbersThree);
-}
-
-{
-    console.log('\nThis is task #4\n');
-
-    const arrayNumbersFour = [1, 11, -2, 3, -10, 4];
-    const arrayNumbersFive = arrayNumbersFour.map(element => Math.abs(element));
-    console.log(arrayNumbersFive);
-}
-
-{
-    console.log('\nThis is task #5\n');
-
-    const arrayNumbersSix = [1, 11, -2, 3, -10, 4];
-    let sortedArrayNumbersSix = arrayNumbersSix.sort((firstNumber, secondNumber) => secondNumber - firstNumber);
-    console.log(`Method 1: ${sortedArrayNumbersSix}`);
-
-    sortedArrayNumbersSix = arrayNumbersSix.sort((firstNumber, secondNumber) => firstNumber - secondNumber);
-    sortedArrayNumbersSix.reverse();
-    console.log(`Method 2: ${sortedArrayNumbersSix}`);
-
-    console.log();
-}
+showToDoList();
