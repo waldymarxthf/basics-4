@@ -1,0 +1,72 @@
+const tasks = [
+  { name: "Приготовить завтрак/обед/ужин", status: "done", priority: "high" },
+  {
+    name: "Выполнить уборку в комнате/квартире",
+    status: "done",
+    priority: "high",
+  },
+  {
+    name: "Почитать книгу/посмотреть фильм",
+    status: "done",
+    priority: "medium",
+  },
+  { name: "Погулять на свежем воздухе", status: "done", priority: "medium" },
+  {
+    name: "Выучить несколько новых слов или фраз на английском языке",
+    status: "done",
+    priority: "medium",
+  },
+  {
+    name: "Сделать зарядку или небольшую тренировку",
+    status: "In progress",
+    priority: "low",
+  },
+  {
+    name: "Написать список задач на завтра",
+    status: "waiting",
+    priority: "low",
+  },
+];
+
+const addTask = (name, priority = "low") => {
+  if (!name) {
+    console.error("Некорректный ввод");
+    return;
+  } else if (tasks.find((task) => task.name === name) !== undefined) {
+    console.error(`Задача "${name}" уже существует`);
+    return;
+  } else {
+    tasks.push({ name: name, status: "waiting", priority: priority });
+  }
+};
+
+const deleteTask = (name) => {
+  const index = tasks.findIndex((task) => task.name === name);
+  if (index === -1) {
+    console.error(`Задачи "${name}" не существует`);
+    return;
+  } else {
+    tasks.splice(index, 1);
+    console.log(`Задача "${name}" успешно удалена`);
+  }
+};
+
+const changeStatus = (name, status, priority = "") => {
+  if (tasks.find((task) => task.name === name) === undefined) {
+    console.error(`Задачи "${name}" не существует`);
+    return;
+  }
+};
+
+const showListTasks = () => {
+  tasks.forEach((task) => {
+    console.log(task);
+  });
+};
+
+showListTasks();
+
+deleteTask("Написать список задач на з");
+addTask("Купить продукты для завтрака", "high");
+
+showListTasks();
