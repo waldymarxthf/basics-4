@@ -1,46 +1,20 @@
-const list = {
-	"create a new practice task": "In Progress", 
-	"make a bed": "Done",
-	"write a post": "To Do",
-}
+const number = [0,1,2,3,4,5,6,7,8,9]
+number.forEach(element => {
+  console.log(`Number is ${element}`)
+});
 
-function changeStatus(name, status) {  // меняет статус задачи
-  return list[name] = status
-}
 
-function addTask(name) {              // добавляет новую задачу
-  return list[name] = "To Do"
-}
+const animals = ['cat', 'dog', 'elephant', 'tiger', 'lion']
+const findAnimal = animals.find(str => str.length > 7)
+console.log(findAnimal)
 
-function deleteTask(name) {           // удаляет задачу
-  return delete list[name]
-}; 
 
-function showList() {
-  let toDo = ''
-  let inProg = ''
-  let done = ''
+const num = [1, 11, -2, 3, -10, 4]
+const negativeNum = num.filter(number => number < 0)
+console.log(negativeNum)
 
-    for(const name in list) {
-      switch(list[name]) {
-        case 'To Do':
-                    toDo += name + '\n\t'
-                    break
-        case 'In Progress':
-                    inProg += name + '\n\t'
-                    break
-        case 'Done':
-                    done += name + '\n\t'
-                    break
-                    
-      }
-    }
-console.log(`To Do:\n\t${toDo}\nIn Progress:\n\t${inProg}\nDone:\n\t${done}`)
-}
+const absoluteNum = num.map(number => Math.abs(number))
+console.log(absoluteNum)
 
-changeStatus('create a new practice task', 'Done')
-addTask('learning english')
-addTask('swiming')
-changeStatus('swiming', 'In Progress')
-deleteTask('somthin')
-showList()
+const sortNum = num.sort(number => number)
+console.log(sortNum)
