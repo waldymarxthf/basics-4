@@ -46,6 +46,10 @@ function addTask(name, status, priority) {
     }
 }
 
+function changeTask(method, name, change) {
+    const isExists = toDoList.find(isExists => isExists.name === name);
+}
+
 addTask('create a posts', STATUS.TO_DO, PRIORITY.AVERAGE);
 
 showToDoList();
