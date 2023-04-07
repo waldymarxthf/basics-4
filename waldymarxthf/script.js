@@ -18,14 +18,40 @@ const priorities = {
 const errors = {
 	TASK_NOT_FOUND: 'Задача не найдена 🚫\n',
 	STATUS_ALREADY_IN_USE: 'Новое состояние  уже присвоено для этой задаче ⚠\n',
-	TASK_NOT_EXIST: 'Задача не существует\n'
+	TASK_NOT_EXIST: 'Задача не существует 🚫\n',
+	STATUS_NOT_EXIST: 'Такого статуса не существует ⚠\n'
 }
 
-function changeStatus(task, status) {
-	const findTask = list.find(element => element.name === task)
+function getTaskIndex(task) {
+	const taskIndex = list.findIndex(element => element.name === task)
 
-	for(let newTask in findTask) {
-		findTask[newTask = 'status'] = status
+	if(taskIndex === -1) {
+		return -1
+	}
+	return taskIndex
+}
+
+function isStatusExist(newStatus) {
+	let isExist = false
+	for (const status in statuses) {
+		if (newStatus === statuses[status]) {
+			isExist = true
+			break;
+		}
+	}
+	if (!isExist) {
+		console.log(errors.STATUS_NOT_EXIST)
+	}
+	return newStatus
+}
+
+function changeStatus(task, newStatus) {
+	const taskIndex = getTaskIndex(task)
+
+	if (taskIndex !== -1) {
+		list[taskIndex].status = isStatusExist(newStatus)
+	} else {
+		console.log(errors.TASK_NOT_FOUND)
 	}
 }
 
@@ -35,7 +61,13 @@ function addTask(newTask, priority = priorities.HIGH) {
 }
 
 function deleteTask(task) {
-	list.splice(list.findIndex(element => element.name === task), 1)
+	const taskIndex = getTaskIndex(task)
+
+	if (taskIndex !== -1) {
+		list.splice(taskIndex, 1)
+	} else {
+		console.log(errors.TASK_NOT_EXIST)
+	}
 }
 
 function showList() {
@@ -60,7 +92,7 @@ function showList() {
 	}
 }
 
-changeStatus('create a post', 'To Do')
+changeStatus('create a post', 'Done')
 addTask('переписать туду')
 deleteTask('test')
 showList()
