@@ -17,9 +17,9 @@ const priorities = {
 
 const errors = {
 	TASK_NOT_FOUND: 'Задача не найдена 🚫\n',
-	STATUS_ALREADY_IN_USE: 'Новое состояние  уже присвоено для этой задаче ⚠\n',
 	TASK_NOT_EXIST: 'Задача не существует 🚫\n',
-	STATUS_NOT_EXIST: 'Такого статуса не существует ⚠\n'
+	STATUS_NOT_EXIST: 'Такого статуса не существует ⚠\n',
+	INVALID_PRIORITY: 'Такого приоритета не существует ⚠\n',
 }
 
 function getTaskIndex(task) {
@@ -34,22 +34,62 @@ function getTaskIndex(task) {
 function isStatusExist(newStatus) {
 	let isExist = false
 	for (const status in statuses) {
+
 		if (newStatus === statuses[status]) {
 			isExist = true
-			break;
 		}
+		
 	}
+
 	if (!isExist) {
 		console.log(errors.STATUS_NOT_EXIST)
 	}
+
 	return newStatus
+}
+
+function isPriorityExist(newPriority) {
+	let isExist = false
+	for (const priority in priorities) {
+
+		if (newPriority === priorities[priority]) {
+			isExist = true
+		}
+
+	}
+
+	if (!isExist) {
+		console.log(errors.INVALID_PRIORITY)
+	}
+
+	return newPriority
 }
 
 function changeStatus(task, newStatus) {
 	const taskIndex = getTaskIndex(task)
 
 	if (taskIndex !== -1) {
-		list[taskIndex].status = isStatusExist(newStatus)
+		const validatedStatus = isStatusExist(newStatus)
+
+		if (validatedStatus) {
+			list[taskIndex].status = validatedStatus
+		}
+
+	} else {
+		console.log(errors.TASK_NOT_FOUND)
+	}
+}
+
+function changePriority(task, newPriority) {
+	const taskIndex = getTaskIndex(task)
+
+	if (taskIndex !== -1) {
+		const validatedPriority = isPriorityExist(newPriority) 
+
+		if (validatedPriority) {
+			list[taskIndex].priority = validatedPriority
+		}
+
 	} else {
 		console.log(errors.TASK_NOT_FOUND)
 	}
@@ -93,6 +133,8 @@ function showList() {
 }
 
 changeStatus('create a post', 'Done')
+changePriority('create a post', 'high')
 addTask('переписать туду')
 deleteTask('test')
 showList()
+console.log(list)
