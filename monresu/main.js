@@ -25,8 +25,8 @@ const messages = {
 }
 
 const list = [ 
-	{name: 'create a post', status: 'In progress', priority: 'low'}, 
-  {name: 'test', status: 'Done', priority: 'high'} 
+	{name: 'create a post', status: statuses.IN_PROGRESS, priority: priority.LOW}, 
+  {name: 'test', status: statuses.DONE, priority: priority.HIGH} 
 ];
 
 function isEmpty(task) {
@@ -41,11 +41,11 @@ function indexOfTask(task) {
   return list.findIndex(goal => goal.name === task);
 }
 
-function priorityIsExists(prior) {
+function isPriorityExists(prior) {
   return Object.values(priority).includes(prior);
 }
 
-function statusIsExists(stat) {
+function isStatusExists(stat) {
   return Object.values(statuses).includes(stat);
 }
 
@@ -54,11 +54,11 @@ function addTask(task, stat = statuses.TODO, prior = priority.LOW) {
     console.log(errors.taskIsExists);
     return;
   }
-  if (!priorityIsExists(prior)) {
+  if (!isPriorityExists(prior)) {
     console.log(errors.priorityIsNotExists);
     return;
   }
-  if (!statusIsExists(stat)) {
+  if (!isStatusExists(stat)) {
     console.log(errors.statusIsNotExists);
     return;
   }
@@ -76,7 +76,7 @@ function changeStatus(task, stat) {
     console.log(errors.taskIsNotExists);
     return;
   }
-  if (!statusIsExists(stat)) {
+  if (!isStatusExists(stat)) {
     console.log(errors.statusIsNotExists);
     return;
   }
@@ -91,7 +91,7 @@ function changePriority(task, prior) {
     console.log(errors.taskIsNotExists);
     return;
   }
-  if (!priorityIsExists(prior)) {
+  if (!isPriorityExists(prior)) {
     console.log(errors.priorityIsNotExists);
     return;
   }
@@ -144,7 +144,7 @@ function showList() {
 addTask('Walk', statuses.IN_PROGRESS, priority.HIGH)
 addTask('okau', statuses.TODO, priority.HIGH)
 addTask('lol', statuses.TODO, priority.HIGH)
-addTask('Go', 'To do')
+addTask('Go', statuses.TODO)
 addTask('Eest')
 addTask('KISS', statuses.IN_PROGRESS, priority.HIGH)
 showList();
