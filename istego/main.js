@@ -18,7 +18,7 @@ showToDoList();
 
 // Проверка на валидность строки
 function validationTask(validTask) {
-    //Регулярное выражение для пробелов любого количества в начале и конце строки
+    //Регулярное выражение для проверки любого количества пробелов в строке
     const containsOnlySpaces = /^\s*$/.test(validTask);
 
     if (typeof (validTask) !== 'string' || !validTask || validTask === ' ' || containsOnlySpaces) {
