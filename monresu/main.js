@@ -51,7 +51,7 @@ function statusIsExists(stat) {
 
 function addTask(task, stat = statuses.TODO, prior = priority.LOW) {
   if (taskIsExists(task)) {
-    console.log(errors.isExists);
+    console.log(errors.taskIsExists);
     return;
   }
   if (!priorityIsExists(prior)) {
@@ -123,22 +123,23 @@ function showList() {
 
   for (const stat in statuses) { 
     console.log(`------${stat}------`);
+    let noTasks = true;
     for (const p of priorities) { 
       const taskList = priorityLists[p].filter(task => task.status === statuses[stat]); 
+      if (taskList.length == 0) {
+        continue;
+      }
+      noTasks = false;
       for (const task of taskList) { 
         console.log(`\t${task.name}: ${task.priority} priority`);
       }
+    }
+    if (noTasks) { // Если для данного статуса нет задач, выводим тире
+      console.log('\t-');
     }
   }
 }
 
 
 
-addTask('walk', 'Done', 'low')
-addTask('okay', 'Done', 'high')
-addTask('huy')
-addTask('ok')
-addTask('asad')
-changePriority('asad', 'high')
-changePriority('huy', 'test')
 showList();
