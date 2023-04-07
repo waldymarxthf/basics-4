@@ -8,34 +8,35 @@ const STATUSES = {
 
 const list = [
     {
-        id: Math.random().toString(),
+        id: "id" + Math.random().toString(16).slice(2),
         title: "create a new practice task",
         isPlanned: false,
         isDone: false,
         inProgress: false,
     },
     {
-        id: Math.random().toString(),
+        id: "id" + Math.random().toString(16).slice(2),
         title: "go to the training",
         isPlanned: true,
         isDone: false,
         inProgress: false,
     },
     {
-        id: Math.random().toString(),
+        id: "id" + Math.random().toString(16).slice(2),
         title: "do some exercises",
         isPlanned: true,
         isDone: false,
         inProgress: false,
     },
     {
-        id: Math.random().toString(),
+        id: "id" + Math.random().toString(16).slice(2),
         title: "write a post",
         isPlanned: false,
         isDone: true,
         inProgress: false,
     },
 ]
+console.log(list)
 
 const changeStatusToCompleted = (title) => {
     const completedTaskIndex = list.findIndex(item => item.title === title);
