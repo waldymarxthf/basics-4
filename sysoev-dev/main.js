@@ -165,9 +165,28 @@ function showList(method) {
     console.log(`${TODO_STATUSES.IN_PROGRESS}: ${strInProgress}`);
     console.log(`${TODO_STATUSES.DONE}: ${strDone}`);
   }
+  if (method === 'priority') {
+    const highPriorityArr = list.filter(item => item.priority === TODO_PRIORITIES.HIGH);
+    const lowPriorityArr = list.filter(item => item.priority === TODO_PRIORITIES.LOW);
+    let strHighTasks = '';
+    let strLowTasks = '';
+
+    highPriorityArr.forEach(item => {
+      strHighTasks += '\n   ' + item.name;
+    });
+    lowPriorityArr.forEach(item => {
+      strLowTasks += '\n   ' + item.name;
+    });
+
+    strHighTasks = strHighTasks || '\n   -';
+    strLowTasks = strLowTasks || '\n   -';
+
+    console.log(`${TODO_PRIORITIES.HIGH}: ${strHighTasks}`);
+    console.log(`${TODO_PRIORITIES.LOW}: ${strLowTasks}`);
+  }
 }
 
 addTask('Sleep', TODO_STATUSES.DONE, TODO_PRIORITIES.HIGH);
-deleteTask('testTest');
-deleteTask('Sleep');
-showList('status');
+// deleteTask('testTest');
+// deleteTask('Sleep');
+showList('priority');
