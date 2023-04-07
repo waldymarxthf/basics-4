@@ -33,7 +33,7 @@ function isEmpty(task) {
   return (task == '') || (task == '\n') || (task == '\r') || (task == '\0');
 }
 
-function taskIsExists(task) {
+function isTaskExists(task) {
   return list.map(goal => goal.name).includes(task);
 }
 
@@ -50,7 +50,7 @@ function statusIsExists(stat) {
 }
 
 function addTask(task, stat = statuses.TODO, prior = priority.LOW) {
-  if (taskIsExists(task)) {
+  if (isTaskExists(task)) {
     console.log(errors.taskIsExists);
     return;
   }
@@ -72,7 +72,7 @@ function addTask(task, stat = statuses.TODO, prior = priority.LOW) {
 }
 
 function changeStatus(task, stat) {
-  if (!taskIsExists(task)) {
+  if (!isTaskExists(task)) {
     console.log(errors.taskIsNotExists);
     return;
   }
@@ -87,7 +87,7 @@ function changeStatus(task, stat) {
 }
 
 function changePriority(task, prior) {
-  if (!taskIsExists(task)) {
+  if (!isTaskExists(task)) {
     console.log(errors.taskIsNotExists);
     return;
   }
@@ -102,7 +102,7 @@ function changePriority(task, prior) {
 }
 
 function deleteTask(task) {
-  if (!taskIsExists(task)) {
+  if (!isTaskExists(task)) {
     console.log(errors.taskIsNotExists);
     return;
   }
@@ -141,5 +141,10 @@ function showList() {
 }
 
 
-
+addTask('Walk', statuses.IN_PROGRESS, priority.HIGH)
+addTask('okau', statuses.TODO, priority.HIGH)
+addTask('lol', statuses.TODO, priority.HIGH)
+addTask('Go', 'To do')
+addTask('Eest')
+addTask('KISS', statuses.IN_PROGRESS, priority.HIGH)
 showList();
