@@ -64,6 +64,16 @@ const editStatusToDo = (nameTask, statusNew, priorityNew) => {
   }
 };
 
+const deleteTaskToDo = (nameTask) => {
+  const indexToDo = indexNameToDo(nameTask);
+  const entryTask = entryInToDoList(nameTask);
+  if (indexToDo >= 0 && entryTask) {
+    console.log(`This task:\n\t\'${nameTask}\' deleted.`);
+    ToDoList.splice(indexToDo, 1);
+  } else {
+    console.log(`This task \'${nameTask}\' doesn\'t exist.\n `);
+  }
+};
 const showList = () => {
   for (const index of ToDoList) {
     console.log(index);
@@ -73,4 +83,6 @@ const showList = () => {
 addTaskToDo("test doing", STATUS.DONE, PRIORITY.HIGH);
 showList();
 editStatusToDo("Swimming", STATUS.TO_DO, PRIORITY.HIGH);
+showList();
+deleteTaskToDo("test doing");
 showList();
