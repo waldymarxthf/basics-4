@@ -74,15 +74,33 @@ const deleteTaskToDo = (nameTask) => {
     console.log(`This task \'${nameTask}\' doesn\'t exist.\n `);
   }
 };
-const showList = () => {
-  for (const index of ToDoList) {
-    console.log(index);
+
+const showTodoList = () => {
+  for (const nameStatus in STATUS) {
+    let noneTask = true;
+
+    console.log(`\n${STATUS[nameStatus]}`);
+
+    const filteredStatus = ToDoList.filter(
+      (task) => task.status === STATUS[nameStatus]
+    );
+
+    filteredStatus.forEach((task) => {
+      if (task) {
+        console.log(`\t${task.name}: ${task.priority} priority;`);
+        noneTask = false;
+      }
+    });
+
+    if (noneTask) {
+      console.log(`\t -`);
+    }
   }
 };
 
 addTaskToDo("test doing", STATUS.DONE, PRIORITY.HIGH);
-showList();
+showTodoList();
 editStatusToDo("Swimming", STATUS.TO_DO, PRIORITY.HIGH);
-showList();
+showTodoList();
 deleteTaskToDo("test doing");
-showList();
+showTodoList();
