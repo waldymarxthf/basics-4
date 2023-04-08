@@ -16,9 +16,9 @@ const PRIORITIES = {
 }
 
 const ERRORS = {
-	TASK_NOT_EXIST: `Задача не существует 🚫\n`,
-	STATUS_NOT_EXIST: 'Такого статуса не существует ⚠\n',
-	INVALID_PRIORITY: 'Такого приоритета не существует ⚠\n',
+	TASK_NOT_EXIST: `❌ ERROR: Task not found!\n`,
+	STATUS_NOT_EXIST: '❌ ERROR: Invalid status!\n',
+	INVALID_PRIORITY: '❌ ERROR: Invalid priority!\n',
 }
 
 const DEFAULT = {
@@ -31,8 +31,7 @@ function _isExist(value, obj) {
 }
 
 function isStringEmpty(str) {
-	const emptyString = /^\s*$/
-	return emptyString.test(str)
+	return /^\s*$/.test(str);
 }
 
 function getTaskIndex(task) {
@@ -40,34 +39,20 @@ function getTaskIndex(task) {
 }
 
 function isStatusExist(newStatus) {
-	let isExist = false
-	for (const status in STATUSES) {
 
-		if (newStatus === STATUSES[status]) {
-			isExist = true
-		}
-		
-	}
-
-	if (!isExist) {
+	if(!_isExist(newStatus, STATUSES)) {
 		console.log(ERRORS.STATUS_NOT_EXIST)
+		return null
 	}
 
 	return newStatus
 }
 
 function isPriorityExist(newPriority) {
-	let isExist = false
-	for (const priority in PRIORITIES) {
 
-		if (newPriority === PRIORITIES[priority]) {
-			isExist = true
-		}
-
-	}
-
-	if (!isExist) {
+	if (!_isExist(newPriority, PRIORITIES)) {
 		console.log(ERRORS.INVALID_PRIORITY)
+		return null
 	}
 
 	return newPriority
@@ -78,7 +63,7 @@ function changeStatus(task, newStatus) {
 
 	if (taskIndex !== -1) {
 		if (_isExist(newStatus, STATUSES)) {
-			list[taskIndex].status = newStatus
+			list[taskIndex].status = isStatusExist(newStatus)
 		} else {
 			console.log(ERRORS.STATUS_NOT_EXIST)
 		}
@@ -92,7 +77,7 @@ function changePriority(task, newPriority) {
 
 	if (taskIndex !== -1) {
 		if(_isExist(newPriority, PRIORITIES)) {
-			list[taskIndex].priority = newPriority
+			list[taskIndex].priority = isPriorityExist(newPriority)
 		} else {
 			console.log(ERRORS.INVALID_PRIORITY)
 		}
@@ -144,7 +129,6 @@ function deleteTask(task) {
 }
 
 function showList() {
-
 	for (const status in STATUSES) {
 		const filterList = list.filter(element => element.status === STATUSES[status])
 
@@ -152,16 +136,17 @@ function showList() {
 			console.log(`${STATUSES[status]}:\n\t-`)
 		} else {
 			console.log(`${STATUSES[status]}:`)
-			const task = filterList.map(element => `\t${element.name}: ${element.priority} priority`)
-			console.log(task.join('\n'))
+			const tasks = filterList.map(element => `\t${element.name}: ${element.priority} priority`)
+
+			console.log(tasks.join('\n'))
 		}
 	}
-
 }
+
 
 changeStatus('create a post', 'Done')
 addTask('hello')
-// changePriority('переписать туду', 'low')
+changePriority('hello', 'low')
 addTask('play')
 changeStatus('play', 'Done')
 deleteTask('play')
