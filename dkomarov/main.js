@@ -13,18 +13,20 @@ const todoList = [
 ]; 
 
 function addTask(task) {
-    todoList.push({name: task, status: STATUS.INPROGRESS});
-    
+    for (let elem of todoList) {
+        const indexElem = elem;
+        if (task === indexElem.name) {
+        return console.log(`task ${task} in list`)
+        };
+    };
+
+    todoList.push({name: task, status: STATUS.INPROGRESS}); 
     
 };
 
 function deleteTask(task) {
     const taskName = todoList.findIndex(tasks => tasks.name === task);
     todoList.splice(taskName, 1);
-
-    
-    
-
 };
 
 function changeStatus(task, newStatus) {
@@ -63,6 +65,8 @@ function showList() {
 };
 
 addTask('qwerty');
+addTask('qwerty');
+addTask('reading');
 addTask('reading');
 addTask('testTEST');
 deleteTask('abrakadabra');
