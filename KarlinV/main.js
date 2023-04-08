@@ -14,7 +14,7 @@ const tasks = [
   {
     name: "Приготовить завтрак/обед/ужин",
     status: STATUS.DONE,
-    priority: PRIORITY.HIGH,
+    priority: PRIORITY.LOW,
   },
   {
     name: "Выполнить уборку в комнате/квартире",
@@ -44,7 +44,7 @@ const tasks = [
   {
     name: "Написать список задач на завтра",
     status: STATUS.WAITING,
-    priority: PRIORITY.LOW,
+    priority: PRIORITY.HIGH,
   },
 ];
 
@@ -113,9 +113,19 @@ const changePriority = (name, priority) => {
   }
 };
 
+const filtering = (arr, value = "") => {
+  if (!value.trim) return arr;
+
+  const newArr = [...arr];
+  return newArr.filter((item) => item.status === value);
+};
+
 const showListTasks = () => {
-  tasks.forEach((task) => {
-    console.log(task);
+  Object.values(STATUS).forEach((value) => {
+    console.log(value);
+    filtering(tasks, value).forEach((task) => {
+      console.log(`\t ${task.name}`);
+    });
   });
 };
 
