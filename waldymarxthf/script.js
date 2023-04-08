@@ -30,13 +30,19 @@ function _isExist(value, obj) {
 	return Object.values(obj).includes(value)
 }
 
+//* Вспомогательная функция для проверки наличия значения в объекте.
+
 function isStringEmpty(str) {
 	return /^\s*$/.test(str);
 }
 
+//* Вспомогательная функция для проверки пустой строки.
+
 function getTaskIndex(task) {
 	return list.findIndex(element => element.name === task)
 }
+
+//* Вспомогательная функция для получения индекса задачи в массиве.
 
 function isStatusExist(newStatus) {
 
@@ -48,6 +54,9 @@ function isStatusExist(newStatus) {
 	return newStatus
 }
 
+//* Проверяет, существует ли заданный статус и возвращает его.
+//* Если статус не существует, выводится сообщение об ошибке и возвращается null.
+
 function isPriorityExist(newPriority) {
 
 	if (!_isExist(newPriority, PRIORITIES)) {
@@ -57,6 +66,9 @@ function isPriorityExist(newPriority) {
 
 	return newPriority
 }
+
+//* Проверяет, существует ли заданный приоритет и возвращает его. 
+//* Если приоритет не существует, выводится сообщение об ошибке и возвращается null.
 
 function changeStatus(task, newStatus) {
 	const taskIndex = getTaskIndex(task)
@@ -72,6 +84,10 @@ function changeStatus(task, newStatus) {
 	}
 }
 
+//* Функция, которая изменяет статус задачи с указанным именем на переданный новый статус. 
+//* Она использует вспомогательную функцию isStatusExist, чтобы проверить, существует ли 
+//* переданный статус, и выводит сообщение об ошибке, если статус не существует.
+
 function changePriority(task, newPriority) {
 	const taskIndex = getTaskIndex(task)
 
@@ -85,6 +101,10 @@ function changePriority(task, newPriority) {
 		console.log(ERRORS.TASK_NOT_EXIST)
 	}
 }
+
+//* Функция, которая изменяет приоритет задачи с указанным именем на переданный новый приоритет. 
+//* Она использует вспомогательную функцию isPriorityExist, чтобы проверить, существует ли 
+//* переданный приоритет, и выводит сообщение об ошибке, если приоритет не существует.
 
 function addTask(name, status = DEFAULT.DEFAULT_STATUS, priority = DEFAULT.DEFAULT_PROIRITY) {
 
@@ -117,6 +137,9 @@ function addTask(name, status = DEFAULT.DEFAULT_STATUS, priority = DEFAULT.DEFAU
 	list.push(task)
 }
 
+//* Добавляет новую задачу в массив list с переданным именем, статусом и приоритетом. 
+//* Если какой-либо из переданных параметров отсутствует или недействителен, выводится сообщение об ошибке.
+
 
 function deleteTask(task) {
 	const taskIndex = getTaskIndex(task)
@@ -127,6 +150,9 @@ function deleteTask(task) {
 		console.log(ERRORS.TASK_NOT_EXIST)
 	}
 }
+
+//* Удаляет задачу с переданным именем из массива list. 
+//* Если задача с переданным именем не найдена, выводится сообщение об ошибке.
 
 function showList() {
 	for (const status in STATUSES) {
@@ -142,6 +168,8 @@ function showList() {
 		}
 	}
 }
+
+//* Выводит список всех задач с их приоритетами, разбитый по статусам.
 
 
 changeStatus('create a post', 'Done')
