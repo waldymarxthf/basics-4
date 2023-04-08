@@ -3,46 +3,54 @@ const list = [
   {name: 'test', status: 'Done', priority: 'high'} 
 ];
 
-const statuses = {
+const STATUSES = {
 	TODO: 'To Do',
-	IN_PROGRESS: "In Progress",
+	IN_PROGRESS: "In progress",
 	DONE: 'Done'
 }
 
-const priorities = {
+const PRIORITIES = {
 	HIGH: 'high',
 	MEDIUM: 'medium',
 	LOW: 'low'
 }
 
-const errors = {
-	TASK_NOT_FOUND: 'Задача не найдена 🚫\n',
-	TASK_NOT_EXIST: 'Задача не существует 🚫\n',
+const ERRORS = {
+	TASK_NOT_EXIST: `Задача не существует 🚫\n`,
 	STATUS_NOT_EXIST: 'Такого статуса не существует ⚠\n',
 	INVALID_PRIORITY: 'Такого приоритета не существует ⚠\n',
 }
 
-function getTaskIndex(task) {
-	const taskIndex = list.findIndex(element => element.name === task)
+const DEFAULT = {
+	DEFAULT_PROIRITY: PRIORITIES.HIGH,
+	DEFAULT_STATUS: STATUSES.TODO
+}
 
-	if(taskIndex === -1) {
-		return -1
-	}
-	return taskIndex
+function _isExist(value, obj) {
+	return Object.values(obj).includes(value)
+}
+
+function isStringEmpty(str) {
+	const emptyString = /^\s*$/
+	return emptyString.test(str)
+}
+
+function getTaskIndex(task) {
+	return list.findIndex(element => element.name === task)
 }
 
 function isStatusExist(newStatus) {
 	let isExist = false
-	for (const status in statuses) {
+	for (const status in STATUSES) {
 
-		if (newStatus === statuses[status]) {
+		if (newStatus === STATUSES[status]) {
 			isExist = true
 		}
 		
 	}
 
 	if (!isExist) {
-		console.log(errors.STATUS_NOT_EXIST)
+		console.log(ERRORS.STATUS_NOT_EXIST)
 	}
 
 	return newStatus
@@ -50,16 +58,16 @@ function isStatusExist(newStatus) {
 
 function isPriorityExist(newPriority) {
 	let isExist = false
-	for (const priority in priorities) {
+	for (const priority in PRIORITIES) {
 
-		if (newPriority === priorities[priority]) {
+		if (newPriority === PRIORITIES[priority]) {
 			isExist = true
 		}
 
 	}
 
 	if (!isExist) {
-		console.log(errors.INVALID_PRIORITY)
+		console.log(ERRORS.INVALID_PRIORITY)
 	}
 
 	return newPriority
@@ -69,14 +77,13 @@ function changeStatus(task, newStatus) {
 	const taskIndex = getTaskIndex(task)
 
 	if (taskIndex !== -1) {
-		const validatedStatus = isStatusExist(newStatus)
-
-		if (validatedStatus) {
-			list[taskIndex].status = validatedStatus
+		if (_isExist(newStatus, STATUSES)) {
+			list[taskIndex].status = newStatus
+		} else {
+			console.log(ERRORS.STATUS_NOT_EXIST)
 		}
-
 	} else {
-		console.log(errors.TASK_NOT_FOUND)
+		console.log(ERRORS.TASK_NOT_EXIST)
 	}
 }
 
@@ -84,21 +91,47 @@ function changePriority(task, newPriority) {
 	const taskIndex = getTaskIndex(task)
 
 	if (taskIndex !== -1) {
-		const validatedPriority = isPriorityExist(newPriority) 
-
-		if (validatedPriority) {
-			list[taskIndex].priority = validatedPriority
+		if(_isExist(newPriority, PRIORITIES)) {
+			list[taskIndex].priority = newPriority
+		} else {
+			console.log(ERRORS.INVALID_PRIORITY)
 		}
-
 	} else {
-		console.log(errors.TASK_NOT_FOUND)
+		console.log(ERRORS.TASK_NOT_EXIST)
 	}
 }
 
-function addTask(newTask, priority = priorities.HIGH) {
-	const newObjTask = {name: newTask, status: statuses.TODO , priority: priority}
-	list.push(newObjTask)
+function addTask(name, status = DEFAULT.DEFAULT_STATUS, priority = DEFAULT.DEFAULT_PROIRITY) {
+
+	if (isStringEmpty(name)) {
+		console.log('The task name is empty.')
+		return;
+	}
+
+	if (isStringEmpty(status)) {
+		console.log('The task status is empty.')
+		return;
+	}
+
+	if (isStringEmpty(priority)) {
+		console.log('The task priority is empty.')
+		return;
+	}
+
+	if (!_isExist(status, STATUSES)) {
+		console.log(ERRORS.STATUS_NOT_EXIST)
+		return;
+	}
+
+	if (!_isExist(priority, PRIORITIES)) {
+		console.log(ERRORS.INVALID_PRIORITY)
+		return;
+	}
+
+	const task = {name, status, priority}
+	list.push(task)
 }
+
 
 function deleteTask(task) {
 	const taskIndex = getTaskIndex(task)
@@ -106,35 +139,30 @@ function deleteTask(task) {
 	if (taskIndex !== -1) {
 		list.splice(taskIndex, 1)
 	} else {
-		console.log(errors.TASK_NOT_EXIST)
+		console.log(ERRORS.TASK_NOT_EXIST)
 	}
 }
 
 function showList() {
 
-	for (const status in statuses) {
-		let hasStatus = false
+	for (const status in STATUSES) {
+		const filterList = list.filter(element => element.status === STATUSES[status])
 
-		console.log(`${statuses[status]}`)
-		const filterList = list.filter(element => element.status === statuses[status])
-
-		filterList.forEach(element => {
-			if(element) {
-				console.log(`\t${element.name}: ${element.priority} priority`)
-				hasStatus = true
-			}
-		})
-
-		if(!hasStatus) {
-			console.log(`\t-`)
+		if (filterList.length === 0) {
+			console.log(`${STATUSES[status]}:\n\t-`)
+		} else {
+			console.log(`${STATUSES[status]}:`)
+			const task = filterList.map(element => `\t${element.name}: ${element.priority} priority`)
+			console.log(task.join('\n'))
 		}
-
 	}
+
 }
 
 changeStatus('create a post', 'Done')
-changePriority('create a post', 'high')
-addTask('переписать туду')
-deleteTask('test')
+addTask('hello')
+// changePriority('переписать туду', 'low')
+addTask('play')
+changeStatus('play', 'Done')
+deleteTask('play')
 showList()
-console.log(list)
