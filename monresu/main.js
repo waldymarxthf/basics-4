@@ -29,9 +29,7 @@ const list = [
   {name: 'test', status: statuses.DONE, priority: priority.HIGH} 
 ];
 
-function isEmpty(task) {
-  return (task == '') || (task == '\n') || (task == '\r') || (task == '\0');
-}
+const isEmpty = (task) => { return !task.trim(); };
 
 function isTaskExists(task) {
   return list.map(goal => goal.name).includes(task);
