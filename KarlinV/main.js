@@ -114,7 +114,7 @@ const changePriority = (name, priority) => {
 };
 
 const filtering = (arr, value = "") => {
-  if (!value.trim) return arr;
+  if (!value.trim()) return arr;
 
   const newArr = [...arr];
   return newArr.filter((item) => item.status === value);
