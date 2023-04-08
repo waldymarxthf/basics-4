@@ -16,21 +16,19 @@ const toDoList = [
 ];
 
 function showToDoList() {
-    let countToDoElement = false;
-    for (item in STATUS) {
-        console.log(`-------"${STATUS[item]}"--------`);
+
+    for (const item in STATUS) {
+        let countToDoElement = false;
+        console.log(`${STATUS[item]}:`);
         toDoList.forEach(element => {
             if (element.status === STATUS[item]) {
-                console.log(element.name);
+                console.log(`\t"${element.name}" with priority ${element.priority}`);
                 countToDoElement = true;
             }
         });
         if (!countToDoElement) {
             console.log('-');
-
         }
-        countToDoElement = false;
-        console.log();
     }
 }
 
@@ -46,10 +44,48 @@ function addTask(name, status, priority) {
     }
 }
 
-function changeTask(method, name, change) {
+function changeTaskPriority(name, priority) {
     const isExists = toDoList.find(isExists => isExists.name === name);
+
+    if (isExists !== undefined) {
+
+        isExists.status = priority;
+
+    } else {
+        console.log(`This is task is undefined`);
+    }
 }
 
-addTask('create a posts', STATUS.TO_DO, PRIORITY.AVERAGE);
+function changeTaskStatus(name, status) {
+    const isExists = toDoList.find(isExists => isExists.name === name);
+
+    if (isExists !== undefined) {
+
+        isExists.status = status;
+
+    } else {
+        console.log(`This is task is undefined`);
+    }
+}
+
+function deleteTask(name) {
+    const isExists = toDoList.findIndex(isExists => isExists.name === name);
+    console.log(isExists);
+    if (isExists !== undefined) {
+        toDoList.splice(isExists, 1)
+    } else {
+        console.log(`This is task is't exists`);
+    }
+}
+
+addTask('test', STATUS.TO_DO, PRIORITY.AVERAGE);
+addTask('test_1', STATUS.TO_DO, PRIORITY.HIGH);
+addTask('test_2', STATUS.DONE, PRIORITY.LOW);
+addTask('test_3', STATUS.TO_DO, PRIORITY.AVERAGE);
+
+changeTaskStatus('test', STATUS.IN_PROGRESS);
+
+deleteTask('test_2');
+
 
 showToDoList();
