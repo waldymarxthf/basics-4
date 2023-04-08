@@ -1,68 +1,67 @@
 const todotask = "To Do";
 const donetask = "Done";
 const inprogress = "In progress";
+const lowS = "low";
+const highS = "high";
 
-const todoList = {
-  list: {
-    "go to the gym": donetask,
-    "Learn English": todotask,
-    "Home work": inprogress
-  },
-};
+const list = [
+  { name: "go to the gym", status: donetask, priority: lowS },
+  { name: "Learn English", status: todotask, priority: highS },
+  { name: "Home work", status: inprogress, priority: lowS },
+];
 
-function changeStatus(name, status) {
-  if (status === todotask || status === donetask || status === inprogress) {
-    if (name in todoList.list) {
-      todoList.list[name] = status;
+function changeStatus(newname, newstatus) {
+  if (
+    newstatus === todotask ||
+    newstatus === donetask ||
+    newstatus === inprogress
+  ) {
+    let found = list.find((e) => e.name === newname);
+    let foundIndex = list.findIndex((e) => e.name === newname);
+    let oldPriority = list[foundIndex].priority;
+    if (found) {
+      list[foundIndex] = {name: newname, status: newstatus, priority: oldPriority};
     } else {
-      console.log('Такой задачи нет в списке!');
-    };
+      console.log("Такой задачи нет в списке!");
+    }
   } else {
-    console.log('Введите корректный статус!');
-  };
-};
-function addTask(name) {
-  if (name in todoList.list) {
-    console.log('Эта задача уже есть в списке!');
-  } else {
-    todoList.list[name] = todotask;
-  };
-};
+    console.log("Введите корректный статус!");
+  }
+}
 
-function deleteTask(name) {
-  if (name in todoList.list) {
-    delete todoList.list[name];
+function addTask(newname, newstatus, newpriority) {
+  let found = list.find((e) => e.name === newname);
+  if (found && ( newstatus === todotask ||
+    newstatus === donetask ||
+    newstatus === inprogress) ) {
+    console.log("Эта задача уже есть в списке!");
   } else {
-    console.log('Такой задачи нет в списке!');
-  };
-};
+    if (newpriority === lowS || newpriority === highS) {
+        list.push({name: newname, status: newstatus, priority: newpriority});
+    } else {
+        console.log("Некорректная приоритетность");
+    };
+  }
+}
+
+function deleteTask(newname) {
+    let found = list.find((e) => e.name === newname);
+    let foundIndex = list.findIndex((e) => e.name === newname);
+    if (found) {
+        list.splice(foundIndex, 1);
+    } else {
+        console.log("Такой задачи нет в списке!");
+    }
+}
 function showList() {
-  let strToDo = '';
-  let strInProgress = '';
-  let strDone = '';
-
-  for (const name in todoList.list) {
-    if (todoList.list[name] === todotask) {
-      strToDo +=name + ':' + todoList.list[name] + '\n';
-    } else if (todoList.list[name] === donetask) {
-      strDone += name + ':' + todoList.list[name] + '\n';
-    } else {
-      strInProgress +=name + ':' + todoList.list[name] + '\n';
-    };
-  };
-  strToDo !== '' ? console.log(strToDo): console.log('Nothing is To Do');
-  strDone !== '' ? console.log(strDone): console.log('Nothing is Done');
-  strInProgress !== '' ? console.log(strInProgress): console.log('Nothing in progress');;
-};
-
+    console.log(list);
+}
 
 
 deleteTask("Learn English");
-addTask("Walk white my frends");
-addTask("Walk white my frends");
-changeStatus("Walk white my frends", donetask);
-changeStatus("Home work", todotask);
-changeStatus("Home work", "Hello");
+addTask("Watch blue lock", "Done", "low");
+changeStatus("Watch blue lock", inprogress);
 changeStatus("Home work", donetask);
-addTask("Cinema time");
 showList();
+deleteTask("cecla,cel");
+
