@@ -113,18 +113,40 @@ const changePriority = (name, priority) => {
   }
 };
 
-const filtering = (arr, value = "") => {
-  if (!value.trim()) return arr;
-
+const filteringTask = (arr, options) => {
   const newArr = [...arr];
-  return newArr.filter((item) => item.status === value);
+  const filteredArr = newArr.filter((item) => item.status === options.value);
+  return sortingByPriority(filteredArr, options.reverse);
 };
 
-const showListTasks = () => {
+const sortingByPriority = (arr, reverse = false) => {
+  const newArr = [...arr];
+  const sortedArr = newArr.sort((a, b) => {
+    if (a.priority === b.priority) {
+      return 0;
+    } else if (a.priority === PRIORITY.HIGH) {
+      return reverse ? 1 : -1;
+    } else if (a.priority === PRIORITY.MEDIUM) {
+      if (b.priority === PRIORITY.HIGH) {
+        return reverse ? -1 : 1;
+      } else if (b.priority === PRIORITY.LOW) {
+        return reverse ? 1 : -1;
+      } else {
+        return -1;
+      }
+    } else {
+      return reverse ? -1 : 1;
+    }
+  });
+
+  return sortedArr;
+};
+
+const showListTasks = (reverse = false) => {
   Object.values(STATUS).forEach((value) => {
     console.log(value);
-    filtering(tasks, value).forEach((task) => {
-      console.log(`\t ${task.name}`);
+    filteringTask(tasks, { value: value, reverse: reverse }).forEach((task) => {
+      console.log(`\t ${task.name} \t ${task.priority}`);
     });
   });
 };
@@ -134,4 +156,7 @@ addTask("Купить продукты для завтрака", "high");
 addTask("Купить продукты для завтрака");
 changePriority("Купить продукты для завтрака", "low");
 
-showListTasks();
+// Если в функцию showListTasks() передать параметр true
+// список будет отсортирован от не срочного к срочному
+// по умолчанию сортируется от срочного к не срочному
+showListTasks(true);
