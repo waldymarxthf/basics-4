@@ -1,21 +1,21 @@
-const tasks = []
-const taskAtr = {
-  status: {
+const TASKS = []
+const ATRIBUTES = {
+  STATUS: {
     TODO: 'To Do',
     INPROGRESS: 'In Progress',
     DONE: 'Done',
   },
-  priority: {
+  PRIORITY: {
     LOW: 'low',
     MEDIUM: 'medium',
     HIGH: 'high',
   },
 
   checkStatus(status) {
-    return Object.values(this.status).includes(status)
+    return Object.values(this.STATUS).includes(status)
   },
   checkPriority(priority) {
-    return Object.values(this.priority).includes(priority)
+    return Object.values(this.PRIORITY).includes(priority)
   },
 }
 
@@ -33,8 +33,8 @@ const MESSAGES = {
 }
 
 function isTaskExist(name) {
-  if (tasks.length > 0) {
-    if (tasks.find((task) => task.name === name)) {
+  if (TASKS.length > 0) {
+    if (TASKS.find((task) => task.name === name)) {
       return true
     } else {
       return false
@@ -44,8 +44,8 @@ function isTaskExist(name) {
 
 function isCorrectTaskAtr(attribute) {
   if (
-    (attribute && taskAtr.checkStatus(attribute)) ||
-    taskAtr.checkPriority(attribute)
+    (attribute && ATRIBUTES.checkStatus(attribute)) ||
+    ATRIBUTES.checkPriority(attribute)
   ) {
     return true
   } else {
@@ -54,7 +54,7 @@ function isCorrectTaskAtr(attribute) {
 }
 
 function listCreation(status) {
-  const oneTypeStatus = tasks.filter((task) => {
+  const oneTypeStatus = TASKS.filter((task) => {
     return task.status === status
   })
   console.log(status + ':')
@@ -81,7 +81,7 @@ function addTask(name, status = 'To Do', priority = 'low') {
     return
   }
   console.log(MESSAGES.SUCCESS.ADDEDTASK)
-  tasks.push({ name, status, priority })
+  TASKS.push({ name, status, priority })
 }
 
 function delTask(name) {
@@ -89,10 +89,10 @@ function delTask(name) {
     console.log(MESSAGES.ERROR.TASKNOTFOUND)
     return
   }
-  tasks.forEach((el, index) => {
+  TASKS.forEach((el, index) => {
     if (el.name === name) {
       console.log(MESSAGES.SUCCESS.DELETEDTASK)
-      tasks.splice(index, 1)
+      TASKS.splice(index, 1)
     }
   })
 }
@@ -106,7 +106,7 @@ function chageStatus(name, status) {
     console.log(MESSAGES.ERROR.STATUSINCORRECT)
     return
   }
-  tasks.forEach((el) => {
+  TASKS.forEach((el) => {
     if (el.name === name) {
       el.status = status
     }
@@ -122,7 +122,7 @@ function changePriority(name, priority) {
     console.log(MESSAGES.ERROR.PRIORITYINCORRECT)
     return
   }
-  tasks.forEach((el) => {
+  TASKS.forEach((el) => {
     if (el.name === name) {
       el.priority = priority
     }
@@ -139,9 +139,9 @@ addTask('сон')
 
 addTask('дартс')
 addTask('сноуборд')
-// console.log(tasks)
+// console.log(TASKS)
 
-addTask('горы', 'In Progress', 'medium')
+addTask('горы', 'In Progress1', 'medium')
 addTask('доктор', 'In Progress', 'medium')
 addTask('купить воду', 'In Progress', 'medium')
 addTask('сайт для компании', 'Done', 'medium')
