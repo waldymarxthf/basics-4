@@ -16,37 +16,73 @@ const taskStatus = {
 
 const taskPriority = {
   high: 'Высокий',
-  medium: 'Средний',
   low: 'Низкий',
 }
 
 const errorMessage = {
-
-};
+  taskName: `${colorText.red}Некорректный формат задачи или задача не указана!${colorText.closed}`,
+  status: `${colorText.red}Некорректный формат статуса или статус не указан!${colorText.closed}`,
+  priority: `${colorText.red}Некорректный формат приоритета или приоритет не указан!${colorText.closed}`,
+  error: `${colorText.red}Что-то пошло не так!${colorText.closed}`
+}
 
 const toDoList = [
-  {name: 'Сходить в зал', status: taskStatus.done, priority: taskPriority.medium}, 
+  {name: 'Сходить в зал', status: taskStatus.done, priority: taskPriority.high}, 
   {name: 'Strada', status: taskStatus.inProgress, priority: taskPriority.high},
 ];
 
-function changeStatus(taskName, status, priority) {
+function taskNameValid(value) {
+  if (typeof value !== 'string' || value === null) {
+    console.log (errorMessage.taskName);
+    return true;
+  }
+  return false;
+}
+
+function statusValid(value) {
+  if (typeof value !== 'string' || value === null) {
+    console.log(errorMessage.status);
+    return true;
+  }
+  return false;
+}
+
+function priorityValid(value) {
+  if (typeof value !== 'string' || value === null) {
+    console.log(errorMessage.priority);
+    return true;
+  }
+  return false;
+}
+
+function changeStatus(taskName = null, status = null, priority = null) {
   if (typeof taskName === 'string' && typeof status === 'string' && typeof priority === 'string') {
     let searchObj = toDoList.find(task => task.name === taskName);
     searchObj.status = status;
     searchObj.priority = priority;
     
     console.log(`\nЗадача ${colorText.green}"${taskName}"${colorText.closed} успешно изменена!`);
-    console.log(`\tСтатус задачи: ${colorText.green}${status}${colorText.closed}\n \tПриоритет задачи: ${colorText.green}${priority}${colorText.closed} }`);
+    console.log(`\tСтатус задачи: ${colorText.green}${status}${colorText.closed}`);
+    console.log(`\tПриоритет задачи: ${colorText.green}${priority}${colorText.closed}`);
   }
+
+  taskNameValid(taskName);
+  statusValid(status);
+  priorityValid(priority);
 }
 
-function addTask(taskName, status = 'Не задано', priority = 'Не задано') {
+function addTask(taskName, status = taskStatus.todo, priority = taskPriority.high) {
   if (typeof taskName === 'string' && typeof status === 'string' && typeof priority === 'string') {
     toDoList.push({name: taskName, status: status, priority: priority,});
     
-    console.log(`Задача "${taskName}" успешно добавлена в список! {`);
-    console.log(`\tСтатус задачи: ${status}\n \tПриоритет задачи: ${priority} }`);
+    console.log(`\nЗадача ${colorText.green}"${taskName}"${colorText.closed} успешно добавлена!`);
+    console.log(`\tСтатус задачи: ${colorText.green}${status}${colorText.closed}`);
+    console.log(`\tПриоритет задачи: ${colorText.green}${priority}${colorText.closed}`);
   }
+
+  taskNameValid(taskName);
+  statusValid(status);
+  priorityValid(priority);
 }
 
 function deleteTask(taskName) {
@@ -54,20 +90,26 @@ function deleteTask(taskName) {
     let index = toDoList.findIndex(task => task.name === taskName);
     toDoList.splice(index, 1);
 
-    console.log(`Задача "${taskName}" успешно удалена!`)
+    console.log(`Задача ${colorText.green}"${taskName}"${colorText.closed} успешно удалена!`);
   }
+  taskNameValid(taskName);
 }
 
-function showList(list) {
-  console.log('Список задач:');
+function showList(list = null) {
+  if (list === null) {
+    console.log(`${colorText.yellow}Пожалуйста, укажите список задач, который вы хотите просмотреть!${colorText.closed}`)
+  } else {
+    console.log('Список задач:');
   console.log('-------------------------');
-  list.forEach((task, he) => {
-    console.log(`[${he}] ${task.name} - ${task.status}, ${task.priority}`);
+  list.forEach((task, index) => {
+    console.log(`[${index}] ${task.name} - ${task.status}, ${task.priority}`);
   });
   console.log('-------------------------');
+  }
+  
 }
 
-showList(toDoList);
+showList(toDoList)
 
 
 // console.log(toDoList);
