@@ -32,13 +32,13 @@ function _isExist(value, obj) {
 
 //* Вспомогательная функция для проверки наличия значения в объекте.
 
-function isStringEmpty(str) {
+function _isStringEmpty(str) {
 	return /^\s*$/.test(str);
 }
 
 //* Вспомогательная функция для проверки пустой строки.
 
-function getTaskIndex(task) {
+function _getTaskIndex(task) {
 	return list.findIndex(element => element.name === task)
 }
 
@@ -71,7 +71,7 @@ function isPriorityExist(newPriority) {
 //* Если приоритет не существует, выводится сообщение об ошибке и возвращается null.
 
 function changeStatus(task, newStatus) {
-	const taskIndex = getTaskIndex(task)
+	const taskIndex = _getTaskIndex(task)
 
 	if (taskIndex !== -1) {
 		if (_isExist(newStatus, STATUSES)) {
@@ -89,7 +89,7 @@ function changeStatus(task, newStatus) {
 //* переданный статус, и выводит сообщение об ошибке, если статус не существует.
 
 function changePriority(task, newPriority) {
-	const taskIndex = getTaskIndex(task)
+	const taskIndex = _getTaskIndex(task)
 
 	if (taskIndex !== -1) {
 		if(_isExist(newPriority, PRIORITIES)) {
@@ -108,17 +108,17 @@ function changePriority(task, newPriority) {
 
 function addTask(name, status = DEFAULT.DEFAULT_STATUS, priority = DEFAULT.DEFAULT_PROIRITY) {
 
-	if (isStringEmpty(name)) {
+	if (_isStringEmpty(name)) {
 		console.log('The task name is empty.')
 		return;
 	}
 
-	if (isStringEmpty(status)) {
+	if (_isStringEmpty(status)) {
 		console.log('The task status is empty.')
 		return;
 	}
 
-	if (isStringEmpty(priority)) {
+	if (_isStringEmpty(priority)) {
 		console.log('The task priority is empty.')
 		return;
 	}
@@ -142,7 +142,7 @@ function addTask(name, status = DEFAULT.DEFAULT_STATUS, priority = DEFAULT.DEFAU
 
 
 function deleteTask(task) {
-	const taskIndex = getTaskIndex(task)
+	const taskIndex = _getTaskIndex(task)
 
 	if (taskIndex !== -1) {
 		list.splice(taskIndex, 1)
@@ -162,9 +162,11 @@ function showList() {
 			console.log(`${STATUSES[status]}:\n\t-`)
 		} else {
 			console.log(`${STATUSES[status]}:`)
-			const tasks = filterList.map(element => `\t${element.name}: ${element.priority} priority`)
+			const tasks = filterList
+			.map(element => `\t${element.name}: ${element.priority} priority`)
+			.join('\n')
 
-			console.log(tasks.join('\n'))
+			console.log(tasks)
 		}
 	}
 }
