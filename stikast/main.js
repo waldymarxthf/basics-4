@@ -11,12 +11,16 @@ const PRIORITIES = {
 };
 
 const ALERTS = {
-  ADD_TASK: "Added the task :",
-  DELETE_TASK: "Deleted the task :",
+  ADD_TASK: "Added the task:",
+  DELETE_TASK: "Deleted the task:",
+	CHANGE_STATUS: "Сhanged the status for the task:"
 };
 
 const ERRORS = {
-	ADD_ERROR: "ERROR! Add a task name!"
+	ADD_ERROR: "ERROR! Add a task name!",
+	NO_SUCH_TASK_ERROR: "ERROR! There is no such task!",
+	NO_SUCH_STATUS_ERROR: "ERROR! There is no such status! Available statuses: ",
+	NO_SUCH_PRIORITY: "ERROR! There is no such priority! Available priorities: "
 }
 
 const toDo = [
@@ -31,15 +35,38 @@ function addTask(task, priority) {
 		console.log(ERRORS.ADD_ERROR)
 		return null
 	} else {
+		if (priority !== PRIORITIES.HIGH && priority !== PRIORITIES.MEDIUM && priority !== PRIORITIES.LOW ) {
+			console.log(ERRORS.NO_SUCH_PRIORITY + ` ${PRIORITIES.HIGH}, ${PRIORITIES.MEDIUM}, ${PRIORITIES.LOW}.`)
+		}
 		toDo.push({ name: task, status: "To do", priority });
-		console.log(ALERTS.ADD_TASK + ` "${task}"`);
+		console.log(ALERTS.ADD_TASK + ` "${task}".`);
+	}
+}
+
+function changeStatus(task, status) {
+	const taskIndex = toDo.findIndex((item) => item.name === task);
+	if (taskIndex !== -1) {
+		if (status !== STATUSES.TO_DO && status !== STATUSES.IN_PROGRESS && status !== STATUSES.DONE ) {
+			console.log(ERRORS.NO_SUCH_STATUS_ERROR + ` ${STATUSES.TO_DO}, ${STATUSES.IN_PROGRESS}, ${STATUSES.DONE}.`)
+		} else {
+			toDo[taskIndex].status = status;
+			console.log(ALERTS.CHANGE_STATUS + ` ${task}.`)
+		}
+	} else {
+		console.log(ERRORS.NO_SUCH_TASK_ERROR)
+		return null
 	}
 }
 
 function deleteTask(task) {
   const taskIndex = toDo.findIndex((item) => item.name === task);
-  toDo.splice(taskIndex, 1);
-  console.log(ALERTS.DELETE_TASK + ` "${task}"`);
+	if (taskIndex !== -1) {
+		toDo.splice(taskIndex, 1);
+		console.log(ALERTS.DELETE_TASK + ` "${task}".`);
+	} else {
+		console.log(ERRORS.NO_SUCH_TASK_ERROR)
+		return null
+	}
 }
 
 function showToDo() {
@@ -62,11 +89,24 @@ function showToDo() {
     }
   }
 
+	if (toDoStatus === "") {
+		toDoStatus = "\t \t-\n";
+	}
+	if (inProgressStatus === "") {
+		inProgressStatus = "\t \t-\n";
+	}
+	if (doneStatus === "") {
+		doneStatus = "\t \t-\n";
+	}
+
   toDolist = `To do:\n${toDoStatus}\nIn progress:\n${inProgressStatus}\nDone:\n${doneStatus}`;
   console.log(toDolist);
 }
 
 addTask(3, "High");
+addTask('Have breakfast', "Low")
 deleteTask("Read");
+changeStatus("Watch a movie", 'Done')
+changeStatus("Clean up", '')
 
 showToDo();
