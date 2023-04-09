@@ -101,7 +101,7 @@ const changeStatus = (name, status) => {
 
 const changePriority = (name, priority) => {
   if (!searchValues(tasks, name)) {
-    console.error(`Задачи "${name}" не существует`);
+    console.error(`Задача "${name}" не существует`);
     return;
   } else if (!searchValues(PRIORITY, priority)) {
     console.error(`Такого значения не существует`);
@@ -109,7 +109,7 @@ const changePriority = (name, priority) => {
   } else {
     const task = tasks.find((task) => task.name === name);
     task.priority = priority;
-    console.log(`Приоретет задачи "${name}" изменен на "${priority}"`);
+    console.log(`Приоритет задачи "${name}" изменен на "${priority}"`);
   }
 };
 
@@ -146,8 +146,9 @@ const showListTasks = (reverse = false) => {
   Object.values(STATUS).forEach((value) => {
     console.log(value);
     filteringTask(tasks, { value: value, reverse: reverse }).forEach((task) => {
-      console.log(`\t ${task.name} \t ${task.priority}`);
+      console.log(`\t${task.name}\t\t${task.priority}`);
     });
+    console.log(`\r`);
   });
 };
 
