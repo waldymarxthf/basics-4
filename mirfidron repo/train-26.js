@@ -34,7 +34,13 @@ function showList(){
 
 }
     
-showList()
+showList() //   To Do:
+//                run
+//              Done:
+//                lessons
+//                to the rocking chair
+//              In progress:
+//                play dota 2
 
 
 // --- Для себя ---
