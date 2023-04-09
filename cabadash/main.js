@@ -55,6 +55,13 @@ function priorityValid(value) {
   return false;
 }
 
+function isTask(arr, value) {
+  const index = arr.indexOf(value);
+  if (index === -1) {
+    console.log(`${colorText.red}Данной задачи не существует!${colorText.closed}`)
+  }
+}
+
 function changeStatus(taskName = null, status = null, priority = null) {
   if (typeof taskName === 'string' && typeof status === 'string' && typeof priority === 'string') {
     let searchObj = toDoList.find(task => task.name === taskName);
@@ -66,6 +73,7 @@ function changeStatus(taskName = null, status = null, priority = null) {
     console.log(`\tПриоритет задачи: ${colorText.green}${priority}${colorText.closed}`);
   }
 
+  isTask(toDoList, taskName);
   taskNameValid(taskName);
   statusValid(status);
   priorityValid(priority);
@@ -93,6 +101,7 @@ function deleteTask(taskName) {
     console.log(`Задача ${colorText.green}"${taskName}"${colorText.closed} успешно удалена!`);
   }
   taskNameValid(taskName);
+  isTask(toDoList, taskName);
 }
 
 function showList(list = null) {
@@ -109,7 +118,7 @@ function showList(list = null) {
   
 }
 
-showList(toDoList)
+showList(toDoList);
 
 
 // console.log(toDoList);
