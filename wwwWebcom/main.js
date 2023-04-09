@@ -47,15 +47,15 @@ function getIndexObj(task) {
 //---------------------------------------ПОКАЗАТЬ ЗАДАЧИ С ЗАДАННЫМ СТАТУСОМ-----------------------------------------------
 
 function showTaskByStatus(status) {
-  let noTask = true;
+  let checkTask = true;
   console.log(`${status.toUpperCase()} ->\n`);
   list.filter((obj) => {
     if (obj.status === status) {
       console.log(`---------- ${obj.name} : ${obj.priority} ----------\n`);
-      noTask = false
+      checkTask = false
     } 
   });
-  if (noTask) {
+  if (checkTask) {
     console.log(`---------- NO TASKS! ----------\n`)
   }
 }
