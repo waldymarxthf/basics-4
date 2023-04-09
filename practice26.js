@@ -4,37 +4,62 @@ let morningToDoList = [
     {name:'позавтракать',status:'In progress', priority:'middle'},
     {name:'разбудить детей',status:'Done', priority:'high'},
     {name:'собраться на работу',status:'To do', priority:'low'},
-    {name:'отвезти детей в сад',status:'Done', priority:'high'},
+    {name:'отвезти детей в сад',status:'To do', priority:'high'},
     {name:'ехать на работу',status:'In progress', priority:'middle'}
 ];
 
-function changeStatus(name,status,priority){
-    const index = morningToDoList.findIndex(item => item.name === name);
-    morningToDoList.splice(index,1,{name:name,status:status,priority:priority});
+    function addTask(name,status,priority){
+        morningToDoList.push({name:name, status:status,priority:priority});
+    }
+    
+    function changeStatus(name,status){
+       for (let char of morningToDoList){
+            if (char.name === name){
+                char.status = status;
+            }
+       }
+
     }
 
-    changeStatus('отвезти детей в сад','Done',"high");
-function deleteTask(name){
-        const index = morningToDoList.findIndex(item => item.name === name);
-        morningToDoList.splice(index,1);
+    function deleteTask(name){
+        const indexName = morningToDoList.findIndex(item => item.name === name);
+            morningToDoList.splice(indexName,1);
+    }
+   
+    function showList(){
+    function showListTasks(status){
+        const sortStatus = morningToDoList.filter(task => task.status === status);
+     
+        //  , sortStatus);
+        console.log(`${status}:\t`)
+        for (let task of sortStatus) {
+            
+                console.log(`\t${task.name} - ${task.priority}`);
+            
         }
-    
-       deleteTask('ехать на работу');
-        changeStatus('отвезти детей в сад','Done',"high");
-console.log(morningToDoList); 
+    }
+    showListTasks('Done');
+    showListTasks('To do');
+    showListTasks('In progress');
+}
+    addTask('найти телефон',"Done",'high');
+    deleteTask('проснуться в 4:00');
+    console.log(morningToDoList); 
+    changeStatus('отвезти детей в сад','In progress');
+    console.log(morningToDoList); 
+    showList(); 
+   
+       
+       
+        
 
 
-// function changeStatus(name,age){
-//     const index = arr.findIndex(item => item.name === name);
-//     arr.splice(index,3,{name:name,age:age});}
-
-//     changeStatus('Ben',35);
-//     changeStatus('Clif',45); 
-// console.log(arr);
 
 
 
-// changeStatus("create a new practice task","Done");
-//   addTask("have a walk","In progress"); // добавляет новую задачу
-//   deleteTask("have a walk"); // удаляет задачу
-//   showList();  
+
+
+
+
+
+
