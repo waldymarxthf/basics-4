@@ -1,46 +1,62 @@
-const StatusToDo = "ToDo";
-const StatusProgress = "InProgress";
-const StatusDone = "Done";
-
-const toDoList = {
-    "create a new practice task": StatusProgress,
-    "make a bed": StatusProgress,
-    "write a post": StatusToDo,
+const Status = {
+    ToDo: "ToDo",
+    InProgress: "InProgress",
+    Done: "Done",
 };
 
-function changeStatus(task, status) {
-    toDoList[task] = status;
-}
+const Priority = {
+    LOW: "LOW",
+    HIGH: "HIGH",
+};
+
+let toDoList = [
+    {
+        name: "create a post",
+        status: Status.InProgress,
+        priority: Priority.LOW,
+    },
+
+    {
+        name: "test",
+        status: Status.InProgress,
+        priority: Priority.HIGH,
+    },
+];
 
 function addTask(task) {
-    toDoList[task] = StatusToDo;
+    toDoList.push(task);
 }
 
-function deleteTask(task) {
-    delete toDoList[task];
+function changeTask(taskName, changedTask) {
+    const index = toDoList.findIndex((task) => task.name === taskName);
+    toDoList[index] = changedTask;
 }
 
-function getTasksByStatus(toDoList) {
-    const tasksByStatus = {
-        [StatusToDo]: [],
-        [StatusProgress]: [],
-        [StatusDone]: [],
-    };
+function deleteTask(taskName) {
+    toDoList = toDoList.filter((task) => task.name !== taskName);
+}
 
-    for (let task in toDoList) {
-        const status = toDoList[task];
-        tasksByStatus[status].push(task);
+function groupTasksByStatus(toDoList) {
+    const tasksByStatus = {};
+
+    for (let key in Status) {
+        const status = Status[key];
+        tasksByStatus[status] = [];
+    }
+
+    for (let task of toDoList) {
+        tasksByStatus[task.status].push(task);
     }
 
     return tasksByStatus;
 }
 
 function showList(toDoList) {
-    const tasks = getTasksByStatus(toDoList);
+    const tasks = groupTasksByStatus(toDoList);
 
     for (let status in tasks) {
         for (let task of tasks[status]) {
-            console.log(`"${task}": ${status}`);
+            console.log(`"${task.name}": ${task.status}`);
         }
 
         if (tasks[status].length === 0) {
@@ -52,13 +68,13 @@ function showList(toDoList) {
 }
 
 function showListByStatus(toDoList) {
-    const tasks = getTasksByStatus(toDoList);
+    const tasks = groupTasksByStatus(toDoList);
 
     for (let status in tasks) {
         console.log(`${status}:`);
 
         for (let task of tasks[status]) {
-            console.log(`    "${task}"`);
+            console.log(`    "${task.name}"`);
         }
 
         if (tasks[status].length === 0) {
@@ -67,10 +83,15 @@ function showListByStatus(toDoList) {
     }
 }
 
-addTask("make coffee", StatusDone);
-changeStatus("write a post", StatusProgress); // меняет статус задачи
-addTask("have a walk"); // добавляет новую задачу
-deleteTask("have a walk"); // удаляет задачу
-showList(toDoList); // показывает список всех задач
-console.log("--------\n");
+addTask({ name: "TASK-3", status: Status.ToDo, priority: Priority.HIGH });
+changeTask("test", {
+    name: "CHANGED-TASK-3",
+    status: Status.InProgress,
+    priority: Priority.LOW,
+});
+// showList(toDoList);
+showListByStatus(toDoList);
+deleteTask("CHANGED-TASK-3");
+console.log("\n--------------------\n");
+// showList(toDoList);
 showListByStatus(toDoList);
