@@ -9,6 +9,19 @@ const PRIORITY = {
   LOW: "Low",
 };
 
+const messages = {
+  errors: {
+    wrongEditTask: `This task doesn\'t exist:\n `,
+    wrongDeleteTask: `This task doesn\'t exist:\n `,
+  },
+  alerts: {
+    alertEntryTask: `This task already in ToDo.`,
+    alertAddedTask: `This task added:`,
+    alertEditedTask: `This task edited:\n`,
+    alertDeletedTask: `This task deleted:`,
+  },
+};
+
 const ToDoList = [
   { name: "Create a post", status: STATUS.TO_DO, priority: PRIORITY.LOW },
   { name: "Test", status: STATUS.IN_PROGRESS, priority: PRIORITY.HIGH },
@@ -33,66 +46,57 @@ const addTaskToDo = (nameTask, status, priority) => {
   const statusIncludes = ToDoList.includes(status);
   const priorityIncludes = ToDoList.includes(priority);
   if (entryTask !== undefined && statusIncludes && priorityIncludes) {
-    console.log(`This task:\n\'${nameTask}\' already in ToDo.`);
+    console.log(messages.alerts.alertEntryTask);
   } else {
     ToDoList.push({
       name: nameTask,
       status: status,
       priority: priority,
     });
-    console.log(
-      `This task:\n\t\'${nameTask}\' \'${status}\' \'${priority}\' added.`
-    );
+    console.log(`${messages.alerts.alertAddedTask}\n\t${nameTask}`);
   }
 };
 
 const editStatusToDo = (nameTask, statusNew, priorityNew) => {
   const entryTask = entryInToDoList(nameTask);
   const indexToDo = indexNameToDo(nameTask);
-  if (indexToDo >= 0) {
-    ToDoList[entryTask] = {
-      name: nameTask,
-      status: statusNew,
-      priority: priorityNew,
-    };
-    ToDoList.splice(indexToDo, 1, ToDoList[entryTask]);
-    console.log(
-      `This task:\n\t\'${nameTask}\' \'${statusNew}\' \'${priorityNew}\' edited.`
-    );
-  } else {
-    console.log(`This task \'${nameTask}\' doesn\'t exist. `);
+  if (indexToDo < 0) {
+    console.log(`${messages.errors.wrongEditTask}${nameTask} `);
+    return null;
   }
+  ToDoList[entryTask] = {
+    name: nameTask,
+    status: statusNew,
+    priority: priorityNew,
+  };
+  ToDoList.splice(indexToDo, 1, ToDoList[entryTask]);
+  console.log(`${messages.alerts.alertEditedTask}\t${nameTask}`);
 };
 
 const deleteTaskToDo = (nameTask) => {
   const indexToDo = indexNameToDo(nameTask);
   const entryTask = entryInToDoList(nameTask);
   if (indexToDo >= 0 && entryTask) {
-    console.log(`This task:\n\t\'${nameTask}\' deleted.`);
+    console.log(`${messages.alerts.alertDeletedTask}\n\t${nameTask}`);
     ToDoList.splice(indexToDo, 1);
   } else {
-    console.log(`This task \'${nameTask}\' doesn\'t exist.\n `);
+    console.log(`${messages.errors.wrongDeleteTask}${nameTask}`);
   }
 };
 
 const showTodoList = () => {
-  for (const nameStatus in STATUS) {
-    let noneTask = true;
+  for (const task in STATUS) {
+    let check = true;
+    console.log(`${STATUS[task]}`);
 
-    console.log(`\n${STATUS[nameStatus]}`);
-
-    const filteredStatus = ToDoList.filter(
-      (task) => task.status === STATUS[nameStatus]
-    );
-
-    filteredStatus.forEach((task) => {
+    ToDoList.filter((status) => status.status === STATUS[task]).map((task) => {
       if (task) {
         console.log(`\t${task.name}: ${task.priority} priority;`);
-        noneTask = false;
+        check = false;
       }
     });
 
-    if (noneTask) {
+    if (check) {
       console.log(`\t -`);
     }
   }
