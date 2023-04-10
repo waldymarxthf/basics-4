@@ -4,14 +4,15 @@ const STATUS = {
   TO_DO: 'To Do',
 }
 
-const ERORR = {
+const ERROR = {
   NO_TASK: 'There is no such task in the list',
   IS_TASK: 'Such a task is already on the list',
+  INCORRECT_INPUT: 'Incorrect input text',
 }
 
 const PRIORITY = {
   LOW: 'low',
-  HIGHT: 'high',
+  HIGH: 'high',
 }
 
 const list = [
@@ -23,48 +24,71 @@ const list = [
   {
     name: 'test',
     status: STATUS.DONE,
-    priority: PRIORITY.HIGHT,
+    priority: PRIORITY.HIGH,
   },
 ]
 
+function checkInputName(inputValue) {
+  return typeof inputValue === 'string'
+}
+
 function checkTask(taskName) {
   const check = list.filter((task) => task.name === taskName)
+
   if (check.length > 0) {
     return true
   }
 }
 
-function indexTask(taskName) {
+function findIndexTask(taskName) {
   const indexValue = list.findIndex((task) => task.name === taskName)
   return indexValue
 }
 
 function addTask(taskName) {
-  if (checkTask(taskName)) {
-    console.log(ERORR.IS_TASK)
-  } else {
-    list.push({
-      name: taskName,
-      status: STATUS.IN_PROGRESS,
-      priority: PRIORITY.LOW,
-    })
+  if (!checkInputName(taskName)) {
+    console.log(ERROR.INCORRECT_INPUT)
+    return
   }
+
+  if (checkTask(taskName)) {
+    console.log(ERROR.IS_TASK)
+    return
+  }
+
+  list.push({
+    name: taskName,
+    status: STATUS.IN_PROGRESS,
+    priority: PRIORITY.LOW,
+  })
 }
 
 function changeStatus(taskName, statusName) {
-  if (checkTask(taskName)) {
-    list[indexTask(taskName)].status = statusName
-  } else {
-    console.log(ERORR.NO_TASK)
+  if (!checkInputName(taskName && statusName)) {
+    console.log(ERROR.INCORRECT_INPUT)
+    return
   }
+
+  if (checkTask(taskName)) {
+    list[findIndexTask(taskName)].status = statusName
+    return
+  }
+
+  console.log(ERROR.NO_TASK)
 }
 
 function deleteTask(taskName) {
-  if (checkTask(taskName)) {
-    list.splice(indexTask(taskName), 1)
-  } else {
-    console.log(ERORR.NO_TASK)
+  if (!checkInputName(taskName)) {
+    console.log(ERROR.INCORRECT_INPUT)
+    return
   }
+
+  if (checkTask(taskName)) {
+    list.splice(findIndexTask(taskName), 1)
+    return
+  }
+
+  console.log(ERROR.NO_TASK)
 }
 
 function showList() {
