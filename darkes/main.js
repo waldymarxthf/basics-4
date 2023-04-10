@@ -23,7 +23,7 @@ const list = [
 ];
 
 function isTaskExist(nameTask) {
-   if (!getObjectTask(nameTask)) {
+   if (!findTask(nameTask)) {
       console.log(ERROR.NO_TASK);
       return false;
    }
@@ -54,7 +54,7 @@ function isTaskNameValid(nameTask) {
    return true;
 };
 
-function getObjectTask(nameTask) {
+function findTask(nameTask) {
    return list.find(task => task.name === nameTask);
 }
 
@@ -76,10 +76,6 @@ function addTask(nameTask, statusTask = STATUS.TODO, priorityTask = PRIORITY.LOW
 };
 
 function deleteTask(nameTask) {
-   if (!isTaskNameValid(nameTask)) {
-      return;
-   }
-
    if (!isTaskExist(nameTask)) {
       return;
    }
@@ -89,10 +85,6 @@ function deleteTask(nameTask) {
 };
 
 function changeStatus(nameTask, statusTask) {
-   if (!isTaskNameValid(nameTask)) {
-      return;
-   }
-
    if (!isTaskExist(nameTask)) {
       return;
    }
@@ -101,14 +93,10 @@ function changeStatus(nameTask, statusTask) {
       return;
    }
 
-   getObjectTask(nameTask).status = statusTask;
+   findTask(nameTask).status = statusTask;
 };
 
 function changePriority(nameTask, priorityTask) {
-   if (!isTaskNameValid(nameTask)) {
-      return;
-   }
-
    if (!isTaskExist(nameTask)) {
       return;
    }
@@ -117,16 +105,16 @@ function changePriority(nameTask, priorityTask) {
       return;
    }
 
-   getObjectTask(nameTask).priority = priorityTask;
+   findTask(nameTask).priority = priorityTask;
 };
 
 function printTask(status) {
    const sortedList = list.filter(task => task.status === status);
    let checkData = '';
 
-   for (const task of sortedList) {
+   sortedList.forEach(task => {
       checkData += `\n\t${task.name} | ${task.priority}`;
-   }
+   });
 
    checkData ? console.log(`${status}: ${checkData}\n`)
       : console.log(`${status}: \n\t -\n`);
