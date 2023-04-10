@@ -28,14 +28,14 @@ const list = [
 ];
 
 function checkTask(taskName) {
-  let check = list.filter((task) => task.name === taskName);
+  const check = list.filter((task) => task.name === taskName);
   if (check.length > 0) {
     return true;
   }
 }
 
 function indexTask(taskName) {
-  let indexValue = list.findIndex((task) => task.name === taskName);
+  const indexValue = list.findIndex((task) => task.name === taskName);
   return indexValue;
 }
 
