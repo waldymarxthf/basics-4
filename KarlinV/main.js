@@ -49,29 +49,35 @@ const tasks = [
 ];
 
 const checkingValues = (data, value) => {
+  let result = "";
+
   if (Array.isArray(data)) {
-    return data.some((task) => task.name === value);
+    result = data.some((task) => task.name === value);
   } else {
-    return Object.values(data).includes(value);
+    result = Object.values(data).includes(value);
   }
+
+  return result;
 };
 
 const addTask = (name, priority = PRIORITY.LOW) => {
   if (!name.trim()) {
     console.error("Некорректный ввод");
     return;
-  } else if (checkingValues(tasks, name)) {
+  }
+
+  if (checkingValues(tasks, name)) {
     console.error(`Задача "${name}" уже существует`);
     return;
-  } else {
-    const task = {
-      name: name,
-      status: STATUS.WAITING,
-      priority: checkingValues(PRIORITY, priority) ? priority : PRIORITY.LOW,
-    };
-    tasks.push(task);
-    console.log(`Задача "${name}" успешно добавлена`);
   }
+
+  const task = {
+    name: name,
+    status: STATUS.WAITING,
+    priority: checkingValues(PRIORITY, priority) ? priority : PRIORITY.LOW,
+  };
+  tasks.push(task);
+  console.log(`Задача "${name}" успешно добавлена`);
 };
 
 const deleteTask = (name) => {
@@ -89,28 +95,32 @@ const changeStatus = (name, status) => {
   if (!checkingValues(tasks, name)) {
     console.error(`Задачи "${name}" не существует`);
     return;
-  } else if (!checkingValues(STATUS, status)) {
+  }
+
+  if (!checkingValues(STATUS, status)) {
     console.error(`Такого значения не существует`);
     return;
-  } else {
-    const task = tasks.find((task) => task.name === name);
-    task.status = status;
-    console.log(`Статус задачи "${name}" изменен на "${status}"`);
   }
+
+  const task = tasks.find((task) => task.name === name);
+  task.status = status;
+  console.log(`Статус задачи "${name}" изменен на "${status}"`);
 };
 
 const changePriority = (name, priority) => {
   if (!checkingValues(tasks, name)) {
     console.error(`Задача "${name}" не существует`);
     return;
-  } else if (!checkingValues(PRIORITY, priority)) {
+  }
+
+  if (!checkingValues(PRIORITY, priority)) {
     console.error(`Такого значения не существует`);
     return;
-  } else {
-    const task = tasks.find((task) => task.name === name);
-    task.priority = priority;
-    console.log(`Приоритет задачи "${name}" изменен на "${priority}"`);
   }
+
+  const task = tasks.find((task) => task.name === name);
+  task.priority = priority;
+  console.log(`Приоритет задачи "${name}" изменен на "${priority}"`);
 };
 
 const filteringTask = (arr, options) => {
