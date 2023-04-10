@@ -29,12 +29,9 @@ function taskManager() {
     addTask(name, properties) {
       if (this.validation.isValid()) {
         const defaultProperties = this.settings.default.properties.value;
-        
-        const taskID =
-          new Date().getTime() + Math.floor(Math.random() * 10 ** 7);
 
         const task = {
-          id: taskID.toString(16).slice(-6),
+          id: this.setTaskID(),
           name: name,
         };
 
@@ -48,6 +45,15 @@ function taskManager() {
 
         this.taskList.push(task);
       }
+    },
+
+    setTaskID() {
+      const randomNumber = Math.floor(Math.random() * 10**8)
+      const taskID = randomNumber.toString(16).slice(-6);
+
+      if (this.taskList && this.taskList.find((task) => task.id === taskID)) this.setTaskID();
+
+      return taskID;
     },
 
     getTaskID(name) {
@@ -117,7 +123,6 @@ function taskManager() {
   };
 }
 
-
 const drunque = taskManager();
 
 drunque.addTask("listen to techno", {
@@ -130,9 +135,13 @@ drunque.addTask("run 10.5 km");
 
 drunque.showList();
 
-console.log("-".repeat(20))
+console.log("-".repeat(20));
 
 drunque.deleteTask(drunque.getTaskID("look for keys"));
-drunque.changeProperty(drunque.getTaskID("listen to techno"), "priority", "High")
+drunque.changeProperty(
+  drunque.getTaskID("listen to techno"),
+  "priority",
+  "High"
+);
 
 drunque.showList("priority");
