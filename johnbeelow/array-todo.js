@@ -35,9 +35,9 @@ function checkInputValue(inputValue) {
 }
 
 function checkTask(taskName) {
-  const check = list.filter((task) => task.name === taskName)
+  const check = list.find((task) => task.name === taskName)
 
-  if (check.length > 0) {
+  if (check) {
     return true
   }
 }
@@ -115,7 +115,7 @@ function showList() {
   if (!todo) {
     todo = `\n -`
   }
-  if (!in_progress) {
+  if (!inProgress) {
     inProgress = `\n -`
   }
   if (!done) {
