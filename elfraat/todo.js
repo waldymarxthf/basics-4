@@ -7,24 +7,28 @@ const PRIORITY = {
     LOW : 'low',
     HIGH : 'high'
 };
-const list = [
+const toDoList = [
     {name: 'create a post', status: STATUS.TO_DO, priority: PRIORITY.HIGH},
     {name: 'test', status: STATUS.DONE, priority: PRIORITY.HIGH},
     {name: 'do todo list', status: STATUS.IN_PROGRESS, priority: PRIORITY.LOW},
     {name: 'do todo list', status: STATUS.IN_PROGRESS, priority: PRIORITY.LOW},
 ];
-list[1] = {name: 'go out ', status: STATUS.IN_PROGRESS, priority: PRIORITY.LOW};
+
 
 function addTask(name, status = STATUS.TO_DO,priority = PRIORITY.LOW){
-    list.splice(list.length, 0, { name, status, priority });
+    toDoList.push({ name, status, priority });
 }
 
 function changeStatus(name,status){
-    list[name] = status;
+    toDoList.splice(toDoList.indexOf(name),0,status = STATUS.DONE);
+}
+
+function deleteTask(name){
+    toDoList.splice(toDoList.indexOf(name));
 }
 
 function showList(){
-    for (const task of list){
+    for (const task of toDoList){
         console.log(`
         name: ${task.name}  
         status: ${task.status} 
@@ -32,8 +36,8 @@ function showList(){
     }
 }
 
-addTask('addTask function');
+
 addTask('test addTask function',STATUS.IN_PROGRESS,PRIORITY.HIGH);
-changeStatus('addTask function', STATUS.DONE);
-changeStatus()
+deleteTask('test addTask function');
+changeStatus('do todo list',0, STATUS.TO_DO);
 showList();
