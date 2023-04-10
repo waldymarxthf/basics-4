@@ -126,7 +126,7 @@ function show(status) {
   let statusTask = "";
   todoArrays.forEach((name) => {
     if (name.status === status) {
-      statusTask += status + ":\n\t" + `${name.task}: ${name.priority}`;
+      statusTask += `${status}:\n\t${name.task}: ${name.priority}`;
       console.log(statusTask);
       return;
     }
