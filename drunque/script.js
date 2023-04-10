@@ -30,11 +30,11 @@ function taskManager() {
       if (this.validation.isValid()) {
         const defaultProperties = this.settings.default.properties.value;
         
-        const taskId =
+        const taskID =
           new Date().getTime() + Math.floor(Math.random() * 10 ** 7);
 
         const task = {
-          id: taskId.toString(16).slice(-6),
+          id: taskID.toString(16).slice(-6),
           name: name,
         };
 
