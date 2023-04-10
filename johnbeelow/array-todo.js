@@ -30,7 +30,7 @@ const list = [
   },
 ]
 
-function checkInputName(inputValue) {
+function checkInputValue(inputValue) {
   return typeof inputValue === 'string'
 }
 
@@ -48,7 +48,7 @@ function findIndexTask(taskName) {
 }
 
 function addTask(taskName) {
-  if (!checkInputName(taskName)) {
+  if (!checkInputValue(taskName)) {
     console.log(`${ERROR.ENTER_TEXT}:  '${taskName}', ${ERROR.INCORRECT_INPUT}`)
     return
   }
@@ -66,7 +66,7 @@ function addTask(taskName) {
 }
 
 function changeStatus(taskName, statusName) {
-  if (!checkInputName(taskName && statusName)) {
+  if (!checkInputValue(taskName && statusName)) {
     console.log(
       `${ERROR.ENTER_TEXT}:  '${taskName}' and '${statusName}', ${ERROR.INCORRECT_INPUT}`
     )
@@ -82,7 +82,7 @@ function changeStatus(taskName, statusName) {
 }
 
 function deleteTask(taskName) {
-  if (!checkInputName(taskName)) {
+  if (!checkInputValue(taskName)) {
     console.log(`'${taskName}' - ${ERROR.INCORRECT_INPUT}`)
     return
   }
