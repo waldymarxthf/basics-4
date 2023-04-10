@@ -7,7 +7,9 @@ const STATUS = {
 const ERROR = {
   NO_TASK: 'There is no such task in the list',
   IS_TASK: 'Such a task is already on the list',
-  INCORRECT_INPUT: 'Incorrect input text',
+  INCORRECT_INPUT:
+    'Enter the correct text, which does not consist only of characters and numbers',
+  ENTER_TEXT: 'There is an error in the entered text',
 }
 
 const PRIORITY = {
@@ -47,12 +49,12 @@ function findIndexTask(taskName) {
 
 function addTask(taskName) {
   if (!checkInputName(taskName)) {
-    console.log(ERROR.INCORRECT_INPUT)
+    console.log(`${ERROR.ENTER_TEXT}:  '${taskName}', ${ERROR.INCORRECT_INPUT}`)
     return
   }
 
   if (checkTask(taskName)) {
-    console.log(ERROR.IS_TASK)
+    console.log(`'${taskName}' - ${ERROR.IS_TASK}`)
     return
   }
 
@@ -65,7 +67,9 @@ function addTask(taskName) {
 
 function changeStatus(taskName, statusName) {
   if (!checkInputName(taskName && statusName)) {
-    console.log(ERROR.INCORRECT_INPUT)
+    console.log(
+      `${ERROR.ENTER_TEXT}:  '${taskName}' and '${statusName}', ${ERROR.INCORRECT_INPUT}`
+    )
     return
   }
 
@@ -74,12 +78,12 @@ function changeStatus(taskName, statusName) {
     return
   }
 
-  console.log(ERROR.NO_TASK)
+  console.log(`'${taskName}' - ${ERROR.NO_TASK}`)
 }
 
 function deleteTask(taskName) {
   if (!checkInputName(taskName)) {
-    console.log(ERROR.INCORRECT_INPUT)
+    console.log(`'${taskName}' - ${ERROR.INCORRECT_INPUT}`)
     return
   }
 
@@ -88,7 +92,7 @@ function deleteTask(taskName) {
     return
   }
 
-  console.log(ERROR.NO_TASK)
+  console.log(`'${taskName}' - ${ERROR.NO_TASK}`)
 }
 
 function showList() {
@@ -99,7 +103,7 @@ function showList() {
   for (let taskName of list) {
     if (taskName.status === STATUS.TO_DO) {
       todo += '\n' + taskName.name
-    } 
+    }
     if (taskName.status === STATUS.IN_PROGRESS) {
       in_progress += '\n' + taskName.name
     }
@@ -110,10 +114,10 @@ function showList() {
 
   if (!todo) {
     todo = `\n -`
-  } 
+  }
   if (!in_progress) {
     in_progress = `\n -`
-  } 
+  }
   if (!done) {
     done = `\n -`
   }
@@ -123,7 +127,7 @@ function showList() {
   console.log(`${STATUS.DONE}:${done}`)
 }
 
-addTask('run run run')
+addTask('run run run1')
 changeStatus('test', STATUS.TO_DO)
 deleteTask('run run run')
 
