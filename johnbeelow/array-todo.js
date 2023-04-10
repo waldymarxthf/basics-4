@@ -99,18 +99,22 @@ function showList() {
   for (let taskName of list) {
     if (taskName.status === STATUS.TO_DO) {
       todo += '\n' + taskName.name
-    } else if (taskName.status === STATUS.IN_PROGRESS) {
+    } 
+    if (taskName.status === STATUS.IN_PROGRESS) {
       in_progress += '\n' + taskName.name
-    } else if (taskName.status === STATUS.DONE) {
+    }
+    if (taskName.status === STATUS.DONE) {
       done += '\n' + taskName.name
     }
   }
 
   if (!todo) {
     todo = `\n -`
-  } else if (!in_progress) {
+  } 
+  if (!in_progress) {
     in_progress = `\n -`
-  } else if (!done) {
+  } 
+  if (!done) {
     done = `\n -`
   }
 
