@@ -97,7 +97,7 @@ function deleteTask(taskName) {
 
 function showList() {
   let todo = ''
-  let in_progress = ''
+  let inProgress = ''
   let done = ''
 
   for (let taskName of list) {
@@ -105,7 +105,7 @@ function showList() {
       todo += '\n' + taskName.name
     }
     if (taskName.status === STATUS.IN_PROGRESS) {
-      in_progress += '\n' + taskName.name
+      inProgress += '\n' + taskName.name
     }
     if (taskName.status === STATUS.DONE) {
       done += '\n' + taskName.name
@@ -116,18 +116,18 @@ function showList() {
     todo = `\n -`
   }
   if (!in_progress) {
-    in_progress = `\n -`
+    inProgress = `\n -`
   }
   if (!done) {
     done = `\n -`
   }
 
   console.log(`${STATUS.TO_DO}:${todo}`)
-  console.log(`${STATUS.IN_PROGRESS}:${in_progress}`)
+  console.log(`${STATUS.IN_PROGRESS}:${inProgress}`)
   console.log(`${STATUS.DONE}:${done}`)
 }
 
-addTask('run run run1')
+addTask('run run run')
 changeStatus('test', STATUS.TO_DO)
 deleteTask('run run run')
 
