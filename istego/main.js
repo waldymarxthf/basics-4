@@ -20,11 +20,11 @@ const ListPriorityTask = {
 const userNotice = {
     'errorMessage': 'Введенное значение не корректно!',
     'notFound': 'Вы пытаетесь удалить не существующую задачу!',
-    'wasDeleted': 'Была удалена задача:',
+    'wasDeleted': 'Вы удалили задачу:',
     'allListTasks': 'Список всех задач:',
-    'addedTask': 'Добавлена задача:',
+    'addedTask': 'Вы добавили задачу:',
     'copyTask': 'Такая задача уже существует!',
-    'copyTaskStatus': 'Вы пытаетесь изменить статус не существующей задачу!',
+    'copyTaskStatus': 'Вы пытаетесь изменить статус не существующей задачи!',
     'editTaskStatus': 'Вы изменили статус у задачи:',
     'editPriorityStatus': 'Вы изменили приоритет у задачи:',
     'editNameTask': 'Вы изменили название задачи:'
@@ -35,10 +35,10 @@ const userNotice = {
 // let valueStatusTask = null;
 // let valuePriorityTask = null;
 
-addTask('Оплатить учебу', undefined, 'Высокий');
+addTask('Оплатить учебу', undefined, ListPriorityTask.hight);
 deleteTask('Сходить в магазин');
-editStatusTask('Сделать уроки', 'Выполнил');
-editStatusPriority('Сделать уроки', 'Высокий');
+editStatusTask('Сделать уроки', listStatusTask.done);
+editStatusPriority('Сделать уроки', ListPriorityTask.hight);
 showToDoList();
 editNameTask('Сделать уроки', 'Сходить на каток');
 showToDoList();
