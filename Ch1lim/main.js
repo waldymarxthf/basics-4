@@ -6,34 +6,34 @@ const list = [
     {name: 'test', status: STATUS[2], priority: PRIORITY[2]},
 ];
 
-function searchInObjList(key1, key2, value) {
+function changingValInObjList(key1, key2, num) {
     for (let i in list) {
         for (let k in list[i]){
-            if (list[i][k] == key1) list[i][key2] = value;
+            if (list[i][k] == key1) list[i][key2] = num;
         }
     }
 }
 
 
-function changeStatus(name, status) {
+function changeStatus(name, numStatus) {
     if (!name.trim()) return console.log(' Не задан name')
-    if (+status > 2 || +status < 0) { 
+    if (+numStatus > 2 || +numStatus < 0) { 
         return console.log('Задайте правельный статус цифрой \n ToDo: 0 \n In progress: 1 \n Done: 2');
     }
-    status = STATUS[+status];
+    numStatus = STATUS[+numStatus];
 
-    searchInObjList(name, "status", status);
+    changingValInObjList(name, "status", numStatus);
     
 }
 
-function changePriority(name, priority) {
+function changePriority(name, numPriority) {
     if (!name.trim()) return console.log(' Не задан name')
-    if (+priority > 2 || +priority < 0) { 
+    if (+numPriority > 2 || +numPriority < 0) { 
         return console.log('Задайте правельный приоритет цифрой \n low: 0 \n medium: 1 \n high: 2');
     }
-    priority =  PRIORITY[+priority];
+    numPriority =  PRIORITY[+numPriority];
 
-    searchInObjList(name, "priority", priority);
+    changingValInObjList(name, "priority", numPriority);
 }
 
 function deleteTask(name) {
@@ -47,7 +47,7 @@ function addTask(name) {
     list.push(task);
 }
 
-function searchForShowlist(num) {
+function outputForShowlist(num) {
     let score = false;
     for (let i in list) {
         for (let k in list[i]){
@@ -62,13 +62,13 @@ function searchForShowlist(num) {
 
 function showList() {
     console.log('ToDo:')
-    searchForShowlist(0);
+    outputForShowlist(0);
 
     console.log('In progress:')
-    searchForShowlist(1);
+    outputForShowlist(1);
 
     console.log('Done:')
-    searchForShowlist(2);
+    outputForShowlist(2);
 }
 
 showList()
