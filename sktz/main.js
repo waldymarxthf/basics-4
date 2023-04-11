@@ -1,28 +1,53 @@
-
-const book = {
+const toDo = {
+    
     list: {
-        "Za" : 100,
-        "Xr" : 200,
-        "Cz" : 300
+        "Create a new practice task": "In Progress", 
+	    "Make a bed": "Done",
+	    "Write a post": "To Do",
+        "Education": "To Do",
+        "BROKE TASK": "To Do",
     },
 
-    add (symbol, number) {
-        this.list[symbol] = number;
+    addTask (nameTask) {
+        this.list[nameTask] = "To Do";
     },
 
-    delete (symbol) {
-         delete this.list[symbol];
+    deleteTask (nameTask) {
+        delete this.list[nameTask];
+    },
+
+    showList () {
+        console.log (">>>>>>>>>>>>>");
+
+        console.log ('To Do');
+        for (const name in toDo.list) {
+            if (this.list[name] == 'To Do') {
+                console.log('  ', name);
+            }
+        }
+
+        console.log ('Done');
+        for (const name in toDo.list) {
+            if (this.list[name] == 'Done') {
+                console.log('  ', name);
+            }
+        }
+
+        console.log ('In Progress');
+        for (const name in toDo.list) {
+            if (this.list[name] == 'In Progress') {
+                console.log('  ', name);
+            }
+        }
+    },
+
+    changeStatus (taskName, newStatus) {
+        this.list[taskName] = newStatus;
     }
+
 };
 
-book.add ('Vb', 400);
-console.log (book.list);
-
-console.log ('-------------');
-
-book.delete ('Za');
-console.log (book.list);
-
-for (const name in book.list) {
-    console.log (name, '-', book.list[name]);
-}
+toDo.addTask ('Write code');
+toDo.deleteTask ('BROKE TASK');
+toDo.changeStatus ('Write a post', 'Done');
+toDo.showList();
