@@ -1,21 +1,39 @@
-let i = 1;
+const phoneBook = {
+    "A" : 1,
+    "B" : 2,
+    "C" : 3,
+    "D" : 4,
+    "E" : 5
+};
 
-while (i <= 19) {
-    console.log (i);
-    i++;
-}
+phoneBook["C"] = 123;
 
-console.log ("------------------");
+console.log (phoneBook);
+console.log (phoneBook.A);
+console.log (phoneBook["B"]);
+console.log (phoneBook["C"]);
 
-k = 1;
+console.log ("----------------");
 
-do  {
-    console.log (k);
-    k++;
-} while (k <= 19);
+phoneBook["F"] = 890;
+console.log (phoneBook["F"]);
 
-console.log ("------------------");
+delete phoneBook["F"];
+console.log (phoneBook["F"]);
 
-for (let l = 1; l <= 19; l++) {
-    console.log (l);
-}
+console.log ("----------------");
+console.log ("****************");
+
+const Book = {
+    list: {
+        "Z" : 100,
+        "X" : 200,
+        "C" : 300
+    },
+
+    log() {
+        console.log (this.list);
+    }
+};
+
+Book.log();
