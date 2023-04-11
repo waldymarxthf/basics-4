@@ -48,10 +48,17 @@ function taskManager() {
     },
 
     setTaskID() {
+      const taskList = this.taskList
+
       const randomNumber = Math.floor(Math.random() * 10**8)
       const taskID = randomNumber.toString(16).slice(-6);
 
-      if (this.taskList && this.taskList.find((task) => task.id === taskID)) this.setTaskID();
+
+      const isTaskListEmpty = taskList.length === 0
+      const isIdExist = Boolean(taskList.find(task => task.id === taskID)) 
+      if (isTaskListEmpty) {
+        if (isIdExist) this.setTaskID();
+      }
 
       return taskID;
     },
