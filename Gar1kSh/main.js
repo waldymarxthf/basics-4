@@ -9,3 +9,17 @@ printNumbersTimeout = (from, to) => {
     clearTimeout(timerId);
   }, 1000);
 };
+
+printNumbersInterval = (from, to) => {
+  let timerId = setInterval(() => {
+    if (from < to) {
+      console.log(from++);
+    } else if (from === to) {
+      console.log(from);
+      clearInterval(timerId);
+    }
+  }, 1000);
+};
+
+printNumbersInterval(1, 6);
+printNumbersTimeout(1, 9);
