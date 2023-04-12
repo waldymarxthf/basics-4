@@ -15,4 +15,4 @@ function printNumbers(from, to) {
   }, 1000)
 }
 
-printNumbers(0, 5)
+printNumbers(0, 6)
