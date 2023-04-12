@@ -1,48 +1,112 @@
+const STATUS = {
+    INPROGRESS:'In progress',
+    DONE:'Done',
+    TODO:'To Do'
+};
+const PRIORITY = {
+    HIGH:'high',
+    MIDDLE:'middle',
+    LOW:'low'
+};
 
-let numbers = [];
-for (i = 10; i < 100; i = i + 10) {
-    numbers.push (i);
+var toDo = [
+        {
+            name     : 'create a post', 
+            status   : STATUS.INPROGRESS, 
+            priority : PRIORITY.LOW
+        },
+
+        {
+            name     : 'Coding write', 
+            status   : STATUS.INPROGRESS, 
+            priority : PRIORITY.LOW
+        },
+    
+        {
+            name     : 'test',
+            status   : STATUS.DONE, 
+            priority : PRIORITY.HIGH
+        },
+
+];
+
+const editList = (nameTask, statusTask) => {
+    const item = toDo.findIndex((el) => el.name === nameTask);
+
+    if (item >= 0) {
+        toDo[item].status = statusTask;
+    }
 }
 
-numbers.forEach (numberItem => {
-    console.log (`Number is ${numberItem}`);
-})
+const deleteList = (nameTask) => {
+    let newToDo = toDo.filter ((toDoItem) => toDoItem.name !== nameTask);
+    toDo = newToDo;
+}
 
-console.log (`
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-`);
+const addList = (nameTask, priorityTask) => {
+    const statusTask = STATUS.TODO;
+    let doubleItem = false;
 
-const animals = ['cat', 'dog', 'elephant', 'tiger', 'lionzzzzzz'];
-const lenghtAnimals = animals.filter (word => word.length > 7);
-console.log (lenghtAnimals[0]);
-
-console.log (`
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-`);
-
-const a = [1, 11, -2, 3, -10, 4];
-
-a.forEach (aItem => {
-    if (aItem >= 0) {
-        console.log (`Number is ${aItem}`);
+    for (const task of toDo) {
+        if (task.name == nameTask) {
+            doubleItem = true;
+        }
     }
-})
 
-console.log (`>>>>>>>>>>>>>>>`);
+    if (doubleItem == false) {
+        newTask = {
+            name       : nameTask,
+            status     : statusTask,
+            priority   : priorityTask
+        };
+    
+        toDo.push (newTask);
+    } else {
+        console.log ('Задача с таким именем уже существует')
+    }
+}
 
-let b = [];
-a.forEach (aItem => {
-    b.push (Math.abs(aItem));
-})
+const showList = () => {
+    const showItemProgress = toDo.filter (i => i.status === STATUS.INPROGRESS);
+    const showItemDone     = toDo.filter (i => i.status === STATUS.DONE);
+    const showItemToDo     = toDo.filter (i => i.status === STATUS.TODO); 
 
-b.forEach (aItem => {
-    console.log (`Number is ${aItem}`);
-})
+    if (showItemProgress.length == 0) {
+        console.log (`\n   ${STATUS.INPROGRESS}`);
+        console.log ('      ---');
+    } else {
+        console.log (`\n   ${STATUS.INPROGRESS}`);
 
-console.log (`
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-`);
+        showItemProgress.forEach (i => {
+            console.log ('      ', i.name,);
+        });
+    }
 
-const sortNumber = a.sort((c, b) => b - c);
-console.log (sortNumber);
+    if (showItemDone.length == 0) {
+        console.log (`\n  ${STATUS.DONE}`);
+        console.log ('      ---');
+    } else {
+        console.log (`\n   ${STATUS.DONE}`);
 
+        showItemDone.forEach (i => {
+            console.log ('      ', i.name,);
+        });
+    }
+
+    if (showItemToDo.length == 0) {
+        console.log (`\n   ${STATUS.TODO}`);
+        console.log ('      ---');
+    } else {
+        console.log (`\n   ${STATUS.TODO}`);
+
+        showItemToDo.forEach (i => {
+            console.log ('      ', i.name,);
+        });
+    }
+    console.log ('\n');
+}
+
+addList ('Updates', PRIORITY.LOW);
+deleteList ('Codin1g write');
+editList ('create a post', 'Done');
+showList ();
