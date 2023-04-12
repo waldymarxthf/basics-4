@@ -1,14 +1,18 @@
-/* Task 1 */
-function createCounter() {
-	let c = 1;
-  return () => c++;
+function printNumbers(from, to) {
+  let i = from;
+  let timerId = setTimeout(function run() {
+    if (i === to) {clearTimeout(timerId); return;}
+    console.log(i++);
+    timerId = setTimeout(run, 1000)
+  }, 1000)
 }
 
-let counterA = createCounter();
-let counterB = createCounter();
+function printNumbers(from, to) {
+  let i = from;
+  timerId = setInterval(() => {
+    if (i === to) { clearInterval(timerId); return;}
+    console.log(i++)
+  }, 1000)
+}
 
-console.log(counterA()); // 1
-console.log(counterA()); // 2
-console.log(counterA()); // 3
-
-console.log(counterB()); // 1
+printNumbers(0, 5)
