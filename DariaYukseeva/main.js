@@ -18,7 +18,7 @@ const toDoList = [
 const validators = {
     isTaskNameValid (taskName) {
         if (!!taskName === false) {
-            console.error('Ошибка добавления задачи. Введите корректный текст задачи');
+            console.error('Имя задачи некорректно');
         }
         return !!taskName;
     },
@@ -114,15 +114,15 @@ function setPriorityTask(task, newPriority) {
 }
 
 
-// Отображаем вывод части туду листа с заданным статусом
-function showPart(targetStatus) {
+// Отображаем задачи с заданным статусом
+function showPartList(targetStatus) {
     console.log(`\n${targetStatus}:`);
     // Фильтруем туду лист по статусу. Если задач с таким статусом нет в листе, выводим "-"
     const filteredList = toDoList.filter(obj => obj.status === targetStatus);
     if (filteredList.length === 0) {
         console.log(`\t-`);
     }
-    // Cортируем возвращаемый массив по проиритету (сначала high)
+    // Задачи отсортированы по приоритету (сначала high)
     const sortList = filteredList.sort((a) => {
         if (a.priority === PRIORITIES.HIGH) {
             return -1;
@@ -136,10 +136,10 @@ function showPart(targetStatus) {
 }
 
 // Фильтруем и сортируем по каждому статусу
-function showList() {
-    showPart(STATUSES.TO_DO);
-    showPart(STATUSES.IN_PRIGRESS);
-    showPart(STATUSES.DONE);
+function filterAndSortByEachStatus() {
+    showPartList(STATUSES.TO_DO);
+    showPartList(STATUSES.IN_PRIGRESS);
+    showPartList(STATUSES.DONE);
 
 }
 
@@ -159,6 +159,6 @@ setPriorityTask('english lessons', PRIORITIES.HIGH);
 setPriorityTask('teach a yoga class', PRIORITIES.HIGH);
 setPriorityTask('complete the task in strada', PRIORITIES.HIGH);
 
-showList();
+filterAndSortByEachStatus();
 
 
