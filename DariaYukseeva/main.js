@@ -15,7 +15,7 @@ const toDoList = [
 ];
 
 // Создаём объект с методами проверки валидности
-const validations = {
+const validators = {
     isTaskNameValid (taskName) {
         return !!taskName;
     },
@@ -45,34 +45,34 @@ function taskIndex(taskName) {
 
 // Функция добавления новой задачи. Принимает в качестве аргументов текст задачи, статус, приоритет. Если статус и приоритет не выбраны, ставятся по умолчанию:
 function addTask(task, status = STATUSES.TO_DO, priority = PRIORITIES.LOW) {
-    if (validations.isTaskExist(task)) {
+    if (validators.isTaskExist(task)) {
         console.log(taskExistenceMessage);
         return;
     }
-    if (!validations.isTaskNameValid(task)) {
-        console.error('Введите текст задачи');
+    if (!validators.isTaskNameValid(task)) {
+        console.error('Ошибка добавления задачи. Имя задачи невалидно');
         return;
     }
-    if (!validations.isStatusValid(status)) {
+    if (!validators.isStatusValid(status)) {
         console.error('Неверный статус');
         return;
     }
-    if (!validations.isPriorityValid(priority)) {
+    if (!validators.isPriorityValid(priority)) {
          console.error('Неверный приоритет');
          return;
     }
-    const newObject = {
+    const newTask = {
         'name': task, 
         'status': status, 
         'priority': priority
     };
-    toDoList.push(newObject)
-    
+    toDoList.push(newTask)
+    console.log(`Добавлена новая задача ${newTask.name}`);
 }
 
 // Удаляем задачу. Сначала проверяем, что задача существует:
 function deleteTask(task) {
-    if (validations.isTaskExist(task)) {
+    if (validators.isTaskExist(task)) {
         toDoList.splice(taskIndex(task), 1)
     }
     else {
@@ -81,8 +81,8 @@ function deleteTask(task) {
 }
 
 // Меняем статус задачи:
-function changeStatusTask(task, newStatus) {
-    if (validations.isTaskExist(task)) {
+function setStatusTask(task, newStatus) {
+    if (validators.isTaskExist(task)) {
         toDoList[taskIndex(task)]['status'] = newStatus;
     }
    
@@ -92,8 +92,8 @@ function changeStatusTask(task, newStatus) {
 }
 
 // Меняем приоритет задачи:
-function changePriorityTask(task, newPriority) {
-    if (validations.isTaskExist(task)) {
+function setPriorityTask(task, newPriority) {
+    if (validators.isTaskExist(task)) {
         toDoList[taskIndex(task)]['priority'] = newPriority;
     }
     else {
@@ -101,22 +101,26 @@ function changePriorityTask(task, newPriority) {
     }
 }
 
-// Фильтруем туду лист по статусу, затем сортируем возвращаемый массив по проиритету (сначала high), затем выводим тест задачи и приоритет в консоль. Если задач с таким статусом нет в листе, выводим "-"
+
+// Отображаем вывод части туду листа с заданным статусом
 function showPart(targetStatus) {
     console.log(`\n${targetStatus}:`);
-    
+    // Фильтруем туду лист по статусу. Если задач с таким статусом нет в листе, выводим "-"
     const filteredList = toDoList.filter(obj => obj.status === targetStatus);
     if (filteredList.length === 0) {
         console.log(`\t-`);
     }
-    filteredList.sort((a) => {
+    // Cортируем возвращаемый массив по проиритету (сначала high)
+    const sortList = filteredList.sort((a) => {
         if (a.priority === PRIORITIES.HIGH) {
             return -1;
         }
         if (a.priority === PRIORITIES.LOW) {
             return 1;
         }
-    }).forEach(task => console.log(`\t${task.name}\t${task.priority}`));
+    });
+    // Выводим тест задачи и приоритет в консоль
+    sortList.forEach(task => console.log(`\t${task.name}\t${task.priority}`));
 }
 
 // Фильтруем и сортируем по каждому статусу
@@ -134,13 +138,14 @@ addTask('complete the task in strada', 'In progress');
 addTask('sleep', 'To Do');
 addTask('teach a yoga class', 'To Do');
 addTask('english lessons', 'Done');
+addTask('', 'Done');
 deleteTask('test');
-changeStatusTask('create a post', STATUSES.DONE);
-changeStatusTask('english lessons', STATUSES.DONE);
-changeStatusTask('complete the task in strada', STATUSES.DONE);
-changePriorityTask('english lessons', PRIORITIES.HIGH);
-changePriorityTask('teach a yoga class', PRIORITIES.HIGH);
-changePriorityTask('complete the task in strada', PRIORITIES.HIGH);
+setStatusTask('create a post', STATUSES.DONE);
+setStatusTask('english lessons', STATUSES.DONE);
+setStatusTask('complete the task in strada', STATUSES.DONE);
+setPriorityTask('english lessons', PRIORITIES.HIGH);
+setPriorityTask('teach a yoga class', PRIORITIES.HIGH);
+setPriorityTask('complete the task in strada', PRIORITIES.HIGH);
 
 showList();
 
