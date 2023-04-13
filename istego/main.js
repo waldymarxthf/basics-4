@@ -2,7 +2,6 @@
 function printNumbers(from, to) {
     let timerId = setInterval(() => {
         console.log(from);
-        console.log(timerId);
         if (from === to) {
             clearInterval(timerId);
         }
