@@ -50,15 +50,15 @@ function addTask(task, status = STATUSES.TO_DO, priority = PRIORITIES.LOW) {
         return;
     }
     if (!validators.isTaskNameValid(task)) {
-        console.error('Ошибка добавления задачи. Имя задачи невалидно');
+        console.error('Ошибка добавления задачи. Введите корректный текст задачи');
         return;
     }
     if (!validators.isStatusValid(status)) {
-        console.error('Неверный статус');
+        console.error(`Ошибка добавления задачи. Недопустимый статус. Введите статус из списка: ${Object.values(STATUSES).join(', ')}`);
         return;
     }
     if (!validators.isPriorityValid(priority)) {
-         console.error('Неверный приоритет');
+         console.error(`Ошибка добавления задачи. Недопустимый приоритет. Введите приоритет из списка: ${Object.values(PRIORITIES).join(', ')}`);
          return;
     }
     const newTask = {
@@ -67,7 +67,7 @@ function addTask(task, status = STATUSES.TO_DO, priority = PRIORITIES.LOW) {
         'priority': priority
     };
     toDoList.push(newTask)
-    console.log(`Добавлена новая задача ${newTask.name}`);
+    console.log(`Добавлена новая задача ${newTask.name.substr(0, 20)}`);
 }
 
 // Удаляем задачу. Сначала проверяем, что задача существует:
@@ -133,11 +133,11 @@ function showList() {
 
 
 
-addTask('complete the task in strada', 'In progress');
+addTask('complete the task in strada', STATUSES.IN_PRIGRESS);
 
-addTask('sleep', 'To Do');
-addTask('teach a yoga class', 'To Do');
-addTask('english lessons', 'Done');
+addTask('sleep', STATUSES.TO_DO);
+addTask('teach a yoga class', STATUSES.DONE, 'fkjgojd');
+addTask('english lessons', STATUSES.DONE);
 addTask('', 'Done');
 deleteTask('test');
 setStatusTask('create a post', STATUSES.DONE);
