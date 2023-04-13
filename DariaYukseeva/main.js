@@ -17,20 +17,34 @@ const toDoList = [
 // Создаём объект с методами проверки валидности
 const validators = {
     isTaskNameValid (taskName) {
+        if (!!taskName === false) {
+            console.error('Ошибка добавления задачи. Введите корректный текст задачи');
+        }
         return !!taskName;
     },
     isStatusValid (status) {
-        return Object.values(STATUSES).includes(status);
+        const isAllowdStatus = Object.values(STATUSES).includes(status);
+        if (!isAllowdStatus) {
+            console.error(`Ошибка добавления задачи. Недопустимый статус. Введите статус из списка: ${Object.values(STATUSES).join(', ')}`);
+        } 
+        return isAllowdStatus;
     },
     isPriorityValid (priority) {
-        return Object.values(PRIORITIES).includes(priority);
+        const isAllowdPriority = Object.values(PRIORITIES).includes(priority);
+        if (!isAllowdPriority) {
+            console.error(`Ошибка добавления задачи. Недопустимый приоритет. Введите приоритет из списка: ${Object.values(PRIORITIES).join(', ')}`);
+        }    
+        return isAllowdPriority;
     },
-    isTaskExist(taskName) {
-        const taskExistence = toDoList.find(obj => {
-            return (obj['name'] === taskName)
-        });
-       return !!taskExistence;
-    }
+    
+}
+
+function isTaskExist(taskName) {
+    const taskExistence = toDoList.find(obj => {
+        return (obj['name'] === taskName)
+    });
+    
+   return !!taskExistence;
 }
 
 const taskExistenceMessage = 'Такая задача уже существует';
@@ -45,21 +59,18 @@ function taskIndex(taskName) {
 
 // Функция добавления новой задачи. Принимает в качестве аргументов текст задачи, статус, приоритет. Если статус и приоритет не выбраны, ставятся по умолчанию:
 function addTask(task, status = STATUSES.TO_DO, priority = PRIORITIES.LOW) {
-    if (validators.isTaskExist(task)) {
+    if (isTaskExist(task)) {
         console.log(taskExistenceMessage);
         return;
     }
     if (!validators.isTaskNameValid(task)) {
-        console.error('Ошибка добавления задачи. Введите корректный текст задачи');
         return;
     }
     if (!validators.isStatusValid(status)) {
-        console.error(`Ошибка добавления задачи. Недопустимый статус. Введите статус из списка: ${Object.values(STATUSES).join(', ')}`);
         return;
     }
     if (!validators.isPriorityValid(priority)) {
-         console.error(`Ошибка добавления задачи. Недопустимый приоритет. Введите приоритет из списка: ${Object.values(PRIORITIES).join(', ')}`);
-         return;
+        return;
     }
     const newTask = {
         'name': task, 
@@ -67,13 +78,14 @@ function addTask(task, status = STATUSES.TO_DO, priority = PRIORITIES.LOW) {
         'priority': priority
     };
     toDoList.push(newTask)
-    console.log(`Добавлена новая задача ${newTask.name.substr(0, 20)}`);
+    console.log(`Добавлена новая задача ${newTask.name.substr(0, 20)}...`);
 }
 
 // Удаляем задачу. Сначала проверяем, что задача существует:
 function deleteTask(task) {
-    if (validators.isTaskExist(task)) {
+    if (isTaskExist(task)) {
         toDoList.splice(taskIndex(task), 1)
+        console.log(`Задача ${task.substr(0, 10)}... удалена`);
     }
     else {
         console.log(taskNonExistenceMessage);
@@ -82,7 +94,7 @@ function deleteTask(task) {
 
 // Меняем статус задачи:
 function setStatusTask(task, newStatus) {
-    if (validators.isTaskExist(task)) {
+    if (isTaskExist(task)) {
         toDoList[taskIndex(task)]['status'] = newStatus;
     }
    
@@ -93,7 +105,7 @@ function setStatusTask(task, newStatus) {
 
 // Меняем приоритет задачи:
 function setPriorityTask(task, newPriority) {
-    if (validators.isTaskExist(task)) {
+    if (isTaskExist(task)) {
         toDoList[taskIndex(task)]['priority'] = newPriority;
     }
     else {
