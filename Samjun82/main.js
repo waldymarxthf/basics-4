@@ -1,16 +1,28 @@
-function createCounter() {
- let count = 1
-  return function () {
-    return count++;
-  }
-  }
+// function printNumbers(from, to) {
+//   let current = from;
 
+//   let timerId = setInterval(function() {
+//     consolee.log(current);
+//     if (current == to) {
+//       clearInterval(timerId);
+//     }
+//     current++;
+//   }, 1000);
+// }
 
-let counterA = createCounter();
-let counterB = createCounter();
+// printNumbers(5, 10);
 
-console.log(counterA()); // 1
-console.log(counterA()); // 2
-console.log(counterA()); // 3
+function printNumbers(from, to) {
+  let current = from;
 
-console.log(counterB()); // 1
+  setTimeout(function go() {
+    alert(current);
+    if (current < to) {
+      setTimeout(go, 1000);
+    }
+    current++;
+  }, 1000);
+}
+
+// использование:
+printNumbers(5, 10);
