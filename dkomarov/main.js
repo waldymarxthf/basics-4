@@ -1,14 +1,15 @@
 const STATUS = {
     DONE: "Done",
-    INPROGRESS: "In Progress"
+    INPROGRESS: "In Progress",
+    TODO: "To Do"
 };
 
 
 const todoList = [
-    {name: 'create a post', status: STATUS.INPROGRESS}, 
-    {name: 'test', status: STATUS.INPROGRESS},
-    {name: 'abrakadabra', status: STATUS.INPROGRESS},
-    {name: 'walking', status: STATUS.INPROGRESS}
+    {name: 'create a post', status: STATUS.INPROGRESS, priority: "Low"}, 
+    {name: 'test', status: STATUS.INPROGRESS, priority: "Low"},
+    {name: 'abrakadabra', status: STATUS.INPROGRESS, priority: "Low"},
+    {name: 'walking', status: STATUS.TODO, priority: "Low"}
   
 ]; 
 
@@ -20,7 +21,7 @@ function addTask(task) {
         };
     };
 
-    todoList.push({name: task, status: STATUS.INPROGRESS}); 
+    todoList.push({name: task, status: STATUS.INPROGRESS, priority: "Low"}); 
     
 };
 
@@ -40,13 +41,17 @@ function changeStatus(task, newStatus) {
 function showList() {
     let tasksInProg = '';
     let tasksDone = '';
+    let tasksToDo = '';
+    console.log("================")
     for (const task of todoList) {
         if (task.status === STATUS.INPROGRESS) {
-            tasksInProg += `\n  ${task.name}`;
+            tasksInProg += `\n  ${task.name} | priority: "Low"`;
             
         } else if (task.status === STATUS.DONE) {
-            tasksDone += `\n  ${task.name}`;
+            tasksDone += `\n  ${task.name} | priority: "Low"`;
             
+        } else if (task.status === STATUS.TODO) {
+            tasksToDo += `\n  ${task.name} | priority: "Low"`;
         };
         
     };
@@ -62,6 +67,12 @@ function showList() {
     } else {
         console.log(`Done: ${tasksDone}`);
     };  
+
+    if (tasksToDo === '') {
+        console.log(`To Do: \n \t -`);
+    } else {
+        console.log(`To Do: ${tasksToDo}`);
+    };
 };
 
 addTask('qwerty');
