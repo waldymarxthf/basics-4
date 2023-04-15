@@ -28,3 +28,13 @@ function buildFun(n) {
 }
 
 console.log(buildFun(5)[2]());
+
+// task#2
+function getAverage(marks) {
+  const length = marks.length;
+  let average = marks.reduce((acc, current) => acc + current);
+  let averageValue = Math.trunc(average / length);
+  console.log(averageValue);
+}
+
+getAverage([15, 19, 19, 2, 19, 19, 8, 2, 9, 5, 3, 17, 10, 6, 7]);
