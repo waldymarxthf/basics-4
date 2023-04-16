@@ -84,11 +84,11 @@ const deleteTask = (name) => {
   if (!checkingValues(tasks, name)) {
     console.error(`Задачи "${name}" не существует`);
     return;
-  } else {
-    const index = tasks.findIndex((task) => task.name === name);
-    tasks.splice(index, 1);
-    console.log(`Задача "${name}" успешно удалена`);
-  }
+  } 
+  
+  const index = tasks.findIndex((task) => task.name === name);
+  tasks.splice(index, 1);
+  console.log(`Задача "${name}" успешно удалена`);  
 };
 
 const changeStatus = (name, status) => {
