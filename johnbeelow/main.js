@@ -1,30 +1,22 @@
-// Напишите функцию printNumbers(from, to), которая выводит число каждую секунду, начиная от from и заканчивая to.
+function buildFun(n){
+	let res = []
 
-// Сделайте два варианта решения.
-let countStart = 0
-let countEnd = 5
-
-
-// Используя setInterval.
-function printNumbers(from, to) {
-  from = ++countStart
-  to = countEnd
-  let timerId = setInterval(printNumbers, 1000, 0, 5)
-  console.log(countStart)
-  if (from === to) {
-    clearInterval(timerId)
-  }
+	for (let i = 0; i< n; i++){
+		res.push(function(){
+			return i
+		})
+	}
+    
+	return res
 }
 
-// Используя рекурсивный setTimeout.
-setTimeout(function printNumbers(from, to) {
-  from = ++countStart
-  to = countEnd
-  console.log(countStart)
-  let timerId = setTimeout(printNumbers, 1000)
-  if (from === to) {
-    clearTimeout(timerId)
+function getAverage(marks){
+    let sum = 0;
+
+    for (let i = 0; i < marks.length; i++) {
+      sum += marks[i];
+    }
+
+    return Math.floor(sum / marks.length);
   }
-},1000)
-
-
+  
