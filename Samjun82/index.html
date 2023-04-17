@@ -1,80 +1,25 @@
-<!-- <!DOCTYPE html>
-<html>
-	<html>
-		<body>
-		  <div>Пользователи:</div>
-		  <ul>
-			<li>Джон</li>
-			<li>Пит</li>
-		  </ul>
-		<script>
-		alert(document.body.firstElementChild)
-		alert(document.body.children[1]) 
-		alert(document.body.children[1].lastElementChild.innerHTML)// "два"
-		</script>
-	  </body>
-</html>  -->
-
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html>
+<html lang="ru">
 <head>
-  <style>
-    table {
-      border-collapse: collapse;
-    }
-
-    td {
-      border: 1px solid black;
-      padding: 3px 5px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Калькулятор UI</title>
 </head>
-
 <body>
-  <table>
-    <tr>
-      <td>1:1</td>
-      <td>2:1</td>
-      <td>3:1</td>
-      <td>4:1</td>
-      <td>5:1</td>
-    </tr>
-    <tr>
-      <td>1:2</td>
-      <td>2:2</td>
-      <td>3:2</td>
-      <td>4:2</td>
-      <td>5:2</td>
-    </tr>
-    <tr>
-      <td>1:3</td>
-      <td>2:3</td>
-      <td>3:3</td>
-      <td>4:3</td>
-      <td>5:3</td>
-    </tr>
-    <tr>
-      <td>1:4</td>
-      <td>2:4</td>
-      <td>3:4</td>
-      <td>4:4</td>
-      <td>5:4</td>
-    </tr>
-    <tr>
-      <td>1:5</td>
-      <td>2:5</td>
-      <td>3:5</td>
-      <td>4:5</td>
-      <td>5:5</td>
-    </tr>
-  </table>
-  <script>
-    let table = document.body.firstElementChild
-	for(i=0; i<table.rows.length; i++) {
-		table.rows[i].cells[i].style.backgroundColor = "red";
-	}
-
-  
-  </script>
+    <div>
+        <input type="number">
+        <select name="signs" id="#">
+            <option value="">+</option>
+            <option value="">-</option>
+            <option value="">*</option>
+            <option value="">/</option>
+        </select>
+        <input type="number">
+        <b>=</b>
+        <b id=""></b>
+    </div>
+    
 </body>
 </html>
