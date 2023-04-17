@@ -25,6 +25,9 @@ body {
 
 .calc__form-input {
   width: 95px;
+  font-size: 20px;
+  line-height: 24px;
+  padding-left: 5px;
 }
 
 .calc__form-select {
