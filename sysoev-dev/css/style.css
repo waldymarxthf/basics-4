@@ -37,4 +37,6 @@ body {
 
 .calc__form--output {
   border: none;
+  font-size: 20px;
+  align-self: center;
 }
