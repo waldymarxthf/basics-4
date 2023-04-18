@@ -1,5 +1,7 @@
-const stopwatchButton = document.querySelector("#stopwatch");
-const pauseButton = document.querySelector("#pause")
+const startButton = document.querySelector("#start");
+const pauseButton = document.querySelector("#pause");
+const restartButton = document.querySelector("#restart");
+const time = document.querySelector("#time");
 
 function createStopwatch() {
   let count = 0;
@@ -8,36 +10,73 @@ function createStopwatch() {
 
   return {
     start() {
-      timer = setInterval(() => console.log(count++), 1000);
+      if (!isOn) {
+        timer = setInterval(() => {
+          console.log(count++);
+          time.textContent = count;
+        }, 1000);
+      }
     },
     pause() {
-      clearInterval(timer);
+      if (isOn) {
+        clearInterval(timer);
+      }
     },
     stop() {
-      count = 0;
-      clearInterval(timer);
+      if (isOn) {
+        count = 0;
+        time.textContent = 0;
+        clearInterval(timer);
+      }
     },
-    toggle() {
+    toggle(mode) {
+      if (mode) {
+        isOn = mode;
+        return;
+      }
       isOn = !isOn;
+    },
+    isOn() {
       return isOn;
     },
   };
 }
 
+const buttons = document.querySelectorAll(".button");
+
+buttons.forEach((mainButton) => {
+  mainButton.addEventListener("click", () => {
+    buttons.forEach((button) => {
+      if (button !== mainButton) {
+        button.classList.remove("button-active");
+      }
+    });
+    if (mainButton !== restartButton) {
+      mainButton.classList.add("button-active");
+    }
+  });
+});
+
 const stopwatch = createStopwatch();
 
-pauseButton.addEventListener("click", (event) => {
-  if (stopwatch.toggle()) {
-    stopwatch.start()
-  } else {
-    stopwatch.pause()
+startButton.addEventListener("click", () => {
+  if (!stopwatch.isOn()) {
+    stopwatch.start();
+    stopwatch.toggle();
   }
 });
 
-stopwatchButton.addEventListener("click", event => {
-  if (stopwatch.toggle()) {
-    stopwatch.start()
-  } else {
-    stopwatch.stop()
+pauseButton.addEventListener("click", () => {
+  if (stopwatch.isOn()) {
+    stopwatch.pause();
+    stopwatch.toggle();
   }
-})
+});
+
+restartButton.addEventListener("click", () => {
+  stopwatch.toggle(true);
+  stopwatch.stop();
+  stopwatch.toggle();
+  stopwatch.start();
+  stopwatch.toggle();
+});
