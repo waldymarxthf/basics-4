@@ -1,18 +1,16 @@
-function printNumbers(from, to) {
-  let i = from;
-  let timerId = setTimeout(function run() {
-    if (i === to) {clearTimeout(timerId); return;}
-    console.log(i++);
-    timerId = setTimeout(run, 1000)
-  }, 1000)
-}
+const button = document.getElementById('btn');
 
-function printNumbers(from, to) {
-  let i = from;
-  timerId = setInterval(() => {
-    if (i === to) { clearInterval(timerId); return;}
-    console.log(i++)
-  }, 1000)
-}
+let isPaused = true;
+let i = 1;
 
-printNumbers(0, 6)
+const timer = setInterval(() => {
+  if (!isPaused) {
+    console.log(i);
+    i++;
+  }
+}, 1000)
+
+button.addEventListener('click', () => {
+    isPaused = isPaused ? false : true;
+  }
+)
