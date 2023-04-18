@@ -1,16 +1,30 @@
-const button = document.getElementById('btn');
+const stopWatch = document.getElementById('btn');
 
-let isPaused = true;
-let i = 1;
+let startTime;
+let elapsedTime = 0;
+let myTimer;
+let isRunning = false;
 
-const timer = setInterval(() => {
-  if (!isPaused) {
-    console.log(i);
-    i++;
+function startClock() {
+  startTime = Date.now() - elapsedTime;
+  myTimer = setInterval(function() {
+    elapsedTime = Date.now() - startTime;
+    console.log(Math.floor(elapsedTime / 1000));
+  }, 1000);
+  isRunning = true;
+}
+
+function stopClock() {
+  clearInterval(myTimer);
+  isRunning = false;
+}
+
+function toggleClock() {
+  if (isRunning) {
+    stopClock();
+  } else {
+    startClock();
   }
-}, 1000)
+}
 
-button.addEventListener('click', () => {
-    isPaused = isPaused ? false : true;
-  }
-)
+stopWatch.addEventListener('click', toggleClock);
