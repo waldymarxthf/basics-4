@@ -19,3 +19,6 @@ options.forEach(option => {
     })
   })
   
+current.addEventListener("focusout", (event) => {
+  optionsBox.classList.add("disabled")
+})
