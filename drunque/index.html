@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button class="button" id="stopwatch">Stopwatch</button>
+    <button class="button" id="pause">Pause</button>
+    <script>
+      const stopwatchButton = document.querySelector("#stopwatch");
+      const pauseButton = document.querySelector("#pause")
+
+      function createStopwatch() {
+        let count = 0;
+        let isOn = false;
+        let timer;
+
+        return {
+          start() {
+            timer = setInterval(() => console.log(count++), 1000);
+          },
+          pause() {
+            clearInterval(timer);
+          },
+          stop() {
+            count = 0;
+            clearInterval(timer);
+          },
+          toggle() {
+            isOn = !isOn;
+            return isOn;
+          },
+        };
+      }
+
+      const stopwatch = createStopwatch();
+
+      pauseButton.addEventListener("click", (event) => {
+        if (stopwatch.toggle()) {
+          stopwatch.start()
+        } else {
+          stopwatch.pause()
+        }
+      });
+
+      stopwatchButton.addEventListener("click", event => {
+        if (stopwatch.toggle()) {
+          stopwatch.start()
+        } else {
+          stopwatch.stop()
+        }
+      })
+
+    </script>
+  </body>
+</html>
