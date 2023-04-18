@@ -1,7 +1,6 @@
 let i = 0;
 let timerId;
-// let flag = 1;
-var isMenuShow = false;
+let flag = 1;
 var button = document.getElementById('timerButton');
 
 function buttonClickHandler() {
@@ -13,32 +12,12 @@ function stopClick() {
 }
 
 button.addEventListener("click", function() {
-  if (isMenuShow )
-{
-  stopClick();
-isMenuShow  = false;
-}
-else
-{
+  if (flag == 1) {
     buttonClickHandler();
-isMenuShow  = true;
-}
+    flag = 2;
+  }else {
+      stopClick();
+    flag = 1;
+  }
 }); 
-
-// -- Тут я пытался сделать другим методом, но почему-то не получилось... Позже попробую сделать через метод ниже и коммитнуть другую версию -- //
-
-
-// function test() {
-//   if (flag == 1) {
-//     button.addEventListener('click', buttonClickHandler);
-//     flag = 2;
-//   }else {
-//       button.addEventListener('click', stopClick);
-//     flag = 1;
-//   }
-// } 
-// test()
-
-// button.addEventListener('click', buttonClickHandler);
-// button.addEventListener('click', stopClick);
 
