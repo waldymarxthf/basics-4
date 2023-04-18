@@ -16,7 +16,8 @@ let timeId;
 // Запускаем отсчёт времени и вызываем функцию вывода в консоль каждую секунду
 function startCount() {
     if (stopwatchStatus === false) {
-        
+        stopwatchBtnStart.className = 'active';
+        stopwatchBtnStop.className = 'nonactive';
         timeId  = setInterval(() => {
             stepTime();
             refreshStopwatchDisplay();
@@ -30,6 +31,8 @@ function startCount() {
 function stopCount() {
     clearInterval(timeId);
     stopwatchStatus = false;
+    stopwatchBtnStart.className = 'nonactive';
+    stopwatchBtnStop.className = 'active';
 }
 
 // Изменяем время секундомера
@@ -72,7 +75,8 @@ function resetCount() {
     min = 0;
     hour = 0;
     refreshStopwatchDisplay()
-    
+    stopwatchBtnStart.className = 'nonactive';
+    stopwatchBtnStop.className = 'nonactive';
 }
 
 
