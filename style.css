@@ -1,0 +1,12 @@
+.container{
+	display: flex;
+	height: 100vh;
+	justify-content: center;
+	align-items: center;
+}
+.block{
+	display: flex;
+	height: 30px;
+	align-items: center;
+	gap: 10px;
+}
