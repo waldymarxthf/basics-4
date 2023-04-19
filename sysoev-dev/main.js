@@ -61,6 +61,9 @@ function calc() {
     case OPERATION.SUBSTRACT:
       showResult(OPERATIONS.substract(num1, num2));
       break;
+    case OPERATION.DIVISION:
+      showResult(OPERATIONS.division(num1, num2));
+      break;
     default:
       alert(ERROR_OPERATION_MESSAGE);
       break;
