@@ -7,13 +7,24 @@ function createStopwatch() {
   let count = 0;
   let isOn = false;
   let timer;
+  const initialTime = formatTime(0)
+
+  function formatTime(time) {
+    const hours = Math.floor(time / 3600)
+    const minutes = Math.floor(time / 60)
+    const seconds = Math.floor(time % 60)
+
+    const additionalFormat = (time) => `${time < 10 ? `0${time}` : time}`; 
+
+    return `${additionalFormat(hours)}:${additionalFormat(minutes)}:${additionalFormat(seconds)}`
+  }
 
   return {
     start() {
       if (!isOn) {
         timer = setInterval(() => {
           console.log(count++);
-          time.textContent = count;
+          time.textContent = formatTime(count);
         }, 1000);
       }
     },
@@ -25,7 +36,7 @@ function createStopwatch() {
     stop() {
       if (isOn) {
         count = 0;
-        time.textContent = 0;
+        time.textContent = initialTime;
         clearInterval(timer);
       }
     },
