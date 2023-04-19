@@ -1,42 +1,28 @@
 const UI_ELEMENTS = {
-    BUTTON_START: document.getElementById('stopwatch_start'),
-    BUTTON_PAUSE: document.getElementById('stopwatch_pause'),
-    BUTTON_STOP: document.getElementById('stopwatch_stop'),
-  }
-  
-  let counter = 0
-  let timerId
-  
-  function buttonClickPlay() {
-    timerId = setInterval(() => {
-      counter++
-      console.log(counter + ' sec.')
-    }, 1000)
+  NUMBER_ONE: document.querySelector('.input_number_one'),
+  NUMBER_TWO: document.querySelector('.input_number_two'),
+  OPERATOR: document.querySelector('.operators'),
+  BUTTON_RESULT: document.querySelector('.button_result'),
+  RESULT: document.querySelector('.result'),
+}
 
-    UI_ELEMENTS.BUTTON_START.disabled = true
-    UI_ELEMENTS.BUTTON_PAUSE.disabled = false
-    UI_ELEMENTS.BUTTON_STOP.disabled = false
+function sumCalculator(operation, numberOne, numberTwo) {
+  switch (operation) {
+    case 'add':
+      return +numberOne + +numberTwo
+    case 'subtract':
+      return numberOne - numberTwo
+    case 'multi':
+      return numberOne * numberTwo
+    case 'div':
+      return numberOne / numberTwo
   }
-  
-  function buttonClickPause() {
-    clearInterval(timerId)
-    console.log('Пауза')
+}
 
-    UI_ELEMENTS.BUTTON_START.disabled = false
-    UI_ELEMENTS.BUTTON_PAUSE.disabled = true
-    UI_ELEMENTS.BUTTON_STOP.disabled = false
-  }
-  
-  function buttonClickStop() {
-    clearInterval(timerId)
-    counter = 0
-    console.log('Стоп')
-    
-    UI_ELEMENTS.BUTTON_START.disabled = false
-    UI_ELEMENTS.BUTTON_PAUSE.disabled = false
-    UI_ELEMENTS.BUTTON_STOP.disabled = true
-  }
-  
-  UI_ELEMENTS.BUTTON_START.addEventListener('click', buttonClickPlay)
-  UI_ELEMENTS.BUTTON_PAUSE.addEventListener('click', buttonClickPause)
-  UI_ELEMENTS.BUTTON_STOP.addEventListener('click', buttonClickStop)
+UI_ELEMENTS.BUTTON_RESULT.addEventListener('click', () => {
+  UI_ELEMENTS.RESULT.textContent = sumCalculator(
+    UI_ELEMENTS.OPERATOR.value,
+    UI_ELEMENTS.NUMBER_ONE.value,
+    UI_ELEMENTS.NUMBER_TWO.value
+  )
+})
