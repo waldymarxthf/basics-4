@@ -10,19 +10,19 @@ function sum(firstNumber, secondNumber) {
 	if (firstNumber === 0.1 && secondNumber === 0.2) {
 		return answer.textContent = (firstNumber + secondNumber).toFixed(1)
 	}
-	
-	return isNumber(answer.textContent = firstNumber + secondNumber)
+
+	return answer.textContent = firstNumber + secondNumber
 }
 //* функция суммы 2 чисел с проверкой на баговое значение 0.1 + 0.2 и с нормальным выводом
 
 function difference(firstNumber, secondNumber) {
-	return isNumber(answer.textContent = firstNumber - secondNumber)
+	return answer.textContent = firstNumber - secondNumber
 }
 
 //* функция разницы 2 чисел
 
 function multiply(firstNumber, secondNumber) {
-	return isNumber(answer.textContent = firstNumber * secondNumber)
+	return answer.textContent = firstNumber * secondNumber
 }
 
 //* функция умножения 2 чисел
@@ -33,21 +33,10 @@ function divide(firstNumber, secondNumber) {
 		return answer.textContent = 'На ноль делить нельзя'
 	}
 
-	return isNumber(answer.textContent = firstNumber / secondNumber)
+	return answer.textContent = firstNumber / secondNumber
 }
 
 //* функция деления 2 чисел c проверкой деления на ноль
-
-function isNumber(number) {
-
-	if (isNaN(number)) {
-		answer.textContent = 'Введите числовое значение'
-	}
-
-	return number
-}
-
-//* функция для проверки числа на число
 
 function getInputValue(input) {
 	return input.value
