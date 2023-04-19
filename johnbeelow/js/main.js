@@ -6,15 +6,22 @@ const UI_ELEMENTS = {
   RESULT: document.querySelector('.result'),
 }
 
+const OPERATIONS = {
+  ADD: 'add',
+  SUBTRACT: 'subtract',
+  MULTI: 'multi',
+  DIV: 'div',
+}
+
 function sumCalculator(operation, numberOne, numberTwo) {
   switch (operation) {
-    case 'add':
+    case OPERATIONS.ADD:
       return +numberOne + +numberTwo
-    case 'subtract':
+    case OPERATIONS.SUBTRACT:
       return numberOne - numberTwo
-    case 'multi':
+    case OPERATIONS.MULTI:
       return numberOne * numberTwo
-    case 'div':
+    case OPERATIONS.DIV:
       return numberOne / numberTwo
   }
 }
