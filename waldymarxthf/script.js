@@ -6,12 +6,14 @@ let answer = document.querySelector('#answer')
 
 
 function sum(firstNumber, secondNumber) {
+
 	if (firstNumber === 0.1 && secondNumber === 0.2) {
 		return answer.textContent = (firstNumber + secondNumber).toFixed(1)
 	}
+	
 	return isNumber(answer.textContent = firstNumber + secondNumber)
 }
-//* функция суммы 2 чисел
+//* функция суммы 2 чисел с проверкой на баговое значение 0.1 + 0.2 и с нормальным выводом
 
 function difference(firstNumber, secondNumber) {
 	return isNumber(answer.textContent = firstNumber - secondNumber)
