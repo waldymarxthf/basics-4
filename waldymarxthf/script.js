@@ -1,5 +1,5 @@
 const timer = document.querySelector('#timer');
-const btnResetTimer = document.querySelector('#resetTimer');
+const resetTimerButton = document.querySelector('#resetTimer');
 
 let stopwatch;
 let isRunning = timer.dataset.include === 'off';
@@ -22,6 +22,11 @@ function stopTimer() {
 	console.log(`Вы остановили таймер на ${count}`);
 }
 
+function resetTimer() {
+	count = 0;
+	console.log(`Вы сбросили секундомер`);
+}
+
 function toggleButtonState(isRunning) {
 
 	if (isRunning) {
@@ -36,18 +41,13 @@ function toggleButtonState(isRunning) {
 
 }
 
-function addSizeEffect() {
+function animateTimerButton() {
 	timer.style.transform = 'scale(0.90)';
 	setTimeout(() => timer.style.transform = 'scale(1)', 100);
 }
 
 function updateTimerUI(count) {
 	timer.innerText = count;
-}
-
-function resetTimer() {
-	count = 0;
-	console.log(`Вы сбросили секундомер`);
 }
 
 function buttonClickTimer() {
@@ -58,7 +58,6 @@ function buttonClickTimer() {
 
 timer.addEventListener('click', () => {
 	buttonClickTimer(),
-	addSizeEffect()
+	animateTimerButton()
 });
-btnResetTimer.addEventListener('click', resetTimer);
-
+resetTimerButton.addEventListener('click', resetTimer);
