@@ -2,14 +2,14 @@ const stopwatchBtnStart = document.getElementById('stopwatch-btn-start');
 const stopwatchBtnStop = document.getElementById('stopwatch-btn-stop');
 const stopwatchBtnReset = document.getElementById('stopwatch-btn-reset');
 
+const stopwatch = {
+    hour: 0,
+    min: 0,
+    sec: 0,
+}
 
 let stopwatchStatus = false;
 let time = 0;
-let sec = 0;
-let min = 0;
-let hour = 0;
-let secOut = '';
-let minOut = '';
 
 let timeId;
 
@@ -21,6 +21,7 @@ function startCount() {
         timeId  = setInterval(() => {
             stepTime();
             refreshStopwatchDisplay();
+            
         }, 1000)
         stopwatchStatus = true;
     }
@@ -38,47 +39,42 @@ function stopCount() {
 // Изменяем время секундомера
 function stepTime() {
     time++;
-    sec = time % 60;
-    min = Math.floor(time / 60);
-    hour = Math.floor(time / 3600);
+    stopwatch.sec = time % 60;
+    stopwatch.min = Math.floor(time / 60);
+    stopwatch.hour = Math.floor(time / 3600);
 
 }
 
 // Если значение секунд и минут меньше 10, то добавляем к нему 0 в вывод. Выводим секундомер в консоль
 function refreshStopwatchDisplay() {
-    if (sec < 10 && min < 10) {
-        secOut = `0${sec}`;
-        minOut = `0${min}`;
+    let out = [];
+    for (let key in stopwatch) {
+        if (stopwatch[key] < 10) {
+            stopwatch[key] = `0${stopwatch[key]}`;
+        }
+        else {
+            stopwatch[key] = stopwatch[key];
+        }
+        out.push(stopwatch[key]);
     }
-    else if (sec >= 10 && min < 10) {
-        secOut = sec;
-        minOut = `0${min}`;
-    }
-    else if (sec < 10 && min >= 10) {
-        secOut = `0${sec}`;
-        minOut = min;
-    }
-    else if (sec >= 10 && min >= 10) {
-        secOut = sec;
-        minOut = min;
-    }
+    
     console.clear();
-    console.log(`${hour}:${minOut}:${secOut}`);
-    document.querySelector('.out').innerHTML = `${hour}:${minOut}:${secOut}`;
+    console.log(out);
+    document.querySelector('.out').innerHTML = out.join(':');
 }
 
 // Останавливаем отсчёт и сбрасываем показания секундомера
 function resetCount() {
     stopCount();
     time = 0;
-    sec = 0;
-    min = 0;
-    hour = 0;
+    stopwatch.sec = 0;
+    stopwatch.min = 0;
+    stopwatch.hour = 0;
+    
     refreshStopwatchDisplay()
     stopwatchBtnStart.className = 'nonactive';
     stopwatchBtnStop.className = 'nonactive';
 }
-
 
 
 stopwatchBtnStart.addEventListener('click', startCount);
