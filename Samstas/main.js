@@ -15,8 +15,6 @@ const outputNumber = document.getElementById("output-number");
 let first, second;
 let result;
 
-// 1. Если выбор знака равен + то добавляем значение firstNumber + secondNumber и выводим в outputNumber
-
 // ADDITION
 function add() {
   if (selectCalc.value === "add") {
