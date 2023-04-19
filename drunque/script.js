@@ -1,48 +1,42 @@
 const startButton = document.querySelector("#start");
 const pauseButton = document.querySelector("#pause");
-const restartButton = document.querySelector("#restart");
-const time = document.querySelector("#time");
+const stopButton = document.querySelector("#restart");
+const timeNode = document.querySelector("#time");
 
 function createStopwatch() {
   let count = 0;
   let isOn = false;
   let timer;
-  const initialTime = formatTime(0)
+  const initialTime = formatTime(0);
 
   function formatTime(time) {
-    const hours = Math.floor(time / 3600)
-    const minutes = Math.floor(time / 60)
-    const seconds = Math.floor(time % 60)
+    const hours = Math.floor(time / 3600);
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
 
-    const additionalFormat = (time) => `${time < 10 ? `0${time}` : time}`; 
-
-    return `${additionalFormat(hours)}:${additionalFormat(minutes)}:${additionalFormat(seconds)}`
+    const format = (time) => `${time < 10 ? `0${time}` : time}`;
+    return `${format(hours)}:${format(minutes)}:${format(seconds)}`;
   }
 
   return {
     start() {
       if (!isOn) {
         timer = setInterval(() => {
-          console.log(count++);
-          time.textContent = formatTime(count);
+          timeNode.textContent = formatTime(++count);
         }, 1000);
+        isOn = true;
       }
     },
     pause() {
       if (isOn) {
         clearInterval(timer);
+        isOn = false;
       }
     },
     stop() {
-      if (isOn) {
-        count = 0;
-        time.textContent = initialTime;
-        clearInterval(timer);
-      }
-    },
-    toggle(mode) {
-      isOn = mode ? mode : !isOn
-      return isOn;
+      count = 0;
+      timeNode.textContent = initialTime;
+      clearInterval(timer);
     },
     isOn() {
       return isOn;
@@ -61,14 +55,9 @@ startButton.addEventListener("click", () => {
 pauseButton.addEventListener("click", () => {
   if (stopwatch.isOn()) {
     stopwatch.pause();
-    stopwatch.toggle();
   }
 });
 
-restartButton.addEventListener("click", () => {
-  stopwatch.toggle(true);
+stopButton.addEventListener("click", () => {
   stopwatch.stop();
-  stopwatch.toggle();
-  stopwatch.start();
-  stopwatch.toggle();
 });
