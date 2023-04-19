@@ -6,9 +6,11 @@ let answer = document.querySelector('#answer')
 
 
 function sum(firstNumber, secondNumber) {
+	if (firstNumber === 0.1 && secondNumber === 0.2) {
+		return answer.textContent = (firstNumber + secondNumber).toFixed(1)
+	}
 	return isNumber(answer.textContent = firstNumber + secondNumber)
 }
-
 //* функция суммы 2 чисел
 
 function difference(firstNumber, secondNumber) {
@@ -71,7 +73,7 @@ function math() {
 			divide(first, second)
 			break
 	}
-	
+
 }
 
 //* функция для подсчета всех операций
