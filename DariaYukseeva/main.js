@@ -1,6 +1,7 @@
 
 const btnEqual = document.querySelector('.btn');
 const outResult = document.querySelector('.out');
+const btnReset = document.querySelector('.reset');
 
 let out = '';
 const mistakeMessage = 'Mistake!';
@@ -48,3 +49,10 @@ btnEqual.addEventListener('click', function() {
     outResult.innerHTML = out;
     
 });
+btnReset.addEventListener('click', function() {
+ 
+    document.querySelector('.num1').value = '';
+    document.querySelector('.num2').value = '';
+    out = '';
+    outResult.innerHTML = out;
+})
