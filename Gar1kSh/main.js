@@ -25,4 +25,16 @@ function startPauseTimer() {
   }
 }
 
+function resetTimer() {
+  clearInterval(timerId);
+  timerId = null;
+  count = 0;
+  counterDisplay.innerText = count;
+  buttonStart.innerText = "Start";
+  buttonStart.style.background = "#85eb6b";
+  console.clear();
+}
+
 buttonStart.addEventListener("click", startPauseTimer);
+
+buttonReset.addEventListener("click", resetTimer);
