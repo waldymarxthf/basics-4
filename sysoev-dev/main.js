@@ -36,8 +36,7 @@ function isNumber(num) {
 }
 
 function showResult(value) {
-  const isValid = !isFinite(value) || isNaN(value);
-  if (isValid) {
+  if (!isNumber(value)) {
     alert(ERROR_NUMBER_MESSAGE);
     return;
   }
