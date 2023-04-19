@@ -12,17 +12,18 @@
 <body>
     <div class="wrapper">
         <div class="calculator">
-            <input type="number" placeholder="2">
+            <input type="number" placeholder="2" class="first-operand">
             <select name="" id="operators">
                 <option value="+">+</option>
                 <option value="-">-</option>
                 <option value="*">*</option>
                 <option value="/">/</option>
             </select>
-            <input type="number" placeholder="6">
-            <button class="equals-btn">=</button>
-            <output class="result">10</output>
+            <input type="number" placeholder="6" class="second-operand">
+            <button type="button" class="equals-btn">=</button>
+            <output class="result">0</output>
         </div>
+        <button type="button" class="reset">reset</button>
     </div>
 
     <script src="./main.js"></script>
