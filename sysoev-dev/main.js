@@ -36,14 +36,16 @@ function isNumber(num) {
 }
 
 function showResult(value) {
+  const isValid = !isFinite(value) || isNaN(value);
+  if (isValid) {
+    alert(ERROR_NUMBER_MESSAGE);
+    return;
+  }
+
   UI_ELEMENTS.OUTPUT.textContent = value;
 }
 
-function calc() {
-  event.preventDefault();
-  const num1 = Number(UI_ELEMENTS.NUM1.value);
-  const num2 = Number(UI_ELEMENTS.NUM2.value);
-  const operation = UI_ELEMENTS.OPERATION.value;
+function calc(num1, num2, operation) {
   const isValid = isNumber(num1) && isNumber(num2);
 
   if (!isValid) {
@@ -53,21 +55,26 @@ function calc() {
 
   switch (operation) {
     case OPERATION.ADD:
-      showResult(OPERATIONS.add(num1, num2));
-      break;
+      return OPERATIONS.add(num1, num2);
     case OPERATION.MULTI:
-      showResult(OPERATIONS.multi(num1, num2));
-      break;
+      return OPERATIONS.multi(num1, num2);
     case OPERATION.SUBSTRACT:
-      showResult(OPERATIONS.substract(num1, num2));
-      break;
+      return OPERATIONS.substract(num1, num2);
     case OPERATION.DIVISION:
-      showResult(OPERATIONS.division(num1, num2));
-      break;
+      return OPERATIONS.division(num1, num2);
     default:
       alert(ERROR_OPERATION_MESSAGE);
       break;
   }
 }
 
-UI_ELEMENTS.FORM.addEventListener('submit', calc);
+function gatherData() {
+  event.preventDefault();
+  const num1 = Number(UI_ELEMENTS.NUM1.value);
+  const num2 = Number(UI_ELEMENTS.NUM2.value);
+  const operation = UI_ELEMENTS.OPERATION.value;
+  const result = calc(num1, num2, operation);
+  showResult(result);
+}
+
+UI_ELEMENTS.FORM.addEventListener('submit', gatherData);
