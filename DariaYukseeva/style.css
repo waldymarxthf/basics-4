@@ -29,12 +29,13 @@ body {
 .calculator {
 
     min-width: 400px;
+    
     display: flex;
     justify-content: space-around;
     align-items: center;
 }
 
-.input-num {
+.num1, .num2 {
     width: 95px;
     height: 33px;
     box-sizing: border-box;
@@ -82,4 +83,5 @@ body {
 
 .out {
     display: inline-block;
+    width: 50px;
 }
