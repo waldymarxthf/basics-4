@@ -41,11 +41,8 @@ function createStopwatch() {
       }
     },
     toggle(mode) {
-      if (mode) {
-        isOn = mode;
-        return;
-      }
-      isOn = !isOn;
+      isOn = mode ? mode : !isOn
+      return isOn;
     },
     isOn() {
       return isOn;
@@ -53,27 +50,11 @@ function createStopwatch() {
   };
 }
 
-const buttons = document.querySelectorAll(".button");
-
-buttons.forEach((mainButton) => {
-  mainButton.addEventListener("click", () => {
-    buttons.forEach((button) => {
-      if (button !== mainButton) {
-        button.classList.remove("button-active");
-      }
-    });
-    if (mainButton !== restartButton) {
-      mainButton.classList.add("button-active");
-    }
-  });
-});
-
 const stopwatch = createStopwatch();
 
 startButton.addEventListener("click", () => {
   if (!stopwatch.isOn()) {
     stopwatch.start();
-    stopwatch.toggle();
   }
 });
 
