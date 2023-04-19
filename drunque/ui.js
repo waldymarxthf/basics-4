@@ -7,8 +7,6 @@ buttons.forEach((mainButton) => {
         button.classList.remove("button-active");
       }
     });
-    if (mainButton !== restartButton) {
-      mainButton.classList.add("button-active");
-    }
+    mainButton.classList.add("button-active");
   });
 });
