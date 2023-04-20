@@ -34,3 +34,30 @@ const resultDiv = (num1, num2) => {
     return (UI.OUTPUT.textContent = (num1 / num2).toFixed(10));
   }
 };
+
+const getInputValue = (inp) => inp.value;
+
+const calc = () => {
+  let num1 = +getInputValue(UI.FIRST_NUMBER);
+  let num2 = +getInputValue(UI.SECOND_NUMBER);
+  let operation = getInputValue(UI.OPERATOR);
+
+  switch (operation) {
+    case OPERATION.ADD:
+      resultAdd(num1, num2);
+      break;
+    case OPERATION.SUBT:
+      resultSubtract(num1, num2);
+      break;
+    case OPERATION.MULTI:
+      resultMulti(num1, num2);
+      break;
+    case OPERATION.DIV:
+      resultDiv(num1, num2);
+      break;
+    default:
+      break;
+  }
+};
+
+UI.BUTTON_EQUAL.addEventListener("click", calc);
