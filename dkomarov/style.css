@@ -43,6 +43,41 @@ body {
 
 
 
+
+.wrap-btn {
+    display: flex;
+    
+}
+
+
+.wrap-btn_start {
+    width: 100px;
+    height: 80px;
+    border: none;
+    border-radius: 10px;
+    background-color: #47a0ff;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 18px;
+    cursor: pointer;
+    display: block;
+}
+
+.wrap-btn_reset {
+    width: 100px;
+    height: 80px;
+    border: none;
+    border-radius: 10px;
+    background-color: #939393;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 18px;
+    cursor: pointer;
+    display: block;
+    padding-top: 7px;
+}
+
+
 .hidden {
     display: none;
 }

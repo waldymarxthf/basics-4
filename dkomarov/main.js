@@ -1,5 +1,6 @@
 const buttonStart = document.querySelector("#btn-start");
 const buttonStop = document.querySelector("#btn-stop");
+const btnWrap = document.querySelector("#btnWrap");
 
 let timer;
 let hrs = 0;
@@ -25,7 +26,6 @@ function runTimer() {
 buttonStart.addEventListener('click', () => {
     runTimer();
     buttonStart.classList.add('hidden');
-    // buttonStop.removeAttribute('style');
     buttonStop.classList.remove('hidden');
 });
 
@@ -33,6 +33,10 @@ buttonStop.addEventListener('click', () => {
     clearTimeout(timer)
     buttonStart.classList.remove('hidden');
     buttonStop.classList.add('hidden');
+    btnWrap.classList.remove('hidden');
+    buttonStart.classList.add('hidden');
+   
+
 })
 
 
