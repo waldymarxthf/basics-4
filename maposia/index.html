@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/style.css" />
+    <title>Calc UI</title>
+  </head>
+  <body>
+    <div class="calc_ui">
+      <div class="box_operand">
+        <input type="number" id="first_field" required />
+        <label for="first_operand">Операнд А</label>
+      </div>
+      <select class="operators">
+        <option class="operator" value="+">+</option>
+        <option class="operator" value="-">-</option>
+        <option class="operator" value="/">/</option>
+        <option class="operator" value="*">*</option>
+      </select>
+      <div class="box_operand">
+        <input type="number" id="second_operand" required />
+        <label for="second_operand">Операнд B</label>
+      </div>
+      <button>=</button>
+      <div class="result"></div>
+    </div>
+    <script src="/main.js"></script>
+  </body>
+</html>
