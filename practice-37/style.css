@@ -1,0 +1,55 @@
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+    align-items: center;
+    background-color:darkorchid ;
+}
+
+.secundomer {
+    color: white;
+    margin-bottom: 30px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size:xx-large;
+}
+.knopki {
+}
+.start {
+    width: 100px;
+    height: 50px;
+    background-color: chartreuse;
+    color: white;
+    border-radius: 20px;
+    transition: 0.5s;
+}
+.start:hover{
+    scale: 1.2;
+}
+.paysa {
+    width: 100px;
+    height: 50px;
+    background-color: darkorange;
+    color: white;
+    border-radius: 20px;
+    transition: 0.5s;
+}
+.paysa:hover{
+    scale: 1.2;
+}
+.stop {
+    width: 100px;
+    height: 50px;
+    background-color: red;
+    color: white;
+    border-radius: 20px;
+    transition: 0.5s;
+}
+.stop:hover{
+    scale: 1.2;
+}
