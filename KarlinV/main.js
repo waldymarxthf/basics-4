@@ -6,7 +6,7 @@
 
     action.classList.add("action");
 
-    for (let i = 0; i < options.length - 1; i++) {
+    for (let i = 0; i < options.length; i++) {
       const optionEl = document.createElement("option");
       const element = options[i];
 
