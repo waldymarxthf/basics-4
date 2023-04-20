@@ -3,6 +3,7 @@ const bodyElement = document.querySelector('body');
 
 bodyElement.setAttribute('data-color', '#7FFFD4');
 const colorValue = bodyElement.getAttribute('data-color');
+const colors = ['#FFB6C1', '#EE82EE', '#00FA9A', '#00FFFF'];
 let timerId;
 
 let bgOn = false;
@@ -21,8 +22,7 @@ changeBgBtn.addEventListener('click', () => {
 })
 
 function changeBackgroundColor() {
-    const colors = ['#FFB6C1', '#EE82EE', '#00FA9A', '#00FFFF'];
-    
+        
     timerId = setInterval(() => {
         let randomColorIndex = Math.floor(Math.random() * colors.length);
         bodyElement.style.backgroundColor = colors[randomColorIndex];
