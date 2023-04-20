@@ -14,6 +14,15 @@ function getValueB() {
 	return b.value
 }
 
+function isNumber(value) {
+	if (value === "") {
+		alert ("Error! Enter a number!")
+		return false
+	} else {
+		return true
+	}
+}
+
 function getOperationValue() {
 	return operation.value
 }
@@ -21,27 +30,30 @@ function getOperationValue() {
 function calculation() {
 	let operationValue = getOperationValue();
 	let result;
-	
-	switch(operationValue) {
-		case '+':
-			result = +getValueA() + +getValueB();
-			break;
-		case '-':
-			result = +getValueA() - +getValueB();
-			break;
-		case '*':
-			result = +getValueA() * +getValueB();
-			break;
-		case '/':
-			result = +getValueA() / +getValueB();
-			break;
-		default:
-		 	result = 'Error';
-	}
 
-	return result;
+	if (isNumber(getValueA()) && isNumber(getValueB())) {
+
+		switch(operationValue) {
+			case '+':
+				result = +getValueA() + +getValueB();
+				break;
+			case '-':
+				result = +getValueA() - +getValueB();
+				break;
+			case '*':
+				result = +getValueA() * +getValueB();
+				break;
+			case '/':
+				result = +getValueA() / +getValueB();
+				break;
+			default:
+				 result = false;
+		}
+	
+		return +result.toFixed(5);
+	}
 }
 
 function rendering() {
-	resultOutput.textContent = calculation()
+	return resultOutput.textContent = calculation()
 }
