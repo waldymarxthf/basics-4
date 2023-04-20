@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600&display=swap");
+
 body {
   width: 100vw;
   height: 100vh;
@@ -6,6 +8,18 @@ body {
   justify-content: center;
   background: linear-gradient(#242424, #121212);
   color: white;
+  flex-direction: column;
+  font-family: "JetBrains Mono", monospace;
+}
+
+body > p {
+  display: none;
+}
+
+h1 {
+  font-size: 3rem;
+  position: relative;
+  bottom: 5rem;
 }
 
 .calculator {
@@ -21,23 +35,23 @@ body {
 
 .rectangle {
   height: 2.5rem;
-  padding: .5rem;
+  padding: 0.5rem;
   border: 1px solid #ccc;
   background-color: #242424;
-  transition: background-color .3s;
+  transition: background-color 0.3s;
 }
 
 .square {
   background-color: #242424;
   height: 2.5rem;
-  padding: .5rem;
+  padding: 0.5rem;
   border: 1px solid #ccc;
   width: 2.5rem;
   text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: background-color .3s;
+  transition: background-color 0.3s;
 }
 
 .disabled {
@@ -89,4 +103,16 @@ input:focus,
 .rectangle:hover,
 .square:hover {
   background-color: #202020;
+}
+
+@media (max-width: 1000px) {
+  .calculator {
+    display: none;
+  }
+  body > p {
+    display: block;
+  }
+  h1 {
+    font-size: 2rem;
+  }
 }
