@@ -26,6 +26,8 @@ const equal = document.getElementById("equal");
 
 // Helper functions&variables
 const empty = "";
+const errorZero = "Can't divide by zero";
+const errorData = "insufficient data";
 // Start
 function start() {
   input.value = empty;
@@ -39,8 +41,8 @@ const data = {
 
   calc(a, b, op) {
     //Guard clause
-    if (b == 0 && op === "/") return `Can't divide by zero`;
-    if (a === empty || b === empty) return "insufficient data";
+    if (b == 0 && op === "/") return errorZero;
+    if (a === empty || b === empty) return errorData;
     // calculator
     if (op === "-") return parseFloat(a) - parseFloat(b);
     if (op === "+") return parseFloat(a) + parseFloat(b);
@@ -64,7 +66,10 @@ for (let i = 0; i < buttons.length; i++) {
     }
     if (input.value === "0") {
       input.value = this.value;
-    } else {
+    }
+    if (input.value === errorData || input.value === errorZero)
+      input.value = this.value;
+    else {
       input.value += this.value;
     }
   });
