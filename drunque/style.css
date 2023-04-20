@@ -22,20 +22,22 @@ body {
 .rectangle {
   height: 2.5rem;
   padding: .5rem;
-  border: 1px solid black;
+  border: 1px solid #ccc;
   background-color: #242424;
+  transition: background-color .3s;
 }
 
 .square {
   background-color: #242424;
   height: 2.5rem;
   padding: .5rem;
-  border: 1px solid black;
+  border: 1px solid #ccc;
   width: 2.5rem;
   text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: background-color .3s;
 }
 
 .disabled {
@@ -62,7 +64,7 @@ body {
 }
 
 .options .square:last-of-type {
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #ccc;
 }
 
 .current {
@@ -74,7 +76,16 @@ body {
 }
 
 #result {
-  width: 10rem;
   text-align: right;
   overflow: hidden;
+  width: 15rem;
+}
+
+input:focus {
+  border: 1px solid white;
+}
+
+.rectangle:hover,
+.square:hover {
+  background-color: #202020;
 }
