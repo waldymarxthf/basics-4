@@ -37,6 +37,12 @@ const resultDiv = (num1, num2) => {
 
 const getInputValue = (inp) => inp.value;
 
+const resetInput = () => {
+  UI.OUTPUT.textContent = "";
+  UI.FIRST_NUMBER.value = "";
+  UI.SECOND_NUMBER.value = "";
+};
+
 const calc = () => {
   let num1 = +getInputValue(UI.FIRST_NUMBER);
   let num2 = +getInputValue(UI.SECOND_NUMBER);
@@ -61,3 +67,4 @@ const calc = () => {
 };
 
 UI.BUTTON_EQUAL.addEventListener("click", calc);
+UI.RESET.addEventListener("click", resetInput);
