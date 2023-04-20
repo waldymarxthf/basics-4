@@ -7,6 +7,7 @@ const hoursValue = document.querySelector("#value-hours");
 const minutesValue = document.querySelector("#value-minutes");
 const secondsValue = document.querySelector("#value-seconds");
 const changeColorBtn = document.querySelector("#change-color");
+const bgBody = document.querySelector("body");
 
 let timer;
 let hrs = 0;
@@ -70,7 +71,7 @@ btnWrapReset.addEventListener('click', () => {
 });
 
 changeColorBtn.addEventListener('click', () => {
-    
+    bgBody.style.backgroundColor = "#badc64"
     console.log("color")
 })
 
