@@ -44,48 +44,67 @@ function getInputValue(input) {
 
 //* функция которая получает value от элемента
 
-function math() {
+const history = [];
 
-	let first = +getInputValue(firstNumber)
-	let second = +getInputValue(secondNumber)
-	let symbol = getInputValue(mathSymbol)
+function saveAnswer(first, second, symbol, result) {
+	const answerBlock = document.querySelector('.answer-block');
+	const lastOperation = history[history.length - 1];
 
-	switch(symbol) {
-		case '+':
-			sum(first, second)
-			break;
-		case '-':
-			difference(first, second)
-			break;
-		case '*':
-			multiply(first, second)
-			break;
-		case '/':
-			divide(first, second)
-			break
+	if (
+		lastOperation &&
+		lastOperation.first === first &&
+		lastOperation.second === second &&
+		lastOperation.symbol === symbol
+	) {
+		return;
 	}
 
+	const newDiv = document.createElement('div');
+	newDiv.innerHTML = `
+		<span class="first-value">${first}</span>
+		<span class="operation">${symbol}</span>
+		<span class="second-value">${second}</span>
+		<span class="equals">=</span>
+		<span class="result">${result}</span>
+	`;
+	newDiv.classList.add('answer');
+	answerBlock.insertAdjacentElement('beforeend', newDiv);
+	newDiv.addEventListener('click', () => {
+		newDiv.remove();
+	});
+
+	history.push({
+		first,
+		second,
+		symbol,
+		result,
+	});
 }
 
-//* функция для подсчета всех операций
-
-function saveAnswer() {
-	let newDiv = answer.cloneNode(true)
-	document.querySelector('.answer-block').appendChild(newDiv);
-	newDiv.classList.add('answer')
-	newDiv.removeAttribute('id')
-	newDiv.addEventListener('click', deleteElement);
-}
-
-//* функция которая сохраняет ответы
-
-function deleteElement() {
-	this.remove()
-}
-
-//* функция которая удаляет ответ при нажатии на него
+//* функция которая сохраняет ответы и удаляет при нажатии на них
 
 equals.addEventListener('click', () => {
-	math(),
-	saveAnswer()
-})
+	const first = +getInputValue(firstNumber);
+	const second = +getInputValue(secondNumber);
+	const symbol = getInputValue(mathSymbol);
+	let result;
+
+	switch (symbol) {
+		case '+':
+			result = sum(first, second);
+			break;
+		case '-':
+			result = difference(first, second);
+			break;
+		case '*':
+			result = multiply(first, second);
+			break;
+		case '/':
+			result = divide(first, second);
+			break;
+	}
+
+	saveAnswer(first, second, symbol, result);
+});
+
+//* подсчет всех операций
