@@ -5,12 +5,19 @@ const btnBg = document.getElementById("bg");
 const body = document.body;
 
 // Task 1 Change background color
+let bgBlack = false;
 const colorData = btnBg.getAttribute("data-color");
 
 function changeBgColor() {
-  body.style.backgroundColor = colorData;
+  if (bgBlack === false) {
+    body.style.backgroundColor = colorData;
+    bgBlack = true;
+  } else {
+    body.style.backgroundColor = "white";
+    bgBlack = false;
+  }
 }
-console.log(body.style.backgroundColor);
+
 btnBg.addEventListener("click", changeBgColor);
 
 // Task 2 Look up the styles as an object
