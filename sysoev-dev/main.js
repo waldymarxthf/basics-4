@@ -4,6 +4,7 @@ const UI_ELEMENTS = {
   FORM: document.querySelector('.calc__form'),
   OPERATION: document.querySelector('.calc__form-select'),
   OUTPUT: document.querySelector('.calc__form--output'),
+  HISTORY_BOX: document.querySelector('.calc__history'),
 };
 
 const OPERATION = {
@@ -35,6 +36,18 @@ function isNumber(num) {
   return Number.isFinite(num);
 }
 
+function deleteHistoryItem(event) {
+  event.target.remove();
+}
+
+function showHistory(value) {
+  const item = document.createElement('div');
+  item.classList.add('calc__history-item');
+  item.textContent = value;
+  UI_ELEMENTS.HISTORY_BOX.append(item);
+  item.addEventListener('click', deleteHistoryItem);
+}
+
 function showResult(value) {
   if (!isNumber(value)) {
     alert(ERROR_NUMBER_MESSAGE);
@@ -42,6 +55,7 @@ function showResult(value) {
   }
 
   UI_ELEMENTS.OUTPUT.textContent = value;
+  showHistory(value);
 }
 
 function calc(num1, num2, operation) {
