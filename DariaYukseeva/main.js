@@ -43,8 +43,8 @@ function getInputValue(sel) {
 }
 
 btnEqual.addEventListener('click', function() {
-    let number1 = +getInputValue('.num1');
-    let number2 = +getInputValue('.num2');
+    let number1 = +getInputValue('.num1').replace(/,/i, '.');
+    let number2 = +getInputValue('.num2').replace(/,/i, '.');
     let selectedMathOperator = getInputValue('#operator');
     calculate(selectedMathOperator, number1, number2);
     outResult.innerHTML = out;
