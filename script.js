@@ -3,6 +3,8 @@ const secondNum = document.getElementById('numb2');
 const select = document.getElementById('select');
 const equal = document.getElementById('resultButton');
 const result = document.getElementById('result');
+const history = document.getElementById('history');
+const added = document.querySelector('.added');
 
 const OPERATIONS = {
     sum: '+',
@@ -54,4 +56,15 @@ equal.addEventListener('click', function(){
     const operation = select.value;
     const give = calc(a,b,operation);
     result.innerHTML = give;
+		const newDiv = document.createElement('div');
+		newDiv.classList.add('added');
+		newDiv.textContent = give;
+		history.appendChild(newDiv);
+})
+
+history.addEventListener('click', function(event) {
+	if (event.target.classList.contains('added')) {
+			event.stopPropagation();
+			event.target.remove();
+	}
 })
