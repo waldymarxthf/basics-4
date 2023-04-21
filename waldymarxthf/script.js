@@ -69,4 +69,23 @@ function math() {
 
 //* функция для подсчета всех операций
 
-equals.addEventListener('click', math)
+function saveAnswer() {
+	let newDiv = answer.cloneNode(true)
+	document.querySelector('.answer-block').appendChild(newDiv);
+	newDiv.classList.add('answer')
+	newDiv.removeAttribute('id')
+	newDiv.addEventListener('click', deleteElement);
+}
+
+//* функция которая сохраняет ответы
+
+function deleteElement() {
+	this.remove()
+}
+
+//* функция которая удаляет ответ при нажатии на него
+
+equals.addEventListener('click', () => {
+	math(),
+	saveAnswer()
+})
