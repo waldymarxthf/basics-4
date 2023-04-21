@@ -1,18 +1,36 @@
 const buttonsNum = document.querySelectorAll('.numBtn')
 const display = document.querySelector('.result-block')
-const operands = document.querySelectorAll('.operand')
+const operators = document.querySelectorAll('.operator')
 const clearBtn = document.querySelector('.clear')
+
+const OPERATORS = {
+  PLUS: '+',
+  MUNIS: '-',
+  MULTIPLY: '*',
+  DIVISION: '/',
+}
 
 let isClicked = false
 
 buttonsNum.forEach((button) => {
   button.addEventListener('click', () => {
-    const maxNum = display.textContent
-    if (maxNum.length < 14) {
-      if (maxNum == 0 || isClicked) {
+    console.log(button.textContent)
+    const outputNum = display.textContent
+    if (button.textContent.length < 14) {
+      if (button.textContent === ',') {
+        display.textContent = `${display.textContent}.`
+        return
+      }
+      if (button.textContent === '0' && isClicked) {
+        display.textContent = ''
+        display.textContent += button.textContent
+        return
+      }
+      if (display.textContent === '0' || isClicked) {
         display.textContent = ''
         display.textContent += button.textContent
         isClicked = false
+        return
       } else {
         display.textContent = display.textContent += button.textContent
       }
@@ -22,48 +40,45 @@ buttonsNum.forEach((button) => {
 
 let operandA
 let operandB
-let operator
+let currentOperator
 
-operands.forEach((operand) => {
-  const operandText = operand.textContent
-  operand.addEventListener('click', () => {
-    switch (operandText) {
-      case '+':
-        operandA = display.textContent
-        operator = '+'
-        isClicked = true
+function сalculation(symbol) {
+  operandA = Number(display.textContent)
+  currentOperator = symbol
+  isClicked = true
+}
+
+operators.forEach((operator) => {
+  const operatorValue = operator.textContent
+  operator.addEventListener('click', () => {
+    switch (operatorValue) {
+      case OPERATORS.PLUS:
+        сalculation(operatorValue)
         return
-      case '-':
-        operandA = display.textContent
-        operator = '-'
-        display.textContent = ''
-        isClicked = true
+      case OPERATORS.MUNIS:
+        сalculation(operatorValue)
         return
-      case '*':
-        operandA = display.textContent
-        operator = '*'
-        display.textContent = ''
-        isClicked = true
+      case OPERATORS.MULTIPLY:
+        сalculation(operatorValue)
         return
-      case '/':
-        operandA = display.textContent
-        operator = '/'
-        display.textContent = ''
-        isClicked = true
+      case OPERATORS.DIVISION:
+        сalculation(operatorValue)
         return
       case '=':
-        operandB = display.textContent
-        if (operator == '+') {
-          display.textContent = Number(operandA) + Number(operandB)
+        operandB = Number(display.textContent)
+        if (currentOperator === OPERATORS.PLUS) {
+          display.textContent = operandA + operandB
         }
-        if (operator == '-') {
-          display.textContent = Number(operandA) - Number(operandB)
+        if (currentOperator === OPERATORS.MUNIS) {
+          display.textContent = operandA - operandB
         }
-        if (operator == '*') {
-          display.textContent = Number(operandA) * Number(operandB)
+        if (currentOperator === OPERATORS.MULTIPLY) {
+          display.textContent = operandA * operandB
         }
-        if (operator == '/') {
-          display.textContent = Number(operandA) / Number(operandB)
+        if (currentOperator == OPERATORS.DIVISION) {
+          display.textContent = operandA / operandB
+          console.log(operandA)
+          console.log(operandB)
         }
 
         return
@@ -72,5 +87,5 @@ operands.forEach((operand) => {
 })
 
 clearBtn.addEventListener('click', () => {
-  display.textContent = 0
+  display.textContent = '0'
 })
