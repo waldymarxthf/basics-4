@@ -26,10 +26,11 @@ body {
     display: flex;
     justify-content: center;
     flex-direction: column;
+   
 }
 .calculator {
-
-    min-width: 400px;
+    
+    min-width: 600px;
     
     display: flex;
     justify-content: space-around;
@@ -37,9 +38,11 @@ body {
 }
 
 .num1, .num2 {
-    width: 95px;
+    width: 120px;
     height: 33px;
     box-sizing: border-box;
+    border: none;
+    border-bottom: 1px solid #000;
 }
 
 .select-wrapper {
@@ -73,7 +76,7 @@ body {
     width: 39px;
     height: 33px;
 
-    background: #FFFFFF;
+    background: #efefef;
     border: 1px solid #000000;
     border-radius: 4px;
 }
@@ -84,12 +87,38 @@ body {
 
 .out {
     display: inline-block;
-    width: 50px;
+    min-width: 50px;
 }
 .reset {
-    display: block;
-    margin-top: 50px;
-    background: #FFFFFF;
+    margin-left: 20px;
+    display: inline-block;
+    background: #efefef;
     border: 1px solid #000000;
     border-radius: 4px;
+}
+.reset:hover {
+    cursor: pointer;
+}
+
+.resultsCache {
+    height: 150px;
+    min-width: 50px;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    overflow-y: auto;
+   
+}
+.resultsCache div {
+    margin-bottom: 10px;
+    
+}
+
+.resultsCache div:hover {
+    cursor: pointer;
+}
+
+.resultsCache div:nth-child(odd) {
+    background-color: #efefef;
 }

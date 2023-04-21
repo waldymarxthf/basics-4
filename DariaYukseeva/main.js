@@ -2,6 +2,7 @@
 const btnEqual = document.querySelector('.btn');
 const outResult = document.querySelector('.out');
 const btnReset = document.querySelector('.reset');
+const resultsCache = document.querySelector('.resultsCache');
 
 let out = '';
 const mistakeMessage = 'Mistake!';
@@ -47,7 +48,8 @@ btnEqual.addEventListener('click', function() {
     let selectedMathOperator = getInputValue('#operator');
     calculate(selectedMathOperator, number1, number2);
     outResult.innerHTML = out;
-    
+
+    resultsCache.insertAdjacentHTML('beforeend', `<div class="result-item">${number1}${selectedMathOperator}${number2} = ${out}</div>`);
 });
 btnReset.addEventListener('click', function() {
  
@@ -55,4 +57,12 @@ btnReset.addEventListener('click', function() {
     document.querySelector('.num2').value = '';
     out = '';
     outResult.innerHTML = out;
+})
+
+resultsCache.addEventListener('click', function(event) {
+    if (event.target.classList.contains('result-item')) {
+        event.stopPropagation();
+        event.target.remove();
+    }
+    
 })
