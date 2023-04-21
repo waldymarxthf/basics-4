@@ -45,29 +45,17 @@
 <script>
     let randomColor = 'rgb(255,0,0)';
     let button = document.querySelector('#change-bg');
-    let body = document.body;
     let dataColor = button.getAttribute('data-color');
-    let red;
-    let green;
-    let blue;
 
-    function randomNum() {
+    function rndm() {
         return Math.floor(Math.random() * 255);
-    };
-
-    function randomize(){
-        red = randomNum();
-        green = randomNum();
-        blue = randomNum();
     };
 
     function changeBg(){
         randomize();
-        body.style.backgroundColor = dataColor;
-        dataColor = `rgb(${red},${green},${blue})`;
+        document.body.style.backgroundColor = dataColor;
+        dataColor = `rgb(${rndm()},${rndm()},${rndm()})`;
     };
-
-
 
     button.addEventListener('click', changeBg);
 </script>
