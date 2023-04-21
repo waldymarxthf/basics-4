@@ -10,14 +10,20 @@
 <body>
 	<div class="container">
 		<div class="block">
-			<input type="number" id="numb1">
+			<div class="operand">
+				<input type="number" id="numb1" required>
+				 <label class="label" for="numb1">OperandA</label>
+			 </div>
 			<select id="select">
 				<option>+</option>
 				<option>-</option>
 				<option>*</option>
 				<option>/</option>
 			</select>
-			<input type="number" id="numb2">
+			<div class="operand">
+				<input type="number" id="numb2" required>
+			 <label class="label" for="numb2">OperandB</label>
+				</div>
 			<button id="resultButton">=</button>
 			<div class="result" id="result">0</div>
 		</div>
