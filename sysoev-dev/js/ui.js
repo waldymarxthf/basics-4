@@ -5,4 +5,5 @@ export const UI_ELEMENTS = {
   OPERATION: document.querySelector('.calc__form-select'),
   OUTPUT: document.querySelector('.calc__form--output'),
   HISTORY_BOX: document.querySelector('.calc__history'),
+  ERROR_BOX: document.querySelector('.calc__error'),
 };

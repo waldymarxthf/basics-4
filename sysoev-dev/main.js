@@ -28,7 +28,7 @@ export const OPERATIONS = {
   },
 };
 
-function isNumber(num) {
+function isInfinity(num) {
   return Number.isFinite(num);
 }
 
@@ -44,9 +44,16 @@ function showHistory(value) {
   item.addEventListener('click', deleteHistoryItem);
 }
 
+function showError() {
+  UI_ELEMENTS.ERROR_BOX.classList.add('calc__error--active');
+  UI_ELEMENTS.ERROR_BOX.addEventListener('click', () => {
+    UI_ELEMENTS.ERROR_BOX.classList.remove('calc__error--active');
+  });
+}
+
 function showResult(value) {
-  if (!isNumber(value)) {
-    alert(ERRORS.NUMBER);
+  if (!isInfinity(value)) {
+    showError();
     return;
   }
 
