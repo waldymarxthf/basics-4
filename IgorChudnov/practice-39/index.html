@@ -13,6 +13,7 @@
             justify-content: center;
             align-items: center;
             margin: 0;
+            transition: 0.3s;
         }
         #change-bg{
             width: 600px;
@@ -46,17 +47,32 @@
     let randomColor = 'rgb(255,0,0)';
     let button = document.querySelector('#change-bg');
     let dataColor = button.getAttribute('data-color');
+    let status;
 
     function rndm() {
-        return Math.floor(Math.random() * 255);
+    return Math.floor(Math.random() * 255);
     };
 
     function changeBg(){
-        randomize();
-        document.body.style.backgroundColor = dataColor;
-        dataColor = `rgb(${rndm()},${rndm()},${rndm()})`;
+    document.body.style.backgroundColor = dataColor;
+    button.style.color = dataColor;
+    dataColor = `rgb(${rndm()},${rndm()},${rndm()})`;
     };
 
-    button.addEventListener('click', changeBg);
+    function start() {
+    status = true;
+    changingColoures = setInterval(changeBg, 1000);
+    };
+
+    function pause(){
+    status = false;
+    clearInterval(changingColoures);
+    };
+
+    function buttonClick() {
+    if (status) {pause()} else {start()};
+    };
+
+    button.addEventListener('click', buttonClick);
 </script>
 </html>
