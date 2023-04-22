@@ -1,30 +1,62 @@
-const stopWatch = document.getElementById('btn');
+const answerNode = document.querySelector('.answer');
+const historyNode = document.querySelector('.history');
 
-let startTime;
-let elapsedTime = 0;
-let myTimer;
-let isRunning = false;
+const num1 = document.querySelector('.num1')
+const num2 = document.querySelector('.num2')  
 
-function startClock() {
-  startTime = Date.now() - elapsedTime;
-  myTimer = setInterval(function() {
-    elapsedTime = Date.now() - startTime;
-    console.log(Math.floor(elapsedTime / 1000));
-  }, 1000);
-  isRunning = true;
+const operations = document.querySelector('#operations')
+
+const equal = document.querySelector('.eq')
+
+equal.addEventListener('click', equalFunc);
+
+function sum() {
+  return +num1.value + +num2.value;
+}
+function sub() {
+  return +num1.value - +num2.value;
+}
+function multi() {
+  return +num1.value * +num2.value;
+}
+function div() {
+  return +num1.value / +num2.value;
+}
+function mod() {
+  return +num1.value % +num2.value;
 }
 
-function stopClock() {
-  clearInterval(myTimer);
-  isRunning = false;
+function saveAnswer(oper, res) {
+  const ansHistory = document.createElement('div');
+  ansHistory.innerHTML = `${num1.value} ${oper} ${num2.value} = ${res}`;
+  historyNode.insertAdjacentElement('beforeend',ansHistory);
+  ansHistory.addEventListener('click', () => ansHistory.remove())
 }
 
-function toggleClock() {
-  if (isRunning) {
-    stopClock();
-  } else {
-    startClock();
+function equalFunc() {
+  const oper = operations.value;
+  let res = 0;
+  switch (oper) {
+    case '+':
+      res = sum();
+      answerNode.textContent = res;
+      break 
+    case '-':
+      res = sub();
+      answerNode.textContent = res;
+      break 
+    case '*':
+      res = multi();
+      answerNode.textContent = res;
+      break 
+    case '/':
+      res = div();
+      answerNode.textContent = res;
+      break 
+    case '%':
+      res = mod();
+      answerNode.textContent = res;
+      break 
   }
+  saveAnswer(oper, res)
 }
-
-stopWatch.addEventListener('click', toggleClock);
