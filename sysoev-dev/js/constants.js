@@ -1,16 +1,18 @@
-export const OPERATION = {
+export { OPERATION, OPERATIONS, ERRORS };
+
+const OPERATION = {
   ADD: 'add',
   MULTI: 'multi',
   SUBSTRACT: 'substract',
   DIVISION: 'division',
 };
 
-export const ERRORS = {
+const ERRORS = {
   NUMBER: 'Number Error',
   OPERATION: 'Unknow operation',
 };
 
-export const OPERATIONS = {
+const OPERATIONS = {
   add(num1, num2) {
     return num1 + num2;
   },
