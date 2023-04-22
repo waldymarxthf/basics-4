@@ -1,3 +1,5 @@
+import {getInputValue} from './modules/getting_input_value.js';
+import {isNumber} from './modules/validation.js';
 
 const btnEqual = document.querySelector('.btn');
 const outResult = document.querySelector('.out');
@@ -34,13 +36,6 @@ function calculate(operation, a, b) {
     }
 }
 
-function isNumber(value) {
-    return typeof value === 'number' && !isNaN(value);
-}
-
-function getInputValue(sel) {
-    return document.querySelector(sel).value;
-}
 
 btnEqual.addEventListener('click', function() {
     let number1 = +getInputValue('.num1').replace(/,/i, '.');
