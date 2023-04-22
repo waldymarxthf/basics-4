@@ -1,8 +1,4 @@
-const firstNumber = document.querySelector('#firstNumber')
-const secondNumber = document.querySelector('#secondNumber')
-const mathSymbol = document.querySelector('#mathSymbol')
-const equals = document.querySelector('#button')
-let answer = document.querySelector('#answer')
+import { firstNumber, secondNumber, mathSymbol, equals, answer } from "./variables.js"
 
 
 function sum(firstNumber, secondNumber) {
