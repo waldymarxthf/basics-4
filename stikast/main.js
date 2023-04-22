@@ -1,3 +1,5 @@
+import { isNumber } from "./validation.js"
+
 const a = document.querySelector(".operand_a");
 const b = document.querySelector(".operand_b");
 const operation = document.querySelector(".operation");
@@ -16,14 +18,14 @@ function getValueB() {
   return b.value;
 }
 
-function isNumber(value) {
-  if (value === "") {
-    alert("Error! Enter a number!");
-    return false;
-  } else {
-    return true;
-  }
-}
+// function isNumber(value) {
+//   if (value === "") {
+//     alert("Error! Enter a number!");
+//     return false;
+//   } else {
+//     return true;
+//   }
+// }
 
 function getOperationValue() {
   return operation.value;
