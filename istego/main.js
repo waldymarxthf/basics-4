@@ -1,3 +1,5 @@
+import {deleteDiv} from './delete.js';
+
 const resultOut = document.querySelector('.result');
 const firstOperand = document.querySelector('.first-operand');
 const secondOperand = document.querySelector('.second-operand');
@@ -62,7 +64,7 @@ function calc() {
 function createElemResult(resultInfoText) {
     const resultItem = document.createElement('div');
     resultItem.classList.add('div-result');
-    listenerElemResult(resultItem);
+    deleteDiv(resultItem);
     resultItem.textContent = resultInfoText;
     addElemenResult(resultItem);
 }
@@ -70,13 +72,6 @@ function createElemResult(resultInfoText) {
 // Добавление элемента
 function addElemenResult(elemDiv) {
     blockCalc.insertAdjacentElement('afterend', elemDiv);
-}
-
-// Удаление элемента
-function listenerElemResult(elemDiv) {
-    elemDiv.addEventListener('click', () => {
-        elemDiv.remove();
-    })
 }
 
 // Сброс всех значенией reset
