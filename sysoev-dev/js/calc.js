@@ -1,4 +1,4 @@
-import { OPERATION, OPERATIONS, ERRORS } from '../main.js';
+import { OPERATION, OPERATIONS, ERRORS } from '../js/constants.js';
 
 export function calc(num1, num2, operation) {
   switch (operation) {
