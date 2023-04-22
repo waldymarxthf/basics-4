@@ -4,14 +4,8 @@ const select = document.getElementById('select');
 const equal = document.getElementById('resultButton');
 const result = document.getElementById('result');
 const history = document.getElementById('history');
-const added = document.querySelector('.added');
 
-const OPERATIONS = {
-    sum: '+',
-    minus: '-',
-    mult: '*',
-    del: '/',
-}
+import {OPERATIONS} from './operations.js';
 
 function sum(a,b){
     return a+b
