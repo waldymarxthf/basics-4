@@ -90,7 +90,6 @@ function addResultToDOM(result) {
   });
 }
 
-
 let first, second;
 let result;
 
@@ -100,7 +99,7 @@ function add() {
     result = first + second;
     outputNumber.textContent = result;
 
-    addResultToDOM(result)
+    addResultToDOM(result);
   }
 }
 
@@ -110,7 +109,7 @@ function sub() {
     result = first - second;
     outputNumber.textContent = result;
 
-    addResultToDOM(result)
+    addResultToDOM(result);
   }
 }
 
@@ -120,7 +119,7 @@ function mult() {
     result = first * second;
     outputNumber.textContent = result;
 
-    addResultToDOM(result)
+    addResultToDOM(result);
   }
 }
 
@@ -130,7 +129,7 @@ function div() {
     result = first / second;
     outputNumber.textContent = result;
 
-    addResultToDOM(result)
+    addResultToDOM(result);
   }
 }
 
