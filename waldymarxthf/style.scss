@@ -2,7 +2,8 @@ body{
 	height: 620px;
 	left: 174px;
 	top: 2184px;
-	background: radial-gradient(76.75% 76.75% at 70% 23.25%, #BCEEEB 0%, #E1EEBC 0.01%, #BCD9EE 100%);
+	background: radial-gradient(76.75% 76.75% at 70% 8%, #BCEEEB 0%, #E1EEBC 0.01%, #BCD9EE 100%);
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 .block{
@@ -101,7 +102,6 @@ body{
 	font-size: 16px;
 	height: 37px;
 	color: #FFFFFF;
-
 }
 
 input::-webkit-outer-spin-button,

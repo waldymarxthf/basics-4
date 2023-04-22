@@ -83,6 +83,13 @@ function saveAnswer(first, second, symbol, result) {
 
 //* функция которая сохраняет ответы и удаляет при нажатии на них
 
+function animateEqualButton() {
+	equals.style.transform = 'scale(0.90)';
+	setTimeout(() => equals.style.transform = 'scale(1)', 100);
+}
+
+//* функция анимации кнопки равно
+
 equals.addEventListener('click', () => {
 	const first = +getInputValue(firstNumber);
 	const second = +getInputValue(secondNumber);
@@ -104,7 +111,8 @@ equals.addEventListener('click', () => {
 			break;
 	}
 
-	saveAnswer(first, second, symbol, result);
+	saveAnswer(first, second, symbol, result),
+	animateEqualButton()
 });
 
 //* подсчет всех операций
