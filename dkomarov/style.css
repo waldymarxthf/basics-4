@@ -28,3 +28,34 @@ body {
     padding-top: 5px;
     
 }
+
+
+.parent {
+    display: flex;
+    width: 430px;
+    height: 24px;
+    position: relative;
+    top: 100px;
+    left: 35px;
+}
+
+.child {
+    width: 40px;
+    height: 24px;
+    background-color: #0073de;
+    color: #ffffff;
+    border-radius: 2px;
+    margin-left: 2px;
+    padding-top: 2px;
+    padding-left: 2px;
+    
+}
+
+.child:first-child {
+    margin-left: 0;
+    
+}
+
+.child:last-child {
+    margin-right: 0;
+}
