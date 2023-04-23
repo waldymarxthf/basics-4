@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap');
+
+body {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  color: black;
+}
+
+.button {
+  border: 1px solid black;
+  padding: .5rem;
+}
+
+.button:active {
+  background-color: black;
+  color: white;
+}
