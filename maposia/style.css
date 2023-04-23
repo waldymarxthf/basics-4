@@ -12,6 +12,10 @@ body {
     height: 500px;
     background-color: seagreen;
     border-radius: 10px;
+    -webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+    -moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+    box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+
 }
 
 .result-block {

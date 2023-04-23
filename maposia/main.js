@@ -16,7 +16,7 @@ buttonsNum.forEach((button) => {
   button.addEventListener('click', () => {
     console.log(button.textContent)
     const outputNum = display.textContent
-    if (button.textContent.length < 14) {
+    if (outputNum.length < 14) {
       if (button.textContent === ',') {
         display.textContent = `${display.textContent}.`
         return
