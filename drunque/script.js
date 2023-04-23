@@ -51,4 +51,6 @@ resultButton.addEventListener("click", () => {
   historyResult.textContent = `${numbers[0]} ${operations[operation]} ${numbers[1]} = ${result}`;
   results.appendChild(historyResult)
   results.scrollTop = results.scrollHeight
+
+  historyResult.addEventListener("click", historyResult.remove)
 });
