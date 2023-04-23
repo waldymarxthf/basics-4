@@ -1,13 +1,10 @@
 let firstNumb = document.getElementById('firstNumber');
 let secondNumb = document.getElementById('secondNumber');
 const selector = document.getElementById('calc_operation');
-let resultWindow = document.getElementById("resRec")
 
 
-function sum(num1,num2){
-res = num1+num2
-return res
-}
+
+import {sum} from './operations.js'
 
 function subtraction(num1,num2){
   res = num1-num2
