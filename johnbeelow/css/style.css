@@ -54,3 +54,17 @@
   font-size: 20px;
   line-height: 24.2px;
 }
+
+.history_result_container {
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  line-height: 24.2px;  
+  color: #313030;
+}
+
+.text_history {
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  line-height: 24.2px;  
+  color: #2e2e2e;
+}
