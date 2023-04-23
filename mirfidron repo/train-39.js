@@ -1,23 +1,41 @@
-const btn = document.querySelector('.btn');
-const bdy = document.querySelector('bdy');
-const value = btn.getAttribute('data-color');
-let flag = 1;
-document.body.style.background = `${value}`;
+const firstNum = document.querySelector('.firstNum');
+const secondNum = document.querySelector('.secondNum');
+const select = document.querySelector('.select');
+const btnEqual = document.querySelector('.btn-equal');
+const calcResult = document.querySelector('.calc-result');
+const calcList = document.querySelector('.calc-list')
 
-function col () {
-    if (flag == 1) {
-        document.body.style.backgroundColor = 'black';
-        flag = 2;
-    } else {
-        document.body.style.backgroundColor = '#61bfee';
-        flag = 1;
+function calc() {
+    let result = null;
+    const num_1 = +firstNum.value;
+    const num_2 = +secondNum.value;
+    const operation = select.value;
+    
+    switch(operation){
+        case '+':
+            result = num_1 + num_2;
+            break;
+        case '-':
+            result = num_1 - num_2;
+            break;
+        case '*':
+            result = num_1 * num_2;
+            break;
+        case '/':
+            result = num_1 / num_2;
+            break;
+        default:
+            alert('Что-то не так');
     }
-};
-
-function give () {
-    let info = btn.textContent;
-    return info
+    return result;
 }
 
-btn.addEventListener ('click', col, give);
-console.log(value)
+btnEqual.addEventListener('click', function (){
+    result = calc();
+    calcResult.textContent = result;
+    const newDiv = document.createElement('div');
+    newDiv.classList.add("child")
+    newDiv.textContent = calcResult.textContent;
+    calcList.appendChild(newDiv);
+    newDiv.addEventListener('click',() => calcList.removeChild(newDiv))
+});
