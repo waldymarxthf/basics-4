@@ -3,7 +3,6 @@ const display = document.querySelector('.result-block')
 const operators = document.querySelectorAll('.operator')
 const clearBtn = document.querySelector('.clear')
 const results = document.querySelector('.results')
-const delResults = document.querySelectorAll('.del_btn')
 
 const OPERATORS = {
   PLUS: '+',
@@ -57,6 +56,9 @@ function resultItem() {
   result.textContent = display.textContent
   delBtn.classList.add('del_btn')
   delBtn.textContent = 'Удалить'
+  delBtn.addEventListener('click', () => {
+    resultBlock.remove()
+  })
   results.appendChild(resultBlock)
   resultBlock.appendChild(result)
   resultBlock.appendChild(delBtn)
@@ -92,7 +94,7 @@ function calcutale(operator) {
       }
       resultItem()
       isClicked = true
-      console.log(delResults)
+      console.log(delButtons)
       return
   }
 }
@@ -100,11 +102,6 @@ function calcutale(operator) {
 function delBlockResult() {
   console.log('удалить')
 }
-
-console.log(delResults)
-delResults.forEach((delResult) => {
-  delResult.addEventListener('click', delBlockResult)
-})
 
 buttonsNum.forEach((button) => {
   button.addEventListener('click', numbers)
@@ -121,6 +118,4 @@ clearBtn.addEventListener('click', () => {
   display.textContent = '0'
 })
 
-// delResult.addEventListener('click', () => {
-//   console.log('click')
-// })
+const delButtons = document.querySelectorAll('.del_btn')
