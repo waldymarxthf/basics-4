@@ -3,8 +3,12 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
+    flex-direction: row;
     min-height: 100vh;
+}
+
+p {
+    margin: 0;
 }
 
 .calc {
@@ -84,4 +88,51 @@ body {
     display: flex;
     flex-direction: column;
     gap: 1px;
+}
+
+.results {
+    width: 400px;
+    height: 500px;
+    background-color: seagreen;
+    border-radius: 10px;
+    -webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+    -moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+    box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+    margin-left: 5px;
+}
+
+.header_result {
+    text-align: center;
+    color: rgb(249, 109, 58);
+
+}
+
+.result {
+    display: flex;
+    font-size: 40px;
+    justify-content: space-between;
+    margin: 0 30px;
+    background-color: aquamarine;
+    padding: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.result:not(:last-child) {
+    margin-bottom: 5px;
+}
+
+
+.del_btn {
+    background-color: rgb(254, 146, 146);
+    border: 0;
+    border-radius: 5px;
+}
+
+.del_btn:hover {
+    background-color: rgb(249, 104, 104);
+}
+
+.del_btn:active {
+    background-color: rgb(246, 63, 63);
 }
