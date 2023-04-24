@@ -1,0 +1,139 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+  height: 80%;
+  border: 1px solid black;
+  padding: 1rem;
+  gap: 1rem;
+}
+
+.task-creator {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: .5rem 0;
+}
+
+h1 {
+  font-size: 1.5rem;
+}
+
+.task-creator-settings {
+  width: 100%;
+  padding: .5rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.task-creator-select {
+  margin-left: auto;
+  border: 1px solid black;
+  position: relative;
+  background-color: white;
+  user-select: none;
+  width: 7rem;
+}
+
+.task-creator-select .current {
+  display: flex;
+  width: 100%;  
+  height: 100%;
+  padding: .5rem;
+  align-items: center;
+}
+
+.task-creator-select .options {
+  width: 7rem;
+  border: 1px solid black;
+  background-color: white;
+  position: absolute;
+  top: 3.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  padding: .5rem;
+  z-index: 1;
+}
+
+.disabled {
+  display: none !important;
+}
+
+.button {
+  border: 1px solid black;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  overflow-y: scroll;
+  height: 100%;
+}
+
+.task-list::-webkit-scrollbar {
+  display: none;
+}
+
+.tasks {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.task {
+  display: flex;
+  border: 1px solid black;
+  padding: .5rem;
+  gap: 1rem;
+  position: relative;
+}
+
+.task .task-info {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.checkbox-border {
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid black;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: .25rem;
+}
+
+.checkbox {
+  width: 100%;
+  height: 100%;
+}
+
+.checkbox:checked {
+  background-color: #757575;
+}
+
+.remove-node {
+  margin-left: auto;
+}
+
+.remove-button {
+  width: 2rem;
+  height: 2rem;
+}

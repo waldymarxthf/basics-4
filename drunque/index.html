@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TO DO LIST</title>
+    <link rel="stylesheet" href="reset.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="task-creator">
+        <h1>New Task</h1>
+        <div class="task-creator-settings">
+          <input placeholder="Add task" type="text" />
+          <div class="select task-creator-select">
+            <div class="current">
+              <div class="option">High</div>
+            </div>
+            <div class="options disabled">
+              <div class="option">High</div>
+              <div class="option">Medium</div>
+              <div class="option">Low</div>
+            </div>
+          </div>
+          <button class="button" id="task-creator">+</button>
+        </div>
+        <hr />
+      </div>
+      <div class="task-list">
+        <h1>Tasks</h1>
+        <div class="tasks">
+          <div class="task">
+            <div class="checkbox-node">
+              <div class="checkbox-border">
+                <input type="checkbox" class="checkbox">
+              </div>
+            </div>
+            <div class="task-info">
+              <div class="label">High</div>
+              <div class="description">
+                Вот вам и супер интересная тема. Вы наверняка заметили что ваши
+                файлы с кодом становятся все объемнее, что хочется вынести
+                некоторые вещи куда-то за пределы основной программы.
+              </div>
+            </div>
+            <div class="remove-node">
+              <button class="button remove-button">-</button>
+            </div>
+          </div>
+          <div class="task">
+            <div class="checkbox-node">
+              <div class="checkbox-border">
+                <input type="checkbox" class="checkbox">
+              </div>
+            </div>
+            <div class="task-info">
+              <div class="label">Low</div>
+              <div class="description">
+                Сверстать этот to do list
+              </div>
+            </div>
+            <div class="remove-node">
+              <button class="button remove-button">-</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="select.js"></script>
+  </body>
+</html>
