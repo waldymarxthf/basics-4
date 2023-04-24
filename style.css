@@ -1,0 +1,123 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+.high,.low{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#add-text{
+    width: 400px;
+ 
+    /* position:absolute; */
+    font-family: Roboto;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 21px;
+    letter-spacing: 0em;
+    text-align: left;
+    
+    outline: none;
+	border: none;
+    padding: 12px 12px;
+
+}
+
+.add-btn{
+	position: absolute;
+    top: 23px;
+    right: 11px;
+	right: 20px;
+	width: 24px;
+	height: 24px;
+	opacity: 0.2;
+	cursor: pointer;
+  transition: opacity ease 0.5s;
+}
+.add-btn::before,
+.add-btn::after {
+	content: '';
+	position: absolute;
+	display: block;
+	width: 24px;
+	height: 3px;
+	background: #000;
+}
+
+.add-btn::before {
+	transform: rotate(90deg);
+}
+
+/* .add-btn::after {
+	transform: rotate(0deg);
+} */
+   
+
+
+
+
+
+
+
+
+.block{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-top: 8px;
+    box-sizing: border-box;
+    border: 1px solid #989898;
+     border-radius: 10px;
+    width:460px
+}
+#task-text{
+    width: 400px;
+ 
+    /* position:absolute; */
+    font-family: Roboto;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 21px;
+    letter-spacing: 0em;
+    text-align: left;
+    
+    outline: none;
+	border: none;
+    padding: 12px 12px;
+    overflow:auto;
+   
+}
+#task-check{
+   
+}
+.close {
+	position: absolute;
+    top: 23px;
+    right: 11px;
+	right: 20px;
+	width: 24px;
+	height: 24px;
+	opacity: 0.2;
+	cursor: pointer;
+  transition: opacity ease 0.5s;
+}
+
+.close::before,
+.close::after {
+	content: '';
+	position: absolute;
+	display: block;
+	width: 24px;
+	height: 3px;
+	background: #000;
+}
+
+.close::before {
+	transform: rotate(45deg);
+}
+
+.close::after {
+	transform: rotate(-45deg);
+}
