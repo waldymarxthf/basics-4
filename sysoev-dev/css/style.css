@@ -89,6 +89,10 @@ body {
   margin-bottom: 8px;
 }
 
+.todo__item--completed {
+  background-color: #f4f4f4;
+}
+
 .todo__item-checkbox-input {
   position: absolute;
   appearance: none;
