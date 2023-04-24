@@ -27,42 +27,53 @@ body{
 			margin: 25px 0 12px 0;
 		}
 
-		&__input {
-			font-family: 'Roboto';
-			font-style: normal;
-			font-weight: 400;
-			font-size: 18px;
-			line-height: 21px;
-			color: black;
+		&__form{
+			display: flex;
 			width: 460px;
 			height: 45px;
 			background: #FFFFFF;
 			border: 1px solid #989898;
 			border-radius: 6px;
-			padding-left: 12px;
-			margin-bottom: 8px;
+			margin: 0 auto 8px auto;
 
-			&::placeholder {
-				color: #BBBBBB;
+			&-input {
+				font-family: 'Roboto';
+				font-style: normal;
+				font-weight: 400;
+				font-size: 18px;
+				line-height: 21px;
+				color: black;
+				width: 430px;
+				height: 45px;
+				border-radius: 6px;
+				border: none;
+				background: transparent;
+				padding: 0 0 0 12px;
+				outline: none;
+				appearance: none;
+				&::placeholder {
+					color: #BBBBBB;
+				}
+			}
+
+			&-button {
+				width: 17px;
+				height: 16px;
+				border: none;
+				background-color: transparent;
+				cursor: pointer;
+				padding: 0;
+				transform: rotate(-45deg);
+				margin: 14px 12px 0 0;
+				img {
+					max-width: none;
+				}
 			}
 		}
 
-		&__button {
-			position: absolute;
-			width: 17px;
-			height: 16px;
-			border: none;
-			background-color: transparent;
-			cursor: pointer;
-			padding: 0;
-			transform: rotate(-45deg);
-			top: 47px;
-			right: 20px;
+		
 
-			img {
-				max-width: none;
-			}
-		}
+		
 
 		&__task {
 			display: flex;
@@ -140,39 +151,47 @@ body{
 			margin: 25px 0 12px 0;
 		}
 
-		&__input {
-			font-family: 'Roboto';
-			font-style: normal;
-			font-weight: 400;
-			font-size: 18px;
-			line-height: 21px;
-			color: black;
+		&__form{
+			display: flex;
 			width: 460px;
 			height: 45px;
 			background: #FFFFFF;
 			border: 1px solid #989898;
 			border-radius: 6px;
-			padding-left: 12px;
-			margin-bottom: 8px;
-
-			&::placeholder {
-				color: #BBBBBB;
+			margin: 0 auto 8px auto;
+			
+			&-input {
+				font-family: 'Roboto';
+				font-style: normal;
+				font-weight: 400;
+				font-size: 18px;
+				line-height: 21px;
+				color: black;
+				width: 430px;
+				height: 45px;
+				border-radius: 6px;
+				border: none;
+				background: transparent;
+				padding: 0 0 0 12px;
+				outline: none;
+				appearance: none;
+				&::placeholder {
+					color: #BBBBBB;
+				}
 			}
-		}
 
-		&__button {
-			position: absolute;
-			width: 17px;
-			height: 16px;
-			border: none;
-			background-color: transparent;
-			cursor: pointer;
-			padding: 0;
-			transform: rotate(-45deg);
-			top: 47px;
-			right: 20px;
-			img {
-				max-width: none;
+			&-button {
+				width: 17px;
+				height: 16px;
+				border: none;
+				background-color: transparent;
+				cursor: pointer;
+				padding: 0;
+				transform: rotate(-45deg);
+				margin: 14px 12px 0 0;
+				img {
+					max-width: none;
+				}
 			}
 		}
 
@@ -190,7 +209,7 @@ body{
 				background: #F4F4F4;
 			}
 		}
-		
+
 		&__checkbox {
 			appearance: none;
 			min-width: 20px;
