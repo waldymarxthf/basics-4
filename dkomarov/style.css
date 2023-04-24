@@ -128,3 +128,21 @@ body {
     height: 25px;
     
 }
+
+.progress-bar {
+    display: flex;
+    width: 1000px;
+    height: 20px;
+    background-color: #989898;
+    margin: 0 auto;
+    position: relative;
+    top: 110px;
+    border-radius: 10px;
+}
+
+.progress-bar_left {
+    /* width: 100px; */
+    height: 20px;
+    background-color: #59bbe9;
+    border-radius: 10px;
+}
