@@ -4,9 +4,74 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="./css/reset.css">
+	<link rel="stylesheet" href="./css/style.css">
+	<script src="./js/script.js" defer></script>
 	<title>TODO</title>
 </head>
 <body>
-	
+	<div class="container">
+
+		<div class="container-high">
+			<p class="container-high--title">HIGH</p>
+			<form action="/add-high-priority-task" method="post">
+					<input type="text" name="high-priority-task" id="high-task-input" class="container-high__high-priority-input" placeholder="Добавить важных дел">
+					<button class="container-high__high-priority-btn" type="button">
+						<img src="./assets/close-icon.svg" alt="close-icon">
+					</button>
+			</form>
+
+			<div class="container-high__high-priority-list">
+
+				<div class="container-high__high-priority-list-task">
+					<input type="checkbox" class="container-high__input--checkbox">
+					<p class="container-high__task-text">Вот вам и супер интересная тема. 
+						Вы наверняка заметили что ваши файлы с кодом становятся все объемнее, что хочется вынести некоторые вещи куда-то за пределы основной программы.
+					</p>
+					<img src="./assets/close-icon.svg" alt="delete" class="container-high__delete">
+				</div>
+
+				<div class="container-high__high-priority-list-task">
+					<input type="checkbox" class="container-high__input--checkbox">
+					<p class="container-high__task-text">
+						Сверстать этот TODO list
+					</p>
+					<img src="./assets/close-icon.svg" alt="delete" class="container-high__delete">
+				</div>
+
+				<div class="container-high__high-priority-list-task completed">
+					<input type="checkbox" class="container-high__input--checkbox" checked>
+					<p class="container-high__task-text">
+						Начать делать задачу
+					</p>
+					<img src="./assets/close-icon.svg" alt="delete" class="container-high__delete">
+				</div>
+
+			</div>
+
+		</div>
+
+		<div class="container-low">
+			<p class="container-low--title">LOW</p>
+			<form action="/add-low-priority-task" method="post">
+					<input type="text" name="low-priority-task" id="low-task-input" class="container-low__low-priority-input" placeholder="Добавить">
+					<button class="container-low__low-priority-btn" type="button">
+						<img src="./assets/close-icon.svg" alt="close-icon">
+					</button>
+			</form>
+			<div class="container-low__low-priority-list">
+
+				<div class="container-low__low-priority-list-task">
+					<input type="checkbox" class="container-low__input--checkbox">
+					<p class="container-low__task-text">
+						Начать делать задачу
+					</p>
+					<img src="./assets/close-icon.svg" alt="delete" class="container-low__delete">
+				</div>
+
+			</div>
+		</div>
+
+	</div>
 </body>
 </html>
