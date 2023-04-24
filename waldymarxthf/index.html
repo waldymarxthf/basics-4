@@ -10,68 +10,67 @@
 	<title>TODO</title>
 </head>
 <body>
-	<div class="container">
-
-		<div class="container-high">
-			<p class="container-high--title">HIGH</p>
+	<div class="task-container">
+		<div class="high-priority-container">
+			<p class="high-priority-container__title">HIGH</p>
 			<form action="/add-high-priority-task" method="post">
-					<input type="text" name="high-priority-task" id="high-task-input" class="container-high__high-priority-input" placeholder="Добавить важных дел">
-					<button class="container-high__high-priority-btn" type="button">
-						<img src="./assets/close-icon.svg" alt="close-icon">
-					</button>
+				<input type="text" name="high-priority-task" id="high-task-input" class="high-priority-container__input" placeholder="Добавить важных дел">
+				<button class="high-priority-container__button" type="button">
+					<img src="./assets/close-icon.svg" alt="close-icon">
+				</button>
 			</form>
-
-			<div class="container-high__high-priority-list">
-
-				<div class="container-high__high-priority-list-task">
-					<input type="checkbox" class="container-high__input--checkbox">
-					<p class="container-high__task-text">Вот вам и супер интересная тема. 
+	
+			<div class="high-priority-container__list">
+	
+				<div class="high-priority-container__task">
+					<input type="checkbox" class="high-priority-container__checkbox">
+					<p class="high-priority-container__task-text">Вот вам и супер интересная тема. 
 						Вы наверняка заметили что ваши файлы с кодом становятся все объемнее, что хочется вынести некоторые вещи куда-то за пределы основной программы.
 					</p>
-					<img src="./assets/close-icon.svg" alt="delete" class="container-high__delete">
+					<img src="./assets/close-icon.svg" alt="delete" class="high-priority-container__delete">
 				</div>
-
-				<div class="container-high__high-priority-list-task">
-					<input type="checkbox" class="container-high__input--checkbox">
-					<p class="container-high__task-text">
+	
+				<div class="high-priority-container__task">
+					<input type="checkbox" class="high-priority-container__checkbox">
+					<p class="high-priority-container__task-text">
 						Сверстать этот TODO list
 					</p>
-					<img src="./assets/close-icon.svg" alt="delete" class="container-high__delete">
+					<img src="./assets/close-icon.svg" alt="delete" class="high-priority-container__delete">
 				</div>
-
-				<div class="container-high__high-priority-list-task completed">
-					<input type="checkbox" class="container-high__input--checkbox" checked>
-					<p class="container-high__task-text">
+	
+				<div class="high-priority-container__task completed">
+					<input type="checkbox" class="high-priority-container__checkbox" checked>
+					<p class="high-priority-container__task-text">
 						Начать делать задачу
 					</p>
-					<img src="./assets/close-icon.svg" alt="delete" class="container-high__delete">
+					<img src="./assets/close-icon.svg" alt="delete" class="high-priority-container__delete">
 				</div>
-
+	
 			</div>
-
+	
 		</div>
-
-		<div class="container-low">
-			<p class="container-low--title">LOW</p>
+	
+		<div class="low-priority-container">
+			<p class="low-priority-container__title">LOW</p>
 			<form action="/add-low-priority-task" method="post">
-					<input type="text" name="low-priority-task" id="low-task-input" class="container-low__low-priority-input" placeholder="Добавить">
-					<button class="container-low__low-priority-btn" type="button">
-						<img src="./assets/close-icon.svg" alt="close-icon">
-					</button>
+				<input type="text" name="low-priority-task" id="low-task-input" class="low-priority-container__input" placeholder="Добавить">
+				<button class="low-priority-container__button" type="button">
+					<img src="./assets/close-icon.svg" alt="close-icon">
+				</button>
 			</form>
-			<div class="container-low__low-priority-list">
-
-				<div class="container-low__low-priority-list-task">
-					<input type="checkbox" class="container-low__input--checkbox">
-					<p class="container-low__task-text">
+			<div class="low-priority-container__list">
+	
+				<div class="low-priority-container__task">
+					<input type="checkbox" class="low-priority-container__checkbox">
+					<p class="low-priority-container__task-text">
 						Начать делать задачу
 					</p>
-					<img src="./assets/close-icon.svg" alt="delete" class="container-low__delete">
+					<img src="./assets/close-icon.svg" alt="delete" class="low-priority-container__delete">
 				</div>
-
+	
 			</div>
 		</div>
-
+	
 	</div>
 </body>
 </html>

@@ -1,24 +1,11 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
-body {
-  background-color: rgb(201, 201, 201);
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-
 .task-container {
   margin: 0 auto;
   width: 476px;
   height: 688px;
   background: #FFFFFF;
 }
-.task-container .high-priority-container {
+
+.high-priority-container {
   position: relative;
   font-family: "Roboto";
   font-style: normal;
@@ -28,10 +15,12 @@ body {
   color: #000000;
   text-align: center;
 }
-.task-container .high-priority-container__title {
+
+.high-priority-container__title {
   margin: 25px 0 12px 0;
 }
-.task-container .high-priority-container__input {
+
+.high-priority-container__input {
   font-family: "Roboto";
   font-style: normal;
   font-weight: 400;
@@ -46,22 +35,23 @@ body {
   padding-left: 12px;
   margin-bottom: 8px;
 }
-.task-container .high-priority-container__input::-webkit-input-placeholder {
+.high-priority-container__input::-webkit-input-placeholder {
   color: #BBBBBB;
 }
-.task-container .high-priority-container__input::-moz-placeholder {
+.high-priority-container__input::-moz-placeholder {
   color: #BBBBBB;
 }
-.task-container .high-priority-container__input:-ms-input-placeholder {
+.high-priority-container__input:-ms-input-placeholder {
   color: #BBBBBB;
 }
-.task-container .high-priority-container__input::-ms-input-placeholder {
+.high-priority-container__input::-ms-input-placeholder {
   color: #BBBBBB;
 }
-.task-container .high-priority-container__input::placeholder {
+.high-priority-container__input::placeholder {
   color: #BBBBBB;
 }
-.task-container .high-priority-container__button {
+
+.high-priority-container__button {
   position: absolute;
   width: 17px;
   height: 16px;
@@ -74,10 +64,11 @@ body {
   top: 47px;
   right: 20px;
 }
-.task-container .high-priority-container__button img {
+.high-priority-container__button img {
   max-width: none;
 }
-.task-container .high-priority-container__task {
+
+.high-priority-container__task {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -89,10 +80,8 @@ body {
   margin: 0 auto 8px auto;
   position: relative;
 }
-.task-container .high-priority-container__task.completed {
-  background: #F4F4F4;
-}
-.task-container .high-priority-container__checkbox {
+
+.high-priority-container__checkbox {
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
@@ -109,7 +98,7 @@ body {
   top: 12px;
   left: 12px;
 }
-.task-container .high-priority-container__checkbox:checked::before {
+.high-priority-container__checkbox:checked::before {
   content: "";
   width: 15px;
   height: 15px;
@@ -121,7 +110,8 @@ body {
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
 }
-.task-container .high-priority-container__task-text {
+
+.high-priority-container__task-text {
   margin: 12px 45px 12px 22px;
   width: 370px;
   font-family: "Roboto";
@@ -132,13 +122,19 @@ body {
   color: #202020;
   text-align: left;
 }
-.task-container .high-priority-container__delete {
+
+.high-priority-container__delete {
   position: absolute;
   top: 15px;
   right: 12px;
   cursor: pointer;
 }
-.task-container .low-priority-container {
+
+.high-priority-container__task.completed {
+  background: #F4F4F4;
+}
+
+.low-priority-container {
   position: relative;
   font-family: "Roboto";
   font-style: normal;
@@ -147,11 +143,14 @@ body {
   line-height: 21px;
   color: #000000;
   text-align: center;
+  margin: 12px 0;
 }
-.task-container .low-priority-container__title {
-  margin: 25px 0 12px 0;
+
+.low-priority-container__title {
+  margin: 12px 0 12px 0;
 }
-.task-container .low-priority-container__input {
+
+.low-priority-container__input {
   font-family: "Roboto";
   font-style: normal;
   font-weight: 400;
@@ -166,22 +165,23 @@ body {
   padding-left: 12px;
   margin-bottom: 8px;
 }
-.task-container .low-priority-container__input::-webkit-input-placeholder {
+.low-priority-container__input::-webkit-input-placeholder {
   color: #BBBBBB;
 }
-.task-container .low-priority-container__input::-moz-placeholder {
+.low-priority-container__input::-moz-placeholder {
   color: #BBBBBB;
 }
-.task-container .low-priority-container__input:-ms-input-placeholder {
+.low-priority-container__input:-ms-input-placeholder {
   color: #BBBBBB;
 }
-.task-container .low-priority-container__input::-ms-input-placeholder {
+.low-priority-container__input::-ms-input-placeholder {
   color: #BBBBBB;
 }
-.task-container .low-priority-container__input::placeholder {
+.low-priority-container__input::placeholder {
   color: #BBBBBB;
 }
-.task-container .low-priority-container__button {
+
+.low-priority-container__button {
   position: absolute;
   width: 17px;
   height: 16px;
@@ -194,25 +194,28 @@ body {
   top: 47px;
   right: 20px;
 }
-.task-container .low-priority-container__button img {
+.low-priority-container__button img {
   max-width: none;
 }
-.task-container .low-priority-container__task {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  width: 460px;
-  min-height: 45px;
-  background: #FFFFFF;
-  border: 1px solid #989898;
-  border-radius: 6px;
-  margin: 0 auto 8px auto;
-  position: relative;
+
+.low-priority-container__task {
+  position: absolute;
+  width: 17px;
+  height: 16px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  padding: 0;
+  -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+  top: 47px;
+  right: 20px;
 }
-.task-container .low-priority-container__task.completed {
-  background: #F4F4F4;
+.low-priority-container__task img {
+  max-width: none;
 }
-.task-container .low-priority-container__checkbox {
+
+.low-priority-container__checkbox {
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
@@ -229,7 +232,7 @@ body {
   top: 12px;
   left: 12px;
 }
-.task-container .low-priority-container__checkbox:checked::before {
+.low-priority-container__checkbox:checked::before {
   content: "";
   width: 15px;
   height: 15px;
@@ -241,7 +244,8 @@ body {
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
 }
-.task-container .low-priority-container__task-text {
+
+.low-priority-container__task-text {
   margin: 12px 45px 12px 22px;
   width: 370px;
   font-family: "Roboto";
@@ -252,9 +256,10 @@ body {
   color: #202020;
   text-align: left;
 }
-.task-container .low-priority-container__delete {
+
+.low-priority-container__delete {
   position: absolute;
   top: 15px;
   right: 12px;
   cursor: pointer;
-}/*# sourceMappingURL=style.css.map */
+}/*# sourceMappingURL=newstyle.css.map */

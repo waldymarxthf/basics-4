@@ -7,12 +7,13 @@ body{
 	align-items: center;
 }
 
-.container{
+.task-container {
 	margin: 0 auto;
 	width: 476px;
 	height: 688px;
 	background: #FFFFFF;
-	&-high{
+
+	.high-priority-container {
 		position: relative;
 		font-family: 'Roboto';
 		font-style: normal;
@@ -21,10 +22,12 @@ body{
 		line-height: 21px;
 		color: #000000;
 		text-align: center;
-		&--title{
+
+		&__title {
 			margin: 25px 0 12px 0;
 		}
-		&__high-priority-input{
+
+		&__input {
 			font-family: 'Roboto';
 			font-style: normal;
 			font-weight: 400;
@@ -38,11 +41,13 @@ body{
 			border-radius: 6px;
 			padding-left: 12px;
 			margin-bottom: 8px;
-			&::placeholder{
-				color: #BBBBBB;;
+
+			&::placeholder {
+				color: #BBBBBB;
 			}
 		}
-		&__high-priority-btn{
+
+		&__button {
 			position: absolute;
 			width: 17px;
 			height: 16px;
@@ -53,27 +58,32 @@ body{
 			transform: rotate(-45deg);
 			top: 47px;
 			right: 20px;
-			img{
+
+			img {
 				max-width: none;
 			}
 		}
-		&__high-priority-list{
-			&-task{
-				display: flex;
-				width: 460px;
-				min-height: 45px;
-				background: #FFFFFF;
-				border: 1px solid #989898;
-				border-radius: 6px;
-				margin: 0 auto 8px auto;
-				position: relative;
+
+		&__task {
+			display: flex;
+			width: 460px;
+			min-height: 45px;
+			background: #FFFFFF;
+			border: 1px solid #989898;
+			border-radius: 6px;
+			margin: 0 auto 8px auto;
+			position: relative;
+
+			&.completed {
+				background: #F4F4F4;
 			}
 		}
-		&__input--checkbox{
+
+		&__checkbox {
 			appearance: none;
 			min-width: 20px;
 			height: 20px;
-			border: 1px solid #998899;;
+			border: 1px solid #998899;
 			border-radius: 50%;
 			position: relative;
 			outline: none;
@@ -82,19 +92,21 @@ body{
 			margin: 0;
 			top: 12px;
 			left: 12px;
-			&:checked::before{
+
+			&:checked::before {
 				content: "";
 				width: 15px;
 				height: 15px;
 				border-radius: 50%;
-				background-color: #C4C4C4;;
+				background-color: #C4C4C4;
 				position: absolute;
 				top: 50%;
 				left: 50%;
 				transform: translate(-50%, -50%);
 			}
 		}
-		&__task-text{
+
+		&__task-text {
 			margin: 12px 45px 12px 22px;
 			width: 370px;
 			font-family: 'Roboto';
@@ -105,14 +117,16 @@ body{
 			color: #202020;
 			text-align: left;
 		}
-		&__delete{
+
+		&__delete {
 			position: absolute;
 			top: 15px;
 			right: 12px;
 			cursor: pointer;
 		}
 	}
-	&-low{
+
+	.low-priority-container {
 		position: relative;
 		font-family: 'Roboto';
 		font-style: normal;
@@ -121,11 +135,12 @@ body{
 		line-height: 21px;
 		color: #000000;
 		text-align: center;
-		margin: 12px 0;
-		&--title{
-			margin: 12px 0 12px 0;
+
+		&__title {
+			margin: 25px 0 12px 0;
 		}
-		&__low-priority-input{
+
+		&__input {
 			font-family: 'Roboto';
 			font-style: normal;
 			font-weight: 400;
@@ -139,11 +154,13 @@ body{
 			border-radius: 6px;
 			padding-left: 12px;
 			margin-bottom: 8px;
-			&::placeholder{
-				color: #BBBBBB;;
+
+			&::placeholder {
+				color: #BBBBBB;
 			}
 		}
-		&__low-priority-btn{
+
+		&__button {
 			position: absolute;
 			width: 17px;
 			height: 16px;
@@ -154,27 +171,31 @@ body{
 			transform: rotate(-45deg);
 			top: 47px;
 			right: 20px;
-			img{
+			img {
 				max-width: none;
 			}
 		}
-		&__low-priority-list{
-			&-task{
-				display: flex;
-				width: 460px;
-				min-height: 45px;
-				background: #FFFFFF;
-				border: 1px solid #989898;
-				border-radius: 6px;
-				margin: 0 auto 8px auto;
-				position: relative;
+
+		&__task {
+			display: flex;
+			width: 460px;
+			min-height: 45px;
+			background: #FFFFFF;
+			border: 1px solid #989898;
+			border-radius: 6px;
+			margin: 0 auto 8px auto;
+			position: relative;
+
+			&.completed {
+				background: #F4F4F4;
 			}
 		}
-		&__input--checkbox{
+		
+		&__checkbox {
 			appearance: none;
 			min-width: 20px;
 			height: 20px;
-			border: 1px solid #998899;;
+			border: 1px solid #998899;
 			border-radius: 50%;
 			position: relative;
 			outline: none;
@@ -195,7 +216,8 @@ body{
 				transform: translate(-50%, -50%);
 			}
 		}
-		&__task-text{
+
+		&__task-text {
 			margin: 12px 45px 12px 22px;
 			width: 370px;
 			font-family: 'Roboto';
@@ -206,15 +228,12 @@ body{
 			color: #202020;
 			text-align: left;
 		}
-		&__delete{
+
+		&__delete {
 			position: absolute;
 			top: 15px;
 			right: 12px;
 			cursor: pointer;
 		}
 	}
-}
-
-.completed{
-	background: #F4F4F4;
-}
+}	
