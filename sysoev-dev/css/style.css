@@ -19,6 +19,8 @@ body {
 
 .todo {
   max-width: 460px;
+  margin: 0 auto;
+  padding-top: 30px;
 }
 
 .todo__form-title {
@@ -54,33 +56,19 @@ body {
 
 .todo__form-btn {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  right: 0;
-  font-size: 0;
+  display: block;
+  width: 15px;
+  height: 15px;
+  top: 15px;
+  right: 12px;
+  transform: rotate(45deg);
   background-color: transparent;
+  background-image: url(../images/close-icon.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-size: 0;
   border: none;
   cursor: pointer;
-  padding: 10px;
-}
-
-.todo__form-btn::before,
-.todo__form-btn::after {
-  content: '';
-  display: block;
-  top: 0;
-  right: 0;
-  width: 18px;
-  height: 1px;
-  background-color: #998899;
-}
-
-.todo__form-btn::after {
-  top: -5px;
-}
-
-.todo__form-btn::after {
-  transform: rotate(90deg);
 }
 
 .todo__list {
@@ -91,7 +79,65 @@ body {
 }
 
 .todo__item {
+  position: relative;
   border: 1px solid #989898;
   border-radius: 6px;
   padding: 12px 45px;
+}
+
+.todo__item:not(:last-child) {
+  margin-bottom: 8px;
+}
+
+.todo__item-checkbox-input {
+  position: absolute;
+  appearance: none;
+  top: 0;
+  left: 0;
+}
+
+.todo__item-checkbox {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: block;
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: 1px solid #998899;
+  padding: 3px;
+  cursor: pointer;
+}
+
+.todo__item-checkbox-input:checked + .todo__item-checkbox::before {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  top: 2px;
+  left: 2px;
+  background-color: #c4c4c4;
+}
+
+.todo__item-text {
+  margin: 0;
+}
+
+.todo__item-btn-delete {
+  position: absolute;
+  display: block;
+  width: 15px;
+  height: 15px;
+  top: 15px;
+  right: 12px;
+  background-color: transparent;
+  background-image: url(../images/close-icon.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-size: 0;
+  border: none;
+  cursor: pointer;
 }
