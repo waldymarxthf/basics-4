@@ -4,6 +4,7 @@ body {
   align-items: center;
   width: 100vw;
   height: 100vh;
+  background-color: white;
 }
 
 .wrapper {
@@ -14,13 +15,15 @@ body {
   border: 1px solid black;
   padding: 1rem;
   gap: 1rem;
+  background-color: white;
 }
 
 .task-creator {
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: .5rem 0;
+  padding: 0.5rem 0;
+  background-color: white;
 }
 
 h1 {
@@ -29,7 +32,7 @@ h1 {
 
 .task-creator-settings {
   width: 100%;
-  padding: .5rem;
+  padding: 0.5rem;
   display: flex;
   gap: 1rem;
 }
@@ -45,10 +48,11 @@ h1 {
 
 .task-creator-select .current {
   display: flex;
-  width: 100%;  
+  width: 100%;
   height: 100%;
-  padding: .5rem;
+  padding: 0.5rem;
   align-items: center;
+  background-color: white;
 }
 
 .task-creator-select .options {
@@ -59,8 +63,8 @@ h1 {
   top: 3.5rem;
   display: flex;
   flex-direction: column;
-  gap: .5rem;
-  padding: .5rem;
+  gap: 0.5rem;
+  padding: 0.5rem;
   z-index: 1;
 }
 
@@ -74,14 +78,16 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: white;
 }
 
 .task-list {
   display: flex;
   flex-direction: column;
-  gap: .5rem;
+  gap: 0.5rem;
   overflow-y: scroll;
   height: 100%;
+  background-color: white;
 }
 
 .task-list::-webkit-scrollbar {
@@ -91,22 +97,29 @@ h1 {
 .tasks {
   display: flex;
   flex-direction: column;
-  gap: .5rem;
+  gap: 0.5rem;
+  background-color: white;
 }
 
 .task {
   display: flex;
   border: 1px solid black;
-  padding: .5rem;
+  padding: 0.5rem;
   gap: 1rem;
   position: relative;
+  background-color: white;
 }
 
 .task .task-info {
   align-self: center;
   display: flex;
-  flex-direction: column;
-  gap: .5rem;
+  /* flex-direction: column; */
+  gap: 0.5rem;
+}
+
+.task-info .label span {
+  background-color: black;
+  color: white;
 }
 
 .checkbox-border {
@@ -117,16 +130,18 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: .25rem;
+  padding: 0.25rem;
+  background-color: white;
 }
 
 .checkbox {
   width: 100%;
   height: 100%;
+  background-color: white;
 }
 
 .checkbox:checked {
-  background-color: #757575;
+  background-color: black;
 }
 
 .remove-node {
