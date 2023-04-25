@@ -33,7 +33,7 @@ body {
     }
 }
 
-section {
+form {
     width: 100%;
     height: 42%;
     box-sizing: border-box;
@@ -53,7 +53,7 @@ h2 {
 }
 
 
-section > div {
+form > div {
     margin-bottom: 8px;
     
     width: 95%;
@@ -81,7 +81,7 @@ section > div {
     position: relative;
 }
 
-input {
+input:not([type="submite"]) {
     border: none;
     outline: none;
     font-size: 18px;
@@ -101,6 +101,7 @@ input {
     height: 18px;
     border: none;
     cursor: pointer;
+    
 }
 .input-checkbox {
     background-image: url('../img/circle.svg');
@@ -120,7 +121,7 @@ label {
     background: #F4F4F4;
 }
 
-.checkbox-text::before {
+.task-text::before {
     content: '';
 	position: absolute;
 	top: 12px;
@@ -132,7 +133,7 @@ label {
     border-radius: 50%;
 	transition: .2s;
 }
-.checkbox-text::after {
+.task-text::after {
     content: '';
 	position: absolute;
 	top: 15.7px;
@@ -144,7 +145,7 @@ label {
 	transition: .2s;
 }
 
-.input-checkbox:checked + .checkbox-text::after{
+.input-checkbox:checked + .task-text::after{
     background: #F4F4F4;
     border: 1px solid #ddd;
 }
@@ -163,3 +164,4 @@ label {
     right: 15px;
     cursor: pointer;
 }
+
