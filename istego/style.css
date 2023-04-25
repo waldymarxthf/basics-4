@@ -113,7 +113,11 @@ input {
     font-size: 18px;
 }
 
-input::placeholder {}
+.form-high, .form-low {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
 
 .todo-block {
     width: 100%;
@@ -146,10 +150,8 @@ input::placeholder {}
 }
 
 .task-add {
-    display: flex;
     background-color: #ffffff;
     border-radius: 10px;
-    align-items: center;
     padding-right: 5px;
     margin-bottom: 10px;
 }
@@ -210,6 +212,7 @@ margin-bottom: 8px;
 .task__check-input {
     height: 21px;
     width: 21px;
+    cursor: pointer;
 }
 
 
