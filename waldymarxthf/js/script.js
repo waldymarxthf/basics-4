@@ -1,4 +1,4 @@
-import {highForm, highTaskList, highFormButton, lowForm, lowTaskList, lowFormButton} from "./modules/variables.js"
+import {highForm, highTaskList, lowForm, lowTaskList} from "./modules/variables.js"
 
 function createTaskElement(taskText) {
 	const taskElement = document.createElement('div');
@@ -13,25 +13,16 @@ function createTaskElement(taskText) {
 
 //* функция создает образец блока с таской
 
-function resetTaskInput(taskInput, taskPriority) {
-	const input = taskInput.querySelector(`#${taskPriority}-task-input`);
-	input.value = '';
-}
-
-//* функция которая очищает значение инпута
-
 function addTask(event, taskList, taskInput, taskPriority) {
 	event.preventDefault();
 	const formData = new FormData(taskInput);
 	let taskText = formData.get(`${taskPriority}-priority-task`);
 	const newTask = createTaskElement(taskText);
 	taskList.insertAdjacentElement('beforeend', newTask);
-	resetTaskInput(taskInput, taskPriority);
+	event.target.reset()
 }
 
 //* функция доставания значение с формы и добавление блока с таской
 
 highForm.addEventListener('submit', (event) => addTask(event, highTaskList, highForm, 'high'));
-highFormButton.addEventListener('click', (event) => addTask(event, highTaskList, highForm, 'high'));
 lowForm.addEventListener('submit', (event) => addTask(event, lowTaskList, lowForm, 'low'));
-lowFormButton.addEventListener('click', (event) => addTask(event, lowTaskList, lowForm, 'low'));
