@@ -1,11 +1,11 @@
-import { UI_ELEMENTS } from "./module/ui_elements.js"
+import { DOM, UI_ELEMENTS } from './module/ui_elements.js'
 
 function constructorTaskUi(textInput, priorityTask) {
-  const containerTask = document.createElement('div')
-  const labelTask = document.createElement('label')
-  const checkboxTask = document.createElement('input')
-  const textTask = document.createElement('span')
-  const closeTask = document.createElement('div')
+  const containerTask = DOM.CREATE_TAG('div')
+  const labelTask = DOM.CREATE_TAG('label')
+  const checkboxTask = DOM.CREATE_TAG('input')
+  const textTask = DOM.CREATE_TAG('span')
+  const closeTask = DOM.CREATE_TAG('div')
 
   containerTask.setAttribute('class', 'task')
   checkboxTask.setAttribute('class', 'checkbox')
@@ -24,7 +24,10 @@ function constructorTaskUi(textInput, priorityTask) {
 
 UI_ELEMENTS.INPUT_FORM_HIGHT.addEventListener('submit', function (event) {
   event.preventDefault()
-  constructorTaskUi(UI_ELEMENTS.INPUT_TEXT_HIGH.value, UI_ELEMENTS.PRIORITY_HIGH)
+  constructorTaskUi(
+    UI_ELEMENTS.INPUT_TEXT_HIGH.value,
+    UI_ELEMENTS.PRIORITY_HIGH
+  )
 })
 
 UI_ELEMENTS.INPUT_FORM_LOW.addEventListener('submit', function (event) {
