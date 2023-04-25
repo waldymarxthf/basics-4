@@ -122,3 +122,7 @@ form {
     margin: 0;
     color: #2e2d2d;
 }
+
+.low_priority {
+    padding-bottom: 50px;
+}
