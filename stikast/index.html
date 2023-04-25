@@ -10,82 +10,32 @@
 <body>
 	<main class="main">
 		<section class="high-priority">
+
 			<p class="title">HIGH</p>
 
-			<form class="addTask">
-				<input class="taskName" type="text" placeholder="Добавить задачу">
+			<form class="addTask-highPriority">
+				<input class="taskName-highPriority" type="text" placeholder="Добавить задачу">
 				<button class="addButton"><img src="./images/add.png" alt="add"></button>
 			</form>
 
-			<div class="tasks">
+			<div class="tasks-highPriority"></div>
 
-				<div class="task">
-					<form action="">
-						<label>
-							<input class="real-checkbox" type="checkbox">
-							<span class="custom-checkbox"></span>
-							<p>
-								Вот вам и супер интересная тема. 
-								Вы наверняка заметили что ваши файлы с кодом становятся все объемнее, 
-								что хочется вынести некоторые вещи куда-то за пределы основной программы.
-							</p>
-						</label>
-						<button class="deleteButton"><img src="./images/delete.png" alt="delete"></button>
-					</form>
-				</div>
-
-				<div class="task">
-					<form action="">
-						<label>
-							<input class="real-checkbox" type="checkbox">
-							<span class="custom-checkbox"></span>
-							<p>
-								Сверстать этот TODO list
-							</p>
-						</label>
-						<button class="deleteButton"><img src="./images/delete.png" alt="delete"></button>
-					</form>
-				</div>
-
-				<div class="task">
-					<form action="">
-						<label>
-							<input class="real-checkbox" type="checkbox">
-							<span class="custom-checkbox"></span>
-							<p>
-								Начать делать задачу
-							</p>
-						</label>
-						<button class="deleteButton"><img src="./images/delete.png" alt="delete"></button>
-					</form>
-				</div>
-
-			</div>
 		</section>
 
 		<section class="low-priority">
+
 			<p class="title">LOW</p>
-			<form class="addTask">
-				<input class="taskName" type="text" placeholder="Добавить задачу">
+
+			<form class="addTask-lowPriority">
+				<input class="taskName-lowPriority" type="text" placeholder="Добавить задачу">
 				<button class="addButton"><img src="./images/add.png" alt="add"></button>
 			</form>
 
-			<div class="tasks">
+			<div class="tasks-lowPriority"></div>
 
-				<div class="task">
-					<form action="">
-						<label>
-							<input class="real-checkbox" type="checkbox">
-							<span class="custom-checkbox"></span>
-							<p>
-								Посмотреть ютубчик
-							</p>
-						</label>
-						<button class="deleteButton"><img src="./images/delete.png" alt="delete"></button>
-					</form>
-				</div>
-			</div>
 		</section>
 	</main>
+
+	<script src="./main.js"></script>
 </body>
 </html>

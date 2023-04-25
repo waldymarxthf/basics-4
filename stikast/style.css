@@ -46,7 +46,8 @@ button {
 	text-align: center;
 }
 
-.addTask {
+.addTask-lowPriority,
+.addTask-highPriority {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -60,7 +61,8 @@ button {
 	border-radius: 6px;
 }
 
-.taskName {
+.taskName-highPriority,
+.taskName-lowPriority {
 	width: 230px;
 	border: none;
 }
@@ -71,28 +73,33 @@ input::placeholder {
   color: #BBBBBB;
 }
 
-.tasks {
+.tasks-highPriority,
+.tasks-lowPriority {
 	margin: 8px 0;
 }
 
-.task {
+.task-lowPriority,
+.task-highPriority {
 	padding: 12px;
 
 	border: 1px solid #989898;
 	border-radius: 6px;
 }
 
-.task + .task {
+.task-lowPriority + .task-lowPriority,
+.task-highPriority + .task-highPriority {
 	margin-top: 8px;
 }
 
-.task form {
+.task-lowPriority form,
+.task-highPriority form {
 	display: flex;
 	justify-content: space-between;
 	align-items: baseline;
 }
 
-.task label {
+.task-lowPriority label,
+.task-highPriority label {
 	display: flex;
 }
 
