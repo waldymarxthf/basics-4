@@ -10,7 +10,7 @@ body{
 .task-container {
 	margin: 0 auto;
 	width: 476px;
-	height: 688px;
+	min-height: 688px;
 	background: #FFFFFF;
 
 	.priority-container {
