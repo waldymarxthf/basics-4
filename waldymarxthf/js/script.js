@@ -1,4 +1,5 @@
-import {highForm, highTaskList, lowForm, lowTaskList} from "./modules/variables.js"
+import { highForm, highTaskList, lowForm, lowTaskList } from "./modules/variables.js"
+import { isEmpty } from "./modules/validation.js";
 
 function createTaskElement(taskText) {
 	const taskElement = document.createElement('div');
@@ -17,7 +18,11 @@ function addTask(event, taskList, taskInput, taskPriority) {
 	event.preventDefault();
 	const formData = new FormData(taskInput);
 	let taskText = formData.get(`${taskPriority}-priority-task`);
-	const newTask = createTaskElement(taskText);
+	if(!isEmpty(taskText)) {
+		alert('Нельзя добавить пустую строку')
+		return
+	}
+	const newTask = createTaskElement(isEmpty(taskText));
 	taskList.insertAdjacentElement('beforeend', newTask);
 	event.target.reset()
 }
