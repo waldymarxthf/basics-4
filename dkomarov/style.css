@@ -57,6 +57,10 @@ p {
     border: 1px solid #282828;
 }
 
+.form:has(.radio:checked) {
+    background: #d6fb96;
+}
+
 .inputHigh, .inputLow {
     border: none;
     width: 100%;
@@ -96,7 +100,7 @@ p {
 
 
 .radio:checked {
-    background-color: #282828;
+    background-color: #8f8f8f;
     border: none;
 }
 
@@ -113,6 +117,8 @@ form {
     padding: 0 10px;
     margin-top: 10px;
 }
+
+
 
 
 .text-content {
