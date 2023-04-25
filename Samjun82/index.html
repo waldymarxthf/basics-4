@@ -1,4 +1,73 @@
 <!DOCTYPE html>
-<html>
-	<script src="main.js"></script>
-</html> 
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>TODO</title>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="container_ToDo">
+        <div>
+          <p class="priority">HIGH</p>
+
+          <div class="add_task">
+            <label for="task_input_high">
+              <input type="text" placeholder="Добавить важных дел" />
+            </label>
+            <div class="button_add_task">+</div>
+          </div>
+
+          <div class="task">
+            <label for="task">
+              <input class="checkbox" type="checkbox" />
+            </label>
+            <p>Вот вам .</p>
+            <div class="button_close_task">&times;</div>
+          </div>
+
+          <div class="task">
+            <label for="task2">
+              <input class="checkbox" type="checkbox" />
+            </label>
+            <p>Сверстать этот TODO list</p>
+            <div class="button_close_task">&times;</div>
+          </div>
+
+          <div class="task">
+            <label for="task3">
+              <input class="checkbox" type="checkbox" />
+            </label>
+            <p>Начать делать задачу</p>
+            <div class="button_close_task">&times;</div>
+          </div>
+        </div>
+
+        <div class="task_low_container">
+          <p class="priority">LOW</p>
+
+          <div class="add_task">
+            <label for="task_input_low">
+              <input type="text" placeholder="Добавить важных дел" />
+            </label>
+            <div class="button_add_task">+</div>
+          </div>
+
+          <div class="task">
+            <label for="task4">
+              <input class="checkbox" type="checkbox" />
+            </label>
+            <p>Посмотреть ютубчик</p>
+            <div class="button_close_task">&times;</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <script type="module" src="./js/main.js"></script>
+  </body>
+</html>

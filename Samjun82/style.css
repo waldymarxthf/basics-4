@@ -1,0 +1,135 @@
+body {
+    background: #e6e6e6;
+    font-family: segoe script, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  h1 {
+    font-family: 'Segoe Script', Tahoma, Geneva, Verdana, sans-serif script, sans-serif;
+    font-size: 30px;
+    font-weight: 400;
+    padding-left: 30px;
+    padding-bottom: 20px;
+    color: #87858a;
+    width: 420px;
+    text-align: right;
+  }
+
+  p {
+    text-align: left;
+    margin: 0;
+    width: 385px;
+  }
+  
+  .container {
+    height: auto;
+    width: 380px;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-60%, -60%);
+  }
+  
+  .container_ToDo {
+    width: 380px;
+    height: auto;
+    border-radius: 50px;
+    background: #949292;
+    backdrop-filter: blur(35px);
+    border: 14px solid rgba(196, 196, 196, 0.205);
+    overflow: hidden;
+    position: absolute;
+    padding-bottom: 13px;
+  }
+  
+  .priority {
+    display: flex;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    justify-content: center;
+    color: white;
+  }
+  
+  .task {
+    padding: 5px;
+    display: flex;
+    border: 1px solid #e6e6e6;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    background: #e6e0e06b;
+    margin: 6px;
+
+  }
+  
+  .task label {
+    font-size: 16px;
+    color: #ded9c7c0;
+    width: 30px;
+    font-family: 'Segoe Script', Tahoma, Geneva, Verdana, sans-serif script, sans-serif;
+  }
+  
+  .add_task {
+    padding: 5px;
+    display: flex;
+    border-radius: 6px;
+    margin: 6px;
+    background: #e6e6e6;
+  }
+  
+  .add_task input {
+    font-size: 16px;
+    color: #e2dad5bb;
+    border: 0px;
+    outline: none;
+    width: 320px;
+    background: #e6e6e6;
+    text-align: center;
+  }
+  
+  .add_task label {
+    width: 435px;
+    display: flex;
+  }
+  
+  .button_add_task {
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.4s;
+  }
+  
+  .button_add_task:hover {
+    color: rgb(38, 235, 12);
+  }
+  
+  .button_close_task {
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.6s;
+    align-content: center;
+  }
+  
+  .button_close_task:hover {
+    color: rgb(250, 1, 1);
+  }
+  
+  .checkbox {
+    width: 1.1em;
+    height: 1.1em;
+    background-color: rgba(227, 223, 187, 0.229);
+    border-radius: 50%;
+    border: 1px solid rgb(18, 18, 18);
+    vertical-align: middle;
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+  }
+  
+  .checkbox:checked {
+    background-color: rgb(220, 235, 12);
+    transition: 0.3s;
+  }
+
+
