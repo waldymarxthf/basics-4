@@ -6,7 +6,8 @@ function clearInput() {
 }
 
 
-function addTask() {
+function addTask(event) {
+    event.preventDefault()
     console.log(inputValueHigh.value);
     const newElement = document.createElement('form');
     // newElement.textContent = inputValueHigh.value;
