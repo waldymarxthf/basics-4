@@ -104,7 +104,7 @@ body {
   margin: 0 auto 7px auto;
   position: relative;
 }
-.task-container .priority-container__task:has(.high-priority-container__checkbox:checked) {
+.task-container .priority-container__task:has(.priority-container__checkbox:checked) {
   background: #F4F4F4;
 }
 .task-container .priority-container__task-text {
