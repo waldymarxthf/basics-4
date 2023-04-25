@@ -24,10 +24,7 @@ function constructorTaskUi(textInput, priorityTask) {
 
 UI_ELEMENTS.INPUT_FORM_HIGHT.addEventListener('submit', function (event) {
   event.preventDefault()
-  constructorTaskUi(
-    UI_ELEMENTS.INPUT_TEXT_HIGH.value,
-    UI_ELEMENTS.PRIORITY_HIGH
-  )
+  constructorTaskUi(UI_ELEMENTS.INPUT_TEXT_HIGH.value, UI_ELEMENTS.PRIORITY_HIGH)
 })
 
 UI_ELEMENTS.INPUT_FORM_LOW.addEventListener('submit', function (event) {
