@@ -1,45 +1,37 @@
-const highForm = document.querySelector('.high-priority-container__form')
-const highTaskList = document.querySelector('.high-priority-container')
-const highFormButton = document.querySelector('.high-priority-container__form-button')
-const lowForm = document.querySelector('.low-priority-container__form')
-const lowTaskList = document.querySelector('.low-priority-container')
-const lowFormButton = document.querySelector('.low-priority-container__form-button')
+import {highForm, highTaskList, highFormButton, lowForm, lowTaskList, lowFormButton} from "./modules/variables.js"
 
-function getHighFormValue(event) {
-	event.preventDefault();
-	const formData = new FormData(highForm)
-	const newTask = document.createElement('div');
-	let taskText = formData.get('high-priority-task')
-	newTask.innerHTML = `
-		<div class="high priority-container__task">
-			<input type="checkbox" class="high priority-container__checkbox">
-			<p class="high priority-container__task-text">${taskText}</p>
-			<img src="./assets/close-icon.svg" alt="delete" class="high priority-container__delete">
-		</div>
+function createTaskElement(taskText) {
+	const taskElement = document.createElement('div');
+	taskElement.innerHTML = `
+		<input type="checkbox" class=" priority-container__checkbox">
+		<p class=" priority-container__task-text">${taskText}</p>
+		<img src="./assets/close-icon.svg" alt="delete" class=" priority-container__delete">
 	`;
-	newTask.classList.add('high-priority-container__list');
-	highTaskList.insertAdjacentElement('beforeend', newTask);
-	event.target.reset()
+	taskElement.classList.add(`priority-container__task`);
+	return taskElement;
 }
 
-function getLowFormValue(event) {
-	event.preventDefault();
-	const formData = new FormData(lowForm)
-	const newTask = document.createElement('div');
-	let taskText = formData.get('low-priority-task')
-	newTask.innerHTML = `
-		<div class="low priority-container__task">
-			<input type="checkbox" class="low priority-container__checkbox">
-			<p class="low priority-container__task-text">${taskText}</p>
-			<img src="./assets/close-icon.svg" alt="delete" class="low priority-container__delete">
-		</div>
-	`;
-	newTask.classList.add('low-priority-container__list');
-	lowTaskList.insertAdjacentElement('beforeend', newTask);
-	event.target.reset()
+//* функция создает образец блока с таской
+
+function resetTaskInput(taskInput, taskPriority) {
+	const input = taskInput.querySelector(`#${taskPriority}-task-input`);
+	input.value = '';
 }
 
-highForm.addEventListener('submit', getHighFormValue)
-highFormButton.addEventListener('click', getHighFormValue)
-lowForm.addEventListener('submit', getLowFormValue)
-lowFormButton.addEventListener('click', getLowFormValue)
+//* функция которая очищает значение инпута
+
+function addTask(event, taskList, taskInput, taskPriority) {
+	event.preventDefault();
+	const formData = new FormData(taskInput);
+	let taskText = formData.get(`${taskPriority}-priority-task`);
+	const newTask = createTaskElement(taskText);
+	taskList.insertAdjacentElement('beforeend', newTask);
+	resetTaskInput(taskInput, taskPriority);
+}
+
+//* функция доставания значение с формы и добавление блока с таской
+
+highForm.addEventListener('submit', (event) => addTask(event, highTaskList, highForm, 'high'));
+highFormButton.addEventListener('click', (event) => addTask(event, highTaskList, highForm, 'high'));
+lowForm.addEventListener('submit', (event) => addTask(event, lowTaskList, lowForm, 'low'));
+lowFormButton.addEventListener('click', (event) => addTask(event, lowTaskList, lowForm, 'low'));
