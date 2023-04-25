@@ -64,6 +64,18 @@ h2 {
     
 }
 
+.input-plus-2 {
+    width: 443px;
+    height: 43px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border: 1px solid #989898;
+    border-radius: 6px;
+    padding-left: 12px;
+    
+}
+
 input::-webkit-input-placeholder {
     color: #bbb;
     font-family: 'Roboto';
@@ -74,6 +86,16 @@ input::-webkit-input-placeholder {
 }
 
 .button-add {
+    width: 35px;
+    height: 35px;
+    border: 0;
+    position: relative;
+    top: -40px;
+    right: -415px;
+    cursor: pointer;
+}
+
+.button-add-2 {
     width: 35px;
     height: 35px;
     border: 0;
@@ -95,9 +117,49 @@ input::-webkit-input-placeholder {
 
 /* Вывод задач */
 
+.space {
+    display: flex;
+    justify-content: space-between;
+    width: 416px;
+    padding-left: 8px;
+    word-wrap: break-word;
+}
+
+.button-del {
+    width: 35px;
+    height: 35px;
+    border: 0;
+    cursor: pointer;
+    background-color: white;
+
+}
+
+.del {
+    width: 35px;
+    height: 35px;
+    position: relative;
+    bottom: -5px;
+}
+
+.todo-box {
+    display: flex;
+    align-items: left;
+    justify-content: left;
+    flex-direction: row;
+    
+}
+
+.todo-ht {
+    max-width: 380px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    display: block;
+    
+}
+
 .todo-list {
     width: 443px;
-    height: 43px;
+    min-height: 43px;
     display: flex;
     align-items: left;
     justify-content: center;
