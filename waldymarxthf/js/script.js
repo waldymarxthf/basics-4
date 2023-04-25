@@ -9,30 +9,34 @@ function getHighFormValue(event) {
 	event.preventDefault();
 	const formData = new FormData(highForm)
 	const newTask = document.createElement('div');
+	let taskText = formData.get('high-priority-task')
 	newTask.innerHTML = `
 		<div class="high priority-container__task">
 			<input type="checkbox" class="high priority-container__checkbox">
-			<p class="high priority-container__task-text">${formData.get('high-priority-task')}</p>
+			<p class="high priority-container__task-text">${taskText}</p>
 			<img src="./assets/close-icon.svg" alt="delete" class="high priority-container__delete">
 		</div>
 	`;
 	newTask.classList.add('high-priority-container__list');
 	highTaskList.insertAdjacentElement('beforeend', newTask);
+	event.target.reset()
 }
 
 function getLowFormValue(event) {
 	event.preventDefault();
 	const formData = new FormData(lowForm)
 	const newTask = document.createElement('div');
+	let taskText = formData.get('low-priority-task')
 	newTask.innerHTML = `
 		<div class="low priority-container__task">
 			<input type="checkbox" class="low priority-container__checkbox">
-			<p class="low priority-container__task-text">${formData.get('low-priority-task')}</p>
+			<p class="low priority-container__task-text">${taskText}</p>
 			<img src="./assets/close-icon.svg" alt="delete" class="low priority-container__delete">
 		</div>
 	`;
 	newTask.classList.add('low-priority-container__list');
 	lowTaskList.insertAdjacentElement('beforeend', newTask);
+	event.target.reset()
 }
 
 highForm.addEventListener('submit', getHighFormValue)
