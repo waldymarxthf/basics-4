@@ -49,7 +49,6 @@ function deleteTask(taskElement) {
 			const index = list.findIndex(task => task.name === taskElement.querySelector('.priority-container__task-text').textContent);
 			list.splice(index, 1);
 			taskElement.remove();
-			console.log(list)
 	});
 }
 
