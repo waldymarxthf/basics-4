@@ -7,6 +7,29 @@ const addTaskButtonLow = document.querySelector('.button_addLow');
 const parentLow = document.querySelector('.low_priority');
 
 
+const STATUS = {
+    TODO: "To Do",
+    DONE: "Done"
+};
+
+const PRIORITY = {
+    LOW: "Low",
+    HIGH: "High"
+};
+
+const toDoList = [];
+
+function addTask() {
+    let taskName = inputValueHigh.value;
+    toDoList.push({
+        task: taskName,
+        status: STATUS.TODO,
+        priority: PRIORITY.HIGH
+    });
+    
+    console.log(toDoList);
+    
+};
 
 
 function clearInput() {
@@ -31,6 +54,7 @@ function addTaskHigh(event) {
     newElement.insertAdjacentHTML('afterbegin', `<p>${inputValueHigh.value}</p>`)
     newElement.insertAdjacentHTML('afterbegin', '<input class="radio" type="radio">');
     newElement.insertAdjacentHTML('beforeend', '<button id="del" type="submit" class="button_del"><img src="./image/free-icon-close-151882-444.svg" alt=""></button>');
+    addTask();
     clearInput();
 }; 
 
