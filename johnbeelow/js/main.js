@@ -35,12 +35,9 @@ function constructorTaskUi(textInput, priorityTask) {
   })
 
   statusTask.addEventListener('click', () => {
-    if (statusTask.checked) {
-      changeStatus(textInput, STATUS.DONE)
-    }
-    if (!statusTask.checked) {
-      changeStatus(textInput, STATUS.IN_PROGRESS)
-    }
+    const changeStatus = statusTask.checked ? STATUS.DONE : STATUS.IN_PROGRESS
+    changeStatus(textInput, changeStatus)
+    console.log(toDoList)
   })
 }
 
@@ -52,19 +49,20 @@ function render() {
     if (taskFind.priority === PRIORITY.HIGH) {
       constructorTaskUi(taskFind.name, UI_ELEMENTS.PRIORITY_HIGH)
     }
+
     if (taskFind.priority === PRIORITY.LOW) {
       constructorTaskUi(taskFind.name, UI_ELEMENTS.PRIORITY_LOW)
     }
   }
 }
 
-UI_ELEMENTS.INPUT_FORM_HIGHT.addEventListener('submit', function (event) {
+UI_ELEMENTS.INPUT_FORM_HIGHT.addEventListener('submit', (event) => {
   event.preventDefault()
   addTask(UI_ELEMENTS.INPUT_TEXT_HIGH.value, PRIORITY.HIGH)
   render()
 })
 
-UI_ELEMENTS.INPUT_FORM_LOW.addEventListener('submit', function (event) {
+UI_ELEMENTS.INPUT_FORM_LOW.addEventListener('submit', (event) => {
   event.preventDefault()
   addTask(UI_ELEMENTS.INPUT_TEXT_LOW.value, PRIORITY.LOW)
   render()
