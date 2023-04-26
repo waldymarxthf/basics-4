@@ -7,9 +7,6 @@ const inputValueLow = document.querySelector('.inputLow');
 const addTaskButtonLow = document.querySelector('.button_addLow');
 const parentLow = document.querySelector('.low_priority');
 
-
-
-
 const STATUS = {
     TODO: "To Do",
     DONE: "Done"
@@ -22,6 +19,10 @@ const PRIORITY = {
 
 const toDoList = [];
 
+
+
+
+//добавление задачи в массив
 function addTask() {
     let taskNameHigh = inputValueHigh.value;
     if (taskNameHigh !== '') {
@@ -41,12 +42,10 @@ function addTask() {
         });
     };
 
-
     console.log(toDoList);
-
 };
 
-
+//чистка импута после добавления
 function clearInput() {
     if (inputValueHigh.value != '') {
         return inputValueHigh.value = '';
@@ -58,24 +57,20 @@ function clearInput() {
 
 };
 
-
-
-
-
+//добавление задачи с высоким приоритетом
 function addTaskHigh(event) {
-    event.preventDefault()
-    console.log(inputValueHigh.value);
+    event.preventDefault();
     const newElement = document.createElement('form');
     parentHigh.appendChild(newElement);
     newElement.classList.add('form');
     newElement.insertAdjacentHTML('afterbegin', `<p>${inputValueHigh.value}</p>`)
-    newElement.insertAdjacentHTML('afterbegin', '<input class="radio" type="radio">');
+    newElement.insertAdjacentHTML('afterbegin', '<input class="radio" type="checkbox">');
     newElement.insertAdjacentHTML('beforeend', '<button id="del" type="submit" class="button_del"><img src="./image/free-icon-close-151882-444.svg" alt=""></button>');
     addTask();
     clearInput();
 
+    //удаление задачи из дом и массива
     const delButton = newElement.querySelector('.button_del');
-
     delButton.addEventListener('click', function deleteTask(event) {
         event.preventDefault();
         taskName = toDoList.findIndex(tasks => tasks.task === inputValueHigh.value);
@@ -85,23 +80,30 @@ function addTaskHigh(event) {
         console.log(toDoList);
     });
 
+    //изменение статуса задачи в массиве
+    const checkBox = newElement.querySelector('.radio');
+    checkBox.addEventListener('change', () => {
+        console.log('done')
+    })
+
+
 };
 
-
+// добавление задачи с низким приоритетом
 function addTaskLow(event) {
-    event.preventDefault()
-    console.log(inputValueLow.value);
+    event.preventDefault();
     const newElement = document.createElement('form');
     parentLow.appendChild(newElement);
     newElement.classList.add('form');
     newElement.insertAdjacentHTML('afterbegin', `<p>${inputValueLow.value}</p>`)
-    newElement.insertAdjacentHTML('afterbegin', '<input class="radio" type="radio">');
+    newElement.insertAdjacentHTML('afterbegin', '<input class="radio" type="checkbox">');
     newElement.insertAdjacentHTML('beforeend', '<button id="del" type="submit" class="button_del"><img src="./image/free-icon-close-151882-444.svg" alt=""></button>');
     addTask();
     clearInput();
 
-    const delButton = newElement.querySelector('.button_del');
 
+    //удаление задачи из дом и массива
+    const delButton = newElement.querySelector('.button_del');
     delButton.addEventListener('click', function deleteTask(event) {
         event.preventDefault();
         taskName = toDoList.findIndex(tasks => tasks.task === inputValueLow.value);
@@ -110,8 +112,14 @@ function addTaskLow(event) {
 
         console.log(toDoList);
     });
-};
 
+
+    //изменение статуса задачи в массиве
+    const checkBox = newElement.querySelector('.radio');
+    checkBox.addEventListener('change', () => {
+        console.log('done')
+    })
+};
 
 
 
