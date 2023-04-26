@@ -22,10 +22,7 @@ const messages = {
   deleteTask: 'Задача удалена',
 }
 
-const list = [ 
-	{name: 'create a post', status: statuses.TODO, priority: priority.LOW}, 
-  {name: 'test', status: statuses.TODO, priority: priority.HIGH} 
-];
+const list = [];
 
 const isEmpty = (task) => { return !task.trim(); };
 
@@ -48,7 +45,7 @@ function isStatusExists(stat) {
 function addTask(task, stat = statuses.TODO, prior = priority.LOW) {
   event.preventDefault();
   if (isTaskExists(task)) {
-    console.log(errors.taskIsExists);
+    alert(errors.taskIsExists);
     return;
   }
   if (!isPriorityExists(prior)) {
@@ -71,7 +68,7 @@ function addTask(task, stat = statuses.TODO, prior = priority.LOW) {
 
 function changeStatus(task, stat) {
   if (!isTaskExists(task)) {
-    console.log(errors.taskIsNotExists);
+    alert(errors.taskIsNotExists);
     return;
   }
   if (!isStatusExists(stat)) {
@@ -81,6 +78,7 @@ function changeStatus(task, stat) {
   const indexTask = indexOfTask(task);
   list[indexTask].status = stat;
   console.log(messages.changeStatus);
+  render();
   return;
 }
 

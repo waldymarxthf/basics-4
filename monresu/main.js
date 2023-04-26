@@ -19,14 +19,7 @@ function removeTask(task) {
   return;
 }
 
-function changeCheckbox(event) {
-  const task = event.target;
-  if (event.target.value == 'checked') {
-    task.classList.add('done-task');
-  }
-}
-
-function createTaskNode(text) {
+function createTaskNode(text, status) {
   const newTask = document.createElement('div');
   newTask.className = 'task';
   const checkbox = document.createElement('input');
@@ -40,9 +33,20 @@ function createTaskNode(text) {
     render();
   })
   checkbox.addEventListener('change', () => {
-    checkbox.value == 'checked' ? changeStatus(text, statuses.DONE) : changeStatus(text, statuses.TODO);
-    render();
-  })
+    const isChecked = checkbox.checked;
+    if (isChecked) {
+      newTask.classList.add('done-task');
+      changeStatus(textTask.innerText, statuses.DONE);
+    } else {
+      newTask.classList.remove('done-task');
+      changeStatus(textTask.innerText, statuses.TODO);
+    }
+  });
+  
+  if (status === statuses.DONE) {
+    newTask.classList.add('done-task');
+    checkbox.checked = true;
+  }
   newTask.appendChild(checkbox);
   newTask.appendChild(textTask);
   newTask.appendChild(closeBtn);
@@ -54,19 +58,19 @@ function render() {
   highTasksNode.innerHTML = '';
   
   for (const el of list) { 
-    const task = createTaskNode(el.name);
-    el.status == statuses.DONE ? task.classList.add('done-task') : 0;
-    el.status == statuses.DONE ? 0 : 0;
+    const task = createTaskNode(el.name, el.status);
     el.priority == priority.HIGH ?  tasksNodes[0].appendChild(task) : tasksNodes[1].appendChild(task);
   }
 }
 
 function addTaskHigh() {
-  addTask(inputHighTaskNode.value, statuses.TODO, priority.HIGH)
+  addTask(inputHighTaskNode.value, statuses.TODO, priority.HIGH);
+  inputHighTaskNode.value = '';
 }
 
 function addTaskLow() {
   addTask(inputLowTaskNode.value, statuses.TODO, priority.LOW)
+  inputLowTaskNode.value = '';
 }
 
 inputHighNode.addEventListener('submit', addTaskHigh)
