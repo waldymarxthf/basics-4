@@ -10,30 +10,6 @@ function deleteTask(taskElement) {
 	render()
 }
 
-function render() {
-	highTaskList.innerHTML = '';
-	lowTaskList.innerHTML = '';
-
-	for(let i = 0; i < list.length; i++) {
-		const task = list[i];
-		const taskList = task.priority === 'high' ? highTaskList : lowTaskList;
-		
-		const taskElement = document.createElement('div');
-		taskElement.innerHTML = `
-			<input type="checkbox" class="priority-container__checkbox">
-			<p class="priority-container__task-text">${task.name}</p>
-			<img src="./assets/close-icon.svg" alt="delete" class="priority-container__delete">
-		`;
-		taskElement.classList.add('priority-container__task');
-		taskList.insertAdjacentElement('beforeend', taskElement)
-		
-		const deleteTaskButton = taskElement.querySelector('.priority-container__delete');
-		deleteTaskButton.addEventListener('click', () => {
-			deleteTask(taskElement);
-		});
-	}
-}
-
 function addTask(event, taskInput, taskPriority) {
 	event.preventDefault();
 	const formData = new FormData(taskInput);
@@ -56,6 +32,57 @@ function addTask(event, taskInput, taskPriority) {
 	event.target.reset()
 }
 
+function changeStatus(taskElement) {
+	const checkbox = taskElement.querySelector('.priority-container__checkbox');
+
+	checkbox.addEventListener('click', () => changeStatusInList(taskElement));
+}
+
+function changeStatusInList(taskElement) {
+	const index = getTaskIndex(taskElement);
+	const task = list[index];
+
+	if (task.status === 'TODO') {
+		task.status = 'DONE';
+
+	} else {
+		task.status = 'TODO';
+	}
+
+	taskElement.classList.toggle('priority-container__task--done');
+}
+
+function render() {
+	highTaskList.innerHTML = '';
+	lowTaskList.innerHTML = '';
+
+	for(let i = 0; i < list.length; i++) {
+		const task = list[i];
+		const taskList = task.priority === 'high' ? highTaskList : lowTaskList;
+		
+		const taskElement = document.createElement('div');
+		taskElement.innerHTML = `
+			<input type="checkbox" class="priority-container__checkbox">
+			<p class="priority-container__task-text">${task.name}</p>
+			<img src="./assets/close-icon.svg" alt="delete" class="priority-container__delete">
+		`;
+		taskElement.classList.add('priority-container__task');
+		taskList.insertAdjacentElement('beforeend', taskElement)
+		
+		const deleteTaskButton = taskElement.querySelector('.priority-container__delete');
+		deleteTaskButton.addEventListener('click', () => {
+			deleteTask(taskElement);
+		});
+			
+		changeStatus(taskElement)
+
+		const checkbox = taskElement.querySelector('.priority-container__checkbox');
+		if(task.status === 'DONE') {
+			checkbox.checked = true
+			taskElement.style.background = '#F4F4F4'
+		}
+	}
+}
 
 highForm.addEventListener('submit', (event) => addTask(event, highForm, 'high'));
 lowForm.addEventListener('submit', (event) => addTask(event, lowForm, 'low'));

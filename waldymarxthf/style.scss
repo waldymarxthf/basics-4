@@ -83,9 +83,6 @@ body{
 			border-radius: 6px;
 			margin: 0 auto 7px auto;
 			position: relative;
-			&:has(.priority-container__checkbox:checked) {
-				background: #F4F4F4;
-			}
 			&-text {
 				margin: 12px 45px 11px 22px;
 				width: 370px;
@@ -96,6 +93,9 @@ body{
 				line-height: 21px;
 				color: #202020;
 				text-align: left;
+			}
+			&--done{
+				background: #F4F4F4;
 			}
 		}
 
