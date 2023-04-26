@@ -3,7 +3,8 @@ import { isEmpty } from "./modules/validation.js";
 
 const list = []
 
-function addTask(taskInput, taskPriority) {
+function addTask(event, taskList, taskInput, taskPriority) {
+	event.preventDefault();
 	const formData = new FormData(taskInput);
 	let taskText = formData.get(`${taskPriority}-priority-task`);
 
@@ -19,6 +20,11 @@ function addTask(taskInput, taskPriority) {
 	})
 
 	console.log(list)
+
+	const newTask = render();
+	taskList.insertAdjacentElement('beforeend', newTask);
+	event.target.reset()
+	deleteTask(newTask)
 }
 
 //* функция добавления задачи в массив
@@ -35,26 +41,21 @@ function deleteTask(taskElement) {
 
 //* функция удаление таски
 
-function render(event, taskList, taskInput, taskPriority) {
-	event.preventDefault();
-	addTask(taskInput, taskPriority);
+function render() {
+	const taskElement = document.createElement('div');
 
 	const lastItem = list[list.length - 1];
-	const taskElement = document.createElement('div');
-	taskElement.innerHTML = `
-		<input type="checkbox" class="priority-container__checkbox">
-		<p class="priority-container__task-text">${lastItem.name}</p>
-		<img src="./assets/close-icon.svg" alt="delete" class="priority-container__delete">
-	`;
 
+	taskElement.innerHTML = `
+		<input type="checkbox" class=" priority-container__checkbox">
+		<p class=" priority-container__task-text">${lastItem.name}</p>
+		<img src="./assets/close-icon.svg" alt="delete" class=" priority-container__delete">
+	`;
 	taskElement.classList.add(`priority-container__task`);
-	taskList.insertAdjacentElement('beforeend', taskElement);
-	deleteTask(taskElement);
-	
-	event.target.reset();
+	return taskElement;
 }
 
-//* функция которая рендерит массив и добавляет элемент в html
+//* функция рендерит блок с задачей
 
-highForm.addEventListener('submit', (event) => render(event, highTaskList, highForm, 'high'));
-lowForm.addEventListener('submit', (event) => render(event, lowTaskList, lowForm, 'low'));
+highForm.addEventListener('submit', (event) => addTask(event, highTaskList, highForm, 'high'));
+lowForm.addEventListener('submit', (event) => addTask(event, lowTaskList, lowForm, 'low'));
