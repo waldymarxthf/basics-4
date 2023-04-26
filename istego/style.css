@@ -49,9 +49,9 @@ textarea {
     font-family: inherit;
 }
 
-input::-ms-clear {
+/* input::-ms-clear {
     display: none;
-}
+} */
 
 button {
     cursor: pointer;
@@ -105,7 +105,7 @@ button {
     background: none;
 }
 
-input {
+.input-add-high, .input-add-low  {
     width: 100%;
     height: 45px;
     border-radius: 10px;
@@ -128,6 +128,7 @@ input {
 
     border-radius: 10px;
     padding: 25px 10px;
+    box-shadow: 0px 0px 20px 1px #acaaaa;
 }
 
 .priority-high {
@@ -195,6 +196,7 @@ input {
     padding: 10px 5px 10px 15px;
     border-radius: 10px;
     column-gap: 10px;
+    overflow-x: hidden;
 }
 
 .task:not(:last-child) {
@@ -205,20 +207,39 @@ margin-bottom: 8px;
     width: 100%;
     max-height: 100px;
     overflow-y: auto;
-    overflow-x: none;
+    overflow-x: hidden;
 }
 
 
 .task__check-input {
-    height: 21px;
-    width: 21px;
+    appearance: none;
+    height: 25px;
+    width: 25px;
+    border: 1px solid #bbb9b9;
     cursor: pointer;
+    border-radius: 50%;
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition-duration: 0.1s;
 }
 
+.task__check-input:checked {
+    background-color: #7fffd4;
+    transition-duration: 0.1s;
+    border: none;
+}
 
-
-
-
-
-
-
+.task__check-input:checked::before {
+    content: '';
+    transition-duration: 0.1s;
+    position: absolute;
+    width: 18px;
+    height: 19px;
+    background-image: url(./source/icons/check-mark.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 18px 19px;
+}
