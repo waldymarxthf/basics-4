@@ -33,7 +33,5 @@ export const changeStatus = (taskName, statusName) =>
   checkTask(taskName) && (toDoList[findIndexTask(taskName)].status = statusName)
 
 export const deleteTask = (taskName) => {
-  if (checkInputValue(taskName)) return
-
-  if (checkTask(taskName)) toDoList.splice(findIndexTask(taskName), 1)
+  toDoList.splice(findIndexTask(taskName), 1)
 }
