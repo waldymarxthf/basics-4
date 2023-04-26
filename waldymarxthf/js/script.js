@@ -3,27 +3,9 @@ import { isEmpty } from "./modules/validation.js";
 
 const list = []
 
-
-function createTaskElement(taskText) {
-	const taskElement = document.createElement('div');
-	taskElement.innerHTML = `
-		<input type="checkbox" class=" priority-container__checkbox">
-		<p class=" priority-container__task-text">${taskText}</p>
-		<img src="./assets/close-icon.svg" alt="delete" class="priority-container__delete">
-	`;
-	taskElement.classList.add(`priority-container__task`);
-	return taskElement;
-}
-
-//* функция создает образец блока с таской
-
-function addTask(event, taskList, taskInput, taskPriority) {
-	event.preventDefault();
+function addTask(taskInput, taskPriority) {
 	const formData = new FormData(taskInput);
 	let taskText = formData.get(`${taskPriority}-priority-task`);
-
-	const newTask = createTaskElement(taskText);
-	taskList.insertAdjacentElement('beforeend', newTask);
 
 	if(!isEmpty(taskText)) {
 		alert('Нельзя добавить пустую строку')
@@ -37,11 +19,9 @@ function addTask(event, taskList, taskInput, taskPriority) {
 	})
 
 	console.log(list)
-	event.target.reset()
-	deleteTask(newTask)
 }
 
-//* функция доставания значение с формы и добавление блока с таской
+//* функция добавления задачи в массив
 
 function deleteTask(taskElement) {
 	const deleteTaskButton = taskElement.querySelector('.priority-container__delete');
@@ -53,6 +33,28 @@ function deleteTask(taskElement) {
 	});
 }
 
+//* функция удаление таски
 
-highForm.addEventListener('submit', (event) => addTask(event, highTaskList, highForm, 'high'));
-lowForm.addEventListener('submit', (event) => addTask(event, lowTaskList, lowForm, 'low'));
+function render(event, taskList, taskInput, taskPriority) {
+	event.preventDefault();
+	addTask(taskInput, taskPriority);
+
+	const lastItem = list[list.length - 1];
+	const taskElement = document.createElement('div');
+	taskElement.innerHTML = `
+		<input type="checkbox" class="priority-container__checkbox">
+		<p class="priority-container__task-text">${lastItem.name}</p>
+		<img src="./assets/close-icon.svg" alt="delete" class="priority-container__delete">
+	`;
+
+	taskElement.classList.add(`priority-container__task`);
+	taskList.insertAdjacentElement('beforeend', taskElement);
+	deleteTask(taskElement);
+	
+	event.target.reset();
+}
+
+//* функция которая рендерит массив и добавляет элемент в html
+
+highForm.addEventListener('submit', (event) => render(event, highTaskList, highForm, 'high'));
+lowForm.addEventListener('submit', (event) => render(event, lowTaskList, lowForm, 'low'));
