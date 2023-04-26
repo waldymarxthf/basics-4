@@ -10,32 +10,17 @@ export const PRIORITY = {
 
 export const toDoList = []
 
-export function checkInputValue(inputValue) {
-  if (!inputValue || inputValue.trim() === '') {
-    return true;
-  } 
-}
+export const checkInputValue = (inputValue) =>
+  !inputValue || inputValue.trim() === ''
 
-export function checkTask(taskName) {
-  const check = toDoList.find((task) => task.name === taskName)
-  if (check) {
-    return true
-  }
-}
+export const checkTask = (taskName) =>
+  toDoList.find((task) => task.name === taskName)
 
-export function findIndexTask(taskName) {
-  const indexValue = toDoList.findIndex((task) => task.name === taskName)
-  return indexValue
-}
+export const findIndexTask = (taskName) =>
+  toDoList.findIndex((task) => task.name === taskName)
 
-export function addTask(taskName, taskPriority) {
-  if (checkInputValue(taskName)) {
-    return
-  }
-
-  if (checkTask(taskName)) {
-    return
-  }
+export const addTask = (taskName, taskPriority) => {
+  if (checkInputValue(taskName) || checkTask(taskName)) return
 
   toDoList.push({
     name: taskName,
@@ -44,18 +29,12 @@ export function addTask(taskName, taskPriority) {
   })
 }
 
-export function changeStatus(taskName, statusName) {
-  if (checkTask(taskName)) {
-    toDoList[findIndexTask(taskName)].status = statusName
-    return
-  }
-}
+export const changeStatus = (taskName, statusName) =>
+  checkTask(taskName) && (toDoList[findIndexTask(taskName)].status = statusName)
 
-export function deleteTask(taskName) {
-  if (checkInputValue(taskName)) {
-    return
-  }
-
+export const deleteTask = (taskName) => {
+  if (checkInputValue(taskName)) return
+  
   if (checkTask(taskName)) {
     toDoList.splice(findIndexTask(taskName), 1)
     return
