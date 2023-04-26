@@ -130,11 +130,27 @@ input::-webkit-input-placeholder {
     height: 35px;
     border: 0;
     cursor: pointer;
+    background-color: rgb(255, 255, 255);
+
+}
+
+.button-del2 {
+    width: 35px;
+    height: 35px;
+    border: 0;
+    cursor: pointer;
     background-color: white;
 
 }
 
 .del {
+    width: 35px;
+    height: 35px;
+    position: relative;
+    bottom: -5px;
+}
+
+.del2 {
     width: 35px;
     height: 35px;
     position: relative;
