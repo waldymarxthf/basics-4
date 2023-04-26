@@ -1,0 +1,112 @@
+const statuses = {
+  TODO: 'ToDo',
+  DONE: 'Done',
+}
+
+const priority = {
+  HIGH: 'high',
+  LOW: 'low',
+}
+
+const errors = {
+  taskIsNotExists: 'Задачи не существует',
+  taskIsExists: 'Задача уже существует',
+  priorityIsNotExists: 'Такого приоритета не существует',
+  statusIsNotExists: 'Такого статуса не существует',
+}
+
+const messages = {
+  changeStatus: 'Статус задачи изменён',
+  changePriority: 'Приоритет задачи изменён',
+  addTask: 'Задача добавлена',
+  deleteTask: 'Задача удалена',
+}
+
+const list = [ 
+	{name: 'create a post', status: statuses.TODO, priority: priority.LOW}, 
+  {name: 'test', status: statuses.TODO, priority: priority.HIGH} 
+];
+
+const isEmpty = (task) => { return !task.trim(); };
+
+function isTaskExists(task) {
+  return list.map(goal => goal.name).includes(task);
+}
+
+function indexOfTask(task) {
+  return list.findIndex(goal => goal.name === task);
+}
+
+function isPriorityExists(prior) {
+  return Object.values(priority).includes(prior);
+}
+
+function isStatusExists(stat) {
+  return Object.values(statuses).includes(stat);
+}
+
+function addTask(task, stat = statuses.TODO, prior = priority.LOW) {
+  event.preventDefault();
+  if (isTaskExists(task)) {
+    console.log(errors.taskIsExists);
+    return;
+  }
+  if (!isPriorityExists(prior)) {
+    console.log(errors.priorityIsNotExists);
+    return;
+  }
+  if (!isStatusExists(stat)) {
+    console.log(errors.statusIsNotExists);
+    return;
+  }
+  const goal = {
+    name: task,
+    status: stat,
+    priority: prior
+  };
+  list.push(goal);
+  console.log(messages.addTask)
+  render()
+}
+
+function changeStatus(task, stat) {
+  if (!isTaskExists(task)) {
+    console.log(errors.taskIsNotExists);
+    return;
+  }
+  if (!isStatusExists(stat)) {
+    console.log(errors.statusIsNotExists);
+    return;
+  }
+  const indexTask = indexOfTask(task);
+  list[indexTask].status = stat;
+  console.log(messages.changeStatus);
+  return;
+}
+
+function changePriority(task, prior) {
+  if (!isTaskExists(task)) {
+    console.log(errors.taskIsNotExists);
+    return;
+  }
+  if (!isPriorityExists(prior)) {
+    console.log(errors.priorityIsNotExists);
+    return;
+  }
+  const indexTask = indexOfTask(task);
+  list[indexTask].priority = prior;
+  console.log(messages.changePriority);
+  return;
+}
+
+function deleteTask(task) {
+  if (!isTaskExists(task)) {
+    console.log(errors.taskIsNotExists);
+    return;
+  }
+  const indexTask = indexOfTask(task);
+  list.splice(indexTask, 1);
+  console.log(messages.deleteTask);
+  return;
+}
+
