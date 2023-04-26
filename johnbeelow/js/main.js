@@ -37,7 +37,6 @@ function constructorTaskUi(textInput, priorityTask) {
   statusTask.addEventListener('click', () => {
     const changeStatus = statusTask.checked ? STATUS.DONE : STATUS.IN_PROGRESS
     changeStatus(textInput, changeStatus)
-    console.log(toDoList)
   })
 }
 
