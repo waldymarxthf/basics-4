@@ -66,6 +66,7 @@ body {
     background-repeat: no-repeat;
     width: 20px;
     height: 20px;
+    border: transparent;
 }
 
 .todo-block__btn-add:hover {
