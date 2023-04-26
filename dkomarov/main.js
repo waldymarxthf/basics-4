@@ -20,12 +20,24 @@ const PRIORITY = {
 const toDoList = [];
 
 function addTask() {
-    let taskName = inputValueHigh.value;
-    toDoList.push({
-        task: taskName,
-        status: STATUS.TODO,
-        priority: PRIORITY.HIGH
-    });
+    let taskNameHigh = inputValueHigh.value;
+    if (taskNameHigh !== '') {
+        toDoList.push({
+            task: taskNameHigh,
+            status: STATUS.TODO,
+            priority: PRIORITY.HIGH
+        });
+    };
+    
+    let taskNameLow = inputValueLow.value;
+    if (taskNameLow !== '') {
+        toDoList.push({
+            task: taskNameLow,
+            status: STATUS.TODO,
+            priority: PRIORITY.LOW
+        });
+    };
+    
     
     console.log(toDoList);
     
@@ -68,6 +80,7 @@ function addTaskLow(event) {
     newElement.insertAdjacentHTML('afterbegin', `<p>${inputValueLow.value}</p>`)
     newElement.insertAdjacentHTML('afterbegin', '<input class="radio" type="radio">');
     newElement.insertAdjacentHTML('beforeend', '<button id="del" type="submit" class="button_del"><img src="./image/free-icon-close-151882-444.svg" alt=""></button>');
+    addTask();
     clearInput();
 };
 
