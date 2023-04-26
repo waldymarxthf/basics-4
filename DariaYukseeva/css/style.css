@@ -55,7 +55,7 @@ h2 {
 
 form > div {
     margin-bottom: 8px;
-    
+    overflow-wrap: break-word;
     width: 95%;
    
 }
@@ -119,6 +119,11 @@ label {
 }
 .completed {
     background: #F4F4F4;
+    color: #585858;
+}
+
+.completed div {
+    text-decoration: line-through;
 }
 
 .task-text::before {
@@ -145,12 +150,10 @@ label {
 	transition: .2s;
 }
 
-.input-checkbox:checked + .task-text::after{
+.completed .task-text::after{
     background: #F4F4F4;
     border: 1px solid #ddd;
 }
-
-
 
 .btn-task-delete {
     background: #fff;
