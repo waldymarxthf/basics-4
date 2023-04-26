@@ -1,9 +1,40 @@
 import { highForm, highTaskList, lowForm, lowTaskList } from "./modules/variables.js"
-import { isEmpty } from "./modules/validation.js";
+import { isEmpty, getTaskIndex } from "./modules/validation.js";
 
-const list = []
+export const list = []
 
-function addTask(event, taskList, taskInput, taskPriority) {
+function deleteTask(taskElement) {
+	const index = getTaskIndex(taskElement)
+	list.splice(index, 1);
+	console.log(list)
+	render()
+}
+
+function render() {
+	highTaskList.innerHTML = '';
+	lowTaskList.innerHTML = '';
+
+	for(let i = 0; i < list.length; i++) {
+		const task = list[i];
+		const taskList = task.priority === 'high' ? highTaskList : lowTaskList;
+		
+		const taskElement = document.createElement('div');
+		taskElement.innerHTML = `
+			<input type="checkbox" class="priority-container__checkbox">
+			<p class="priority-container__task-text">${task.name}</p>
+			<img src="./assets/close-icon.svg" alt="delete" class="priority-container__delete">
+		`;
+		taskElement.classList.add('priority-container__task');
+		taskList.insertAdjacentElement('beforeend', taskElement)
+		
+		const deleteTaskButton = taskElement.querySelector('.priority-container__delete');
+		deleteTaskButton.addEventListener('click', () => {
+			deleteTask(taskElement);
+		});
+	}
+}
+
+function addTask(event, taskInput, taskPriority) {
 	event.preventDefault();
 	const formData = new FormData(taskInput);
 	let taskText = formData.get(`${taskPriority}-priority-task`);
@@ -21,41 +52,10 @@ function addTask(event, taskList, taskInput, taskPriority) {
 
 	console.log(list)
 
-	const newTask = render();
-	taskList.insertAdjacentElement('beforeend', newTask);
+	render();
 	event.target.reset()
-	deleteTask(newTask)
 }
 
-//* функция добавления задачи в массив
 
-function deleteTask(taskElement) {
-	const deleteTaskButton = taskElement.querySelector('.priority-container__delete');
-	deleteTaskButton.addEventListener('click', () => {
-			const index = list.findIndex(task => task.name === taskElement.querySelector('.priority-container__task-text').textContent);
-			list.splice(index, 1);
-			taskElement.remove();
-			console.log(list)
-	});
-}
-
-//* функция удаление таски
-
-function render() {
-	const taskElement = document.createElement('div');
-
-	const lastItem = list[list.length - 1];
-
-	taskElement.innerHTML = `
-		<input type="checkbox" class=" priority-container__checkbox">
-		<p class=" priority-container__task-text">${lastItem.name}</p>
-		<img src="./assets/close-icon.svg" alt="delete" class=" priority-container__delete">
-	`;
-	taskElement.classList.add(`priority-container__task`);
-	return taskElement;
-}
-
-//* функция рендерит блок с задачей
-
-highForm.addEventListener('submit', (event) => addTask(event, highTaskList, highForm, 'high'));
-lowForm.addEventListener('submit', (event) => addTask(event, lowTaskList, lowForm, 'low'));
+highForm.addEventListener('submit', (event) => addTask(event, highForm, 'high'));
+lowForm.addEventListener('submit', (event) => addTask(event, lowForm, 'low'));
