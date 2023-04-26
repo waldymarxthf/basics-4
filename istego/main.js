@@ -1,20 +1,20 @@
 const UI_ELEMNTS = {
-    FROM_HIGH: document.querySelector('.form-high'),
-    FROM_LOW: document.querySelector('.form-low'),
+    FORM_HIGH: document.querySelector('.form-high'),
+    FORM_LOW: document.querySelector('.form-low'),
     INPUT_HIGH: document.querySelector('.input-add-high'),
     INPUT_LOW: document.querySelector('.input-add-low'),
     CONTAINER_TASKS_HIGH: document.querySelector('.list-tasks-high'),
     CONTAINER_TASKS_LOW: document.querySelector('.list-tasks-low')
 }
 
-UI_ELEMNTS.FROM_HIGH.addEventListener('submit', (form) => {
+UI_ELEMNTS.FORM_HIGH.addEventListener('submit', (form) => {
     form.preventDefault();
-    addTask(UI_ELEMNTS.FROM_HIGH, UI_ELEMNTS.INPUT_HIGH, UI_ELEMNTS.CONTAINER_TASKS_HIGH);
+    addTask(UI_ELEMNTS.FORM_HIGH, UI_ELEMNTS.INPUT_HIGH, UI_ELEMNTS.CONTAINER_TASKS_HIGH);
 })
 
-UI_ELEMNTS.FROM_LOW.addEventListener('submit', (form) => {
+UI_ELEMNTS.FORM_LOW.addEventListener('submit', (form) => {
     form.preventDefault();
-    addTask(UI_ELEMNTS.FROM_LOW, UI_ELEMNTS.INPUT_LOW, UI_ELEMNTS.CONTAINER_TASKS_LOW);
+    addTask(UI_ELEMNTS.FORM_LOW, UI_ELEMNTS.INPUT_LOW, UI_ELEMNTS.CONTAINER_TASKS_LOW);
 })
 
 // Формируем данные из формы
