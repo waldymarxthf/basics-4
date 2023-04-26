@@ -119,6 +119,10 @@ button {
 	cursor: pointer;
 }
 
+.todo__item label {
+	word-wrap: break-word;
+}
+
 .todo__item.checked {
 	background: rgba(152, 152, 152, 0.1);
 }

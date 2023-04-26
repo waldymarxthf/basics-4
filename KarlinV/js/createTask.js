@@ -29,9 +29,6 @@ export function createTasks(tasks) {
 
     taskItem.addEventListener("click", () => {
       const task = tasks.find((task) => task.id === taskInputCheckbox.id);
-      const indexDelete = tasks.findIndex(
-        (task) => task.id === taskInputCheckbox.id
-      );
 
       if (taskItem.classList.contains("checked")) {
         taskItem.classList.remove("checked");

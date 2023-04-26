@@ -28,13 +28,18 @@ forms.forEach((form) => {
 });
 
 function addTask(value, status) {
-  if (!value.trim()) return;
+  if (!value.trim() || tasks.findIndex((task) => task.name === value) !== -1) {
+    alert("Такая задача уже существует");
+    return;
+  }
+
   const task = {
     name: value,
     status: status,
     done: false,
     id: generateId(),
   };
+
   tasks.push(task);
   setTasksLocalStorage(KEY_LOCAL_STORAGE, tasks);
   createTasks(tasks);
