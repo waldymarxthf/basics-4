@@ -159,7 +159,7 @@ button {
 
 .btn-add,
 .btn-close {
-    width: 30px;
+    min-width: 30px;
     height: 30px;
 }
 
@@ -230,6 +230,11 @@ margin-bottom: 8px;
     background-color: #7fffd4;
     transition-duration: 0.1s;
     border: none;
+}
+
+.task__check-input:checked:hover {
+    background-color: #74e5bf;
+    transition-duration: 0.1s;
 }
 
 .task__check-input:checked::before {
