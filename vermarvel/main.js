@@ -67,13 +67,18 @@ const data = {
 
   calc(a, b, op) {
     //Guard clause
+
     if (b == 0 && op === "/") return dom.errorZero;
     if (a === dom.empty || b === dom.empty) return dom.errorData;
     // calculate
-    if (op === "-") return parseFloat(a) - parseFloat(b);
-    if (op === "+") return parseFloat(a) + parseFloat(b);
-    if (op === "/") return parseFloat(a) / parseFloat(b);
-    if (op === "*") return parseFloat(a) * parseFloat(b);
+    try {
+      if (op === "-") return parseFloat(a) - parseFloat(b);
+      if (op === "+") return parseFloat(a) + parseFloat(b);
+      if (op === "/") return parseFloat(a) / parseFloat(b);
+      if (op === "*") return parseFloat(a) * parseFloat(b);
+    } catch (err) {
+      alert("Input error: ", err);
+    }
   },
 };
 
@@ -112,6 +117,7 @@ dom.numbersParent.addEventListener("click", function (event) {
     }
     if (data.op !== dom.empty) {
       dom.input.value = dom.errorData;
+
       return resetKeeper();
     }
 
@@ -162,14 +168,18 @@ dom.row.addEventListener("click", function (event) {
     data.b = dom.input.value;
 
     // calc
-    curResult = data.calc(data.a, data.b, data.op);
-    if (isNaN(curResult)) {
-      dom.input.value = dom.errorData;
-      resetKeeper();
-    } else {
-      dom.input.value = curResult;
-      createResult();
-      resetKeeper();
+    try {
+      curResult = data.calc(data.a, data.b, data.op);
+      if (isNaN(curResult)) {
+        dom.input.value = dom.errorData;
+        resetKeeper();
+      } else {
+        dom.input.value = curResult;
+        createResult();
+        resetKeeper();
+      }
+    } catch (err) {
+      alert("Calculation error occured: ", err);
     }
   }
 
