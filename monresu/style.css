@@ -14,11 +14,13 @@ h2 {
   padding: 12px 20px;
   border-radius: 6px;
   font-size: 18px;
-  display: flex;
-  justify-content: space-between;
   margin-top: 20px;
   margin-bottom: 20px;
+
+  display: flex;
+  justify-content: space-between;
 }
+
 
 .task {
   display: flex;
@@ -29,10 +31,21 @@ h2 {
   padding: 12px 5px;
 }
 
+.task label {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+}
+
 .task p {
   width: 80%;
 }
 
 .done-task {
   background: #e5e5e5;
+}
+
+.input-task-high, .input-task-low {
+  max-width: 600px;
+  min-width: 300px;
 }

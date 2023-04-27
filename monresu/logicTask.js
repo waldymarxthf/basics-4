@@ -3,7 +3,7 @@ const statuses = {
   DONE: 'Done',
 }
 
-const priority = {
+const priorities = {
   HIGH: 'high',
   LOW: 'low',
 }
@@ -27,35 +27,36 @@ const list = [];
 const isEmpty = (task) => { return !task.trim(); };
 
 function isTaskExists(task) {
-  return list.map(goal => goal.name).includes(task);
+  return list.map(t => t.name).includes(task);
 }
 
 function indexOfTask(task) {
-  return list.findIndex(goal => goal.name === task);
+  return list.findIndex(t => t.name === task);
 }
 
-function isPriorityExists(prior) {
-  return Object.values(priority).includes(prior);
+function isPriorityExists(priority) {
+  return Object.values(priorities).includes(priority);
 }
 
-function isStatusExists(stat) {
-  return Object.values(statuses).includes(stat);
+function isStatusExists(status) {
+  return Object.values(statuses).includes(status);
 }
 
-function addTask(task, stat = statuses.TODO, prior = priority.LOW) {
-  event.preventDefault();
+/* Добавление задачи в массив */
+function addTask(name, status = statuses.TODO, priority = priorities.LOW) {
   try {
-    if (isTaskExists(task)) {
+    if (isTaskExists(name)) {
       throw new Error('Такая задача уже есть!');
     }
-    const goal = {
-      name: task,
-      status: stat,
-      priority: prior
+    if (isEmpty(name)) {
+      throw new Error('Вы пытаетесь добавить пустую задачу!');
+    }
+    const task = {
+      name,
+      status,
+      priority
     };
-    list.push(goal);
-    console.log(messages.addTask)
-    render()
+    list.push(task);
   } catch(err) {
     if (err.name == 'Error') {
       alert(err.message);
@@ -63,45 +64,29 @@ function addTask(task, stat = statuses.TODO, prior = priority.LOW) {
   }
 }
 
-function changeStatus(task, stat) {
+/* Удаление задачи из массива */
+function removeTask(task) {
   if (!isTaskExists(task)) {
-    alert(errors.taskIsNotExists);
-    return;
-  }
-  if (!isStatusExists(stat)) {
-    console.log(errors.statusIsNotExists);
-    return;
-  }
-  const indexTask = indexOfTask(task);
-  list[indexTask].status = stat;
-  console.log(messages.changeStatus);
-  render();
-  return;
-}
-
-function changePriority(task, prior) {
-  if (!isTaskExists(task)) {
-    console.log(errors.taskIsNotExists);
-    return;
-  }
-  if (!isPriorityExists(prior)) {
-    console.log(errors.priorityIsNotExists);
-    return;
-  }
-  const indexTask = indexOfTask(task);
-  list[indexTask].priority = prior;
-  console.log(messages.changePriority);
-  return;
-}
-
-function deleteTask(task) {
-  if (!isTaskExists(task)) {
-    console.log(errors.taskIsNotExists);
+    console.log(errors.taskIsNotExists); // ошибка для разработчика (у пользователя ее возникнуть не может)
     return;
   }
   const indexTask = indexOfTask(task);
   list.splice(indexTask, 1);
-  console.log(messages.deleteTask);
   return;
 }
 
+/* Изменение статуса задачи */
+function changeStatus(task, status) {
+  if (!isTaskExists(task)) {
+    console.log(errors.taskIsNotExists); // ошибка для разработчика
+    return;
+  }
+  if (!isStatusExists(status)) {
+    console.log(errors.statusIsNotExists); // ошибка для разработчика 
+    return;
+  }
+  const indexTask = indexOfTask(task);
+  list[indexTask].status = status;
+  render();
+  return;
+}

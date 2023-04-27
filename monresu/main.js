@@ -1,5 +1,5 @@
-const inputHighNode = document.querySelector('.input-high')
-const inputLowNode = document.querySelector('.input-low')
+const inputHighNode = document.querySelector('.form-high')
+const inputLowNode = document.querySelector('.form-low')
 const highTasksNode = document.querySelector('.high-tasks')
 const lowTasksNode = document.querySelector('.low-tasks')
 const inputHighTaskNode = document.querySelector('.input-task-high')
@@ -7,74 +7,70 @@ const inputLowTaskNode = document.querySelector('.input-task-low')
 
 const tasksNodes = [highTasksNode, lowTasksNode]
 
-function removeTask(task) {
-  console.log(task)
-  if (!isTaskExists(task)) {
-    console.log(errors.taskIsNotExists);
-    return;
-  }
-  const indexTask = indexOfTask(task);
-  list.splice(indexTask, 1);
-  console.log(messages.deleteTask);
-  return;
-}
-
+/* Создание HTML элемента задачи */
 function createTaskNode(text, status) {
   const newTask = document.createElement('div');
-  newTask.className = 'task';
+  newTask.classList.add('task');
   const checkbox = document.createElement('input');
   checkbox.type = 'checkbox';
   const textTask = document.createElement('p');
   textTask.innerText = text;
-  const closeBtn = document.createElement('img');
-  closeBtn.src = './img/close-icon (1).svg';
-  closeBtn.addEventListener('click', () => {
+  const label = document.createElement('label');
+  const closeBtnImg = document.createElement('img');
+  closeBtnImg.src = './img/close-icon (1).svg';
+  const closeBtnNode = document.createElement('button');
+
+  closeBtnNode.appendChild(closeBtnImg);
+
+  /* Вешаем слушатель на кнопку закрытия */
+  closeBtnNode.addEventListener('click', () => {
     removeTask(text);
     render();
   })
+  /* Вешаем слушатель на чекбокс */
   checkbox.addEventListener('change', () => {
     const isChecked = checkbox.checked;
-    if (isChecked) {
-      newTask.classList.add('done-task');
-      changeStatus(textTask.innerText, statuses.DONE);
-    } else {
-      newTask.classList.remove('done-task');
-      changeStatus(textTask.innerText, statuses.TODO);
-    }
+    changeStatus(text, isChecked ? statuses.DONE : statuses.TODO);
   });
-  
+  /* Делаем так чтобы при рендере выполненные задачи оставались выполненными */
   if (status === statuses.DONE) {
     newTask.classList.add('done-task');
     checkbox.checked = true;
   }
-  newTask.appendChild(checkbox);
-  newTask.appendChild(textTask);
-  newTask.appendChild(closeBtn);
+  label.appendChild(checkbox);
+  label.appendChild(textTask);
+  newTask.appendChild(label);
+  newTask.appendChild(closeBtnNode);
   return newTask;
 }
 
+/* Функция рендера задач */
 function render() {
-  lowTasksNode.innerHTML = '';
   highTasksNode.innerHTML = '';
+  lowTasksNode.innerHTML = '';
   
-  for (const el of list) { 
+  for (const el of list) {
+    const nodeForAddTask = el.priority == priorities.HIGH ?  highTasksNode : lowTasksNode;
     const task = createTaskNode(el.name, el.status);
-    el.priority == priority.HIGH ?  tasksNodes[0].appendChild(task) : tasksNodes[1].appendChild(task);
+    nodeForAddTask.appendChild(task);
   }
 }
-
-function addTaskHigh() {
-  addTask(inputHighTaskNode.value, statuses.TODO, priority.HIGH);
+/* Функции добавления задач при отправке форм */
+function addTaskHigh(event) {
+  event.preventDefault();
+  addTask(inputHighTaskNode.value, statuses.TODO, priorities.HIGH);
   inputHighTaskNode.value = '';
+  render();
 }
 
-function addTaskLow() {
-  addTask(inputLowTaskNode.value, statuses.TODO, priority.LOW)
+function addTaskLow(event) {
+  event.preventDefault();
+  addTask(inputLowTaskNode.value, statuses.TODO, priorities.LOW)
   inputLowTaskNode.value = '';
+  render();
 }
 
 inputHighNode.addEventListener('submit', addTaskHigh)
 inputLowNode.addEventListener('submit', addTaskLow)
 
-render()
-
+//render()
