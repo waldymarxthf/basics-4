@@ -14,16 +14,28 @@
 
         <div class="category-name-high">HIGH</div>
         <div class="box add-high">
-          <form class="form">   <input
-            class="add-task"
-            name="id1"
+          <form class="form form-high" onsubmit="addTask(event)" id="highForm">  
+        
+              <input
+            class="add-task add-task-high"
+            name="high"
+            id="high"
             type="text"
-           
-            placeholder="Add a task"
-          ></input></form>
-        <button class="plus"><i class="fa-solid fa-plus"></i></button>
+            placeholder="  Add a task"
+          ></input>
+          
+            
+        </form>
+        <button 
+        data-container-id="high-container"
+        type="button" 
+       
+        class="plus plus-high" 
+        id="btn-high"><i  class="fa-solid fa-plus" type="submit"></i>
+      </button>
         </div>
-        <div class="task box">
+        <div class="tasks-high"></div>
+        <!-- <div class="task box">
          
           <form class="radio-wrapper">
           <input type="checkbox" id="radio1" name="radio">
@@ -32,7 +44,7 @@
           <p class="text">Lorem ipsum dolor sit Lorem ipsum dolor sit</p>
         
       <button class="delete"><i class="fa-solid fa-times"></i></button>
-        </div>
+        </div> -->
         
       </div>
 
@@ -41,17 +53,27 @@
 
         <div class="category-name-low">LOW</div>
         <div class="box add-low">
-          <form class="form">   <input
-            class="add-task"
-            name="id1"
-            type="text"
-           
-            placeholder="Add a task"
-          ></input></form>
-        <button class="plus"><i class="fa-solid fa-plus"></i></button>
-        </div>
+          <form class="form form-low" onsubmit="addTask()" id="lowForm"  method="POST">
+      
 
-         <div class="task box">
+            <input
+            class="add-task add-task-low"
+            id="low"
+            name="low"
+            type="text"
+            placeholder="  Add a task"
+          ></input>
+
+        </form>
+        <button 
+        data-container-id="low-container"
+        type="button" 
+        class="plus plus-low" 
+        id="btn-low"><i class="fa-solid fa-plus" type="submit"></i>
+      </button>
+        </div>
+<div class="tasks-low"></div>
+         <!-- <div class="task box">
           <form class="radio-wrapper">
             <input type="checkbox" id="radio2" name="radio">
             <label for="radio2" class="checkmark"></label>
@@ -59,26 +81,27 @@
             <p class="text">Lorem ipsum dolor sit</p>
           
         <button class="delete"><i class="fa-solid fa-times"></i></button>
-        </div>
-        
-        <div class="task box complete">
-          <form class="radio-wrapper">
-            <input type="checkbox" id="radio3" name="radio">
-            <label for="radio3" class="checkmark"></label>
-          </form>
-            <p class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae a perspiciatis tempora sit minus hic quasi, accusantium soluta quia repudiandae quaerat incidunt animi reiciendis necessitatibus obcaecati! Eius rem reprehenderit recusandae?</p>
-          
-        <button class="delete"><i class="fa-solid fa-times"></i></button>
-    </div>
+        </div> -->
+
+          <!--Hidden box-->
+       
       </div>
 
-      <label>
+      <!-- <label>
         <input type="checkbox" name="radio" />
         <span class="checkmark"></span>
-      </label>
+      </label> -->
     </div>
- 
-    <script src="toDoObjects.js"></script>
+    <div class="task box hidden">
+      <form class="radio-wrapper">
+        <input type="checkbox"  class="checkbox" name="radio">
+        <label  class="checkmark"></label>
+      </form>
+        <p class="text"></p>
+      
+    <button class="delete"><i class="fa-solid fa-times"></i></button>
+</div>
+    <script src="script.js"></script>
   
   </body>
 </html>
