@@ -44,26 +44,23 @@ function isStatusExists(stat) {
 
 function addTask(task, stat = statuses.TODO, prior = priority.LOW) {
   event.preventDefault();
-  if (isTaskExists(task)) {
-    alert(errors.taskIsExists);
-    return;
+  try {
+    if (isTaskExists(task)) {
+      throw new Error('Такая задача уже есть!');
+    }
+    const goal = {
+      name: task,
+      status: stat,
+      priority: prior
+    };
+    list.push(goal);
+    console.log(messages.addTask)
+    render()
+  } catch(err) {
+    if (err.name == 'Error') {
+      alert(err.message);
+    }
   }
-  if (!isPriorityExists(prior)) {
-    console.log(errors.priorityIsNotExists);
-    return;
-  }
-  if (!isStatusExists(stat)) {
-    console.log(errors.statusIsNotExists);
-    return;
-  }
-  const goal = {
-    name: task,
-    status: stat,
-    priority: prior
-  };
-  list.push(goal);
-  console.log(messages.addTask)
-  render()
 }
 
 function changeStatus(task, stat) {
