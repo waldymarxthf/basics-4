@@ -43,7 +43,7 @@ fieldLow.addEventListener("input", function (event) {
 // Logic
 
 // Memory:
-// ADD TO MEMMORY
+// ADD TO MEMORY
 
 function addNewToMemory(taskName, prio) {
   // assemble
@@ -190,11 +190,13 @@ function getId(target) {
   }
 }
 
+// RESET
 function resetInputs() {
   inputHigh.value = "";
   inputLow.value = "";
 }
 
+// Listens to CHECKBOX
 function checkboxHandler(event) {
   // retrieve id
   const target = event.target;
@@ -213,4 +215,3 @@ function checkboxHandler(event) {
 // getId - to work for checkbox too;
 // DOM - to hide into a module
 // Render into a module
-T;
