@@ -158,13 +158,13 @@ button {
 }
 
 .btn-add,
-.btn-close {
+.btn-delete {
     min-width: 30px;
     height: 30px;
 }
 
 .btn-add img,
-.btn-close img {
+.btn-delete img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -176,7 +176,7 @@ button {
     transform: rotate(90deg);
 }
 
-.btn-close img:hover {
+.btn-delete img:hover {
     transition-duration: 0.2s;
     transform: rotate(90deg);
 }
@@ -199,6 +199,12 @@ button {
     overflow-x: hidden;
 }
 
+.task.done {
+    background-color: #cbcfd0;
+    text-decoration: line-through;
+}
+
+
 .task:not(:last-child) {
 margin-bottom: 8px;
 }
@@ -208,6 +214,7 @@ margin-bottom: 8px;
     max-height: 100px;
     overflow-y: auto;
     overflow-x: hidden;
+    word-break: break-word;
 }
 
 
