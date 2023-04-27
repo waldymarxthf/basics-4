@@ -10,6 +10,8 @@ const PRIORITIES = {
 
 const toDoList = [];
 
+let taskId = 0;
+
 const taskExistenceMessage = 'Такая задача уже существует';
 
 const mainToDo = getElement('.todo-list');
@@ -32,59 +34,41 @@ function isTaskNameValid (taskName) {
     return !!taskName.trim();
 }
 
-// Проверяет, есть ли уже такая задача
-function isTaskExist(taskName) {
-    const taskExistence = toDoList.find(obj => {
-        return (obj['name'] === taskName)
-    });
-    
-   return !!taskExistence;
-}
-
 // Находит индекс задачи:
-function getTaskIndex(taskName) {
+function getTaskIndex(id) {
     const taskIndex = toDoList.findIndex(obj => 
-    obj['name'] === taskName);
+    obj.id === +id);
+ 
     return taskIndex;   
 }
 
-// Получает статус задачи из атрибута элемента
-function getTaskStatusByAttribute(task) {
-    return task.getAttribute('data-status');
-}
-
-// Функция добавления новой задачи. Принимает в качестве аргументов текст задачи, приоритет. Cтатус ставится по умолчанию TO_DO. Проверяем, валидное ли имя задачи и нет ли уже такой задачи. Если проверки пройдены, добавляем задачу:
+// Функция добавления новой задачи. Принимает в качестве аргументов текст задачи, приоритет. Cтатус ставится по умолчанию TO_DO. Проверяем, валидное ли имя задачи. Если проверка пройдена, добавляем задачу:
 function addTask(taskName, priority) {
-    if (isTaskExist(taskName)) {
-        // добавить всплывающее окно об ошибке?
-        console.log(taskExistenceMessage);
-        return;
-    }
+    
     if (!isTaskNameValid(taskName)) {
         return;
     }
     
     const newTask = {
+        'id': taskId,
         'name': taskName.trim(), 
         'status': STATUSES.TO_DO, 
-        'priority': priority
+        'priority': priority,
     };
     toDoList.push(newTask)
-    
+    taskId++;
     console.log(`Добавлена новая задача ${newTask.name.substr(0, 20)}...`);
 }
 
 // Удаляет задачу. 
-function deleteTask(task) {
-    toDoList.splice(getTaskIndex(task), 1);
-    // сделать всплывающее окно с предложением отменить удаление?
-    console.log(`Задача ${task.substr(0, 10)}... удалена`);
-       
+function deleteTask(id) {
+    toDoList.splice(getTaskIndex(id), 1);
+    // сделать всплывающее окно с предложением отменить удаление?       
 }
 
 // Меняет статус задачи:
-function setStatusTask(task, newStatus) {
-    toDoList[getTaskIndex(task)]['status'] = newStatus;
+function setStatusTask(id, newStatus) {
+    toDoList[getTaskIndex(id)].status = newStatus;    
 }
 
 // Фильтрует задачи по приоритету
@@ -113,13 +97,19 @@ function addTasksToDOM(priority, tasksBlock) {
     const filteredTasksByPriority = filteringTasksByPriority(priority);
     // сортируем по статусу отфильтрованный ранее массив
     const sortedTasksByStatus = sortTaskByStatus(filteredTasksByPriority);
-    // для каждой задачи добавляем data-status со значением статуса задачи и добавляем элемент с задачей в HTML
+    
+    // для каждой задачи добавляем data-id со значением id задачи и класс completed, если у задачи статус DONE. Добавляем элемент с задачей в HTML
     if (sortedTasksByStatus.length !== 0) {
         sortedTasksByStatus.forEach(task => {
+            let taskClasses = ['task-item'];
+            if(task.status === STATUSES.DONE) {
+                taskClasses.push('completed');
+            }
+            taskClasses = taskClasses.join(' ');
             tasksBlock.insertAdjacentHTML('beforeend', `
-                <div class="task-item" data-status="${task.status}">
+                <div class="${taskClasses}" data-id="${task.id}">
                     <label>
-                        <input type="checkbox"  class="input-checkbox">
+                        <input type="checkbox"  class="input-checkbox" data-id="${task.id}">
                         <div class="task-text" >
                             ${task.name} 
                         </div>
@@ -130,8 +120,7 @@ function addTasksToDOM(priority, tasksBlock) {
             
         });
     }
-    return
-    
+    return    
 }
 
 // рендерим ДОМ на основании данных из массива toDoList. 
@@ -141,14 +130,8 @@ function render() {
     // добавляем задачи каждую в свой блок по приоритету
     addTasksToDOM(PRIORITIES.HIGH, highPriorityTasks);
     addTasksToDOM(PRIORITIES.LOW, lowPriorityTasks);
-    // добавляем для задач со статусом DONE класс .completed
-    const tasks = getElements('.task-item')
-    tasks.forEach(task => {
-        
-        if (getTaskStatusByAttribute(task) === STATUSES.DONE) {
-            task.classList.add('completed')
-        }
-    });
+   
+ 
 }
 
 // Функция обработчика события для кнопки сабмит. 
@@ -165,8 +148,7 @@ const submitBtnHandler = (event) => {
     }
     // очищает поле ввода и рендерит ДОМ
     inputsAddingTask.forEach(input => input.value = '');
-    render();
-    
+    render();    
 }
 
 // повесили событие клик на кнопки сабмит
@@ -185,32 +167,30 @@ const clickHandler = (event) => {
         btnDeleteHandler(event)
         render();
         return
-    }
-    
+    } 
 }
 
 // Функция обработчика события на клик для чекбокса.   
 function checkboxHandler(event) {
-    // Находит текст выбранной задачи
-    const checkedTaskText = event.target.nextElementSibling.textContent.trim();
+    // Находит data-id выбранной задачи
+    const checkedTaskId = event.target.getAttribute('data-id');
     // и статус выбранной задачи
-    const checkedTaskStatus = getTaskStatusByAttribute(event.target.parentElement.parentElement)
+    const checkedTaskStatus = toDoList.find(obj => obj.id === +checkedTaskId).status;
     // Если статус TO_DO, то меняем его на Done и наоборот.
     if (checkedTaskStatus === STATUSES.TO_DO) {
-        setStatusTask(checkedTaskText, STATUSES.DONE);
+        setStatusTask(checkedTaskId, STATUSES.DONE);
     }
     else {
-        setStatusTask(checkedTaskText, STATUSES.TO_DO);
+        setStatusTask(checkedTaskId, STATUSES.TO_DO);
     }
-   
 }
 
 // Функция обработчика события на клик для кнопки delete.  
 function btnDeleteHandler(event) {
     // Находит текст удаляемой задачи
-    const deletedTaskText = event.target.previousElementSibling.lastElementChild.textContent.trim();
+    const deletedTaskId = +event.target.parentElement.getAttribute('data-id');
     // этот текст передаёт в функцию удаления задач из массива.
-    deleteTask(deletedTaskText);
+    deleteTask(deletedTaskId);
 }
 
 // Повесили событие клик на туду лист 
