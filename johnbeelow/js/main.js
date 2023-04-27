@@ -1,4 +1,4 @@
-import { DOM, UI_ELEMENTS } from './module/ui_elements.js'
+import { createTag, UI_ELEMENTS } from './module/ui_elements.js'
 import {
   STATUS,
   PRIORITY,
@@ -8,39 +8,39 @@ import {
   deleteTask,
 } from './module/todo_program.js'
 
-function constructorTaskUi(textInput, priorityTask) {
-  const containerTask = DOM.CREATE_TAG('div')
-  const labelTask = DOM.CREATE_TAG('label')
-  const statusTask = DOM.CREATE_TAG('input')
-  const textTask = DOM.CREATE_TAG('span')
-  const deleteTaskButton = DOM.CREATE_TAG('div')
+function constructorTaskUi(name, status, priotiry) {
+  const containerTask = createTag('div')
+  const labelTask = createTag('label')
+  const statusTask = createTag('input')
+  const textTask = createTag('span')
+  const deleteTaskButton = createTag('button')
 
-  containerTask.setAttribute('class', 'task')
-  statusTask.setAttribute('class', 'checkbox')
-  statusTask.setAttribute('type', 'checkbox')
-  textTask.setAttribute('class', 'task_text')
-  textTask.textContent = textInput
-  deleteTaskButton.setAttribute('class', 'button_close_task')
+  containerTask.classList.add('task')
+  statusTask.classList.add('checkbox')
+  statusTask.type = 'checkbox'
+  textTask.classList.add('task_text')
+  textTask.textContent = name
+  deleteTaskButton.classList.add('button_close_task')
   deleteTaskButton.textContent = '×'
 
-  priorityTask.appendChild(containerTask)
+  priotiry.appendChild(containerTask)
   containerTask.appendChild(labelTask)
   labelTask.appendChild(statusTask)
   labelTask.appendChild(textTask)
   containerTask.appendChild(deleteTaskButton)
 
+  if (status === STATUS.DONE) {
+    statusTask.setAttribute('checked', true)
+  }
+
   deleteTaskButton.addEventListener('click', () => {
-    deleteTask(textInput)
+    deleteTask(name)
     render()
   })
 
-  statusTask.addEventListener('click', () => {
-    if (statusTask.checked) {
-      changeStatus(textInput, STATUS.DONE)
-    }
-    if (!statusTask.checked) {
-      changeStatus(textInput, STATUS.IN_PROGRESS)
-    }
+  statusTask.addEventListener('change', () => {
+    status = statusTask.checked ? STATUS.DONE : STATUS.IN_PROGRESS
+    changeStatus(name, status)
   })
 }
 
@@ -50,22 +50,31 @@ function render() {
 
   for (let taskFind of toDoList) {
     if (taskFind.priority === PRIORITY.HIGH) {
-      constructorTaskUi(taskFind.name, UI_ELEMENTS.PRIORITY_HIGH)
+      constructorTaskUi(
+        taskFind.name,
+        taskFind.status,
+        UI_ELEMENTS.PRIORITY_HIGH
+      )
     }
+
     if (taskFind.priority === PRIORITY.LOW) {
-      constructorTaskUi(taskFind.name, UI_ELEMENTS.PRIORITY_LOW)
+      constructorTaskUi(
+        taskFind.name,
+        taskFind.status,
+        UI_ELEMENTS.PRIORITY_LOW
+      )
     }
   }
 }
 
-UI_ELEMENTS.INPUT_FORM_HIGHT.addEventListener('submit', function (event) {
+UI_ELEMENTS.INPUT_FORM_HIGHT.addEventListener('submit', (event) => {
   event.preventDefault()
-  addTask(UI_ELEMENTS.INPUT_TEXT_HIGH.value, PRIORITY.HIGH)
+  addTask(UI_ELEMENTS.INPUT_TEXT_HIGH.value, STATUS.IN_PROGRESS, PRIORITY.HIGH)
   render()
 })
 
-UI_ELEMENTS.INPUT_FORM_LOW.addEventListener('submit', function (event) {
+UI_ELEMENTS.INPUT_FORM_LOW.addEventListener('submit', (event) => {
   event.preventDefault()
-  addTask(UI_ELEMENTS.INPUT_TEXT_LOW.value, PRIORITY.LOW)
+  addTask(UI_ELEMENTS.INPUT_TEXT_LOW.value, STATUS.IN_PROGRESS, PRIORITY.LOW)
   render()
 })
