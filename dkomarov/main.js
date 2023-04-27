@@ -60,7 +60,6 @@ function render() {
     const newElement = document.createElement('form');
     for (obj of toDoList) {
         taskName = obj.task;
-        statusName = obj.status;
         if (inputValueHigh.value) {
             parentHigh.appendChild(newElement);
         } else if (inputValueLow.value) {
@@ -77,7 +76,7 @@ function render() {
     //изменение статуса задачи в массиве
     const checkBox = newElement.querySelector('.radio');
     checkBox.addEventListener('change', () => {
-        toDoList.status = STATUS.DONE
+        obj.status = STATUS.DONE
         console.log(toDoList)
     });
 
