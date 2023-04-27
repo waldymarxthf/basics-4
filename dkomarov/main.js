@@ -23,23 +23,24 @@ const toDoList = [];
 
 
 //добавление задачи в массив
-function addTask() {
+function addTask(event) {
+    event.preventDefault()
     let taskNameHigh = inputValueHigh.value;
-    if (taskNameHigh !== '') {
+    let taskNameLow = inputValueLow.value;
+    if (!(taskNameHigh == '')) {
         toDoList.push({
             task: taskNameHigh,
             status: STATUS.TODO,
             priority: PRIORITY.HIGH
         });
-    };
-
-    let taskNameLow = inputValueLow.value;
-    if (taskNameLow !== '') {
+        renderHigh();
+    } else if (!(taskNameLow == '')){
         toDoList.push({
             task: taskNameLow,
             status: STATUS.TODO,
             priority: PRIORITY.LOW
         });
+        renderLow();
     };
 
     console.log(toDoList);
@@ -47,58 +48,70 @@ function addTask() {
 
 //чистка импута после добавления
 function clearInput() {
-    if (inputValueHigh.value != '') {
+    if (!(inputValueHigh.value == '')) {
         return inputValueHigh.value = '';
     };
 
-    if (inputValueLow.value != '') {
+    if (!(inputValueLow.value == '')) {
         return inputValueLow.value = '';
     };
 
 };
 
+
+
 //добавление задачи с высоким приоритетом
-function addTaskHigh(event) {
-    event.preventDefault();
+function renderHigh() {
+    for (obj of toDoList) {
+        taskNameHigh = obj.task;
+    };
     const newElement = document.createElement('form');
     parentHigh.appendChild(newElement);
     newElement.classList.add('form');
-    newElement.insertAdjacentHTML('afterbegin', `<p>${inputValueHigh.value}</p>`)
+    newElement.insertAdjacentHTML('afterbegin', `<p>${taskNameHigh}</p>`)
     newElement.insertAdjacentHTML('afterbegin', '<input class="radio" type="checkbox">');
     newElement.insertAdjacentHTML('beforeend', '<button id="del" type="submit" class="button_del"><img src="./image/free-icon-close-151882-444.svg" alt=""></button>');
-    addTask();
     clearInput();
 
     //удаление задачи из дом и массива
     const delButton = newElement.querySelector('.button_del');
-    delButton.addEventListener('click', function deleteTask(event) {
-        event.preventDefault();
-        taskName = toDoList.findIndex(tasks => tasks.task === inputValueHigh.value);
-        toDoList.splice(taskName, 1);
+    delButton.addEventListener('click', (event) => {
+        event.preventDefault()
         newElement.remove();
-
+       
+        
         console.log(toDoList);
-    });
+    }); 
+        
+        
+        
+        
+    
 
     //изменение статуса задачи в массиве
     const checkBox = newElement.querySelector('.radio');
     checkBox.addEventListener('change', () => {
         console.log('done')
-    })
 
-
+    });
 };
 
+
+
+
+
+
 // добавление задачи с низким приоритетом
-function addTaskLow(event) {
-    event.preventDefault();
+function renderLow() {
+    for (obj of toDoList) {
+        taskNameLow = obj.task;
+    }
     const newElement = document.createElement('form');
     parentLow.appendChild(newElement);
     newElement.classList.add('form');
-    newElement.insertAdjacentHTML('afterbegin', `<p>${inputValueLow.value}</p>`)
+    newElement.insertAdjacentHTML('afterbegin', `<p>${taskNameLow}</p>`)
     newElement.insertAdjacentHTML('afterbegin', '<input class="radio" type="checkbox">');
     newElement.insertAdjacentHTML('beforeend', '<button id="del" type="submit" class="button_del"><img src="./image/free-icon-close-151882-444.svg" alt=""></button>');
-    addTask();
     clearInput();
 
 
@@ -106,7 +119,7 @@ function addTaskLow(event) {
     const delButton = newElement.querySelector('.button_del');
     delButton.addEventListener('click', function deleteTask(event) {
         event.preventDefault();
-        taskName = toDoList.findIndex(tasks => tasks.task === inputValueLow.value);
+        taskName = toDoList.indexOf(elem => elem.task == taskNameLow);
         toDoList.splice(taskName, 1);
         newElement.remove();
 
@@ -118,10 +131,10 @@ function addTaskLow(event) {
     const checkBox = newElement.querySelector('.radio');
     checkBox.addEventListener('change', () => {
         console.log('done')
-    })
+    });
 };
 
 
 
-addTaskButtonHigh.addEventListener('click', addTaskHigh);
-addTaskButtonLow.addEventListener('click', addTaskLow);
+addTaskButtonHigh.addEventListener('click', addTask);
+addTaskButtonLow.addEventListener('click', addTask);
