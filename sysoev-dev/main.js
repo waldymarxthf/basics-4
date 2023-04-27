@@ -14,6 +14,8 @@ export const STATUSES = {
   DEFAULT_STATUS: 'To Do',
 };
 
+const ERROR_TASK_EXIST = 'Задача уже существует!';
+
 let list = [
   {
     name: 'create a post',
@@ -32,19 +34,19 @@ let list = [
   },
 ];
 
+function isTaskExist(name) {
+  const isValid = list.find(task => task.name === name);
+  if (isValid) {
+    alert(ERROR_TASK_EXIST);
+    return;
+  }
+  return true;
+}
+
 function addTask(name, status, priority) {
-  // if (!isNameValid(name)) {
-  //   return;
-  // }
-
-  // if (!isStatusValid(status)) {
-  //   return;
-  // }
-
-  // if (!isPriorityValid(priority)) {
-  //   return;
-  // }
-
+  if (!isTaskExist(name)) {
+    return;
+  }
   list.push({
     name,
     status,
@@ -52,23 +54,29 @@ function addTask(name, status, priority) {
   });
 }
 
-function formsSubmitHandler(event) {
-  event.preventDefault();
-  const isLowForm = event.target === UI_ELEMENTS.FORM_LOW;
-  const isHighForm = event.target === UI_ELEMENTS.FORM_HIGH;
-  const inputLowValue = UI_ELEMENTS.INPUT_LOW.value;
-  const inputHighValue = UI_ELEMENTS.INPUT_HIGH.value;
+export function deleteTask(name) {
+  list = list.filter(item => item.name !== name);
+  render();
+}
 
-  if (isHighForm) {
-    addTask(inputHighValue, STATUSES.DEFAULT_STATUS, PRIORITIES.HIGH);
-    render();
+function getTaskIndex(name) {
+  const taskIndex = list.findIndex(task => task.name === name);
+  if (taskIndex < 0) {
+    return;
   }
 
-  if (isLowForm) {
-    addTask(inputLowValue, STATUSES.DEFAULT_STATUS, PRIORITIES.LOW);
-    render();
+  return taskIndex;
+}
+
+export function changeStatus(name) {
+  const taskIndex = getTaskIndex(name);
+  const currentStatus = list[taskIndex].status;
+  if (currentStatus === STATUSES.TODO) {
+    list[taskIndex].status = STATUSES.DONE;
+  } else if (currentStatus === STATUSES.DONE) {
+    list[taskIndex].status = STATUSES.TODO;
   }
-  event.target.reset();
+  render();
 }
 
 function clearDom() {
@@ -84,5 +92,25 @@ function render() {
   });
 }
 
-render();
+function formsSubmitHandler(event) {
+  event.preventDefault();
+  const isLowForm = event.target === UI_ELEMENTS.FORM_LOW;
+  const isHighForm = event.target === UI_ELEMENTS.FORM_HIGH;
+  const inputLowValue = UI_ELEMENTS.INPUT_LOW.value;
+  const inputHighValue = UI_ELEMENTS.INPUT_HIGH.value;
+
+  if (isHighForm) {
+    addTask(inputHighValue, STATUSES.TODO, PRIORITIES.HIGH);
+    render();
+  }
+
+  if (isLowForm) {
+    addTask(inputLowValue, STATUSES.TODO, PRIORITIES.LOW);
+    render();
+  }
+  console.log(list);
+  event.target.reset();
+}
+
+document.addEventListener('DOMContentLoaded', render);
 UI_ELEMENTS.TODO.addEventListener('submit', formsSubmitHandler);

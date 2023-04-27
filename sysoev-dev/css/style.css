@@ -90,7 +90,7 @@ body {
 }
 
 .todo__item--completed {
-  background-color: #f4f4f4;
+  background-color: #db9494;
 }
 
 .todo__item-checkbox-input {
