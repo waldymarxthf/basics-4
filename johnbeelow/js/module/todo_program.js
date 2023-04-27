@@ -10,28 +10,28 @@ export const PRIORITY = {
 
 export const toDoList = []
 
-export const checkInputValue = (inputValue) =>
-  !inputValue || inputValue.trim() === ''
+export const isTaskNameValid = (name) =>
+  !name || name.trim() === ''
 
-export const checkTask = (taskName) =>
-  toDoList.find((task) => task.name === taskName)
+export const isTaskExist = (name) =>
+  toDoList.find((task) => task.name === name)
 
-export const findIndexTask = (taskName) =>
-  toDoList.findIndex((task) => task.name === taskName)
+export const findIndexTask = (name) =>
+  toDoList.findIndex((task) => task.name === name)
 
-export const addTask = (taskName, taskPriority) => {
-  if (checkInputValue(taskName) || checkTask(taskName)) return
+export const addTask = (name, status, priority) => {
+  if (isTaskNameValid(name) || isTaskExist(name)) return
 
   toDoList.push({
-    name: taskName,
-    status: STATUS.IN_PROGRESS,
-    priority: taskPriority,
+    name: name,
+    status: status,
+    priority: priority,
   })
 }
 
-export const changeStatus = (taskName, statusName) =>
-  checkTask(taskName) && (toDoList[findIndexTask(taskName)].status = statusName)
+export const changeStatus = (name, status) =>
+  isTaskExist(name) && (toDoList[findIndexTask(name)].status = status)
 
-export const deleteTask = (taskName) => {
-  toDoList.splice(findIndexTask(taskName), 1)
+export const deleteTask = (name) => {
+  toDoList.splice(findIndexTask(name), 1)
 }
