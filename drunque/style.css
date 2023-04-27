@@ -1,0 +1,25 @@
+body {
+  width: 100vw;
+  height: 100vh;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapper {
+  min-width: 300px;
+  width: 60%;
+  height: 80%;
+
+  border: 1px solid black;
+  padding: 1rem;
+
+}
+
+.header {
+  text-align: center;
+  font-size: 1.4rem;
+  border-bottom: 1px solid black;
+  padding-bottom: .5rem;
+}
