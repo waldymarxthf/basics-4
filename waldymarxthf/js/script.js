@@ -68,7 +68,7 @@ function createTaskElement(task) {
 	});
 			
 	const checkbox = taskElement.querySelector('.priority-container__checkbox');
-	checkbox.addEventListener('click', () => {
+	checkbox.addEventListener('change', () => {
 			changeStatus(taskElement)
 	});
 	
@@ -96,5 +96,19 @@ function render() {
 
 //* функция которая проходит по каждому объекту в массиве, очищает список и добавляет в список
 
-highForm.addEventListener('submit', (event) => addTask(event, highForm, PRIORITIES.HIGH));
-lowForm.addEventListener('submit', (event) => addTask(event, lowForm, PRIORITIES.LOW));
+highForm.addEventListener('submit', (event) => {
+	try {
+		addTask(event, highForm, PRIORITIES.HIGH)
+	} catch(error) {
+		console.error('Произошла ошибка при выполнении addTask:', error);
+	}
+})
+
+
+lowForm.addEventListener('submit', (event) => {
+	try {
+		addTask(event, lowForm, PRIORITIES.LOW)
+	} catch(error) {
+		console.error('Произошла ошибка при выполнении addTask:', error);
+	}
+});
