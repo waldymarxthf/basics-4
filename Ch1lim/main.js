@@ -44,7 +44,6 @@ function createTaskUI(e){
     );
     
     list.push({text: TaskText , status: inProgres, priority: this.priority})
-    render()
 }
 
 function getTargetBtn(e){
@@ -62,7 +61,6 @@ function deleteTaskUI(target, priority){
     
     list.splice(indexText, 1);
     
-    render()
 }
 
 function getTargetCheck(e){
@@ -87,7 +85,6 @@ function changeStatusUI(target, priority, complete){
         target.parentNode.parentNode.classList.remove('bc_grey')
         list[indexText].status = inProgres;
     }
-    render()
 }
 
 render()
