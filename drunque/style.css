@@ -23,3 +23,19 @@ body {
   border-bottom: 1px solid black;
   padding-bottom: .5rem;
 }
+
+.task-creator {
+  display: flex;
+  gap: 2rem;
+  padding: .5rem;
+  width: 100%;
+}
+
+.task-creator > input {
+  flex-grow: 1;
+}
+
+
+.task-creator .select {
+  margin-left: auto;
+}
