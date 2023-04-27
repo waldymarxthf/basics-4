@@ -89,7 +89,7 @@ function addTask(form, input) {
         priorityTask: inputDataAtribute === 'high' ? ListPriorityTask.high : ListPriorityTask.low
     }
     taskId++;
-    toDoList.unshift(newTask);
+    toDoList.push(newTask);
     input.value = '';
     renderTasks();
 }
@@ -122,10 +122,14 @@ function createTask(idTask, valueTask, statusTask) {
 function renderTasks() {
     clearUiListTasks();
     toDoList.forEach((itemTask) => {
-        if (itemTask.priorityTask === ListPriorityTask.high) {
+        if (itemTask.priorityTask === ListPriorityTask.high && itemTask.statusTask === listStatusTask.done) {
             UI_ELEMNTS.CONTAINER_TASKS_HIGH.append(createTask(itemTask.id, itemTask.nameTask, itemTask.statusTask));
-        } else {
+        } else if (itemTask.priorityTask === ListPriorityTask.high && itemTask.statusTask === listStatusTask.toDo) {
+            UI_ELEMNTS.CONTAINER_TASKS_HIGH.prepend(createTask(itemTask.id, itemTask.nameTask, itemTask.statusTask));
+        } else if (itemTask.priorityTask === ListPriorityTask.low && itemTask.statusTask === listStatusTask.done) {
             UI_ELEMNTS.CONTAINER_TASKS_LOW.append(createTask(itemTask.id, itemTask.nameTask, itemTask.statusTask));
+        } else if (itemTask.priorityTask === ListPriorityTask.low && itemTask.statusTask === listStatusTask.toDo) {
+            UI_ELEMNTS.CONTAINER_TASKS_LOW.prepend(createTask(itemTask.id, itemTask.nameTask, itemTask.statusTask));
         }
     })
     checkboxListener();
