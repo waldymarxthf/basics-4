@@ -70,7 +70,7 @@ function isEmpty(inputValue) {
     }
 }
 
-// Добавление элемента на страницу
+// Добавление элемента в массив
 function addTask(form, input) {
     const inputData = getInputValue(form);
     if (isEmpty(inputData)) {
