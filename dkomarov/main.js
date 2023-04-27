@@ -20,32 +20,26 @@ const PRIORITY = {
 const toDoList = [];
 
 
-
-
 //добавление задачи в массив
-function addTask(event) {
-    event.preventDefault()
-    let taskNameHigh = inputValueHigh.value;
-    // let taskNameLow = inputValueLow.value;
-    if (!(taskNameHigh == '')) {
-        toDoList.push({
-            task: taskNameHigh,
-            status: STATUS.TODO,
-            priority: PRIORITY.HIGH
-        });
-        renderHigh();
-    };
-    // } else if (!(taskNameLow == '')){
-    //     toDoList.push({
-    //         task: taskNameLow,
-    //         status: STATUS.TODO,
-    //         priority: PRIORITY.LOW
-    //     });
-    //     renderLow();
-    // };
+function addTask(task) {
+    toDoList.push({
+        task: task,
+        status: STATUS.TODO,
+        priority: PRIORITY.HIGH
+    });
 
     console.log(toDoList);
 };
+
+
+function removeTask(task) {
+    const taskName = toDoList.forEach(tasks => tasks.task === task);
+    toDoList.splice(taskName, 1);
+    console.log(toDoList)
+
+};
+
+
 
 //чистка импута после добавления
 function clearInput() {
@@ -62,34 +56,40 @@ function clearInput() {
 
 
 //добавление задачи с высоким приоритетом
-function renderHigh() {
-    for (obj of toDoList) {
-        taskNameHigh = obj.task;
-    };
+function render() {
     const newElement = document.createElement('form');
-    parentHigh.appendChild(newElement);
+    for (obj of toDoList) {
+        taskName = obj.task;
+        statusName = obj.status;
+        if (inputValueHigh.value) {
+            parentHigh.appendChild(newElement);
+        } else if (inputValueLow.value) {
+            parentLow.appendChild(newElement);
+        }
+    };
+    
     newElement.classList.add('form');
-    newElement.insertAdjacentHTML('afterbegin', `<p>${taskNameHigh}</p>`)
+    newElement.insertAdjacentHTML('afterbegin', `<p>${taskName}</p>`)
     newElement.insertAdjacentHTML('afterbegin', '<input class="radio" type="checkbox">');
-    newElement.insertAdjacentHTML('beforeend', '<button id="del" type="submit" class="button_del"><img src="./image/free-icon-close-151882-444.svg" alt=""></button>');
+    newElement.insertAdjacentHTML('beforeend', '<button id="del" type="submit" class="button_del"><img src="./image/free-icon-close-151882-444.svg" alt=""></button>');    
     clearInput();
 
-    // //удаление задачи из дом и массива
-    // const delButton = newElement.querySelector('.button_del');
-    // delButton.addEventListener('click', (event) => {
-    //     event.preventDefault()
-    //     newElement.remove();
-       
-        
-    //     console.log(toDoList);
-    // }); 
-        
-    // //изменение статуса задачи в массиве
-    // const checkBox = newElement.querySelector('.radio');
-    // checkBox.addEventListener('change', () => {
-    //     console.log('done')
+    //изменение статуса задачи в массиве
+    const checkBox = newElement.querySelector('.radio');
+    checkBox.addEventListener('change', () => {
+        toDoList.status = STATUS.DONE
+        console.log(toDoList)
+    });
 
-    // });
+
+    const delButton = newElement.querySelector('.button_del');
+    delButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        const task = taskName;
+        removeTask(task); 
+        newElement.remove();
+       
+    })
 };
 
 
@@ -97,40 +97,19 @@ function renderHigh() {
 
 
 
-// добавление задачи с низким приоритетом
-// function renderLow() {
-//     for (obj of toDoList) {
-//         taskNameLow = obj.task;
-//     }
-//     const newElement = document.createElement('form');
-//     parentLow.appendChild(newElement);
-//     newElement.classList.add('form');
-//     newElement.insertAdjacentHTML('afterbegin', `<p>${taskNameLow}</p>`)
-//     newElement.insertAdjacentHTML('afterbegin', '<input class="radio" type="checkbox">');
-//     newElement.insertAdjacentHTML('beforeend', '<button id="del" type="submit" class="button_del"><img src="./image/free-icon-close-151882-444.svg" alt=""></button>');
-//     clearInput();
+addTaskButtonHigh.addEventListener('click', (event) => {
+    event.preventDefault();
+    const text = inputValueHigh.value
+    addTask(text);
+    render();
+});
 
-
-//     //удаление задачи из дом и массива
-//     const delButton = newElement.querySelector('.button_del');
-//     delButton.addEventListener('click', function deleteTask(event) {
-//         event.preventDefault();
-//         taskName = toDoList.indexOf(elem => elem.task == taskNameLow);
-//         toDoList.splice(taskName, 1);
-//         newElement.remove();
-
-//         console.log(toDoList);
-//     });
-
-
-//     //изменение статуса задачи в массиве
-//     const checkBox = newElement.querySelector('.radio');
-//     checkBox.addEventListener('change', () => {
-//         console.log('done')
-//     });
-// };
+addTaskButtonLow.addEventListener('click', (event) => {
+    event.preventDefault();
+    const text = inputValueLow.value
+    addTask(text);
+    render();
+})
 
 
 
-addTaskButtonHigh.addEventListener('click', addTask);
-// addTaskButtonLow.addEventListener('click', addTask);
