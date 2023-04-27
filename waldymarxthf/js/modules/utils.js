@@ -10,5 +10,8 @@ export function isEmpty(taskText) {
 //* функция проверки на пустую строку
 
 export function getTaskIndex(taskElement) {
-	return list.findIndex(task => task.name === taskElement.querySelector('.priority-container__task-text').textContent);
+	const { textContent } = taskElement.querySelector('.priority-container__task-text');
+	return list.findIndex(task => task.name === textContent);
 }
+
+//* функция нахождения индекса элемента

@@ -1,14 +1,15 @@
-import { highForm, highTaskList, lowForm, lowTaskList } from "./modules/variables.js"
-import { isEmpty, getTaskIndex } from "./modules/validation.js";
+import { highForm, highTaskList, lowForm, lowTaskList, STATUSES, PRIORITIES, DEFAULT } from "./modules/ui-components.js"
+import { isEmpty, getTaskIndex } from "./modules/utils.js";
 
 export const list = []
 
 function deleteTask(taskElement) {
 	const index = getTaskIndex(taskElement)
 	list.splice(index, 1);
-	console.log(list)
 	render()
 }
+
+//* функция которая удаляет таску из массива
 
 function addTask(event, taskInput, taskPriority) {
 	event.preventDefault();
@@ -16,41 +17,70 @@ function addTask(event, taskInput, taskPriority) {
 	let taskText = formData.get(`${taskPriority}-priority-task`);
 
 	if(!isEmpty(taskText)) {
-		alert('Нельзя добавить пустую строку')
+		console.error('Нельзя добавить пустую строку')
 		return
 	}
 
 	list.push({
 		name: taskText,
-		status: 'TODO',
+		status: DEFAULT.DEFAULT_STATUS,
 		priority: taskPriority,
 	})
 
-	console.log(list)
-
-	render();
 	event.target.reset()
+	render();
 }
+
+//* функция которая добавляет таску в массив
 
 function changeStatus(taskElement) {
-	const checkbox = taskElement.querySelector('.priority-container__checkbox');
-
-	checkbox.addEventListener('click', () => changeStatusInList(taskElement));
-}
-
-function changeStatusInList(taskElement) {
 	const index = getTaskIndex(taskElement);
 	const task = list[index];
 
-	if (task.status === 'TODO') {
-		task.status = 'DONE';
-
+	if (task.status === STATUSES.TODO) {
+		task.status = STATUSES.DONE;
+		if (task.status === STATUSES.DONE) {
+			taskElement.classList.add('priority-container__task--done');
+		} else {
+			taskElement.classList.remove('priority-container__task--done');
+		}
 	} else {
-		task.status = 'TODO';
+		task.status = STATUSES.TODO;
 	}
 
-	taskElement.classList.toggle('priority-container__task--done');
+	render();
 }
+
+//* функция которая меняет статус задачи в массиве при нажатии на чекбокс
+
+function createTaskElement(task) {
+	const taskElement = document.createElement('div');
+	taskElement.innerHTML = `
+			<input type="checkbox" class="priority-container__checkbox">
+			<p class="priority-container__task-text">${task.name}</p>
+			<img src="./assets/close-icon.svg" alt="delete" class="priority-container__delete">
+	`;
+	taskElement.classList.add('priority-container__task');
+	
+	const deleteTaskButton = taskElement.querySelector('.priority-container__delete');
+	deleteTaskButton.addEventListener('click', () => {
+			deleteTask(taskElement);
+	});
+			
+	const checkbox = taskElement.querySelector('.priority-container__checkbox');
+	checkbox.addEventListener('click', () => {
+			changeStatus(taskElement)
+	});
+	
+	if (task.status === STATUSES.DONE) {
+			checkbox.checked = true
+			taskElement.classList.add('priority-container__task--done');
+	}
+	
+	return taskElement;
+}
+
+//* функция которая создает блок с задачей, а также обрабатывает нажатие на удаление задачи и на изменение статуса
 
 function render() {
 	highTaskList.innerHTML = '';
@@ -58,31 +88,13 @@ function render() {
 
 	for(let i = 0; i < list.length; i++) {
 		const task = list[i];
-		const taskList = task.priority === 'high' ? highTaskList : lowTaskList;
-		
-		const taskElement = document.createElement('div');
-		taskElement.innerHTML = `
-			<input type="checkbox" class="priority-container__checkbox">
-			<p class="priority-container__task-text">${task.name}</p>
-			<img src="./assets/close-icon.svg" alt="delete" class="priority-container__delete">
-		`;
-		taskElement.classList.add('priority-container__task');
+		const taskList = task.priority === PRIORITIES.HIGH ? highTaskList : lowTaskList;
+		const taskElement = createTaskElement(task);
 		taskList.insertAdjacentElement('beforeend', taskElement)
-		
-		const deleteTaskButton = taskElement.querySelector('.priority-container__delete');
-		deleteTaskButton.addEventListener('click', () => {
-			deleteTask(taskElement);
-		});
-			
-		changeStatus(taskElement)
-
-		const checkbox = taskElement.querySelector('.priority-container__checkbox');
-		if(task.status === 'DONE') {
-			checkbox.checked = true
-			taskElement.style.background = '#F4F4F4'
-		}
 	}
 }
 
-highForm.addEventListener('submit', (event) => addTask(event, highForm, 'high'));
-lowForm.addEventListener('submit', (event) => addTask(event, lowForm, 'low'));
+//* функция которая проходит по каждому объекту в массиве, очищает список и добавляет в список
+
+highForm.addEventListener('submit', (event) => addTask(event, highForm, PRIORITIES.HIGH));
+lowForm.addEventListener('submit', (event) => addTask(event, lowForm, PRIORITIES.LOW));
