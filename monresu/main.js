@@ -7,18 +7,7 @@ const inputLowTaskNode = document.querySelector('.input-task-low')
 
 const tasksNodes = [highTasksNode, lowTasksNode]
 
-function removeTask(task) {
-  console.log(task)
-  if (!isTaskExists(task)) {
-    console.log(errors.taskIsNotExists);
-    return;
-  }
-  const indexTask = indexOfTask(task);
-  list.splice(indexTask, 1);
-  console.log(messages.deleteTask);
-  return;
-}
-
+/* Создание HTML элемента задачи */
 function createTaskNode(text, status) {
   const newTask = document.createElement('div');
   newTask.className = 'task';
@@ -28,10 +17,12 @@ function createTaskNode(text, status) {
   textTask.innerText = text;
   const closeBtn = document.createElement('img');
   closeBtn.src = './img/close-icon (1).svg';
+  /* Вешаем слушатель на кнопку закрытия */
   closeBtn.addEventListener('click', () => {
     removeTask(text);
     render();
   })
+  /* Вешаем слушатель на чекбокс */
   checkbox.addEventListener('change', () => {
     const isChecked = checkbox.checked;
     if (isChecked) {
@@ -42,7 +33,7 @@ function createTaskNode(text, status) {
       changeStatus(textTask.innerText, statuses.TODO);
     }
   });
-  
+  /* Делаем так чтобы при рендере выполненные задачи оставались выполненными */
   if (status === statuses.DONE) {
     newTask.classList.add('done-task');
     checkbox.checked = true;
@@ -53,16 +44,17 @@ function createTaskNode(text, status) {
   return newTask;
 }
 
+/* Функция рендера задач */
 function render() {
-  lowTasksNode.innerHTML = '';
-  highTasksNode.innerHTML = '';
+  tasksNodes.map((el) => el.innerHTML = ''); //альтернатива taskNodes[1].innerHTML...; taskNodes[0].innerHTML...
   
-  for (const el of list) { 
+  for (const el of list) {
+    const nodeForAddTask = el.priority == priority.HIGH ?  tasksNodes[0] : tasksNodes[1];
     const task = createTaskNode(el.name, el.status);
-    el.priority == priority.HIGH ?  tasksNodes[0].appendChild(task) : tasksNodes[1].appendChild(task);
+    nodeForAddTask.appendChild(task);
   }
 }
-
+/* Функции добавления задач при отправке форм */
 function addTaskHigh() {
   addTask(inputHighTaskNode.value, statuses.TODO, priority.HIGH);
   inputHighTaskNode.value = '';
@@ -73,6 +65,7 @@ function addTaskLow() {
   inputLowTaskNode.value = '';
 }
 
+/* Обработка отправки форм */
 inputHighNode.addEventListener('submit', addTaskHigh)
 inputLowNode.addEventListener('submit', addTaskLow)
 

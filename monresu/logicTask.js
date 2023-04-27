@@ -42,11 +42,15 @@ function isStatusExists(stat) {
   return Object.values(statuses).includes(stat);
 }
 
+/* Добавление задачи в массив */
 function addTask(task, stat = statuses.TODO, prior = priority.LOW) {
   event.preventDefault();
   try {
     if (isTaskExists(task)) {
       throw new Error('Такая задача уже есть!');
+    }
+    if (isEmpty(task)) {
+      throw new Error('Вы пытаетесь добавить пустую задачу!');
     }
     const goal = {
       name: task,
@@ -63,45 +67,30 @@ function addTask(task, stat = statuses.TODO, prior = priority.LOW) {
   }
 }
 
-function changeStatus(task, stat) {
+/* Удаление задачи из массива */
+function removeTask(task) {
   if (!isTaskExists(task)) {
-    alert(errors.taskIsNotExists);
-    return;
-  }
-  if (!isStatusExists(stat)) {
-    console.log(errors.statusIsNotExists);
-    return;
-  }
-  const indexTask = indexOfTask(task);
-  list[indexTask].status = stat;
-  console.log(messages.changeStatus);
-  render();
-  return;
-}
-
-function changePriority(task, prior) {
-  if (!isTaskExists(task)) {
-    console.log(errors.taskIsNotExists);
-    return;
-  }
-  if (!isPriorityExists(prior)) {
-    console.log(errors.priorityIsNotExists);
-    return;
-  }
-  const indexTask = indexOfTask(task);
-  list[indexTask].priority = prior;
-  console.log(messages.changePriority);
-  return;
-}
-
-function deleteTask(task) {
-  if (!isTaskExists(task)) {
-    console.log(errors.taskIsNotExists);
+    console.log(errors.taskIsNotExists); // ошибка для разработчика (у пользователя ее возникнуть не может)
     return;
   }
   const indexTask = indexOfTask(task);
   list.splice(indexTask, 1);
-  console.log(messages.deleteTask);
+  return;
+}
+
+/* Изменение статуса задачи */
+function changeStatus(task, stat) {
+  if (!isTaskExists(task)) {
+    console.log(errors.taskIsNotExists); // ошибка для разработчика
+    return;
+  }
+  if (!isStatusExists(stat)) {
+    console.log(errors.statusIsNotExists); // ошибка для разработчика 
+    return;
+  }
+  const indexTask = indexOfTask(task);
+  list[indexTask].status = stat;
+  render();
   return;
 }
 
