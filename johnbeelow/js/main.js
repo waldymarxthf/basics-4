@@ -8,7 +8,7 @@ import {
   deleteTask,
 } from './module/todo_program.js'
 
-function constructorTaskUi(name, status, priotiry) {
+function constructorTaskUi(name, status, priority) {
   const containerTask = createTag('div')
   const labelTask = createTag('label')
   const statusTask = createTag('input')
@@ -23,7 +23,7 @@ function constructorTaskUi(name, status, priotiry) {
   deleteTaskButton.classList.add('button_close_task')
   deleteTaskButton.textContent = '×'
 
-  priotiry.appendChild(containerTask)
+  priority.appendChild(containerTask)
   containerTask.appendChild(labelTask)
   labelTask.appendChild(statusTask)
   labelTask.appendChild(textTask)
@@ -39,8 +39,12 @@ function constructorTaskUi(name, status, priotiry) {
   })
 
   statusTask.addEventListener('change', () => {
-    status = statusTask.checked ? STATUS.DONE : STATUS.IN_PROGRESS
-    changeStatus(name, status)
+    status = statusTask.checked 
+    try {
+      changeStatus(name, error)
+    } catch (error) {
+      console.error('Извините, возникла ошибка в смене статуса:', error.stack);
+    }
   })
 }
 
