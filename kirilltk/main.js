@@ -1,15 +1,28 @@
-const taskInput = document.querySelector('#taskName');
-import {createTask} from './ctreateTask.js';
-function pressEnter(event) {
+const form = document.querySelector('#addTask');
+const input = document.querySelector('#taskName');
+
+input.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
         event.preventDefault();
-        const taskName = taskInput.value;
-        const newTask = createTask(taskName);
-        const taskList = document.querySelector('#tasks');
-        taskList.appendChild(newTask);
-        
-        taskInput.value = "";
-    };
-};
-taskInput.addEventListener("keyup", pressEnter);
+        const highPriorityTask = document.querySelector('#high-priority #tasks')
+        const taskName = input.value;
+        input.value = '';
 
+        const newTask = document.createElement('div');
+        newTask.setAttribute('id', 'task');
+        newTask.innerHTML = `
+        <form action="">
+			<label>
+				<input type="checkbox">
+                <span class="checkmark"></span>
+				<p>
+					${taskName}
+				</p>
+			</label>
+			<button id="deleteButton">x</button>
+		</form>
+        `;
+
+        highPriorityTask.appendChild(newTask);
+    }
+});
