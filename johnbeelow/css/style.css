@@ -8,16 +8,6 @@ body {
   align-items: center;
 }
 
-h1 {
-  font-size: 30px;
-  font-weight: 400;
-  padding-left: 30px;
-  padding-bottom: 20px;
-  color: #c0aade;
-  width: 420px;
-  text-align: right;
-}
-
 .container {
   height: auto;
   width: 420px;
@@ -30,7 +20,7 @@ h1 {
 .todo_container {
   width: 476px;
   height: auto;
-  border-radius: 20px;
+  border-radius: 15px;
   background: rgb(28, 28, 28);
   backdrop-filter: blur(35px);
   border: 2px solid rgba(92, 92, 92, 0.205);
@@ -42,7 +32,7 @@ h1 {
 .priority {
   display: flex;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 600;
   font-size: 24px;
   line-height: 21px;
   justify-content: center;
@@ -68,7 +58,7 @@ h1 {
 }
 
 .task label {
-  font-size: 16px;
+  font-size: 18px;
   color: #ded9c7c0;
   width: 435px;
   font-family: 'Poppins', sans-serif;
@@ -84,7 +74,7 @@ h1 {
 }
 
 .add_task input {
-  font-size: 16px;
+  font-size: 18px;
   color: #cfcdba;
   border: 0px;
   outline: none;
@@ -107,9 +97,13 @@ h1 {
 }
 
 .button_add_task {
-  font-weight: 200;
-  font-size: 40px;
+  width: 38px;
+  height: 60px;
+  border: none;
+  background-color: transparent;
   cursor: pointer;
+  font-weight: 200;
+  font-size: 43px;
   transition: 0.4s;
   user-select: none;
   color: rgba(229, 223, 194, 0.287);
@@ -120,9 +114,13 @@ h1 {
 }
 
 .button_close_task {
-  font-weight: 200;
-  font-size: 40px;
+  width: 34px;
+  height: 55px;
+  border: none;
+  background-color: transparent;
   cursor: pointer;
+  font-weight: 200;
+  font-size: 43px;
   transition: 0.4s;
   user-select: none;
   color: rgba(229, 223, 194, 0.287);
