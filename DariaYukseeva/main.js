@@ -56,6 +56,7 @@ function addTask(taskName, priority) {
         'priority': priority,
     };
     toDoList.push(newTask)
+    // Увеличиваем id
     taskId++;
     console.log(`Добавлена новая задача ${newTask.name.substr(0, 20)}...`);
 }
@@ -98,7 +99,7 @@ function addTasksToDOM(priority, tasksBlock) {
     // сортируем по статусу отфильтрованный ранее массив
     const sortedTasksByStatus = sortTaskByStatus(filteredTasksByPriority);
     
-    // для каждой задачи добавляем data-id со значением id задачи и класс completed, если у задачи статус DONE. Добавляем элемент с задачей в HTML
+    // для каждой задачи добавляем data-id со значением id задачи и класс completed, если у задачи статус DONE. 
     if (sortedTasksByStatus.length !== 0) {
         sortedTasksByStatus.forEach(task => {
             let taskClasses = ['task-item'];
@@ -106,6 +107,7 @@ function addTasksToDOM(priority, tasksBlock) {
                 taskClasses.push('completed');
             }
             taskClasses = taskClasses.join(' ');
+            // Добавляем элемент с задачей в HTML
             tasksBlock.insertAdjacentHTML('beforeend', `
                 <div class="${taskClasses}" data-id="${task.id}">
                     <label>
@@ -130,8 +132,6 @@ function render() {
     // добавляем задачи каждую в свой блок по приоритету
     addTasksToDOM(PRIORITIES.HIGH, highPriorityTasks);
     addTasksToDOM(PRIORITIES.LOW, lowPriorityTasks);
-   
- 
 }
 
 // Функция обработчика события для кнопки сабмит. 
@@ -139,12 +139,12 @@ const submitBtnHandler = (event) => {
     // Добавляет задачу 
     event.preventDefault();
     if (event.target === submitBtns[0]) {
-        
-        addTask(inputsAddingTask[0].value, PRIORITIES.HIGH);
+        let taskName = inputsAddingTask[0].value;
+        addTask(taskName, PRIORITIES.HIGH);
     }
     else if (event.target === submitBtns[1]) {
-        
-        addTask(inputsAddingTask[1].value, PRIORITIES.LOW);
+        let taskName = inputsAddingTask[1].value;
+        addTask(taskName, PRIORITIES.LOW);
     }
     // очищает поле ввода и рендерит ДОМ
     inputsAddingTask.forEach(input => input.value = '');
@@ -187,9 +187,9 @@ function checkboxHandler(event) {
 
 // Функция обработчика события на клик для кнопки delete.  
 function btnDeleteHandler(event) {
-    // Находит текст удаляемой задачи
+    // Находит id удаляемой задачи
     const deletedTaskId = +event.target.parentElement.getAttribute('data-id');
-    // этот текст передаёт в функцию удаления задач из массива.
+    // этот id передаёт в функцию удаления задач из массива.
     deleteTask(deletedTaskId);
 }
 
