@@ -70,28 +70,35 @@ function isEmpty(inputValue) {
     }
 }
 
+let error = new Error(" Ого, ошибка! o_O");
+
 // Добавление элемента в массив
 function addTask(form, input) {
-    const inputData = getInputValue(form);
-    if (isEmpty(inputData)) {
-        return
+    try {
+        const inputData = getInputValue(form);
+        if (isEmpty(inputData)) {
+            return
+        }
+        // Проверяем на повторяемость
+        if (foundTask(inputData) !== undefined) {
+            alert(userNotice.copyTask);
+            return;
+        }
+        const inputDataAtribute = input.dataset.priority;
+        const newTask = {
+            id: taskId,
+            nameTask: inputData,
+            statusTask: listStatusTask.toDo,
+            priorityTask: inputDataAtribute === 'high' ? ListPriorityTask.high : ListPriorityTask.low
+        }
+        taskId++;
+        toDoList.push(newTask);
+        input.value = '';
+        renderTasks();
+    } catch(err) {
+        console.log('Произошла ошибка: \n', err.name, '\n', err.stack);
     }
-    // Проверяем на повторяемость
-    if (foundTask(inputData) !== undefined) {
-        alert(userNotice.copyTask);
-        return;
-    }
-    const inputDataAtribute = input.dataset.priority;
-    const newTask = {
-        id: taskId,
-        nameTask: inputData,
-        statusTask: listStatusTask.toDo,
-        priorityTask: inputDataAtribute === 'high' ? ListPriorityTask.high : ListPriorityTask.low
-    }
-    taskId++;
-    toDoList.push(newTask);
-    input.value = '';
-    renderTasks();
+    
 }
 
 // Создание UI таски
@@ -124,11 +131,14 @@ function renderTasks() {
     toDoList.forEach((itemTask) => {
         if (itemTask.priorityTask === ListPriorityTask.high && itemTask.statusTask === listStatusTask.done) {
             UI_ELEMNTS.CONTAINER_TASKS_HIGH.append(createTask(itemTask.id, itemTask.nameTask, itemTask.statusTask));
-        } else if (itemTask.priorityTask === ListPriorityTask.high && itemTask.statusTask === listStatusTask.toDo) {
+        }
+        else if (itemTask.priorityTask === ListPriorityTask.high && itemTask.statusTask === listStatusTask.toDo) {
             UI_ELEMNTS.CONTAINER_TASKS_HIGH.prepend(createTask(itemTask.id, itemTask.nameTask, itemTask.statusTask));
-        } else if (itemTask.priorityTask === ListPriorityTask.low && itemTask.statusTask === listStatusTask.done) {
+        }
+        else if (itemTask.priorityTask === ListPriorityTask.low && itemTask.statusTask === listStatusTask.done) {
             UI_ELEMNTS.CONTAINER_TASKS_LOW.append(createTask(itemTask.id, itemTask.nameTask, itemTask.statusTask));
-        } else if (itemTask.priorityTask === ListPriorityTask.low && itemTask.statusTask === listStatusTask.toDo) {
+        }
+        else if (itemTask.priorityTask === ListPriorityTask.low && itemTask.statusTask === listStatusTask.toDo) {
             UI_ELEMNTS.CONTAINER_TASKS_LOW.prepend(createTask(itemTask.id, itemTask.nameTask, itemTask.statusTask));
         }
     })
