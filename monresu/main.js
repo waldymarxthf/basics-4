@@ -7,6 +7,17 @@ const inputLowTaskNode = document.querySelector('.input-task-low')
 
 const tasksNodes = [highTasksNode, lowTasksNode]
 
+function closeBtnActions(taskName) {
+  removeTask(taskName);
+  render();
+}
+
+function checkboxActions(checkbox, taskName) {
+  const isChecked = checkbox.checked;
+  changeStatus(taskName, isChecked ? statuses.DONE : statuses.TODO);
+  render();
+}
+
 /* Создание HTML элемента задачи */
 function createTaskNode(text, status) {
   const newTask = document.createElement('div');
@@ -19,24 +30,20 @@ function createTaskNode(text, status) {
   const closeBtnImg = document.createElement('img');
   closeBtnImg.src = './img/close-icon (1).svg';
   const closeBtnNode = document.createElement('button');
-
   closeBtnNode.appendChild(closeBtnImg);
 
   /* Вешаем слушатель на кнопку закрытия */
-  closeBtnNode.addEventListener('click', () => {
-    removeTask(text);
-    render();
-  })
+  closeBtnNode.addEventListener('click', closeBtnActions.bind(null, text))
   /* Вешаем слушатель на чекбокс */
-  checkbox.addEventListener('change', () => {
-    const isChecked = checkbox.checked;
-    changeStatus(text, isChecked ? statuses.DONE : statuses.TODO);
-  });
+  checkbox.addEventListener('change', checkboxActions.bind(null, checkbox, text));
+
   /* Делаем так чтобы при рендере выполненные задачи оставались выполненными */
   if (status === statuses.DONE) {
     newTask.classList.add('done-task');
     checkbox.checked = true;
   }
+
+  /* Собираем все воедино */
   label.appendChild(checkbox);
   label.appendChild(textTask);
   newTask.appendChild(label);

@@ -26,8 +26,8 @@ const list = [];
 
 const isEmpty = (task) => { return !task.trim(); };
 
-function isTaskExists(task) {
-  return list.map(t => t.name).includes(task);
+function isTaskExists(name) {
+  return list.map(t => t.name).includes(name);
 }
 
 function indexOfTask(task) {
@@ -43,16 +43,16 @@ function isStatusExists(status) {
 }
 
 /* Добавление задачи в массив */
-function addTask(name, status = statuses.TODO, priority = priorities.LOW) {
+function addTask(taskName, status = statuses.TODO, priority = priorities.LOW) {
   try {
-    if (isTaskExists(name)) {
+    if (isTaskExists(taskName)) {
       throw new Error('Такая задача уже есть!');
     }
-    if (isEmpty(name)) {
+    if (isEmpty(taskName)) {
       throw new Error('Вы пытаетесь добавить пустую задачу!');
     }
     const task = {
-      name,
+      name: taskName,
       status,
       priority
     };

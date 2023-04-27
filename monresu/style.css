@@ -29,12 +29,27 @@ h2 {
   border-radius: 6px;
   margin-bottom: 20px;
   padding: 12px 5px;
+  word-break: break-word;
 }
 
 .task label {
   display: flex;
   justify-content: space-between;
   width: 80%;
+}
+
+.tasks {
+  max-height: 400px;
+  overflow: scroll;
+}
+
+.tasks {
+  -ms-overflow-style: none;  /* IE и Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.tasks::-webkit-scrollbar {
+  display: none;
 }
 
 .task p {
