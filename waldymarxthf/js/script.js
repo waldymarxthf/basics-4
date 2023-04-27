@@ -16,7 +16,7 @@ function addTask(event, taskInput, taskPriority) {
 	const formData = new FormData(taskInput);
 	let taskText = formData.get(`${taskPriority}-priority-task`);
 
-	if(!isEmpty(taskText)) {
+	if(isEmpty(taskText)) {
 		console.error('Нельзя добавить пустую строку')
 		return
 	}

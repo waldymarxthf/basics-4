@@ -1,11 +1,12 @@
 import { list } from "../script.js"
 
 export function isEmpty(taskText) {
-	if (taskText.trim() === ''){
-		return false
+	if (taskText.trim() === '') {
+		return true;
 	}
-	return taskText
+	return false;
 }
+
 
 //* функция проверки на пустую строку
 
