@@ -67,9 +67,9 @@
 }
 
 .tasks {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .task {
@@ -82,6 +82,10 @@
   border: 1px solid #989898;
   border-radius: 6px;
   padding: 12px;
+}
+
+.task--done {
+  background: #f4f4f4;
 }
 
 .task__info {
@@ -101,6 +105,4 @@
   color: #202020;
   width: 100%;
   word-break: break-word;
-}
-.task__done {
 }
