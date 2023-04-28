@@ -14,3 +14,8 @@ function showUsersDetails(array) {
 
 showFirstNames(data.users);
 showUsersDetails(data.users);
+
+const json = JSON.stringify(data);
+console.log(json);
+const obg = JSON.parse(json);
+console.log(obg);
