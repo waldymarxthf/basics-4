@@ -63,13 +63,22 @@ function addTask(taskName, priority) {
 
 // Удаляет задачу. 
 function deleteTask(id) {
-    toDoList.splice(getTaskIndex(id), 1);
+    try {
+        toDoList.splice(getTaskIndex(id), 1);
+    } catch (error) {
+        console.log('Error: ' + error);
+    }
     // сделать всплывающее окно с предложением отменить удаление?       
 }
 
 // Меняет статус задачи:
 function setStatusTask(id, newStatus) {
-    toDoList[getTaskIndex(id)].status = newStatus;    
+    try {
+        toDoList[getTaskIndex(id)].status = newStatus;
+    } catch (error) {
+        console.log('Error: ' + error);
+    }
+        
 }
 
 // Фильтрует задачи по приоритету
