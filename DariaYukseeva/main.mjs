@@ -3,7 +3,7 @@ import data from './data.json' assert {type: "json"};
 let users = data.users
 function makeString(user) {
     const isCoFounder = user.knowsAs.match(/co-founder/);
-    const insert = (isCoFounder !== null) ? 'he is a' : 'he';
+    const insert = (!!isCoFounder) ? 'he is a' : 'he';
     return `${user.firstName} ${user.lastName} was born at ${user.dateOfBirth}, ${insert} ${user.knowsAs}\n`;
 }
 
