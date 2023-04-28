@@ -23,9 +23,9 @@ function calc() {
                 break;
             case 'value4':
                 result = number_1 / number_2;
-                wqwq
                 break;
         };
+        wqqweeq
       } catch (err) {
         //вывелет текст в алерт
         alert('Произошла ошибка')
