@@ -6,7 +6,7 @@ for (let i = 0; i < data.users.length; i++) {
   const dBirth = data.users[i].dateOfBirth;
   const knowsAs = data.users[i].knowsAs;
 
-  console.log(`${name} ${lName} born on ${dBirth} has ${knowsAs}.`);
+  console.log(`${name} ${lName} born on ${dBirth} and ${knowsAs}.`);
 }
 
 for (let i = 0; i < data.users.length; i++) {
