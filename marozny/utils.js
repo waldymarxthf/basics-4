@@ -1,7 +1,12 @@
-const firstValue = document.querySelector('.firstValue');
-const secondValue = document.querySelector('.secondValue');
-const operations = document.getElementById('operations');
-const buttons = document.querySelector('.button');
-const results = document.querySelector('.results');
+const firstValue = document.querySelector('.firstValue'),
+      secondValue = document.querySelector('.secondValue'),
+      operations = document.getElementById('operations'),
+      buttons = document.querySelector('.button'),
+      resultsField = document.querySelector('.results');
 
-export { firstValue, secondValue, operations, buttons, results };
+const PLUS = "+",
+      MINUS = "-",
+      MULTI = "*",
+      DIVIDE = "/";
+
+export { firstValue, secondValue, operations, buttons, resultsField, PLUS, MINUS, MULTI, DIVIDE };

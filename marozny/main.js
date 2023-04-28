@@ -1,30 +1,58 @@
-import { buttons, firstValue, operations, results, secondValue } from "./utils.js";
+import { DIVIDE, MINUS, MULTI, PLUS, buttons, firstValue, operations, resultsField, secondValue } from "./utils.js";
+let result;
 
-function calculation() {
-   let number1 = Number(firstValue.value)
-   let number2 = Number(secondValue.value)
-   let result;
-   switch (operations.value) {
-    case '+':
-        result = number1 + number2;
+function calculation(number1, number2, operation) {
+    if (Number.isNaN(number1) && Number.isNaN(number2)) {
+   switch (operation) {
+    case PLUS:
+        sum(number1, number2);
         break;
-    case '-':
-        result = number1 - number2;
+    case MINUS:
+        sub(number1, number2);
         break;
-    case '*':
-        result = number1 * number2;
+    case MULTI:
+        multi(number1, number2);
         break;
-    case '/':
-        result = number1 / number2;
+    case DIVIDE:
+        divide(number1, number2);
         break;
    } 
-   const newChild = document.createElement('div');
-   newChild.textContent = result;
-   results.insertAdjacentElement('beforeend', newChild);
-   results.addEventListener('click', (event) => {
-    event.target.remove();
-    event.target.removeEventListener;
-   });
+} else { error(); }
+   showUI(result);
 }
 
-buttons.addEventListener('click', calculation);
+function showUI(result) {
+    const newChild = document.createElement('div');
+    newChild.textContent = result;
+    resultsField.insertAdjacentElement('beforeend', newChild);
+    resultsField.addEventListener('click', (event) => {
+        event.target.remove();
+        event.target.removeEventListener;
+    });
+}
+
+function sum(number1, number2) {
+    return result = number1 + number2;
+}
+
+function sub(number1, number2) {
+    return result = number1 - number2;
+}
+
+function multi(number1, number2) {
+    return result = number1 * number2;
+}
+
+function divide(number1, number2) {
+    return result = number1 / number2;
+}
+
+function error() {
+    alert('Detected wrong input data!');
+}
+buttons.addEventListener('click', () => {
+    let number1 = Number(firstValue.value);
+    let number2 = Number(secondValue.value);
+    let operation = operations.value;
+    calculation(number1, number2, operation);
+                                        });
