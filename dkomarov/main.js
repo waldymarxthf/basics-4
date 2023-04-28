@@ -10,22 +10,26 @@ function calc() {
     const number_2 = Number(numberTwo.value);
     let operation = operationSelect.value;
     let result = 0;
-
-    switch (operation) {
-        case 'value1':
-            result = number_1 + number_2;
-            break;
-        case 'value2':
-            result = number_1 - number_2;
-            break;
-        case 'value3':
-            result = number_1 * number_2;
-            break;
-        case 'value4':
-            result = number_1 / number_2;
-            break;
-
-    };
+    try {
+        switch (operation) {
+            case 'value1':
+                result = number_1 + number_2;
+                break;
+            case 'value2':
+                result = number_1 - number_2;
+                break;
+            case 'value3':
+                result = number_1 * number_2;
+                break;
+            case 'value4':
+                result = number_1 / number_2;
+                break;
+        };
+      } catch (err) {
+        
+        alert('Произошла ошибка')
+      }
+    
 
     resultNumber.textContent = result.toFixed(2);
 };
