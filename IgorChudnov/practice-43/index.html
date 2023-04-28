@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TODO</title>
+    <link rel="icon" type="image/png" href="tick.svg">
+    <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+
+
+    <div class="container">
+
+        <div class="high list" id="highlist">
+            <div class="highlight">HIGH</div>
+
+            <div class="cell inputCell" id="cell">
+                <input class="input" id="inputTaskHigh" placeholder="Добавить важных дел" required>
+                <div class="plus" id="taskAddHigh"></div>
+            </div>
+
+            <!-- <div class="cell">
+                <input type="checkbox" class="circle-check">
+                <div class="theTask"></div>
+                <div class="cross" id="taskRemove"></div>
+            </div> -->
+
+            
+        </div>
+
+
+
+        <div class="low list" id="lowlist">
+            <div class="highlight">LOW</div>
+
+            <div class="cell inputCell">
+                <input class="input" id="inputTaskLow" placeholder="Добавить не важных дел">
+                <div class="plus" id="taskAddLow"></div>                
+            </div>
+
+        </div>
+        
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>
