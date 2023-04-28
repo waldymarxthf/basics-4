@@ -23,10 +23,11 @@ function calc() {
                 break;
             case 'value4':
                 result = number_1 / number_2;
+                wqwq
                 break;
         };
       } catch (err) {
-        
+        //вывелет текст в алерт
         alert('Произошла ошибка')
       }
     
