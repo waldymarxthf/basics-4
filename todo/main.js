@@ -40,29 +40,38 @@ showElements(data)
 
 function addTask(event){
     event.preventDefault();
-    const formData = new FormData(event.target)
-    const task = formData.get('task');
-    if(task === ''){
-        alert('You must add task into area!')
-        return;
-    } 
-    newData = data.filter((item) => {
-        if(item.task === task){
-            return true;
+    try{
+        const formData = new FormData(event.target)
+        const task = formData.get('task');
+        if(task === ''){
+            throw new Error('You must add task into area!')
+            // alert('You must add task into area!')
+            // return;
+        } 
+        newData = data.filter((item) => {
+            if(item.task === task){
+                return true;
+            }
+        })
+        if(newData.length !== 0){
+            throw new Error('There is the task!')
+            // alert('There is the task!')
+            // return;
         }
-    })
-    if(newData.length !== 0){
-        alert('There is the task!')
-        return;
+        if(event.target.className === 'form-high'){
+            data.push({prioritу: 'HIGH', status: 'unchecked', task: task})
+            render()
+            event.target.reset()
+        }
+        if(event.target.className === 'form-low'){
+            data.push({prioritу: 'LOW', status: 'unchecked', task: task})
+            render()
+            event.target.reset()
+        }
+    } catch(err){
+        alert(err)
     }
-    if(event.target.className === 'form-high'){
-        data.push({prioritу: 'HIGH', status: 'unchecked', task: task})
-        render()
-    }
-    if(event.target.className === 'form-low'){
-        data.push({prioritу: 'LOW', status: 'unchecked', task: task})
-        render()
-    }
+    
 }
 
 function deleteElemntsUi(){
@@ -70,11 +79,6 @@ function deleteElemntsUi(){
     for(const item of listItems){
         item.remove()
     }
-}
-
-function render(){
-    deleteElemntsUi()
-    showElements(data)
 }
 
 function changeData(event){
@@ -109,6 +113,11 @@ function changeData(event){
         })
         render()
     }
+}
+
+function render(){
+    deleteElemntsUi()
+    showElements(data)
 }
 
 formHigh.addEventListener('submit', addTask)
