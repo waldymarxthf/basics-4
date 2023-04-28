@@ -128,7 +128,8 @@ function addTasksToDOM(priority, tasksBlock) {
 // рендерим ДОМ на основании данных из массива toDoList. 
 function render() {
     // Удаляем все элементы с задачами
-    getElements('.task-item').forEach(task => task.remove());
+    highPriorityTasks.innerHTML = '';
+    lowPriorityTasks.innerHTML = '';
     // добавляем задачи каждую в свой блок по приоритету
     addTasksToDOM(PRIORITIES.HIGH, highPriorityTasks);
     addTasksToDOM(PRIORITIES.LOW, lowPriorityTasks);
@@ -177,12 +178,7 @@ function checkboxHandler(event) {
     // и статус выбранной задачи
     const checkedTaskStatus = toDoList.find(obj => obj.id === +checkedTaskId).status;
     // Если статус TO_DO, то меняем его на Done и наоборот.
-    if (checkedTaskStatus === STATUSES.TO_DO) {
-        setStatusTask(checkedTaskId, STATUSES.DONE);
-    }
-    else {
-        setStatusTask(checkedTaskId, STATUSES.TO_DO);
-    }
+    setStatusTask(checkedTaskId, checkedTaskStatus === STATUSES.TO_DO ? STATUSES.DONE : STATUSES.TO_DO)
 }
 
 // Функция обработчика события на клик для кнопки delete.  
