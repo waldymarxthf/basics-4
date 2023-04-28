@@ -39,11 +39,6 @@ function changeStatus(taskElement) {
 
 	if (task.status === STATUSES.TODO) {
 		task.status = STATUSES.DONE;
-		if (task.status === STATUSES.DONE) {
-			taskElement.classList.add('priority-container__task--done');
-		} else {
-			taskElement.classList.remove('priority-container__task--done');
-		}
 	} else {
 		task.status = STATUSES.TODO;
 	}
