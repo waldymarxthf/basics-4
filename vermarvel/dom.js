@@ -1,41 +1,42 @@
 // Exporting module
 
+const getEl = (s) => document.querySelector(s);
 // *****Variables********
 
 // Elements
-const input = document.getElementById("display");
-const resultsScr = document.querySelector(".results-screen");
-const binsScr = document.querySelector(".bin-screen");
-const row = document.querySelector(".row");
+const input = getEl("#display");
+const resultsScr = getEl(".results-screen");
+const binsScr = getEl(".bin-screen");
+const row = getEl(".row");
 
 // Input Numbers
 const numbersParent = document.querySelector(".numbers");
-const btn1 = document.getElementById("btn-1");
-const btn2 = document.getElementById("btn-2");
-const btn3 = document.getElementById("btn-3");
-const btn4 = document.getElementById("btn-4");
-const btn5 = document.getElementById("btn-5");
-const btn6 = document.getElementById("btn-6");
-const btn7 = document.getElementById("btn-7");
-const btn8 = document.getElementById("btn-8");
-const btn9 = document.getElementById("btn-9");
-const btn0 = document.getElementById("btn-0");
-const dot = document.getElementById("dot");
+const btn1 = getEl("#btn-1");
+const btn2 = getEl("#btn-2");
+const btn3 = getEl("#btn-3");
+const btn4 = getEl("#btn-4");
+const btn5 = getEl("#btn-5");
+const btn6 = getEl("#btn-6");
+const btn7 = getEl("#btn-7");
+const btn8 = getEl("#btn-8");
+const btn9 = getEl("#btn-9");
+const btn0 = getEl("#btn-0");
+const dot = getEl("#dot");
 
 // Iterables
-const buttons = document.getElementsByClassName("num");
-const operations = document.getElementsByClassName("operation");
+const buttons = getEl(".num");
+const operations = getEl(".operation");
 
 // Input Operations
-const plus = document.getElementById("plus");
-const minus = document.getElementById("minus");
-const neg = document.getElementById("neg");
-const divide = document.getElementById("divide");
-const multiply = document.getElementById("multiply");
-const clear = document.querySelector(".clear");
-const equal = document.querySelector(".equal");
+const plus = getEl("#plus");
+const minus = getEl("#minus");
+const neg = getEl("#neg");
+const divide = getEl("#divide");
+const multiply = getEl("#multiply");
+const clear = getEl(".clear");
+const equal = getEl(".equal");
 
-const btnClearResults = document.getElementById("clear-results");
+const btnClearResults = getEl("#clear-results");
 
 // Helper functions&variables
 const empty = "";
