@@ -22,7 +22,18 @@ const messages = {
   deleteTask: 'Задача удалена',
 }
 
-const list = [];
+let list = [];
+
+function saveTasksInLocalStorage() {
+  localStorage.setItem('tasks', JSON.stringify(list));
+}
+
+function loadTasksFromLocalStorage() {
+  const tasks = localStorage.getItem('tasks');
+  if (tasks) {
+    list = JSON.parse(tasks);
+  }
+}
 
 const isEmpty = (task) => { return !task.trim(); };
 
@@ -57,6 +68,7 @@ function addTask(taskName, status = statuses.TODO, priority = priorities.LOW) {
       priority
     };
     list.push(task);
+    saveTasksInLocalStorage();
   } catch(err) {
     if (err.name == 'Error') {
       alert(err.message);
@@ -72,6 +84,7 @@ function removeTask(task) {
   }
   const indexTask = indexOfTask(task);
   list.splice(indexTask, 1);
+  saveTasksInLocalStorage();
   return;
 }
 
@@ -87,6 +100,7 @@ function changeStatus(task, status) {
   }
   const indexTask = indexOfTask(task);
   list[indexTask].status = status;
+  saveTasksInLocalStorage();
   render();
   return;
 }

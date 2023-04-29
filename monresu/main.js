@@ -5,8 +5,6 @@ const lowTasksNode = document.querySelector('.low-tasks')
 const inputHighTaskNode = document.querySelector('.input-task-high')
 const inputLowTaskNode = document.querySelector('.input-task-low')
 
-const tasksNodes = [highTasksNode, lowTasksNode]
-
 function closeBtnActions(taskName) {
   removeTask(taskName);
   render();
@@ -80,4 +78,6 @@ function addTaskLow(event) {
 inputHighNode.addEventListener('submit', addTaskHigh)
 inputLowNode.addEventListener('submit', addTaskLow)
 
-//render()
+
+loadTasksFromLocalStorage(); 
+render()
