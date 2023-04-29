@@ -8,7 +8,7 @@ const PRIORITIES = {
     LOW: "Low",
 };
 
-const toDoList = [];
+let toDoList = [];
 
 let taskId = 0;
 
@@ -20,6 +20,9 @@ const lowPriorityTasks = getElement('.tasks-low-priority');
 
 const submitBtns = getElements('.btn-adding');
 const inputsAddingTask = getElements('.adding-input');
+
+getFromLocalStorage()
+render();
 
 // получает элементы из ДОМ
 function getElement(selector) {
@@ -42,6 +45,16 @@ function getTaskIndex(id) {
     return taskIndex;   
 }
 
+function transferToLocalStorage() {
+    localStorage.setItem('storedToDoList', JSON.stringify(toDoList));
+}
+
+function getFromLocalStorage() {
+    if (localStorage.getItem('storedToDoList')) {
+        toDoList = JSON.parse(localStorage.getItem('storedToDoList'))
+    }
+}
+
 // Функция добавления новой задачи. Принимает в качестве аргументов текст задачи, приоритет. Cтатус ставится по умолчанию TO_DO. Проверяем, валидное ли имя задачи. Если проверка пройдена, добавляем задачу:
 function addTask(taskName, priority) {
     
@@ -58,18 +71,21 @@ function addTask(taskName, priority) {
     toDoList.push(newTask)
     // Увеличиваем id
     taskId++;
+    transferToLocalStorage()
     console.log(`Добавлена новая задача ${newTask.name.substr(0, 20)}...`);
 }
 
 // Удаляет задачу. 
 function deleteTask(id) {
     toDoList.splice(getTaskIndex(id), 1);
-    // сделать всплывающее окно с предложением отменить удаление?       
+    // сделать всплывающее окно с предложением отменить удаление?   
+    transferToLocalStorage()    
 }
 
 // Меняет статус задачи:
 function setStatusTask(id, newStatus) {
-    toDoList[getTaskIndex(id)].status = newStatus;    
+    toDoList[getTaskIndex(id)].status = newStatus; 
+    transferToLocalStorage()   
 }
 
 // Фильтрует задачи по приоритету
@@ -149,7 +165,7 @@ const submitBtnHandler = (event) => {
     }
     // очищает поле ввода и рендерит ДОМ
     inputsAddingTask.forEach(input => input.value = '');
-    render();    
+    render();  
 }
 
 // повесили событие клик на кнопки сабмит
@@ -191,5 +207,4 @@ function btnDeleteHandler(event) {
 
 // Повесили событие клик на туду лист 
 mainToDo.addEventListener('click', clickHandler);
-
 
