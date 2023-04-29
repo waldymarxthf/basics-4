@@ -1,8 +1,11 @@
-const getSelector = (css) => document.body.querySelector(css),
-   formHigh = getSelector('.high-task'),
-   inputHigh = getSelector('#input-high'),
-   formLow = getSelector('.low-task'),
-   inputLow = getSelector('#input-low');
+const getSelector = (css) => document.body.querySelector(css);
+
+const ELEMENT = {
+   FORM_HIGH: getSelector('.high-task'),
+   INPUT_HIGH: getSelector('#input-high'),
+   FORM_LOW: getSelector('.low-task'),
+   INPUT_LOW: getSelector('#input-low')
+};
 
 const MESSAGE = {
    TASK_EXIST: 'Task already exists!',
@@ -22,33 +25,27 @@ const PRIORITY = {
 const list = [];
 
 const OPERATION = {
-   CLEAN_INPUT: () => {
-      inputHigh.value = null;
-      inputLow.value = null;
+   CLEARS_INPUT: () => {
+      ELEMENT.INPUT_HIGH.value = '';
+      ELEMENT.INPUT_LOW.value = '';
    },
 
-   CLEAN_TASK: () => {
+   CLEARS_TASKS: () => {
       const allTasks = document.querySelectorAll('.task');
 
-      for (let elem of allTasks) {
-         elem.remove();
-      }
+      allTasks.forEach(elem => elem.remove());
    },
 
    FIND_TASK: (name) => {
       return list.find(task => task.name === name);
-   },
-
-   SORTED_LIST: (priority) => {
-      return list.filter(task => task.priority === priority)
    }
-}
+};
 
 const VALIDATION = {
    IS_TASK_EXIST: (name) => {
       if (OPERATION.FIND_TASK(name)) {
-         alert(MESSAGE.TASK_EXIST);
-         OPERATION.CLEAN_INPUT();
+         console.log(MESSAGE.TASK_EXIST);
+         OPERATION.CLEARS_INPUT();
          return false;
       }
       return true;
@@ -58,31 +55,32 @@ const VALIDATION = {
       const isNonEmpty = value.trim() !== '';
 
       if (!isNonEmpty) {
-         alert(MESSAGE.EMPTY);
-         OPERATION.CLEAN_INPUT();
+         console.log(MESSAGE.EMPTY);
+         OPERATION.CLEARS_INPUT();
          return false;
       }
       return true;
    }
-}
+};
 
 function addTask(name, priority, status = STATUS.TODO) {
    const newTask = { name, priority, status };
 
    list.push(newTask);
-}
+};
 
 function changeStatus(name, status) {
    OPERATION.FIND_TASK(name).status = status;
-}
+};
 
 function removeTask(elem, name) {
    const getIndex = list.findIndex(task => task.name === name);
 
    list.splice(getIndex, 1);
    elem.parentNode.remove();
-}
+};
 
+// This function creates an HTML element for a task.
 function createTaskElement(task) {
    const checked = task.status === STATUS.DONE
       ? '<input id="change-box" class="radio-button" type="checkbox" checked>'
@@ -91,16 +89,21 @@ function createTaskElement(task) {
    const html = `
      <div class="task">
        ${checked}
-       <p class="task-text">${task.name}</p>
+       <p for="change-box" class="task-text">${task.name}</p>
        <button id="button-delete" class="task-container__button task-container__button_45degrees"></button>
      </div>`;
 
    return html;
-}
+};
 
+// Renders all task elements to the DOM.
+function render(priority) {
+   const sortedList = list.filter(task => task.priority === priority);
 
-function render(sortedList, form) {
    sortedList.forEach(task => {
+      const form = task.priority === PRIORITY.HIGH ? ELEMENT.FORM_HIGH
+         : ELEMENT.FORM_LOW;
+
       form.insertAdjacentHTML('afterend', createTaskElement(task));
 
       const changeDiv = getSelector('#change-box');
@@ -119,43 +122,45 @@ function render(sortedList, form) {
    });
 };
 
+// Displays tasks.
 function showList() {
-   OPERATION.CLEAN_TASK();
+   OPERATION.CLEARS_TASKS();
+   OPERATION.CLEARS_INPUT();
 
-   render(OPERATION.SORTED_LIST(PRIORITY.LOW), formLow);
-   render(OPERATION.SORTED_LIST(PRIORITY.HIGH), formHigh);
+   render(PRIORITY.LOW);
+   render(PRIORITY.HIGH);
+};
 
-   OPERATION.CLEAN_INPUT();
-}
-
-formHigh.addEventListener('submit', (event) => {
+// This block of code sets up event listeners for the high-priority form.
+ELEMENT.FORM_HIGH.addEventListener('submit', (event) => {
    event.preventDefault();
-   const valueHigh = inputHigh.value;
+   const highValue = ELEMENT.INPUT_HIGH.value;
 
-   if (!VALIDATION.IS_VALUE_NON_EMPTY(valueHigh)) {
+   if (!VALIDATION.IS_VALUE_NON_EMPTY(highValue)) {
       return;
    }
 
-   if (!VALIDATION.IS_TASK_EXIST(valueHigh)) {
+   if (!VALIDATION.IS_TASK_EXIST(highValue)) {
       return;
    }
 
-   addTask(valueHigh, PRIORITY.HIGH, STATUS.TODO);
+   addTask(highValue, PRIORITY.HIGH, STATUS.TODO);
    showList();
 });
 
-formLow.addEventListener('submit', (event) => {
+// This block of code sets up event listeners for the low-priority form.
+ELEMENT.FORM_LOW.addEventListener('submit', (event) => {
    event.preventDefault();
-   const valueLow = inputLow.value;
+   const lowValue = ELEMENT.INPUT_LOW.value;
 
-   if (!VALIDATION.IS_VALUE_NON_EMPTY(valueLow)) {
+   if (!VALIDATION.IS_VALUE_NON_EMPTY(lowValue)) {
       return;
    }
 
-   if (!VALIDATION.IS_TASK_EXIST(valueLow)) {
+   if (!VALIDATION.IS_TASK_EXIST(lowValue)) {
       return;
    }
 
-   addTask(valueLow, PRIORITY.LOW, STATUS.TODO);
+   addTask(lowValue, PRIORITY.LOW, STATUS.TODO);
    showList();
 });

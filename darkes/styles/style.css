@@ -56,6 +56,7 @@ button::-moz-focus-inner {
 .task-container__input{
     border: none;
     outline: none;
+    background-color: white;
     color: rgba(69, 69, 69, 0.819);
     font-weight: 500;
     width: 100%;
@@ -74,14 +75,14 @@ button::-moz-focus-inner {
     background: none;
     border: none;
     cursor: pointer;
-    background: url(/img/plus.svg) center no-repeat;
+    background: url(../img/plus.svg) center no-repeat;
     width: 20px;
     height: 20px;
 }
 
 .task-container__button:hover {
     transition: 0.5s;
-    background: url(/img/plus-green.svg) center no-repeat;
+    background: url(../img/plus-green.svg) center no-repeat;
     transform: scale(1.1);
 }
 
@@ -92,7 +93,7 @@ button::-moz-focus-inner {
 
 .task-container__button_45degrees:hover{
     transition: 0.3s;
-    background: url(/img/plus-red.svg) center no-repeat;
+    background: url(../img/plus-red.svg) center no-repeat;
     transform: scale(1.1) rotate(45deg);
 }
 
@@ -132,7 +133,7 @@ button::-moz-focus-inner {
     width: 10px;
     height: 10px;
 
-    background: url(/img/check.svg) no-repeat;
+    background: url(../img/check.svg) no-repeat;
     background-size: 8px 9px;
     opacity: 0;
     transition: 1s;
