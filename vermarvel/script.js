@@ -1,27 +1,10 @@
 "use strict";
 
-// DOM
-const container = document.querySelector(".container");
-const formHigh = document.querySelector(".form-high");
-const formLow = document.querySelector(".form-low");
-const fieldHigh = document.querySelector(".add-task-high");
-const fieldLow = document.querySelector(".add-task-low");
-const btnAddLow = document.getElementById("btn-low");
-const btnAddHigh = document.getElementById("btn-high");
-const inputLow = document.getElementById("low");
-const inputHigh = document.getElementById("high");
-const btnLow = document.getElementById("btn-low");
-const lowContainer = document.querySelector(".low-container");
-const highContainer = document.querySelector(".high-container");
-const checkbox = document.querySelector(".checkbox");
-const parentLow = document.querySelector(".tasks-low");
-const parentHigh = document.querySelector(".tasks-high");
-const sourceDiv = document.querySelector(".hidden");
+import dom from "./dom.js";
 
-let newTaskText;
 let activeForm = null;
-let containerId;
 
+// Keeper
 const keeper = [];
 
 // Logic
@@ -30,26 +13,24 @@ const keeper = [];
 
 // Active Form
 
-fieldHigh.addEventListener("input", function (event) {
+dom.fieldHigh.addEventListener("input", function (event) {
   activeForm = "high";
   console.log(activeForm);
 });
 
-fieldLow.addEventListener("input", function (event) {
+dom.fieldLow.addEventListener("input", function (event) {
   activeForm = "low";
   console.log(activeForm);
 });
 
-// Logic
+// &&&&&&&&&&&&&&&&   Memory  &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
-// Memory:
 // ADD TO MEMORY
 
 function addNewToMemory(taskName, prio) {
   // assemble
   // create a random ID
   const id = "id-" + Date.now();
-  console.log(id);
 
   // creating an object
   const newT = { task: taskName, complete: false, priority: prio, id: id };
@@ -57,7 +38,6 @@ function addNewToMemory(taskName, prio) {
   // push to keeper
   keeper.push(newT);
   render();
-  console.log(keeper);
 }
 
 // DELETE FROM MEMORY
@@ -69,37 +49,44 @@ function deleteInMemory(id) {
   render();
 }
 
-// RENDER
+//%%%%%%%%%%%%%%%%%%%%%%%  RENDER %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function render() {
   // Resest all the tasks on screen
 
-  parentHigh.innerHTML = "";
-  parentLow.innerHTML = "";
+  dom.parentHigh.innerHTML = "";
+  dom.parentLow.innerHTML = "";
 
   // run through the memory
 
   keeper.forEach((obj) => {
-    // create a template
-    const copiedDiv = sourceDiv.cloneNode(true);
+    // create a div by a .hidden template
+    const copiedDiv = dom.sourceDiv.cloneNode(true);
 
-    // fill in the template: text
+    // Add text
     const textInside = copiedDiv.querySelector(".text");
     textInside.textContent = obj.task;
 
-    // fill in the template: priority
-    // (nest the div into correspondig container)
-    if (obj.priority === "high") {
-      parentHigh.appendChild(copiedDiv);
-    }
-    if (obj.priority === "low") {
-      parentLow.appendChild(copiedDiv);
-    }
-    // fill in the template: status
-    if (obj.complete === true) {
+    // Add priority, status
+    // Nest the div
+    // (nesting into the corresponding (priority) container, corresponding (status): above or below
+    if (obj.priority === "high" && obj.complete === true) {
+      dom.parentHigh.insertAdjacentElement("beforeend", copiedDiv);
       copiedDiv.classList.add("complete");
     }
-    // add an ID linked to a checkbox
+    if (obj.priority === "low" && obj.complete === true) {
+      dom.parentLow.insertAdjacentElement("beforeend", copiedDiv);
+      copiedDiv.classList.add("complete");
+    }
+    if (obj.priority === "high" && obj.complete === false) {
+      dom.parentHigh.insertAdjacentElement("afterbegin", copiedDiv);
+    }
+
+    if (obj.priority === "low" && obj.complete === false) {
+      dom.parentLow.insertAdjacentElement("afterbegin", copiedDiv);
+    }
+
+    // Add a checkbox
 
     const checkboxInput = copiedDiv.querySelector("input[type='checkbox']");
 
@@ -107,12 +94,12 @@ function render() {
     checkboxInput.id = obj.id;
     checkboxInput.checked = obj.complete;
 
-    // Installing ID into checkbox html
+    // Install ID into checkbox html
     const label = copiedDiv.querySelector("label");
     label.setAttribute("for", obj.id);
     copiedDiv.classList.add(obj.id);
 
-    // make visible
+    // make the created div visible
     copiedDiv.classList.remove("hidden");
   });
   resetInputs();
@@ -123,7 +110,7 @@ function render() {
 // TASK MANIPULATION
 // (Event delegation)
 
-container.addEventListener("click", function (event) {
+dom.container.addEventListener("click", function (event) {
   const target = event.target;
 
   // listen for +
@@ -138,15 +125,12 @@ container.addEventListener("click", function (event) {
     target.parentNode.classList.contains("delete") ||
     target.classList.contains("fa-times")
   ) {
-    const divElement = target.parentElement.parentElement;
-
-    const classes = divElement.classList;
-
-    const divID = classes[2];
+    // Retrieve ID from the div
+    const divID = target.parentElement.parentElement.classList[2];
 
     deleteInMemory(divID);
   }
-  // Listen for checkbox
+  // handle checkbox
   if (
     target.parentNode.classList.contains("checkbox") ||
     target.classList.contains("checkbox")
@@ -158,42 +142,30 @@ container.addEventListener("click", function (event) {
 // Service functions
 
 // Add task (with Enter scenario)
-
+// Enter
+dom.formLow.addEventListener("submit", addTask);
+dom.formHigh.addEventListener("submit", addTask);
+// Plus
 function addTask(event) {
   event.preventDefault();
 
   let prio = activeForm;
   let taskName;
   if (activeForm === "high") {
-    taskName = inputHigh.value;
+    taskName = dom.inputHigh.value;
   }
   if (activeForm === "low") {
-    taskName = inputLow.value;
+    taskName = dom.inputLow.value;
   }
   if (activeForm === null || taskName === "") return;
   console.log(taskName, prio);
   addNewToMemory(taskName, prio);
 }
 
-// GET ID
-
-function getId(target) {
-  if (target.classList.contains("delete")) {
-    const parentElement = document.querySelector('[class^="div-id"]');
-
-    console.log(parentElement);
-    return parentElement;
-  }
-  if (target.classList.contains("checkbox")) {
-    const pElement = target.closest(".radio-wrapper");
-    return pElement.textContent;
-  }
-}
-
 // RESET
 function resetInputs() {
-  inputHigh.value = "";
-  inputLow.value = "";
+  dom.inputHigh.value = "";
+  dom.inputLow.value = "";
 }
 
 // Listens to CHECKBOX
@@ -212,6 +184,5 @@ function checkboxHandler(event) {
 
 //-------------------------------------------------
 // Following modifications:
-// getId - to work for checkbox too;
-// DOM - to hide into a module
-// Render into a module
+
+// render() into a separate module

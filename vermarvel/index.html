@@ -14,7 +14,7 @@
 
         <div class="category-name-high">HIGH</div>
         <div class="box add-high">
-          <form class="form form-high" onsubmit="addTask(event)" id="highForm">  
+          <form class="form form-high" method="GET"  id="highForm" name="highForm">  
         
               <input
             class="add-task add-task-high"
@@ -53,7 +53,7 @@
 
         <div class="category-name-low">LOW</div>
         <div class="box add-low">
-          <form class="form form-low" onsubmit="addTask()" id="lowForm"  method="POST">
+          <form class="form form-low"  id="lowForm" name="lowForm"  method="GET">
       
 
             <input
@@ -101,7 +101,7 @@
       
     <button class="delete"><i class="fa-solid fa-times"></i></button>
 </div>
-    <script src="script.js"></script>
-  
+   
+    <script type="module" defer src="script.js"></script>
   </body>
 </html>
