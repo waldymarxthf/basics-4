@@ -65,7 +65,6 @@ body {
 }
 
 .header2 {
-  margin-top: 2rem;
   text-align: left;
 }
 
@@ -113,6 +112,7 @@ body {
 
 .task-list {
   overflow: scroll;
+  margin-top: 2rem;
 }
 
 .task-list::-webkit-scrollbar {
@@ -135,6 +135,7 @@ body {
 
   display: flex;
   position: relative;
+  gap: 2rem;
 }
 
 .task .priority {
@@ -150,6 +151,10 @@ body {
   align-items: center;
   gap: 2rem;
   width: 90%;
+}
+
+#task-example {
+  display: none;
 }
 
 .task-remove {
@@ -168,9 +173,8 @@ body {
   align-items: center;
 }
 
-.task-info .description {
-  width: 100%;
-  overflow: hidden;
+.task-info {
+  word-wrap: break-word;
 }
 
 .task:has(.checkbox input:checked) {

@@ -21,12 +21,12 @@
         <div class="settings">
           <div class="select">
             <div class="current">
-              <div class="option">High</div>
+              <div data-priority="High" class="option">High</div>
             </div>
             <div class="options disabled">
-              <div class="option">High</div>
-              <div class="option">Medium</div>
-              <div class="option">Low</div>
+              <div data-priority="High" class="option">High</div>
+              <div data-priority="Medium" class="option">Medium</div>
+              <div data-priority="Low" class="option">Low</div>
             </div>
           </div>
           <div class="submit-field">
@@ -39,14 +39,14 @@
           <h2>Task List</h2>
         </div>
         <div class="tasks">
-          <div class="task">
-            <span data-priority="high" class="priority">High</span>
-            <label for="id">
+          <div class="task" id="task-example">
+            <span class="priority"></span>
+            <label for="">
               <div class="checkbox">
-                <input type="checkbox" id="id" />
+                <input type="checkbox" id="" />
               </div>
               <div class="task-info">
-                <div class="description">Listen to techno</div>
+                <p class="description"></p>
               </div>
             </label>
             <div class="task-remove">
@@ -58,5 +58,7 @@
     </div>
 
     <script src="select.js"></script>
+    <script src="taskManager.js" type="module"></script>
+    <script src="script.js" type="module"></script>
   </body>
 </html>
