@@ -1,108 +1,87 @@
-*{
-    box-sizing: border-box;
+* {
     margin: 0;
     padding: 0;
-    font-family:monospace;
-    font-size: 20px;
+    box-sizing: border-box;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
 }
-body{
+
+body {
     display: flex;
-    justify-content: center;
     height: 100vh;
+    justify-content: center;
     align-items: center;
-    flex-direction: column;
+    background-color: rgb(233, 236, 236);
 }
+
 .container {
     display: flex;
-    gap: 15px;
-    align-items: center;
-    padding: 60px;
-    border-radius: 10px;
-    justify-content: center;
-    background-color: #dde2f8;
-    box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
-    margin-bottom: 30px;
-}
-.operands input {
-    padding: 5px 0px 5px 10px;
-    border: none;
-    border-radius: 5px;
-}
-.menu {
-    color: white;
-    padding: 5px 5px 5px 5px;
-    border-radius: 5px;
-    text-align: center;
-    display: none;
-}
-.operations{
-   line-height: 30px;
-   border-radius: 5px;
-   width: 40px;
-}
-.show-menu{
-    background-color: #626365;
-    color: white;
-    padding: 5px 5px 5px 5px;
-    border-radius: 5px;
-    text-align: center;
-    display: flex;
-}
-.menu_operator:hover{
-    background-color: #4b85ea;
-    cursor: pointer;
-}
-.active{
-    background-color: #4b85ea;
+    flex-direction: column;
+    background-color: rgb(255, 255, 255);
+    width: 476px;
+    padding: 0px 8px;
+    overflow-y:visible;
 }
 
-.choose-operator{
-    width: 25px;
-    height: 35px;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.choose-btn {
+.header {
     text-align: center;
-    cursor: pointer;
-    color: white;
-    background-color: #6b43ff;
-    border: none;
-    padding: 3px;
-    border-radius: 3px;
+    font-size: 20px;
+    padding: 25px 0px;
 }
 
-.result{
-    color: #6b43ff;
+
+.toDoList_addTask {
+    width: 100%;
+    border: 1px solid #989898;
+    border-radius: 6px;
+    padding: 12px 0px 12px 12px;
+    line-height: 21px;
 }
-.equals{
-    background-color: white;
-    padding: 5.5px 10px 5.5px 10px;
+form {
+    display: flex;
+}
+form .add_input{
     border: none;
-    border-radius: 5px;
+    width: 400px;
+    outline: none;
+}
+.toDoList_task {
+    display: flex;
+    border: 1px solid #989898;
+    border-radius: 6px;
+    margin: 8px 0px;
+    padding-left: 12px;
+    word-break: break-word;
+}
+
+.toDoList_task input {
+    position: relative;
+}
+.toDoList_task label{
+    padding: 12px 12px;
+    width: 95%;
+}
+img{
+    padding: 0px 12px;
+}
+
+span {
+    margin-left: 12px;
+}
+.text {
+    display: inline;
+}
+input:checked + label {
+    background-color: #fc0;
+   }
+.btn-add, .btn-del {
+    background-color: transparent;
+    border: none;
     cursor: pointer;
 }
 
-.red {
-    color: red
-}
-.parent {
-    display: flex;
-    flex-wrap: wrap;
-    background-color: #dde2f8;
-    width: 729px;
-    border-radius: 5px;
-    box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
-}
-
-.child{
-     padding: 10px;
-     color: #6b43ff;
-     cursor: pointer;
-}
-
-.child:hover {
-    background-color: #b1bdf3;
+.done {
+    background-color: rgb(176, 176, 202);
 }

@@ -11,28 +11,33 @@
 
 <body>
     <div class="container">
-        <div class="operands operand-one">
-            <input type="number" placeholder="Введите число">
-        </div>
-        <div class="menu">
-            <div class="operations">
-                <div class="operations menu_operator plus">+</div>
-                <div class="operations menu_operator minus">-</div>
-                <div class="operations menu_operator multiply">*</div>
-                <div class="operations menu_operator divide">/</div>
+        <div class="hight-priority list">
+            <h1 class="header">HIGH</h1>
+            <div class="toDoList">
+                <div class="toDoList_addTask">
+                    <form class="form high">
+                        <input class="add_input high" type="text" placeholder="Добавить">
+                        <button class="btn-add high"><img class="high" src="add-icon.svg" alt=""></button>
+                    </form>
+                </div>
+                <div class="toDoList_tasks high"></div>
             </div>
         </div>
-        <div class="choose-operator">
-            <button class="choose-btn" type="menu">↕</button>
+        <div class="low-priority list">
+            <h1 class="header">LOW</h1>
+            <div class="toDoList">
+                <div class="toDoList_addTask">
+                    <form class="form low">
+                        <input class="add_input low" type="text" placeholder="Добавить">
+                        <button class="btn-add low"><img class="low" src="add-icon.svg" alt=""></button>
+                    </form>
+                </div>
+                <div class="toDoList_tasks low">
+                </div>
+            </div>
         </div>
-        <div class="operands operand-two">
-            <input type="number" placeholder="Введите число">
-        </div>
-        <button class="equals">=</button>
-        <div class="result">0</div>
     </div>
-    <script src="script.js"></script>
-
+    <script src="main.js"></script>
 </body>
 
 </html>
