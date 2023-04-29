@@ -2,6 +2,7 @@ import { DIVIDE, MINUS, MULTI, PLUS, buttons, firstValue, operations, resultsFie
 let result;
 
 function calculation(number1, number2, operation) {
+    try {
     if (Number.isNaN(number1) && Number.isNaN(number2)) {
    switch (operation) {
     case PLUS:
@@ -17,7 +18,10 @@ function calculation(number1, number2, operation) {
         divide(number1, number2);
         break;
    } 
-} else { error(); }
+  }
+ } catch(err) { 
+    alert(err.message + " in " + err.name);
+}
    showUI(result);
 }
 
@@ -47,9 +51,6 @@ function divide(number1, number2) {
     return result = number1 / number2;
 }
 
-function error() {
-    alert('Detected wrong input data!');
-}
 buttons.addEventListener('click', () => {
     let number1 = Number(firstValue.value);
     let number2 = Number(secondValue.value);
