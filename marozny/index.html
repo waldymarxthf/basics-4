@@ -11,38 +11,48 @@
     <div class="container">
       <div class="wrapper">
         <h2>HIGH</h2>
-        <svg class="high-svg" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <line
-            y1="-0.5"
-            x2="18.0096"
-            y2="-0.5"
-            transform="matrix(0.999988 -0.00481873 0.0748716 0.997193 1 10)"
-            stroke="#998899" />
-          <line
-            y1="-0.5"
-            x2="18.0401"
-            y2="-0.5"
-            transform="matrix(-0.0192905 -0.999814 0.998699 0.0509976 10.5404 18.8444)"
-            stroke="#998899" />
-        </svg>
-        <input type="text" placeholder="Добавить" />
+        <form>
+          <input type="text" class="highTaskValue" placeholder="Добавить" />
+          <button type="submit" class="btn-adding btn-adding-high" value="" alt="Добавить" />
+        </form>
+        <div class="tasks-high-priority">
+          <div class="task-item task-high-priority">
+            <label>
+              <input type="checkbox" class="input-checkbox" />
+              <div class="task-text">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde beatae quos possimus nostrum pariatur
+                nobis sequi distinctio officia.
+              </div>
+            </label>
+            <button class="btn-task-delete"></button>
+          </div>
+        </div>
         <h2>LOW</h2>
-        <svg class="low-svg" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <line
-            y1="-0.5"
-            x2="18.0096"
-            y2="-0.5"
-            transform="matrix(0.999988 -0.00481873 0.0748716 0.997193 1 10)"
-            stroke="#998899" />
-          <line
-            y1="-0.5"
-            x2="18.0401"
-            y2="-0.5"
-            transform="matrix(-0.0192905 -0.999814 0.998699 0.0509976 10.5404 18.8444)"
-            stroke="#998899" />
-        </svg>
-        <input type="text" placeholder="Добавить" />
+        <form class="low-form">
+          <svg
+            class="low-svg"
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <line
+              y1="-0.5"
+              x2="18.0096"
+              y2="-0.5"
+              transform="matrix(0.999988 -0.00481873 0.0748716 0.997193 1 10)"
+              stroke="#998899" />
+            <line
+              y1="-0.5"
+              x2="18.0401"
+              y2="-0.5"
+              transform="matrix(-0.0192905 -0.999814 0.998699 0.0509976 10.5404 18.8444)"
+              stroke="#998899" />
+          </svg>
+          <input type="text" class="lowTaskValue" placeholder="Добавить" />
+        </form>
       </div>
     </div>
+    <script src="./main.js"></script>
   </body>
 </html>
