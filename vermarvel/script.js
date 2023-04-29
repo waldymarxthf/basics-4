@@ -8,20 +8,30 @@ let activeForm = null;
 const keeper = [];
 
 // Logic
+// Service functions
 
-// Functions
+// Plus
+function addTask(event) {
+  event.preventDefault();
 
-// Active Form
+  let prio = activeForm;
+  let taskName;
+  if (activeForm === "high") {
+    taskName = dom.inputHigh.value;
+  }
+  if (activeForm === "low") {
+    taskName = dom.inputLow.value;
+  }
+  if (activeForm === null || taskName === "") return;
+  console.log(taskName, prio);
+  addNewToMemory(taskName, prio);
+}
 
-dom.fieldHigh.addEventListener("input", function (event) {
-  activeForm = "high";
-  console.log(activeForm);
-});
-
-dom.fieldLow.addEventListener("input", function (event) {
-  activeForm = "low";
-  console.log(activeForm);
-});
+// RESET
+function resetInputs() {
+  dom.inputHigh.value = "";
+  dom.inputLow.value = "";
+}
 
 // &&&&&&&&&&&&&&&&   Memory  &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
@@ -107,7 +117,7 @@ function render() {
 
 //&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&//
 
-// TASK MANIPULATION
+// Listeners
 // (Event delegation)
 
 dom.container.addEventListener("click", function (event) {
@@ -127,7 +137,7 @@ dom.container.addEventListener("click", function (event) {
   ) {
     // Retrieve ID from the div
     const divID = target.parentElement.parentElement.classList[2];
-
+    console.log(divID);
     deleteInMemory(divID);
   }
   // handle checkbox
@@ -139,36 +149,24 @@ dom.container.addEventListener("click", function (event) {
   }
 });
 
-// Service functions
+// State: Active Form
 
-// Add task (with Enter scenario)
+dom.fieldHigh.addEventListener("input", function (event) {
+  activeForm = "high";
+  console.log(activeForm);
+});
+
+dom.fieldLow.addEventListener("input", function (event) {
+  activeForm = "low";
+  console.log(activeForm);
+});
+
+// Add a task (with Enter scenario)
 // Enter
 dom.formLow.addEventListener("submit", addTask);
 dom.formHigh.addEventListener("submit", addTask);
-// Plus
-function addTask(event) {
-  event.preventDefault();
 
-  let prio = activeForm;
-  let taskName;
-  if (activeForm === "high") {
-    taskName = dom.inputHigh.value;
-  }
-  if (activeForm === "low") {
-    taskName = dom.inputLow.value;
-  }
-  if (activeForm === null || taskName === "") return;
-  console.log(taskName, prio);
-  addNewToMemory(taskName, prio);
-}
-
-// RESET
-function resetInputs() {
-  dom.inputHigh.value = "";
-  dom.inputLow.value = "";
-}
-
-// Listens to CHECKBOX
+// Listen to CHECKBOX
 function checkboxHandler(event) {
   // retrieve id
   const target = event.target;
