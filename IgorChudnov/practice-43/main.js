@@ -8,11 +8,15 @@ const TODOLIST = [
     {task : 'bake pancakes', status : 'done', priority : 'low'},
     {task : 'groceries', status : 'in progress', priority : 'high'},
     {task : 'buy contacts', status : 'to do', priority : 'low'},
-    {task : 'make a brief', status : 'in progress', priority : 'high'},
+    {task : 'make a brief', status : 'in progress', priority : 'low'},
     {task : 'walk a dog', status : 'to do', priority : 'low'},
     {task : 'feed a cat', status : 'done', priority : 'low'},
     {task : 'ride a whale', status : 'done', priority : 'high'},
 ];
+// метод выведения ошибки
+function error(){
+    alert('AN ERROR OCURED!');
+};
 // проверки
 const validation = {
     // проверка на строчность
@@ -80,20 +84,29 @@ function delTask(thetask) {
     if (validation.isInTaskList(thetask)) {
         let index = TODOLIST.findIndex(element => element.task === thetask);
         TODOLIST.splice(index,1);
-        return true
-    } else {return false};
+        render();
+        return;
+    } else {return error()};
 };
 
 
-function  cellAdd(theList, theInput, priority){
-    let taskInput = addTask(theInput.value, 'to do', priority);
-    if (taskInput===false) {return alert(MESSAGES.ERROR);};
+function addHighTaskClick(){
+    addTask(document.getElementById('inputTaskHigh').value, 'to do', 'high');
+    console.log(document.getElementById('inputTaskHigh').value);
+};
+function addLowTaskClick(){
+    addTask(document.getElementById('inputTaskLow').value, 'to do', 'low');
+    console.log(document.getElementById('inputTaskLow').value);
+};
+function delTaskClick(){
+    console.log(text);
 };
 
 
 let container = document.createElement('div');
+container.classList.add('container');
 // метод рендера заголовка списка (высокого приоритета или низкого)
-function listInputsRender(whatlist, text, inputId, placeholder){
+function listInputsRender(whatlist, text, inputId, buttonPlus, placeholder){
     let highlistDiv = document.createElement('div');
     highlistDiv.classList.add(whatlist);
     highlistDiv.setAttribute('id', whatlist);
@@ -113,7 +126,7 @@ function listInputsRender(whatlist, text, inputId, placeholder){
     inputTaskAdd.setAttribute('placeholder', placeholder);
     inputTaskAdd.classList.add('input');
     let plus = document.createElement('div');
-    plus.setAttribute('id', 'taskAdd');
+    plus.setAttribute('id', buttonPlus);
     plus.classList.add('plus');
     inputCell.appendChild(inputTaskAdd);
     inputCell.appendChild(plus);
@@ -135,35 +148,36 @@ function cellAdd(theList, text){
     newCell.appendChild(newCheckbox);
     newCell.appendChild(newDiv);
     newCell.appendChild(newCross);
+    newCross.addEventListener('click', ()=> {
+        console.log(text)
+    });
+
 }
 
-
-
-// метод добавления задач
-function addTask11111111(theList){
-    newDiv.insertAdjacentText('beforeend', taskInput);
-    theInput.value = '';
-}
-
-const indexHigh = [0,2,4];
-const indexLow = [1,3,5];
 
 
 
 function render(){
-    container.classList.add('container');
-    listInputsRender('highlist', 'HIGH', 'inputTaskHigh', 'Добавить важных дел');
-    listInputsRender('lowlist', 'LOW', 'inputTaskLow', 'Добавить не важных дел');
-
-    indexHigh.forEach(element => {
-        cellAdd(highlist, TODOLIST[element].task)
+    const indexHigh = TODOLIST.filter(object => object.priority === 'high');
+    const indexLow = TODOLIST.filter(object => object.priority === 'low');
+    container.innerHTML = '';
+    
+    listInputsRender('highlist', 'HIGH', 'inputTaskHigh', 'plusTaskHigh', 'Добавить важных дел');
+    listInputsRender('lowlist', 'LOW', 'inputTaskLow', 'plusTaskLow', 'Добавить не важных дел');
+    indexHigh.forEach(object => {
+        cellAdd(highlist, object.task);
     });
-    indexLow.forEach(element => {
-        cellAdd(lowlist, TODOLIST[element].task)
+    indexLow.forEach(object => {
+        cellAdd(lowlist, object.task);
     });
-}
-
-
-
+    const buttonPlusHigh = document.getElementById('plusTaskHigh');
+    const buttonPlusLow = document.getElementById('plusTaskLow');
+    const buttonCross = document.getElementById('taskRemove');
+    buttonPlusHigh.addEventListener('click', addHighTaskClick);
+    buttonPlusLow.addEventListener('click', addLowTaskClick);
+    // buttonCross.addEventListener('click', delTaskClick);
+    console.log('RENDERED!')
+};
 
 render();
+console.log(TODOLIST);
