@@ -127,10 +127,6 @@ button {
 	background: rgba(152, 152, 152, 0.1);
 }
 
-input[type="checkbox"] {
-	opacity: 0;
-}
-
 .todo__check {
 	position: absolute;
 	top: 12px;

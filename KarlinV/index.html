@@ -21,8 +21,9 @@
             <input
               class="todo__input-add todo__input-add--high"
               type="text"
+              name="task-name"
               placeholder="Добавить важных дел"
-              data-high="" />
+              data-priority="high" />
             <button class="todo__btn-add todo__btn-add--high"></button>
           </form>
           <ul class="todo__list" id="high-list"></ul>
@@ -31,10 +32,12 @@
       <section class="todo__low">
         <div class="container">
           <h3 class="todo__title">LOW</h3>
-          <form class="todo__add-group" action="#" data-low="">
+          <form class="todo__add-group" action="#">
             <input
               class="todo__input-add todo__input-add--low"
               type="text"
+              name="task-name"
+              data-priority="low"
               placeholder="Добавить" />
             <button class="todo__btn-add todo__btn-add--low"></button>
           </form>
@@ -42,6 +45,6 @@
         </div>
       </section>
     </div>
-    <script src="./js/script.js" type="module"></script>
+    <script src="./js/main.js" type="module"></script>
   </body>
 </html>
