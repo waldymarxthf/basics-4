@@ -8,7 +8,7 @@ import {
   deleteTask,
 } from './module/todo_program.js'
 
-function constructorTaskUi(name, status, priority) {
+function showTaskUi(name, status, priority) {
   const containerTask = createTag('div')
   const labelTask = createTag('label')
   const statusTask = createTag('input')
@@ -40,28 +40,23 @@ function constructorTaskUi(name, status, priority) {
 
   statusTask.addEventListener('change', () => {
     changeStatus(name, statusTask.checked ? STATUS.DONE : STATUS.IN_PROGRESS)
+    render()
   })
 }
 
 function render() {
   UI_ELEMENTS.PRIORITY_HIGH.innerHTML = ''
   UI_ELEMENTS.PRIORITY_LOW.innerHTML = ''
+  UI_ELEMENTS.INPUT_TEXT_HIGH.value = ''
+  UI_ELEMENTS.INPUT_TEXT_LOW.value = ''
 
   for (let taskFind of toDoList) {
     if (taskFind.priority === PRIORITY.HIGH) {
-      constructorTaskUi(
-        taskFind.name,
-        taskFind.status,
-        UI_ELEMENTS.PRIORITY_HIGH
-      )
+      showTaskUi(taskFind.name, taskFind.status, UI_ELEMENTS.PRIORITY_HIGH)
     }
 
     if (taskFind.priority === PRIORITY.LOW) {
-      constructorTaskUi(
-        taskFind.name,
-        taskFind.status,
-        UI_ELEMENTS.PRIORITY_LOW
-      )
+      showTaskUi(taskFind.name, taskFind.status, UI_ELEMENTS.PRIORITY_LOW)
     }
   }
 }
