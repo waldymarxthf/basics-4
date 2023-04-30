@@ -16,3 +16,14 @@ export function getTaskIndex(taskElement) {
 }
 
 //* функция нахождения индекса элемента
+
+export function isTaskExist(task) {
+	for (let i = 0; i < list.length; i++) {
+		if (list[i].name === task) {
+			return true
+		}
+	}
+	return false
+}
+
+//* функция которая проверяет есть ли уже похожая задача в списке

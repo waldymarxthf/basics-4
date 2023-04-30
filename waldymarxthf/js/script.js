@@ -1,5 +1,5 @@
 import { highForm, highTaskList, lowForm, lowTaskList, STATUSES, PRIORITIES, DEFAULT } from "./modules/ui-components.js"
-import { isEmpty, getTaskIndex } from "./modules/utils.js";
+import { isEmpty, getTaskIndex, isTaskExist } from "./modules/utils.js";
 
 export let list = []
 
@@ -33,6 +33,12 @@ function addTask(event, taskInput, taskPriority) {
 
 	if(isEmpty(taskText)) {
 		console.error('Нельзя добавить пустую строку')
+		return
+	}
+
+	if(isTaskExist(taskText)) {
+		console.error('Такая задача уже существует')
+		event.target.reset()
 		return
 	}
 
