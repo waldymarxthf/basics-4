@@ -39,8 +39,7 @@ function constructorTaskUi(name, status, priority) {
   })
 
   statusTask.addEventListener('change', () => {
-    status = statusTask.checked ? STATUS.DONE : STATUS.IN_PROGRESS
-    changeStatus(name, status)
+    changeStatus(name, statusTask.checked ? STATUS.DONE : STATUS.IN_PROGRESS)
   })
 }
 
