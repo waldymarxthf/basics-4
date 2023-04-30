@@ -101,6 +101,8 @@ body{
 			&--done{
 				background: #F4F4F4;
 				text-decoration: line-through;
+				box-shadow: none;
+				opacity: 0.9;
 			}
 		}
 

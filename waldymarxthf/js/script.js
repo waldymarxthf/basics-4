@@ -1,12 +1,27 @@
 import { highForm, highTaskList, lowForm, lowTaskList, STATUSES, PRIORITIES, DEFAULT } from "./modules/ui-components.js"
 import { isEmpty, getTaskIndex } from "./modules/utils.js";
 
-export const list = []
+export let list = []
+
+function saveTasksToLocalStorage() {
+	localStorage.setItem('tasks', JSON.stringify(list));
+}
+
+//* функция которая загружает задачи в localStorage
+
+function loadTask() {
+	const tasks = JSON.parse(localStorage.getItem("tasks"))
+	list.push(...tasks)
+	render()
+}
+
+//* функция которая подгружает задачи при загрузке сайта
 
 function deleteTask(taskElement) {
 	const index = getTaskIndex(taskElement)
 	list.splice(index, 1);
 	render()
+	saveTasksToLocalStorage()
 }
 
 //* функция которая удаляет таску из массива
@@ -29,6 +44,7 @@ function addTask(event, taskInput, taskPriority) {
 
 	event.target.reset()
 	render();
+	saveTasksToLocalStorage()
 }
 
 //* функция которая добавляет таску в массив
@@ -44,6 +60,7 @@ function changeStatus(taskElement) {
 	}
 
 	render();
+	saveTasksToLocalStorage()
 }
 
 //* функция которая меняет статус задачи в массиве при нажатии на чекбокс
@@ -107,3 +124,5 @@ lowForm.addEventListener('submit', (event) => {
 		console.error('Произошла ошибка при выполнении addTask:', error);
 	}
 });
+
+loadTask()
