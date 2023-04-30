@@ -21,12 +21,7 @@ export const findIndexTask = (name) =>
 
 export const addTask = (name, status, priority) => {
   if (isTaskNameValid(name) || isTaskExist(name)) return
-
-  toDoList.push({
-    name: name,
-    status: status,
-    priority: priority,
-  })
+  toDoList.push({name,status,priority})
 }
 
 export const changeStatus = (name, status) =>
