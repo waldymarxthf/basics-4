@@ -6,7 +6,6 @@ const STATUS = {
 
 const PRIORITY = {
   LOW: 'low',
-  MID: 'midium',
   HIGH: 'high'
 }
 
@@ -16,12 +15,7 @@ const MESSAGE = {
   TASK_IS_DELETED: 'Task is already deleted'
 }
 
-const list = [
-	{name: 'create a post', status: STATUS.IN_PROGRESS, priority: PRIORITY.LOW}, 
-  {name: 'make a bed', status: STATUS.DONE, priority: PRIORITY.HIGH},
-  {name: 'create a new practice task', status: STATUS.IN_PROGRESS, priority: PRIORITY.LOW}, 
-  {name: 'write a post', status: STATUS.TO_DO, priority: PRIORITY.HIGH}
-]
+const list = []
 
 const changeTaskStatus = (name, status) => {
   const task = list.find(task => task.name === name)
@@ -42,11 +36,14 @@ const changeTaskPriority = (name, priority) => {
 
 const addTask = (name, status = STATUS.TO_DO, priority = PRIORITY.LOW) => {
   const task = list.find(task => task.name === name)
-  if(task){
-      console.log(MESSAGE.TASK_IS_ADDED)
-  } else{
-      list.push({name, status, priority})
+  if(!!task){
+    console.log(MESSAGE.TASK_IS_ADDED)
+    return 
   }
+  if(!!name.trim() === false) {
+    return
+  } 
+  list.push({'name': name, 'status': status, 'priority': priority})
 }
 
 const deleteTask = name => {
@@ -59,29 +56,64 @@ const deleteTask = name => {
     }
 }
 
-const showList = () => {
-  let toDo = ''
-  let inProg = ''
-  let done = ''
-  
-  for (const task of list) {
-    if(task.status === STATUS.TO_DO){
-      toDo += `${task.name} \n\t`
-    } else if (task.status === STATUS.IN_PROGRESS){
-      inProg += `${task.name} \n\t`
-    } else if (task.status === STATUS.DONE){
-      done += `${task.name} \n\t`
-    }
+const inputTaskHigh = document.querySelector('.add_task_high')
+const inputTaskLow = document.querySelector('.add_task_low')
+const tasksHigh = document.querySelector('.tasks_high')
+const tasksLow = document.querySelector('.tasks_low')
+const btnAdd = document.querySelectorAll('.button_add_task')
+
+function addTaskToHTML(priority, tasksContainer) {
+  const filteredTasks = filterTasks(priority)
+  const sortedTasks = sortList(filteredTasks)
+  if(sortedTasks.lenght !== 0) {
+    sortedTasks.forEach(task => {
+      tasksContainer.insertAdjacentHTML('beforeend', `
+      <div class="task">
+              <label>
+                <input class="checkbox" type="checkbox" />
+                <p>${task.name}</p>
+              </label>
+              <button class="button_close_task">&times;</button>
+      </div>
+      `)
+    })
   }
-  console.log(`To Do:\n\t${toDo}\nIn Progress:\n\t${inProg}\nDone:\n\t${done}`)
+  return
 }
 
-changeTaskStatus('dc', 'To Do')
-changeTaskStatus('create a post', 'Done')
-addTask('jumpin')
-addTask('swimin')
-changeTaskStatus('jumpin', 'Done')
-deleteTask('make a bed')
-console.log(list)
+function sortList(arr) {
+  const sortedTasks = arr.sort(task => {
+    if(task.status === STATUS.TO_DO) {
+      return -1
+    } else if (task.status === STATUS.DONE) {
+      return 1
+    }
+  })
+  return sortedTasks
+}
 
-showList()
+function filterTasks(priority) {
+  const filteredList = list.filter(task => task.priority === priority)
+  return filteredList
+}
+
+function render() {
+  tasksHigh.innerHTML = ''
+  tasksLow.innerHTML = ''
+  addTaskToHTML(PRIORITY.HIGH, tasksHigh)
+  addTaskToHTML(PRIORITY.LOW, tasksLow)
+}
+
+const btnAddHandler = (event) => {
+  event.preventDefault()
+  if(event.target === btnAdd[0]) {
+    addTask(inputTaskHigh.value, STATUS.TO_DO, PRIORITY.HIGH)
+    inputTaskHigh.value = ''
+  } else if(event.target === btnAdd[1]) {
+    addTask(inputTaskLow.value, STATUS.TO_DO, PRIORITY.LOW)
+    inputTaskLow.value = ''
+  }
+ render()
+}
+
+btnAdd.forEach(btn => btn.addEventListener('click', btnAddHandler))
