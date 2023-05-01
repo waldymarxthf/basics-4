@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2>High</h2>
+  <form data-priority="high" class="form-field">
+    <input class="input" type="text" placeholder="Добавить важных дел">
+    <input type="submit" value="+">
+  </form>
+  <div data-priority="high" class="tasks">
+
+    <div class="task" id="task-template">
+      <label for="">
+        <div class="checkbox">
+          <input type="checkbox" id="">
+        </div>
+        <p class="name"></p>
+      </label>
+      <button class="delete-button">-</button>
+    </div>
+  
+  </div>
+  <h2>Low</h2>
+  <form data-priority="low" class="form-field">
+    <input class="input" type="text" placeholder="Добавить дел">
+    <input type="submit" value="+">
+  </form>
+  <div data-priority="low" class="tasks"></div>
+
+  <script src="taskmanager.js" type="module"></script>
+  <script src="script.js" type="module"></script>
+</body>
+</html>

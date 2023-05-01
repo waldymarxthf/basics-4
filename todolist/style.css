@@ -1,0 +1,41 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  gap: 1rem;
+}
+
+.tasks {
+  width: 40%;
+  height: 40%;
+  border: 1px solid black;
+  padding: .5rem;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.task {
+  display: flex;
+  border-bottom: 1px solid black;
+  align-items: center;
+  width: 100%;
+  gap: 2rem;
+}
+
+.task-completed {
+  background-color: #aaa;
+}
+
+.task label {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 0 2rem;
+}
+
+#task-template {
+  display: none;
+}
