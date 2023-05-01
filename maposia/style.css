@@ -1,0 +1,146 @@
+body {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    line-height: 21px;
+}
+
+.todo_ui {
+    border: 1px black solid;
+    border-radius: 6px;
+    min-height: 607px;
+    width: 476px;
+    margin-top: 25px;
+
+}
+
+
+h1 {
+
+    font-size: 18px;
+    line-height: 21px;
+    margin: 25px 0 12px 0;
+    padding: 0;
+    text-align: center;
+    font-weight: 400;
+}
+
+.high_priority,
+.low_priority {
+
+    border: 1px black solid;
+    margin: 0 8px 8px 8px;
+    border-radius: 6px;
+    padding: 12px 0 12px 12px;
+    display: flex;
+    align-items: center;
+
+
+}
+
+.input_high_task,
+.input_low_task {
+    width: 407px;
+    border: none;
+    outline: none;
+    font-size: 18px;
+    line-height: 21px;
+}
+
+input[type=checkbox] {}
+
+.i_add {
+    width: 20px;
+    height: 20px;
+}
+
+.content {
+    width: 376px;
+    display: inline-block;
+}
+
+.task {
+    display: flex;
+    border: 1px black solid;
+    margin: 0 8px 0 8px;
+    border-radius: 6px;
+    padding: 12px 0 12px 12px;
+    align-items: center;
+
+
+}
+
+.task:not(:last-child) {
+    margin-bottom: 8px;
+}
+
+.checkbox {
+    width: 21px;
+    height: 21px;
+    margin: 0;
+    margin-right: 12px;
+    /* display: none; */
+}
+
+.del_btn {
+
+    align-self: flex-start;
+    border: none;
+    background-color: #FFFFFF;
+    display: inline-flex;
+    align-items: center;
+    background-color: transparent;
+    font-size: 20px;
+    transform: rotate(45deg);
+    cursor: pointer;
+
+}
+
+label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.completed {
+    background-color: #F4F4F4;
+}
+
+.custom_checkbox {
+    border: 1px black solid;
+    width: 21px;
+    height: 21px;
+    border-radius: 50px;
+    margin-right: 10px;
+    position: relative;
+    display: inline-block;
+}
+
+.custom_checkbox::before {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background-color: #C4C4C4;
+    border-radius: 50px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+
+}
+
+
+
+.checkbox:checked~.custom_checkbox {
+    border: 1px #998899 solid
+}
+
+.checkbox:checked~.custom_checkbox::before {
+    opacity: 1;
+}
