@@ -22,7 +22,15 @@ let countId = 0;
 //-------------------------------------------------------------------------------------
 function addTaskByPriority(input, priority, list) {
   if (event.target.classList.contains(priority)) {
-    if (!input.value) return;
+    try{
+      if (!input.value) {
+        throw Error('Нельзя добавить пустую задачу!')
+      };
+    } catch(err){
+      alert(err.message)
+      return
+    }
+
     const newTask = {
       name: input.value,
       status: STATUS.TODO,
