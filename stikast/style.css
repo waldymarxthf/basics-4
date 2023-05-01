@@ -37,6 +37,10 @@ button {
 	height: 688px;
 
 	background-color: #FFF;
+
+	-webkit-box-shadow: 0px 5px 14px 5px rgba(34, 60, 80, 0.2);
+	-moz-box-shadow: 0px 5px 14px 5px rgba(34, 60, 80, 0.2);
+	box-shadow: 0px 5px 14px 11px rgba(34, 60, 80, 0.2);
 }
 
 .title {
@@ -46,8 +50,8 @@ button {
 	text-align: center;
 }
 
-.addTask-lowPriority,
-.addTask-highPriority {
+.lowForm,
+.highForm {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -61,8 +65,8 @@ button {
 	border-radius: 6px;
 }
 
-.taskName-highPriority,
-.taskName-lowPriority {
+.newHighTask,
+.newLowTask {
 	width: 230px;
 	border: none;
 }
@@ -73,38 +77,40 @@ input::placeholder {
   color: #BBBBBB;
 }
 
-.tasks-highPriority,
-.tasks-lowPriority {
+.highTasksList,
+.lowTasksList {
 	margin: 8px 0;
 }
 
-.task-lowPriority,
-.task-highPriority {
+.high,
+.low {
 	padding: 12px;
 
 	border: 1px solid #989898;
 	border-radius: 6px;
 }
 
-.task-lowPriority + .task-lowPriority,
-.task-highPriority + .task-highPriority {
+.low + .low,
+.high + .high {
 	margin-top: 8px;
 }
 
-.task-lowPriority form,
-.task-highPriority form {
+.low form,
+.high form {
 	display: flex;
 	justify-content: space-between;
 	align-items: baseline;
 }
 
-.task-lowPriority label,
-.task-highPriority label {
+.low label,
+.high label {
 	display: flex;
 }
 
-.task p {
+.low p,
+.high p {
 	width: 370px;
+	word-break: break-word;
 }
 
 .real-checkbox {
@@ -150,4 +156,8 @@ input::placeholder {
 	display: inline-block;
 
 	transform: translate(-50%, -50%) scale(1);
+}
+
+.done {
+	background-color: #E5E5E5;
 }
