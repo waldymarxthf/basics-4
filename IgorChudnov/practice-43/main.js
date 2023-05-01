@@ -107,7 +107,6 @@ function addLowTaskClick(){
     console.log(document.getElementById('inputTaskLow').value);
 };
 
-
 let container = document.createElement('div');
 container.classList.add('container');
 // метод рендера заголовка списка (высокого приоритета или низкого)
@@ -186,5 +185,4 @@ function render(){
     console.clear();
     console.log(TODOLIST);
 };
-
 render();
