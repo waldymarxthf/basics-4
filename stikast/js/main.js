@@ -1,6 +1,11 @@
 import { highForm, lowForm, newHighTask, newLowTask, highTasksList, lowTasksList } from "./ui-elements.js"
 
-const toDoList = [];
+let toDoList = [];
+
+if (localStorage.getItem("ToDO")) {
+	toDoList = JSON.parse(localStorage.getItem("ToDO"));
+	render()
+}
 
 function isTaskEmpty(task) {
 	return !task.value.trim() ? true : false;
@@ -21,6 +26,8 @@ highForm.addEventListener("submit", (event) => {
 		}
 	}
 
+	saveToLocalStorage()
+
   render();
   newHighTask.value = "";
 });
@@ -40,11 +47,13 @@ lowForm.addEventListener("submit", (event) => {
 			}
 		}
 
+	saveToLocalStorage()
+
   render();
   newLowTask.value = "";
 });
 
-function createTaskNode(name, priority) {
+function createTaskNode(name, priority, status) {
   const newTask = document.createElement("div");
   newTask.classList.add(priority);
 
@@ -73,10 +82,17 @@ function createTaskNode(name, priority) {
   form.appendChild(deleteButton);
   newTask.appendChild(form);
 
+	if (status === "done") {
+		newTask.classList.add(status);
+		realCheckbox.checked = true
+	}
+
   deleteButton.addEventListener("click", () => {
     const index = toDoList.findIndex((task) => taskText.textContent === task.name);
     toDoList.splice(index, 1);
     render();
+
+		saveToLocalStorage()
   });
 
   realCheckbox.addEventListener("change", () => {
@@ -85,13 +101,14 @@ function createTaskNode(name, priority) {
     if (check) {
       newTask.classList.add("done");
       toDoList[index].status = "done";
-      console.log(toDoList);
     } else {
       newTask.classList.remove("done");
       toDoList[index].status = "to do";
-      console.log(toDoList);
     }
+		saveToLocalStorage()
   });
+
+	saveToLocalStorage()
 
   return newTask;
 }
@@ -105,4 +122,8 @@ function render() {
     const task = createTaskNode(item.name, item.priority, item.status);
     nodeForAddTask.appendChild(task);
   }
+}
+
+function saveToLocalStorage() {
+	localStorage.setItem("ToDO", JSON.stringify(toDoList))
 }
