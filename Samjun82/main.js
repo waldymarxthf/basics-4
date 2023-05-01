@@ -10,6 +10,7 @@ const PRIORITY = {
 }
 
 const MESSAGE = {
+  ERROR: 'Somthing wrong',
   TASK_IS_ADDED: 'This task is already exists',
   TASK_IS_WRONG: 'Please enter a valid value',
   TASK_IS_DELETED: 'Task is already deleted'
@@ -35,15 +36,19 @@ const changeTaskPriority = (name, priority) => {
 }
 
 const addTask = (name, status = STATUS.TO_DO, priority = PRIORITY.LOW) => {
-  const task = list.find(task => task.name === name)
-  if(!!task){
-    console.log(MESSAGE.TASK_IS_ADDED)
-    return 
+  try {
+    const task = list.find(task => task.name === name)
+    if(!!task){
+      console.log(MESSAGE.TASK_IS_ADDED)
+      return 
+    }
+    if(!!name.trim() === false) {
+      return
+    } 
+    list.push({'name': name, 'status': status, 'priority': priority})
+  } catch (error) {
+    console.log(`error: ${error}`)
   }
-  if(!!name.trim() === false) {
-    return
-  } 
-  list.push({'name': name, 'status': status, 'priority': priority})
 }
 
 const deleteTask = name => {
@@ -138,12 +143,12 @@ const clickHandler = (event) => {
   } 
 }
 
-// обработчик событий для Checkbox.   
-function checkboxHandler(event) {
-  const findTask = event.target.getAttribute('checkbox');
-  const checkedTaskStatus = list.find(obj => obj.id === +findTask);
-  setStatusTask(findTask, checkedTaskStatus === STATUS.TO_DO ? STATUS.DONE : STATUS.TO_DO)
-}
+// // обработчик событий для Checkbox.   
+// function checkboxHandler(event) {
+//   const findTask = event.target.getAttribute('checkbox');
+//   const checkedTaskStatus = list.find(obj => obj.id === +findTask).status;
+//   setStatusTask(findTask, checkedTaskStatus === STATUS.TO_DO ? STATUS.DONE : STATUS.TO_DO)
+// }
 
 // обработчик событий кнопки delete.  
 function btnDelHandler(event) {
