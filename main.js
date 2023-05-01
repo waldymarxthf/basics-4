@@ -1,3 +1,4 @@
+// Синхронный колбэк
 function greeting(name) {
   console.log(`Hello ${name}`);
 }
