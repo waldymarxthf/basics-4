@@ -8,7 +8,7 @@ import {
   deleteTask,
 } from './module/todo_program.js'
 
-function showTaskUi(name, status, priority) {
+function createTaskUi(name, status, priority) {
   const containerTask = createTag('div')
   const labelTask = createTag('label')
   const statusTask = createTag('input')
@@ -50,11 +50,11 @@ function render() {
 
   for (let taskFind of toDoList) {
     if (taskFind.priority === PRIORITY.HIGH) {
-      showTaskUi(taskFind.name, taskFind.status, UI_ELEMENTS.PRIORITY_HIGH)
+      createTaskUi(taskFind.name, taskFind.status, UI_ELEMENTS.PRIORITY_HIGH)
     }
 
     if (taskFind.priority === PRIORITY.LOW) {
-      showTaskUi(taskFind.name, taskFind.status, UI_ELEMENTS.PRIORITY_LOW)
+      createTaskUi(taskFind.name, taskFind.status, UI_ELEMENTS.PRIORITY_LOW)
     }
   }
 }
