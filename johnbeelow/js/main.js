@@ -47,8 +47,6 @@ function showTaskUi(name, status, priority) {
 function render() {
   UI_ELEMENTS.PRIORITY_HIGH.innerHTML = ''
   UI_ELEMENTS.PRIORITY_LOW.innerHTML = ''
-  UI_ELEMENTS.INPUT_TEXT_HIGH.value = ''
-  UI_ELEMENTS.INPUT_TEXT_LOW.value = ''
 
   for (let taskFind of toDoList) {
     if (taskFind.priority === PRIORITY.HIGH) {
@@ -64,11 +62,13 @@ function render() {
 UI_ELEMENTS.INPUT_FORM_HIGHT.addEventListener('submit', (event) => {
   event.preventDefault()
   addTask(UI_ELEMENTS.INPUT_TEXT_HIGH.value, STATUS.IN_PROGRESS, PRIORITY.HIGH)
+  UI_ELEMENTS.INPUT_TEXT_HIGH.value = ''
   render()
 })
 
 UI_ELEMENTS.INPUT_FORM_LOW.addEventListener('submit', (event) => {
   event.preventDefault()
   addTask(UI_ELEMENTS.INPUT_TEXT_LOW.value, STATUS.IN_PROGRESS, PRIORITY.LOW)
+  UI_ELEMENTS.INPUT_TEXT_LOW.value = ''
   render()
 })
