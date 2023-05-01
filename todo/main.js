@@ -1,83 +1,43 @@
-
-const hagh = document.querySelector('.high');
-const low = document.querySelector('.low');
-const formHigh = document.querySelector('.form-high');
-const formLow = document.querySelector('.form-low');
-const listItem = document.querySelector('.todo');
+import {getElement, high, low, formHigh, formLow, listItem} from './elements.js';
+import {STATUS, PRIORITY, ERROR} from './constants.js';
+import {showElements, showElement, deleteElemntsUi} from './utilitiesUi.js';
 
 let data = [
-    {prioritу: 'HIGH', status: 'unchecked', task: 'This is super interesting theme. You know you fils whith code become big, you want takeout some things somewere from main program.'},
-    {prioritу: 'HIGH', status: 'checked', task: 'Make this TODO list'},
-    {prioritу: 'HIGH', status: 'unchecked', task: 'Start to do task'},
-    {prioritу: 'LOW', status: 'unchecked', task: 'Watch YouTube'},
+    {prioritу: PRIORITY.HIGH, status: STATUS.UNCHECKED, task: 'This is super interesting theme. You know you fils whith code become big, you want takeout some things somewere from main program.'},
+    {prioritу: PRIORITY.HIGH, status: STATUS.CHECKED, task: 'Make this TODO list'},
+    {prioritу: PRIORITY.HIGH, status: STATUS.UNCHECKED, task: 'Start to do task'},
+    {prioritу: PRIORITY.LOW, status: STATUS.UNCHECKED, task: 'Watch YouTube'},
 ];
-
-function showElements(data){
-    data.forEach(item => {
-        showElement(item.prioritу, item.status, item.task)
-    });
-}
-
-function showElement(prioritу, status, task){
-    if(prioritу === 'HIGH'){
-        hagh.insertAdjacentHTML('beforeEnd',`<div class="list-item">
-            <div class="item-checkbox ${status}"></div>
-            <div class="item-text">${task}</div>
-            <div class="item-btn"></div>
-        </div>`)
-    }
-    if(prioritу === 'LOW'){
-        low.insertAdjacentHTML('beforeEnd',`<div class="list-item">
-            <div class="item-checkbox ${status}"></div>
-            <div class="item-text">${task}</div>
-            <div class="item-btn"></div>
-        </div>`)
-    }
-}
-
-showElements(data)
-
 
 function addTask(event){
     event.preventDefault();
     try{
-        const formData = new FormData(event.target)
+        const formData = new FormData(event.target);
         const task = formData.get('task');
         if(task === ''){
-            throw new Error('You must add task into area!')
-            // alert('You must add task into area!')
-            // return;
+            throw new Error(ERROR.EMPTY)
         } 
+        let newData;
         newData = data.filter((item) => {
             if(item.task === task){
                 return true;
             }
         })
         if(newData.length !== 0){
-            throw new Error('There is the task!')
-            // alert('There is the task!')
-            // return;
+            throw new Error(ERROR.DUPLICATE)
         }
         if(event.target.className === 'form-high'){
-            data.push({prioritу: 'HIGH', status: 'unchecked', task: task})
-            render()
+            data.push({prioritу: PRIORITY.HIGH, status: STATUS.UNCHECKED, task})
             event.target.reset()
+            render()
         }
         if(event.target.className === 'form-low'){
-            data.push({prioritу: 'LOW', status: 'unchecked', task: task})
-            render()
+            data.push({prioritу: PRIORITY.LOW, status: STATUS.UNCHECKED, task})
             event.target.reset()
+            render()
         }
     } catch(err){
         alert(err)
-    }
-    
-}
-
-function deleteElemntsUi(){
-    const listItems = document.querySelectorAll('.list-item');
-    for(const item of listItems){
-        item.remove()
     }
 }
 
@@ -119,6 +79,8 @@ function render(){
     deleteElemntsUi()
     showElements(data)
 }
+
+render()
 
 formHigh.addEventListener('submit', addTask)
 formLow.addEventListener('submit', addTask)
