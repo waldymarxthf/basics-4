@@ -61,7 +61,10 @@ const inputTaskLow = document.querySelector('.add_task_low')
 const tasksHigh = document.querySelector('.tasks_high')
 const tasksLow = document.querySelector('.tasks_low')
 const btnAdd = document.querySelectorAll('.button_add_task')
+const containerToDo = document.querySelector('.container_ToDo')
 
+
+// Добавляем отфильтрованную и отсортированную таску в DOM
 function addTaskToHTML(priority, tasksContainer) {
   const filteredTasks = filterTasks(priority)
   const sortedTasks = sortList(filteredTasks)
@@ -81,6 +84,7 @@ function addTaskToHTML(priority, tasksContainer) {
   return
 }
 
+// сортируем массив по статусу
 function sortList(arr) {
   const sortedTasks = arr.sort(task => {
     if(task.status === STATUS.TO_DO) {
@@ -92,11 +96,13 @@ function sortList(arr) {
   return sortedTasks
 }
 
+// фильтр по приоритету
 function filterTasks(priority) {
   const filteredList = list.filter(task => task.priority === priority)
   return filteredList
 }
 
+// рендерим DOM
 function render() {
   tasksHigh.innerHTML = ''
   tasksLow.innerHTML = ''
@@ -104,6 +110,7 @@ function render() {
   addTaskToHTML(PRIORITY.LOW, tasksLow)
 }
 
+// сортируем приоритет по нажатию кнопки
 const btnAddHandler = (event) => {
   event.preventDefault()
   if(event.target === btnAdd[0]) {
@@ -115,5 +122,34 @@ const btnAddHandler = (event) => {
   }
  render()
 }
-
+// слушаем кнопку добавить задачу с перебором массива
 btnAdd.forEach(btn => btn.addEventListener('click', btnAddHandler))
+
+const clickHandler = (event) => {
+  if (event.target.classList.contains('checkbox')) {
+      checkboxHandler(event);
+      render();
+      console.log('sdg')
+      return
+  }  else if (event.target.classList.contains('button_close_task')) {
+      btnDelHandler(event)
+      render();
+      return
+  } 
+}
+
+// обработчик событий для Checkbox.   
+function checkboxHandler(event) {
+  const findTask = event.target.getAttribute('checkbox');
+  const checkedTaskStatus = list.find(obj => obj.id === +findTask);
+  setStatusTask(findTask, checkedTaskStatus === STATUS.TO_DO ? STATUS.DONE : STATUS.TO_DO)
+}
+
+// обработчик событий кнопки delete.  
+function btnDelHandler(event) {
+  const delTask = +event.target.parentElement.getAttribute('button_close_task');
+  deleteTask(delTask);
+}
+
+// слушаем кнопку Checkbox and delete ToDo таски
+containerToDo.addEventListener('click', clickHandler);
