@@ -29,12 +29,38 @@
 //   console.log('Promise выполнен');
 // });
 
-function delay(ms) {
+// function delay(ms) {
+//   return new Promise(function (resolve, reject) {
+//     setTimeout(() => {
+//       resolve('Готово');
+//     }, ms);
+//   });
+// }
+
+// delay(3000).then(result => console.log(`Выполнилось через 3 секунды, результат: ${result}`));
+
+const btn = document.querySelector('.btn');
+
+function imgLoad(src) {
   return new Promise(function (resolve, reject) {
-    setTimeout(() => {
-      resolve('Готово');
-    }, ms);
+    const img = document.createElement('img');
+    img.src = src;
+    img.onload = () => {
+      resolve(img);
+    };
+    img.onerror = () => {
+      reject(new Error('Ошибка загрузки'));
+    };
   });
 }
 
-delay(3000).then(result => console.log(`Выполнилось через 3 секунды, результат: ${result}`));
+btn.addEventListener('click', () => {
+  imgLoad('https://doka.guide/js/promise/images/covers/desktop.svg').then(
+    function (result) {
+      document.body.append(result);
+    },
+    function (error) {
+      alert(error);
+    }
+  );
+});
