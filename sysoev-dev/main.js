@@ -55,7 +55,7 @@ function imgLoad(src) {
 }
 
 btn.addEventListener('click', () => {
-  imgLoad('https://doka.guide/js/promise/images/covers/desktop.svg').then(
+  imgLoad('https://w.wallhaven.cc/full/ex/wallhaven-ex9gwo.png').then(
     function (result) {
       document.body.append(result);
     },
@@ -64,3 +64,7 @@ btn.addEventListener('click', () => {
     }
   );
 });
+
+setTimeout(() => {
+  console.log('3');
+}, 2000);
