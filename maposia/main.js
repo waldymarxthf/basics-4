@@ -14,6 +14,7 @@ let ids = 0
 function generageHTML(priorityBlock, task) {
   const taskContainer = document.createElement('div')
   taskContainer.classList.add('task')
+
   const labelTask = document.createElement('label')
   const checkbox = document.createElement('input')
   checkbox.type = 'checkbox'
@@ -22,7 +23,11 @@ function generageHTML(priorityBlock, task) {
   checkbox.checked = task.done
   checkbox.addEventListener('change', () => {
     task.done = checkbox.checked
-    taskContainer.classList.toggle('completed')
+    if (checkbox.checked) {
+      taskContainer.classList.add('completed')
+    } else {
+      taskContainer.classList.remove('completed')
+    }
   })
 
   const content = document.createElement('div')
