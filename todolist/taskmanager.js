@@ -11,13 +11,12 @@ export function taskManager() {
 
   return {
     addTask(taskName, priority) {
-      const task = {
+      taskList.push({
         id: setTaskID(),
         name: taskName,
         priority: priority,
         status: "TO DO",
-      }
-      taskList.push(task);
+      });
     },
     changeStatus(id, status) {
       const task = taskList.find(task => task.id === id)
