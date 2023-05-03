@@ -23,11 +23,11 @@ function addItem(e) {
 };
 
 
-function displayItems(ingredients, ingredientsList) {
-    ingredientsList.innerHTML = ingredients.map((ingredient, index) => {
+function displayItems(tasks, list) {
+    list.innerHTML = tasks.map((task, index) => {
         return `<li>
-        <input type='checkbox' id='item${index}' data-index='${index}' ${ingredient.checked ? 'checked' : ''}/>
-        <label for='item${index}'>${ingredient.text}</label>
+        <input type='checkbox' id='item${index}' data-index='${index}' ${task.checked ? 'checked' : ''}/>
+        <label for='item${index}'>${task.text}</label>
         </li>`;
     }).join('');
     
