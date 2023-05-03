@@ -8,7 +8,6 @@ const formLowPriority = getElement('.low_priority')
 const inputLowTask = getElement('.input_low_task')
 const tasksLowPriority = getElement('.tasks_lowPriority')
 
-const checkboxes = getElement('.checkbox')
 
 export {
   formHighPriority,
@@ -17,5 +16,4 @@ export {
   formLowPriority,
   inputLowTask,
   tasksLowPriority,
-  checkboxes,
 }

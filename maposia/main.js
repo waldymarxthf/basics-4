@@ -5,7 +5,6 @@ import {
   formLowPriority,
   inputLowTask,
   tasksLowPriority,
-  checkboxes,
 } from './modules/variables.js'
 
 const TASKS = JSON.parse(localStorage.getItem('tasks')) || []
@@ -27,41 +26,29 @@ function deteleTask(evt) {
   render()
 }
 
-function generageHTML(priority) {
-TASKS.map((task, index) => {
-  if (task.priority === 'High') {
-    return  tasksHighPriority.innerHTML += `<div class="task">
-    <label>
-      <input class="checkbox" type="checkbox" data-id=task'${
-        task.id
-      }' data-index='${index}' ${task.done ? 'checked' : ''}></input>
-      <div class="content">${task.text}</div>
-    </label>
-    <img src="/img/close-icon.png" class="del_btn" data-index='${index}'></img>
-  </div>`
-  } else {
-    return  tasksLowPriority.innerHTML += `<div class="task">
-    <label>
-      <input class="checkbox" type="checkbox" data-id=task'${
-        task.id
-      }' data-index='${index}' ${task.done ? 'checked' : ''}></input>
-      <div class="content">${task.text}</div>
-    </label>
-    <img src="/img/close-icon.png" class="del_btn" data-index='${index}'></img>
-  </div>`
-  }
-
-  }).join('')
-
-
+function html(task, index) {
+  return `<div class="task">
+  <label>
+    <input class="checkbox" type="checkbox" data-id=task'${
+      task.id
+    }' data-index='${index}' ${task.done ? 'checked' : ''}></input>
+    <div class="content">${task.text}</div>
+  </label>
+  <img src="/img/close-icon.png" class="del_btn" data-index='${index}'></img>
+</div>`
 }
 
 function render() {
   tasksHighPriority.innerHTML = ''
   tasksLowPriority.innerHTML = ''
-      generageHTML()
-  }
+TASKS.map((task, index) => {
+  task.priority === 'High' ? 
+  tasksHighPriority.innerHTML += html(task, index) :     
+  tasksLowPriority.innerHTML += html(task, index)
+  })
 
+
+}
 
 function addTodo(text, priority) {
   const todo = {
@@ -71,18 +58,12 @@ function addTodo(text, priority) {
   }
 
   TASKS.push(todo)
-  console.log(todo)
   localStorage.setItem('tasks', JSON.stringify(TASKS) )
   render()
   
 }
 
-formHighPriority.addEventListener('submit', (evt) => {
-  evt.preventDefault()
-  const text = inputHighTask.value
-  addTodo(text, 'High')
-  formHighPriority.reset()
-})
+
 
 tasksHighPriority.addEventListener('click', toggleClick)
 
@@ -94,8 +75,14 @@ formLowPriority.addEventListener('submit', (evt) => {
   evt.preventDefault()
   const text = inputLowTask.value
   addTodo(text, 'Low')
-  inputHighTask.value = ''
     formLowPriority.reset()
 })  
+
+formHighPriority.addEventListener('submit', function(evt) {
+  evt.preventDefault()
+  const text = inputHighTask.value
+  addTodo(text, 'High')
+  formHighPriority.reset()
+})
 
 render()
