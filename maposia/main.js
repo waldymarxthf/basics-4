@@ -69,7 +69,7 @@ function addTodo(text, priority) {
     checked: false,
     priority,
   }
-  
+
   TASKS.push(todo)
   console.log(todo)
   localStorage.setItem('tasks', JSON.stringify(TASKS) )
@@ -87,6 +87,8 @@ formHighPriority.addEventListener('submit', (evt) => {
 tasksHighPriority.addEventListener('click', toggleClick)
 
 tasksHighPriority.addEventListener('click', deteleTask)
+
+tasksLowPriority.addEventListener('click', deteleTask)
 
 formLowPriority.addEventListener('submit', (evt) => {
   evt.preventDefault()
