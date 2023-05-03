@@ -8,103 +8,92 @@ import {
   checkboxes,
 } from './modules/variables.js'
 
-const TASKS = []
-let ids = 0
+const TASKS = JSON.parse(localStorage.getItem('tasks')) || []
 
-function generageHTML(priorityBlock, task) {
-  const taskContainer = document.createElement('div')
-  taskContainer.classList.add('task')
+function toggleClick(evt) {
+  if (!evt.target.matches('input')) return
+  const element = evt.target.dataset.index
+  TASKS[element].checked = !TASKS[element].checked
 
-  const labelTask = document.createElement('label')
-  const checkbox = document.createElement('input')
-  checkbox.type = 'checkbox'
-  checkbox.classList.add('checkbox')
-  checkbox.setAttribute('data-id', task.id)
-  checkbox.checked = task.done
-  checkbox.addEventListener('change', () => {
-    task.done = checkbox.checked
-    if (checkbox.checked) {
-      taskContainer.classList.add('completed')
-    } else {
-      taskContainer.classList.remove('completed')
-    }
-  })
+}
 
-  const content = document.createElement('div')
-  content.classList.add('content')
-  content.textContent = task.text
 
-  const delBtn = document.createElement('img')
-  delBtn.src = '/img/close-icon.png'
-  delBtn.classList.add('del_btn')
-  delBtn.setAttribute('data-id', task.id)
-  delBtn.addEventListener('click', () => {
-    delTodo(task.id)
-  })
+function deteleTask(evt) {
+  if(!evt.target.matches('img')) return;
+  const element = evt.target.dataset.index
+  const array = JSON.parse(localStorage.getItem('tasks'))
+  TASKS.splice(element, 1)
+  localStorage.setItem('tasks', JSON.stringify(TASKS) )
+  render()
+}
 
-  priorityBlock.appendChild(taskContainer)
-  taskContainer.appendChild(labelTask)
-  labelTask.appendChild(checkbox)
-  labelTask.appendChild(content)
-  taskContainer.appendChild(delBtn)
+function generageHTML(priority) {
+TASKS.map((task, index) => {
+  if (task.priority === 'High') {
+    return  tasksHighPriority.innerHTML += `<div class="task">
+    <label>
+      <input class="checkbox" type="checkbox" data-id=task'${
+        task.id
+      }' data-index='${index}' ${task.done ? 'checked' : ''}></input>
+      <div class="content">${task.text}</div>
+    </label>
+    <img src="/img/close-icon.png" class="del_btn" data-index='${index}'></img>
+  </div>`
+  } else {
+    return  tasksLowPriority.innerHTML += `<div class="task">
+    <label>
+      <input class="checkbox" type="checkbox" data-id=task'${
+        task.id
+      }' data-index='${index}' ${task.done ? 'checked' : ''}></input>
+      <div class="content">${task.text}</div>
+    </label>
+    <img src="/img/close-icon.png" class="del_btn" data-index='${index}'></img>
+  </div>`
+  }
+
+  }).join('')
+
+
 }
 
 function render() {
   tasksHighPriority.innerHTML = ''
   tasksLowPriority.innerHTML = ''
-  TASKS.forEach((task) => {
-    if (task.priority === 'High') {
-      generageHTML(tasksHighPriority, task)
-    } else {
-      generageHTML(tasksLowPriority, task)
-    }
-  })
-}
+      generageHTML()
+  }
+
 
 function addTodo(text, priority) {
-  const setId = ids
-
   const todo = {
     text,
-    done: false,
+    checked: false,
     priority,
-    id: `${setId + 1}`,
   }
-  ids = setId + 1
+  
   TASKS.push(todo)
-  console.log()
-}
-
-function delTodo(id) {
-  TASKS.forEach((task, index) => {
-    if (task.id === id) {
-      TASKS.splice(index, 1)
-    }
-  })
+  console.log(todo)
+  localStorage.setItem('tasks', JSON.stringify(TASKS) )
   render()
-}
-
-function changeStatus(id) {
-  TASKS.forEach((task) => {
-    if (task.id === id) {
-      task.done = true
-    }
-  })
-  render()
+  
 }
 
 formHighPriority.addEventListener('submit', (evt) => {
   evt.preventDefault()
   const text = inputHighTask.value
   addTodo(text, 'High')
-  inputHighTask.value = ''
-  render()
+  formHighPriority.reset()
 })
+
+tasksHighPriority.addEventListener('click', toggleClick)
+
+tasksHighPriority.addEventListener('click', deteleTask)
 
 formLowPriority.addEventListener('submit', (evt) => {
   evt.preventDefault()
   const text = inputLowTask.value
   addTodo(text, 'Low')
-  inputLowTask.value = ''
-  render()
-})
+  inputHighTask.value = ''
+    formLowPriority.reset()
+})  
+
+render()
