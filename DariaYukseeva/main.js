@@ -112,14 +112,18 @@ function addTasksToDOM(priority, tasksBlock) {
                 <div class="${taskClasses}" data-id="${task.id}">
                     <label>
                         <input type="checkbox"  class="input-checkbox" data-id="${task.id}">
-                        <span class="task-text" >
-                            ${task.name} 
-                        </span>
+                        <span class="task-text" data-id="${task.id}"></span>
                     </label>
                     <button class="btn-task-delete"></button>
                 </div>
             `);
-            
+            // Перебираем все блоки с текстом задач, если атрибут id совпадает с добавляемым, то вставляем туда текст задачи
+            const taskTextBlocks = getElements('.task-text').forEach(block => {
+                if (+block.getAttribute('data-id') === task.id) {
+                    block.textContent = task.name;
+                }
+            });
+           
         });
     }
     return    
