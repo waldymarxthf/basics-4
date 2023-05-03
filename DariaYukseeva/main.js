@@ -112,9 +112,9 @@ function addTasksToDOM(priority, tasksBlock) {
                 <div class="${taskClasses}" data-id="${task.id}">
                     <label>
                         <input type="checkbox"  class="input-checkbox" data-id="${task.id}">
-                        <div class="task-text" >
+                        <span class="task-text" >
                             ${task.name} 
-                        </div>
+                        </span>
                     </label>
                     <button class="btn-task-delete"></button>
                 </div>

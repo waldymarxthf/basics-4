@@ -57,7 +57,6 @@ form > div {
     margin-bottom: 8px;
     overflow-wrap: break-word;
     width: 95%;
-   
 }
 
 .adding-fild {
@@ -92,6 +91,7 @@ input:not([type="submite"]) {
     width: 90%;
     height: 100%;
     hyphens: auto;
+    background: #fff;
 }
 
 .btn-adding {
