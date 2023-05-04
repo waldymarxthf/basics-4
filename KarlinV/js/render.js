@@ -10,7 +10,7 @@ export const render = (data) => {
   if (typeof data !== "object") {
     dataItem.textContent = data;
 
-    dataItem.classList.add("red-text", "text-darken-1");
+    dataItem.classList.add("small", "red-text", "text-darken-1");
   } else {
     dataItem.textContent = `${data.name} is ${data.gender}`;
   }

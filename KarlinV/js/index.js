@@ -31,9 +31,7 @@ form.addEventListener("submit", async (event) => {
     const data = await getData(firstName.value);
 
     if (data.gender === null) {
-      throw new Error(
-        "Имя не найдено в списке имен, или не определен пол для этого имени."
-      );
+      throw new Error("Имя не найдено, или не определен пол для этого имени.");
     }
 
     render(data);
