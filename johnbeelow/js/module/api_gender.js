@@ -35,24 +35,19 @@ export const updateGenderColor = (gender) => {
 }
 
 export async function showGender(name) {
-    let result = ''
-  
-    const firstName = checkInput(name)
-    if (!firstName) return
+  const firstName = checkInput(name)
+  if (!firstName) return
 
-    const serverUrl = 'https://api.genderize.io'
-    const url = `${serverUrl}?name=${firstName}`
-    const response = await fetch(url)
-  
-    if (response.ok) {
-      result = await response.json()
-    } 
-  
-    if (!response.ok) {
-      console.log("Ошибка HTTP: " + response.status);
-    }
-  
-    const color = updateGenderColor(result.gender)
+  const serverUrl = 'https://api.genderize.io'
+  const url = `${serverUrl}?name=${firstName}`
+  const response = await fetch(url)
 
-    render(`${firstName} is ${result.gender}`, color)
+  if (!response.ok) {
+    console.log('Ошибка HTTP: ' + response.status)
   }
+
+  const result = await response.json()
+  const color = updateGenderColor(result.gender)
+
+  render(`${firstName} is ${result.gender}`, color)
+}
