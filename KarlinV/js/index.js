@@ -1,4 +1,4 @@
-import { getData } from "./fetch.js";
+import { getData } from "./genderizeAPI.js";
 import { render } from "./render.js";
 
 const form = document.querySelector("form");
