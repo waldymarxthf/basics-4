@@ -8,6 +8,7 @@ form.addEventListener("submit", async (event) => {
   event.preventDefault();
 
   const firstName = form["firstName"];
+  const btn = form["action"];
 
   if (!firstName.value.trim()) {
     render(err);
@@ -15,20 +16,33 @@ form.addEventListener("submit", async (event) => {
     return;
   }
 
+  const preloaderOn = () => {
+    btn.classList.add("pulse");
+    btn.setAttribute("disabled", "");
+  };
+
+  const preloaderOff = () => {
+    btn.classList.remove("pulse");
+    btn.removeAttribute("disabled");
+  };
+
   try {
+    preloaderOn();
     const data = await getData(firstName.value);
 
     if (data.gender === null) {
       throw new Error(
-        "Имя не найдено в списке имен, или невозможно определить пол для этого имени."
+        "Имя не найдено в списке имен, или не определен пол для этого имени."
       );
     }
 
     render(data);
+    preloaderOff();
   } catch (error) {
     console.error(error);
 
     render(error.message);
+    preloaderOff();
   } finally {
     firstName.value = "";
   }
