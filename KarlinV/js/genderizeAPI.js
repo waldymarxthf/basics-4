@@ -1,6 +1,6 @@
 const serverUrl = "https://api.genderize.io";
 
-export function getData(value) {
+export const getData = (value) => {
   const url = `${serverUrl}?name=${value}`;
 
   return fetch(url)
@@ -16,4 +16,4 @@ export function getData(value) {
 
       return "Произошла ошибка при выполнении запроса";
     });
-}
+};
