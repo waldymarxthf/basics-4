@@ -20,7 +20,7 @@ const checkInput = (value) => {
   return getFirstUpperCase(value)
 }
 
-export const genderColor = (gender) => {
+export const updateGenderColor = (gender) => {
   if (gender === 'male') {
     return CLASS_GENDER.MALE
   }
@@ -54,7 +54,7 @@ export async function showGender(name) {
       console.log("Ошибка HTTP: " + response.status);
     }
   
-    const color = genderColor(result.gender)
+    const color = updateGenderColor(result.gender)
 
     render(`${firstName} is ${result.gender}`, color)
   }
