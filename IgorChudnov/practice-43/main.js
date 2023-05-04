@@ -2,6 +2,9 @@
 const STATUS = ['to do', 'done'];
 // массив приоритетов
 const PRIORITY = ['low', 'high'];
+
+
+// import { TODOLIST } from "./module.js";
 // массив задач со статусами и приоритетом
 let TODOLIST = [
     {task : 'make a bed', status : 'to do', priority : 'high'},
@@ -13,6 +16,8 @@ let TODOLIST = [
     {task : 'feed a cat', status : 'done', priority : 'low'},
     {task : 'ride a whale', status : 'done', priority : 'high'},
 ];
+
+
 
 // метод выведения ошибки
 function error(){
@@ -110,7 +115,7 @@ function addLowTaskClick(){
 let container = document.createElement('div');
 container.classList.add('container');
 // метод рендера заголовка списка (высокого приоритета или низкого)
-function listInputsRender(whatlist, text, inputId, buttonPlus, placeholder){
+function listInputsRender(whatlist, text, actionAdd, inputId, buttonPlus, placeholder){
     let listDiv = document.createElement('div');
     listDiv.classList.add(whatlist);
     listDiv.setAttribute('id', whatlist);
@@ -124,7 +129,7 @@ function listInputsRender(whatlist, text, inputId, buttonPlus, placeholder){
     inputCell.classList.add('cell');
     inputCell.classList.add('inputCell');
     inputCell.setAttribute('id', 'cell');
-    inputCell.setAttribute('onsubmit', 'addHighTaskClick()');
+    inputCell.setAttribute('onsubmit', actionAdd);
     listDiv.appendChild(inputCell);
     let inputTaskAdd = document.createElement('input');
     inputTaskAdd.setAttribute('id', inputId);
@@ -170,8 +175,8 @@ function render(){
     const indexHigh = TODOLIST.filter(object => object.priority === 'high');
     const indexLow = TODOLIST.filter(object => object.priority === 'low');
     container.innerHTML = '';
-    listInputsRender('highlist', 'HIGH', 'inputTaskHigh', 'plusTaskHigh', 'Добавить важных дел');
-    listInputsRender('lowlist', 'LOW', 'inputTaskLow', 'plusTaskLow', 'Добавить не важных дел');
+    listInputsRender('highlist', 'HIGH','addHighTaskClick()', 'inputTaskHigh', 'plusTaskHigh', 'Добавить важных дел');
+    listInputsRender('lowlist', 'LOW', 'addLowTaskClick()', 'inputTaskLow', 'plusTaskLow', 'Добавить не важных дел');
     indexHigh.forEach(object => {
         cellAdd(highlist, object.task, object.status);
     });
