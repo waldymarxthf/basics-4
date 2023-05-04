@@ -4,55 +4,45 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TODO</title>
     <link rel="stylesheet" href="./style.css" />
-    <title>Document</title>
   </head>
+
   <body>
     <div class="container">
-      <div class="wrapper">
-        <h2>HIGH</h2>
-        <form>
-          <input type="text" class="highTaskValue" placeholder="Добавить" />
-          <button type="submit" class="btn-adding btn-adding-high" value="" alt="Добавить" />
-        </form>
-        <div class="tasks-high-priority">
-          <div class="task-item task-high-priority">
-            <label>
-              <input type="checkbox" class="input-checkbox" />
-              <div class="task-text">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde beatae quos possimus nostrum pariatur
-                nobis sequi distinctio officia.
-              </div>
-            </label>
-            <button class="btn-task-delete"></button>
-          </div>
+      <div class="todo_container">
+        <div class="task_high_container">
+          <p class="priority">HIGH</p>
+
+          <form class="task_form_high">
+            <div class="add_task">
+              <label for="task">
+                <input class="input_text_high" type="text" placeholder="Добавить задачу" />
+                <button class="button_add_task">+</button>
+              </label>
+            </div>
+          </form>
+
+          <div class="task_priority_high"></div>
         </div>
-        <h2>LOW</h2>
-        <form class="low-form">
-          <svg
-            class="low-svg"
-            width="20"
-            height="20"
-            viewBox="0 0 20 20"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg">
-            <line
-              y1="-0.5"
-              x2="18.0096"
-              y2="-0.5"
-              transform="matrix(0.999988 -0.00481873 0.0748716 0.997193 1 10)"
-              stroke="#998899" />
-            <line
-              y1="-0.5"
-              x2="18.0401"
-              y2="-0.5"
-              transform="matrix(-0.0192905 -0.999814 0.998699 0.0509976 10.5404 18.8444)"
-              stroke="#998899" />
-          </svg>
-          <input type="text" class="lowTaskValue" placeholder="Добавить" />
-        </form>
+
+        <div class="task_low_container">
+          <p class="priority">LOW</p>
+
+          <form class="task_form_low">
+            <div class="add_task">
+              <label for="task">
+                <input class="input_text_low" type="text" placeholder="Добавить задачу" />
+                <button class="button_add_task">+</button>
+              </label>
+            </div>
+          </form>
+
+          <div class="task_priority_low"></div>
+        </div>
       </div>
     </div>
-    <script src="./main.js"></script>
+
+    <script type="module" src="./main.js"></script>
   </body>
 </html>
