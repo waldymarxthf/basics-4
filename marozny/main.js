@@ -1,6 +1,5 @@
 const qS = (element) => document.querySelector(element);
 const input = qS(".input-name");
-const submit = qS(".button-submit");
 const form = qS(".main-form");
 
 async function showGender(event) {
@@ -19,5 +18,4 @@ async function showGender(event) {
     form.reset();
 }
 
-submit.addEventListener("click", showGender);
 form.addEventListener("submit", showGender);
