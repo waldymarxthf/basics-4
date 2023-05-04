@@ -34,8 +34,6 @@ export const updateGenderColor = (gender) => {
   }
 }
 
-
-
 export async function showGender(name) {
     let result = ''
   
