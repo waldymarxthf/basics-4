@@ -19,7 +19,7 @@ function clearInpt() {
 }
 
 
-form.addEventListener('submit', async (e) => {
+form.addEventListener('submit', (e) => {
     e.preventDefault();
     getRequest();
     clearInpt();
