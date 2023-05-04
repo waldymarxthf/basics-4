@@ -1,5 +1,5 @@
-import { formElement, genderize } from "./modules/ui-variables.js";
-import { getLink, getIndex, isPaulExist } from "./modules/utils.js";
+import { formElement, genderize, inputElement } from "./modules/ui-variables.js";
+import { getLink, getIndex, isPaulExist, isInputEmpty } from "./modules/utils.js";
 import { saveGenderizeToLocalStorage, loadPaul } from "./modules/localStorage.js";
 
 export let history = [];
@@ -25,41 +25,38 @@ export function render() {
 function deleteGenderize(newGenderize) {
 	let index = getIndex(newGenderize);
 	history.splice(index, 1);
-	console.log(history)
+	console.log(history);
 	render();
 	saveGenderizeToLocalStorage();
 }
 
 async function getPaul() {
-
 	try {
+		if (isInputEmpty()) {
+			throw new Error('Поле не может быть пустым')
+		}
+
 		let response = await fetch(getLink());
 		let paul = await response.json();
 
 		if (isPaulExist(paul)) {
-			alert('Такое имя уже определено')
-			console.error('Такое имя уже определено')
-			return
+			throw new Error("Такое имя уже определено")
 		}
 
 		if (paul.gender) {
-
 			history.push({
 				name: paul.name,
 				gender: paul.gender,
 			});
-
 		} else {
-			alert("Не удалось определить пол");
-			console.error("Не удалось определить пол")
+			throw new Error("Не удалось определить пол")
 		}
-
 	} catch (error) {
 		alert(`Error: ${error.message}`);
-		console.error(error)
+		console.error(error);
 	}
 
-	console.log(history)
+	console.log(history);
 	render();
 	saveGenderizeToLocalStorage();
 }

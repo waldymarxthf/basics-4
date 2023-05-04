@@ -1,4 +1,4 @@
-import { formElement } from "./ui-variables.js";
+import { formElement, inputElement } from "./ui-variables.js";
 import { history } from "../script.js";
 
 export function getLink() {
@@ -18,4 +18,8 @@ export function isPaulExist(paul) {
 		}
 	}
 	return false
+}
+
+export function isInputEmpty() {
+	return inputElement.value.trim() === ''
 }
