@@ -3,14 +3,8 @@ import { history } from "../script.js";
 
 export function getLink() {
 	const serverUrl = 'https://api.genderize.io';
-	const url = `${serverUrl}?name=${getName()}`;
-	return url
-}
-
-function getName() {
-	const formData = new FormData(formElement);
-	const name = formData.get('name');
-	return name
+	const name = new FormData(formElement).get('name');
+	return `${serverUrl}?name=${name}`;
 }
 
 export function getIndex(paul) {
