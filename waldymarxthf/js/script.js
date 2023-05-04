@@ -1,5 +1,5 @@
-import { formElement, genderize, inputElement } from "./modules/ui-variables.js";
-import { getLink, getIndex, isPaulExist, isInputEmpty } from "./modules/utils.js";
+import { formElement, genderize } from "./modules/ui-variables.js";
+import { getLink, getIndex, isPaulExist, isInputEmpty, showLoader, hideLoader } from "./modules/utils.js";
 import { saveGenderizeToLocalStorage, loadPaul } from "./modules/localStorage.js";
 
 export let history = [];
@@ -31,6 +31,7 @@ function deleteGenderize(newGenderize) {
 }
 
 async function getPaul() {
+	showLoader()
 	try {
 		if (isInputEmpty()) {
 			throw new Error('Поле не может быть пустым')
@@ -54,6 +55,8 @@ async function getPaul() {
 	} catch (error) {
 		alert(`Error: ${error.message}`);
 		console.error(error);
+	} finally {
+		hideLoader()
 	}
 
 	console.log(history);

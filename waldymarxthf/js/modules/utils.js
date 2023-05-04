@@ -1,4 +1,4 @@
-import { formElement, inputElement } from "./ui-variables.js";
+import { formElement, inputElement, preloader } from "./ui-variables.js";
 import { history } from "../script.js";
 
 export function getLink() {
@@ -22,4 +22,12 @@ export function isPaulExist(paul) {
 
 export function isInputEmpty() {
 	return inputElement.value.trim() === ''
+}
+
+export function showLoader() {
+	preloader.style.display = 'block'
+}
+
+export function hideLoader() {
+	preloader.style.display = 'none'
 }

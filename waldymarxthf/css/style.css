@@ -57,4 +57,14 @@ body {
 .genderize-item {
   font-family: Roboto;
   cursor: pointer;
+}
+
+.hide {
+  display: none;
+}
+
+.visible {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }/*# sourceMappingURL=style.css.map */
