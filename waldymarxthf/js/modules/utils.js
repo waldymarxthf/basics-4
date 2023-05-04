@@ -10,3 +10,12 @@ export function getLink() {
 export function getIndex(paul) {
 	return history.findIndex(({name, gender}) => `${name} is ${gender}` === paul.textContent)
 }
+
+export function isPaulExist(paul) {
+	for (let i = 0; i < history.length; i++) {
+		if (history[i].name === paul.name) {
+			return true
+		}
+	}
+	return false
+}

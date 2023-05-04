@@ -1,5 +1,5 @@
 import { formElement, genderize } from "./modules/ui-variables.js";
-import { getLink, getIndex } from "./modules/utils.js";
+import { getLink, getIndex, isPaulExist } from "./modules/utils.js";
 import { saveGenderizeToLocalStorage, loadPaul } from "./modules/localStorage.js";
 
 export let history = [];
@@ -25,6 +25,7 @@ export function render() {
 function deleteGenderize(newGenderize) {
 	let index = getIndex(newGenderize);
 	history.splice(index, 1);
+	console.log(history)
 	render();
 	saveGenderizeToLocalStorage();
 }
@@ -34,6 +35,12 @@ async function getPaul() {
 	try {
 		let response = await fetch(getLink());
 		let paul = await response.json();
+
+		if (isPaulExist(paul)) {
+			alert('Такое имя уже определено')
+			console.error('Такое имя уже определено')
+			return
+		}
 
 		if (paul.gender) {
 
@@ -52,6 +59,7 @@ async function getPaul() {
 		console.error(error)
 	}
 
+	console.log(history)
 	render();
 	saveGenderizeToLocalStorage();
 }
