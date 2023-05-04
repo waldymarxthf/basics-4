@@ -7,3 +7,33 @@ body {
     align-items: center;
     flex-direction: column;
 }
+
+
+
+.gender {
+    font-size: 30px;
+    background-color:bisque;
+    display: block;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.hide {
+    display: none;
+}
+
+.refreshBtn {
+    border: none;
+    background-color:dimgrey;
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+}
+.refreshBtn:hover {
+    background-color:rgb(78, 78, 78);
+}
+
+.refreshBtn:active {
+    background-color:rgb(45, 45, 45); 
+}

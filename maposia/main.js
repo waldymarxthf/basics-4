@@ -1,10 +1,14 @@
 const form = document.querySelector('.genderize')
 const inputForm = document.querySelector('.input')
 const gender = document.querySelector('.gender')
+const showForm = document.querySelector('.showForm')
+const refreshBtn = document.querySelector('.refreshBtn')
 
 const serverUrl = 'https://api.genderize.io'
 
 function showGender(person) {
+    form.classList.add('hide')
+    showForm.classList.remove('hide')
     if(person.gender){
         gender.textContent = person.gender
     } else {
@@ -28,3 +32,6 @@ form.addEventListener('submit', (evt) => {
 })
 
 
+refreshBtn.addEventListener('click', () =>{
+    location.reload()
+})
