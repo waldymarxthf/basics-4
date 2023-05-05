@@ -10,7 +10,7 @@ export const API_LOG = {
   SERVER_COMPLETE: 'The server response is successful',
   SERVER_ERROR: 'Error loading data',
   GENDER_IS_NOT: 'Gender is not defined',
-  MESSAGE_ERROR: 'Erorr'
+  MESSAGE_ERROR: 'Erorr',
 }
 
 const isInputValid = (str) => !str || str.trim() === ''
@@ -28,21 +28,18 @@ const getFirstUpperCase = (str) => {
 }
 
 const checkInput = (value) => {
-  if (isInputValid(value) || !isInputNumber(value)) return;
+  if (isInputValid(value) || !isInputNumber(value)) return
   return getFirstUpperCase(value)
 }
 
-export const getGenderColor = (gender) => {
-  if (gender === 'male') {
-    return CLASS_GENDER.MALE
-  }
-
-  if (gender === 'female') {
-    return CLASS_GENDER.FEMALE
-  }
-
-  if (gender === null) {
-    return CLASS_GENDER.UNKOWN
+export function getGenderColor(gender) {
+  switch (gender) {
+    case 'male':
+      return CLASS_GENDER.MALE
+    case 'female':
+      return CLASS_GENDER.FEMALE
+    case null:
+      return CLASS_GENDER.UNKOWN
   }
 }
 
@@ -53,7 +50,7 @@ export async function showGender(name) {
 
     const url = `${API.URL_SERVER}${API.URL_NAME}${firstName}`
     const response = await fetch(url)
-    
+
     if (response.ok) {
       console.warn(API_LOG.SERVER_COMPLETE)
       const result = await response.json()
@@ -61,10 +58,9 @@ export async function showGender(name) {
       render(`${firstName} is ${result.gender}`, color)
     }
 
-    if (!response.ok)  {
+    if (!response.ok) {
       console.error(`${API_LOG.SERVER_ERROR}: ${response.status}`)
     }
-
   } catch (error) {
     console.error(`${API_LOG.MESSAGE_ERROR}: ${error.message}`)
   }
