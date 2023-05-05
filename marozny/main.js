@@ -7,15 +7,21 @@ async function showGender(event) {
     const firstName = input.value;
     const serverUrl = 'https://api.genderize.io';
     const url = `${serverUrl}?name=${firstName}`;
-
-    let response = await fetch(url);
-    if (response.ok) {
+    try {
+        let response = await fetch(url);
         let json = await response.json();
         alert(json.name + ' is ' + json.gender);
-    } else {
-    alert("Ошибка HTTP: " + response.status);
+    } catch(err) {
+        alert(err);
     }
+}
     form.reset();
+//     fetch(url)
+//     .then(response => response.json())
+//     .then(data => alert(`${data.name} is ${data.gender}`))
+//     .catch(error => alert(`Error: ${error.message}`));
+
+//   form.reset();
 }
 
 form.addEventListener("submit", showGender);
