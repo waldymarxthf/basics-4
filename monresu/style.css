@@ -1,0 +1,15 @@
+.result p:hover {
+  cursor: pointer;
+}
+
+.container {
+  text-align: center;
+  padding-top: 200px;
+}
+
+.person {
+  width: 400px;
+  margin: 16px auto;
+  border: 1px #836363 solid;
+  padding: 4px 2px;
+}

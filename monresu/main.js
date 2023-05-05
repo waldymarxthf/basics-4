@@ -4,49 +4,79 @@ const resultNode = document.querySelector('.result');
 
 const serverUrl = 'https://api.genderize.io';
 
-let names = [];
+let people = [];
 
-function setToLocalStorage(nams) {
-  localStorage.setItem('names', JSON.stringify(nams));
-  return;
+const saveToLocalStorage = () => {
+  localStorage.setItem('people', JSON.stringify(people));
 }
 
-function getFromLocalStorage() {
-  const storedNames = JSON.parse(localStorage.getItem('names'));
-  return storedNames === null ? [] : storedNames;
-} 
-
+const loadFromLocalStorage = () => {
+  const res = localStorage.getItem('people');
+  people = res ? JSON.parse(res) : [];
+}
 
 const getURL = (name) => `${serverUrl}?name=${name}`;
 
+const nameIsCorrect = (name) => {
+  const index = people.findIndex(person => person.name.toLowerCase() === name.toLowerCase());
+  if (index !== -1) return 0;
+  return 1;
+}
+
+function createPersonNode(person) {
+  const paragraph = document.createElement('p');
+  paragraph.textContent = `${person.name} is ${person.gender}. Popular is: ${person.count}`;
+  paragraph.classList.add('person')
+  paragraph.addEventListener('click', () => {
+    const index = people.indexOf(person);
+    people.splice(index, 1);
+    saveToLocalStorage();
+    render();
+  })
+  return paragraph;
+}
+
 function render() {
   resultNode.innerHTML = '';
-  names.forEach(person => {
-    const el = document.createElement('p');
-    el.innerText = `${person.name} is ${person.gender}. Popular is: ${person.count}`;
-    resultNode.append(el);
-    el.addEventListener('click', () => {
-      const i = names.indexOf(person);
-      names.splice(i, 1);
-      setToLocalStorage(names);
-      resultNode.removeChild(el);
-      render();
-    });
-  }) 
+  people.forEach((person) => {
+    const paragraph = createPersonNode(person);
+    resultNode.append(paragraph);
+  }); 
 }
+
+const clearInput = () => {
+  inputNameNode.value = '';
+  return;
+}
+
+const ERRORS = {
+  nameIsNotExist: new Error('Имя не существует!'),
+  nameIsExist: new Error('Имя уже есть в списке!'),
+};
 
 async function clickHandler(e) {
   e.preventDefault();
-  console.log('names before push:', names);
-  const url = getURL(inputNameNode.value)
-  const response = await fetch(url);
-  let answer = await response.json();
-  resultNode.innerText += `${answer.name} is ${answer.gender}. Popular is: ${answer.count} \n`;
-  inputNameNode.value = '';
-  names.push(answer);
-  setToLocalStorage(names);
+  const name = inputNameNode.value;
+  clearInput();
+  if (nameIsCorrect(name)) {
+    const url = getURL(name)
+    const response = await fetch(url);
+    let answer = await response.json();
+    if (!answer.gender) { 
+      console.error(ERRORS.nameIsNotExist);
+      return;
+    }
+    people.push(answer);
+    saveToLocalStorage();
+    render();
+    return;
+  } else {
+    console.error(ERRORS.nameIsExist)
+    render();
+    return;
+  }
 }
 
-names = getFromLocalStorage();
+loadFromLocalStorage();
 render();
 formSendNameNode.addEventListener('submit', clickHandler)
