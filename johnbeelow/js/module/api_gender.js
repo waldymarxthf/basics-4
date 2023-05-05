@@ -1,6 +1,18 @@
 import { render } from '../main.js'
 import { CLASS_GENDER } from './ui_elements.js'
 
+const API = {
+  URL_SERVER: 'https://api.genderize.io',
+  URL_NAME: '?name=',
+}
+
+export const API_LOG = {
+  SERVER_COMPLETE: 'The server response is successful',
+  SERVER_ERROR: 'Error loading data',
+  GENDER_IS_NOT: 'Gender is not defined',
+  MESSAGE_ERROR: 'Erorr'
+}
+
 const isInputValid = (str) => !str || str.trim() === ''
 const isInputNumber = (number) => isNaN(number)
 const isLowerCase = (str) => str === str.toLowerCase()
@@ -16,11 +28,11 @@ const getFirstUpperCase = (str) => {
 }
 
 const checkInput = (value) => {
-  if (isInputValid(value) || !isInputNumber(value)) return
+  if (isInputValid(value) || !isInputNumber(value)) return;
   return getFirstUpperCase(value)
 }
 
-export const updateGenderColor = (gender) => {
+export const getGenderColor = (gender) => {
   if (gender === 'male') {
     return CLASS_GENDER.MALE
   }
@@ -35,19 +47,25 @@ export const updateGenderColor = (gender) => {
 }
 
 export async function showGender(name) {
-  const firstName = checkInput(name)
-  if (!firstName) return
+  try {
+    const firstName = checkInput(name)
+    if (!firstName) return
 
-  const serverUrl = 'https://api.genderize.io'
-  const url = `${serverUrl}?name=${firstName}`
-  const response = await fetch(url)
+    const url = `${API.URL_SERVER}${API.URL_NAME}${firstName}`
+    const response = await fetch(url)
+    
+    if (response.ok) {
+      console.warn(API_LOG.SERVER_COMPLETE)
+      const result = await response.json()
+      const color = getGenderColor(result.gender)
+      render(`${firstName} is ${result.gender}`, color)
+    }
 
-  if (!response.ok) {
-    console.log('Ошибка HTTP: ' + response.status)
+    if (!response.ok)  {
+      console.error(`${API_LOG.SERVER_ERROR}: ${response.status}`)
+    }
+
+  } catch (error) {
+    console.error(`${API_LOG.MESSAGE_ERROR}: ${error.message}`)
   }
-
-  const result = await response.json()
-  const color = updateGenderColor(result.gender)
-
-  render(`${firstName} is ${result.gender}`, color)
 }
