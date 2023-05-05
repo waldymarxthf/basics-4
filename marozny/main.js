@@ -22,6 +22,5 @@ async function showGender(event) {
 //     .catch(error => alert(`Error: ${error.message}`));
 
 //   form.reset();
-}
 
 form.addEventListener("submit", showGender);
