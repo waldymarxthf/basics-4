@@ -3,7 +3,9 @@
 body{
 	display: flex;
 	flex-direction: column;
+	justify-content: center;
 	align-items: center;
+	height: 300px;
 }
 
 .name{
@@ -12,9 +14,10 @@ body{
 		width: 30px;
 		height: 30px;
 		border: none;
-		align-items: right;
 		cursor: pointer;
-		background: transparent;
+		position: relative;
+		background: url(../assets/search.svg) no-repeat;
+		margin-top: 2px;
 	}
 	&-input{
 		margin: 0;
@@ -29,7 +32,6 @@ body{
 	}
 	&-form{
 		display: flex;
-		margin-top: 300px;
 		border: 1px solid gray;
 		border-radius: 5px;
 		justify-content: space-between;
@@ -49,10 +51,6 @@ body{
 	}
 }
 
-.hide{
+.preloader{
 	display: none;
-}
-
-.visible{
-	display: flex;
 }
