@@ -1,7 +1,7 @@
 import { UI_ELEMENTS, createTag, CLASS_GENDER } from './module/ui_elements.js'
 import { showGender, API_LOG } from './module/api_gender.js'
 
-export const render = (result, gender) => {
+export function render(result, gender) {
   const resultSpan = createTag('span')
   resultSpan.classList.add(gender)
 
