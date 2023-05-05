@@ -1,20 +1,20 @@
 import { UI_ELEMENTS, createTag, CLASS_GENDER } from './module/ui_elements.js'
-import { showGender } from './module/api_gender.js'
+import { showGender, API_LOG } from './module/api_gender.js'
 
 export const render = (result, gender) => {
-  UI_ELEMENTS.RESULT_CONTAINER.innerHTML = ''
-
   const resultSpan = createTag('span')
   resultSpan.classList.add(gender)
-  UI_ELEMENTS.RESULT_CONTAINER.append(resultSpan)
 
   if (gender === CLASS_GENDER.UNKOWN) {
-    resultSpan.textContent = 'Пол не определен'
-  } 
+    resultSpan.textContent = API_LOG.GENDER_IS_NOT
+  }
 
   if (gender !== CLASS_GENDER.UNKOWN) {
     resultSpan.textContent = result
   }
+
+  UI_ELEMENTS.RESULT_CONTAINER.innerHTML = ''
+  UI_ELEMENTS.RESULT_CONTAINER.append(resultSpan)
 }
 
 UI_ELEMENTS.INPUT_FORM.addEventListener('submit', (event) => {
