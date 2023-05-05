@@ -4,14 +4,8 @@ const form = document.querySelector('.form');
 
 function clearInpt() {
     inputValue.value = '';
-}
+};
 
-
-form.addEventListener('submit',  (e) => {
-    e.preventDefault();
-    getRequest();
-    clearInpt();
-})
 
 
 async function getRequest() {
@@ -24,11 +18,25 @@ async function getRequest() {
         alert(`${firstName} is ${data.gender}`);
         
     } catch(Err) {
-        console.error(Err);
-    }
-     
+        renderMesssage(Err);
+    };
+};
 
+function renderMesssage() {
+    const body = document.querySelector('body');
+    body.style.backgroundColor = 'red';
+    form.innerHTML = '';
+    alert('Ошибка!');
 }
+
+form.addEventListener('submit',  (e) => {
+    e.preventDefault();
+    getRequest();
+    clearInpt();
+});
+
+
+
 
 
 
