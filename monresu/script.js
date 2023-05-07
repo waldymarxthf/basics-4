@@ -13,5 +13,6 @@ tabs.forEach((tab, index) => {
 });
 
 form.addEventListener('submit', (event) => {
-	event.preventDefault()
+	event.preventDefault();
+	form.reset();
 })
