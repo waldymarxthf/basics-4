@@ -1,27 +1,79 @@
-const button = document.querySelector('button');
-const areaNow = document.querySelector('.container');
+const buttonNow = document.querySelector('.tabs-button-now')
+const buttonDetails = document.querySelector('.tabs-button-details');
+const buttonForecast = document.querySelector('.tabs-button-forecast');
+
+const areaNow = document.querySelector('.content-area_display-now');
+const areaDetails = document.querySelector('.content-area_display-details');
+const areaForecast = document.querySelector('.content-area_display-forecast');
+
 const parentNow = document.querySelector('.content-area');
-const areaFor = document.querySelector('.content-area_display-forecast');
-const tabNow = document.querySelector('.content-area_tabs-now');
-const tabDetails = document.querySelector('.tabs-button');
+const tabDetails = document.querySelector('.tabs-button-details');
 
-function tabDetailsOn(areaNow, tabNow, tabDetails) {
-    // areaNow.classList.add('area-now');
+
+
+
+function tabDetailsOn() {
     areaNow.style.display = 'none';
-    // const newElem = document.createElement('div');
-    // newElem.classList.add('details');
-    // parentNow.insertBefore(newElem, parentNow.firstChild);
-    // areaFor.classList.add('area-forecast');
-    tabNow.style['background-color'] = '#eeeeee';
-    tabNow.style.color = '#1a1a1a';
-    tabNow.style['border-bottom'] = '2px solid #292929';
+    areaDetails.style.display = 'block'
+    areaForecast.style.display = 'none';
+
+    buttonNow.style['background-color'] = '#eeeeee';
+    buttonNow.style.color = '#1a1a1a';
+    buttonNow.style['border-bottom'] = '1.5px solid #292929';
+
+    buttonDetails.style['background-color'] = '#1a1a1a';
+    buttonDetails.style.color = '#eeeeee';
+
+    buttonForecast.style['background-color'] = '#eeeeee';
+    buttonForecast.style.color = '#1a1a1a';
+};
+
+function tabNowOn() {
+    areaNow.style.display = 'block';
+    areaDetails.style.display = 'none';
+    areaForecast.style.display = 'none';
+
+    buttonDetails.style['background-color'] = '#eeeeee';
+    buttonDetails.style.color = '#1a1a1a';
+
+    buttonNow.style['background-color'] = '#1a1a1a';
+    buttonNow.style.color = '#eeeeee';
+
+    buttonForecast.style['background-color'] = '#eeeeee';
+    buttonForecast.style.color = '#1a1a1a';
+};
 
 
-    tabDetails.style['background-color'] = '#1a1a1a';
-    tabDetails.style.color = '#eeeeee';
+function tabForecastOn() {
+    areaNow.style.display = 'none';
+    areaDetails.style.display = 'none';
+
+    areaForecast.style.display = 'block';
+
+    buttonNow.style['border-bottom'] = '1px solid #292929';
+
+    buttonDetails.style['background-color'] = '#eeeeee';
+    buttonDetails.style.color = '#1a1a1a';
+    buttonDetails.style['border-left'] = '1px solid #292929';
+
+
+    buttonNow.style['background-color'] = '#eeeeee';
+    buttonNow.style.color = '#1a1a1a';
+
+    buttonForecast.style['background-color'] = '#1a1a1a';
+    buttonForecast.style.color = '#eeeeee';
+   
+
 }
 
-button.addEventListener('click', () => {
-    tabDetailsOn(areaNow, tabNow, tabDetails);
-    
+buttonDetails.addEventListener('click', () => {
+    tabDetailsOn();
 });
+
+buttonNow.addEventListener('click', () => {
+    tabNowOn();
+});
+
+buttonForecast.addEventListener('click', () => {
+    tabForecastOn();
+})

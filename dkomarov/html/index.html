@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,17 +11,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <title>Document</title>
 </head>
+
 <body>
     <section class="section">
         <div class="wrapper">
-            <header class="header">
-                <h2>Aktobe</h2>
-                <div class="search-img">
-                    <img src="/basics-4/dkomarov/img/search.svg" alt="loop">
-                </div>
+            <header>
+                <form action="#" class="search">
+                    <input type="text" class="search-input" placeholder="Actobe" >
+                    <div class="search-img">
+                        <img src="/basics-4/dkomarov/img/search.svg" alt="loop">
+                    </div>
+                </form>
             </header>
+
             <div class="area">
                 <div class="content-area">
+
+                    <!--NOW-->
                     <div class="content-area_display-now">
                         <div class="container">
                             <div class="temperature">
@@ -33,36 +40,52 @@
                             </div>
                             <div class="location-target">
                                 <p>Aktobe</p>
-                                <div>
+                                <button class="content-area_display-now-btn">
                                     <img src="/basics-4/dkomarov/img/Shape.svg" alt="">
-                                </div>
+                                </button>
                             </div>
                         </div>
                     </div>
+
+                    <!--DETAILS-->
+                    <div class="content-area_display-details" style="display: none;">
+                        <p class="display-details_title ">Aktobe</p>
+                        <div class="display-details_info">
+                            <p class="display-details_info-text">Temperature: 14 <br>
+                                Feels like: 10 <br>
+                                Weather: Clouds <br>
+                                Sunrise: 03:21 <br>
+                                Sunset: 18:54</p>
+                        </div>
+                    </div>
+
+
                     <!-- FORECAST -->
-                    <!-- <div class="content-area_display-forecast">
+                    <div class="content-area_display-forecast" style="display: none;">
                         <div class="title-display">
                             <p>Aktobe</p>
                         </div>
                         <div class="forecast-data_display-one">
-                            
+
                         </div>
                         <div class="forecast-data_display-two">
-                            
+
                         </div>
-                        
-                    </div> -->
+
+                    </div>
 
 
+
+                    <!--TABS-->
                     <div class="content-area_tabs">
                         <div class="content-area_tabs-now">
-                            <p>Now</p>
+                            <button class="tabs-button-now">Now</button>
                         </div>
                         <div class="content-area_tabs-details">
-                            <button class="tabs-button">Details</button>
+                            <button class="tabs-button-details">Details</button>
                         </div>
                         <div class="content-area_tabs-forecast">
-                            <p>Forecast</p>
+                            <button class="tabs-button-forecast">Forecast</button>
                         </div>
                     </div>
                 </div>
@@ -73,14 +96,15 @@
                     <div class="locations">
                         <p>Amur <br> Samara <br> Bali <br> Dane <br> Kilo <br> Nur-Sultan</p>
                     </div>
-                    
-                    
+
+
                 </div>
             </div>
-            
+
         </div>
-       
+
     </section>
     <script src="/basics-4/dkomarov/main.js"></script>
 </body>
+
 </html>
