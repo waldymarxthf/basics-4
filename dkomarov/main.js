@@ -1,12 +1,11 @@
 const inputValue = document.querySelector('.inputName');
 const button = document.querySelector('.btn');
 const form = document.querySelector('.form');
+const resultDiv = document.querySelector('.result-wrapper');
 
 function clearInpt() {
     inputValue.value = '';
 };
-
-
 
 async function getRequest() {
     const firstName = inputValue.value;
@@ -15,14 +14,17 @@ async function getRequest() {
     try {
         const response = await fetch(url);
         const data = await response.json()
-        alert(`${firstName} is ${data.gender}`);
+        const gender = data.gender
+        alert(`${firstName} is ${gender}`);
+        
+        
         
     } catch(Err) {
-        renderMesssage(Err);
+        ErrorMessage(Err);
     };
 };
 
-function renderMesssage() {
+function ErrorMessage() {
     const body = document.querySelector('body');
     body.style.backgroundColor = 'red';
     form.innerHTML = '';
@@ -34,10 +36,3 @@ form.addEventListener('submit',  (e) => {
     getRequest();
     clearInpt();
 });
-
-
-
-
-
-
-
