@@ -134,6 +134,14 @@ body {
   border-right: 1px solid #000;
 }
 
+.tabs__buttons-item--active {
+  background-color: #000;
+}
+
+.tabs__buttons-item--active a {
+  color: #fff;
+}
+
 .tabs__buttons-link {
   text-decoration: none;
   color: #000;
