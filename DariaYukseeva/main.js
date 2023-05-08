@@ -19,19 +19,22 @@ async function getGenderByName(name) {
     try {
         if (!!name) {
             const url = `${serverUrl}?name=${name}`;
-            const response = await fetch(url);
+            const response = await fetch(url)
             const nameInfo = await response.json();
             const gender = (nameInfo.gender !== null) ? nameInfo.gender : 'not found';
             addResultToStorage(name, gender);
-           
+               
             firstName.value = '';
             return  nameInfo;
         }
     }
-    catch (err){
-        alert(`Error: ${err.message}`)
+    catch(err) {
+        alert(err);
+        firstName.value = '';
     }
+        
     
+        
 }
 
 const addResultToStorage = (name, gender) => {
