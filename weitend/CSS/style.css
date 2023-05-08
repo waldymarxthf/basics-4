@@ -116,11 +116,36 @@ body {
 .weather__locations-list {
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: 15px;
   padding: 40px 0 40px 18px;
   height: 100%;
 }
 .weather__locations-list-text {
+  font-size: 24px;
+  line-height: 28px;
+}
+
+.on-tab {
+  background-color: #000;
+  color: #fff;
+}
+
+.hide {
+  display: none;
+}
+
+.weather__details-title {
+  font-size: 24px;
+  line-height: 28px;
+  margin: 30px 0 0px 30px;
+}
+
+.weather__details-content {
+  margin: 0 0 40px 15px;
+}
+
+.weather__details-text {
+  margin-top: 13px;
   font-size: 24px;
   line-height: 28px;
 }
