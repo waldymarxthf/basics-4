@@ -12,7 +12,7 @@
 
 
 body {
-    background-color: #9a9a9a;
+    background-color: #646464;
     font-family: 'Roboto', sans-serif;
     color: #656565;
 }
@@ -24,7 +24,7 @@ h2 {
 .section {
     width: 621px;
     height: 462px;
-    background-color: #eeeeee;
+    background-color: #ffffff;
     position: absolute;
     margin: 100px 400px;
 
@@ -57,8 +57,12 @@ h2 {
     height: 43px;
     border: none;
     outline: none;
-    background-color: #eeeeee;
+    background-color: #ffffff;
     font-size: 18px;
+}
+
+.search-img {
+    background-color: #fff;
 }
 
 .search-img {
@@ -92,6 +96,10 @@ h2 {
     width: 299px;
     height: 342px;
     display: none;
+}
+
+.now-btn-shape {
+    background-color: #fff;
 }
 
 .temperature {

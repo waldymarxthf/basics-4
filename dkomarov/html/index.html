@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,12 +11,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <title>Document</title>
 </head>
+
 <body>
     <section class="section">
         <div class="wrapper">
             <header>
                 <form class="header" action="#">
-                    <input class="header-input" type="text" placeholder="Aktobe">
+                    <input class="header-input" type="text" placeholder="Search...">
                     <button class="search-img">
                         <img src="/basics-4/dkomarov/img/search.svg" alt="loop">
                     </button>
@@ -25,21 +27,17 @@
             <div class="area">
                 <div class="content-area">
                     <div class="content-area_display now active">
-                        <div class="container">
-                            <div class="temperature">
-                                <label>14 <img class="mask" src="/basics-4/dkomarov/img/mask.svg" alt=""></label>
-                            </div>
-                            <div class="weather-icon">
-                                <div>
-                                    <img src="/basics-4/dkomarov/img/icons8-cloud-96 1.svg" alt="">
-                                </div>
-                            </div>
-                            <div class="location-target">
-                                <p>Aktobe</p>
-                                <button>
-                                    <img src="/basics-4/dkomarov/img/Shape.svg" alt="">
-                                </button>
-                            </div>
+                        <div class="temperature">
+                            <p class="weather-temp"><span>14</span>°</p>
+                        </div>
+                        <div class="weather-icon">
+                            <img src="/basics-4/dkomarov/img/icons8-cloud-96 1.svg" alt="">
+                        </div>
+                        <div class="location-target">
+                            <span>Aktobe</span>
+                            <button class="now-btn-shape">
+                                <img src="/basics-4/dkomarov/img/Shape.svg" alt="">
+                            </button>
                         </div>
                     </div>
 
@@ -63,7 +61,7 @@
                         <ul class="tabs_item">Details</ul>
                         <ul class="tabs_item">Forecast</ul>
                     </nav>
-                    
+
                 </div>
                 <div class="location-area">
                     <div class="location-area_added-location">
@@ -80,4 +78,5 @@
     </section>
     <script src="/basics-4/dkomarov/main.js"></script>
 </body>
+
 </html>

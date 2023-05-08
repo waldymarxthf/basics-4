@@ -2,39 +2,64 @@ const tabs = document.querySelectorAll('.tabs_item');
 const displayItem = document.querySelectorAll('.content-area_display');
 
 const inputValue = document.querySelector('.header-input');
-const locationName = document.querySelector('.location-target');
+const formNode = document.querySelector('.header');
+
+
+function clearInput() {
+    inputValue.value = '';
+}
 
 
 tabs.forEach((tab, index) => {
     tab.addEventListener('click', () => {
         displayItem.forEach(el => el.classList.remove('active'))
-
         displayItem[index].classList.add('active')
     })
 });
 
+
+
 async function getRequest() {
     const serverUrl = 'http://api.openweathermap.org/data/2.5/weather';
-    const cityName = 'moscow';
+    const cityName = inputValue.value;
     const apiKey = 'f660a2fb1e4bad108d6160b7f58c555f';
-    const url = `${serverUrl}?q=${cityName}&appid=${apiKey}`;
+    const url = `${serverUrl}?q=${cityName}&appid=${apiKey}&units=metric`;
 
     const response = await fetch(url);
     const data = await response.json();
     console.log(data);
 
+    createDisplayNow(data);
+    clearInput();
+
+};
+
+function createDisplayNow(data) {
+    const tempSpan = document.querySelector('.weather-temp span');
     const temperature = data.main.temp;
-    console.log(`temp - ${temperature}`);
+    tempSpan.textContent = temperature.toFixed(0);
 
-    const locationCity = data.name;
-    console.log(`location - ${locationCity}`);
 
-    const iconId = data.weather[0].icon 
-    console.log(`icon id - ${iconId}`);
-    
+    const iconId = data.weather[0].icon
+    const iconImg = `https://openweathermap.org/img/wn/${iconId}@4x.png`;
+    const iconWeather = document.querySelector('.weather-icon img');
+    iconWeather.src = iconImg;
+
+    const cityName = document.querySelector('.location-target span');
+    cityName.textContent = data.name;
 }
 
-getRequest()
+
+formNode.addEventListener('submit', (e) => {
+    e.preventDefault();
+    getRequest()
+})
+
+
+
+
+
+
 
 
 
