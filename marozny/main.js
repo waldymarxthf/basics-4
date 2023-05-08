@@ -9,18 +9,17 @@ async function showGender(event) {
     const url = `${serverUrl}?name=${firstName}`;
     try {
         let response = await fetch(url);
-        let json = await response.json();
-        alert(json.name + ' is ' + json.gender);
+        if (response.ok) {
+            let json = await response.json();
+            console.log(json)
+            alert(`${json.name} is ${json.gender}. Probability is ${json.probability * 100}%`);
+         } else {
+            throw new Error((await response.json()).error)
+        }
     } catch(err) {
         alert(err);
     }
-}
     form.reset();
-//     fetch(url)
-//     .then(response => response.json())
-//     .then(data => alert(`${data.name} is ${data.gender}`))
-//     .catch(error => alert(`Error: ${error.message}`));
-
-//   form.reset();
+}
 
 form.addEventListener("submit", showGender);
