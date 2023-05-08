@@ -36,6 +36,16 @@ body {
   justify-content: space-between;
 }
 
+.all-favs {
+  width: 100%;
+  height: 100%;
+}
+.error-box {
+  background-color: white;
+  border: 5px red solid;
+  height: 100%;
+  width: 100%;
+}
 .label {
   background-color: white;
   padding-left: 5px;
@@ -47,6 +57,7 @@ body {
   height: 100%;
   outline: none;
   border: none;
+  cursor: pointer;
 }
 
 button {
@@ -228,6 +239,7 @@ button {
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
+  cursor: pointer;
 }
 
 .forecast-current {
@@ -313,15 +325,48 @@ ul {
   font-size: 25px;
 }
 
-/* <div class="above-right">12:00</div>
-</div>
-<div class="row mid">
-<div class="mid-left">Temperature 13℃</div>
-<div class="mid-right">Rain</div>
-</div>
-<div class="row below">
-<div class="below-left">Feels like: 10℃</div>
-<div class="below-right">🌧</div> */
+/*Heart checkbox*/
+
+[id="heart"] {
+  position: absolute;
+  left: -100vw;
+}
+
+[for="heart"] {
+  color: #aab8c2;
+  cursor: pointer;
+  font-size: 30px;
+  align-self: center;
+  transition: color 0.2s ease-in-out;
+}
+
+[for="heart"]:hover {
+  color: grey;
+}
+
+[for="heart"]::selection {
+  color: none;
+  background: transparent;
+}
+
+[for="heart"]::moz-selection {
+  color: none;
+  background: transparent;
+}
+
+[id="heart"]:checked + label {
+  color: #e2264d;
+  will-change: font-size;
+  animation: heart 1s cubic-bezier(0.17, 0.89, 0.32, 1.49);
+}
+
+@keyframes heart {
+  0%,
+  17.5% {
+    font-size: 0;
+  }
+}
+
 .hidden {
   display: none;
 }

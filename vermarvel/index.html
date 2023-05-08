@@ -9,10 +9,19 @@
   <body>
     <div class="container">
       <div class="search-bar">
+        <div class="error-box hidden">Something is wrong!</div>
         <form class="form" action="#" method="get">
-          <label for="search-input" class="label">Aktobe</label>
-          <input type="text" id="search-input" name="q" />
-          <button type="submit">
+          <label for="search-input" class="label"></label>
+
+          <input
+            type="text"
+            id="search-input"
+            pattern="^[A-Za-z\s\-]+$"
+            required
+            name="q"
+          />
+
+          <button class="btn-search" type="submit">
             <i class="fa-solid fa-magnifying-glass"></i>
           </button>
         </form>
@@ -22,19 +31,19 @@
           <div class="screen">
             <div class="now-page">
               <div class="temp">
-                <p>14℃</p>
+                <p class="ui-temp"></p>
               </div>
               <div class="now-page-item cloud">
-                <p><i class="fa-solid fa-cloud"></i></p>
+                <img class="icon-cloud-img" />
               </div>
               <div class="city-heart">
                 <div class="city">
-                  <p>Aktobe</p>
+                  <p class="ui-city"></p>
                 </div>
-                <div class="heart">
-                  <div class="full"><i class="fa-solid fa-heart"></i></div>
+                <div class="heart hidden">
+                  <input id="heart" class="checkbox" type="checkbox" />
+                  <label for="heart">❤</label>
                 </div>
-                <!-- <i class="fa-regular  fa-light fa-heart"></i> -->
               </div>
             </div>
             <div class="details-page hidden">
@@ -162,26 +171,28 @@
           <div class="upper">
             <p>Added Locations:</p>
           </div>
-          <div class="fav-city">
-            <p class="city-name">Amur</p>
+          <div class="all-favs"></div>
           </div>
-          <div class="fav-city">
-            <p class="city-name">Samara</p>
+          <div class="source-fav-div fav-city hidden">
+            <p class="text"></p>
           </div>
-          <div class="fav-city">
-            <p class="city-name">Bali</p>
-          </div>
-          <div class="fav-city">
-            <p class="city-name">Dane</p>
-          </div>
-          <div class="fav-city">
-            <p class="city-name">Kilo</p>
-          </div>
-          <div class="fav-city">
-            <p class="city-name">Nur-Sultan</p>
+          <!-- <div class="fav-city">
+            <p class="city-name"></p>
           </div>
           <div class="fav-city">
             <p class="city-name"></p>
+          </div>
+          <div class="fav-city">
+            <p class="city-name"></p>
+          </div>
+          <div class="fav-city">
+            <p class="city-name"></p>
+          </div>
+          <div class="fav-city">
+            <p class="city-name"></p>
+          </div>
+          <div class="fav-city">
+            <p class="city-name"></p> -->
           </div>
         </div>
       </div>
@@ -190,5 +201,7 @@
       src="https://kit.fontawesome.com/f6dababe73.js"
       crossorigin="anonymous"
     ></script>
+    <!-- <script src="script.js" defer></script> -->
+    <script type="module" defer src="script.js"></script>
   </body>
 </html>
