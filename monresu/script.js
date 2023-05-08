@@ -18,7 +18,7 @@ async function formHandler(event) {
   event.preventDefault();
 
   const cityName = inputCityNode.value;
-  const URL = `${serverURL}?q=${cityName}&appid=${apiKey}`;
+  const URL = `${serverURL}?q=${cityName}&appid=${apiKey}&units=metric`;
   const data = await getData(URL);
 
   form.reset();
