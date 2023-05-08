@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,27 +10,24 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <title>Document</title>
 </head>
-
 <body>
     <section class="section">
         <div class="wrapper">
             <header>
-                <form action="#" class="search">
-                    <input type="text" class="search-input" placeholder="Actobe" >
-                    <div class="search-img">
+                <form class="header" action="#">
+                    <input class="header-input" type="text" placeholder="Aktobe">
+                    <button class="search-img">
                         <img src="/basics-4/dkomarov/img/search.svg" alt="loop">
-                    </div>
+                    </button>
                 </form>
             </header>
 
             <div class="area">
                 <div class="content-area">
-
-                    <!--NOW-->
-                    <div class="content-area_display-now">
+                    <div class="content-area_display now active">
                         <div class="container">
                             <div class="temperature">
-                                <p>14 <img class="mask" src="/basics-4/dkomarov/img/mask.svg" alt=""></p>
+                                <label>14 <img class="mask" src="/basics-4/dkomarov/img/mask.svg" alt=""></label>
                             </div>
                             <div class="weather-icon">
                                 <div>
@@ -40,54 +36,34 @@
                             </div>
                             <div class="location-target">
                                 <p>Aktobe</p>
-                                <button class="content-area_display-now-btn">
+                                <button>
                                     <img src="/basics-4/dkomarov/img/Shape.svg" alt="">
                                 </button>
                             </div>
                         </div>
                     </div>
 
-                    <!--DETAILS-->
-                    <div class="content-area_display-details" style="display: none;">
-                        <p class="display-details_title ">Aktobe</p>
-                        <div class="display-details_info">
-                            <p class="display-details_info-text">Temperature: 14 <br>
-                                Feels like: 10 <br>
-                                Weather: Clouds <br>
-                                Sunrise: 03:21 <br>
-                                Sunset: 18:54</p>
-                        </div>
+                    <div class="content-area_display details">
+                        <p class="details-city">Aktobe</p>
+                        <ul class="list">
+                            <li class="list-items">Temperature: <span class="temperature-list">14</span></li>
+                            <li class="list-items">Feels like: <span class="feels">10</span></li>
+                            <li class="list-items">Weather: <span class="weather-sky">Clouds</span></li>
+                            <li class="list-items">Sunrise: <span class="sunrise">03:21</span></li>
+                            <li class="list-items">Sunset: <span class="sunset">18:54</span></li>
+                        </ul>
                     </div>
-
-
                     <!-- FORECAST -->
-                    <div class="content-area_display-forecast" style="display: none;">
-                        <div class="title-display">
-                            <p>Aktobe</p>
-                        </div>
-                        <div class="forecast-data_display-one">
-
-                        </div>
-                        <div class="forecast-data_display-two">
-
-                        </div>
-
+                    <div class="content-area_display forecast">
+                        <div>123</div>
                     </div>
 
-
-
-                    <!--TABS-->
-                    <div class="content-area_tabs">
-                        <div class="content-area_tabs-now">
-                            <button class="tabs-button-now">Now</button>
-                        </div>
-                        <div class="content-area_tabs-details">
-                            <button class="tabs-button-details">Details</button>
-                        </div>
-                        <div class="content-area_tabs-forecast">
-                            <button class="tabs-button-forecast">Forecast</button>
-                        </div>
-                    </div>
+                    <nav class="tabs">
+                        <ul class="tabs_item">Now</ul>
+                        <ul class="tabs_item">Details</ul>
+                        <ul class="tabs_item">Forecast</ul>
+                    </nav>
+                    
                 </div>
                 <div class="location-area">
                     <div class="location-area_added-location">
@@ -96,8 +72,6 @@
                     <div class="locations">
                         <p>Amur <br> Samara <br> Bali <br> Dane <br> Kilo <br> Nur-Sultan</p>
                     </div>
-
-
                 </div>
             </div>
 
@@ -106,5 +80,4 @@
     </section>
     <script src="/basics-4/dkomarov/main.js"></script>
 </body>
-
 </html>

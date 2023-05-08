@@ -1,79 +1,43 @@
-const buttonNow = document.querySelector('.tabs-button-now')
-const buttonDetails = document.querySelector('.tabs-button-details');
-const buttonForecast = document.querySelector('.tabs-button-forecast');
+const tabs = document.querySelectorAll('.tabs_item');
+const displayItem = document.querySelectorAll('.content-area_display');
 
-const areaNow = document.querySelector('.content-area_display-now');
-const areaDetails = document.querySelector('.content-area_display-details');
-const areaForecast = document.querySelector('.content-area_display-forecast');
-
-const parentNow = document.querySelector('.content-area');
-const tabDetails = document.querySelector('.tabs-button-details');
+const inputValue = document.querySelector('.header-input');
+const locationName = document.querySelector('.location-target');
 
 
+tabs.forEach((tab, index) => {
+    tab.addEventListener('click', () => {
+        displayItem.forEach(el => el.classList.remove('active'))
 
+        displayItem[index].classList.add('active')
+    })
+});
 
-function tabDetailsOn() {
-    areaNow.style.display = 'none';
-    areaDetails.style.display = 'block'
-    areaForecast.style.display = 'none';
+async function getRequest() {
+    const serverUrl = 'http://api.openweathermap.org/data/2.5/weather';
+    const cityName = 'moscow';
+    const apiKey = 'f660a2fb1e4bad108d6160b7f58c555f';
+    const url = `${serverUrl}?q=${cityName}&appid=${apiKey}`;
 
-    buttonNow.style['background-color'] = '#eeeeee';
-    buttonNow.style.color = '#1a1a1a';
-    buttonNow.style['border-bottom'] = '1.5px solid #292929';
+    const response = await fetch(url);
+    const data = await response.json();
+    console.log(data);
 
-    buttonDetails.style['background-color'] = '#1a1a1a';
-    buttonDetails.style.color = '#eeeeee';
+    const temperature = data.main.temp;
+    console.log(`temp - ${temperature}`);
 
-    buttonForecast.style['background-color'] = '#eeeeee';
-    buttonForecast.style.color = '#1a1a1a';
-};
+    const locationCity = data.name;
+    console.log(`location - ${locationCity}`);
 
-function tabNowOn() {
-    areaNow.style.display = 'block';
-    areaDetails.style.display = 'none';
-    areaForecast.style.display = 'none';
-
-    buttonDetails.style['background-color'] = '#eeeeee';
-    buttonDetails.style.color = '#1a1a1a';
-
-    buttonNow.style['background-color'] = '#1a1a1a';
-    buttonNow.style.color = '#eeeeee';
-
-    buttonForecast.style['background-color'] = '#eeeeee';
-    buttonForecast.style.color = '#1a1a1a';
-};
-
-
-function tabForecastOn() {
-    areaNow.style.display = 'none';
-    areaDetails.style.display = 'none';
-
-    areaForecast.style.display = 'block';
-
-    buttonNow.style['border-bottom'] = '1px solid #292929';
-
-    buttonDetails.style['background-color'] = '#eeeeee';
-    buttonDetails.style.color = '#1a1a1a';
-    buttonDetails.style['border-left'] = '1px solid #292929';
-
-
-    buttonNow.style['background-color'] = '#eeeeee';
-    buttonNow.style.color = '#1a1a1a';
-
-    buttonForecast.style['background-color'] = '#1a1a1a';
-    buttonForecast.style.color = '#eeeeee';
-   
-
+    const iconId = data.weather[0].icon 
+    console.log(`icon id - ${iconId}`);
+    
 }
 
-buttonDetails.addEventListener('click', () => {
-    tabDetailsOn();
-});
+getRequest()
 
-buttonNow.addEventListener('click', () => {
-    tabNowOn();
-});
 
-buttonForecast.addEventListener('click', () => {
-    tabForecastOn();
-})
+
+
+
+
