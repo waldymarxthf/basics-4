@@ -28,6 +28,6 @@ const FORECAST_SCREEN_NODES = {
 export {NOW_SCREEN_NODES, DETAILS_SCREEN_NODES, FORECAST_SCREEN_NODES}
 
 const serverURL = 'http://api.openweathermap.org/data/2.5/weather';
-const apiKey = 'f660a2fb1e4bad108d6160b7f58c555f';
+const apiKey = '07e9db26c719fd02fa70bc5ba6cfd907';
 
 export {serverURL, apiKey}
