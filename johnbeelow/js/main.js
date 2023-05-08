@@ -1,24 +1,7 @@
-import { UI_ELEMENTS, createTag, CLASS_GENDER } from './module/ui_elements.js'
-import { showGender } from './module/api_gender.js'
+import { UI_ELEMENTS } from './module/ui_elements.js'
+import { changeActiveButton } from './module/weather_logic.js'
 
-export const render = (result, gender) => {
-  UI_ELEMENTS.RESULT_CONTAINER.innerHTML = ''
-
-  const resultSpan = createTag('span')
-  resultSpan.classList.add(gender)
-  UI_ELEMENTS.RESULT_CONTAINER.append(resultSpan)
-
-  if (gender === CLASS_GENDER.UNKOWN) {
-    resultSpan.textContent = 'Пол не определен'
-  } 
-
-  if (gender !== CLASS_GENDER.UNKOWN) {
-    resultSpan.textContent = result
-  }
+for (let button of UI_ELEMENTS.BUTTONS_ALL) {
+  button.addEventListener('click', changeActiveButton)
 }
 
-UI_ELEMENTS.INPUT_FORM.addEventListener('submit', (event) => {
-  event.preventDefault()
-  showGender(UI_ELEMENTS.INPUT_TEXT.value)
-  UI_ELEMENTS.INPUT_TEXT.value = ''
-})

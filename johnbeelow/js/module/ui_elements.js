@@ -1,14 +1,11 @@
-export const createTag = (tag) => document.createElement(tag)
-
-export const CLASS_GENDER = {
-MALE: 'result_male',
-FEMALE: 'result_female',
-UNKOWN: 'result_null',
+export const UI_ELEMENTS = {
+  TABS_WEATHER: document.querySelectorAll('.tab'),
+  BUTTONS_ALL: document.querySelectorAll('.tab-btn'),
 }
 
-export const UI_ELEMENTS = {
-    INPUT_FORM: document.querySelector('.input_form'),
-    INPUT_TEXT: document.querySelector('.input_text'),
-    RESULT_NAME: document.querySelector('.result_name'),
-    RESULT_CONTAINER: document.querySelector('.result_container'),
-  }
+export const CLASS = {
+  ACTIVE_BUTTON: 'active-btn',
+  ACTIVE_TAB: 'active-tab',
+  INACTIVE_TAB: 'inactive-tab',
+}
+
