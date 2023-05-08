@@ -21,13 +21,14 @@ async function formHandler(event) {
   const URL = `${serverURL}?q=${cityName}&appid=${apiKey}`;
   const data = await getData(URL);
 
+  form.reset();
+
   if ('message' in data) {
     alert('Города нет');
     return;
   };
 
   DOMchange(data, cityName)
-  form.reset();
 }
 
 form.addEventListener('submit',  (event) => formHandler(event));
