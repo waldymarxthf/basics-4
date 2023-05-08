@@ -12,7 +12,7 @@
 
 
 body {
-    background-color: #646464;
+    background-color: #ffffff;
     font-family: 'Roboto', sans-serif;
     color: #656565;
 }
@@ -22,8 +22,8 @@ h2 {
 }
 
 .section {
-    width: 621px;
-    height: 462px;
+    width: 600px;
+    height: 435px;
     background-color: #ffffff;
     position: absolute;
     margin: 100px 400px;
@@ -37,7 +37,8 @@ h2 {
     height: 435px;
     border: 2px solid #292929;
     position: relative;
-    margin: 13px auto;
+    border-radius: 10px;
+    /* margin: 13px auto; */
 
 }
 
@@ -99,7 +100,8 @@ h2 {
 }
 
 .now-btn-shape {
-    background-color: #fff;
+    background-color: #ffffff;
+    cursor: pointer;
 }
 
 .temperature {
@@ -166,6 +168,32 @@ h2 {
 
 /* FORECAST */
 
+.forecast-days {
+    width: 265px;
+    height: 120px;
+    border: 1.5px solid #1a1a1a;
+    margin-bottom: 10px;
+    font-size: 18px;
+    line-height: 1.5;
+    padding: 5px 10px;
+}
+
+.forecast-days__date {
+    display: flex;
+    justify-content: space-between;
+}
+
+.forecast-days__temp {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+}
+
+.forecast-days__feels {
+    display: flex;
+    justify-content: space-between;
+}
+
 
 
 
@@ -180,8 +208,10 @@ h2 {
     justify-content: space-between;
     text-align: center;
     border-top: 2px solid #292929;
+    
 
 }
+
 
 .tabs_item {
     display: flex;
@@ -192,6 +222,7 @@ h2 {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    color: #1a1a1a;
 }
 
 .tabs_item:last-child {
@@ -220,8 +251,17 @@ h2 {
     font-size: 24px;
     margin: 20px 0 20px 18px;
     color: #1a1a1a;
+    list-style-type: none;
 }
 
+.active-tab {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    
+}
+.active-tab:first-child {
+    border-radius: 0 0 0 10px;
+}
 
 
 
@@ -230,26 +270,7 @@ h2 {
 
 /* ТРЕТИЙ ЭКРАН */
 
-/* .title-display {
-    font-size: 24px;
-    color: #1a1a1a;
-    margin-left: 18px;
-    margin-top: 33px;
-}
 
-.forecast-data_display-one {
-    width: 265px;
-    height: 120px;
-    border: 1px solid #000000;
-    margin-bottom: 20px;
-}
-
-.forecast-data_display-two {
-    width: 265px;
-    height: 120px;
-    border: 1px solid #000000;
-    margin-bottom: 20px;
-} */
 
 
 
