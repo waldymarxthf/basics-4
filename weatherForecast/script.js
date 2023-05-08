@@ -29,4 +29,32 @@ window.addEventListener('DOMContentLoaded',() => {
                 });
             }
         });
+        const form = document.querySelector('.searching'),
+        inputValue = document.querySelector('#search'),
+        btnSend = document.querySelector('.btn-send');
+        const cityName = document.querySelector('.city-name'),
+        gradeCel=document.querySelector('.grade')
+    async function f(url){
+       try {let response = await fetch(url);
+        let json = await response.json();
+        gradeCel.textContent = `${json.main.temp}`
+        cityName.textContent = `${json.name}`;
+        
+       } catch (error) {
+        console.log(error);
+       } 
+        }
+    form.addEventListener('submit',(event)=>{
+        event.preventDefault();
+    
+        const serverUrl = 'http://api.openweathermap.org/data/2.5/weather';
+const cityName = inputValue.value;
+const apiKey = 'f660a2fb1e4bad108d6160b7f58c555f'; 
+const url = `${serverUrl}?q=${cityName}&appid=${apiKey}&units=metric`;
+    f(url) 
+    })    
+
+
+
+
     });
