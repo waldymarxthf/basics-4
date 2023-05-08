@@ -12,7 +12,7 @@ export function timeConverter(UNIX_timestamp){
 }
 
 export function getCelsiusDegs(k) {
-  return Math.floor(k - 273);
+  return Math.floor(k - 273.15);
 }
 
 export function getNormalCityName(cityName) {
