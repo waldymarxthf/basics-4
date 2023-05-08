@@ -87,13 +87,6 @@ body {
   height: 390px;
   border-right: 1px solid #000000;
 }
-.weather__block:before {
-  content: "";
-  height: 44px;
-  width: 99px;
-  position: absolute;
-  top: 345px;
-}
 .weather__block-temp {
   font-family: "Roboto";
   font-style: normal;

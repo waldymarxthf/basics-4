@@ -70,13 +70,6 @@ body{
 		min-width: 297px;
 		height: 390px;
 		border-right: 1px solid #000000;
-		&:before {
-			content: "";
-			height: 44px;
-			width: 99px;
-			position: absolute;
-			top: 345px;
-		}
 		&-temp {
 			font-family: "Roboto";
 			font-style: normal;

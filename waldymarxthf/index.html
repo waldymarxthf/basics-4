@@ -11,7 +11,7 @@
 <body>
 	<div class="weather">
 		<form class="weather__search">
-			<input type="text" placeholder="Search">
+			<input type="text" placeholder="Search" autocomplete="off">
 			<button type="submit"></button>
 		</form>
 		<div class="container">
@@ -29,11 +29,11 @@
 				<div class="weather__block weather__details" id="tab_02">
 					<p class="weather__details-title">Aktobe</p>
 					<ul class="list">
-						<li class="list__item">
-							Temperature: 14°
+						<li class="list__item" id="temperatureItem">
+							Temperature: <span class="temperature">14</span>°
 						</li>
 						<li class="list__item">
-							Feels like: 10°
+							Feels like: <span class="feel">10</span>°
 						</li>
 						<li class="list__item">
 							Weather: Clouds
@@ -96,9 +96,9 @@
 				</div>
 
 				<nav class="tabs__items" id="tabs">
-					<a class="tabs__item active"><span>Now</a>
-					<a class="tabs__item"><span>Details</span></a>
-					<a class="tabs__item"><span>Forecast</span></a>
+					<a class="tabs__item active">Now</a>
+					<a class="tabs__item">Details</a>
+					<a class="tabs__item">Forecast</a>
 				</nav>
 			</div>
 			<div class="weather__location">
