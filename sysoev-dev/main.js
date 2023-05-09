@@ -23,8 +23,9 @@ function getWeatherData(cityName) {
       if (data.message) {
         throw new Error(data.message);
       }
-      showWeatherData(data);
+      return data;
     })
+    .then(data => showWeatherData(data))
     .catch(error => showError(error));
 
   // try {
