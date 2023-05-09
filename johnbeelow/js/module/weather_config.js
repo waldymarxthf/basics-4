@@ -18,7 +18,7 @@ export function changeActiveButton(event) {
 export function changeTabView(buttonClicked) {
   const tabButton = buttonClicked.dataset.tab
 
-  UI_ELEMENTS.TABS_WEATHER.forEach((element) => {
+  UI_ELEMENTS.TABS.forEach((element) => {
     const tab = element.dataset.tab
     if (tab === tabButton) {
       element.classList.remove(CLASS.INACTIVE_TAB)
@@ -30,3 +30,5 @@ export function changeTabView(buttonClicked) {
     }
   })
 }
+
+
