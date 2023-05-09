@@ -35,20 +35,22 @@ const searchFormHandler = (event) => {
 async function fetchNowWeather(city) {
     try {
         
-        const ServerUrl = 'http://api.openweathermap.org/data/2.5/weather';
+        const ServerUrl = 'http://api.openweathermap.org/data/2.5/weath';
         const apiKey = '8b70971e38e651a72781439cafacf538';
         const url = `${ServerUrl}?q=${city}&appid=${apiKey}&units=metric`;
 
         const respons = await fetch(url);
+        console.log(respons);
         if (respons.ok) {
             const data = await respons.json();
-            console.log(data);
+            
             const temp = Math.round(data.main.temp);
             const iconUrl = `https://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png`;
             
             renderWeatherNow(city, temp, iconUrl);
         }
         else if (respons.ok === false){
+            
             throw new Error(await respons.json().error);
         }
     } catch (error) {
@@ -59,7 +61,7 @@ async function fetchNowWeather(city) {
 function renderWeatherNow(city, temp, iconUrl) {
     weatherNowCity.textContent = city;
     weatherNowTemperature.textContent = temp;
-    weatherNowIcon.setAttribute('src', iconUrl);
+    weatherNowIcon.src = iconUrl;
 }
 
 tabsBtns.addEventListener('click', tabsBtnsHandler);
