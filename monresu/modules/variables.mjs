@@ -4,6 +4,8 @@ const tabContentNodes = document.querySelectorAll('.weather__block');
 const form = document.querySelector('.weather__search-form');
 const inputCityNode = document.querySelector('.weather__search-form-input');
 
+export const cache = JSON.parse(localStorage.getItem('cache')) || [];
+
 const MODAL_NODES = {
   modalError: document.querySelector('.modal-error'),
   modalErrorButton: document.querySelector('.modal-error__button'),

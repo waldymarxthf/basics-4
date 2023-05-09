@@ -1,7 +1,8 @@
 import {tabsContainerNode, tabNodes, tabContentNodes, form, inputCityNode, MODAL_NODES} from './modules/variables.mjs'
 import {serverURL, apiKey} from './modules/variables.mjs'
 import {NOW_SCREEN_NODES, DETAILS_SCREEN_NODES, FORECAST_SCREEN_NODES} from './modules/variables.mjs'
-import {getData, timeConverter, getNormalCityName} from './modules/functions.mjs'
+import {getData, timeConverter, getNormalCityName, cityExistsInCache, findIndexCityInCache, saveToLocalStorage} from './modules/functions.mjs'
+import {cache} from './modules/variables.mjs'
 
 function modalErrorButtonHandler() {
   MODAL_NODES.modalError.style.display = 'none';
@@ -50,25 +51,42 @@ async function formHandler(event) {
 
   const cityName = inputCityNode.value;
   const URL = `${serverURL}?q=${cityName}&appid=${apiKey}&units=metric`;
+  form.reset();
+  const isCityInCache = cityExistsInCache(cityName.toLowerCase());
+  console.log(cache)
+  if (isCityInCache[0] && isCityInCache[1]) {
+    console.log('нашел')
+    DOMchange(cache[findIndexCityInCache(cityName)].data, cityName);
+    return;
+  } 
+  else if(isCityInCache[0] && !isCityInCache[1]) {
+    console.log('Обновил')
+    const data = await getData(URL);
+    cache[findIndexCityInCache(cityName)].data = data;
+    cache[findIndexCityInCache(cityName)].time = new Date().getHours;
+    DOMchange(data, cityName);
+    saveToLocalStorage();
+    return;
+  }
+  else {
+    console.log('не нашел')
+  }
   try {
+    console.log('Отправил на сервер')
     const data = await getData(URL);
     if ('message' in data) {
       throw new Error(`Error: ${data.message}`);a
     }
+    cache.push({
+      city: cityName.toLowerCase(),
+      data: data,
+      time: new Date().getHours(),
+    })
     DOMchange(data, cityName);
+    saveToLocalStorage();
   } catch (error) {
     showError(error.message);
   }
-  form.reset();
 }
 
 form.addEventListener('submit',  event => formHandler(event));
-
-async function loadPage() {
-  const URL = `${serverURL}?q=${'Aktobe'}&appid=${apiKey}&units=metric`;
-  const data = await getData(URL);
-  DOMchange(data, 'Aktobe');
-  return;
-}
-
-loadPage()
