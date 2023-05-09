@@ -63,7 +63,7 @@ async function formHandler(event) {
     console.log('Обновил')
     const data = await getData(URL);
     cache[findIndexCityInCache(cityName)].data = data;
-    cache[findIndexCityInCache(cityName)].time = new Date().getHours;
+    cache[findIndexCityInCache(cityName)].time = new Date().getHours();
     DOMchange(data, cityName);
     saveToLocalStorage();
     return;
