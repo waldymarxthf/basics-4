@@ -5,21 +5,21 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="./css/style.css">
-	<script src="./script.js" defer></script>
+	<script src="./js/script.js" type="module"></script>
 	<title>Weather</title>
 </head>
 <body>
 	<div class="weather">
 		<form class="weather__search">
-			<input type="text" placeholder="Search" autocomplete="off">
+			<input type="text" placeholder="Search" name="city" autocomplete="off">
 			<button type="submit"></button>
 		</form>
 		<div class="container">
 			<div class="tab">
 
 				<div class="weather__block weather__now active" id="tab_01">
-					<p class="weather__block-temp">14°</p>
-					<img class="weather__block-icon" src="./assets/svg/cloud.svg" alt="cloud">
+					<p class="weather__block-temp"><span>14</span>°</p>
+					<img class="weather__block-icon" src="./assets/cloud.png" alt="cloud">
 					<div class="weather__block-content">
 						<p class="weather__block-content-city">Aktobe</p>
 						<img class="weather__block-content-like" src="./assets/svg/Shape.svg" alt="">
@@ -36,13 +36,13 @@
 							Feels like: <span class="feel">10</span>°
 						</li>
 						<li class="list__item">
-							Weather: Clouds
+							Weather: <span class="weather-sky">Clouds</span>
 						</li>
 						<li class="list__item">
-							Sunrise: 03:21
+							Sunrise: <spa class="sunrise">03:21</span>
 						</li>
 						<li class="list__item">
-							Sunset: 18:54
+							Sunset: <span class="sunset">18:54</span>
 						</li>
 					</ul>
 				</div>

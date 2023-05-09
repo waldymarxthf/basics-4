@@ -81,13 +81,11 @@ body{
 			margin-left: 23px;
 		}
 		&-icon {
-			width: 78px;
-			height: 58px;
-			margin-top: 40px;
-			margin-left: 112px;
+			max-width: 200px;
+			max-height: 200px;
+			margin-left: 45px;
 		}
 		&-content {
-			margin-top: 98px;
 			display: flex;
 			justify-content: space-between;
 			&-like {
