@@ -21,7 +21,7 @@ const tabsBtnsHandler = (event) => {
 
 const searchFormHandler = (event) => {
     event.preventDefault();
-    const city = searchCityInput.value.trim();
+    const city = correctSpellingOfCity(searchCityInput.value);
     if (!city) {
         alert('Некорректное название города');
         searchCityForm.reset();
@@ -30,6 +30,11 @@ const searchFormHandler = (event) => {
     fetchNowWeather(city);
     searchCityForm.reset();
     
+}
+
+function correctSpellingOfCity(city) {
+    let str = city.trim()
+    return str[0].toUpperCase() + str.slice(1).toLowerCase();
 }
 
 async function fetchNowWeather(city) {
