@@ -9,6 +9,7 @@ const weatherNowIcon = getDOMElement('.weather-now-precipitation-img');
 const weatherNowCity = getDOMElement('.selected-city-now');
 const weatherNowTemperature = getDOMElement('.temperature');
 
+let storage = {};
 
 const tabsBtnsHandler = (event) => {
     if (event.target.classList.contains('tab-item')) {
@@ -41,7 +42,6 @@ async function fetchNowWeather(city) {
         const url = `${ServerUrl}?q=${city}&appid=${apiKey}&units=metric`;
 
         const respons = await fetch(url);
-        console.log(respons);
         if (respons.ok) {
             const data = await respons.json();
            
@@ -50,11 +50,12 @@ async function fetchNowWeather(city) {
             
             renderWeatherNow(city, temp, iconUrl);
         }
-        else if (respons.ok === false){
+        else {
             
-            throw new Error(await respons.json().error);
+            throw new Error((await respons.json()).message);
         }
     } catch (error) {
+        alert('Error: '+ error.message);
         console.log(error);
     }
 }
