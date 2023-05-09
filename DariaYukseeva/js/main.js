@@ -9,8 +9,6 @@ const weatherNowIcon = getDOMElement('.weather-now-precipitation-img');
 const weatherNowCity = getDOMElement('.selected-city-now');
 const weatherNowTemperature = getDOMElement('.temperature');
 
-let storage = {};
-
 const tabsBtnsHandler = (event) => {
     if (event.target.classList.contains('tab-item')) {
         const btnIndex = Array.from(tabsBtn).indexOf(event.target);
@@ -36,7 +34,6 @@ const searchFormHandler = (event) => {
 
 async function fetchNowWeather(city) {
     try {
-        
         const ServerUrl = 'http://api.openweathermap.org/data/2.5/weather';
         const apiKey = '8b70971e38e651a72781439cafacf538';
         const url = `${ServerUrl}?q=${city}&appid=${apiKey}&units=metric`;
@@ -44,14 +41,12 @@ async function fetchNowWeather(city) {
         const respons = await fetch(url);
         if (respons.ok) {
             const data = await respons.json();
-           
             const temp = Math.round(data.main.temp);
             const iconUrl = `https://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png`;
             
             renderWeatherNow(city, temp, iconUrl);
         }
         else {
-            
             throw new Error((await respons.json()).message);
         }
     } catch (error) {
