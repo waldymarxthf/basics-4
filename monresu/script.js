@@ -44,7 +44,7 @@ async function formHandler(event) {
   form.reset();
 
   if ('message' in data) {
-    alert('Города нет, вы пидорас');
+    alert('Города нет');
     return;
   };
 
