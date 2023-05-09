@@ -23,8 +23,16 @@ export function getNormalCityName(cityName) {
 
 export function cityExistsInCache(name) {
   const now = new Date().getHours();
-  const cityExist = cache.some(item => item.data.name.toLowerCase() === name);
-  const dateGood = cache.some(item => item.time === now);
+  const cityExist = cache.find(item => item.city.toLowerCase() === name) !== undefined;
+  let dateGood = false;
+  for (let i = 0; i < cache.length; i++) {
+    if (cache[i].time === now) {
+      dateGood = true;
+      break;
+    }
+  }
+  console.log(cityExist);
+  console.log(dateGood)
   return [cityExist, dateGood];
 }
 
