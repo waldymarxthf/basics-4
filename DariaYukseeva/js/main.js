@@ -1,4 +1,5 @@
 const getDOMElement = (selector) => document.querySelector(selector);
+
 const tabsContent = document.querySelectorAll('.tabs-content-item');
 const tabsBtn = document.querySelectorAll('.tab-item');
 const tabsBtns = getDOMElement('.tabs');
