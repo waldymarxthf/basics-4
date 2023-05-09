@@ -12,22 +12,32 @@ function showError(error) {
   alert(error);
 }
 
-async function getWeatherData(cityName) {
+function getWeatherData(cityName) {
   const serverUrl = 'http://api.openweathermap.org/data/2.5/weather';
   const apiKey = 'f660a2fb1e4bad108d6160b7f58c555f';
   const url = `${serverUrl}?q=${cityName}&appid=${apiKey}&units=metric`;
 
-  try {
-    let response = await fetch(url);
-    if (response.ok) {
-      const json = await response.json();
-      showWeatherData(json);
-    } else {
-      throw new Error((await response.json()).message);
-    }
-  } catch (error) {
-    showError(error);
-  }
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      if (data.message) {
+        throw new Error(data.message);
+      }
+      showWeatherData(data);
+    })
+    .catch(error => showError(error));
+
+  // try {
+  //   let response = await fetch(url);
+  //   if (response.ok) {
+  //     const json = await response.json();
+  //     showWeatherData(json);
+  //   } else {
+  //     throw new Error((await response.json()).message);
+  //   }
+  // } catch (error) {
+  //   showError(error);
+  // }
 }
 
 function submitSearchFormHandler(event) {
