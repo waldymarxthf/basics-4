@@ -24,6 +24,7 @@ WEATHER_BLOCK_CITY_NOW:document.querySelector('.weather__block-content-city')
 UI_ELEMNTS.FORM.addEventListener('submit',(e)=>{
   e.preventDefault()
   addCity(UI_ELEMNTS.INPUT_CITY)
+  clearInput(UI_ELEMNTS.INPUT_CITY)
   })
   
   function addCity(input){
@@ -40,7 +41,10 @@ UI_ELEMNTS.FORM.addEventListener('submit',(e)=>{
   function show_Name_and_temp(name,temp,icon){
 UI_ELEMNTS.WEATHER_BLOCK_TEMP_NOW.textContent=temp;
 UI_ELEMNTS.WEATHER_BLOCK_CITY_NOW.textContent=name;
-console.log(icon)
 const iconUrl=`https://openweathermap.org/img/wn/${icon}@2x.png`
-UI_ELEMNTS.WEATHER_BLOCK_ICON_NOW.setAttribute=("src",iconUrl)
+UI_ELEMNTS.WEATHER_BLOCK_ICON_NOW.src=iconUrl
+  }
+
+  function clearInput(input){
+    input.value=""
   }

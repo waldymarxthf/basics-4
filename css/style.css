@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 body {
+  background-color: aliceblue;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -10,9 +11,12 @@ body {
       -ms-flex-align: center;
           align-items: center;
   font-family: "Roboto";
+  
 }
 
 .weather {
+  background-color: lightslategray;
+  
   width: 600px;
   height: 435px;
   border: 1px solid #000000;
@@ -37,6 +41,7 @@ body {
           align-items: center;
 }
 .weather__search-form-input {
+  background-color: lightslategray;
   border: none;
   outline: none;
   width: 553px;
@@ -44,8 +49,11 @@ body {
   font-weight: 400;
   font-size: 18px;
   line-height: 21px;
-  color: #696969;
+  color: #000000;
   padding-left: 16px;
+}
+.weather__search-form-input::placeholder {
+  color: black;
 }
 .weather__search-form-btn {
   width: 30px;
@@ -55,11 +63,13 @@ body {
   cursor: pointer;
 }
 .weather__block {
+  
   height: 325px;
   width: 298px;
   display: none;
 }
 .weather__block-temp {
+  
   font-style: normal;
   font-weight: 400;
   font-size: 70px;
@@ -69,10 +79,11 @@ body {
   margin-left: 23px;
 }
 .weather__block-cloud {
-  width: 78px;
-  height: 59px;
-  margin-top: 40px;
-  margin-left: 112px;
+  box-sizing: border-box;
+  width: 120px;
+  height: 120px;
+  margin-top: 30px;
+  margin-left: 90px;
 }
 .weather__block-content {
   display: -webkit-box;
@@ -81,7 +92,7 @@ body {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  margin-top: 98px;
+  margin-top: 46px;
   margin-bottom: 17px;
 }
 .weather__block-content-city {
