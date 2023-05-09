@@ -37,4 +37,13 @@ function submitSearchFormHandler(event) {
   event.target.reset();
 }
 
+UI_ELEMENTS.TABS.forEach(item => {
+  item.addEventListener('click', event => {
+    UI_ELEMENTS.TABS.forEach(item => {
+      item.parentNode.classList.remove('tabs__buttons-item--active');
+    });
+    item.parentNode.classList.add('tabs__buttons-item--active');
+  });
+});
+
 UI_ELEMENTS.SEARCH_FORM.addEventListener('submit', submitSearchFormHandler);

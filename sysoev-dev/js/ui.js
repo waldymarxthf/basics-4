@@ -8,4 +8,5 @@ export const UI_ELEMENTS = {
   NOW_TEMP: getElement('.now-content__temp'),
   NOW_CITY: getElement('.now-content__buttom-city'),
   NOW_ICON: getElement('.now-content__icon'),
+  TABS: document.querySelectorAll('.tabs__buttons-link'),
 };
