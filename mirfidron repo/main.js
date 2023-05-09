@@ -23,12 +23,23 @@ function addObj(weather) {
 
 async function add() {
     const serverUrl = 'http://api.openweathermap.org/data/2.5/weather';
-    const cityName = addPlace.value;
-    const apiKey = 'f660a2fb1e4bad108d6160b7f58c555f';
-    const url = `${serverUrl}?q=${cityName}&appid=${apiKey}&units=metric`;
-    let response = await fetch(url);
-    let weather = await response.json();
-    addObj(weather);
+    try {
+        if (addPlace.value == '') {
+            throw new SyntaxError("Поле ввода не может быть пустым")
+        };
+        const cityName = addPlace.value;
+        const apiKey = 'f660a2fb1e4bad108d6160b7f58c555f';
+        const url = `${serverUrl}?q=${cityName}&appid=${apiKey}&units=metric`;
+        let response = await fetch(url).catch(err => alert(err));
+        let weather = await response.json();
+        const zag = cityName.charAt(0).toUpperCase() + cityName.slice(1);
+        if (zag != weather.name) {
+            throw new SyntaxError("Напишите название города без ошибок!")
+        }
+        addObj(weather);
+    } catch(err) {
+        alert(err.message)
+    }
 }   
 
 addForm.addEventListener('submit',(event) => {
