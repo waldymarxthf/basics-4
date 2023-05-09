@@ -1,5 +1,12 @@
 import { UI_ELEMENTS } from './js/ui.js';
-import { showWeatherData } from './js/show.js';
+import { roundValue } from './js/utils.js';
+
+function showWeatherData(data) {
+  const iconUrl = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+  UI_ELEMENTS.NOW_TEMP.textContent = roundValue(data.main.temp);
+  UI_ELEMENTS.NOW_CITY.textContent = data.name;
+  UI_ELEMENTS.NOW_ICON.setAttribute('src', iconUrl);
+}
 
 function showError(error) {
   alert(error);

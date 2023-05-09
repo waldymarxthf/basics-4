@@ -158,6 +158,7 @@ body {
 .now-content__temp {
   font-size: 70px;
   padding-left: 23px;
+  margin-bottom: 20px;
 }
 
 .now-content__temp::after {
