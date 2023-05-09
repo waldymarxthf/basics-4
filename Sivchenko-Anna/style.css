@@ -1,5 +1,6 @@
 body {
   background-color: #FFFFFF;
+  color: #000000;
   margin: 0;
   font-family: 'Roboto Mono', monospace;
 }
@@ -82,8 +83,7 @@ body {
 }
 
 .container__buttons {
-  margin: 44px auto 0;
-  padding-bottom: 40px;
+  margin: 44px auto 60px;
   display: flex;
   justify-content: center;
   gap: 34px;
@@ -119,16 +119,26 @@ body {
   border: 1px solid #FD6259;
 }
 
-/* .page.dark-theme {
+/* dark-theme */
+
+body.dark-theme {
   background-color: #011C2C;
+  color: #FFFFFF;
 }
 
-/* dark-theme start */
-/* .dark-theme .page-main {
-  background-color: #909196;
+body.dark-theme .header__button,
+body.dark-theme .wrapper,
+body.dark-theme .time,
+body.dark-theme .container__button-stop {
+  background-color: #00273F;
+  color: #FFFFFF;
 }
 
-.dark-theme .page-main__title {
-  color: #ffffff;
-} */
+body.dark-theme .header__button-github {
+  background-image: url('assets/github-light_icon.svg');
+}
+
+body.dark-theme .header__button-theme {
+  background-image: url('assets/sun_icon.svg');
+}
 
