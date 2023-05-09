@@ -281,4 +281,27 @@ body {
   background-color: #0069d9;
 }
 
+.container-right{
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 28px;
+}
+
+.container-right p {
+  margin-top: 33px;
+  padding-left: 18px;
+  padding-bottom: 7px;
+  border-bottom: 1px solid #000;
+}
+
+.container-right_city-names {
+  margin-left: 18px !important;
+  margin-top: 35px !important;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
 /*# sourceMappingURL=style.css.map */
