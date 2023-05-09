@@ -1,7 +1,11 @@
 export async function getData(URL) {
-  const response = await fetch(URL);
-  let ans = await response.json();
-  return ans;
+  try {
+    const response = await fetch(URL);
+    let ans = await response.json();
+    return ans;
+  } catch (error) {
+    throw new Error(await response.json().error);
+  }
 }
 
 export function timeConverter(UNIX_timestamp){

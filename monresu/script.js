@@ -39,16 +39,25 @@ async function formHandler(event) {
 
   const cityName = inputCityNode.value;
   const URL = `${serverURL}?q=${cityName}&appid=${apiKey}&units=metric`;
-  const data = await getData(URL);
-
+  try {
+    const data = await getData(URL);
+    if ('message' in data) {
+      throw new Error(`Error: ${data.message}`);a
+    }
+    DOMchange(data, cityName);
+  } catch (error) {
+    alert(error.message);
+  }
   form.reset();
-
-  if ('message' in data) {
-    alert('Города нет');
-    return;
-  };
-
-  DOMchange(data, cityName)
 }
 
 form.addEventListener('submit',  event => formHandler(event));
+
+async function loadPage() {
+  const URL = `${serverURL}?q=${'Aktobe'}&appid=${apiKey}&units=metric`;
+  const data = await getData(URL);
+  DOMchange(data, 'Aktobe');
+  return;
+}
+
+loadPage()
