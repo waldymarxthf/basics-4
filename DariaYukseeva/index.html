@@ -12,7 +12,7 @@
     <div class="weather">
         <div class="weather-search">
             <form class="weather-search-form">
-                <input class="weather-search-form-input" type="text">
+                <input class="weather-search-form-input" type="text" placeholder="Enter city">
                 <button type="submit"></button>
             </form>
         </div>
@@ -20,12 +20,12 @@
             <div class="weather-left-block">
                 <div class="tabs-content">
                     <div class="weather-now tabs-content-item">
-                        <div class="temperature">14&#176;</div>
+                        <div class="temperature-wrapper"><span class="temperature"></span>&#176;</div>
                         <div class="precipitation">
                             <img class="weather-now-precipitation-img" src="./assets/img/cloud.png" alt="precipitation">
                         </div>
-                        <div class="selected-city-now">
-                            <p>Actobe</p>
+                        <div class="selected-city-now-wrapper">
+                            <p class="selected-city-now">Actobe</p>
                             <button class="favorite-btn"></button>
                         </div>
                     </div>

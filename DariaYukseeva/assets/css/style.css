@@ -76,10 +76,10 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 40px;
+    gap: 30px;
 }
 
-.temperature {
+.temperature-wrapper {
     padding-left: 23px;
     padding-top: 20px;
     font-size: 70px;
@@ -90,21 +90,21 @@ body {
 .precipitation {
     display: flex;
     justify-content: center;
-    padding-bottom: 40px;
+    padding-bottom: 20px;
 }
 
 .weather-now-precipitation-img {
-    height: 60px;
+    height: 100px;
 }
 
-.selected-city-now {
+.selected-city-now-wrapper {
     display: flex;
     justify-content: space-between;
     padding-left: 12px;
     padding-right: 26px;
 }
 
-.selected-city-now p {
+.selected-city-now {
     font-size: 24px;
     line-height: 28px;
     padding-bottom: 17px;
@@ -125,12 +125,13 @@ body {
     display: flex;
     border-top: 1px solid #000;
 }
-.tabs button {
+.tab-item {
     border: none;
     cursor: pointer;
     width: calc(100%/3);
     font-size: 18px;
     line-height: 21px;
+    background: #FFFFFF;
 }
 
 
