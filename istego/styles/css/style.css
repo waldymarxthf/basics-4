@@ -115,8 +115,7 @@ main {
   max-width: 600px;
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  max-height: 435px;
+  max-height: max-content;
   margin: 0 auto;
   border: 1px solid #000000;
 }

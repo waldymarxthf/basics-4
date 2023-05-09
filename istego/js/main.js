@@ -1,4 +1,4 @@
-import { UI, getWeather, } from './modules/index.mjs';
+import { UI, getWeather, render } from './modules/index.mjs';
 
 UI.navBtns.forEach(btn => {
   btn.addEventListener('click', () => {
@@ -11,7 +11,4 @@ UI.navBtns.forEach(btn => {
 
 UI.formFind.addEventListener('submit', getWeather);
 
-UI.locationsListBtns.addEventListener('click', event => {
-  const locationsBtnNode = event.target.textContent;
-
-})
+render();

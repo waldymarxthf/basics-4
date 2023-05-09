@@ -1,4 +1,3 @@
 export { UI } from './variables.mjs';
-export { getWeather } from './get-weather.mjs';
-export { getWeatherDetails } from './details.mjs';
+export { getWeather } from './get-data-weather.mjs';
 export { render } from './render.mjs';
