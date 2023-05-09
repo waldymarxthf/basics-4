@@ -6,7 +6,6 @@ export const UI_ELEMENTS = {
   TEMPERATURE: document.querySelectorAll('.temperature'),
   ACTIVE_CITY: document.querySelectorAll('[class*="active-city"]'),
   NOW_WEATHER_ICON: document.querySelector('.icon'),
-  // FORECAST_WEATHER_ICON: document.querySelector('icon-item'),
 }
 
 export const CLASS = {
