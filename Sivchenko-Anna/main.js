@@ -4,6 +4,8 @@ const milliseconds = document.querySelector(".js-milliseconds ");
 const btnStart = document.querySelector(".js-btn-start");
 const btnStop = document.querySelector(".js-btn-stop");
 const btnReset = document.querySelector(".js-btn-reset");
+const btnToggleTheme = document.querySelector(".js-btn-toggleTheme");
+const wrapper = document.querySelector(".wrapper");
 
 let time;
 let min = 0;
@@ -34,10 +36,12 @@ function timer() {
 
 function startTimer() {
   time = setInterval(timer, 10);
+  wrapper.style.borderBottomColor = "#03AE85";
 }
 
 function stopTimer() {
   clearInterval(time);
+  wrapper.style.borderBottomColor = "#FFC830";
 }
 
 function resetTimer() {
@@ -49,8 +53,14 @@ function resetTimer() {
   minutes.textContent = '00';
   seconds.textContent = "00";
   milliseconds.textContent = "00";
+
+  wrapper.style.borderBottomColor = "#FD6259";
 }
 
 btnStart.addEventListener('click', startTimer);
 btnStop.addEventListener('click', stopTimer);
 btnReset.addEventListener('click', resetTimer);
+
+btnToggleTheme.addEventListener('click', () => {
+  document.body.classList.toggle("dark-theme");
+})
