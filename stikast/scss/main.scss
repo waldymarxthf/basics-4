@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	margin-top: 50px;
+
+	font-family: 'Roboto', sans-serif;
+	font-weight: 400;
+}
+
+.weather {
+	width: 600px;
+	height: 435px;
+
+	border: 1px solid #000;
+}
+
+.search {
+	display: flex;
+	height: 45px;
+
+	border-bottom: 1px solid #000;
+}
+
+.search_form {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	padding-left: 16px;
+}
+
+.search_input {
+	width: 543px;
+
+	color: #696969;
+
+	font-size: 18px;
+	line-height: 21px;
+}
+
+.search_button {
+	width: 30px;
+	height: 30px;
+}
+
+.main-screen {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+
+	width: 298px;
+	height: 389px;
+
+	border-right: 1px solid #000;
+}
+
+.main-screen_menu {
+	display: flex;
+	justify-content: space-between;
+
+	height: 45px;
+
+	font-size: 18px;
+	line-height: 21px;
+
+	border-top: 1px solid #000;
+}
+
+// Now
+
+.now_temperature {
+	padding-top: 20px;
+	padding-left: 23px;
+
+	font-size: 70px;
+	line-height: 82px;
+}
+
+.now_icon {
+	text-align: center;
+	img {
+		max-width: 216px;
+		max-height: 216px;
+	}
+}
+
+.now_city {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	margin: 0 26px 0 12px;
+}
+
+.now_city_name {
+	font-size: 24px;
+	line-height: 28px;
+}
