@@ -69,10 +69,10 @@ body {
   margin-left: 23px;
 }
 .weather__block-cloud {
-  width: 78px;
-  height: 59px;
-  margin-top: 40px;
-  margin-left: 112px;
+  width: 148px;
+  height: 129px;
+  margin-top: 10px;
+  margin-left: 75px;
 }
 .weather__block-content {
   display: -webkit-box;
@@ -81,7 +81,7 @@ body {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  margin-top: 98px;
+  margin-top: 60px;
   margin-bottom: 17px;
 }
 .weather__block-content-city {
