@@ -17,7 +17,6 @@ tabs.forEach((tab, index) => {
 })
 
 async function showWeather(cityName) {
-	try {
 	const serverUrl = 'http://api.openweathermap.org/data/2.5/weather';
 	const apiKey = 'f660a2fb1e4bad108d6160b7f58c555f';
 	const url = `${serverUrl}?q=${cityName}&appid=${apiKey}&units=metric`;
@@ -29,9 +28,6 @@ async function showWeather(cityName) {
 	const icon = json.weather[0].icon
 	const iconUrl = `https://openweathermap.org/img/wn/${icon}@4x.png`;
 	currentIcon.setAttribute('src', iconUrl);
-	} catch(err) {
-		throw new Error(alert(err));
-	}
 }
 
 searchForm.addEventListener('submit', (event) => {
