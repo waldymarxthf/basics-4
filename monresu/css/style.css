@@ -237,4 +237,48 @@ body {
   display: flex;
   justify-content: space-between;
 }
+
+.modal-error {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-error__content {
+  background-color: white;
+  border-radius: 5px;
+  padding: 20px;
+  text-align: center;
+  max-width: 300px;
+}
+
+.modal-error__title {
+  font-size: 24px;
+  margin-top: 0;
+}
+
+.modal-error__message {
+  font-size: 16px;
+}
+
+.modal-error__button {
+  background-color: #007bff;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.modal-error__button:hover {
+  background-color: #0069d9;
+}
+
 /*# sourceMappingURL=style.css.map */

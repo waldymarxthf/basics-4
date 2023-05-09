@@ -4,7 +4,13 @@ const tabContentNodes = document.querySelectorAll('.weather__block');
 const form = document.querySelector('.weather__search-form');
 const inputCityNode = document.querySelector('.weather__search-form-input');
 
-export {tabsContainerNode, tabNodes, tabContentNodes, form, inputCityNode};
+const MODAL_NODES = {
+  modalError: document.querySelector('.modal-error'),
+  modalErrorButton: document.querySelector('.modal-error__button'),
+  modalErrorMessage: document.querySelector('.modal-error__message'),
+}
+
+export {tabsContainerNode, tabNodes, tabContentNodes, form, inputCityNode, MODAL_NODES};
 
 const NOW_SCREEN_NODES = {
   NOW_TEMP: document.querySelector('.weather__block-temp span'),

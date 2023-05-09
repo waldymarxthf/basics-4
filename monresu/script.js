@@ -1,7 +1,18 @@
-import {tabsContainerNode, tabNodes, tabContentNodes, form, inputCityNode} from './modules/variables.mjs'
+import {tabsContainerNode, tabNodes, tabContentNodes, form, inputCityNode, MODAL_NODES} from './modules/variables.mjs'
 import {serverURL, apiKey} from './modules/variables.mjs'
 import {NOW_SCREEN_NODES, DETAILS_SCREEN_NODES, FORECAST_SCREEN_NODES} from './modules/variables.mjs'
 import {getData, timeConverter, getNormalCityName} from './modules/functions.mjs'
+
+function modalErrorButtonHandler() {
+  MODAL_NODES.modalError.style.display = 'none';
+}
+
+MODAL_NODES.modalErrorButton.addEventListener('click', modalErrorButtonHandler);
+
+function showError(error) {
+  MODAL_NODES.modalErrorMessage.textContent = error;
+  MODAL_NODES.modalError.style.display = 'flex';
+}
 
 function DOMchange(data, cityName) {
   const weather = data.weather[0].main;
@@ -46,7 +57,7 @@ async function formHandler(event) {
     }
     DOMchange(data, cityName);
   } catch (error) {
-    alert(error.message);
+    showError(error.message);
   }
   form.reset();
 }
