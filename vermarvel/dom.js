@@ -9,7 +9,7 @@ const input = getDOM("#search-input");
 const nowPageTemp = getDOM(".ui-temp");
 const nowPageCloud = getDOM(".cloud");
 // Tabs
-const tabsParent = getDOM(".lower");
+const tabs = getDOM(".lower");
 const tabNow = getDOM(".now");
 const tabDetails = getDOM(".details");
 const tabForecast = getDOM(".forecast");
@@ -25,6 +25,10 @@ const checkboxHeart = getDOM(".checkbox");
 const sourceFav = getDOM(".source-fav-div");
 const parentFavs = getDOM(".all-favs");
 
+const nowPage = getDOM(".now-page");
+const forecastPage = getDOM(".forecast-page");
+const detailsPage = getDOM(".details-page");
+
 // Iterables
 
 // Helper functions&variables
@@ -33,7 +37,7 @@ export default {
   input,
   nowPageCloud,
   nowPageTemp,
-  tabsParent,
+  tabs,
   tabNow,
   tabDetails,
   tabForecast,
@@ -47,4 +51,7 @@ export default {
   checkboxHeart,
   sourceFav,
   parentFavs,
+  nowPage,
+  forecastPage,
+  detailsPage,
 };

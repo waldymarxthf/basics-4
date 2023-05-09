@@ -40,6 +40,13 @@ body {
   width: 100%;
   height: 100%;
 }
+.fav-city {
+  cursor: pointer;
+}
+
+.fav-city:hover {
+  background-color: #dfebf3;
+}
 .error-box {
   background-color: white;
   border: 5px red solid;

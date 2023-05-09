@@ -13,7 +13,6 @@ let keeper = [];
 console.log(keeper);
 
 // Helper functions
-
 function resetInput() {
   dom.input.value = "";
   isFav = null;
@@ -28,14 +27,11 @@ function resetFavScr() {
 }
 
 function updateIsFav() {
-  // console.log(keeper.includes(uiCityName));
   if (keeper.includes(uiCityName)) {
     isFav = true;
   } else if (!keeper.includes(uiCityName)) {
     isFav = false;
   }
-
-  console.log(isFav);
 }
 
 function displayCheckbox() {
@@ -51,7 +47,7 @@ function displayCheckbox() {
 
   renderFavs();
 }
-
+// Error
 function renderError(msg = "City not found!") {
   dom.errorBox.textContent = msg;
   dom.errorBox.classList.remove("hidden");
@@ -68,28 +64,51 @@ function getInput() {
   rawInput = dom.input.value;
 }
 
-// Process input
-async function getData() {
-  try {
-    const url = `${serverUrl}?q=${rawInput}&appid=${apiKey}`;
+// Process input (async/await)
+// async function getData() {
+//   try {
+//     const url = `${serverUrl}?q=${rawInput}&appid=${apiKey}`;
 
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`City not found (${response.status})`);
-    // Decode
-    const data = await response.json();
+//     const response = await fetch(url);
+//     if (!response.ok) throw new Error(`City not found (${response.status})`);
+//     // Decode
+//     const data = await response.json();
 
-    // Process and distribute
-    const icon = data.weather[0].icon;
-    uiCityName = data.name;
-    const uiTemp = Math.round(data.main.temp - 273.15);
+//     // Process and distribute
+//     const icon = data.weather[0].icon;
+//     uiCityName = data.name;
+//     const uiTemp = Math.round(data.main.temp - 273.15);
 
-    return displayData(uiCityName, uiTemp, icon);
-    // Handle the errors
-  } catch (err) {
-    console.error(err);
-    renderError(`💥 Error: ${err.message}`);
-  }
+//     return displayData(uiCityName, uiTemp, icon);
+//     // Handle the errors
+//   } catch (err) {
+//     console.error(err);
+//     renderError(`💥 Error: ${err.message}`);
+//   }
+// }
+
+// Process input (chained promises)
+function getData() {
+  const url = `${serverUrl}?q=${rawInput}&appid=${apiKey}`;
+
+  fetch(url)
+    .then((response) => {
+      if (!response.ok) throw new Error(`City not found ${response.status}`);
+      return response.json();
+    })
+    .then((data) => {
+      const icon = data.weather[0].icon;
+      uiCityName = data.name;
+      const uiTemp = Math.round(data.main.temp - 273.15);
+      return displayData(uiCityName, uiTemp, icon);
+      // Handle the errors
+    })
+    .catch((err) => {
+      console.error(err);
+      renderError(`💥 Error: ${err.message}`);
+    });
 }
+
 // Display the data
 function displayData(cityName, temp, icon) {
   dom.nowPageCity.textContent = cityName;
@@ -104,11 +123,11 @@ function displayData(cityName, temp, icon) {
 // Render the Favourites list
 function renderFavs() {
   resetFavScr();
-  console.log("keeper");
-  if (keeper.length === 0) return;
 
+  // if (keeper.length === 0) return;
 
   keeper.forEach((city) => {
+    // assemble a div
     const copiedDiv = dom.sourceFav.cloneNode(true);
     const textInside = copiedDiv.querySelector(".text");
     textInside.textContent = city;
@@ -117,18 +136,35 @@ function renderFavs() {
   });
 }
 
+function deleteFav() {
+  keeper = keeper.filter((city) => city !== uiCityName);
+  renderFavs();
+}
+
+function addCityToFavs() {
+  try {
+    if (keeper.length > 8) {
+      throw new Error();
+    }
+    keeper.push(uiCityName);
+  } catch (err) {
+    renderError(
+      "💥List is full; in order to add a city, delete one from the list💥"
+    );
+  }
+}
 //%%%%%%%%%%%%%%%%%  Listeners  %%%%%%%%%%%%%%%%%%%%%%%%
 // Submit
-dom.form.addEventListener("submit", async function (event) {
+dom.form.addEventListener("submit", function (event) {
   event.preventDefault();
   getInput();
   try {
     // start the process of retreiving data
-    await getData();
+    getData();
 
     resetInput();
   } catch (err) {
-    renderError(`💥 Wrong Input!: ${err.message}💥`);
+    renderError(`💥 Something went wrong!: ${err.message}💥`);
   }
 });
 
@@ -142,15 +178,51 @@ dom.checkboxHeart.addEventListener("change", function (event) {
   const target = event.target;
   if (target.checked === true) {
     isFav = true;
-    keeper.push(uiCityName);
-    console.log(keeper);
-    console.log(isFav);
+    addCityToFavs();
   }
   if (target.checked === false) {
     isFav = false;
     keeper = keeper.filter((city) => city !== uiCityName);
-    console.log(keeper);
-    console.log(isFav);
   }
   renderFavs();
 });
+
+dom.parentFavs.addEventListener("click", function (event) {
+  const target = event.target;
+  // console.log(target.textContent);
+
+  if (target.classList.contains("text")) {
+    const selectedCity = target.textContent;
+
+    uiCityName = selectedCity;
+    deleteFav(uiCityName);
+  }
+});
+
+// Navigation tabs
+dom.tabs.addEventListener("click", function (event) {
+  const target = event.target.closest(".now, .details, .forecast");
+  // detect the tab
+  const targetClass = ["now", "details", "forecast"].find((cl) =>
+    target.classList.contains(cl)
+  );
+  // Hide all
+  dom.nowPage.classList.add("hidden");
+  dom.detailsPage.classList.add("hidden");
+  dom.forecastPage.classList.add("hidden");
+
+  // open the clicked page
+  switch (targetClass) {
+    case "now":
+      dom.nowPage.classList.remove("hidden");
+      break;
+    case "details":
+      dom.detailsPage.classList.remove("hidden");
+      break;
+    case "forecast":
+      dom.forecastPage.classList.remove("hidden");
+      break;
+  }
+});
+
+// Further amendments:
