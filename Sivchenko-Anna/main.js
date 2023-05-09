@@ -51,6 +51,6 @@ function resetTimer() {
   milliseconds.textContent = "00";
 }
 
-btnStart.addEventListener('click', startTimer)
-btnStop.addEventListener('click', stopTimer)
-btnReset.addEventListener('click', resetTimer)
+btnStart.addEventListener('click', startTimer);
+btnStop.addEventListener('click', stopTimer);
+btnReset.addEventListener('click', resetTimer);
