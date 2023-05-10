@@ -23,50 +23,70 @@ tabs.forEach((tab, index) => {
 
 
 async function getRequest() {
-    const serverUrl = 'http://api.openweathermap.org/data/2.5/weather';
-    const cityName = inputValue.value;
-    const apiKey = '2de34209accba46efc52dfd946a3c2b3';
-    const url = `${serverUrl}?q=${cityName}&appid=${apiKey}&units=metric`;
+    try {
+        const serverUrl = 'http://api.openweathermap.org/data/2.5/weather';
+        const cityName = inputValue.value;
+        const apiKey = '2de34209accba46efc52dfd946a3c2b3';
+        const url = `${serverUrl}?q=${cityName}&appid=${apiKey}&units=metric`;
 
-    const response = await fetch(url);
-    const data = await response.json();
-    console.log(data);
+        const response = await fetch(url);
+        const data = await response.json();
+        console.log(data);
+        createDisplayNow(data);
+        createDisplayDetails(data);
+        clearInput();
+    }
+    catch (Err) {
+        console.error(Err.message)
+    }
 
-    createDisplayNow(data);
-    createDisplayDetails(data);
-    clearInput();
+
 
 };
 
 function createDisplayNow(data) {
-    try {
-        const tempSpan = document.querySelector('.weather-temp span');
-        const temperature = data.main.temp;
-        tempSpan.textContent = temperature.toFixed(0);
+
+    const tempSpan = document.querySelector('.weather-temp span');
+    const temperature = data.main.temp;
+    tempSpan.textContent = temperature.toFixed(0);
 
 
-        const iconId = data.weather[0].icon
-        const iconImg = `https://openweathermap.org/img/wn/${iconId}@4x.png`;
-        const iconWeather = document.querySelector('.weather-icon img');
-        iconWeather.src = iconImg;
+    const iconId = data.weather[0].icon
+    const iconImg = `https://openweathermap.org/img/wn/${iconId}@4x.png`;
+    const iconWeather = document.querySelector('.weather-icon img');
+    iconWeather.src = iconImg;
 
-        const cityName = document.querySelector('.location-target span');
-        cityName.textContent = data.name;
-    }
-    catch(Err) {
-        console.error(Err);
-    }
+    const cityName = document.querySelector('.location-target span');
+    cityName.textContent = data.name;
+
 };
+
+
+
+
+
+
 
 function createDisplayDetails(data) {
     const cityName = document.querySelector('.details-city');
     cityName.textContent = data.name;
+    const sunrise = document.querySelector('.sunrise');
+
+    const hours = '0' + new Date(data.sys.sunrise * 1000).getHours();
+    const minutes = new Date(data.sys.sunrise * 1000).getMinutes();
+    const sunriseValue = hours + ':' + minutes;
+    console.log(sunriseValue);
+    sunrise.textContent = sunriseValue;
+    
+
 }
+
+
 
 
 formNode.addEventListener('submit', (e) => {
     e.preventDefault();
-    getRequest()
+    getRequest();
 })
 
 
