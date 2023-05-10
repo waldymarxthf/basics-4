@@ -139,7 +139,7 @@ function createLocationElement(element) {
 	newLocation.append(newLocationBtn);
 
 	newLocation.addEventListener("click", () => {
-		displayLocation(element.location);
+		updateWeather(element.location);
 	});
 
 	newLocationBtn.addEventListener("click", (event) => {
@@ -151,12 +151,6 @@ function createLocationElement(element) {
 }
 
 //* создает элементы локации
-
-async function displayLocation(cityName) {
-	updateWeather(cityName);
-}
-
-//* функция для отображения локации на которую нажали
 
 function deleteLocation(newLocation) {
 	const index = findLocationIndex(locations, newLocation)
