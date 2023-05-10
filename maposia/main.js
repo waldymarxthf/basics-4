@@ -8,7 +8,9 @@ import {
     nowBtn,
     searchForm,
     weatherCityNow,
-    temperatureNow
+    temperatureNow,
+    addBtn,
+    listCities
 } from './assets/variables.js'
 
 
@@ -50,38 +52,78 @@ function setWeatherNow(data){
 }
 
 async function getWeather(url) {
- try {
-     let response = await fetch(url)
-     console.log(response)
-     if(response.ok){
-         let data = await response.json()
-         setWeatherNow(data)
-     } else {
-         throw new Error((await response.json()).message)
+             try {
+                 let response = await fetch(url)
+                 console.log(response)
+                 if(response.ok){
+                     let data = await response.json()
+                     setWeatherNow(data)
+                 } else {
+                     throw new Error((await response.json()).message)
      }
 
  }
 catch (error) {
-     console.log(error.message)
+    console.error(error.message)
 }
 
 
 }
 
-function searchCity() {
+function searchCity(city) {
     const serverUrl = 'http://api.openweathermap.org/data/2.5/weather'
     const apiKey = 'f660a2fb1e4bad108d6160b7f58c555f'
-    const cityName = inputSearch.value
+    const cityName = city
     const url = `${serverUrl}?q=${cityName}&appid=${apiKey}&units=metric`
     getWeather(url)
 
 }
 
+function delBtnHandler(evt){
+    if(evt.target.className === 'city_delBtn'){
+        const parentNode = evt.target.parentNode
+        parentNode.remove()
+    }
+
+}
+
+function isActive(target) {
+    return target.textContent === weatherCityNow.textContent
+}
+
+function chooseCity(evt){
+    if(!isActive(evt.target)){
+        if(evt.target.tagName === 'LI') {
+            searchCity(evt.target.textContent)
+        }
+    }
+
+}
+
+function addCityHandler(){
+    const item = document.createElement('li')
+    item.classList.add('item-locations')
+    item.textContent = weatherCityNow.textContent
+    const delBtn = document.createElement('img')
+    delBtn.src = './img/icons/del-btn.png'
+    delBtn.classList.add('city_delBtn')
+
+    item.appendChild(delBtn)
+    listCities.appendChild(item)
+}
+
+
+
 searchForm.addEventListener('submit', (evt)=> {
     evt.preventDefault()
-    searchCity()
+    searchCity(inputSearch.value)
     searchForm.reset()
 })
+
+
 nowBtn.addEventListener('click', buttonHandler)
 detailsBtn.addEventListener('click', buttonHandler)
 forecastBtn.addEventListener('click', buttonHandler)
+addBtn.addEventListener('click',addCityHandler)
+listCities.addEventListener('click', chooseCity)
+listCities.addEventListener('click', delBtnHandler)

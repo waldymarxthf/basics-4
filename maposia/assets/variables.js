@@ -13,6 +13,10 @@ const inputSearch = getElement('.text-search')
 
 const weatherCityNow = getElement('.weather_city')
 const temperatureNow = getElement('.temperature-now')
+const addBtn = getElement('.weather_like')
+
+const listCities = getElement('.list-locations')
+
 export {
     nowBtn,
     detailsBtn,
@@ -23,5 +27,7 @@ export {
     searchForm,
     inputSearch,
     weatherCityNow,
-    temperatureNow
+    temperatureNow,
+    addBtn,
+    listCities
 }
