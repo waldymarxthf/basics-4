@@ -1,6 +1,8 @@
 import { UI_ELEMENTS } from './js/ui.js';
 import { roundValue } from './js/utils.js';
 
+const favoritesCitiesList = [];
+
 function showWeatherData(data) {
   const iconUrl = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
   UI_ELEMENTS.NOW_TEMP.textContent = roundValue(data.main.temp);
@@ -48,6 +50,34 @@ function submitSearchFormHandler(event) {
   event.target.reset();
 }
 
+function createFavoritesElement(cityName) {
+  const item = document.createElement('li');
+  const p = document.createElement('p');
+  const button = document.createElement('button');
+
+  item.classList.add('locations__item');
+  p.classList.add('locations__item-text');
+  button.classList.add('locations__item-button');
+
+  p.textContent = cityName;
+
+  item.append(p, button);
+
+  return item;
+}
+
+function addFavoritesElement(event) {
+  const cityName = event.target.previousElementSibling.textContent;
+  const element = createFavoritesElement(cityName);
+  showFavoritesElement(element);
+  favoritesCitiesList.push(cityName);
+  console.log(favoritesCitiesList);
+}
+
+function showFavoritesElement(element) {
+  UI_ELEMENTS.FAVORITES_LIST.prepend(element);
+}
+
 UI_ELEMENTS.TABS.forEach(item => {
   item.addEventListener('click', event => {
     UI_ELEMENTS.TABS.forEach(item => {
@@ -56,5 +86,7 @@ UI_ELEMENTS.TABS.forEach(item => {
     item.parentNode.classList.add('tabs__buttons-item--active');
   });
 });
+
+UI_ELEMENTS.LIKE_BTN.addEventListener('click', addFavoritesElement);
 
 UI_ELEMENTS.SEARCH_FORM.addEventListener('submit', submitSearchFormHandler);

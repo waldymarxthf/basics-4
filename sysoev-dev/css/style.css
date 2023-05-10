@@ -65,6 +65,10 @@ body {
   border-right: 1px solid #000;
 }
 
+.weather__content--right {
+  overflow-y: scroll;
+}
+
 .locations {
   width: 50%;
 }
@@ -87,11 +91,31 @@ body {
 }
 
 .locations__item {
-  cursor: pointer;
+  display: flex;
 }
 
 .locations__item:not(:last-child) {
   margin-bottom: 12px;
+}
+
+.locations__item-text {
+  margin: 0;
+  margin-right: 10px;
+}
+
+.locations__item-button {
+  font-size: 0;
+  background-color: transparent;
+  border: none;
+  display: block;
+  width: 17px;
+  height: 16px;
+  background-image: url(../images/close-icon.png);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  padding: 7px;
+  cursor: pointer;
 }
 
 .weather__content--left {
