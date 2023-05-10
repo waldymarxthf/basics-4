@@ -93,13 +93,18 @@ function showFavoritesElement(element) {
   UI_ELEMENTS.FAVORITES_LIST.prepend(element);
 }
 
-function addFavoritesElement(cityName) {
-  const element = createFavoritesElement(cityName);
+function addFavoritesItemInList(cityName) {
   const isValid = findInFavoritesList(cityName);
-  showFavoritesElement(element);
   if (!isValid) {
     favoritesCitiesList.push(cityName);
+    render();
   }
+}
+
+function addFavoritesElement(cityName) {
+  const element = createFavoritesElement(cityName);
+
+  showFavoritesElement(element);
 }
 
 function render() {
@@ -118,7 +123,7 @@ UI_ELEMENTS.TABS.forEach(item => {
 
 UI_ELEMENTS.LIKE_BTN.addEventListener('click', event => {
   const cityName = event.target.previousElementSibling.textContent;
-  addFavoritesElement(cityName);
+  addFavoritesItemInList(cityName);
 });
 
 UI_ELEMENTS.SEARCH_FORM.addEventListener('submit', submitSearchFormHandler);
