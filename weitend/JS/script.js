@@ -27,8 +27,17 @@ function tempConverter(kel) {
 };
 
 async function getData(url) {
-    const data = await fetch(url);
-    return data.json();
+    try {
+        const data = await fetch(url)
+            .then(res => res.json())
+        if ((data.message)) {
+            throw new Error('Название города введено неправильно');
+        } else {
+            return data;
+        };
+    } catch (err) {
+        alert(err)
+    }
 };
 
 async function renderData(data) {

@@ -12,6 +12,7 @@ form.addEventListener('submit', async (e) => {
   const apiKey = 'afc9f2df39f9e9e49eeb1afac7034d35';
   const url = `${serverUrl}?q=${cityName}&appid=${apiKey}`;
   const data = await getData(url); 
-  console.log(data);
   renderData(data);
+  input.value = '';
+  input.focus();
 });
