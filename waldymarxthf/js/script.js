@@ -17,6 +17,7 @@ async function getCityWeather(location) {
 	try {
 		let link = `${serverUrl}?q=${location}&appid=${apiKey}&units=metric`;
 		let response = await fetch(link);
+
 		if (!response.ok) {
 			throw new Error("Введите корректную страну или город");
 		} else {
@@ -66,7 +67,7 @@ async function updateWeather(location) {
 
 function weatherHandler(event) {
 	event.preventDefault();
-	let cityName = new FormData(VARIABLES.FORM_ELEMENT).get("city");
+	const cityName = new FormData(VARIABLES.FORM_ELEMENT).get("city");
 	updateWeather(cityName);
 	VARIABLES.FORM.reset();
 }
@@ -76,11 +77,21 @@ const saveLocation = document.querySelector('.weather__block-content-like')
 const locationBLock = document.querySelector('.list-locations')
 
 function addLocation() {
-	locations.push({
-		location: VARIABLES.NOW.CITY.textContent
-	})
-	console.log(locations)
-	renderLocations()
+	try {
+		const cityName = VARIABLES.NOW.CITY.textContent
+		
+		if (locations.some(el => el.location === cityName)) {
+			throw new Error('Такой город уже добавлен');
+		}
+		
+		locations.push({
+			location: VARIABLES.NOW.CITY.textContent
+		})
+		console.log(locations)
+		renderLocations()
+	} catch (error) {
+		alert(error.message)
+	}
 }
 
 function renderLocations() {
@@ -123,6 +134,6 @@ function deleteLocation(newLocation) {
 	renderLocations()
 }
 
+addEventListener('DOMContentLoaded', updateWeather('Aktobe'))
 saveLocation.addEventListener('click', addLocation)
-
 VARIABLES.FORM.addEventListener("submit", weatherHandler);
