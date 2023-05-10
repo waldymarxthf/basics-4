@@ -42,10 +42,26 @@ body {
 }
 .fav-city {
   cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
 }
 
 .fav-city:hover {
-  background-color: #dfebf3;
+  background-color: #eff2f473;
+}
+
+i {
+  font-size: 25px;
+  opacity: 70%;
+}
+
+.delete {
+  background: transparent;
+}
+
+.delete:hover {
+  cursor: pointer;
 }
 .error-box {
   background-color: white;
@@ -161,7 +177,7 @@ button {
 .lower {
   height: 50px;
   width: 100%;
-  border: black solid 1px;
+  border-top: black solid 1px;
   display: flex;
 }
 

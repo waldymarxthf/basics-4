@@ -1,4 +1,4 @@
-// Exporting module
+// Exporting module: UI (DOM selectors)
 
 // *****Variables********
 const getDOM = (s) => document.querySelector(s);
@@ -24,14 +24,22 @@ const parentHeart = getDOM(".heart");
 const checkboxHeart = getDOM(".checkbox");
 const sourceFav = getDOM(".source-fav-div");
 const parentFavs = getDOM(".all-favs");
+const btnDelete = getDOM(".delete");
 
 const nowPage = getDOM(".now-page");
-const forecastPage = getDOM(".forecast-page");
 const detailsPage = getDOM(".details-page");
+const forecastPage = getDOM(".forecast-page");
 
-// Iterables
+// Details
+const detailsCity = getDOM("#details-city");
+const detailsTemp = getDOM("#temperature");
+const detailsFeels = getDOM("#feels");
+const detailsWeather = getDOM("#weather");
+const detailsSunrise = getDOM("#sunrise");
+const detailsSunset = getDOM("#sunset");
 
-// Helper functions&variables
+// Forecast
+const fcCity = getDOM("#fc-city");
 
 export default {
   input,
@@ -54,4 +62,12 @@ export default {
   nowPage,
   forecastPage,
   detailsPage,
+  btnDelete,
+  detailsCity,
+  detailsTemp,
+  detailsFeels,
+  detailsWeather,
+  detailsSunrise,
+  detailsSunset,
+  fcCity,
 };

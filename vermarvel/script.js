@@ -10,7 +10,6 @@ const serverUrl = "http://api.openweathermap.org/data/2.5/weather";
 const apiKey = "f660a2fb1e4bad108d6160b7f58c555f";
 
 let keeper = [];
-console.log(keeper);
 
 // Helper functions
 function resetInput() {
@@ -35,9 +34,7 @@ function updateIsFav() {
 }
 
 function displayCheckbox() {
-  console.log("isOnList:", isFav);
   dom.parentHeart.classList.remove("hidden");
-  console.log(dom.parentHeart.classList);
 
   if (isFav) {
     dom.checkboxHeart.checked = true;
@@ -55,6 +52,15 @@ function renderError(msg = "City not found!") {
 
 function hideErrorBox() {
   dom.errorBox.classList.add("hidden");
+}
+
+function convertTime(time) {
+  var date = new Date(time * 1000);
+  var hours = date.getHours();
+  var minutes = "0" + date.getMinutes();
+  var formattedTime = hours + ":" + minutes.substr(-2);
+
+  return formattedTime;
 }
 
 //%%%%%%%%%%%%%%% Business Logics  %%%%%%%%%%%%%%%%%%%%%
@@ -97,10 +103,20 @@ function getData() {
       return response.json();
     })
     .then((data) => {
+      // console.log(Math.round(data.main[0].feels_like - 273.15));
+      const detFeelsLike = Math.round(data.main.feels_like - 273.15);
+      const detWeather = data.weather[0].main;
+
+      const detSunrise = convertTime(data.sys.sunrise);
+
+      const detSunset = convertTime(data.sys.sunset);
+      // console.log(data.sys[0].sunrise);
+      // console.log(data.sys[0].sunset);
       const icon = data.weather[0].icon;
       uiCityName = data.name;
       const uiTemp = Math.round(data.main.temp - 273.15);
-      return displayData(uiCityName, uiTemp, icon);
+      displayData(uiCityName, uiTemp, icon);
+      displayDetails(detFeelsLike, detWeather, detSunrise, detSunset);
       // Handle the errors
     })
     .catch((err) => {
@@ -112,12 +128,22 @@ function getData() {
 // Display the data
 function displayData(cityName, temp, icon) {
   dom.nowPageCity.textContent = cityName;
+  dom.detailsCity.textContent = cityName;
+  dom.fcCity.textContent = cityName;
 
   const imgUrl = `https://openweathermap.org/img/wn/${icon}@2x.png`;
   dom.iconCloudImg.setAttribute("src", imgUrl);
   dom.nowPageTemp.textContent = `${temp}℃`;
+  dom.detailsTemp.textContent = `Temperature: ${temp}℃`;
   updateIsFav();
   displayCheckbox();
+}
+
+function displayDetails(feelsLike, weather, sunrise, sunset) {
+  dom.detailsFeels.textContent = `Feels like: ${feelsLike}℃`;
+  dom.detailsWeather.textContent = `Weather: ${weather}`;
+  dom.detailsSunrise.textContent = `Sunrise: ${sunrise}`;
+  dom.detailsSunset.textContent = `Sunset: ${sunset}`;
 }
 
 // Render the Favourites list
@@ -137,6 +163,7 @@ function renderFavs() {
 }
 
 function deleteFav() {
+  console.log("deleteFav:", uiCityName);
   keeper = keeper.filter((city) => city !== uiCityName);
   renderFavs();
 }
@@ -187,42 +214,43 @@ dom.checkboxHeart.addEventListener("change", function (event) {
   renderFavs();
 });
 
+// Favs: manipulation (delete/display)
 dom.parentFavs.addEventListener("click", function (event) {
   const target = event.target;
-  // console.log(target.textContent);
 
+  // Display
   if (target.classList.contains("text")) {
-    const selectedCity = target.textContent;
+    rawInput = target.textContent;
 
-    uiCityName = selectedCity;
+    dom.input.value = rawInput;
+    getData();
+  }
+
+  // Delete
+  if (target.classList.contains("fa-xmark")) {
+    const targetText =
+      target.parentElement.parentElement.querySelector(".text");
+    uiCityName = targetText.textContent;
     deleteFav(uiCityName);
   }
 });
 
 // Navigation tabs
 dom.tabs.addEventListener("click", function (event) {
-  const target = event.target.closest(".now, .details, .forecast");
-  // detect the tab
-  const targetClass = ["now", "details", "forecast"].find((cl) =>
-    target.classList.contains(cl)
-  );
+  const target = event.target;
+
+  // Guard clause
+  if (!target) return;
+
   // Hide all
   dom.nowPage.classList.add("hidden");
   dom.detailsPage.classList.add("hidden");
   dom.forecastPage.classList.add("hidden");
 
-  // open the clicked page
-  switch (targetClass) {
-    case "now":
-      dom.nowPage.classList.remove("hidden");
-      break;
-    case "details":
-      dom.detailsPage.classList.remove("hidden");
-      break;
-    case "forecast":
-      dom.forecastPage.classList.remove("hidden");
-      break;
-  }
-});
+  // Detect target page
+  const pageID = target.getAttribute("data-target");
+  const pageToOpen = dom[pageID];
 
-// Further amendments:
+  // Open the selected page
+  pageToOpen.classList.remove("hidden");
+});
