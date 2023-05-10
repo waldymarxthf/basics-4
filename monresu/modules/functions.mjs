@@ -8,11 +8,10 @@ export async function getData(URL) {
   }
 }
 
-export function timeConverter(UNIX_timestamp) {
-  const a = new Date(UNIX_timestamp * 1000);
-  const hour = a.getHours();
-  const min = a.getMinutes();
-  return hour + ':' + min;
+export function timeConverter(UNIX_timestamp, timezone) {
+  const date = new Date((UNIX_timestamp + timezone) * 1000);
+  const normalTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' });
+  return normalTime;
 }
 
 export function getNormalCityName(cityName) {

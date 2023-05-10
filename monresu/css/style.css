@@ -306,7 +306,8 @@ body {
 
 .city-names_city {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  padding: 0 20px 0;
 }
 
 .city-names_city-close:hover {

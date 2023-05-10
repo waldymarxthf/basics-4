@@ -16,7 +16,7 @@ function showError(error) {
   MODAL_NODES.modalError.style.display = 'flex';
 }
 
-function DOMchange(data, cityName) {
+function renderWeather(data, cityName) {
   if (findCityIndex(list, cityName) !== -1) {
     NOW_SCREEN_NODES.NOW_FAV_CITY.src = './assets/svg/shape-full.svg'
   }
@@ -25,8 +25,8 @@ function DOMchange(data, cityName) {
   }
 
   const weather = data.weather[0].main;
-  const timeSunrise = timeConverter(data.sys.sunrise);
-  const timeSunset = timeConverter(data.sys.sunset);
+  const timeSunrise = timeConverter(data.sys.sunrise, data.timezone);
+  const timeSunset = timeConverter(data.sys.sunset, data.timezone);
   const iconID = data.weather[0].icon;
   const srcIcon = `https://openweathermap.org/img/wn/${iconID}@4x.png`;
 
@@ -55,21 +55,20 @@ function tabsContainerNodeHandler(event) {
 }
 
 function loadCityFromCache(name) {
-  DOMchange(cache[findIndexCityInCache(cache, name)].data, name);
+  renderWeather(cache[findIndexCityInCache(cache, name)].data, name);
 }
 
 async function updateCityInCache(name, URL) {
   const data = await getData(URL);
   cache[findIndexCityInCache(cache, name)].data = data;
   cache[findIndexCityInCache(cache, name)].time = new Date().getHours();
-  DOMchange(data, name);
+  renderWeather(data, name);
   saveToLocalStorage('cache', cache);
 }
 
 async function weather(cityName) {
   const URL = `${serverURL}?q=${cityName}&appid=${apiKey}&units=metric`;
   form.reset();
-  console.log(list)
   const isCityInCache = cityExistsInCache(cache, cityName.toLowerCase());
   if (isCityInCache[0] && isCityInCache[1]) {
     loadCityFromCache(cityName);
@@ -90,7 +89,7 @@ async function weather(cityName) {
       data: data,
       time: new Date().getHours(),
     })
-    DOMchange(data, cityName);
+    renderWeather(data, cityName);
     saveToLocalStorage('cache', cache);
   } catch (error) {
     showError(error.message);
@@ -153,4 +152,5 @@ function favBtnHandler() {
 
 NOW_SCREEN_NODES.NOW_FAV_CITY.addEventListener('click', favBtnHandler)
 
+weather('aktobe')
 render()
