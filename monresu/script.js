@@ -1,7 +1,7 @@
 import { tabsContainerNode, tabNodes, tabContentNodes, form, inputCityNode, } from './modules/variables.mjs'
 import { serverURL, apiKey, cache } from './modules/variables.mjs'
 import { NOW_SCREEN_NODES, DETAILS_SCREEN_NODES, FORECAST_SCREEN_NODES, MODAL_NODES, FAV_SCREEN_NODES, } from './modules/variables.mjs'
-import { getData, timeConverter, getNormalCityName, cityExistsInCache, findIndexCityInCache, saveToLocalStorage, findCityIndex, updateCityInCache, loadCityFromCache } from './modules/functions.mjs'
+import { getData, timeConverter, getNormalCityName, cityExistsInCache, findIndexCityInCache, saveToLocalStorage, findCityIndex } from './modules/functions.mjs'
 
 const list = JSON.parse(localStorage.getItem('favCities')) || [];
 
@@ -15,6 +15,19 @@ function showError(error) {
   MODAL_NODES.modalErrorMessage.textContent = error;
   MODAL_NODES.modalError.style.display = 'flex';
 }
+
+async function updateCityInCache(name, URL) {
+  const data = await getData(URL);
+  cache[findIndexCityInCache(cache, name)].data = data;
+  cache[findIndexCityInCache(cache, name)].time = new Date().getHours();
+  renderWeather(data, name);
+  saveToLocalStorage('cache', cache);
+}
+
+function loadCityFromCache( name) {
+  renderWeather(cache[findIndexCityInCache(cache, name)].data, name);
+}
+
 
 function renderWeather(data, cityName) {
   if (findCityIndex(list, cityName) !== -1) {
@@ -59,11 +72,11 @@ async function weather(cityName) {
   form.reset();
   const isCityInCache = cityExistsInCache(cache, cityName.toLowerCase());
   if (isCityInCache[0] && isCityInCache[1]) {
-    loadCityFromCache(cache, cityName);
+    loadCityFromCache( cityName);
     return;
   }
   else if (isCityInCache[0] && !isCityInCache[1]) {
-    updateCityInCache(cache, cityName, URL)
+    updateCityInCache( cityName, URL)
     return;
   }
   try {

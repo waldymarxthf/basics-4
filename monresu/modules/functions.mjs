@@ -8,18 +8,6 @@ export async function getData(URL) {
   }
 }
 
-export async function updateCityInCache(cache, name, URL) {
-  const data = await getData(URL);
-  cache[findIndexCityInCache(cache, name)].data = data;
-  cache[findIndexCityInCache(cache, name)].time = new Date().getHours();
-  renderWeather(data, name);
-  saveToLocalStorage('cache', cache);
-}
-
-export function loadCityFromCache(cache, name) {
-  renderWeather(cache[findIndexCityInCache(cache, name)].data, name);
-}
-
 export function timeConverter(UNIX_timestamp, timezone) {
   const date = new Date((UNIX_timestamp + timezone) * 1000);
   const normalTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' });
