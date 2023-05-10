@@ -23,7 +23,8 @@ async function getCityRequest(city) {
     await fetch(url)
         .then(async (data) => {
             const obj =  await data.json();
-            if (obj.message === "city not found") alert('Город англиски пжэжэ, первая буква большая(Вот пример для одаренных: Vladivostok')
+            console.log(obj)
+            if (obj.message === "city not found") return alert('Город англиски пжэжэ, первая буква большая(Вот пример для одаренных: Vladivostok')
             renderNow(obj)
         })
         .catch(()=> alert('Нахуй ты все сломал? Давай чини.'))
@@ -31,9 +32,13 @@ async function getCityRequest(city) {
 
 function renderNow(data){
     const cityText = data.name;
+    const iconBlockNow = data.weather[0].icon;
+    const iconUrl = `https://openweathermap.org/img/wn/${iconBlockNow}@4x.png`;
     const tempText = Math.round(data.main.temp);
     const city = document.querySelector('.weather-left-now-info-city-text');
     const temp = document.querySelector('.weather-left-now-info-degree-number');
+    const icon = document.querySelector('.weather-left-now-info-icon')
+    icon.setAttribute('src', iconUrl)
     city.textContent = cityText;
     temp.textContent = tempText;
 }
