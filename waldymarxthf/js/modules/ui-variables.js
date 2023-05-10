@@ -9,7 +9,7 @@ export const VARIABLES = {
 		TEMPERATURE: document.querySelector(".weather__block-temp span"),
 		ICON: document.querySelector(".weather__block-icon"),
 		CITY: document.querySelector(".weather__block-content-city"),
-		LIKE: document.querySelector(".weather__block-content-like-path"),
+		LIKE: document.querySelector(".weather__block-content-like"),
 	},
 	DETAILS: {
 		CITY:  document.querySelector(".weather__details-title"),
@@ -19,4 +19,9 @@ export const VARIABLES = {
 		SUNRISE: document.querySelector(".sunrise"),
 		SUNSET: document.querySelector(".sunset"),
 	},
+	LOCATIONS: {
+		LIST: document.querySelector('.list-locations'),
+	},
 };
+
+//* переменные

@@ -1,3 +1,5 @@
+import { timeConverter, findLocationIndex, errorHandler } from "./modules/utils.js";
+import { showLoader, hideLoader } from "./modules/preloader.js";
 import { VARIABLES } from "./modules/ui-variables.js";
 
 VARIABLES.TABS.forEach((tab, index) => {
@@ -10,29 +12,39 @@ VARIABLES.TABS.forEach((tab, index) => {
 	});
 });
 
+//* переключает табы
+
+const locations = [];
 const serverUrl = "http://api.openweathermap.org/data/2.5/weather";
 const apiKey = "afc9f2df39f9e9e49eeb1afac7034d35";
 
 async function getCityWeather(location) {
-	showLoader()
+	showLoader();
+	console.clear();
 	try {
 		let link = `${serverUrl}?q=${location}&appid=${apiKey}&units=metric`;
 		let response = await fetch(link);
 
 		if (!response.ok) {
-			throw new Error("Введите корректную страну или город");
+			throw new Error("Город или страна не найдена. Повторите попытку позже");
 		} else {
 			let data = await response.json();
 			return data;
 		}
 	} catch (error) {
-		alert(error.message);
+		errorHandler(error)
 	} finally {
-		hideLoader()
+		hideLoader();
 	}
 }
 
-async function changeBlockNow(data) {
+//* отправляет запрос на сервер и скачивает json
+
+async function updateBlockNow(data) {
+	if (!data) {
+		throw new Error("Город или страна не найдена");
+	}
+
 	const iconBlockNow = data.weather[0].icon;
 	const tempBlockNow = Math.round(data.main.temp);
 	const cityBlockNow = data.name;
@@ -42,109 +54,118 @@ async function changeBlockNow(data) {
 	VARIABLES.NOW.ICON.src = iconUrl;
 }
 
-async function changeBlockDetails(data) {
+//* обновляет блок NOW
+
+async function updateBlockDetails(data) {
+	if (!data) {
+		throw new Error("Город или страна не найдена");
+	}
+
 	const cityBlockDetails = data.name;
 	const tempBlockDetails = Math.round(data.main.temp);
 	const feelsLikeBlockDetails = Math.round(data.main.feels_like);
 	const weatherBlockDetails = data.weather[0].main;
-	const sunriseDate = new Date((data.sys.sunrise + data.timezone) * 1000)
-	const sunriseLocalDate = sunriseDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' });
-	const sunriseBlockDetails = sunriseLocalDate
-	const sunsetDate = new Date((data.sys.sunset + data.timezone) * 1000)
-	const sunsetLocalDate = sunsetDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' });
-	const sunsetBlockDetails = sunsetLocalDate
-	VARIABLES.DETAILS.TEMPERATURE.textContent = tempBlockDetails
-	VARIABLES.DETAILS.CITY.textContent = cityBlockDetails
-	VARIABLES.DETAILS.FEEL_LIKE.textContent = feelsLikeBlockDetails
-	VARIABLES.DETAILS.WEATHER.textContent = weatherBlockDetails
-	VARIABLES.DETAILS.SUNRISE.textContent = sunriseBlockDetails
-	VARIABLES.DETAILS.SUNSET.textContent = sunsetBlockDetails
+	const sunriseBlockDetails = timeConverter(data.sys.sunrise, data.timezone);
+	const sunsetBlockDetails = timeConverter(data.sys.sunset, data.timezone);
+	VARIABLES.DETAILS.TEMPERATURE.textContent = tempBlockDetails;
+	VARIABLES.DETAILS.CITY.textContent = cityBlockDetails;
+	VARIABLES.DETAILS.FEEL_LIKE.textContent = feelsLikeBlockDetails;
+	VARIABLES.DETAILS.WEATHER.textContent = weatherBlockDetails;
+	VARIABLES.DETAILS.SUNRISE.textContent = sunriseBlockDetails;
+	VARIABLES.DETAILS.SUNSET.textContent = sunsetBlockDetails;
 }
+
+//* обновляет блок DETAILS
 
 async function updateWeather(location) {
-	let cityWeatherData = await getCityWeather(location)
+	try {
+		let cityWeatherData = await getCityWeather(location);
 
-	await changeBlockNow(cityWeatherData)
-	await changeBlockDetails(cityWeatherData)
+		await updateBlockNow(cityWeatherData);
+		await updateBlockDetails(cityWeatherData);
+	} catch (error) {
+		errorHandler(error)
+	}
 }
 
-function weatherHandler(event) {
+//* функция которая получает данные и вызывает функции обновление блоков
+
+async function weatherHandler(event) {
 	event.preventDefault();
 	const cityName = new FormData(VARIABLES.FORM_ELEMENT).get("city");
 	updateWeather(cityName);
 	VARIABLES.FORM.reset();
 }
 
-const locations = []
-const saveLocation = document.querySelector('.weather__block-content-like')
-const locationBLock = document.querySelector('.list-locations')
+//* функция для обработчика события
 
 function addLocation() {
 	try {
-		const cityName = VARIABLES.NOW.CITY.textContent
-		
-		if (locations.some(el => el.location === cityName)) {
-			throw new Error('Такой город уже добавлен');
+		const cityName = VARIABLES.NOW.CITY.textContent;
+
+		if (locations.some((el) => el.location === cityName)) {
+			throw new Error("Такой город уже добавлен");
 		}
 
 		locations.push({
-			location: VARIABLES.NOW.CITY.textContent
-		})
-		console.log(locations)
-		renderLocations()
+			location: VARIABLES.NOW.CITY.textContent,
+		});
+
+		renderLocations();
 	} catch (error) {
-		alert(error.message)
+		errorHandler(error)
 	}
 }
 
+//* добавляет локацию в массив
+
 function renderLocations() {
-	locationBLock.innerHTML = ''
+	VARIABLES.LOCATIONS.LIST.innerHTML = "";
 	locations.forEach((element) => {
-		const newLocation = createLocationElement(element)
-		locationBLock.append(newLocation)
-	})
+		const newLocation = createLocationElement(element);
+		VARIABLES.LOCATIONS.LIST.append(newLocation);
+	});
 }
+
+//* рендерит локации из массива
 
 function createLocationElement(element) {
-	const newLocation = document.createElement('li')
-	newLocation.classList.add('list-locations__item')
-	newLocation.textContent = element.location
+	const newLocation = document.createElement("li");
+	newLocation.classList.add("list-locations__item");
+	newLocation.textContent = element.location;
 
+	const newLocationBtn = document.createElement("button");
+	newLocationBtn.classList.add("list-locations__item-btn");
+	newLocation.append(newLocationBtn);
 
-	const newLocationBtn = document.createElement('button')
-	newLocationBtn.classList.add('list-locations__item-btn')
-	newLocation.append(newLocationBtn)
+	newLocation.addEventListener("click", () => {
+		displayLocation(element.location);
+	});
 
-	newLocation.addEventListener('click', () => {
-		displayLocation(element.location)
-	})
+	newLocationBtn.addEventListener("click", (event) => {
+		event.stopPropagation();
+		deleteLocation(newLocation);
+	});
 
-	newLocationBtn.addEventListener('click', (event) => {
-		event.stopPropagation()
-		deleteLocation(newLocation)
-	})
-
-	return newLocation
+	return newLocation;
 }
+
+//* создает элементы локации
 
 async function displayLocation(cityName) {
-	updateWeather(cityName)
+	updateWeather(cityName);
 }
+
+//* функция для отображения локации на которую нажали
 
 function deleteLocation(newLocation) {
-	let index = locations.findIndex((el) => el.location === newLocation.textContent)
-	locations.splice(index, 1)
-	renderLocations()
+	const index = findLocationIndex(locations, newLocation)
+	locations.splice(index, 1);
+	renderLocations();
 }
 
-function showLoader() {
-	VARIABLES.PRELOADER.style.display = 'flex'
-}
+//* функция удаления локации
 
-function hideLoader() {
-	VARIABLES.PRELOADER.style.display = 'none'
-}
-
-addEventListener('DOMContentLoaded', updateWeather('Aktobe'))
-saveLocation.addEventListener('click', addLocation)
+addEventListener("DOMContentLoaded", updateWeather("Minsk"));
+VARIABLES.NOW.LIKE.addEventListener("click", addLocation);
 VARIABLES.FORM.addEventListener("submit", weatherHandler);
