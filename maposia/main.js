@@ -44,13 +44,28 @@ function buttonHandler(evt){
 function setWeatherNow(data){
     weatherCityNow.textContent = data.name
     const temperature = data.main.temp
+    const idIcon = data.weather[0].icon
+    document.querySelector('.weather-icon').src = `https://openweathermap.org/img/wn/${idIcon}@2x.png`
     temperatureNow.textContent = Math.floor(temperature) + '\u00B0'
 }
 
 async function getWeather(url) {
-    let response = await fetch(url)
-    let data = await response.json()
-    setWeatherNow(data)
+ try {
+     let response = await fetch(url)
+     console.log(response)
+     if(response.ok){
+         let data = await response.json()
+         setWeatherNow(data)
+     } else {
+         throw new Error((await response.json()).message)
+     }
+
+ }
+catch (error) {
+     console.log(error.message)
+}
+
+
 }
 
 function searchCity() {
@@ -65,6 +80,7 @@ function searchCity() {
 searchForm.addEventListener('submit', (evt)=> {
     evt.preventDefault()
     searchCity()
+    searchForm.reset()
 })
 nowBtn.addEventListener('click', buttonHandler)
 detailsBtn.addEventListener('click', buttonHandler)
