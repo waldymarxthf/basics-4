@@ -124,6 +124,7 @@ UI_ELEMENTS.TABS.forEach(item => {
 UI_ELEMENTS.LIKE_BTN.addEventListener('click', event => {
   const cityName = event.target.previousElementSibling.textContent;
   addFavoritesItemInList(cityName);
+  event.target.classList.add('now-content__buttom-btn--active');
 });
 
 UI_ELEMENTS.SEARCH_FORM.addEventListener('submit', submitSearchFormHandler);

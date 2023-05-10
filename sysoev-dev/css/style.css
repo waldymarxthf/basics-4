@@ -215,6 +215,10 @@ body {
   cursor: pointer;
 }
 
+.now-content__buttom-btn--active {
+  background-image: url(../images/like-red.png);
+}
+
 /* .details {
   padding-left: 15px;
 } */
