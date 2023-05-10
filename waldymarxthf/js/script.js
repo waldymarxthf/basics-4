@@ -138,12 +138,10 @@ function deleteLocation(newLocation) {
 }
 
 function showLoader() {
-	VARIABLES.ACTIVE_TAB.style.display = 'none'
 	VARIABLES.PRELOADER.style.display = 'flex'
 }
 
 function hideLoader() {
-	VARIABLES.ACTIVE_TAB.style.display = 'block'
 	VARIABLES.PRELOADER.style.display = 'none'
 }
 
