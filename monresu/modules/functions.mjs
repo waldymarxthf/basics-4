@@ -29,8 +29,6 @@ export function cityExistsInCache(cache, name) {
       break;
     }
   }
-  console.log(cityExist);
-  console.log(dateGood)
   return [cityExist, dateGood];
 }
 
@@ -45,6 +43,7 @@ export function saveToLocalStorage(key, val) {
 }
 
 export const findCityIndex = (list, name) => {
+  name = name.toLowerCase();
   return list.findIndex(c => c.name === name);
 }
 

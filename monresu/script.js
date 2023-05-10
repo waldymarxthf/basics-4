@@ -54,27 +54,30 @@ function tabsContainerNodeHandler(event) {
   tabContentNodes[index].classList.add('active');
 }
 
+function loadCityFromCache(name) {
+  DOMchange(cache[findIndexCityInCache(cache, name)].data, name);
+}
+
+async function updateCityInCache(name, URL) {
+  const data = await getData(URL);
+  cache[findIndexCityInCache(cache, name)].data = data;
+  cache[findIndexCityInCache(cache, name)].time = new Date().getHours();
+  DOMchange(data, name);
+  saveToLocalStorage('cache', cache);
+}
+
 async function weather(cityName) {
   const URL = `${serverURL}?q=${cityName}&appid=${apiKey}&units=metric`;
   form.reset();
+  console.log(list)
   const isCityInCache = cityExistsInCache(cache, cityName.toLowerCase());
-  console.log(cache)
   if (isCityInCache[0] && isCityInCache[1]) {
-    console.log('нашел', cityName)
-    DOMchange(cache[findIndexCityInCache(cache, cityName)].data, cityName);
+    loadCityFromCache(cityName);
     return;
   }
   else if (isCityInCache[0] && !isCityInCache[1]) {
-    console.log('Обновил')
-    const data = await getData(URL);
-    cache[findIndexCityInCache(cache, cityName)].data = data;
-    cache[findIndexCityInCache(cache, cityName)].time = new Date().getHours();
-    DOMchange(data, cityName);
-    saveToLocalStorage('cache', cache);
+    updateCityInCache(cityName, URL)
     return;
-  }
-  else {
-    console.log('не нашел')
   }
   try {
     console.log('Отправил на сервер')
@@ -102,9 +105,8 @@ function formHandler(event) {
 
 form.addEventListener('submit', event => formHandler(event));
 
-
-
 function addCity(name) {
+  console.log(findCityIndex(list, name))
   if (findCityIndex(list, name) !== -1) {
     console.log('Город уже есть в списке');
     return;
