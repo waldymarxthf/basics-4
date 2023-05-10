@@ -123,7 +123,7 @@ main {
   width: 100%;
 }
 .weather__find-input::placeholder {
-  color: #ffffff;
+  color: rgba(255, 255, 255, 0.5333333333);
 }
 .weather__find {
   display: flex;
@@ -252,8 +252,20 @@ main {
   margin-bottom: 40px;
 }
 .now__icon {
-  text-align: center;
   height: 100%;
+  display: flex;
+  justify-content: center;
+}
+.now__icon-container {
+  width: 100%;
+  max-width: 100px;
+  height: 100%;
+  max-height: 100px;
+}
+.now__icon-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 .now__city {
   display: flex;
@@ -308,20 +320,37 @@ main {
   overflow-y: auto;
   max-height: 327px;
 }
+.content-right__list-item {
+  display: flex;
+  justify-content: space-between;
+  color: #000000;
+  cursor: pointer;
+}
+.content-right__list-item:hover {
+  color: #ffffff;
+}
 .content-right__list-item:not(:last-child) {
   margin-bottom: 15px;
 }
 .content-right__list-item a {
+  width: 100%;
   font-style: normal;
   font-weight: 400;
   font-size: 24px;
   line-height: 28px;
-  color: #000000;
-  transition-duration: 0.1s;
+  color: inherit;
 }
-.content-right__list-item a:hover {
-  color: #ffffff;
-  transition-duration: 0.1s;
+.content-right__list-item:hover button {
+  display: inline-block;
+}
+.content-right__list-item button {
+  display: none;
+  width: 30px;
+  height: 28px;
+  background: url("../../source/isons/delete.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 30px 28px;
 }
 
 ::-webkit-scrollbar {

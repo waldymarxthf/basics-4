@@ -1,0 +1,13 @@
+{
+  "favorites": [
+    {
+      "id": 1,
+      "nameCity": "Orenburg" 
+    },
+    {
+      "id": 2,
+      "nameCity": "London" 
+    }
+    
+  ]
+}

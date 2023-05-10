@@ -20,21 +20,41 @@
     max-height: 327px;
   }
 
+  &__list-item {
+    display: flex;
+    justify-content: space-between;
+    color: #000000;
+    cursor: pointer;
+  }
+
+  &__list-item:hover {
+    color: #ffffff;
+  }
+
   &__list-item:not(:last-child) {
     margin-bottom: 15px;
   }
 
   &__list-item a {
+    width: 100%;
     font-style: normal;
     font-weight: 400;
     font-size: 24px;
     line-height: 28px;
-    color: #000000;
-    transition-duration: 0.1s;
+    color: inherit;
   }
 
-  &__list-item a:hover {
-    color: #ffffff;
-    transition-duration: 0.1s;
+  &__list-item:hover button {
+    display: inline-block;
+  }
+
+  &__list-item button {
+    display: none;
+    width: 30px;
+    height: 28px;
+    background: url("../../source/isons/delete.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 30px 28px;
   }
 }

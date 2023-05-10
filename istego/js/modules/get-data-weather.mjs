@@ -1,7 +1,7 @@
 import { UI, render } from './index.mjs';
 import { serverUrl, apiKey } from './data-server.mjs';
 
-async function getWeather(event='null') {
+async function getWeather(event) {
   event.preventDefault();
   const cityName = UI.findInp.value;
   const url = `${serverUrl}?q=${cityName}&appid=${apiKey}&units=metric`;
@@ -51,4 +51,29 @@ function dataGeneration(weatherData) {
   localStorage.setItem('myListData', listDataString);
 }
 
-export { getWeather };
+async function getWeatherFavorite(cityName) {
+  const url = `${serverUrl}?q=${cityName}&appid=${apiKey}&units=metric`;
+
+  try {
+    UI.preload.style.display = 'flex';
+    const response = await fetch(url);
+    const weatherData = await response.json();
+
+    if (weatherData.cod === 200) {
+      UI.findInp.value = '';
+      render(dataGeneration(weatherData));
+      UI.preload.style.display = 'none';
+    } 
+    else if(weatherData.cod === '404') {
+      UI.findInp.value = '';
+      alert('Город не найден');
+      UI.preload.style.display = 'none';
+    }
+  } catch (error) {
+    alert('Произошла ошибка');
+    console.log('Error: ' + error.message);
+    UI.preload.style.display = 'none';
+  }
+}
+
+export { getWeather, getWeatherFavorite };
