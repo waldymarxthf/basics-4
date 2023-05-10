@@ -3,6 +3,8 @@ export const VARIABLES = {
 	FORM_ELEMENT: document.querySelector(".weather__search"),
 	WEATHER_BLOCK: document.querySelectorAll(".weather__block"),
 	FORM: document.querySelector(".weather__search"),
+	PRELOADER: document.querySelector(".preloader"),
+	ACTIVE_TAB:document.querySelector(".active"), 
 	NOW: {
 		TEMPERATURE: document.querySelector(".weather__block-temp span"),
 		ICON: document.querySelector(".weather__block-icon"),

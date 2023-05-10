@@ -14,6 +14,7 @@ const serverUrl = "http://api.openweathermap.org/data/2.5/weather";
 const apiKey = "afc9f2df39f9e9e49eeb1afac7034d35";
 
 async function getCityWeather(location) {
+	showLoader()
 	try {
 		let link = `${serverUrl}?q=${location}&appid=${apiKey}&units=metric`;
 		let response = await fetch(link);
@@ -26,6 +27,8 @@ async function getCityWeather(location) {
 		}
 	} catch (error) {
 		alert(error.message);
+	} finally {
+		hideLoader()
 	}
 }
 
@@ -83,7 +86,7 @@ function addLocation() {
 		if (locations.some(el => el.location === cityName)) {
 			throw new Error('Такой город уже добавлен');
 		}
-		
+
 		locations.push({
 			location: VARIABLES.NOW.CITY.textContent
 		})
@@ -132,6 +135,16 @@ function deleteLocation(newLocation) {
 	let index = locations.findIndex((el) => el.location === newLocation.textContent)
 	locations.splice(index, 1)
 	renderLocations()
+}
+
+function showLoader() {
+	VARIABLES.ACTIVE_TAB.style.display = 'none'
+	VARIABLES.PRELOADER.style.display = 'flex'
+}
+
+function hideLoader() {
+	VARIABLES.ACTIVE_TAB.style.display = 'block'
+	VARIABLES.PRELOADER.style.display = 'none'
 }
 
 addEventListener('DOMContentLoaded', updateWeather('Aktobe'))

@@ -309,3 +309,14 @@ body{
 ::-webkit-scrollbar {
   display: none;
 }
+
+.preloader{
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 300px;
+	height: 345px;
+	border-right: 1px solid #000000;
+	background: #ffffff;
+}
