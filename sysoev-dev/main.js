@@ -1,7 +1,14 @@
 import { UI_ELEMENTS } from './js/ui.js';
 import { roundValue } from './js/utils.js';
 
-const favoritesCitiesList = [];
+const favoritesCitiesList = [
+  'Amur',
+  'Samara',
+  'Bali',
+  'Dane',
+  'Kilo',
+  'Nur-Sultan',
+];
 
 function showWeatherData(data) {
   const iconUrl = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
@@ -50,6 +57,15 @@ function submitSearchFormHandler(event) {
   event.target.reset();
 }
 
+function deleteFavoritesItem(name) {
+  const index = favoritesCitiesList.indexOf(name);
+  if (index >= 0) {
+    favoritesCitiesList.splice(index, 1);
+    console.log(favoritesCitiesList);
+    render();
+  }
+}
+
 function createFavoritesElement(cityName) {
   const item = document.createElement('li');
   const p = document.createElement('p');
@@ -63,19 +79,32 @@ function createFavoritesElement(cityName) {
 
   item.append(p, button);
 
+  p.addEventListener('click', () => getWeatherData(cityName));
+  button.addEventListener('click', () => deleteFavoritesItem(cityName));
+
   return item;
 }
 
-function addFavoritesElement(event) {
-  const cityName = event.target.previousElementSibling.textContent;
-  const element = createFavoritesElement(cityName);
-  showFavoritesElement(element);
-  favoritesCitiesList.push(cityName);
-  console.log(favoritesCitiesList);
+function findInFavoritesList(item) {
+  return favoritesCitiesList.includes(item);
 }
 
 function showFavoritesElement(element) {
   UI_ELEMENTS.FAVORITES_LIST.prepend(element);
+}
+
+function addFavoritesElement(cityName) {
+  const element = createFavoritesElement(cityName);
+  const isValid = findInFavoritesList(cityName);
+  showFavoritesElement(element);
+  if (!isValid) {
+    favoritesCitiesList.push(cityName);
+  }
+}
+
+function render() {
+  UI_ELEMENTS.FAVORITES_LIST.textContent = '';
+  favoritesCitiesList.forEach(item => addFavoritesElement(item));
 }
 
 UI_ELEMENTS.TABS.forEach(item => {
@@ -87,6 +116,10 @@ UI_ELEMENTS.TABS.forEach(item => {
   });
 });
 
-UI_ELEMENTS.LIKE_BTN.addEventListener('click', addFavoritesElement);
+UI_ELEMENTS.LIKE_BTN.addEventListener('click', event => {
+  const cityName = event.target.previousElementSibling.textContent;
+  addFavoritesElement(cityName);
+});
 
 UI_ELEMENTS.SEARCH_FORM.addEventListener('submit', submitSearchFormHandler);
+document.addEventListener('DOMContentLoaded', render);

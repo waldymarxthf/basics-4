@@ -101,6 +101,7 @@ body {
 .locations__item-text {
   margin: 0;
   margin-right: 10px;
+  cursor: pointer;
 }
 
 .locations__item-button {
