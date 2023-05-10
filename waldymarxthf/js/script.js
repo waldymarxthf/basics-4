@@ -13,8 +13,6 @@ VARIABLES.TABS.forEach((tab, index) => {
 const serverUrl = "http://api.openweathermap.org/data/2.5/weather";
 const apiKey = "afc9f2df39f9e9e49eeb1afac7034d35";
 
-let cityWeatherData = null
-
 async function getCityWeather() {
 	try {
 		let cityName = new FormData(VARIABLES.FORM_ELEMENT).get("city");
@@ -46,10 +44,12 @@ async function changeBlockDetails(data) {
 	const tempBlockDetails = Math.round(data.main.temp);
 	const feelsLikeBlockDetails = Math.round(data.main.feels_like);
 	const weatherBlockDetails = data.weather[0].main;
-	const sunriseDate = new Date(data.sys.sunrise * 1000)
-	const sunriseBlockDetails = sunriseDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-	const sunsetDate = new Date(data.sys.sunset * 1000)
-	const sunsetBlockDetails = sunsetDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+	const sunriseDate = new Date((data.sys.sunrise + data.timezone) * 1000)
+	const sunriseLocalDate = sunriseDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' });
+	const sunriseBlockDetails = sunriseLocalDate
+	const sunsetDate = new Date((data.sys.sunset + data.timezone) * 1000)
+	const sunsetLocalDate = sunsetDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' });
+	const sunsetBlockDetails = sunsetLocalDate
 	VARIABLES.DETAILS.TEMPERATURE.textContent = tempBlockDetails
 	VARIABLES.DETAILS.CITY.textContent = cityBlockDetails
 	VARIABLES.DETAILS.FEEL_LIKE.textContent = feelsLikeBlockDetails
@@ -59,9 +59,7 @@ async function changeBlockDetails(data) {
 }
 
 async function updateWeather() {
-	if (!cityWeatherData) {
-		cityWeatherData = await getCityWeather()
-	}
+	let cityWeatherData = await getCityWeather()
 
 	await changeBlockNow(cityWeatherData)
 	await changeBlockDetails(cityWeatherData)
