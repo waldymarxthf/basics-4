@@ -1,9 +1,16 @@
 import { tabsBtnsHandler, renderData, getData, addToFavourite, deleteFromFavourite, renderFavourites } from "./script.js";
-import { form, input, favourites } from "./ui.js";  
+import { form, input} from "./ui.js";
 
-if (localStorage.getItem('favourites')) {
-  favourites = JSON.parse(localStorage.getItem('favourites'));
-  favourites.forEach(city => {console.log(city); renderFavourites(city)});
+export const favourites = [];
+
+function loadLocations() {
+  const town = JSON.parse(localStorage.getItem('location'));
+  favourites.push(...town)
+  renderFavourites(town)
+}
+
+export function saveToLocalStorage() {
+  localStorage.setItem('location', JSON.stringify(favourites))
 };
 
 window.addEventListener('click', async (e) => {
@@ -23,3 +30,5 @@ form.addEventListener('submit', async (e) => {
   input.value = '';
   input.focus();
 });
+
+loadLocations()

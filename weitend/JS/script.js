@@ -1,4 +1,5 @@
-import { tabs, tabsBlocks, weatherElems, favourites } from "./ui.js";
+import { tabs, tabsBlocks, weatherElems} from "./ui.js";
+import { favourites, saveToLocalStorage } from "./main.js";
 
 function tabsBtnsHandler(e) {
     if (e.target.classList.contains('tab')) {
@@ -11,10 +12,6 @@ function tabsBtnsHandler(e) {
         tabsBlocks.forEach(item => item.classList.add('hide'));
         tabsBlocks[tabIdx].classList.remove('hide');
     };
-};
-
-function saveToLocalStorage() {
-    localStorage.setItem('favourites', JSON.stringify(favourites))
 };
 
 function addToFavourite(e) {
@@ -40,15 +37,15 @@ function deleteFromFavourite(e) {
     }
 };
 
-function renderFavourites(city) {
-    const node = `
-    <div class="weather__locations-list-box" id="locationsContainer">
-        <p class="weather__locations-list-text" id="locationsName">${city.name}</p>
-        <span class="weather__locations-list-del nowDel" id="locationsDelete">❌</span>
-    </div>
-        `;
-
-    weatherElems.locations.list.insertAdjacentHTML('afterbegin', node);
+function renderFavourites(town) {
+    town.forEach(el => {
+        const newLocation = 
+        `<div class="weather__locations-list-box" id="locationsContainer">
+            <p class="weather__locations-list-text" id="locationsName">${el.name}</p>
+            <span class="weather__locations-list-del nowDel" id="locationsDelete">❌</span>
+        </div>`;
+        weatherElems.locations.list.insertAdjacentHTML('afterbegin', newLocation);
+    })
 };
 
 function timeConverter(unixTime) {
