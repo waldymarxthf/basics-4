@@ -5,8 +5,9 @@ export const VARIABLES = {
 	FORM: document.querySelector(".weather__search"),
 	NOW: {
 		TEMPERATURE: document.querySelector(".weather__block-temp span"),
-		CITY: document.querySelector(".weather__block-content-city"),
 		ICON: document.querySelector(".weather__block-icon"),
+		CITY: document.querySelector(".weather__block-content-city"),
+		LIKE: document.querySelector(".weather__block-content-like-path"),
 	},
 	DETAILS: {
 		CITY:  document.querySelector(".weather__details-title"),
