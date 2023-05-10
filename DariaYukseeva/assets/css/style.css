@@ -120,6 +120,13 @@ body {
     height: 22px;
 }
 
+.favorite-btn-for-saved-city {
+    background: url('../img/love_icon.png') no-repeat;
+    background-size: contain;
+    width: 25px;
+    height: 25px;
+}
+
 .tabs {
     height: 45px;
     display: flex;

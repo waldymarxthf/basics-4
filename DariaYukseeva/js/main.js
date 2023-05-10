@@ -10,7 +10,7 @@ const searchCityForm = getDOMElement('.weather-search-form');
 const weatherNowCity = getDOMElement('.selected-city-now');
 const btnAddFavoriteCity = getDOMElement('.favorite-btn');
 const favoriteCitiesList = getDOMElement('.favourite-cities-list');
-const favoriteCities = document.querySelectorAll('.favourite-cities-list-item');
+
 
 let storage = JSON.parse(localStorage.getItem('storage')) || {cities: []};
 
@@ -59,8 +59,7 @@ function process(data) {
     vars.timeZone = data.timezone;
     vars.sunrise = timeConverter(data.sys.sunrise, vars.timeZone);
     vars.sunset = timeConverter(data.sys.sunset, vars.timeZone);
-    console.log(data.name);
-        
+            
     return vars;
 }
 
@@ -91,6 +90,14 @@ function renderWeatherNow(vars) {
     weatherNowCity.textContent = vars.city;
     weatherNowTemperature.textContent = vars.temp;
     weatherNowIcon.src = vars.iconUrl;
+
+    if (storage.cities.includes(vars.city)) {
+        
+        btnAddFavoriteCity.classList.add('favorite-btn-for-saved-city');
+    }
+    else {
+        btnAddFavoriteCity.className = 'favorite-btn';
+    }
 }
 
 function renderWeatherDetails(vars) {
