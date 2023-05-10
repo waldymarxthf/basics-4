@@ -1,5 +1,3 @@
-import {cache} from './variables.mjs'
-
 export async function getData(URL) {
   try {
     const response = await fetch(URL);
@@ -21,7 +19,7 @@ export function getNormalCityName(cityName) {
   return cityName.split('')[0].toUpperCase() + cityName.slice(1);
 }
 
-export function cityExistsInCache(name) {
+export function cityExistsInCache(cache, name) {
   const now = new Date().getHours();
   const cityExist = cache.find(item => item.city.toLowerCase() === name) !== undefined;
   let dateGood = false;
@@ -36,12 +34,19 @@ export function cityExistsInCache(name) {
   return [cityExist, dateGood];
 }
 
-export function findIndexCityInCache(name) {
+export function findIndexCityInCache(cache, name) {
   name = name.toLowerCase();
   const index = cache.findIndex(item => item.city === name);
   return index;
 }
 
-export function saveToLocalStorage() {
-  localStorage.setItem('cache', JSON.stringify(cache))
+export function saveToLocalStorage(key, val) {
+  localStorage.setItem(key, JSON.stringify(val))
 }
+
+export const findCityIndex = (list, name) => {
+  return list.findIndex(c => c.name === name);
+}
+
+export const isEmpty = cityName => cityName.trim();
+

@@ -1,8 +1,9 @@
-import {tabsContainerNode, tabNodes, tabContentNodes, form, inputCityNode, MODAL_NODES} from './modules/variables.mjs'
-import {serverURL, apiKey} from './modules/variables.mjs'
-import {NOW_SCREEN_NODES, DETAILS_SCREEN_NODES, FORECAST_SCREEN_NODES} from './modules/variables.mjs'
-import {getData, timeConverter, getNormalCityName, cityExistsInCache, findIndexCityInCache, saveToLocalStorage} from './modules/functions.mjs'
-import {cache} from './modules/variables.mjs'
+import { tabsContainerNode, tabNodes, tabContentNodes, form, inputCityNode, } from './modules/variables.mjs'
+import { serverURL, apiKey, cache } from './modules/variables.mjs'
+import { NOW_SCREEN_NODES, DETAILS_SCREEN_NODES, FORECAST_SCREEN_NODES, MODAL_NODES, FAV_SCREEN_NODES, } from './modules/variables.mjs'
+import { getData, timeConverter, getNormalCityName, cityExistsInCache, findIndexCityInCache, saveToLocalStorage, findCityIndex } from './modules/functions.mjs'
+
+const list = JSON.parse(localStorage.getItem('favCities')) || [];
 
 function modalErrorButtonHandler() {
   MODAL_NODES.modalError.style.display = 'none';
@@ -16,6 +17,13 @@ function showError(error) {
 }
 
 function DOMchange(data, cityName) {
+  if (findCityIndex(list, cityName) !== -1) {
+    NOW_SCREEN_NODES.NOW_FAV_CITY.src = './assets/svg/shape-full.svg'
+  }
+  else {
+    NOW_SCREEN_NODES.NOW_FAV_CITY.src = './assets/svg/Shape.svg'
+  }
+
   const weather = data.weather[0].main;
   const timeSunrise = timeConverter(data.sys.sunrise);
   const timeSunset = timeConverter(data.sys.sunset);
@@ -46,26 +54,23 @@ function tabsContainerNodeHandler(event) {
   tabContentNodes[index].classList.add('active');
 }
 
-async function formHandler(event) {
-  event.preventDefault();
-
-  const cityName = inputCityNode.value;
+async function weather(cityName) {
   const URL = `${serverURL}?q=${cityName}&appid=${apiKey}&units=metric`;
   form.reset();
-  const isCityInCache = cityExistsInCache(cityName.toLowerCase());
+  const isCityInCache = cityExistsInCache(cache, cityName.toLowerCase());
   console.log(cache)
   if (isCityInCache[0] && isCityInCache[1]) {
-    console.log('нашел')
-    DOMchange(cache[findIndexCityInCache(cityName)].data, cityName);
+    console.log('нашел', cityName)
+    DOMchange(cache[findIndexCityInCache(cache, cityName)].data, cityName);
     return;
-  } 
-  else if(isCityInCache[0] && !isCityInCache[1]) {
+  }
+  else if (isCityInCache[0] && !isCityInCache[1]) {
     console.log('Обновил')
     const data = await getData(URL);
-    cache[findIndexCityInCache(cityName)].data = data;
-    cache[findIndexCityInCache(cityName)].time = new Date().getHours();
+    cache[findIndexCityInCache(cache, cityName)].data = data;
+    cache[findIndexCityInCache(cache, cityName)].time = new Date().getHours();
     DOMchange(data, cityName);
-    saveToLocalStorage();
+    saveToLocalStorage('cache', cache);
     return;
   }
   else {
@@ -75,7 +80,7 @@ async function formHandler(event) {
     console.log('Отправил на сервер')
     const data = await getData(URL);
     if ('message' in data) {
-      throw new Error(`Error: ${data.message}`);a
+      throw new Error(`Error: ${data.message}`); a
     }
     cache.push({
       city: cityName.toLowerCase(),
@@ -83,10 +88,67 @@ async function formHandler(event) {
       time: new Date().getHours(),
     })
     DOMchange(data, cityName);
-    saveToLocalStorage();
+    saveToLocalStorage('cache', cache);
   } catch (error) {
     showError(error.message);
   }
 }
 
-form.addEventListener('submit',  event => formHandler(event));
+function formHandler(event) {
+  event.preventDefault();
+  const cityName = inputCityNode.value.trim();
+  weather(cityName);
+}
+
+form.addEventListener('submit', event => formHandler(event));
+
+
+
+function addCity(name) {
+  if (findCityIndex(list, name) !== -1) {
+    console.log('Город уже есть в списке');
+    return;
+  }
+  list.push({ name: name.toLowerCase() });
+  saveToLocalStorage('favCities', list);
+}
+
+function removeCity(name) {
+  const index = findCityIndex(list, name);
+  list.splice(index, 1);
+  saveToLocalStorage('favCities', list);
+  return;
+}
+
+function render() {
+  FAV_SCREEN_NODES.citiesContainer.innerHTML = '';
+  for (const city of list) {
+    const cityNode = document.createElement('li');
+    cityNode.classList.add('city-names_city');
+    cityNode.textContent = city.name;
+    const closeBtn = document.createElement('span');
+    closeBtn.textContent = 'x';
+    closeBtn.classList.add('city-names_city-close')
+    closeBtn.addEventListener('click', function closeBtnHandler() {
+      removeCity(city.name);
+      render();
+      this.removeEventListener('click', closeBtnHandler)
+    })
+    cityNode.addEventListener('click', function cityNodeHandler(e) {
+      if (e.target.classList.contains('city-names_city-close')) { return; }
+      weather(city.name.toLowerCase());
+    })
+    cityNode.appendChild(closeBtn);
+    FAV_SCREEN_NODES.citiesContainer.appendChild(cityNode);
+  }
+}
+
+function favBtnHandler() {
+  addCity(NOW_SCREEN_NODES.NOW_CITY.textContent);
+  render();
+  weather(NOW_SCREEN_NODES.NOW_CITY.textContent.toLowerCase());
+}
+
+NOW_SCREEN_NODES.NOW_FAV_CITY.addEventListener('click', favBtnHandler)
+
+render()

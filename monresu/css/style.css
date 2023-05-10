@@ -304,4 +304,12 @@ body {
   gap: 20px;
 }
 
+.city-names_city {
+  display: flex;
+  justify-content: space-around;
+}
+
+.city-names_city-close:hover {
+  cursor: pointer;
+}
 /*# sourceMappingURL=style.css.map */
