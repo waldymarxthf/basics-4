@@ -1,7 +1,7 @@
 import { tabsContainerNode, tabNodes, tabContentNodes, form, inputCityNode, } from './modules/variables.mjs'
 import { serverURL, apiKey, cache } from './modules/variables.mjs'
 import { NOW_SCREEN_NODES, DETAILS_SCREEN_NODES, FORECAST_SCREEN_NODES, MODAL_NODES, FAV_SCREEN_NODES, } from './modules/variables.mjs'
-import { getData, timeConverter, getNormalCityName, cityExistsInCache, findIndexCityInCache, saveToLocalStorage, findCityIndex } from './modules/functions.mjs'
+import { getData, timeConverter, cityExistsInCache, findIndexCityInCache, saveToLocalStorage, findCityIndex } from './modules/functions.mjs'
 
 const list = JSON.parse(localStorage.getItem('favCities')) || [];
 
@@ -45,14 +45,14 @@ function renderWeather(data, cityName) {
 
   NOW_SCREEN_NODES.NOW_TEMP.textContent = data.main.temp;
   NOW_SCREEN_NODES.NOW_ICON_WEATHER.src = srcIcon;
-  NOW_SCREEN_NODES.NOW_CITY.textContent = getNormalCityName(cityName);
-  DETAILS_SCREEN_NODES.DETAILS_CITY_NAME.textContent = getNormalCityName(cityName);;
+  NOW_SCREEN_NODES.NOW_CITY.textContent = data.name;
+  DETAILS_SCREEN_NODES.DETAILS_CITY_NAME.textContent = data.name;
   DETAILS_SCREEN_NODES.DETAILS_TEMP.textContent = data.main.temp
   DETAILS_SCREEN_NODES.DETAILS_TEMP_FEELSLIKE.textContent = data.main.feels_like;
   DETAILS_SCREEN_NODES.DETAILS_WEATHER.textContent = weather;
   DETAILS_SCREEN_NODES.DETAILS_SUNRISE.textContent = timeSunrise;
   DETAILS_SCREEN_NODES.DETAILS_SUNSET.textContent = timeSunset;
-  FORECAST_SCREEN_NODES.FORECAST_CITY_NAME.textContent = getNormalCityName(cityName);
+  FORECAST_SCREEN_NODES.FORECAST_CITY_NAME.textContent = data.name;
 }
 
 tabsContainerNode.addEventListener('click', event => tabsContainerNodeHandler(event));

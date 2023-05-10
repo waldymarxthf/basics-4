@@ -14,10 +14,6 @@ export function timeConverter(UNIX_timestamp, timezone) {
   return normalTime;
 }
 
-export function getNormalCityName(cityName) {
-  return cityName.split('')[0].toUpperCase() + cityName.slice(1);
-}
-
 export function cityExistsInCache(cache, name) {
   const now = new Date().getHours();
   const cityExist = cache.find(item => item.city.toLowerCase() === name) !== undefined;
