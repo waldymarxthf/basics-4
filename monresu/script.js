@@ -1,7 +1,7 @@
 import { tabsContainerNode, tabNodes, tabContentNodes, form, inputCityNode, } from './modules/variables.mjs'
 import { serverURL, apiKey, cache } from './modules/variables.mjs'
 import { NOW_SCREEN_NODES, DETAILS_SCREEN_NODES, FORECAST_SCREEN_NODES, MODAL_NODES, FAV_SCREEN_NODES, } from './modules/variables.mjs'
-import { getData, timeConverter, getNormalCityName, cityExistsInCache, findIndexCityInCache, saveToLocalStorage, findCityIndex } from './modules/functions.mjs'
+import { getData, timeConverter, getNormalCityName, cityExistsInCache, findIndexCityInCache, saveToLocalStorage, findCityIndex, updateCityInCache, loadCityFromCache } from './modules/functions.mjs'
 
 const list = JSON.parse(localStorage.getItem('favCities')) || [];
 
@@ -54,32 +54,19 @@ function tabsContainerNodeHandler(event) {
   tabContentNodes[index].classList.add('active');
 }
 
-function loadCityFromCache(name) {
-  renderWeather(cache[findIndexCityInCache(cache, name)].data, name);
-}
-
-async function updateCityInCache(name, URL) {
-  const data = await getData(URL);
-  cache[findIndexCityInCache(cache, name)].data = data;
-  cache[findIndexCityInCache(cache, name)].time = new Date().getHours();
-  renderWeather(data, name);
-  saveToLocalStorage('cache', cache);
-}
-
 async function weather(cityName) {
   const URL = `${serverURL}?q=${cityName}&appid=${apiKey}&units=metric`;
   form.reset();
   const isCityInCache = cityExistsInCache(cache, cityName.toLowerCase());
   if (isCityInCache[0] && isCityInCache[1]) {
-    loadCityFromCache(cityName);
+    loadCityFromCache(cache, cityName);
     return;
   }
   else if (isCityInCache[0] && !isCityInCache[1]) {
-    updateCityInCache(cityName, URL)
+    updateCityInCache(cache, cityName, URL)
     return;
   }
   try {
-    console.log('Отправил на сервер')
     const data = await getData(URL);
     if ('message' in data) {
       throw new Error(`Error: ${data.message}`); a
@@ -121,7 +108,7 @@ function removeCity(name) {
   return;
 }
 
-function render() {
+function renderFavCities() {
   FAV_SCREEN_NODES.citiesContainer.innerHTML = '';
   for (const city of list) {
     const cityNode = document.createElement('li');
@@ -132,7 +119,7 @@ function render() {
     closeBtn.classList.add('city-names_city-close')
     closeBtn.addEventListener('click', function closeBtnHandler() {
       removeCity(city.name);
-      render();
+      renderFavCities();
       this.removeEventListener('click', closeBtnHandler)
     })
     cityNode.addEventListener('click', function cityNodeHandler(e) {
@@ -146,11 +133,11 @@ function render() {
 
 function favBtnHandler() {
   addCity(NOW_SCREEN_NODES.NOW_CITY.textContent);
-  render();
+  renderFavCities();
   weather(NOW_SCREEN_NODES.NOW_CITY.textContent.toLowerCase());
 }
 
 NOW_SCREEN_NODES.NOW_FAV_CITY.addEventListener('click', favBtnHandler)
 
 weather('aktobe')
-render()
+renderFavCities()
