@@ -215,20 +215,41 @@ body {
     padding-top: 33px;
 }
 
-.favourite-cities-list {
+.favourite-cities-list-wrapper {
     padding-left: 18px;
     padding-top: 35px;
 }
 
-.favourite-cities-list ul {
+.favourite-cities-list {
     list-style: none;
     padding: 0;
     margin: 0;
     line-height: 1.7;
 }
 
-.favourite-cities-list li {
+.favourite-cities-list-item {
     cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 10px;
+}
+
+.favourite-cities-list-item:hover {
+    text-shadow: 2px 2px rgba(34, 60, 80, 0.2);
+}
+
+.favourite-cities-list-delete-btn {
+    border: none;
+    cursor: pointer;
+    height: 25px;
+    width: 25px;
+    background: transparent;
+}
+
+.favourite-cities-list-item:hover > .favourite-cities-list-delete-btn {
+    background: url('../img/trash_icon.svg') no-repeat;
+    background-size: contain;
 }
 
 .inactive-block {

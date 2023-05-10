@@ -1,12 +1,18 @@
 // Задача: отображение погоды для выбранного города.
 
-import {getDOMElement, correctSpellingOfCity, timeConverter} from './utils.js'
+import {getDOMElement, timeConverter, saveToLocalStorage} from './utils.js'
 
 const tabsContent = document.querySelectorAll('.tabs-content-item');
 const tabsBtn = document.querySelectorAll('.tab-item');
 const tabsBtns = getDOMElement('.tabs');
 const searchCityInput = getDOMElement('.weather-search-form-input');
 const searchCityForm = getDOMElement('.weather-search-form');
+const weatherNowCity = getDOMElement('.selected-city-now');
+const btnAddFavoriteCity = getDOMElement('.favorite-btn');
+const favoriteCitiesList = getDOMElement('.favourite-cities-list');
+const favoriteCities = document.querySelectorAll('.favourite-cities-list-item');
+
+let storage = JSON.parse(localStorage.getItem('storage')) || {cities: []};
 
 // отображение информации
 async function showWeather(city) {
@@ -14,7 +20,7 @@ async function showWeather(city) {
     const data = await fetchNowWeather(city);
    
     // подготовка необходимых данных
-    const vars = process(data, city);
+    const vars = process(data);
     
     // отрисовка данных
     render(vars);
@@ -41,11 +47,11 @@ async function fetchNowWeather(city) {
     }
 }
 
-// выбор нужных данных из полученных
-function process(data, city) {
+// выбор нужных данных из полученных и сохранение их в localStorage
+function process(data) {
     const vars = {};
 
-    vars.city = city;
+    vars.city = data.name;
     vars.temp = Math.round(data.main.temp);
     vars.iconUrl = `https://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png`;
     vars.feelsLikeTemp = Math.round(data.main.feels_like);
@@ -53,7 +59,8 @@ function process(data, city) {
     vars.timeZone = data.timezone;
     vars.sunrise = timeConverter(data.sys.sunrise, vars.timeZone);
     vars.sunset = timeConverter(data.sys.sunset, vars.timeZone);
-     console.log(vars.timeZone);
+    console.log(data.name);
+        
     return vars;
 }
 
@@ -79,7 +86,6 @@ function render(vars) {
 
 function renderWeatherNow(vars) {
     const weatherNowIcon = getDOMElement('.weather-now-precipitation-img');
-    const weatherNowCity = getDOMElement('.selected-city-now');
     const weatherNowTemperature = getDOMElement('.temperature');
 
     weatherNowCity.textContent = vars.city;
@@ -116,7 +122,7 @@ const tabsBtnsHandler = (event) => {
 const searchFormHandler = (event) => {
     try {
         event.preventDefault();
-    const city = correctSpellingOfCity(searchCityInput.value);
+    const city = searchCityInput.value.trim();
     if (!city) {
         throw new Error('Некорректное название города');
                 
@@ -132,6 +138,89 @@ const searchFormHandler = (event) => {
     }
 }
 
+const btnFavoriteCityHandler = () => {
+    const city = weatherNowCity.textContent;
+    addFavoriteCities(city);
+}
+
+function addFavoriteCities(city) {
+    addFavoriteCityToStorage(city);
+    saveToLocalStorage('storage', storage);
+    renderFavoriteCities();
+}
+
+function addFavoriteCityToStorage(city) {
+    if (storage.cities.length !== 0 && storage.cities.includes(city)) {
+        alert('В вашем списке избранных городов уже есть этот город');
+        return;
+    }
+    storage.cities.push(city);
+   
+}
+
+function renderFavoriteCities() {
+    favoriteCitiesList.innerHTML = '';
+    storage.cities.forEach(city => addFavoriteCityNode(city));
+}
+
+function addFavoriteCityNode(city) {
+    const favoriteCity = document.createElement('li');
+    const btnDeleteCity = document.createElement('button');
+    const spanCity = document.createElement('span');
+    
+    spanCity.textContent = city;
+    spanCity.classList.add('favourite-city-span');
+    favoriteCity.classList.add('favourite-cities-list-item');
+    btnDeleteCity.classList.add('favourite-cities-list-delete-btn');
+    favoriteCity.setAttribute('data-city', city);
+    favoriteCitiesList.append(favoriteCity);
+    favoriteCity.append(spanCity);
+    favoriteCity.append(btnDeleteCity);
+    favoriteCity.addEventListener('click', favoriteCitiesListHandler);
+}
+
+function removeFavoriteCity(city) {
+    deleteFavoriteCityFromStorage(city);
+    renderFavoriteCities();
+}
+
+function deleteFavoriteCityFromStorage(city) {
+    storage.cities = storage.cities.filter(c => c !== city);
+    saveToLocalStorage('storage', storage);
+  
+}
+
+
+function favoriteCitiesListHandler(e) {
+    const parentElement = e.target.closest('[data-city]');
+    const city = parentElement.getAttribute('data-city');
+    if (e.target.classList.contains('favourite-cities-list-delete-btn')) {
+        removeFavoriteCity(city);
+        return;
+    }
+    if (e.target.classList.contains('favourite-city-span')) {
+        showWeather(city);
+        return;
+    }
+   
+}
+
+
+
+btnAddFavoriteCity.addEventListener('click', btnFavoriteCityHandler);
+
 tabsBtns.addEventListener('click', tabsBtnsHandler);
 
 searchCityForm.addEventListener('submit', searchFormHandler);
+
+function init() {
+    if (storage.cities.length === 0) {
+        showWeather("Koh Pha Ngan");
+    }
+    else {
+        showWeather(storage.cities[0]);
+    }
+    renderFavoriteCities();
+}
+
+init();
