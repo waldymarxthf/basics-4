@@ -7,6 +7,8 @@ const UI_ELEMENTS = {
   TEMP: getElement(".weather__block-temp"),
   CURRENT_CITY: getElement(".weather__block-content-city"),
   CURRENT_ICON: getElement(".weather__block-cloud"),
+  FAVORITE_BUTTON: getElement(".weather__block-content-heart"),
+  LIST_FAV_CITIES: getElement(".list-locations"),
 };
 
 export { UI_ELEMENTS };

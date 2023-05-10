@@ -1,4 +1,4 @@
-import { loadUI } from "./render.js";
+import { addToFavorite, loadData } from "./render.js";
 import { UI_ELEMENTS } from "./ui.js";
 import { round } from "./utils.js";
 
@@ -22,7 +22,7 @@ async function getData(cityName) {
       const temperature = round(json.main.temp);
       const icon = json.weather[0].icon;
       const name = json.name;
-      loadUI(temperature, name, icon);
+      loadData(temperature, name, icon);
     } else {
       throw new Error((await response.json()).message);
     }
@@ -37,3 +37,10 @@ UI_ELEMENTS.SEARCH_FORM.addEventListener("submit", (event) => {
   getData(cityName);
   event.target.reset();
 });
+
+UI_ELEMENTS.FAVORITE_BUTTON.addEventListener("click", () => {
+  let name = UI_ELEMENTS.CURRENT_CITY.textContent;
+  addToFavorite(name);
+});
+
+export { getData };

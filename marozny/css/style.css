@@ -137,9 +137,72 @@ body {
 .weather .container-left .active {
   display: block;
 }
-.weather .container-right {
-  height: 389px;
-  width: 302px;
+.weather__location {
+  width: 300px;
+  height: 390px;
+}
+.weather__location-add {
+  height: 68.5px;
+  border-bottom: 1px solid #000000;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 28px;
+  color: #000000;
+  padding-top: 33.5px;
+  padding-left: 18px;
+}
+.weather__location-save {
+  padding-top: 35px;
+  padding-left: 18px;
+}
+.weather__location-save .list-locations {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.weather__location-save .list-locations__item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 40px;
+  color: #000000;
+  cursor: pointer;
+}
+.weather__location-save .list-locations__item:hover .list-locations__item-btn {
+  -webkit-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+  -webkit-transform: scale(1);
+          transform: scale(1);
+  visibility: visible;
+}
+.weather__location-save .list-locations__item:hover .list-locations__item-btn:hover {
+  -webkit-transform: scale(1.3);
+          transform: scale(1.3);
+  -webkit-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+}
+.weather__location-save .list-locations__item-btn {
+  background: url(../assets/svg/close.svg) no-repeat;
+  visibility: hidden;
+  width: 25px;
+  height: 20px;
+  border: none;
+  cursor: pointer;
+  margin-right: 20px;
+  margin-top: 10px;
+  -webkit-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+  -webkit-transform: scale(0);
+          transform: scale(0);
 }
 .weather .tabs {
   display: -webkit-box;
