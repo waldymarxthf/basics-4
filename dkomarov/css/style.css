@@ -277,3 +277,7 @@ h2 {
 .active {
     display: block;
 }
+
+.new-element {
+    display: block;
+}

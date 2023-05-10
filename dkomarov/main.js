@@ -92,6 +92,62 @@ formNode.addEventListener('submit', (e) => {
 
 
 
+//add function
+
+const nameShapeCity = document.querySelector('.love-city');
+const addButtonShape = document.querySelector('.now-btn-shape');
+const sectionItem = document.querySelector('.locations');
+
+console.log(nameShapeCity.textContent)
+
+
+const array = [];
+
+
+function addTask(text) {
+    array.push(text);
+};
+
+function addCity() {
+    
+    const name = nameShapeCity.textContent;
+    const item = {
+        city: name
+    };
+    
+    addTask(item);
+    console.log(array)
+    
+    render();
+};
+
+function deleteCity(text) {
+    const indexItem = array.findIndex(e => e.city === text)
+    console.log(indexItem);
+    array.splice(indexItem, 1);
+    console.log(array)
+    render();
+}
+
+
+function createElement(sectionItem, text) {
+    const newElem = document.createElement('span');
+    newElem.classList.add('new-element')
+    newElem.textContent = text
+
+    sectionItem.appendChild(newElem);
+};
+
+function render() {
+    sectionItem.innerHTML = '';
+    for (let obj of array) {
+        createElement(sectionItem, obj.city);
+    }
+}
+
+
+addButtonShape.addEventListener('click', addCity)
+
 
 
 
