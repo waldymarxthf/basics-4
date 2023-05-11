@@ -100,14 +100,16 @@ body {
 .selected-city-now-wrapper {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding-left: 12px;
     padding-right: 26px;
+    padding-bottom: 17px;
 }
 
 .selected-city-now {
     font-size: 24px;
     line-height: 28px;
-    padding-bottom: 17px;
+    
 }
 
 .favorite-btn {

@@ -11,3 +11,8 @@ export function timeConverter(UNIX_timestamp, timeZone) {
 export function saveToLocalStorage(key, object) {
     localStorage.setItem(key, JSON.stringify(object));
 }
+
+export function loadFromLocalStorage(key) {
+    return JSON.parse(localStorage.getItem(key));
+   
+}

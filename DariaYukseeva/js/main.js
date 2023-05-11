@@ -1,6 +1,6 @@
 // Задача: отображение погоды для выбранного города.
 
-import {getDOMElement, timeConverter, saveToLocalStorage} from './utils.js'
+import {getDOMElement, timeConverter, saveToLocalStorage, loadFromLocalStorage} from './utils.js'
 
 const tabsContent = document.querySelectorAll('.tabs-content-item');
 const tabsBtn = document.querySelectorAll('.tab-item');
@@ -12,18 +12,55 @@ const btnAddFavoriteCity = getDOMElement('.favorite-btn');
 const favoriteCitiesList = getDOMElement('.favourite-cities-list');
 
 
-let storage = JSON.parse(localStorage.getItem('storage')) || {cities: []};
+// let storage = JSON.parse(localStorage.getItem('storage')) || {cities: []};
+
+const storage = {
+    favCities: [],
+    lastCity: '',
+    getFavList: function (){
+        return storage.favCities;
+    },
+    loadFavsList: function(){
+        if (loadFromLocalStorage('favCities')) {
+            const localStorage = loadFromLocalStorage('favCities');
+            storage.favCities = localStorage;
+        }
+      
+    },
+    loadLastCity: function() {
+        if (loadFromLocalStorage('lastCity')) {
+            const localStorage = loadFromLocalStorage('lastCity');
+            storage.lastCity = localStorage;
+        }
+    },
+    saveFavList: function(){
+        saveToLocalStorage('favCities', storage.favCities);        
+    },
+    saveLastCity: function () {
+        saveToLocalStorage('lastCity', storage.lastCity); 
+    },
+    hasFavListCity: function(city){
+        return storage.favCities.includes(city);
+    },
+};
 
 // отображение информации
 async function showWeather(city) {
-    // получение данных с сервера
-    const data = await fetchNowWeather(city);
+    try {
+        // получение данных с сервера
+        const data = await fetchNowWeather(city);
    
-    // подготовка необходимых данных
-    const vars = process(data);
+        // подготовка необходимых данных
+        const vars = process(data);
+        // сохранение последнего загруженного города в локал сторедж
+        storage.saveLastCity();
+        // отрисовка данных
+        render(vars);
+    }
+    catch (e) {
+        console.log(e);
+    }
     
-    // отрисовка данных
-    render(vars);
 }
 
 // получение данных от api
@@ -47,7 +84,7 @@ async function fetchNowWeather(city) {
     }
 }
 
-// выбор нужных данных из полученных и сохранение их в localStorage
+// выбор нужных данных из полученных 
 function process(data) {
     const vars = {};
 
@@ -59,6 +96,7 @@ function process(data) {
     vars.timeZone = data.timezone;
     vars.sunrise = timeConverter(data.sys.sunrise, vars.timeZone);
     vars.sunset = timeConverter(data.sys.sunset, vars.timeZone);
+    storage.lastCity = vars.city;
             
     return vars;
 }
@@ -94,7 +132,7 @@ function renderWeatherNow(vars) {
     weatherNowIcon.src = vars.iconUrl;
 
     // добавление нового бэкграунда для кнопки при отрисовке избранного города
-    if (storage.cities.includes(vars.city)) {
+    if (storage.hasFavListCity(vars.city)) {
         
         btnAddFavoriteCity.classList.add('favorite-btn-for-saved-city');
     }
@@ -108,6 +146,7 @@ function renderWeatherDetails(vars) {
     const weatherDetailsCity = getDOMElement('.selected-city-details');
     const weatherDetailsTemp = getDOMElement(".weather-details-temp");
     const weatherDetailsFeelsLike = getDOMElement(".weather-details-feels-like");
+    // 
     const weatherDetailsPrecipitation = getDOMElement(".weather-details-precipitation");
     const weatherDetailsSunrise = getDOMElement(".weather-details-sunrise");
     const weatherDetailsSunset = getDOMElement(".weather-details-sunset");
@@ -157,27 +196,30 @@ const btnFavoriteCityHandler = () => {
     addFavoriteCities(city);
 }
 
-// добавление избранных городов
+// добавление в список избранных городов
 function addFavoriteCities(city) {
     addFavoriteCityToStorage(city);
-    saveToLocalStorage('storage', storage);
+    //const favList = storage.loadFavsList();
+
+    storage.saveFavList();
     renderFavoriteCities();
+    showWeather(city);
 }
 
 // добавление избранного города в хранилище
 function addFavoriteCityToStorage(city) {
-    if (storage.cities.length !== 0 && storage.cities.includes(city)) {
+    if (storage.favCities.length !== 0 && storage.hasFavListCity(city)) {
         alert('В вашем списке избранных городов уже есть этот город');
         return;
     }
-    storage.cities.push(city);
+    storage.favCities.push(city);
    
 }
 
 // отрисовка списка избранных городов
 function renderFavoriteCities() {
     favoriteCitiesList.innerHTML = '';
-    storage.cities.forEach(city => addFavoriteCityNode(city));
+    storage.favCities.forEach(city => addFavoriteCityNode(city));
 }
 
 // создание элемента в списке избранных городов
@@ -201,27 +243,30 @@ function addFavoriteCityNode(city) {
 function removeFavoriteCity(city) {
     deleteFavoriteCityFromStorage(city);
     renderFavoriteCities();
+    showWeather(city);
 }
 
 // удаление города из списка избранных в хранилище
 function deleteFavoriteCityFromStorage(city) {
-    storage.cities = storage.cities.filter(c => c !== city);
-    saveToLocalStorage('storage', storage);
+    storage.favCities = storage.favCities.filter(c => c !== city);
+    storage.saveFavList();
   
 }
 
 // обработка слушателя списка избранных городов
 function favoriteCitiesListHandler(e) {
     const parentElement = e.target.closest('[data-city]');
+
     const city = parentElement.getAttribute('data-city');
-    // обработка клика по кнопке удаления
+    
     if (e.target.classList.contains('favourite-cities-list-delete-btn')) {
         removeFavoriteCity(city);
         return;
     }
-    // обработка клика по названию города
+    
     if (e.target.classList.contains('favourite-city-span')) {
         showWeather(city);
+        // 
         return;
     }
    
@@ -235,13 +280,16 @@ searchCityForm.addEventListener('submit', searchFormHandler);
 
 // инициализация приложения при загрузке
 function init() {
+    // загружаем данные из localStorage
+    storage.loadFavsList();
+    storage.loadLastCity();
     // отображение города по умолчанию, если нет городов в списке избранных
-    if (storage.cities.length === 0) {
+    if (storage.lastCity === '') {
         showWeather("Koh Pha Ngan");
     }
-    // отображение первого города из списка избранных
+    // отображение последнего запрошенного города
     else {
-        showWeather(storage.cities[0]);
+        showWeather(storage.lastCity);
     }
     renderFavoriteCities();
 }
