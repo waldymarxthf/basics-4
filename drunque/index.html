@@ -1,61 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aktobe</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <link rel="stylesheet" href="styles/reset.css">
-  <link rel="stylesheet" href="styles/style.css">
-  <script defer src="tabs.js"></script>
-</head>
-<body>
-  <div class="wrapper">
-    <form class="search-field">
-      <input type="text" placeholder="Aktobe">
-      <input type="submit" value="search" class="material-icons">
-    </form>
-    <div class="container">
-      <div class="tabs">
-        <div class="windows">
-          <div id="now" class="window">
-            1
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aktobe</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <link rel="stylesheet" href="styles/reset.css" />
+    <link rel="stylesheet" href="styles/style.css" />
+    <script defer src="tabs.js"></script>
+  </head>
+  <body>
+    <div class="wrapper">
+      <form class="search-field">
+        <input type="text" placeholder="Aktobe" />
+        <input type="submit" value="search" class="material-icons" />
+      </form>
+      <div class="container">
+        <div class="tabs">
+          <div class="windows">
+            <div id="now" class="window">
+              <div class="row">
+                <p id="temp">14°</p>
+              </div>
+              <div class="row">
+                <img
+                  src="https://openweathermap.org/img/wn/03n@4x.png"
+                  alt="icon"
+                />
+              </div>
+              <div class="row">
+                <p>Aktobe</p>
+                <button class="material-icons">favorite_border</button>
+              </div>
+            </div>
+            <div id="details" class="window">
+              <div class="container">
+                <p>Aktobe</p>
+              </div>
+              <div class="weather-info">
+                <p>Temperature: <span id="temp">14°</span></p>
+                <p>Feels like: <span id="feels-like-temp">10°</span></p>
+                <p>Weather: <span id="weather-type">Clouds</span></p>
+                <p>Sunrise: <span id="sunrise-time">03:21</span></p>
+                <p>Sunset: <span id="sunset-time">18:54</span></p>
+              </div>
+            </div>
+            <div id="forecast" class="window">
+              <div class="container">
+                <p>Aktobe</p>
+              </div>
+              <div class="weather-list">
+                <div class="forecast-container">
+                  <div class="row">
+                    <p id="date">17 May</p>
+                    <p id="time">12:00</p>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <p>Weather: <span id="weather-desc">Rain</span></p>
+                      <p>
+                        Temperature:
+                        <span id="temp">13°</span>
+                      </p>
+                      <p>
+                        Feels-like:
+                        <span id="feels-like">10°</span>
+                      </p>
+                    </div>
+                    <div class="col">
+                      <img
+                        src="https://openweathermap.org/img/wn/10n@2x.png"
+                        alt=""
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="forecast-container">
+                  <div class="row">
+                    <p id="date">17 May</p>
+                    <p id="time">15:00</p>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <p>Weather: <span id="weather-desc">Rain</span></p>
+                      <p>
+                        Temperature:
+                        <span id="temp">13°</span>
+                      </p>
+                      <p>
+                        Feels-like:
+                        <span id="feels-like">10°</span>
+                      </p>
+                    </div>
+                    <div class="col">
+                      <img
+                        src="https://openweathermap.org/img/wn/10n@2x.png"
+                        alt=""
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="forecast-container">
+                  <div class="row">
+                    <p id="date">17 May</p>
+                    <p id="time">17:00</p>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <p>Weather: <span id="weather-desc">Rain</span></p>
+                      <p>
+                        Temperature:
+                        <span id="temp">13°</span>
+                      </p>
+                      <p>
+                        Feels-like:
+                        <span id="feels-like">10°</span>
+                      </p>
+                    </div>
+                    <div class="col">
+                      <img
+                        src="https://openweathermap.org/img/wn/10n@2x.png"
+                        alt=""
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div id="details" class="window">
-            2
-          </div>
-          <div id="forecast" class="window">
-            3
+          <div class="options">
+            <a href="#now" class="active">Now</a>
+            <a href="#details">Details</a>
+            <a href="#forecast">Forecast</a>
           </div>
         </div>
-        <div class="options">
-          <a href="#now" class="active">Now</a>
-          <a href="#details">Details</a>
-          <a href="#forecast">Forecast</a>
-        </div>
-      </div>
-      <div class="history">
-        <div class="heading">
-          <p>Added locations:</p>
-        </div>
-        <div class="history-list">
-          
-          <p>Amur</p>
-          <p>Samara</p>
-          <p>Bali</p>
-          <p>Dane</p>
-          <p>Kilo</p>
-          <p>Nur-Sultan</p>
-          <p>Amur</p>
-          <p>Samara</p>
-          <p>Bali</p>
-          <p>Dane</p>
-          <p>Kilo</p>
-          <p>Nur-Sultan</p>
+        <div class="history">
+          <div class="heading">
+            <p>Added locations:</p>
+          </div>
+          <div class="history-list">
+            <p>Amur</p>
+            <p>Samara</p>
+            <p>Bali</p>
+            <p>Dane</p>
+            <p>Kilo</p>
+            <p>Nur-Sultan</p>
+            <p>Amur</p>
+            <p>Samara</p>
+            <p>Bali</p>
+            <p>Dane</p>
+            <p>Kilo</p>
+            <p>Nur-Sultan</p>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</body>
+  </body>
 </html>
