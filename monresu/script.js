@@ -1,8 +1,9 @@
-import { tabsContainerNode, tabNodes, tabContentNodes, form, inputCityNode, } from './modules/variables.mjs'
+import { tabsContainerNode, tabNodes, tabContentNodes, form, inputCityNode} from './modules/variables.mjs'
 import { serverURL, apiKey, cache } from './modules/variables.mjs'
 import { NOW_SCREEN_NODES, DETAILS_SCREEN_NODES, FORECAST_SCREEN_NODES, MODAL_NODES, FAV_SCREEN_NODES, } from './modules/variables.mjs'
 import { getData, timeConverter, cityExistsInCache, findIndexCityInCache, saveToLocalStorage, findCityIndex } from './modules/functions.mjs'
 
+let currCity = JSON.parse(localStorage.getItem('currCity')) || 'aktobe';
 const list = JSON.parse(localStorage.getItem('favCities')) || [];
 
 function modalErrorButtonHandler() {
@@ -73,10 +74,14 @@ async function weather(cityName) {
   const isCityInCache = cityExistsInCache(cache, cityName.toLowerCase());
   if (isCityInCache[0] && isCityInCache[1]) {
     loadCityFromCache( cityName);
+    currCity = cityName;
+    saveToLocalStorage('currCity', currCity)
     return;
   }
   else if (isCityInCache[0] && !isCityInCache[1]) {
-    updateCityInCache( cityName, URL)
+    updateCityInCache( cityName, URL);
+    currCity = cityName;
+    saveToLocalStorage('currCity', currCity);
     return;
   }
   try {
@@ -91,6 +96,8 @@ async function weather(cityName) {
     })
     renderWeather(data, cityName);
     saveToLocalStorage('cache', cache);
+    currCity = cityName;
+    saveToLocalStorage('currCity', currCity)
   } catch (error) {
     showError(error.message);
   }
@@ -152,5 +159,5 @@ function favBtnHandler() {
 
 NOW_SCREEN_NODES.NOW_FAV_CITY.addEventListener('click', favBtnHandler)
 
-weather('aktobe')
+weather(currCity)
 renderFavCities()
