@@ -6,6 +6,12 @@ const tab1 = document.getElementById('tab-1');
 const listItem = document.querySelector('.list');
 
 const list = [];
+JSON.stringify(list)
+console.log(list)
+
+addForLocal();
+addLikeLocal();
+console.log(list[0])
 
 addForm.addEventListener('submit',(event) => {
     event.preventDefault();
@@ -30,46 +36,11 @@ async function add() {
             throw new SyntaxError("Напишите название города без ошибок!")
         }
         addObj(weather, zag);
+        saveCityName()
     } catch(err) {
         alert(err.message)
     }
 }   
-
-async function addTask() {
-    try {
-        if (addPlace.value == '') {
-            throw new SyntaxError("Поле ввода не может быть пустым")
-        };
-        const serverUrl = 'http://api.openweathermap.org/data/2.5/weather';
-        const cityName = addPlace.value;
-        const apiKey = 'f660a2fb1e4bad108d6160b7f58c555f';
-        const url = `${serverUrl}?q=${cityName}&appid=${apiKey}&units=metric`;
-        let response = await fetch(url);
-        let weather = await response.json();
-        const zag = cityName.charAt(0).toUpperCase() + cityName.slice(1);
-        if (zag != weather.name) {
-            throw new SyntaxError("Напишите название города без ошибок!")
-        }
-        const newDiv = document.createElement('div');
-        listItem.appendChild(newDiv);
-        newDiv.classList.add("list_container");
-        newDiv.insertAdjacentHTML('afterbegin', `<p class="list_item">${zag}</p><button class="btn-del">x</button>`);
-        const delDiv = newDiv.querySelector('.btn-del');
-        delDiv.addEventListener('click',() => {
-            const text = newDiv.textContent;
-            const index = list.findIndex(task => text == task.name);
-            list.splice(index,1);
-            listItem.removeChild(newDiv);
-            console.log(list);
-        });
-        newDiv.addEventListener('click',() => {
-            addTaskPlace(zag);
-        } )
-        console.log(list);
-    } catch (err) {
-        console.log(err)
-    }
-}
 
 async function addTaskPlace(a) {
     const serverUrl = 'http://api.openweathermap.org/data/2.5/weather';
@@ -121,8 +92,86 @@ async function addLike(b) {
         listItem.removeChild(newDiv);
         console.log(list);
     });
+    addObject(zag);
+    console.log(list);
+    saveLikeName(zag);
+    saveList();
     newDiv.addEventListener('click',() => {
         addTaskPlace(zag);
     } )
 }
+
+
+// localstorage
+
+function saveCityName() {
+    const cityNameJust = document.querySelector('.tab-block__country');
+    localStorage.setItem('city', cityNameJust.textContent);
+    const test = localStorage.getItem('city');
+    console.log(test)
+}
+
+function saveLikeName(zag) {
+    const city = zag;
+    localStorage.setItem('like', city);
+    const test = localStorage.getItem('like')
+    console.log(test)
+
+}
+
+function saveList() {
+    localStorage.setItem('list', list);
+    list.push(localStorage.getItem('list'));
+}
+
+async function addLikeLocal() {
+    for (let i in list) {
+        const zag = list[i];
+        const newDiv = document.createElement('div');
+        listItem.appendChild(newDiv);
+        newDiv.classList.add("list_container");
+        newDiv.insertAdjacentHTML('afterbegin', `<p class="list_item">${zag}</p><button class="btn-del">x</button>`);
+        const delDiv = newDiv.querySelector('.btn-del');
+        delDiv.addEventListener('click',() => {
+            const text = newDiv.textContent;
+            const index = list.findIndex(task => text == task.name);
+            list.splice(index,1);
+            listItem.removeChild(newDiv);
+            console.log(list);
+        });
+        addObject(zag);
+        // saveLikeName(zag);
+        newDiv.addEventListener('click',() => {
+            addTaskPlace(zag);
+        } )
+    }
+}
+
+async function addForLocal() {
+    if (localStorage.getItem('city')) {
+        const serverUrl = 'http://api.openweathermap.org/data/2.5/weather';
+        const cityName = localStorage.getItem('city');
+        const apiKey = 'f660a2fb1e4bad108d6160b7f58c555f';
+        const url = `${serverUrl}?q=${cityName}&appid=${apiKey}&units=metric`;
+        let response = await fetch(url).catch(err => alert(err));
+        let weather = await response.json();
+        const zag = cityName.charAt(0).toUpperCase() + cityName.slice(1);
+        addObj(weather, zag);
+        saveCityName();
+    } else {
+        const serverUrl = 'http://api.openweathermap.org/data/2.5/weather';
+        const cityName = 'Moscow';
+        const apiKey = 'f660a2fb1e4bad108d6160b7f58c555f';
+        const url = `${serverUrl}?q=${cityName}&appid=${apiKey}&units=metric`;
+        let response = await fetch(url).catch(err => alert(err));
+        let weather = await response.json();
+        const zag = cityName.charAt(0).toUpperCase() + cityName.slice(1);
+        addObj(weather, zag);
+        saveCityName();
+    }
+}
+
+
+
+
 
