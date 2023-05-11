@@ -168,7 +168,7 @@ function render() {
 function checkShape(name) {
     const indexCity = array.findIndex(c => c.name === name);
         if (indexCity === -1) {
-            document.querySelector('.now-btn-shape-img').src = "/basics-4/dkomarov/img/Shape.svg";
+            document.querySelector('.now-btn-shape').src = "/basics-4/dkomarov/img/Shape.svg";
         } else {
             document.querySelector('.now-btn-shape-img').src = "/basics-4/dkomarov/img/ShapeRED.svg";
         }
