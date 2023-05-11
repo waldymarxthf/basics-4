@@ -1,6 +1,15 @@
-import { timeConverter, findLocationIndex, errorHandler } from "./modules/utils.js";
+import {
+	timeConverter,
+	findLocationIndex,
+	errorHandler,
+} from "./modules/utils.js";
 import { showLoader, hideLoader } from "./modules/preloader.js";
-import { saveLocationToLocalStorage, loadLocations } from "./modules/localstorage.js";
+import {
+	saveLocationToLocalStorage,
+	loadLocations,
+	saveLastLocationToLocalStorage,
+	loadLastLocation,
+} from "./modules/localstorage.js";
 import { VARIABLES } from "./modules/ui-variables.js";
 
 VARIABLES.TABS.forEach((tab, index) => {
@@ -27,13 +36,13 @@ async function getCityWeather(location) {
 		let response = await fetch(link);
 
 		if (!response.ok) {
-			throw new Error("Город или страна не найдена. Повторите попытку позже");
+			throw new Error("Повторите попытку позже");
 		} else {
 			let data = await response.json();
 			return data;
 		}
 	} catch (error) {
-		errorHandler(error)
+		errorHandler(error);
 	} finally {
 		hideLoader();
 	}
@@ -81,11 +90,14 @@ async function updateBlockDetails(data) {
 async function updateWeather(location) {
 	try {
 		let cityWeatherData = await getCityWeather(location);
-
+	
+		saveLastLocationToLocalStorage(location)
 		await updateBlockNow(cityWeatherData);
 		await updateBlockDetails(cityWeatherData);
 	} catch (error) {
-		errorHandler(error)
+		console.error(error.message)
+	} finally {
+		saveLastLocationToLocalStorage(VARIABLES.NOW.CITY.textContent)
 	}
 }
 
@@ -94,7 +106,7 @@ async function updateWeather(location) {
 async function weatherHandler(event) {
 	event.preventDefault();
 	const cityName = new FormData(VARIABLES.FORM_ELEMENT).get("city");
-	updateWeather(cityName);
+	await updateWeather(cityName);
 	VARIABLES.FORM.reset();
 }
 
@@ -112,10 +124,10 @@ function addLocation() {
 			location: VARIABLES.NOW.CITY.textContent,
 		});
 
-		saveLocationToLocalStorage(locations)
+		saveLocationToLocalStorage(locations);
 		renderLocations();
 	} catch (error) {
-		errorHandler(error)
+		errorHandler(error);
 	}
 }
 
@@ -155,16 +167,28 @@ function createLocationElement(element) {
 //* создает элементы локации
 
 function deleteLocation(newLocation) {
-	const index = findLocationIndex(locations, newLocation)
+	const index = findLocationIndex(locations, newLocation);
 	locations.splice(index, 1);
-	saveLocationToLocalStorage(locations)
+	saveLocationToLocalStorage(locations);
 	renderLocations();
 }
 
 //* функция удаления локации
 
-addEventListener("DOMContentLoaded", updateWeather("Minsk"));
+addEventListener("DOMContentLoaded", async () => {
+	let savedLocation = loadLastLocation();
+
+	if (!savedLocation) {
+		savedLocation = "Minsk";
+		saveLastLocationToLocalStorage(savedLocation);
+	}
+
+	await updateWeather(savedLocation);
+});
+
 VARIABLES.NOW.LIKE.addEventListener("click", addLocation);
+
 VARIABLES.FORM.addEventListener("submit", weatherHandler);
-loadLocations(locations)
-renderLocations()
+
+loadLocations(locations);
+renderLocations();
