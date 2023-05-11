@@ -279,5 +279,24 @@ h2 {
 }
 
 .new-element {
-    display: block;
+    
+    cursor: pointer;
 }
+
+
+
+
+.locations-close-btn {
+    width: 15px;
+    height: 15px;
+    position: relative;
+    left: 5px;  
+    background-color: #ffffff;
+    cursor: pointer;
+    
+}
+
+
+
+
+

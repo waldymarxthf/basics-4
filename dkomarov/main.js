@@ -39,13 +39,9 @@ async function getRequest() {
     catch (Err) {
         console.error(Err.message)
     }
-
-
-
 };
 
 function createDisplayNow(data) {
-
     const tempSpan = document.querySelector('.weather-temp span');
     const temperature = data.main.temp;
     tempSpan.textContent = temperature.toFixed(0);
@@ -59,13 +55,9 @@ function createDisplayNow(data) {
     const cityName = document.querySelector('.location-target span');
     cityName.textContent = data.name;
 
+
+
 };
-
-
-
-
-
-
 
 function createDisplayDetails(data) {
     const cityName = document.querySelector('.details-city');
@@ -79,15 +71,9 @@ function createDisplayDetails(data) {
     sunrise.textContent = sunriseValue;
 
 
-}
+};
 
 
-
-
-formNode.addEventListener('submit', (e) => {
-    e.preventDefault();
-    getRequest();
-})
 
 
 
@@ -95,7 +81,7 @@ formNode.addEventListener('submit', (e) => {
 //add function
 
 const nameShapeCity = document.querySelector('.love-city');
-const addButtonShape = document.querySelector('.now-btn-shape');
+const addButtonShape = document.querySelector('.now-btn-shape-img');
 const sectionItem = document.querySelector('.locations');
 
 console.log(nameShapeCity.textContent)
@@ -109,7 +95,6 @@ function addTask(text) {
 };
 
 function addCity() {
-
     const name = nameShapeCity.textContent;
     const item = {
         city: name
@@ -117,7 +102,6 @@ function addCity() {
 
     addTask(item);
     console.log(array)
-
     render();
 };
 
@@ -132,19 +116,76 @@ function deleteCity(text) {
 
 function createElement(sectionItem, text) {
     const newElem = document.createElement('span');
+    const parent = document.createElement('li');
     newElem.classList.add('new-element')
     newElem.textContent = text
 
-    sectionItem.appendChild(newElem);
+    const closeBtn = document.createElement('button');
+    closeBtn.classList.add('locations-close-btn');
+    const closeImg = document.createElement('img');
+    closeImg.src = "/basics-4/dkomarov/img/close.svg";
+
+    closeBtn.appendChild(closeImg);
+    parent.appendChild(newElem);
+    parent.appendChild(closeBtn);
+    sectionItem.appendChild(parent);
+
+    newElem.addEventListener('click', () => {
+        addFavoritesCity(newElem);
+    })
+
+    closeBtn.addEventListener('click', () => {
+        deleteCity(newElem.textContent);
+        console.log('DELETE');
+    })
 };
+
+async function addFavoritesCity(newElem) {
+    console.log(newElem.textContent);
+    const serverUrl = 'http://api.openweathermap.org/data/2.5/weather';
+    const cityName = newElem.textContent;
+    const apiKey = '2de34209accba46efc52dfd946a3c2b3';
+    const url = `${serverUrl}?q=${cityName}&appid=${apiKey}&units=metric`;
+
+    const response = await fetch(url);
+    const data = await response.json();
+    console.log(data);
+    createDisplayNow(data);
+    createDisplayDetails(data);
+    clearInput();
+
+}
+
 
 function render() {
     sectionItem.innerHTML = '';
     for (let obj of array) {
         createElement(sectionItem, obj.city);
-    }
+    };
+};
+
+
+function checkShape(name) {
+    const indexCity = array.findIndex(c => c.name === name);
+        if (indexCity === -1) {
+            document.querySelector('.now-btn-shape-img').src = "/basics-4/dkomarov/img/Shape.svg";
+        } else {
+            document.querySelector('.now-btn-shape-img').src = "/basics-4/dkomarov/img/ShapeRED.svg";
+        }
 }
 
 
-addButtonShape.addEventListener('click', addCity)
+formNode.addEventListener('submit', (e) => {
+    e.preventDefault();
+    getRequest();
+    
+});
 
+
+addButtonShape.addEventListener('click', () => {
+    addCity();
+    checkShape();
+
+});
+
+render();
