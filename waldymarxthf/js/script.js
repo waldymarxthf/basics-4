@@ -1,5 +1,6 @@
 import { timeConverter, findLocationIndex, errorHandler } from "./modules/utils.js";
 import { showLoader, hideLoader } from "./modules/preloader.js";
+import { saveLocationToLocalStorage, loadLocations } from "./modules/localstorage.js";
 import { VARIABLES } from "./modules/ui-variables.js";
 
 VARIABLES.TABS.forEach((tab, index) => {
@@ -111,6 +112,7 @@ function addLocation() {
 			location: VARIABLES.NOW.CITY.textContent,
 		});
 
+		saveLocationToLocalStorage(locations)
 		renderLocations();
 	} catch (error) {
 		errorHandler(error)
@@ -155,6 +157,7 @@ function createLocationElement(element) {
 function deleteLocation(newLocation) {
 	const index = findLocationIndex(locations, newLocation)
 	locations.splice(index, 1);
+	saveLocationToLocalStorage(locations)
 	renderLocations();
 }
 
@@ -163,3 +166,5 @@ function deleteLocation(newLocation) {
 addEventListener("DOMContentLoaded", updateWeather("Minsk"));
 VARIABLES.NOW.LIKE.addEventListener("click", addLocation);
 VARIABLES.FORM.addEventListener("submit", weatherHandler);
+loadLocations(locations)
+renderLocations()
