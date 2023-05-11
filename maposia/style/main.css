@@ -133,8 +133,15 @@ body {
     font-size: 24px;
     line-height: 28px;
 }
+.item-locations {
+    cursor: pointer;
+}
+
 .item-locations:not(:last-child){
     margin-bottom: 14px;
+}
+.del-btn {
+    margin-left: 10px;
 }
 
 /*2й экран*/

@@ -2,26 +2,42 @@ function getElement(tag) {
     return document.querySelector(tag)
 }
 
-const nowBtn = getElement('.weather-now-btn')
-const detailsBtn = getElement('.weather-details-btn')
-const forecastBtn = getElement('.weather-forecast-btn')
-const displayNow = getElement('.weather-display-now')
-const displayDetails = getElement('.weather-display-details')
-const displayForecast = getElement('.weather-display-forecast')
-const searchForm = getElement('.form-search')
-const inputSearch = getElement('.text-search')
+const BUTTONS = {
+    NOW: getElement('.weather-now-btn'),
+    DETAILS: getElement('.weather-details-btn'),
+    FORECAST: getElement('.weather-forecast-btn')
 
-const weatherCityNow = getElement('.weather_city')
-const temperatureNow = getElement('.temperature-now')
+}
+
+const DISPLAY =  {
+    NOW: getElement('.weather-display-now'),
+    DETAILS: getElement('.weather-display-details'),
+    FORECAST: getElement('.weather-display-forecast')
+}
+
+const SEARCHFORM = {
+    FORM: getElement('.form-search'),
+    INPUT: getElement('.text-search')
+}
+
+const WEATHERNOW = {
+    CITY: getElement('.weather_city'),
+    TEMPERATURE: getElement('.temperature-now'),
+    ICON: getElement('.weather-icon'),
+    LIKE: getElement('.weather_like')
+}
+
+const CITIESLOCATIONS = {
+    LIST: getElement('.list-locations'),
+    ITEM: getElement('.item-locations'),
+    DELBTN: getElement('.del-btn')
+}
+
+
 export {
-    nowBtn,
-    detailsBtn,
-    forecastBtn,
-    displayNow,
-    displayDetails,
-    displayForecast,
-    searchForm,
-    inputSearch,
-    weatherCityNow,
-    temperatureNow
+    BUTTONS,
+    DISPLAY,
+    SEARCHFORM,
+    WEATHERNOW,
+    CITIESLOCATIONS
 }
