@@ -12,7 +12,7 @@
 	<div class="container">
 		<div class="window">
 			<form class="window__searchBar">
-				<input type="text" placeholder="Aktobe">
+				<input type="text" placeholder="Aktobe" class="Main_input">
 				<button type="submit"><img src="images/search.svg" alt=""></button>
 			</form>
 			<div class="window__show">
@@ -24,9 +24,7 @@
 								<img src="images/cloud.svg" alt="">
 							</div>
 							<div class="bottom">
-								<div class="mounth">
-									Aktobe
-								</div>
+								<div class="mounth">Aktobe</div>
 								<div class="share">
 									<img src="images/Shape.svg" alt="">
 								</div>
@@ -35,11 +33,11 @@
 						<div class="categories__details" id="details" name="details">
 							<div class="mounth">Aktobe</div>
 							<ul class="list">
-								<li class="Temperature">Temperature: 14<img src="images/mask2.svg" alt=""></li>
-								<li class="Likes">Feels like: 10<img src="images/mask2.svg" alt=""></li>
-								<li class="Weather">Weather: Clouds</li>
-								<li class="Sunrise">Sunrise: 03:21</li>
-								<li class="Sunset">Sunset: 18:54</li>
+								<li><span class="Temperature">Температура: </span><img src="images/mask2.svg" alt=""></li>
+								<li><span class="Likes">Ощущается: </span><img src="images/mask2.svg" alt=""></li>
+								<li class="Weather">Погода: </li>
+								<li class="Sunrise">Восход: </li>
+								<li class="Sunset">Закат: </li>
 							</ul>
 						</div>
 						<div class="categories__forecast" id="forecast" name="forecast">
@@ -118,6 +116,6 @@
 			</div>
 		</div>
 	</div>
-	<script src="scripts/script.js"></script>
+	<script type="module" src="scripts/script.js"></script>
 </body>
 </html>

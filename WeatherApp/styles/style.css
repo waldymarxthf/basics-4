@@ -171,6 +171,7 @@
     .window__show .categories__forecast .tabs::-webkit-scrollbar {
       width: 0px; }
     .window__show .categories__forecast .tabs {
+      cursor: n-resize;
       margin-top: 7px;
       height: 277px;
       overflow: auto;
