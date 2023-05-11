@@ -12,7 +12,7 @@
     <div class="weather">
         <div class="weather-search">
             <form class="weather-search-form">
-                <input class="weather-search-form-input" type="text" placeholder="Enter city">
+                <input class="weather-search-form-input" type="text" placeholder="Enter city" autofocus>
                 <button type="submit"></button>
             </form>
         </div>
@@ -20,20 +20,20 @@
             <div class="weather-left-block">
                 <div class="tabs-content">
                     <div class="weather-now tabs-content-item">
-                        <div class="temperature-wrapper"><span class="temperature"></span>&#176;</div>
+                        <div class="temperature-wrapper"><span class="temperature">-</span>&#176;C</div>
                         <div class="precipitation">
-                            <img class="weather-now-precipitation-img" src="./assets/img/cloud.png" alt="precipitation">
+                            <img class="weather-now-precipitation-img" src="https://openweathermap.org/img/wn/03d@4x.png" alt="precipitation">
                         </div>
                         <div class="selected-city-now-wrapper">
-                            <p class="selected-city-now"></p>
+                            <p class="selected-city-now">City</p>
                             <button class="favorite-btn"></button>
                         </div>
                     </div>
                     <div class="weather-details tabs-content-item inactive-block">
                         <div class="selected-city-details">Actobe</div>
                         <ul>
-                            <li>Temperature: <span class="weather-details-temp">14</span>&#176;</li>
-                            <li>Feels like: <span class="weather-details-feels-like">10</span>&#176;</li>
+                            <li>Temperature: <span class="weather-details-temp">14</span>&#176;C</li>
+                            <li>Feels like: <span class="weather-details-feels-like">10</span>&#176;C</li>
                             <li> Weather: <span class="weather-details-precipitation">Clouds</span></li>
                             <li>Sunrise: <span class="weather-details-sunrise">03:21</span></li>
                             <li>Sunset: <span class="weather-details-sunset">18:54</span></li>

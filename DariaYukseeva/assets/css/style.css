@@ -214,6 +214,7 @@ body {
     width: 50%;
     font-size: 24px;
     line-height: 28px;
+    /* overflow-y: auto */
 } 
 
 .added-cities-header {
@@ -227,6 +228,8 @@ body {
 .favourite-cities-list-wrapper {
     padding-left: 18px;
     padding-top: 35px;
+    height: 322px;
+    overflow-y: auto
 }
 
 .favourite-cities-list {
@@ -244,9 +247,6 @@ body {
     padding-right: 10px;
 }
 
-.favourite-cities-list-item:hover {
-    text-shadow: 2px 2px rgba(34, 60, 80, 0.2);
-}
 
 .favourite-cities-list-delete-btn {
     border: none;

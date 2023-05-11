@@ -193,6 +193,10 @@ const searchFormHandler = (event) => {
 // обработчик кнопки добавления избранных городов
 const btnFavoriteCityHandler = () => {
     const city = weatherNowCity.textContent;
+    if (storage.favCities.length !== 0 && storage.hasFavListCity(city)) {
+        removeFavoriteCity(city);
+        return;
+    }
     addFavoriteCities(city);
 }
 
@@ -208,10 +212,6 @@ function addFavoriteCities(city) {
 
 // добавление избранного города в хранилище
 function addFavoriteCityToStorage(city) {
-    if (storage.favCities.length !== 0 && storage.hasFavListCity(city)) {
-        alert('В вашем списке избранных городов уже есть этот город');
-        return;
-    }
     storage.favCities.push(city);
    
 }
@@ -243,7 +243,7 @@ function addFavoriteCityNode(city) {
 function removeFavoriteCity(city) {
     deleteFavoriteCityFromStorage(city);
     renderFavoriteCities();
-    showWeather(city);
+    showWeather(storage.lastCity);
 }
 
 // удаление города из списка избранных в хранилище
