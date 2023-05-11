@@ -112,7 +112,6 @@ function formHandler(event) {
 form.addEventListener('submit', event => formHandler(event));
 
 function addCity(name) {
-  console.log(findCityIndex(list, name))
   if (findCityIndex(list, name) !== -1) {
     console.log('Город уже есть в списке');
     return;
@@ -133,7 +132,7 @@ function renderFavCities() {
   for (const city of list) {
     const cityNode = document.createElement('li');
     cityNode.classList.add('city-names_city');
-    cityNode.textContent = city.name;
+    cityNode.textContent = city.name.charAt(0).toUpperCase() + city.name.slice(1);;
     const closeBtn = document.createElement('span');
     closeBtn.textContent = 'x';
     closeBtn.classList.add('city-names_city-close')
