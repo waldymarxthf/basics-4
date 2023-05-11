@@ -106,6 +106,11 @@ async function weather(cityName) {
 function formHandler(event) {
   event.preventDefault();
   const cityName = inputCityNode.value.trim();
+  if (!cityName) {
+    showError('Input is blank');
+    form.reset();
+    return;
+  }
   weather(cityName);
 }
 
