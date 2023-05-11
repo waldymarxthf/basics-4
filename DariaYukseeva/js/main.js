@@ -54,6 +54,8 @@ async function showWeather(city) {
         const vars = process(data);
         // сохранение последнего загруженного города в локал сторедж
         storage.saveLastCity();
+        // изменение цвета у города вкладки now
+        weatherNowCity.style.color = 'black';
         // отрисовка данных
         render(vars);
     }
@@ -107,6 +109,7 @@ function render(vars) {
         city: vars.city,
         temp: vars.temp,
         iconUrl: vars.iconUrl,
+        precipitation: vars.precipitation,
     };
     renderWeatherNow(varsForNow);
 
@@ -130,6 +133,13 @@ function renderWeatherNow(vars) {
     weatherNowCity.textContent = vars.city;
     weatherNowTemperature.textContent = vars.temp;
     weatherNowIcon.src = vars.iconUrl;
+
+    // добавление обработки события наведения мыши
+    const iconHandler = () => {
+        weatherNowIcon.setAttribute('title', vars.precipitation); 
+    };
+    // добавление слушателя события наведения мыши на иконку
+    weatherNowIcon.addEventListener('mouseenter', iconHandler);
 
     // добавление нового бэкграунда для кнопки при отрисовке избранного города
     if (storage.hasFavListCity(vars.city)) {
@@ -174,7 +184,8 @@ const tabsBtnsHandler = (event) => {
 const searchFormHandler = (event) => {
     try {
         event.preventDefault();
-    const city = searchCityInput.value.trim();
+        const city = searchCityInput.value.trim();
+        
     if (!city) {
         throw new Error('Некорректное название города');
                 
@@ -264,7 +275,7 @@ function favoriteCitiesListHandler(e) {
         return;
     }
     
-    if (e.target.classList.contains('favourite-city-span')) {
+    if (e.target.classList.contains('favourite-cities-list-item') || e.target.classList.contains('favourite-city-span')) {
         showWeather(city);
         // 
         return;
@@ -278,14 +289,17 @@ tabsBtns.addEventListener('click', tabsBtnsHandler);
 
 searchCityForm.addEventListener('submit', searchFormHandler);
 
+
+
 // инициализация приложения при загрузке
 function init() {
     // загружаем данные из localStorage
     storage.loadFavsList();
     storage.loadLastCity();
     // отображение города по умолчанию, если нет городов в списке избранных
+    const defaultCity = "Koh Pha Ngan";
     if (storage.lastCity === '') {
-        showWeather("Koh Pha Ngan");
+        showWeather(defaultCity);
     }
     // отображение последнего запрошенного города
     else {
