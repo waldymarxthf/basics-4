@@ -11,6 +11,9 @@ const detalisLikes = fastDOM(".Likes");
 const detalisWeather = fastDOM(".Weather");
 const detalisSunrise = fastDOM(".Sunrise");
 const detalisSunset = fastDOM(".Sunset");
+const placeForLoc = fastDOM(".locations")
+const likeIcon = fastDOM(".share")
+const titleForLike = fastDOM(".titleForLike")
 
 export default {
 	categories,
@@ -22,4 +25,7 @@ export default {
 	detalisSunrise,
 	detalisSunset,
 	mainSity,
+	placeForLoc,
+	likeIcon,
+	titleForLike,
 }

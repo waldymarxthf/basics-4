@@ -1,5 +1,11 @@
 import DOM from "./DOM.js";
 
+var Locations = [
+	
+]
+
+render();
+
 document.querySelector(".categories__bar").onclick = function(event) {
 	DOM.categories[0].classList.remove('select');
 	DOM.categories[1].classList.remove('select');
@@ -7,18 +13,25 @@ document.querySelector(".categories__bar").onclick = function(event) {
 	event.target.classList.add('select')
 }
 
+Object.defineProperty(String.prototype, 'capitalize', {
+  value: function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+  },
+  enumerable: false
+});
 
 const serverUrl = 'http://api.openweathermap.org/data/2.5/weather';
 const apiKey = 'f660a2fb1e4bad108d6160b7f58c555f';
 
 DOM.mainForm.addEventListener("submit", (e) => {
 	e.preventDefault();
+	DOM.likeIcon.classList.remove('fill')
 	GetWeather();
 })
 
 async function GetWeather(){
 	try{
-		const cityName = DOM.mainInput.value
+		const cityName = DOM.mainInput.value.toLowerCase().capitalize();
 		const url = `${serverUrl}?q=${cityName}&appid=${apiKey}&units=metric`;
 		const response = await fetch(url);
 		const List = await response.json();
@@ -26,9 +39,23 @@ async function GetWeather(){
 		RenderDetalis(List);
 		RenderMain();
 	} catch (e){
-		if(DOM.mainInput.value == ''){
+		if(DOM.mainInput.value.toLowerCase().capitalize() == ''){
+			Locations.forEach((lock) => {
+				console.log(lock);
+				if(lock == DOM.titleForLike.textContent){
+					DOM.likeIcon.classList.add('fill')
+					console.log("da")
+				}
+			})
 			alert("Заполните поле поиска.")
 		} else{
+			Locations.forEach((lock) => {
+				console.log(lock);
+				if(lock == DOM.titleForLike.textContent){
+					DOM.likeIcon.classList.add('fill')
+					console.log("da")
+				}
+			})
 			alert("Неизвестная ошибка, посмотрите в консоле.")
 			console.error(`Error! ${e}`);
 		}
@@ -36,9 +63,16 @@ async function GetWeather(){
 }
 
 function RenderMain(){
-	DOM.mainSity[0].textContent = DOM.mainInput.value;
-	DOM.mainSity[1].textContent = DOM.mainInput.value;
-	DOM.mainSity[2].textContent = DOM.mainInput.value;
+	DOM.mainSity[0].textContent = DOM.mainInput.value.toLowerCase().capitalize();
+	DOM.mainSity[1].textContent = DOM.mainInput.value.toLowerCase().capitalize();
+	DOM.mainSity[2].textContent = DOM.mainInput.value.toLowerCase().capitalize();
+	Locations.forEach((lock) => {
+		console.log(lock);
+		if(lock == DOM.titleForLike.textContent){
+			DOM.likeIcon.classList.add('fill')
+			console.log("da")
+		}
+	})
 }
 
 function RenderDetalis(List){
@@ -59,3 +93,53 @@ function ConvertTime(Time){
 	return(formattedTime);
 }
 
+DOM.placeForLoc.addEventListener('click', function(event) {
+	if (event.target.classList.contains('cross')) {
+			event.stopPropagation();
+			const deleteName = event.target.parentNode.children;
+			Locations = Locations.filter((element) => element!=deleteName[0].textContent)
+			DOM.likeIcon.classList.remove('fill')
+			render();
+	}
+})
+
+DOM.placeForLoc.addEventListener('click', function(event) {
+	if (event.target.classList.contains('location-txt')) {
+			event.stopPropagation();
+			const searchName = event.target.parentNode.children;
+			DOM.mainInput.value = searchName[0].textContent;
+			DOM.likeIcon.classList.remove('fill')
+			GetWeather();
+			render();
+	}
+})
+
+function newElement(task){
+	const Element = document.createElement('li');
+	Element.innerHTML = `
+		<span class="location-txt">${task}</span>
+		<img src="images/cross.png" class="cross">
+	`;
+	Element.classList.add(`location`);
+	return Element;
+}
+
+DOM.likeIcon.onclick = function(e){
+	e.target.classList.toggle("fill");
+	if(DOM.likeIcon.classList.contains('fill')){
+		Locations.push(DOM.titleForLike.textContent);
+		render();
+	} else{
+		Locations = Locations.filter(el => el != DOM.titleForLike.textContent);
+		render();
+	}
+	console.log(Locations)
+}
+
+function render(){
+	DOM.placeForLoc.replaceChildren();
+	Locations.forEach((lock) =>{
+		const newElem = newElement(lock)
+		DOM.placeForLoc.appendChild(newElem);
+	})
+}

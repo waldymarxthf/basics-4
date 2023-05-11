@@ -72,10 +72,19 @@
       .window__show .show__locations .locations .location {
         font-family: 'Nunito';
         font-style: normal;
-        cursor: pointer;
         font-weight: 400;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         font-size: 24px;
         line-height: 28px; }
+        .window__show .show__locations .locations .location span {
+          cursor: pointer; }
+        .window__show .show__locations .locations .location img {
+          height: 25px;
+          width: 25px;
+          margin-right: 15px;
+          cursor: pointer; }
   .window__show .categories__bar {
     position: absolute;
     width: 300px;
@@ -137,6 +146,8 @@
       .window__show .categories__now .bottom .share {
         margin-right: 26px;
         cursor: pointer; }
+      .window__show .categories__now .bottom .fill {
+        background-image: url(../images/ShapeFill.svg); }
   .window__show .categories__details {
     height: 345px; }
     .window__show .categories__details .mounth {
@@ -171,6 +182,7 @@
     .window__show .categories__forecast .tabs::-webkit-scrollbar {
       width: 0px; }
     .window__show .categories__forecast .tabs {
+      user-select: none;
       cursor: n-resize;
       margin-top: 7px;
       height: 277px;
