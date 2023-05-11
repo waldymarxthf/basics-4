@@ -64,10 +64,17 @@ i {
   cursor: pointer;
 }
 .error-box {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
   background-color: white;
   border: 5px red solid;
   height: 100%;
   width: 100%;
+}
+
+.err-delete {
+  background-color: transparent;
 }
 .label {
   background-color: white;

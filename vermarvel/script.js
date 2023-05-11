@@ -1,17 +1,20 @@
 "use strict";
 
-import dom from "./dom.js";
+import dom from "./dom.mjs";
+import store from "./store.mjs";
 
 // Variables
 let rawInput = null;
 let uiCityName = null;
 let isFav;
+let curFav;
 const serverUrl = "http://api.openweathermap.org/data/2.5/weather";
 const apiKey = "f660a2fb1e4bad108d6160b7f58c555f";
 
 let keeper = [];
 
 // Helper functions
+
 function resetInput() {
   dom.input.value = "";
   isFav = null;
@@ -25,7 +28,13 @@ function resetFavScr() {
   dom.parentFavs.innerHTML = "";
 }
 
-function updateIsFav() {
+// Get user input
+function getInput() {
+  rawInput = dom.input.value;
+}
+
+// Check if the city is FAV
+function updateIsFavState() {
   if (keeper.includes(uiCityName)) {
     isFav = true;
   } else if (!keeper.includes(uiCityName)) {
@@ -46,7 +55,7 @@ function displayCheckbox() {
 }
 // Error
 function renderError(msg = "City not found!") {
-  dom.errorBox.textContent = msg;
+  dom.errorMsg.textContent = msg;
   dom.errorBox.classList.remove("hidden");
 }
 
@@ -54,23 +63,39 @@ function hideErrorBox() {
   dom.errorBox.classList.add("hidden");
 }
 
-function convertTime(time) {
-  var date = new Date(time * 1000);
-  var hours = date.getHours();
-  var minutes = "0" + date.getMinutes();
-  var formattedTime = hours + ":" + minutes.substr(-2);
+// Starter algorithm
+function start() {
+  checkStorage();
+  displayCurFav();
+}
+// Data processing
+function convertTime(time, tZone) {
+  const date = new Date(time * 1000);
+  // console.log("date no utc", date);
+  console.log("no timezone", date.getUTCHours());
+  let hours = date.getUTCHours() + tZone;
+  if (hours < 0) {
+    hours = 24 + hours;
+  }
+  console.log("timezoned", hours);
+  const minutes = "0" + date.getUTCMinutes();
+  const formattedTime = hours + ":" + minutes.substr(-2); //
 
   return formattedTime;
 }
 
+function tempFormatted(data) {
+  return Math.round(data - 273.15);
+}
 //%%%%%%%%%%%%%%% Business Logics  %%%%%%%%%%%%%%%%%%%%%
 
-// Get user input
-function getInput() {
-  rawInput = dom.input.value;
-}
+// START
 
-// Process input (async/await)
+start();
+
+// Data Processing
+
+// Process input (async/await) (DO NOT DELETE)
 // async function getData() {
 //   try {
 //     const url = `${serverUrl}?q=${rawInput}&appid=${apiKey}`;
@@ -103,25 +128,29 @@ function getData() {
       return response.json();
     })
     .then((data) => {
-      // console.log(Math.round(data.main[0].feels_like - 273.15));
-      const detFeelsLike = Math.round(data.main.feels_like - 273.15);
+      const detFeelsLike = tempFormatted(data.main.feels_like);
       const detWeather = data.weather[0].main;
+      // time gap with UTC
+      const tZone = data.timezone / 60 / 60;
 
-      const detSunrise = convertTime(data.sys.sunrise);
+      const detSunrise = convertTime(data.sys.sunrise, tZone);
+      const detSunset = convertTime(data.sys.sunset, tZone);
+      console.log(detSunset);
 
-      const detSunset = convertTime(data.sys.sunset);
-      // console.log(data.sys[0].sunrise);
-      // console.log(data.sys[0].sunset);
       const icon = data.weather[0].icon;
       uiCityName = data.name;
-      const uiTemp = Math.round(data.main.temp - 273.15);
+      const uiTemp = tempFormatted(data.main.temp);
       displayData(uiCityName, uiTemp, icon);
-      displayDetails(detFeelsLike, detWeather, detSunrise, detSunset);
+      displayDetails(detFeelsLike, detWeather, detSunrise, detSunset, tZone);
       // Handle the errors
     })
     .catch((err) => {
-      console.error(err);
-      renderError(`💥 Error: ${err.message}`);
+      if (err.message.includes("Failed to fetch")) {
+        renderError(`💥 Error: Please check your internet connection`);
+      } else {
+        console.error(err);
+        renderError(`💥 Error: ${err.message}`);
+      }
     });
 }
 
@@ -135,7 +164,7 @@ function displayData(cityName, temp, icon) {
   dom.iconCloudImg.setAttribute("src", imgUrl);
   dom.nowPageTemp.textContent = `${temp}℃`;
   dom.detailsTemp.textContent = `Temperature: ${temp}℃`;
-  updateIsFav();
+  updateIsFavState();
   displayCheckbox();
 }
 
@@ -146,12 +175,25 @@ function displayDetails(feelsLike, weather, sunrise, sunset) {
   dom.detailsSunset.textContent = `Sunset: ${sunset}`;
 }
 
+// Check stored data
+function checkStorage() {
+  if (store.get("keeper")) {
+    keeper = JSON.parse(store.get("keeper"));
+  }
+
+  if (store.get("curFav")) {
+    curFav = store.get("curFav");
+  } else {
+    curFav = keeper?.[0];
+  }
+}
+
+// %%%%%%%%%%%%%%%%%% MEMORY (FAVs) %%%%%%%%%%%%%%%%%%%%%%%%%%
+
 // Render the Favourites list
 function renderFavs() {
   resetFavScr();
-
-  // if (keeper.length === 0) return;
-
+  console.log(keeper);
   keeper.forEach((city) => {
     // assemble a div
     const copiedDiv = dom.sourceFav.cloneNode(true);
@@ -162,10 +204,26 @@ function renderFavs() {
   });
 }
 
+// Display first FAV
+function displayCurFav() {
+  if (keeper.length > 0) {
+    rawInput = curFav;
+    getData();
+  }
+}
 function deleteFav() {
-  console.log("deleteFav:", uiCityName);
+  dom.input.value = uiCityName;
+  dom.checkboxHeart.checked = false;
+  isFav = false;
   keeper = keeper.filter((city) => city !== uiCityName);
+
   renderFavs();
+
+  console.log(keeper);
+  // Store
+  store.set("keeper", JSON.stringify(keeper));
+
+  start();
 }
 
 function addCityToFavs() {
@@ -174,6 +232,9 @@ function addCityToFavs() {
       throw new Error();
     }
     keeper.push(uiCityName);
+    // Store
+    store.set("keeper", JSON.stringify(keeper));
+    console.log("store");
   } catch (err) {
     renderError(
       "💥List is full; in order to add a city, delete one from the list💥"
@@ -181,6 +242,7 @@ function addCityToFavs() {
   }
 }
 //%%%%%%%%%%%%%%%%%  Listeners  %%%%%%%%%%%%%%%%%%%%%%%%
+
 // Submit
 dom.form.addEventListener("submit", function (event) {
   event.preventDefault();
@@ -188,18 +250,24 @@ dom.form.addEventListener("submit", function (event) {
   try {
     // start the process of retreiving data
     getData();
-
     resetInput();
+
+    // Store
+    // store.set("keeper", JSON.stringify(keeper));
   } catch (err) {
     renderError(`💥 Something went wrong!: ${err.message}💥`);
   }
 });
-
+// Hide checkbox when there's no active city
 dom.form.addEventListener("click", hideCheckbox);
 
-// Hide Error Alert
-dom.errorBox.addEventListener("click", hideErrorBox);
-
+// Close Error Alert
+dom.errorBox.addEventListener("click", function (event) {
+  const target = event.target;
+  if (target.classList.contains("fa-xmark")) {
+    hideErrorBox();
+  }
+});
 // Set Fav state + keeper manipulation
 dom.checkboxHeart.addEventListener("change", function (event) {
   const target = event.target;
@@ -209,6 +277,7 @@ dom.checkboxHeart.addEventListener("change", function (event) {
   }
   if (target.checked === false) {
     isFav = false;
+    deleteFav();
     keeper = keeper.filter((city) => city !== uiCityName);
   }
   renderFavs();
@@ -220,10 +289,15 @@ dom.parentFavs.addEventListener("click", function (event) {
 
   // Display
   if (target.classList.contains("text")) {
-    rawInput = target.textContent;
+    curFav = target.textContent;
 
-    dom.input.value = rawInput;
+    dom.input.value = curFav;
+    rawInput = curFav;
+
     getData();
+    // Store curFav
+    console.log(curFav);
+    store.set("curFav", curFav);
   }
 
   // Delete
@@ -251,6 +325,9 @@ dom.tabs.addEventListener("click", function (event) {
   const pageID = target.getAttribute("data-target");
   const pageToOpen = dom[pageID];
 
-  // Open the selected page
+  // Open the target page
   pageToOpen.classList.remove("hidden");
 });
+
+// Further upgrade:
+// forecast
