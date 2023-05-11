@@ -6,12 +6,22 @@ const tab1 = document.getElementById('tab-1');
 const listItem = document.querySelector('.list');
 
 const list = [];
-JSON.stringify(list)
+// JSON.stringify(list)
 console.log(list)
 
 addForLocal();
-addLikeLocal();
-console.log(list[0])
+// addLikeLocal();
+// console.log(list[0])
+
+function saveLocationsToLocalStorage() {
+    localStorage.setItem('location', JSON.stringify(list))
+}
+
+function loadLocations() {
+    const locations = JSON.parse(localStorage.getItem('location'))
+    list.push(...locations)
+    addLikeLocal()
+}
 
 addForm.addEventListener('submit',(event) => {
     event.preventDefault();
@@ -54,6 +64,7 @@ async function addTaskPlace(a) {
 
 function addObject(a) {
     list.push(a)
+    saveLocationsToLocalStorage()
 }
 
 function addObj(weather) {
@@ -93,9 +104,9 @@ async function addLike(b) {
         console.log(list);
     });
     addObject(zag);
-    console.log(list);
-    saveLikeName(zag);
-    saveList();
+    // console.log(list);
+    // saveLikeName(zag);
+    // saveList();
     newDiv.addEventListener('click',() => {
         addTaskPlace(zag);
     } )
@@ -111,18 +122,18 @@ function saveCityName() {
     console.log(test)
 }
 
-function saveLikeName(zag) {
-    const city = zag;
-    localStorage.setItem('like', city);
-    const test = localStorage.getItem('like')
-    console.log(test)
+// function saveLikeName(zag) {
+//     const city = zag;
+//     localStorage.setItem('like', city);
+//     const test = localStorage.getItem('like')
+//     console.log(test)
 
-}
+// }
 
-function saveList() {
-    localStorage.setItem('list', list);
-    list.push(localStorage.getItem('list'));
-}
+// function saveList() {
+//     localStorage.setItem('list', list);
+//     list.push(localStorage.getItem('list'));
+// }
 
 async function addLikeLocal() {
     for (let i in list) {
@@ -171,7 +182,4 @@ async function addForLocal() {
     }
 }
 
-
-
-
-
+loadLocations()
