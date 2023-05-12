@@ -8,7 +8,7 @@ export const storage = {
   },
   getFavoriteCities() {
     const json = localStorage.getItem('favoriteCities');
-    return JSON.parse(json);
+    return JSON.parse(json) || [];
   },
   getCurrentCity() {
     return localStorage.getItem('currentCity') || 'Aktobe';

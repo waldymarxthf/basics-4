@@ -2,14 +2,7 @@ import { UI_ELEMENTS } from './js/ui.js';
 import { roundValue } from './js/utils.js';
 import { storage } from './js/storage.js';
 
-let favoritesCitiesList = [
-  'Amur',
-  'Samara',
-  'Bali',
-  'Dane',
-  'Kilo',
-  'Nur-Sultan',
-];
+let favoritesCitiesList = [];
 
 function showWeatherData(data) {
   const iconUrl = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
@@ -97,8 +90,10 @@ function showFavoritesElement(element) {
 
 function addFavoritesItemInList(cityName) {
   const isValid = findInFavoritesList(cityName);
+  console.log(favoritesCitiesList);
   if (!isValid) {
     favoritesCitiesList.push(cityName);
+    storage.saveFavoriteCities(favoritesCitiesList);
     render();
   }
 }
@@ -111,6 +106,7 @@ function addFavoritesElement(cityName) {
 
 function render() {
   UI_ELEMENTS.FAVORITES_LIST.textContent = '';
+  favoritesCitiesList = storage.getFavoriteCities();
   const cityName = storage.getCurrentCity();
   getWeatherData(cityName);
   favoritesCitiesList.forEach(item => addFavoritesElement(item));
