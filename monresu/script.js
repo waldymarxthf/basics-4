@@ -47,8 +47,6 @@ function renderDetailsBlock(data) {
 }
 
 async function updateCityInCache(name, URL) {
-  console.log(123);
-  console.log(name);
   const data = await getData(URL);
   const i = findIndexCityInCache(cache, name);
   cache[i].data = data;
@@ -79,7 +77,6 @@ async function weather(cityName) {
   const URL = `${serverURL}?q=${cityName}&appid=${apiKey}&units=metric`;
   form.reset();
   const isCityInCache = cityExistsInCache(cache, cityName.toLowerCase());
-  console.log(isCityInCache)
   if (isCityInCache[0] && isCityInCache[1]) {
     loadCityFromCache(cityName);
     currCity = cityName;
