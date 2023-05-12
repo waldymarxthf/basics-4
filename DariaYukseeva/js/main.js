@@ -12,8 +12,6 @@ const btnAddFavoriteCity = getDOMElement('.favorite-btn');
 const favoriteCitiesList = getDOMElement('.favourite-cities-list');
 
 
-// let storage = JSON.parse(localStorage.getItem('storage')) || {cities: []};
-
 const storage = {
     favCities: [],
     lastCity: '',
@@ -76,8 +74,7 @@ async function fetchNowWeather(city) {
         const url = `${ServerUrl}?q=${city}&appid=${apiKey}&units=metric`;
 
         const respons = await fetch(url);
-        if (respons.ok) {
-            searchCityInput.classList.remove('invalid-city');
+        if (respons.ok) {          
             const data = await respons.json();
             return data;           
         }
@@ -85,7 +82,7 @@ async function fetchNowWeather(city) {
             throw new Error((await respons.json()).message);
         }
     } catch (error) {
-        
+        // обработка ошибки не найденного города отдельно
         if (error.message === 'city not found') {
             formSetError(city);
             return;
@@ -93,11 +90,20 @@ async function fetchNowWeather(city) {
         alert('Error: '+ error.message);
     }
 }
-
+// обработчик слушателя инпута 
+const inputHandler = () => {
+    if (searchCityInput.classList.contains('invalid-city')) {
+    searchCityInput.classList.remove('invalid-city');
+    }
+}
+// обработка ошибки не найденного города
 function formSetError(city) {
     alert('Такой город не найден');
     searchCityInput.value = city;
     searchCityInput.classList.add('invalid-city');
+    //слушатель на изменения в инпуте 
+    searchCityInput.addEventListener('input', inputHandler);
+           
 }
 
 // выбор нужных данных из полученных 
@@ -249,6 +255,7 @@ function renderFavoriteCities() {
     favoriteCitiesList.innerHTML = '';
     const favList = storage.getFavList();
     favList.forEach(city => addFavoriteCityNode(city));
+  
 }
 
 // создание элемента в списке избранных городов
@@ -258,13 +265,16 @@ function addFavoriteCityNode(city) {
     const spanCity = document.createElement('span');
     
     spanCity.textContent = city;
+
     spanCity.classList.add('favourite-city-span');
     favoriteCity.classList.add('favourite-cities-list-item');
     btnDeleteCity.classList.add('favourite-cities-list-delete-btn');
     favoriteCity.setAttribute('data-city', city);
+    
     favoriteCitiesList.append(favoriteCity);
     favoriteCity.append(spanCity);
     favoriteCity.append(btnDeleteCity);
+    
     favoriteCity.addEventListener('click', favoriteCitiesListHandler);
 }
 
