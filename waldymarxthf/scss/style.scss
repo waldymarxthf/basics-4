@@ -37,7 +37,7 @@ body{
 		height: 44px;
 		border-bottom: 1px solid #000000;
 		display: flex;
-		input[type="text"] {
+		&-input {
 			width: 600px;
 			height: 45px;
 			outline: none;
@@ -46,12 +46,13 @@ body{
 			font-weight: 400;
 			font-size: 18px;
 			line-height: 21px;
-			color: #696969;
+			color: #000000;
 			background-color: transparent;
 			border: none;
-		}
-		input[placeholder="Search"] {
 			padding-left: 16px;
+			&::placeholder{
+				color: #696969;
+			}
 		}
 		button[type="submit"] {
 			border: none;

@@ -6,13 +6,13 @@ export function timeConverter(time, timezone) {
 
 //* функция конвертации unix времени в обычное
 
-export function timeForecastConverter(time) {
-	const timezone = new Date(time).getTimezoneOffset() * 60
-	const newDate = new Date((time) * 1000)
-	const localDate = newDate.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit'} + (timezone * 1000))
-	// const localTime = new Date(localDate)
-	return localDate
+export function dateConverter(date) {
+	const newDate = new Date((date) * 1000)
+	const humanDate = newDate.toLocaleString("en-GB", {day: "numeric", month: "long"})
+	return humanDate
 }
+
+//* функция конвертации unix даты в нормальную
 
 export function findLocationIndex(locations, newLocation) {
 	return locations.findIndex(el => el.location === newLocation.textContent)
