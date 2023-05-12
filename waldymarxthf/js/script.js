@@ -5,12 +5,8 @@ import {
 } from "./modules/utils.js";
 import { showLoader, hideLoader } from "./modules/preloader.js";
 import {
-	saveLocationToLocalStorage,
-	loadLocations,
-	saveLastLocationToLocalStorage,
-	loadLastLocation,
-	saveActiveTab,
-	loadActiveTab,
+	saveToLocalStorage,
+	loadFromLocalStorage,
 } from "./modules/localstorage.js";
 import { VARIABLES } from "./modules/ui-variables.js";
 
@@ -22,13 +18,13 @@ VARIABLES.TABS.forEach((tab, index) => {
 		tab.classList.add("active");
 		VARIABLES.WEATHER_BLOCK[index].classList.add("active");
 
-		saveActiveTab(index)
+		saveToLocalStorage('index', index)
 	});
 });
 
 //* переключает табы
 
-const locations = [];
+const locations = loadFromLocalStorage('newLocation') || [];
 const serverUrl = "http://api.openweathermap.org/data/2.5/weather";
 const serverUrlForecast = "http://api.openweathermap.org/data/2.5/forecast"
 const apiKey = "afc9f2df39f9e9e49eeb1afac7034d35";
@@ -44,7 +40,7 @@ async function getCityWeather(location) {
 			throw new Error("Повторите попытку позже");
 		} else {
 			let data = await response.json();
-			saveLastLocationToLocalStorage(location)
+			saveToLocalStorage('lastLocation', location)
 			return data;
 		}
 	} catch (error) {
@@ -189,7 +185,7 @@ function addLocation() {
 			location: VARIABLES.NOW.CITY.textContent,
 		});
 
-		saveLocationToLocalStorage(locations);
+		saveToLocalStorage('newLocation', locations)
 		renderLocations();
 	} catch (error) {
 		errorHandler(error);
@@ -234,22 +230,22 @@ function createLocationElement(element) {
 function deleteLocation(newLocation) {
 	const index = findLocationIndex(locations, newLocation);
 	locations.splice(index, 1);
-	saveLocationToLocalStorage(locations);
+	saveToLocalStorage('newLocation', locations)
 	renderLocations();
 }
 
 //* функция удаления локации
 
 addEventListener("DOMContentLoaded", async () => {
-	let savedLocation = loadLastLocation();
+	let savedLocation = loadFromLocalStorage('lastLocation');
 
 	if (!savedLocation) {
 		savedLocation = "Minsk";
-		saveLastLocationToLocalStorage(savedLocation);
+		saveToLocalStorage('lastLocation', savedLocation)
 	}
 	await updateWeather(savedLocation);
 
-	const activeTabIndex = loadActiveTab();
+	const activeTabIndex = loadFromLocalStorage('index');
 	if (!activeTabIndex) {
 		VARIABLES.TABS[0].classList.add("active");
 		VARIABLES.WEATHER_BLOCK[0].classList.add("active");
@@ -257,12 +253,11 @@ addEventListener("DOMContentLoaded", async () => {
 		VARIABLES.TABS[activeTabIndex].classList.add("active")
 		VARIABLES.WEATHER_BLOCK[activeTabIndex].classList.add("active")
 	}
-	
+
 });
 
 VARIABLES.NOW.LIKE.addEventListener("click", addLocation);
 
 VARIABLES.FORM.addEventListener("submit", weatherHandler);
 
-loadLocations(locations);
 renderLocations();
