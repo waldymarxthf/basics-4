@@ -7,17 +7,18 @@ import store from "./store.mjs";
 let rawInput = null;
 let uiCityName = null;
 let isFav;
-let curFav;
-const serverUrl = "http://api.openweathermap.org/data/2.5/weather";
-const apiKey = "f660a2fb1e4bad108d6160b7f58c555f";
+let curFav = store.get("curFav") || "Shymkent";
 
-let keeper = [];
+const serverUrl = "http://api.openweathermap.org/data/2.5/weather";
+const apiKey = "f660a2fb1e4bad108d6160b7f58c555f&units=metric";
+
+let keeper = JSON.parse(store.get("keeper")) || [];
 
 // Helper functions
 
 function resetInput() {
   dom.input.value = "";
-  isFav = null;
+  // isFav = null;
 }
 function hideCheckbox() {
   dom.parentHeart.classList.add("hidden");
@@ -57,35 +58,40 @@ function displayCheckbox() {
 function renderError(msg = "City not found!") {
   dom.errorMsg.textContent = msg;
   dom.errorBox.classList.remove("hidden");
+  dom.input.setAttribute("placeholder", "");
 }
 
 function hideErrorBox() {
   dom.errorBox.classList.add("hidden");
+  dom.input.setAttribute("placeholder", "Search");
 }
 
 // Starter algorithm
 function start() {
-  checkStorage();
+  renderFavs();
   displayCurFav();
 }
 // Data processing
-function convertTime(time, tZone) {
-  const date = new Date(time * 1000);
-  // console.log("date no utc", date);
-  console.log("no timezone", date.getUTCHours());
-  let hours = date.getUTCHours() + tZone;
-  if (hours < 0) {
-    hours = 24 + hours;
-  }
-  console.log("timezoned", hours);
-  const minutes = "0" + date.getUTCMinutes();
-  const formattedTime = hours + ":" + minutes.substr(-2); //
+function convertTime(time, tZone, boolean) {
+  const date = new Date((time + tZone) * 1000);
 
-  return formattedTime;
+  if (boolean === true) {
+    const hours = ("0" + date.getUTCHours()).slice(-2);
+    const minutes = ("0" + date.getUTCMinutes()).slice(-2);
+    const formattedTime = hours + ":" + minutes;
+    return formattedTime;
+  }
+
+  if (boolean === false) {
+    const options = { day: "numeric", month: "short" };
+    let formattedDate = date.toLocaleDateString("en-US", options);
+
+    return formattedDate;
+  }
 }
 
 function tempFormatted(data) {
-  return Math.round(data - 273.15);
+  return Math.round(data);
 }
 //%%%%%%%%%%%%%%% Business Logics  %%%%%%%%%%%%%%%%%%%%%
 
@@ -128,20 +134,56 @@ function getData() {
       return response.json();
     })
     .then((data) => {
+      const lat = data.coord.lat;
+      const lon = data.coord.lon;
       const detFeelsLike = tempFormatted(data.main.feels_like);
       const detWeather = data.weather[0].main;
       // time gap with UTC
-      const tZone = data.timezone / 60 / 60;
 
-      const detSunrise = convertTime(data.sys.sunrise, tZone);
-      const detSunset = convertTime(data.sys.sunset, tZone);
-      console.log(detSunset);
+      const tZone = data.timezone;
+      const detSunrise = convertTime(data.sys.sunrise, tZone, true);
+      const detSunset = convertTime(data.sys.sunset, tZone, true);
 
       const icon = data.weather[0].icon;
       uiCityName = data.name;
       const uiTemp = tempFormatted(data.main.temp);
+
       displayData(uiCityName, uiTemp, icon);
       displayDetails(detFeelsLike, detWeather, detSunrise, detSunset, tZone);
+
+      getDataForecast(lat, lon, tZone);
+      // Handle the errors
+    })
+    .catch((err) => {
+      if (err.message.includes("Failed to fetch")) {
+        renderError(`💥 Error: Please check your internet connection`);
+      } else {
+        console.error(err);
+        renderError(`💥 Error: ${err.message}`);
+      }
+    });
+}
+
+function getDataForecast(lat, lon, tZone) {
+  const forecastUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=daily,minutely,current,alerts&units=metric&appid=${apiKey}`;
+
+  fetch(forecastUrl)
+    .then((response) => {
+      if (!response.ok)
+        throw new Error(`Forecast not found ${response.status}`);
+      return response.json();
+    })
+    .then((data) => {
+      const arr = [
+        data.hourly[0],
+        data.hourly[1],
+        data.hourly[2],
+        data.hourly[3],
+      ];
+      displayForecast(arr, data.timezone_offset);
+
+      // (arr = data.hourly[0].dt) convertTime(data.hourly[0].dt, tZone);
+
       // Handle the errors
     })
     .catch((err) => {
@@ -175,17 +217,48 @@ function displayDetails(feelsLike, weather, sunrise, sunset) {
   dom.detailsSunset.textContent = `Sunset: ${sunset}`;
 }
 
-// Check stored data
-function checkStorage() {
-  if (store.get("keeper")) {
-    keeper = JSON.parse(store.get("keeper"));
-  }
+function displayForecast(arr, tZone) {
+  // clear all
 
-  if (store.get("curFav")) {
-    curFav = store.get("curFav");
-  } else {
-    curFav = keeper?.[0];
-  }
+  dom.parentForecast.innerHTML = "";
+  // run through the array with hourly weather
+  arr.forEach((time) => {
+    // assemble a list item
+    const copiedLi = dom.sourceForecast.cloneNode(true);
+    // add date
+    const fcDateText = copiedLi.querySelector(".fc-date-text");
+    const fcDate = convertTime(time.dt, tZone, false);
+    fcDateText.textContent = fcDate;
+
+    // add time
+    const fcTimeText = copiedLi.querySelector(".fc-time-text");
+    const fcTime = convertTime(time.dt, tZone, true);
+
+    fcTimeText.textContent = fcTime;
+    // add temp
+    const fcTempText = copiedLi.querySelector(".fc-temp-text");
+    const fcTemp = tempFormatted(time.temp);
+    fcTempText.textContent = `Temperature: ${fcTemp}℃`;
+    // add Feels like
+    const fcFeelsText = copiedLi.querySelector(".fc-feels-text");
+    const fcFeels = tempFormatted(time.feels_like);
+    fcFeelsText.textContent = `Feels like: ${fcFeels}℃`;
+    // add Precipitation/weather
+    const fcPrecepText = copiedLi.querySelector(".fc-precep-text");
+    fcPrecepText.textContent = time.weather[0].main;
+    // add icon
+    const fcIcon = copiedLi.querySelector(".below-right");
+    const icon = time.weather[0].icon; // icon
+
+    const img = document.createElement("img");
+    const imgUrl = `https://openweathermap.org/img/wn/${icon}@2x.png`;
+    img.src = imgUrl;
+    fcIcon.appendChild(img);
+    img.classList.add("mini-icon");
+
+    dom.parentForecast.appendChild(copiedLi);
+    copiedLi.classList.remove("hidden");
+  });
 }
 
 // %%%%%%%%%%%%%%%%%% MEMORY (FAVs) %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -207,8 +280,12 @@ function renderFavs() {
 // Display first FAV
 function displayCurFav() {
   if (keeper.length > 0) {
-    rawInput = curFav;
+    console.log("rawInp", rawInput);
+    console.log("keeper", keeper);
+    rawInput = curFav || keeper[0];
     getData();
+  } else {
+    return;
   }
 }
 function deleteFav() {
@@ -216,14 +293,13 @@ function deleteFav() {
   dom.checkboxHeart.checked = false;
   isFav = false;
   keeper = keeper.filter((city) => city !== uiCityName);
-
+  // Store
+  store.set("keeper", JSON.stringify(keeper));
   renderFavs();
 
   console.log(keeper);
-  // Store
-  store.set("keeper", JSON.stringify(keeper));
 
-  start();
+  // start();
 }
 
 function addCityToFavs() {
@@ -234,7 +310,7 @@ function addCityToFavs() {
     keeper.push(uiCityName);
     // Store
     store.set("keeper", JSON.stringify(keeper));
-    console.log("store");
+    console.log("stored");
   } catch (err) {
     renderError(
       "💥List is full; in order to add a city, delete one from the list💥"
@@ -279,6 +355,8 @@ dom.checkboxHeart.addEventListener("change", function (event) {
     isFav = false;
     deleteFav();
     keeper = keeper.filter((city) => city !== uiCityName);
+    // Store
+    store.set("keeper", JSON.stringify(keeper));
   }
   renderFavs();
 });
@@ -290,14 +368,12 @@ dom.parentFavs.addEventListener("click", function (event) {
   // Display
   if (target.classList.contains("text")) {
     curFav = target.textContent;
-
+    // Store curFav
+    store.set("curFav", curFav);
     dom.input.value = curFav;
     rawInput = curFav;
 
     getData();
-    // Store curFav
-    console.log(curFav);
-    store.set("curFav", curFav);
   }
 
   // Delete
@@ -330,4 +406,7 @@ dom.tabs.addEventListener("click", function (event) {
 });
 
 // Further upgrade:
-// forecast
+
+// current favourite city in list highlighted
+
+// when user is on fc or det - search another town not possible - fix

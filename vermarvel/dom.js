@@ -13,11 +13,19 @@ const tabs = getDOM(".lower");
 const tabNow = getDOM(".now");
 const tabDetails = getDOM(".details");
 const tabForecast = getDOM(".forecast");
-
+// Error
 const errorBox = getDOM(".error-box");
+const errorMsg = getDOM(".err-msg");
+const errorDelete = getDOM("err-delete");
+
+// Pages
+const nowPage = getDOM(".now-page");
+const detailsPage = getDOM(".details-page");
+const forecastPage = getDOM(".forecast-page");
+
+// Now page
 const nowPageCity = getDOM(".ui-city");
 const iconCloudImg = getDOM(".icon-cloud-img");
-
 const sourceHeartEmpty = getDOM(".source-heart-empty");
 const sourceHeartFull = getDOM(".source-heart-full");
 const parentHeart = getDOM(".heart");
@@ -26,11 +34,7 @@ const sourceFav = getDOM(".source-fav-div");
 const parentFavs = getDOM(".all-favs");
 const btnDelete = getDOM(".delete");
 
-const nowPage = getDOM(".now-page");
-const detailsPage = getDOM(".details-page");
-const forecastPage = getDOM(".forecast-page");
-
-// Details
+// Details Page
 const detailsCity = getDOM("#details-city");
 const detailsTemp = getDOM("#temperature");
 const detailsFeels = getDOM("#feels");
@@ -70,4 +74,6 @@ export default {
   detailsSunrise,
   detailsSunset,
   fcCity,
+  errorMsg,
+  errorDelete,
 };

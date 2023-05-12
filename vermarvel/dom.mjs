@@ -44,6 +44,21 @@ const detailsSunset = getDOM("#sunset");
 
 // Forecast
 const fcCity = getDOM("#fc-city");
+const sourceForecast = getDOM(".source-forecast");
+const fcDate = getDOM(".above-left");
+const fcTemp = getDOM(".mid-left");
+const fcFeels = getDOM(".below-left");
+const fcTime = getDOM(".above-right");
+const fcPrecep = getDOM(".mid-right");
+const fcIcon = getDOM(".below-right");
+const parentForecast = getDOM(".forecast-hourly-container");
+
+// const fcPrecepText = getDOM(".fc-precep-text");
+// const fcTimeText = getDOM(".fc-time-text");
+// const fcTempText = getDOM(".fc-temp-text");
+// const fcIconText = getDOM(".fc-icon-text");
+// const fcFeelsText = getDOM(".fc-feels-text");
+// const fcDateText = getDOM(".fc-date-text");
 
 export default {
   input,
@@ -76,4 +91,12 @@ export default {
   fcCity,
   errorMsg,
   errorDelete,
+  fcDate,
+  fcFeels,
+  fcIcon,
+  fcPrecep,
+  fcTime,
+  fcTemp,
+  sourceForecast,
+  parentForecast,
 };

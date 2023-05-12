@@ -14,7 +14,7 @@
           <button class="err-delete"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <form class="form" action="#" method="get">
-          <label for="search-input" class="label"></label>
+          <label for="search-input" class="label" ></label>
 
           <input
             type="text"
@@ -22,6 +22,7 @@
             pattern="^[A-Za-z\s\-]+$"
             required
             name="q"
+            placeholder="Search"
           />
 
           <button class="btn-search" type="submit">
@@ -51,7 +52,7 @@
             </div>
             <div class="details-page hidden">
               <div class="current-city">
-                <p id="details-city">/p>
+                <p id="details-city"></p>
               </div>
               <div class="details">
                 <div>
@@ -73,15 +74,16 @@
             </div>
             <div class="forecast-page hidden">
               <div class="forecast-current city">
-                <p id="fc-city">Aktobe</p>
+                <p id="fc-city"></p>
               </div>
-              <div class="forecast-list-container">
-                <ul class="forecast-list">
-                  <li>
-                    <div class="forecast-day">
+              <div class="forecast-hourly-container">
+            
+
+                  <div>
+                    <div class="forecast-day hidden">
                       <div class="row above">
                         <div class="above-left">17 May</div>
-                        <div class="above-right">12:00</div>
+                        <div class="above-right">15:00</div>
                       </div>
                       <div class="row mid">
                         <div class="mid-left">Temperature 13℃</div>
@@ -89,12 +91,14 @@
                       </div>
                       <div class="row below">
                         <div class="below-left">Feels like: 10℃</div>
-                        <div class="below-right">🌧</div>
+                        <div class="below-right">
+                          
+                        </div>
                       </div>
                     </div>
-                  </li>
-                  <li>
-                    <div class="forecast-day">
+                  </div>
+                  <div>
+                    <div class="forecast-day hidden">
                       <div class="row above">
                         <div class="above-left">17 May</div>
                         <div class="above-right">15:00</div>
@@ -110,27 +114,9 @@
                         </div>
                       </div>
                     </div>
-                  </li>
-                  <li>
-                    <div class="forecast-day">
-                      <div class="row above">
-                        <div class="above-left">17 May</div>
-                        <div class="above-right">15:00</div>
-                      </div>
-                      <div class="row mid">
-                        <div class="mid-left">Temperature 13℃</div>
-                        <div class="mid-right">Rain</div>
-                      </div>
-                      <div class="row below">
-                        <div class="below-left">Feels like: 10℃</div>
-                        <div class="below-right">
-                          <i class="fa-solid fa-cloud-rain"></i>
-                        </div>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <div class="forecast-day">
+                  </div>
+                  <div>
+                    <div class="forecast-day hidden">
                       <div class="row above">
                         <div class="above-left">17 May</div>
                         <div class="above-right">15:00</div>
@@ -146,14 +132,14 @@
                         </div>
                       </div>
                     </div>
-                  </li>
-                  <li>
+                  </div>
+                  <div>
                     <div class="forecast-day hidden"></div>
-                  </li>
-                  <li>
+                  </div>
+                  <div>
                     <div class="forecast-day hidden"></div>
-                  </li>
-                </ul>
+                  </div>
+                
               </div>
             </div>
           </div>
@@ -202,5 +188,33 @@
     ></script>
     <!-- <script src="script.js" defer></script> -->
     <script type="module" defer src="script.js"></script>
+    <div class="source-forecast hidden">
+      <div class="forecast-day">
+        <div class="row above">
+          <div class="above-left">
+            <p class="fc-date-text"></p>
+          </div>
+          <div class="above-right">
+            <p class="fc-time-text"></p>
+          </div>
+        </div>
+        <div class="row mid">
+          <div class="mid-left ">
+            <p class="fc-temp-text"></p>
+          </div>
+          <div class="mid-right">
+            <p class="fc-precep-text"></p>
+          </div>
+        </div>
+        <div class="row below">
+          <div class="below-left">
+            <p class="fc-feels-text"></p>
+          </div>
+          <div class="below-right">
+            <p class="fc-icon-text"></p>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

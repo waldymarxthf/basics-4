@@ -71,6 +71,7 @@ i {
   border: 5px red solid;
   height: 100%;
   width: 100%;
+  font-size: 14px;
 }
 
 .err-delete {
@@ -97,6 +98,10 @@ button {
   border: none;
 }
 
+button:active {
+  color: rgb(240, 9, 9);
+}
+
 .main {
   display: flex;
   align-items: center;
@@ -120,7 +125,7 @@ button {
 .screen {
   width: 100%;
   height: 360px;
-  overflow: hidden;
+  overflow: auto;
 }
 
 .now-page {
@@ -171,6 +176,10 @@ button {
   align-items: flex-start;
   justify-content: center;
   flex-direction: column;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
 
 .right {
@@ -284,7 +293,7 @@ button {
   padding-top: 15px;
   font-size: 20px;
 }
-.forecast-list-container {
+.forecast-hourly-container {
   font-size: 15px;
   height: 85%;
   width: 100%;
@@ -301,10 +310,11 @@ button {
   width: 90%;
   border: 1px solid black;
 
-  font-size: 12px;
+  font-size: 14px;
 }
-ul {
-  list-style-type: none;
+
+.mini-icon {
+  width: 40px;
 }
 .row {
   padding-left: 5px;
