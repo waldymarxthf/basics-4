@@ -151,7 +151,52 @@ body {
 .weather .container-right {
   height: 389px;
   width: 302px;
+
+  
 }
+.weather__locations-add{
+height: 70px;
+width: 100%;
+
+border-bottom: 1px solid black;
+}
+.weather__added-locations{
+padding-top: 30px;
+margin-left:  15px; 
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 24px;
+line-height: 28px;
+}
+.city-list{
+  overflow-y: auto;
+ height: 319px;
+ 
+}
+
+.city-list__items{
+  width: 270px;
+  background-color: lightslategray;
+  border: 0px;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 20px;
+  margin-left: 20px;
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 24px;
+line-height: 28px;
+
+}
+.closeButton{
+  margin-right: 15px;
+  border:0px;
+  background-color:  lightslategray;
+
+}
+
 .weather .tabs {
   display: -webkit-box;
   display: -ms-flexbox;
