@@ -111,7 +111,6 @@ function saveCityName() {
     const cityNameJust = document.querySelector('.tab-block__country');
     localStorage.setItem('city', cityNameJust.textContent);
     const test = localStorage.getItem('city');
-    console.log(test)
 }
 
 function saveLikeName(zag) {
