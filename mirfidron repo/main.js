@@ -116,8 +116,6 @@ function saveCityName() {
 function saveLikeName(zag) {
     const city = zag;
     localStorage.setItem('like', city);
-    const test = localStorage.getItem('like')
-    console.log(test)
 
 }
 
