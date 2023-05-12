@@ -20,21 +20,22 @@ tabs.forEach((tab, index) => {
     })
 });
 
-// let storage = JSON.parse(localStorage.getItem('city'))
+let cityNames = JSON.parse(localStorage.getItem('city'));
 
 
 async function getRequest() {
     try {
         const serverUrl = 'http://api.openweathermap.org/data/2.5/weather';
         const cityNames = inputValue.value;
-        // localStorage.setItem('city', JSON.stringify(cityNames));
-        console.log(cityNames);
+        // и куда вставлять это полученное значение?
+        localStorage.setItem('city', JSON.stringify(cityNames))
+
+        // console.log(cityNames);
         const apiKey = '2de34209accba46efc52dfd946a3c2b3';
         const url = `${serverUrl}?q=${cityNames}&appid=${apiKey}&units=metric`;
         const response = await fetch(url);
         const data = await response.json();
-        
-        console.log(data);
+        // console.log(data);
         createDisplayNow(data);
         createDisplayDetails(data);
         clearInput();
@@ -84,8 +85,6 @@ function createDisplayDetails(data) {
 const nameShapeCity = document.querySelector('.love-city');
 const addButtonShape = document.querySelector('.now-btn-shape-img');
 const sectionItem = document.querySelector('.locations');
-
-// console.log(nameShapeCity.textContent)
 
 
 const array = JSON.parse(localStorage.getItem('array')) || [];
