@@ -8,9 +8,15 @@ export async function getData(URL) {
   }
 }
 
-export function timeConverter(UNIX_timestamp, timezone) {
+export function timeConverterTime(UNIX_timestamp, timezone) {
   const date = new Date((UNIX_timestamp + timezone) * 1000);
   const normalTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' });
+  return normalTime;
+}
+
+export function timeConverterDay(UNIX_timestamp) {
+  const date = new Date((UNIX_timestamp) * 1000);
+  const normalTime = date.toLocaleString("en-GB", {day: 'numeric', month: 'long' });
   return normalTime;
 }
 

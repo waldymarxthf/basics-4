@@ -1,7 +1,7 @@
-import { tabsContainerNode, tabNodes, tabContentNodes, form, inputCityNode} from './modules/variables.mjs'
-import { serverURL, apiKey, cache } from './modules/variables.mjs'
+import { tabsContainerNode, tabNodes, tabContentNodes, form, inputCityNode, FORECAST_SCREEN_NODES} from './modules/variables.mjs'
+import { serverURL, apiKey, cache, serverURLforecast } from './modules/variables.mjs'
 import { NOW_SCREEN_NODES, DETAILS_SCREEN_NODES, MODAL_NODES, FAV_SCREEN_NODES, } from './modules/variables.mjs'
-import { getData, timeConverter, cityExistsInCache, findIndexCityInCache, saveToLocalStorage, findCityIndex } from './modules/functions.mjs'
+import { getData, timeConverterTime, timeConverterDay, cityExistsInCache, findIndexCityInCache, saveToLocalStorage, findCityIndex } from './modules/functions.mjs'
 
 let currCity = JSON.parse(localStorage.getItem('currCity')) || 'aktobe';
 const list = JSON.parse(localStorage.getItem('favCities')) || [];
@@ -35,8 +35,8 @@ function renderNowBlock(data) {
 
 function renderDetailsBlock(data) {
   const weather = data.weather[0].main;
-  const timeSunrise = timeConverter(data.sys.sunrise, data.timezone);
-  const timeSunset = timeConverter(data.sys.sunset, data.timezone);
+  const timeSunrise = timeConverterTime(data.sys.sunrise, data.timezone);
+  const timeSunset = timeConverterTime(data.sys.sunset, data.timezone);
 
   DETAILS_SCREEN_NODES.DETAILS_CITY_NAME.textContent = data.name;
   DETAILS_SCREEN_NODES.DETAILS_TEMP.textContent = data.main.temp
@@ -44,6 +44,27 @@ function renderDetailsBlock(data) {
   DETAILS_SCREEN_NODES.DETAILS_WEATHER.textContent = weather;
   DETAILS_SCREEN_NODES.DETAILS_SUNRISE.textContent = timeSunrise;
   DETAILS_SCREEN_NODES.DETAILS_SUNSET.textContent = timeSunset;
+}
+
+function renderForecastBlock(data) {
+  FORECAST_SCREEN_NODES.FORECAST_CITY_NAME.textContent = data.city.name;
+  console.log(timeConverterDay(data.list[0].dt))
+  const card = `<div class="weather__forecast-cards_card">
+  <div class="weather__forecast-cards_card-header">
+    <span class="date">${timeConverterDay(data.list[0].dt)}</span>
+    <span class="timer">${timeConverterTime(data.list[0].dt)}</span>
+  </div>
+  <div class="weather__forecast-cards_card-main">
+    <div class="text-info">
+      <p>Temperature: <span class="temperature">14</span>°</p>
+      <p>Feels like: <span class="feelslike">10</span>°</p>
+    </div>
+    <div class="sky-info">
+      <p>Rain</p>
+      <img src="./assets/svg/rain.svg" alt="" class="icon">
+    </div>
+  </div>
+</div>`
 }
 
 async function updateCityInCache(name, URL) {
@@ -90,11 +111,11 @@ async function weather(cityName) {
     return;
   }
   try {
-    console.log('message')
     const data = await getData(URL);
     if ('message' in data) {
-      throw new Error(`Error: ${data.message}`); a
+      throw new Error(`Error: ${data.message}`); 
     }
+
     cache.push({
       city: data.name.toLowerCase(),
       data: data,
@@ -104,11 +125,23 @@ async function weather(cityName) {
     renderDetailsBlock(data);
     saveToLocalStorage('cache', cache);
     currCity = cityName;
-    saveToLocalStorage('currCity', currCity)
+    saveToLocalStorage('currCity', currCity);
   } catch (error) {
     showError(error.message);
   }
 }
+
+async function forecast(cityName) {
+  const URL = `${serverURLforecast}?q=${cityName}&appid=${apiKey}`;
+  try {
+    const data = await getData(URL);
+    renderForecastBlock(data);
+  } catch (error) {
+    showError(error.message);
+  }
+} 
+
+forecast('moscow');
 
 function formHandler(event) {
   event.preventDefault();
@@ -170,5 +203,8 @@ function favBtnHandler() {
 
 NOW_SCREEN_NODES.NOW_FAV_CITY.addEventListener('click', favBtnHandler)
 
-weather(currCity)
+document.addEventListener('DOMContentLoaded', () => {
+  weather(currCity);
+  inputCityNode.placeholder = currCity;
+})
 renderFavCities()
