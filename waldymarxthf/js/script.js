@@ -9,6 +9,8 @@ import {
 	loadLocations,
 	saveLastLocationToLocalStorage,
 	loadLastLocation,
+	saveActiveTab,
+	loadActiveTab,
 } from "./modules/localstorage.js";
 import { VARIABLES } from "./modules/ui-variables.js";
 
@@ -19,6 +21,8 @@ VARIABLES.TABS.forEach((tab, index) => {
 
 		tab.classList.add("active");
 		VARIABLES.WEATHER_BLOCK[index].classList.add("active");
+
+		saveActiveTab(index)
 	});
 });
 
@@ -243,8 +247,17 @@ addEventListener("DOMContentLoaded", async () => {
 		savedLocation = "Minsk";
 		saveLastLocationToLocalStorage(savedLocation);
 	}
-
 	await updateWeather(savedLocation);
+
+	const activeTabIndex = loadActiveTab();
+	if (!activeTabIndex) {
+		VARIABLES.TABS[0].classList.add("active");
+		VARIABLES.WEATHER_BLOCK[0].classList.add("active");
+	} else {
+		VARIABLES.TABS[activeTabIndex].classList.add("active")
+		VARIABLES.WEATHER_BLOCK[activeTabIndex].classList.add("active")
+	}
+	
 });
 
 VARIABLES.NOW.LIKE.addEventListener("click", addLocation);

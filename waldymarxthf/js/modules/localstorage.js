@@ -15,3 +15,12 @@ export function loadLastLocation() {
 	const lastLocation = localStorage.getItem('lastLocation') 
 	return lastLocation ? JSON.parse(lastLocation) : null
 }
+
+export function saveActiveTab(index) {
+	localStorage.setItem('activeTab', index.toString());
+}
+
+export function loadActiveTab() {
+	const activeTabIndex = localStorage.getItem('activeTab')
+	return activeTabIndex ? JSON.parse(activeTabIndex) : null
+}
