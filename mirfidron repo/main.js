@@ -5,8 +5,7 @@ const addForm = document.querySelector('.weather__form');
 const tab1 = document.getElementById('tab-1');
 const listItem = document.querySelector('.list');
 
-const list = [];
-JSON.stringify(list)
+let list = [];
 console.log(list)
 
 addForLocal();
@@ -54,6 +53,7 @@ async function addTaskPlace(a) {
 
 function addObject(a) {
     list.push(a)
+    saveListAdd()
 }
 
 function addObj(weather) {
@@ -86,16 +86,19 @@ async function addLike(b) {
     newDiv.insertAdjacentHTML('afterbegin', `<p class="list_item">${zag}</p><button class="btn-del">x</button>`);
     const delDiv = newDiv.querySelector('.btn-del');
     delDiv.addEventListener('click',() => {
-        const text = newDiv.textContent;
-        const index = list.findIndex(task => text == task.name);
+        const text = zag;
+        console.log(zag);
+        const index = list.findIndex(task => text == task);
         list.splice(index,1);
         listItem.removeChild(newDiv);
         console.log(list);
+        let listDate = JSON.parse(localStorage.getItem('list'))
+        listDate = list;
+        localStorage.setItem('list', JSON.stringify(list));
     });
     addObject(zag);
     console.log(list);
-    saveLikeName(zag);
-    saveList();
+
     newDiv.addEventListener('click',() => {
         addTaskPlace(zag);
     } )
@@ -120,9 +123,28 @@ function saveLikeName(zag) {
 }
 
 function saveList() {
-    localStorage.setItem('list', list);
-    list.push(localStorage.getItem('list'));
+    const listDate = JSON.parse(localStorage.getItem('list'));
+    list = listDate || [];
+    console.log(list);
+    addLikeLocal();
+    localStorage.removeItem('list');
+    localStorage.setItem('list', JSON.stringify(list));
+    
+
 }
+
+function pushList() {
+    const listDate = JSON.parse(localStorage.getItem('list'));
+    list.push(...listDate);
+}
+
+
+
+function saveListAdd() {
+    localStorage.setItem('list', JSON.stringify(list));
+}
+
+
 
 async function addLikeLocal() {
     for (let i in list) {
@@ -133,14 +155,16 @@ async function addLikeLocal() {
         newDiv.insertAdjacentHTML('afterbegin', `<p class="list_item">${zag}</p><button class="btn-del">x</button>`);
         const delDiv = newDiv.querySelector('.btn-del');
         delDiv.addEventListener('click',() => {
-            const text = newDiv.textContent;
-            const index = list.findIndex(task => text == task.name);
+            const text = zag;
+            console.log(zag);
+            const index = list.findIndex(task => text == task);
             list.splice(index,1);
             listItem.removeChild(newDiv);
             console.log(list);
+            let listDate = JSON.parse(localStorage.getItem('list'))
+            listDate = list;
+            localStorage.setItem('list', JSON.stringify(list));
         });
-        addObject(zag);
-        // saveLikeName(zag);
         newDiv.addEventListener('click',() => {
             addTaskPlace(zag);
         } )
@@ -171,7 +195,7 @@ async function addForLocal() {
     }
 }
 
-
+saveList()
 
 
 
