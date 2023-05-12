@@ -4,7 +4,9 @@ import {
   CREATE_ELEMENT,
   clearInput,
   TOGGLE_LIKE,
+  animateIcon,
 } from './module/ui_elements.js'
+
 import {
   cityFavoriteList,
   currentCity,
@@ -12,9 +14,11 @@ import {
   addCity,
   deleteCity,
   checkInput,
-  updateCurrentCity,
-} from './module/weather_logic.js'
+  updateCurrentCity
+} from './module/localstorage.js'
+
 import { convertKelvinToCelsius } from './module/utils_conversion.js'
+
 import { API, API_LOG, ERROR } from './module/data.js'
 
 for (let button of UI_ELEMENTS.BUTTONS_ALL) {
@@ -26,6 +30,7 @@ document.addEventListener('DOMContentLoaded', handleContentLoaded)
 UI_ELEMENTS.INPUT_FORM.addEventListener('submit', (event) => {
   event.preventDefault()
   processingInputRequest(UI_ELEMENTS.INPUT_TEXT.value)
+  animateIcon()
   clearInput()
 })
 
@@ -45,6 +50,7 @@ function processingInputRequest(input) {
   repeatRequest(output)
 }
 
+
 const repeatRequest = (city) => {
   getWeatherData(city)
 }
@@ -61,6 +67,7 @@ function getWeatherData(city) {
     .then((data) => render(data))
     .catch((error) => console.error(error))
 }
+
 
 function render(data) {
   try {
@@ -116,6 +123,7 @@ function createFavoriteCity(name) {
   cityName.addEventListener('click', () => {
     repeatRequest(name)
     renderFavorite()
+    animateIcon()
   })
 
   deleteButton.addEventListener('click', () => {
