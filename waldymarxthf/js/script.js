@@ -30,48 +30,33 @@ const serverUrlForecast = "http://api.openweathermap.org/data/2.5/forecast"
 const apiKey = "afc9f2df39f9e9e49eeb1afac7034d35";
 
 async function getCityWeather(location) {
-	showLoader();
-	console.clear();
-	try {
-		let link = `${serverUrl}?q=${location}&appid=${apiKey}&units=metric`;
-		let response = await fetch(link);
+	let link = `${serverUrl}?q=${location}&appid=${apiKey}&units=metric`;
+	let response = await fetch(link);
 
-		if (!response.ok) {
-			throw new Error("Повторите попытку позже");
-		} else {
-			let data = await response.json();
-			saveToLocalStorage('lastLocation', location)
-			return data;
-		}
-	} catch (error) {
-		errorHandler(error);
-	} finally {
-		hideLoader();
-	}
+	if (!response.ok) {
+		throw new Error("Повторите попытку позже");
+	} else {
+		let data = await response.json();
+		saveToLocalStorage('lastLocation', location)
+		return data;
+	} 
 }
 
 async function getCityForecast(location) {
-	try {
-		let link = `${serverUrlForecast}?q=${location}&appid=${apiKey}&units=metric`;
-		let response = await fetch(link);
+	let link = `${serverUrlForecast}?q=${location}&appid=${apiKey}&units=metric`;
+	let response = await fetch(link);
 
-		if (!response.ok) {
-			throw new Error("Повторите попытку позже");
-		} else {
-			let data = await response.json();
-			return data;
-		}
-	} catch (error) {
-		errorHandler(error);
+	if (!response.ok) {
+		throw new Error("Повторите попытку позже");
+	} else {
+		let data = await response.json();
+		return data;
 	}
 }
 
 //* отправляет запрос на сервер и скачивает json
 
 async function updateBlockNow(data) {
-	if (!data) {
-		throw new Error("Город или страна не найдена");
-	}
 
 	const iconBlockNow = data.weather[0].icon;
 	const tempBlockNow = Math.round(data.main.temp);
@@ -80,14 +65,12 @@ async function updateBlockNow(data) {
 	VARIABLES.NOW.TEMPERATURE.textContent = tempBlockNow;
 	VARIABLES.NOW.CITY.textContent = cityBlockNow;
 	VARIABLES.NOW.ICON.src = iconUrl;
+
 }
 
 //* обновляет блок NOW
 
 async function updateBlockDetails(data) {
-	if (!data) {
-		throw new Error("Город или страна не найдена");
-	}
 
 	const cityBlockDetails = data.name;
 	const tempBlockDetails = Math.round(data.main.temp);
@@ -106,9 +89,6 @@ async function updateBlockDetails(data) {
 //* обновляет блок DETAILS
 
 async function updateBlockForecast(data) {
-	if (!data) {
-		throw new Error("Город или страна не найдена");
-	}
 
 	const cityBlockForecast = data.city.name
 	VARIABLES.FORECAST.CITY.textContent = cityBlockForecast
@@ -150,15 +130,21 @@ async function updateBlockForecast(data) {
 //* обновляет блок FORECAST
 
 async function updateWeather(location) {
+	showLoader();
 	try {
-		let cityWeatherDataForecast = await getCityForecast(location)
-		let cityWeatherData = await getCityWeather(location);
+
+		let [cityWeatherDataForecast, cityWeatherData] = await Promise.all([
+			getCityForecast(location),
+			getCityWeather(location),
+		])
 	
 		await updateBlockNow(cityWeatherData);
 		await updateBlockDetails(cityWeatherData);
 		await updateBlockForecast(cityWeatherDataForecast)
 	} catch (error) {
-		console.error(error.message)
+		errorHandler(error)
+	} finally {
+		hideLoader()
 	}
 }
 
@@ -243,7 +229,6 @@ addEventListener("DOMContentLoaded", async () => {
 		savedLocation = "Minsk";
 		saveToLocalStorage('lastLocation', savedLocation)
 	}
-	await updateWeather(savedLocation);
 
 	const activeTabIndex = loadFromLocalStorage('index');
 	if (!activeTabIndex) {
@@ -254,6 +239,7 @@ addEventListener("DOMContentLoaded", async () => {
 		VARIABLES.WEATHER_BLOCK[activeTabIndex].classList.add("active")
 	}
 
+	await updateWeather(savedLocation);
 });
 
 VARIABLES.NOW.LIKE.addEventListener("click", addLocation);
