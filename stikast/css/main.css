@@ -52,6 +52,22 @@ body {
   width: 30px;
   height: 30px;
 }
+.search_button svg {
+  fill: rgba(0, 0, 0, 0.54);
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+.search_button svg:hover {
+  fill: black;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.constainer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
 
 .main-screen {
   display: -webkit-box;
@@ -80,6 +96,27 @@ body {
   font-size: 18px;
   line-height: 21px;
   border-top: 1px solid #000;
+}
+.main-screen_menu button {
+  width: 99px;
+}
+.main-screen_menu button:hover {
+  background-color: black;
+  color: white;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+.main-screen_menu button + button {
+  border-left: 1px solid black;
+}
+
+.active {
+  background-color: black;
+  color: white;
+}
+
+.now {
+  display: none;
 }
 
 .now_temperature {
@@ -113,4 +150,90 @@ body {
 .now_city_name {
   font-size: 24px;
   line-height: 28px;
+}
+
+.now_city_like svg {
+  stroke: rgba(0, 0, 0, 0.54);
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.now_city_like:hover svg {
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  stroke: rgb(255, 0, 0);
+}
+
+.details {
+  display: none;
+  margin-left: 17px;
+  font-size: 24px;
+  line-height: 28px;
+}
+
+.details_title {
+  margin-top: 33px;
+}
+
+.details_list {
+  margin-top: 42px;
+}
+.details_list li + li {
+  margin-top: 11px;
+}
+
+.forecast {
+  display: none;
+}
+
+.active-screen {
+  display: block;
+}
+
+.added-locations {
+  font-size: 24px;
+  line-height: 28px;
+}
+
+.added-locations_header {
+  padding-top: 32px;
+  padding-left: 18px;
+  width: 302px;
+  height: 68px;
+  border-bottom: 1px solid black;
+}
+
+.added-locations_list {
+  padding-top: 32px;
+  padding-left: 18px;
+}
+.added-locations_list li {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 266px;
+}
+.added-locations_list li + li {
+  margin-top: 11px;
+}
+.added-locations_list img {
+  -webkit-transition: opacity 0.4s ease-in;
+  transition: opacity 0.4s ease-in;
+  opacity: 0;
+  max-width: 28px;
+}
+.added-locations_list .newLocationName {
+  display: inline-block;
+}
+
+.added-locations_list li:hover img {
+  -webkit-transition: opacity 0.4s ease-in;
+  transition: opacity 0.4s ease-in;
+  opacity: 1;
 }
