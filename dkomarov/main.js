@@ -20,7 +20,7 @@ tabs.forEach((tab, index) => {
     })
 });
 
-let cityNames = JSON.parse(localStorage.getItem('city'));
+// let currentCity = JSON.parse(localStorage.getItem('city'));
 
 
 async function getRequest() {
@@ -28,21 +28,21 @@ async function getRequest() {
         const serverUrl = 'http://api.openweathermap.org/data/2.5/weather';
         const cityNames = inputValue.value;
         // и куда вставлять это полученное значение?
-        localStorage.setItem('city', JSON.stringify(cityNames))
+        // localStorage.setItem('city', JSON.stringify(cityNames))
 
         // console.log(cityNames);
         const apiKey = '2de34209accba46efc52dfd946a3c2b3';
         const url = `${serverUrl}?q=${cityNames}&appid=${apiKey}&units=metric`;
         const response = await fetch(url);
         const data = await response.json();
-        // console.log(data);
+        console.log(data);
         createDisplayNow(data);
         createDisplayDetails(data);
         clearInput();
     }
     catch (Err) {
         console.error(Err.message)
-    }
+    };
 };
 
 function createDisplayNow(data) {
@@ -57,22 +57,37 @@ function createDisplayNow(data) {
     const cityName = document.querySelector('.location-target span');
     cityName.textContent = data.name;
 
-
-
 };
 
 function createDisplayDetails(data) {
     const cityName = document.querySelector('.details-city');
     cityName.textContent = data.name;
     const sunrise = document.querySelector('.sunrise');
+    const sunset = document.querySelector('.sunset');
+    const weather = document.querySelector('.weather-sky');
+    const feelslike = document.querySelector('.feels');
+    const temperature = document.querySelector('.temperature-list');
 
-    const hours = '0' + new Date(data.sys.sunrise * 1000).getHours();
-    const minutes = new Date(data.sys.sunrise * 1000).getMinutes();
-    const sunriseValue = hours + ':' + minutes;
-    // console.log(sunriseValue);
+    const hoursRise = '0' + new Date(data.sys.sunrise * 1000).getHours();
+    const minutesRise = new Date(data.sys.sunrise * 1000).getMinutes();
+    const sunriseValue = hoursRise + ':' + minutesRise;
     sunrise.textContent = sunriseValue;
+    // console.log(sunriseValue);
+    const hoursSet = new Date(data.sys.sunset * 1000).getHours();
+    const minutesSet = new Date(data.sys.sunset * 1000).getMinutes();
+    const sunsetValue = hoursSet + ':' + minutesSet;
+    sunset.textContent = sunsetValue;
+
+    const weatherData = data.weather[0].main;
+    weather.textContent = weatherData;
 
 
+    const feelsLike = data.main.feels_like;
+    feelslike.textContent = feelsLike;
+
+
+    const tempDetails = data.main.temp;
+    temperature.textContent = tempDetails.toFixed(0);
 };
 
 
@@ -121,7 +136,7 @@ function createElement(sectionItem, text) {
     const parent = document.createElement('li');
     newElem.classList.add('new-element')
     newElem.textContent = text;
-    
+
 
     const closeBtn = document.createElement('button');
     closeBtn.classList.add('locations-close-btn');
@@ -135,7 +150,7 @@ function createElement(sectionItem, text) {
 
     newElem.addEventListener('click', () => {
         addFavoritesCity(newElem);
-        
+
     })
 
     closeBtn.addEventListener('click', () => {
@@ -171,18 +186,18 @@ function render() {
 
 function checkShape(name) {
     const indexCity = array.findIndex(c => c.name === name);
-        if (indexCity === -1) {
-            document.querySelector('.now-btn-shape').src = "/basics-4/dkomarov/img/Shape.svg";
-        } else {
-            document.querySelector('.now-btn-shape-img').src = "/basics-4/dkomarov/img/ShapeRED.svg";
-        }
+    if (indexCity === -1) {
+        document.querySelector('.now-btn-shape').src = "/basics-4/dkomarov/img/Shape.svg";
+    } else {
+        document.querySelector('.now-btn-shape-img').src = "/basics-4/dkomarov/img/ShapeRED.svg";
+    }
 }
 
 
 formNode.addEventListener('submit', (e) => {
     e.preventDefault();
     getRequest();
-    
+
 });
 
 
@@ -195,3 +210,5 @@ addButtonShape.addEventListener('click', () => {
 
 
 render();
+
+
