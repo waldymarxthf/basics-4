@@ -20,17 +20,20 @@ tabs.forEach((tab, index) => {
     })
 });
 
+// let storage = JSON.parse(localStorage.getItem('city'))
 
 
 async function getRequest() {
     try {
         const serverUrl = 'http://api.openweathermap.org/data/2.5/weather';
-        const cityName = inputValue.value;
+        const cityNames = inputValue.value;
+        // localStorage.setItem('city', JSON.stringify(cityNames));
+        console.log(cityNames);
         const apiKey = '2de34209accba46efc52dfd946a3c2b3';
-        const url = `${serverUrl}?q=${cityName}&appid=${apiKey}&units=metric`;
-
+        const url = `${serverUrl}?q=${cityNames}&appid=${apiKey}&units=metric`;
         const response = await fetch(url);
         const data = await response.json();
+        
         console.log(data);
         createDisplayNow(data);
         createDisplayDetails(data);
@@ -46,12 +49,10 @@ function createDisplayNow(data) {
     const temperature = data.main.temp;
     tempSpan.textContent = temperature.toFixed(0);
 
-
     const iconId = data.weather[0].icon
     const iconImg = `https://openweathermap.org/img/wn/${iconId}@4x.png`;
     const iconWeather = document.querySelector('.weather-icon img');
     iconWeather.src = iconImg;
-
     const cityName = document.querySelector('.location-target span');
     cityName.textContent = data.name;
 
@@ -67,7 +68,7 @@ function createDisplayDetails(data) {
     const hours = '0' + new Date(data.sys.sunrise * 1000).getHours();
     const minutes = new Date(data.sys.sunrise * 1000).getMinutes();
     const sunriseValue = hours + ':' + minutes;
-    console.log(sunriseValue);
+    // console.log(sunriseValue);
     sunrise.textContent = sunriseValue;
 
 
@@ -78,20 +79,21 @@ function createDisplayDetails(data) {
 
 
 
-//add function
+//FAVORITES CITIES
 
 const nameShapeCity = document.querySelector('.love-city');
 const addButtonShape = document.querySelector('.now-btn-shape-img');
 const sectionItem = document.querySelector('.locations');
 
-console.log(nameShapeCity.textContent)
+// console.log(nameShapeCity.textContent)
 
 
-const array = [];
+const array = JSON.parse(localStorage.getItem('array')) || [];
 
 
 function addTask(text) {
     array.push(text);
+    localStorage.setItem('array', JSON.stringify(array))
 };
 
 function addCity() {
@@ -110,6 +112,7 @@ function deleteCity(text) {
     console.log(indexItem);
     array.splice(indexItem, 1);
     console.log(array)
+    localStorage.setItem('array', JSON.stringify(array));
     render();
 }
 
@@ -118,7 +121,8 @@ function createElement(sectionItem, text) {
     const newElem = document.createElement('span');
     const parent = document.createElement('li');
     newElem.classList.add('new-element')
-    newElem.textContent = text
+    newElem.textContent = text;
+    
 
     const closeBtn = document.createElement('button');
     closeBtn.classList.add('locations-close-btn');
@@ -132,6 +136,7 @@ function createElement(sectionItem, text) {
 
     newElem.addEventListener('click', () => {
         addFavoritesCity(newElem);
+        
     })
 
     closeBtn.addEventListener('click', () => {
@@ -187,5 +192,7 @@ addButtonShape.addEventListener('click', () => {
     checkShape();
 
 });
+
+
 
 render();

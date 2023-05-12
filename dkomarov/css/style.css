@@ -24,7 +24,7 @@ h2 {
 .section {
     width: 600px;
     height: 435px;
-    background-color: #d5d5d5;
+    background-color: #ffffff;
     position: absolute;
     margin: 100px 400px;
     border-radius: 10px;
@@ -59,12 +59,12 @@ h2 {
     height: 43px;
     border: none;
     outline: none;
-    background-color: #d5d5d5;
+    background-color: #ffffff;
     font-size: 18px;
 }
 
 .search-img {
-    background-color: #d5d5d5;
+    background-color: #ffffff;
 }
 
 .search-img {
@@ -101,11 +101,11 @@ h2 {
 }
 
 .now-btn-shape {
-    background-color: #d5d5d5;
+    background-color: #ffffff;
     cursor: pointer;
 }
 .now-btn-shape-img {
-    background-color: #d5d5d5;
+    background-color: #ffffff;
 }
 .temperature {
     padding-left: 20px;
@@ -294,7 +294,7 @@ h2 {
     height: 15px;
     position: relative;
     left: 5px;  
-    background-color: #d5d5d5;
+    background-color: #ffffff;
     cursor: pointer;
     
 }
