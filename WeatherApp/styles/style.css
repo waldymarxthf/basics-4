@@ -118,8 +118,8 @@
     width: 300px;
     height: 345px; }
     .window__show .categories__now .degree {
-      margin-left: 25px;
-      padding-top: 20px;
+      margin-left: 12px;
+      padding-top: 15px;
       font-family: 'NunitoBold';
       font-style: normal;
       font-weight: 400;
@@ -131,11 +131,11 @@
     .window__show .categories__now .main_image {
       display: flex;
       justify-content: center;
-      margin-top: 40px; }
+      margin-top: 70px; }
     .window__show .categories__now .bottom {
       display: flex;
       justify-content: space-between;
-      margin-top: 100px; }
+      margin-top: 80px; }
       .window__show .categories__now .bottom .mounth {
         font-family: 'Nunito';
         font-style: normal;

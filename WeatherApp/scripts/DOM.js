@@ -14,6 +14,8 @@ const detalisSunset = fastDOM(".Sunset");
 const placeForLoc = fastDOM(".locations")
 const likeIcon = fastDOM(".share")
 const titleForLike = fastDOM(".titleForLike")
+const mainDegree = fastDOM(".degree-txt")
+const mainImage = fastDOM(".main_image-img")
 
 export default {
 	categories,
@@ -28,4 +30,6 @@ export default {
 	placeForLoc,
 	likeIcon,
 	titleForLike,
+	mainDegree,
+	mainImage,
 }

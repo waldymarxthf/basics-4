@@ -1,10 +1,22 @@
 import DOM from "./DOM.js";
 
-var Locations = [
-	
-]
+var Locations = JSON.parse(localStorage.getItem('Loc')) || [];
 
-render();
+function LocalStorageSave(){
+	localStorage.setItem('Loc', JSON.stringify(Locations))
+}
+
+var LastCity = JSON.parse(localStorage.getItem('Last')) || "Novokuzneck";
+
+function LocalStorageLast(){
+	localStorage.setItem('Last', JSON.stringify(LastCity))
+}
+
+function LoadLast(){
+	DOM.mainInput.value = LastCity;
+	DOM.mainInput.placeholder = LastCity;
+	GetWeather();
+}
 
 document.querySelector(".categories__bar").onclick = function(event) {
 	DOM.categories[0].classList.remove('select');
@@ -36,10 +48,14 @@ async function GetWeather(){
 		const response = await fetch(url);
 		const List = await response.json();
 		console.log(List)
+		LastCity = List.name;
+		DOM.mainInput.placeholder = List.name;
+		LocalStorageLast();
 		RenderDetalis(List);
-		RenderMain();
+		RenderMain(List);
+		DOM.mainInput.value = "";
 	} catch (e){
-		if(DOM.mainInput.value.toLowerCase().capitalize() == ''){
+		if(DOM.mainInput.value.toLowerCase() == ''){
 			Locations.forEach((lock) => {
 				console.log(lock);
 				if(lock == DOM.titleForLike.textContent){
@@ -62,10 +78,11 @@ async function GetWeather(){
 	}
 }
 
-function RenderMain(){
+function RenderMain(List){
 	DOM.mainSity[0].textContent = DOM.mainInput.value.toLowerCase().capitalize();
 	DOM.mainSity[1].textContent = DOM.mainInput.value.toLowerCase().capitalize();
 	DOM.mainSity[2].textContent = DOM.mainInput.value.toLowerCase().capitalize();
+	DOM.mainDegree.textContent = List.main.temp;
 	Locations.forEach((lock) => {
 		console.log(lock);
 		if(lock == DOM.titleForLike.textContent){
@@ -98,6 +115,7 @@ DOM.placeForLoc.addEventListener('click', function(event) {
 			event.stopPropagation();
 			const deleteName = event.target.parentNode.children;
 			Locations = Locations.filter((element) => element!=deleteName[0].textContent)
+			LocalStorageSave();
 			DOM.likeIcon.classList.remove('fill')
 			render();
 	}
@@ -128,9 +146,11 @@ DOM.likeIcon.onclick = function(e){
 	e.target.classList.toggle("fill");
 	if(DOM.likeIcon.classList.contains('fill')){
 		Locations.push(DOM.titleForLike.textContent);
+		LocalStorageSave();
 		render();
 	} else{
 		Locations = Locations.filter(el => el != DOM.titleForLike.textContent);
+		LocalStorageSave();
 		render();
 	}
 	console.log(Locations)
@@ -143,3 +163,6 @@ function render(){
 		DOM.placeForLoc.appendChild(newElem);
 	})
 }
+
+LoadLast();
+render();
