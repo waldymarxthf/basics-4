@@ -270,3 +270,6 @@ body {
 .inactive-block {
     display: none;
 }
+.invalid-city {
+    color: red;
+}

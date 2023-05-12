@@ -49,17 +49,20 @@ async function showWeather(city) {
     try {
         // получение данных с сервера
         const data = await fetchNowWeather(city);
-   
+       
         // подготовка необходимых данных
         const vars = process(data);
+        
         // сохранение последнего загруженного города в локал сторедж
         storage.saveLastCity();
+        
         // изменение цвета у города вкладки now
         weatherNowCity.style.color = 'black';
         // отрисовка данных
         render(vars);
     }
     catch (e) {
+        
         console.log(e);
     }
     
@@ -74,6 +77,7 @@ async function fetchNowWeather(city) {
 
         const respons = await fetch(url);
         if (respons.ok) {
+            searchCityInput.classList.remove('invalid-city');
             const data = await respons.json();
             return data;           
         }
@@ -81,9 +85,19 @@ async function fetchNowWeather(city) {
             throw new Error((await respons.json()).message);
         }
     } catch (error) {
+        
+        if (error.message === 'city not found') {
+            formSetError(city);
+            return;
+        }
         alert('Error: '+ error.message);
-        console.log(error);
     }
+}
+
+function formSetError(city) {
+    alert('Такой город не найден');
+    searchCityInput.value = city;
+    searchCityInput.classList.add('invalid-city');
 }
 
 // выбор нужных данных из полученных 
@@ -182,19 +196,19 @@ const tabsBtnsHandler = (event) => {
 
 // обработчик формы поиска города
 const searchFormHandler = (event) => {
+    const city = searchCityInput.value.trim();
     try {
         event.preventDefault();
-        const city = searchCityInput.value.trim();
-        
-    if (!city) {
+        if (!city) {
         throw new Error('Некорректное название города');
                 
-    }
-    showWeather(city);
+        }
+        showWeather(city);
     
     }
     catch (error){
         alert('Error: '+ error);
+                
     }
     finally {
         searchCityForm.reset();
@@ -204,7 +218,9 @@ const searchFormHandler = (event) => {
 // обработчик кнопки добавления избранных городов
 const btnFavoriteCityHandler = () => {
     const city = weatherNowCity.textContent;
-    if (storage.favCities.length !== 0 && storage.hasFavListCity(city)) {
+    const favList = storage.getFavList();
+    if (favList.length !== 0 && 
+        storage.hasFavListCity(city)) {
         removeFavoriteCity(city);
         return;
     }
@@ -223,14 +239,16 @@ function addFavoriteCities(city) {
 
 // добавление избранного города в хранилище
 function addFavoriteCityToStorage(city) {
-    storage.favCities.push(city);
+    const favList = storage.getFavList();
+    favList.push(city);
    
 }
 
 // отрисовка списка избранных городов
 function renderFavoriteCities() {
     favoriteCitiesList.innerHTML = '';
-    storage.favCities.forEach(city => addFavoriteCityNode(city));
+    const favList = storage.getFavList();
+    favList.forEach(city => addFavoriteCityNode(city));
 }
 
 // создание элемента в списке избранных городов
@@ -259,7 +277,8 @@ function removeFavoriteCity(city) {
 
 // удаление города из списка избранных в хранилище
 function deleteFavoriteCityFromStorage(city) {
-    storage.favCities = storage.favCities.filter(c => c !== city);
+    const favList = storage.getFavList();
+    storage.favCities = favList.filter(c => c !== city);
     storage.saveFavList();
   
 }
