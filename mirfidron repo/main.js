@@ -127,10 +127,7 @@ function saveList() {
     list = listDate || [];
     console.log(list);
     addLikeLocal();
-    localStorage.removeItem('list');
-    localStorage.setItem('list', JSON.stringify(list));
     
-
 }
 
 function pushList() {
