@@ -12,4 +12,10 @@ export const UI_ELEMENTS = {
   NOW_ICON: getElement('.now-content__icon'),
   LIKE_BTN: getElement('.now-content__buttom-btn'),
   FAVORITES_LIST: getElement('.locations__list'),
+  DETAILS_CITY: getElement('.details__city'),
+  DETAILS_TEMP: getElement('.details__item-temp--value'),
+  DETAILS_FEELS: getElement('.details__item-feels--value'),
+  DETAILS_WEATHER: getElement('.details__item-weather--value'),
+  DETAILS_SUNRISE: getElement('.details__item-sunrise--value'),
+  DETAILS_SUNSET: getElement('.details__item-sunset--value'),
 };

@@ -37,6 +37,7 @@ body {
   border: none;
   font-size: 18px;
   line-height: 21px;
+  outline: none;
 }
 .search-form__button {
   width: 30px;

@@ -1,5 +1,5 @@
 import { UI_ELEMENTS } from './js/ui.js';
-import { roundValue } from './js/utils.js';
+import { roundValue, convertDate } from './js/utils.js';
 import { storage } from './js/storage.js';
 
 let favoritesCitiesList = [];
@@ -9,6 +9,12 @@ function showWeatherData(data) {
   UI_ELEMENTS.NOW_TEMP.textContent = roundValue(data.main.temp);
   UI_ELEMENTS.NOW_CITY.textContent = data.name;
   UI_ELEMENTS.NOW_ICON.setAttribute('src', iconUrl);
+  UI_ELEMENTS.DETAILS_TEMP.textContent = roundValue(data.main.temp);
+  UI_ELEMENTS.DETAILS_FEELS.textContent = roundValue(data.main.feels_like);
+  UI_ELEMENTS.DETAILS_WEATHER.textContent = data.weather[0].main;
+  UI_ELEMENTS.DETAILS_CITY.textContent = data.name;
+  UI_ELEMENTS.DETAILS_SUNRISE.textContent = convertDate(data.sys.sunrise);
+  UI_ELEMENTS.DETAILS_SUNSET.textContent = convertDate(data.sys.sunset);
 }
 
 function showError(error) {
@@ -30,18 +36,6 @@ function getWeatherData(cityName) {
     })
     .then(data => showWeatherData(data))
     .catch(error => showError(error));
-
-  // try {
-  //   let response = await fetch(url);
-  //   if (response.ok) {
-  //     const json = await response.json();
-  //     showWeatherData(json);
-  //   } else {
-  //     throw new Error((await response.json()).message);
-  //   }
-  // } catch (error) {
-  //   showError(error);
-  // }
 }
 
 function submitSearchFormHandler(event) {
@@ -56,7 +50,7 @@ function deleteFavoritesItem(name) {
   const index = favoritesCitiesList.indexOf(name);
   if (index >= 0) {
     favoritesCitiesList.splice(index, 1);
-    console.log(favoritesCitiesList);
+    storage.saveFavoriteCities(favoritesCitiesList);
     render();
   }
 }
@@ -100,7 +94,6 @@ function addFavoritesItemInList(cityName) {
 
 function addFavoritesElement(cityName) {
   const element = createFavoritesElement(cityName);
-
   showFavoritesElement(element);
 }
 
