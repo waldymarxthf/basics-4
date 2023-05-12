@@ -17,6 +17,36 @@ function showError(error) {
   MODAL_NODES.modalError.style.display = 'flex';
 }
 
+function renderNowBlock(data) {
+  if (findCityIndex(list, data.name.toLowerCase()) !== -1) {
+    NOW_SCREEN_NODES.NOW_FAV_CITY.src = './assets/svg/shape-full.svg'
+  }
+  else {
+    NOW_SCREEN_NODES.NOW_FAV_CITY.src = './assets/svg/Shape.svg'
+  }
+
+  const iconID = data.weather[0].icon;
+  const srcIcon = `https://openweathermap.org/img/wn/${iconID}@4x.png`;
+
+  NOW_SCREEN_NODES.NOW_TEMP.textContent = data.main.temp;
+  NOW_SCREEN_NODES.NOW_ICON_WEATHER.src = srcIcon;
+  NOW_SCREEN_NODES.NOW_CITY.textContent = data.name;
+}
+
+function renderDetailsBlock(data) {
+  const weather = data.weather[0].main;
+  const timeSunrise = timeConverter(data.sys.sunrise, data.timezone);
+  const timeSunset = timeConverter(data.sys.sunset, data.timezone);
+
+  DETAILS_SCREEN_NODES.DETAILS_CITY_NAME.textContent = data.name;
+  DETAILS_SCREEN_NODES.DETAILS_TEMP.textContent = data.main.temp
+  DETAILS_SCREEN_NODES.DETAILS_TEMP_FEELSLIKE.textContent = data.main.feels_like;
+  DETAILS_SCREEN_NODES.DETAILS_WEATHER.textContent = weather;
+  DETAILS_SCREEN_NODES.DETAILS_SUNRISE.textContent = timeSunrise;
+  DETAILS_SCREEN_NODES.DETAILS_SUNSET.textContent = timeSunset;
+}
+
+
 async function updateCityInCache(name, URL) {
   const data = await getData(URL);
   cache[findIndexCityInCache(cache, name)].data = data;
@@ -26,34 +56,8 @@ async function updateCityInCache(name, URL) {
 }
 
 function loadCityFromCache( name) {
-  renderWeather(cache[findIndexCityInCache(cache, name)].data, name);
-}
-
-
-function renderWeather(data, cityName) {
-  if (findCityIndex(list, cityName) !== -1) {
-    NOW_SCREEN_NODES.NOW_FAV_CITY.src = './assets/svg/shape-full.svg'
-  }
-  else {
-    NOW_SCREEN_NODES.NOW_FAV_CITY.src = './assets/svg/Shape.svg'
-  }
-
-  const weather = data.weather[0].main;
-  const timeSunrise = timeConverter(data.sys.sunrise, data.timezone);
-  const timeSunset = timeConverter(data.sys.sunset, data.timezone);
-  const iconID = data.weather[0].icon;
-  const srcIcon = `https://openweathermap.org/img/wn/${iconID}@4x.png`;
-
-  NOW_SCREEN_NODES.NOW_TEMP.textContent = data.main.temp;
-  NOW_SCREEN_NODES.NOW_ICON_WEATHER.src = srcIcon;
-  NOW_SCREEN_NODES.NOW_CITY.textContent = data.name;
-  DETAILS_SCREEN_NODES.DETAILS_CITY_NAME.textContent = data.name;
-  DETAILS_SCREEN_NODES.DETAILS_TEMP.textContent = data.main.temp
-  DETAILS_SCREEN_NODES.DETAILS_TEMP_FEELSLIKE.textContent = data.main.feels_like;
-  DETAILS_SCREEN_NODES.DETAILS_WEATHER.textContent = weather;
-  DETAILS_SCREEN_NODES.DETAILS_SUNRISE.textContent = timeSunrise;
-  DETAILS_SCREEN_NODES.DETAILS_SUNSET.textContent = timeSunset;
-  FORECAST_SCREEN_NODES.FORECAST_CITY_NAME.textContent = data.name;
+  renderNowBlock(cache[findIndexCityInCache(cache, name)].data, name);
+  renderDetailsBlock(cache[findIndexCityInCache(cache, name)].data, name);
 }
 
 tabsContainerNode.addEventListener('click', event => tabsContainerNodeHandler(event));
@@ -94,7 +98,8 @@ async function weather(cityName) {
       data: data,
       time: new Date().getHours(),
     })
-    renderWeather(data, cityName);
+    renderNowBlock(data);
+    renderDetailsBlock(data);
     saveToLocalStorage('cache', cache);
     currCity = cityName;
     saveToLocalStorage('currCity', currCity)
