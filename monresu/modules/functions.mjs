@@ -16,10 +16,12 @@ export function timeConverter(UNIX_timestamp, timezone) {
 
 export function cityExistsInCache(cache, name) {
   const now = new Date().getHours();
-  const cityExist = cache.find(item => item.city.toLowerCase() === name) !== undefined;
+  console.log(now)
+  const cityExist = cache.find(item => item.data.name.toLowerCase() === name) !== undefined;
   let dateGood = false;
   for (let i = 0; i < cache.length; i++) {
-    if (cache[i].time === now) {
+    if (cache[i].time === now && cache[i].data.name.toLowerCase() === name) {
+      console.log(cache[i]);
       dateGood = true;
       break;
     }

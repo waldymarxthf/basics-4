@@ -1,6 +1,6 @@
 import { tabsContainerNode, tabNodes, tabContentNodes, form, inputCityNode} from './modules/variables.mjs'
 import { serverURL, apiKey, cache } from './modules/variables.mjs'
-import { NOW_SCREEN_NODES, DETAILS_SCREEN_NODES, FORECAST_SCREEN_NODES, MODAL_NODES, FAV_SCREEN_NODES, } from './modules/variables.mjs'
+import { NOW_SCREEN_NODES, DETAILS_SCREEN_NODES, MODAL_NODES, FAV_SCREEN_NODES, } from './modules/variables.mjs'
 import { getData, timeConverter, cityExistsInCache, findIndexCityInCache, saveToLocalStorage, findCityIndex } from './modules/functions.mjs'
 
 let currCity = JSON.parse(localStorage.getItem('currCity')) || 'aktobe';
@@ -46,16 +46,19 @@ function renderDetailsBlock(data) {
   DETAILS_SCREEN_NODES.DETAILS_SUNSET.textContent = timeSunset;
 }
 
-
 async function updateCityInCache(name, URL) {
+  console.log(123);
+  console.log(name);
   const data = await getData(URL);
-  cache[findIndexCityInCache(cache, name)].data = data;
-  cache[findIndexCityInCache(cache, name)].time = new Date().getHours();
-  renderWeather(data, name);
+  const i = findIndexCityInCache(cache, name);
+  cache[i].data = data;
+  cache[i].time = new Date().getHours();
+  renderNowBlock(data);
+  renderDetailsBlock(data);
   saveToLocalStorage('cache', cache);
 }
 
-function loadCityFromCache( name) {
+function loadCityFromCache(name) {
   renderNowBlock(cache[findIndexCityInCache(cache, name)].data, name);
   renderDetailsBlock(cache[findIndexCityInCache(cache, name)].data, name);
 }
@@ -76,25 +79,27 @@ async function weather(cityName) {
   const URL = `${serverURL}?q=${cityName}&appid=${apiKey}&units=metric`;
   form.reset();
   const isCityInCache = cityExistsInCache(cache, cityName.toLowerCase());
+  console.log(isCityInCache)
   if (isCityInCache[0] && isCityInCache[1]) {
-    loadCityFromCache( cityName);
+    loadCityFromCache(cityName);
     currCity = cityName;
     saveToLocalStorage('currCity', currCity)
     return;
   }
   else if (isCityInCache[0] && !isCityInCache[1]) {
-    updateCityInCache( cityName, URL);
+    updateCityInCache(cityName, URL);
     currCity = cityName;
     saveToLocalStorage('currCity', currCity);
     return;
   }
   try {
+    console.log('message')
     const data = await getData(URL);
     if ('message' in data) {
       throw new Error(`Error: ${data.message}`); a
     }
     cache.push({
-      city: cityName.toLowerCase(),
+      city: data.name.toLowerCase(),
       data: data,
       time: new Date().getHours(),
     })
@@ -110,7 +115,7 @@ async function weather(cityName) {
 
 function formHandler(event) {
   event.preventDefault();
-  const cityName = inputCityNode.value.trim();
+  const cityName = inputCityNode.value.trim().toLowerCase();
   if (!cityName) {
     showError('Input is blank');
     form.reset();
