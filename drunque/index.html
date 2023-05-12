@@ -11,7 +11,8 @@
     />
     <link rel="stylesheet" href="styles/reset.css" />
     <link rel="stylesheet" href="styles/style.css" />
-    <script defer src="tabs.js"></script>
+    <script defer src="scripts/tabs.js"></script>
+    <script defer src="scripts/script.js"></script>
   </head>
   <body>
     <div class="wrapper">
@@ -24,29 +25,30 @@
           <div class="windows">
             <div id="now" class="window">
               <div class="row">
-                <p id="temp">14°</p>
+                <p><span id="now-temp"></span></p>
               </div>
               <div class="row">
                 <img
-                  src="https://openweathermap.org/img/wn/03n@4x.png"
+                  id="weather-image"
+                  src="https://openweathermap.org/img/wn/01d@4x.png"
                   alt="icon"
                 />
               </div>
               <div class="row">
-                <p>Aktobe</p>
+                <p id="now-city">Aktobe</p>
                 <button class="material-icons">favorite_border</button>
               </div>
             </div>
             <div id="details" class="window">
               <div class="container">
-                <p>Aktobe</p>
+                <p id="details-city">Aktobe</p>
               </div>
               <div class="weather-info">
-                <p>Temperature: <span id="temp">14°</span></p>
-                <p>Feels like: <span id="feels-like-temp">10°</span></p>
-                <p>Weather: <span id="weather-type">Clouds</span></p>
-                <p>Sunrise: <span id="sunrise-time">03:21</span></p>
-                <p>Sunset: <span id="sunset-time">18:54</span></p>
+                <p>Temperature: <span id="details-temp"></span></p>
+                <p>Feels like: <span id="feels-like"></span></p>
+                <p>Weather: <span id="weather-type"></span></p>
+                <p>Sunrise: <span id="sunrise-time"></span></p>
+                <p>Sunset: <span id="sunset-time"></span></p>
               </div>
             </div>
             <div id="forecast" class="window">
@@ -143,18 +145,6 @@
             <p>Added locations:</p>
           </div>
           <div class="history-list">
-            <p>Amur</p>
-            <p>Samara</p>
-            <p>Bali</p>
-            <p>Dane</p>
-            <p>Kilo</p>
-            <p>Nur-Sultan</p>
-            <p>Amur</p>
-            <p>Samara</p>
-            <p>Bali</p>
-            <p>Dane</p>
-            <p>Kilo</p>
-            <p>Nur-Sultan</p>
           </div>
         </div>
       </div>
