@@ -5,23 +5,12 @@ const addForm = document.querySelector('.weather__form');
 const tab1 = document.getElementById('tab-1');
 const listItem = document.querySelector('.list');
 
-const list = [];
-JSON.stringify(list)
+let list = [];
 console.log(list)
 
 addForLocal();
-// addLikeLocal();
-// console.log(list[0])
-
-function saveLocationsToLocalStorage() {
-    localStorage.setItem('location', JSON.stringify(list))
-}
-
-function loadLocations() {
-    const locations = JSON.parse(localStorage.getItem('location'))
-    list.push(...locations)
-    addLikeLocal()
-}
+addLikeLocal();
+console.log(list[0])
 
 addForm.addEventListener('submit',(event) => {
     event.preventDefault();
@@ -64,6 +53,7 @@ async function addTaskPlace(a) {
 
 function addObject(a) {
     list.push(a)
+    saveListAdd()
 }
 
 function addObj(weather) {
@@ -108,8 +98,7 @@ async function addLike(b) {
     });
     addObject(zag);
     console.log(list);
-    saveLikeName(zag);
-    saveList();
+
     newDiv.addEventListener('click',() => {
         addTaskPlace(zag);
     } )
@@ -122,6 +111,7 @@ function saveCityName() {
     const cityNameJust = document.querySelector('.tab-block__country');
     localStorage.setItem('city', cityNameJust.textContent);
     const test = localStorage.getItem('city');
+    console.log(test)
 }
 
 function saveLikeName(zag) {
@@ -130,11 +120,25 @@ function saveLikeName(zag) {
     const test = localStorage.getItem('like')
     console.log(test)
 
-// }
+}
 
 function saveList() {
-    localStorage.setItem('list', list);
-    list.push(localStorage.getItem('list'));
+    const listDate = JSON.parse(localStorage.getItem('list'));
+    list = listDate || [];
+    console.log(list);
+    addLikeLocal();
+    
+}
+
+function pushList() {
+    const listDate = JSON.parse(localStorage.getItem('list'));
+    list.push(...listDate);
+}
+
+
+
+function saveListAdd() {
+    localStorage.setItem('list', JSON.stringify(list));
 }
 
 
@@ -188,7 +192,4 @@ async function addForLocal() {
     }
 }
 
-
-
-
-
+saveList();
