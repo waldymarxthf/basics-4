@@ -1,7 +1,8 @@
 import { UI_ELEMENTS } from './js/ui.js';
 import { roundValue } from './js/utils.js';
+import { storage } from './js/storage.js';
 
-const favoritesCitiesList = [
+let favoritesCitiesList = [
   'Amur',
   'Samara',
   'Bali',
@@ -54,6 +55,7 @@ function submitSearchFormHandler(event) {
   event.preventDefault();
   const cityName = UI_ELEMENTS.FORM_INPUT.value;
   getWeatherData(cityName);
+  storage.saveCurrentCity(cityName);
   event.target.reset();
 }
 
@@ -109,6 +111,8 @@ function addFavoritesElement(cityName) {
 
 function render() {
   UI_ELEMENTS.FAVORITES_LIST.textContent = '';
+  const cityName = storage.getCurrentCity();
+  getWeatherData(cityName);
   favoritesCitiesList.forEach(item => addFavoritesElement(item));
 }
 
