@@ -12,12 +12,21 @@ export const VARIABLES = {
 		LIKE: document.querySelector(".weather__block-content-like"),
 	},
 	DETAILS: {
-		CITY:  document.querySelector(".weather__details-title"),
+		CITY: document.querySelector(".weather__details-title"),
 		TEMPERATURE: document.querySelector(".temperature"),
 		FEEL_LIKE: document.querySelector(".feel"),
 		WEATHER: document.querySelector(".weather-sky"),
 		SUNRISE: document.querySelector(".sunrise"),
 		SUNSET: document.querySelector(".sunset"),
+	},
+	FORECAST: {
+		CITY: document.querySelector('.weather__forecast-title'),
+		DATE: document.querySelectorAll('.block__title-date'),
+		TIME: document.querySelectorAll('.block__title-time'),
+		TEMPERATURE: document.querySelectorAll('.block__subtitle-temp span'),
+		PRECIPITATION: document.querySelectorAll('.weather__subtitle-rain'),
+		FEEL_LIKE: document.querySelectorAll('.block__text-feels span'),
+		ICON: document.querySelectorAll('.block__text-img'),
 	},
 	LOCATIONS: {
 		LIST: document.querySelector('.list-locations'),

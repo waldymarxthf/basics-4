@@ -26,6 +26,7 @@ VARIABLES.TABS.forEach((tab, index) => {
 
 const locations = [];
 const serverUrl = "http://api.openweathermap.org/data/2.5/weather";
+const serverUrlForecast = "http://api.openweathermap.org/data/2.5/forecast"
 const apiKey = "afc9f2df39f9e9e49eeb1afac7034d35";
 
 async function getCityWeather(location) {
@@ -39,12 +40,29 @@ async function getCityWeather(location) {
 			throw new Error("Повторите попытку позже");
 		} else {
 			let data = await response.json();
+			saveLastLocationToLocalStorage(location)
 			return data;
 		}
 	} catch (error) {
 		errorHandler(error);
 	} finally {
 		hideLoader();
+	}
+}
+
+async function getCityForecast(location) {
+	try {
+		let link = `${serverUrlForecast}?q=${location}&appid=${apiKey}&units=metric`;
+		let response = await fetch(link);
+
+		if (!response.ok) {
+			throw new Error("Повторите попытку позже");
+		} else {
+			let data = await response.json();
+			return data;
+		}
+	} catch (error) {
+		errorHandler(error);
 	}
 }
 
@@ -87,17 +105,60 @@ async function updateBlockDetails(data) {
 
 //* обновляет блок DETAILS
 
+async function updateBlockForecast(data) {
+	if (!data) {
+		throw new Error("Город или страна не найдена");
+	}
+
+	const cityBlockForecast = data.city.name
+	VARIABLES.FORECAST.CITY.textContent = cityBlockForecast
+
+	VARIABLES.FORECAST.DATE.forEach((date, index) => {
+		let dateBlockForecast = new Date((data.list[index].dt) * 1000)
+		let humanDateBlockForecast = dateBlockForecast.toLocaleString("en-GB", {day: "numeric", month: "long"})
+		date.textContent = humanDateBlockForecast
+	})
+
+	VARIABLES.FORECAST.TIME.forEach((date, index) => {
+		let humanTimeBlockForecast = timeConverter(data.list[index].dt, data.city.timezone)
+		date.textContent = humanTimeBlockForecast
+	})
+
+	VARIABLES.FORECAST.TEMPERATURE.forEach((temp, index) => {
+		let tempBlockForecast = Math.round(data.list[index].main.temp)
+		temp.textContent = tempBlockForecast
+	})
+
+	VARIABLES.FORECAST.PRECIPITATION.forEach((precipitaion, index) => {
+		let precipitationBlockForecast = data.list[index].weather[0].main
+		precipitaion.textContent = precipitationBlockForecast
+	})
+
+	VARIABLES.FORECAST.FEEL_LIKE.forEach((feelLike, index) => {
+		let feelLikeBlockForecast = Math.round(data.list[index].main.feels_like)
+		feelLike.textContent = feelLikeBlockForecast
+	})
+
+	VARIABLES.FORECAST.ICON.forEach((icon, index) => {
+		let iconBlockForecast = data.list[index].weather[0].icon
+		let iconUrl = `https://openweathermap.org/img/wn/${iconBlockForecast}@2x.png`;
+		icon.src = iconUrl
+	})
+
+}
+
+//* обновляет блок FORECAST
+
 async function updateWeather(location) {
 	try {
+		let cityWeatherDataForecast = await getCityForecast(location)
 		let cityWeatherData = await getCityWeather(location);
 	
-		saveLastLocationToLocalStorage(location)
 		await updateBlockNow(cityWeatherData);
 		await updateBlockDetails(cityWeatherData);
+		await updateBlockForecast(cityWeatherDataForecast)
 	} catch (error) {
 		console.error(error.message)
-	} finally {
-		saveLastLocationToLocalStorage(VARIABLES.NOW.CITY.textContent)
 	}
 }
 

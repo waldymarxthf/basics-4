@@ -85,6 +85,7 @@ body{
 			max-width: 200px;
 			max-height: 200px;
 			margin-left: 45px;
+			transform: scale(0.75);
 		}
 		&-content {
 			display: flex;
@@ -270,6 +271,12 @@ body{
 				font-size: 18px;
 				line-height: 21px;
 				color: #000000;
+				&-img{
+					width: 31px;
+					height: 31px;
+					transform: scale(2);
+					padding-right: 5px;
+				}
 			}
 		}
 	}

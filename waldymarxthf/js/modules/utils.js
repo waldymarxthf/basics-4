@@ -6,6 +6,14 @@ export function timeConverter(time, timezone) {
 
 //* функция конвертации unix времени в обычное
 
+export function timeForecastConverter(time) {
+	const timezone = new Date(time).getTimezoneOffset() * 60
+	const newDate = new Date((time) * 1000)
+	const localDate = newDate.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit'} + (timezone * 1000))
+	// const localTime = new Date(localDate)
+	return localDate
+}
+
 export function findLocationIndex(locations, newLocation) {
 	return locations.findIndex(el => el.location === newLocation.textContent)
 }

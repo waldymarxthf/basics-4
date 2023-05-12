@@ -102,6 +102,8 @@ body {
   max-width: 200px;
   max-height: 200px;
   margin-left: 45px;
+  -webkit-transform: scale(0.75);
+          transform: scale(0.75);
 }
 .weather__block-content {
   display: -webkit-box;
@@ -315,6 +317,13 @@ body {
   font-size: 18px;
   line-height: 21px;
   color: #000000;
+}
+.weather__forecast-block .block__text-img {
+  width: 31px;
+  height: 31px;
+  -webkit-transform: scale(2);
+          transform: scale(2);
+  padding-right: 5px;
 }
 
 .tabs__items {
