@@ -70,6 +70,7 @@ function hideErrorBox() {
 function start() {
   renderFavs();
   displayCurFav();
+  console.log(curFav);
 }
 // Data processing
 function convertTime(time, tZone, boolean) {
@@ -282,7 +283,7 @@ function displayCurFav() {
   if (keeper.length > 0) {
     console.log("rawInp", rawInput);
     console.log("keeper", keeper);
-    rawInput = curFav || keeper[0];
+    rawInput = curFav || keeper[0] || "Shymkent";
     getData();
   } else {
     return;
@@ -293,7 +294,11 @@ function deleteFav() {
   dom.checkboxHeart.checked = false;
   isFav = false;
   keeper = keeper.filter((city) => city !== uiCityName);
+  if (keeper.length === 0) {
+    curFav = null;
+  }
   // Store
+  store.set("curFav", JSON.stringify(curFav));
   store.set("keeper", JSON.stringify(keeper));
   renderFavs();
 
