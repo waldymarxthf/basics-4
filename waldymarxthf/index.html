@@ -14,16 +14,18 @@
 			<input type="text" class="weather__search-input" placeholder="Search" name="city" autocomplete="off" required>
 			<button type="submit"></button>
 		</form>
+		<div class="preloader">
+			<img src="./assets/preloader.gif" alt="preloader">
+		</div>
 		<div class="container">
 			<div class="tab">
 
-				<div class="preloader">
-					<img src="./assets/preloader.gif" alt="preloader">
-				</div>
 
 				<div class="weather__block weather__now" id="tab_01">
 					<p class="weather__block-temp"><span>14</span>°</p>
-					<img class="weather__block-icon" src="./assets/cloud.png" alt="cloud">
+					<div class="weather__block-icon">
+						<img class="weather__block-icon-img" src="./assets/weather_icons/01d.png" alt="cloud">
+					</div>
 					<div class="weather__block-content">
 						<p class="weather__block-content-city">Aktobe</p>
 						<img class="weather__block-content-like" src="./assets/svg/Shape.svg" alt="like">
@@ -100,7 +102,7 @@
 				</div>
 
 				<nav class="tabs__items" id="tabs">
-					<a class="tabs__item">Now</a>
+					<a class="tabs__item active">Now</a>
 					<a class="tabs__item">Details</a>
 					<a class="tabs__item">Forecast</a>
 				</nav>

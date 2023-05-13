@@ -4,10 +4,11 @@ export const VARIABLES = {
 	WEATHER_BLOCK: document.querySelectorAll(".weather__block"),
 	FORM: document.querySelector(".weather__search"),
 	PRELOADER: document.querySelector(".preloader"),
-	ACTIVE_TAB:document.querySelector(".active"), 
+	ACTIVE_TAB: document.querySelector(".active"),
+	WEATHER: document.querySelector(".container"),
 	NOW: {
 		TEMPERATURE: document.querySelector(".weather__block-temp span"),
-		ICON: document.querySelector(".weather__block-icon"),
+		ICON: document.querySelector(".weather__block-icon-img"),
 		CITY: document.querySelector(".weather__block-content-city"),
 		LIKE: document.querySelector(".weather__block-content-like"),
 	},

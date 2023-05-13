@@ -59,10 +59,10 @@ async function getCityForecast(location) {
 //* отправляет запрос на сервер и скачивает json
 
 async function updateBlockNow(data) {
-	const iconBlockNow = data.weather[0].icon;
 	const tempBlockNow = Math.round(data.main.temp);
 	const cityBlockNow = data.name;
-	const iconUrl = `https://openweathermap.org/img/wn/${iconBlockNow}@4x.png`;
+	const iconBlockNow = data.weather[0].icon;
+	const iconUrl = `./assets/weather_icons/${iconBlockNow}.png`;
 
 	VARIABLES.NOW.TEMPERATURE.textContent = tempBlockNow;
 	VARIABLES.NOW.CITY.textContent = cityBlockNow;
@@ -123,8 +123,7 @@ async function updateBlockForecast(data) {
 
 	VARIABLES.FORECAST.ICON.forEach((icon, index) => {
 		let iconBlockForecast = data.list[index].weather[0].icon;
-		let iconUrl = `https://openweathermap.org/img/wn/${iconBlockForecast}@2x.png`;
-		icon.src = iconUrl;
+		icon.src = `./assets/weather_icons/${iconBlockForecast}.png`
 	});
 }
 
@@ -146,7 +145,7 @@ async function updateWeather(location) {
 	} catch (error) {
 		errorHandler(error);
 	} finally {
-		hideLoader();
+		setTimeout(hideLoader, 250)
 	}
 }
 
@@ -230,17 +229,18 @@ addEventListener("DOMContentLoaded", async () => {
 		savedLocation = "Minsk";
 		saveToLocalStorage("lastLocation", savedLocation);
 	}
+	await updateWeather(savedLocation);
 
 	const activeTabIndex = loadFromLocalStorage("index");
-	if (!activeTabIndex) {
-		VARIABLES.TABS[0].classList.add("active");
-		VARIABLES.WEATHER_BLOCK[0].classList.add("active");
-	} else {
+	if (activeTabIndex !== null) {
+		VARIABLES.TABS.forEach(tabs => tabs.classList.remove('active'));
+		VARIABLES.WEATHER_BLOCK.forEach(w => w.classList.remove('active'));
 		VARIABLES.TABS[activeTabIndex].classList.add("active");
 		VARIABLES.WEATHER_BLOCK[activeTabIndex].classList.add("active");
+	} else {
+		VARIABLES.TABS[0].classList.add("active");
+		VARIABLES.WEATHER_BLOCK[0].classList.add("active");
 	}
-
-	await updateWeather(savedLocation);
 });
 
 VARIABLES.NOW.LIKE.addEventListener("click", addLocation);
