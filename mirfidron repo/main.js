@@ -4,12 +4,12 @@ const weatherNow = document.querySelector('.weather__container');
 const addForm = document.querySelector('.weather__form');
 const tab1 = document.getElementById('tab-1');
 const listItem = document.querySelector('.list');
+const tab2Container = document.querySelector('.tab-2__container')
 
 let list = [];
 console.log(list)
 
 addForLocal();
-addLikeLocal();
 console.log(list[0])
 
 addForm.addEventListener('submit',(event) => {
@@ -34,8 +34,9 @@ async function add() {
         if (zag != weather.name) {
             throw new SyntaxError("Напишите название города без ошибок!")
         }
-        addObj(weather, zag);
-        saveCityName()
+        addObj(weather);
+        addDetaits(weather);
+        saveCityName();
     } catch(err) {
         alert(err.message)
     }
@@ -49,6 +50,7 @@ async function addTaskPlace(a) {
     let response = await fetch(url).catch(err => alert(err));
     let weather = await response.json();
     addObj(weather);
+    addDetaits(weather);
 }
 
 function addObject(a) {
@@ -61,7 +63,8 @@ function addObj(weather) {
     weatherNow.insertBefore(newDiv, weatherNow.children[0]);
     newDiv.classList.add('tab-hidden');
     newDiv.id = 'tab-1'
-    newDiv.insertAdjacentHTML("afterbegin", `<div class="temperature">${Math.floor(weather.main.temp)}&deg;</div>
+    newDiv.insertAdjacentHTML("afterbegin", `
+    <div class="temperature">${Math.ceil(weather.main.temp)}&deg;</div>
     <div class="img">
         <img src="./img/cloud.svg" alt="cloud">
     </div>
@@ -76,6 +79,30 @@ function addObj(weather) {
     like.addEventListener('click', () => {
         addLike(cityName.textContent);
     })
+}
+
+function convertDate(time) {
+    const date = new Date(time * 1000);
+    return `${date.getHours()}:${date.getMinutes()}`;
+}
+
+function addDetaits(weather) {
+    const newDiv = document.createElement('div');
+    tab2Container.insertBefore(newDiv, tab2Container.children[0]);
+    newDiv.classList.add('tab-hidden');
+    newDiv.id = 'tab-2'
+    newDiv.insertAdjacentHTML("afterbegin", `
+    <div class="country-title">${weather.name}</div>
+        <div class="list-data">
+            <ul class="list-elements">
+                <li class="list-element">Temperature: ${Math.ceil(weather.main.temp)}&deg;</li>
+                <li class="list-element">Feels like: ${Math.ceil(weather.main.feels_like)}&deg;</li>
+                <li class="list-element">Weather: ${weather.weather[0].main}</li>
+                <li class="list-element">Sunrise: ${convertDate(weather.sys.sunrise)}</li>
+                <li class="list-element">Sunset: ${convertDate(weather.sys.sunset)}</li>
+            </ul>
+        </div>` )
+
 }
 
 async function addLike(b) {
@@ -101,8 +128,11 @@ async function addLike(b) {
 
     newDiv.addEventListener('click',() => {
         addTaskPlace(zag);
+        addDetaits(weather);
     } )
 }
+
+
 
 
 // localstorage
@@ -178,6 +208,7 @@ async function addForLocal() {
         let weather = await response.json();
         const zag = cityName.charAt(0).toUpperCase() + cityName.slice(1);
         addObj(weather, zag);
+        addDetaits(weather);
         saveCityName();
     } else {
         const serverUrl = 'http://api.openweathermap.org/data/2.5/weather';
@@ -188,6 +219,7 @@ async function addForLocal() {
         let weather = await response.json();
         const zag = cityName.charAt(0).toUpperCase() + cityName.slice(1);
         addObj(weather, zag);
+        addDetaits(weather);
         saveCityName();
     }
 }
