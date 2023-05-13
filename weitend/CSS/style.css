@@ -135,6 +135,7 @@ body {
 .weather__locations-list-text {
   font-size: 24px;
   line-height: 28px;
+  cursor: pointer;
 }
 
 .weather__locations-list-del {

@@ -24,4 +24,5 @@ const weatherElems = {
         name: document.querySelector('#locationsName'),
     }
 };
-export { tabs, tabsBlocks, input, form, weatherElems};
+
+export { tabs, tabsBlocks, input, form, weatherElems };

@@ -1,6 +1,5 @@
-import { tabs, tabsBlocks, weatherElems} from "./ui.js";
-import { favourites, saveToLocalStorage } from "./main.js";
-
+import { tabs, tabsBlocks, weatherElems } from "./ui.js";
+import { favourites } from "./main.js";
 function tabsBtnsHandler(e) {
     if (e.target.classList.contains('tab')) {
         const tabIdx = Array.from(tabs).indexOf(e.target);
@@ -14,6 +13,10 @@ function tabsBtnsHandler(e) {
     };
 };
 
+function saveToLocalStorage() {
+    localStorage.setItem('location', JSON.stringify(favourites))
+};
+
 function addToFavourite(e) {
     if (e.target.classList.contains('nowLike')) {
         const node = `
@@ -24,7 +27,7 @@ function addToFavourite(e) {
             `;
 
         weatherElems.locations.list.insertAdjacentHTML('afterbegin', node);
-        favourites.push({ name: weatherElems.now.name.textContent })
+        favourites.push({ name: weatherElems.now.name.textContent });
         saveToLocalStorage();
     };
 };
@@ -32,20 +35,33 @@ function addToFavourite(e) {
 function deleteFromFavourite(e) {
     if (e.target.classList.contains('nowDel')) {
         const parentNode = e.target.closest('#locationsContainer');
-
         parentNode.remove();
+
+        const name = parentNode.querySelector('#locationsName').textContent;
+        const nameIdx = favourites.findIndex(c => c.name === name);
+
+        favourites.splice(nameIdx, 1)
+        saveToLocalStorage();
+        return
     }
 };
 
-function renderFavourites(town) {
-    town.forEach(el => {
+function renderFavourites(city) {
+    city.forEach(city => {
         const newLocation = 
         `<div class="weather__locations-list-box" id="locationsContainer">
-            <p class="weather__locations-list-text" id="locationsName">${el.name}</p>
+            <p class="weather__locations-list-text locationsName" id="locationsName">${city.name}</p>
             <span class="weather__locations-list-del nowDel" id="locationsDelete">❌</span>
         </div>`;
-        weatherElems.locations.list.insertAdjacentHTML('afterbegin', newLocation);
-    })
+        weatherElems.locations.list.insertAdjacentHTML('afterbegin', newLocation)
+    });
+};
+
+async function renderDataFromFavourites(e) {
+    if (e.target.classList.contains('locationsName')) {
+        const data = await getData(e.target.textContent);
+        renderData(data)
+    }
 };
 
 function timeConverter(unixTime) {
@@ -61,7 +77,11 @@ function tempConverter(kel) {
     return Math.floor(kel - 273);
 };
 
-async function getData(url) {
+async function getData(name) {
+    const serverUrl = 'http://api.openweathermap.org/data/2.5/weather';
+    const cityName = name;
+    const apiKey = 'afc9f2df39f9e9e49eeb1afac7034d35';
+    const url = `${serverUrl}?q=${cityName}&appid=${apiKey}`;
     try {
         const data = await fetch(url)
             .then(res => res.json())
@@ -97,4 +117,4 @@ async function renderData(data) {
     weatherElems.details.sunset.textContent = sunset;
 };
 
-export { tabsBtnsHandler, renderData, getData, addToFavourite, deleteFromFavourite, saveToLocalStorage, renderFavourites };
+export { tabsBtnsHandler, renderData, getData, addToFavourite, deleteFromFavourite, saveToLocalStorage, renderFavourites, renderDataFromFavourites };

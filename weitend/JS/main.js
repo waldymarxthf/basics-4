@@ -1,34 +1,29 @@
-import { tabsBtnsHandler, renderData, getData, addToFavourite, deleteFromFavourite, renderFavourites } from "./script.js";
-import { form, input} from "./ui.js";
+import { tabsBtnsHandler, renderData, getData, addToFavourite, deleteFromFavourite, renderFavourites, renderDataFromFavourites } from "./script.js";
+import { form, input } from "./ui.js";
 
 export const favourites = [];
+loadLocations();
 
 function loadLocations() {
-  const town = JSON.parse(localStorage.getItem('location'));
-  favourites.push(...town)
-  renderFavourites(town)
-}
-
-export function saveToLocalStorage() {
-  localStorage.setItem('location', JSON.stringify(favourites))
+  if (localStorage.getItem('location')) {
+    const town = JSON.parse(localStorage.getItem('location'));
+    console.log(town, 'town');
+    favourites.push(...town);
+    renderFavourites(town); 
+  }
 };
 
 window.addEventListener('click', async (e) => {
   tabsBtnsHandler(e);
   addToFavourite(e);
   deleteFromFavourite(e);
+  renderDataFromFavourites(e);
 });
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const serverUrl = 'http://api.openweathermap.org/data/2.5/weather';
-  const cityName = input.value;
-  const apiKey = 'afc9f2df39f9e9e49eeb1afac7034d35';
-  const url = `${serverUrl}?q=${cityName}&appid=${apiKey}`;
-  const data = await getData(url); 
+  const data = await getData(input.value); 
   renderData(data);
   input.value = '';
   input.focus();
 });
-
-loadLocations()
