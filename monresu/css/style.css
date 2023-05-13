@@ -220,9 +220,12 @@ body {
 
 .weather__forecast-cards_card {
   width: 265px;
-  height: 120px;
+  height: 160px;
   border: 1px #000 solid;
   margin-top: 9px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }
 
 .weather__forecast-cards_card-header {
@@ -312,5 +315,17 @@ body {
 
 .city-names_city-close:hover {
   cursor: pointer;
+}
+
+.sky-info img{
+  width: 55px;
+  height: 55px;
+}
+
+.sky-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+justify-content: center;
 }
 /*# sourceMappingURL=style.css.map */

@@ -35,7 +35,8 @@ const DETAILS_SCREEN_NODES = {
 }
 
 const FORECAST_SCREEN_NODES = {
-  FORECAST_CITY_NAME: document.querySelector('.weather__forecast-city')
+  FORECAST_CITY_NAME: document.querySelector('.weather__forecast-city'),
+  FORECAST_CARDS: document.querySelector('.weather__forecast-cards')
 }
 
 export {NOW_SCREEN_NODES, DETAILS_SCREEN_NODES, FORECAST_SCREEN_NODES, FAV_SCREEN_NODES}

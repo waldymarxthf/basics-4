@@ -1,4 +1,4 @@
-import { tabsContainerNode, tabNodes, tabContentNodes, form, inputCityNode, FORECAST_SCREEN_NODES} from './modules/variables.mjs'
+import { tabsContainerNode, tabNodes, tabContentNodes, form, inputCityNode, FORECAST_SCREEN_NODES } from './modules/variables.mjs'
 import { serverURL, apiKey, cache, serverURLforecast } from './modules/variables.mjs'
 import { NOW_SCREEN_NODES, DETAILS_SCREEN_NODES, MODAL_NODES, FAV_SCREEN_NODES, } from './modules/variables.mjs'
 import { getData, timeConverterTime, timeConverterDay, cityExistsInCache, findIndexCityInCache, saveToLocalStorage, findCityIndex } from './modules/functions.mjs'
@@ -49,22 +49,27 @@ function renderDetailsBlock(data) {
 function renderForecastBlock(data) {
   FORECAST_SCREEN_NODES.FORECAST_CITY_NAME.textContent = data.city.name;
   console.log(timeConverterDay(data.list[0].dt))
-  const card = `<div class="weather__forecast-cards_card">
+  for (let i = 0; i < 7; i++) {
+    const forecastData = data.list[i];
+    const iconURL = `https://openweathermap.org/img/wn/${forecastData.weather[0].icon}@2x.png`
+    const card = `<div class="weather__forecast-cards_card">
   <div class="weather__forecast-cards_card-header">
-    <span class="date">${timeConverterDay(data.list[0].dt)}</span>
-    <span class="timer">${timeConverterTime(data.list[0].dt)}</span>
+    <span class="date">${timeConverterDay(forecastData.dt)}</span>
+    <span class="timer">${timeConverterTime(forecastData.dt)}</span>
   </div>
   <div class="weather__forecast-cards_card-main">
     <div class="text-info">
-      <p>Temperature: <span class="temperature">14</span>°</p>
-      <p>Feels like: <span class="feelslike">10</span>°</p>
+      <p>Temperature: <span class="temperature">${forecastData.main.temp}</span>°</p>
+      <p>Feels like: <span class="feelslike">${forecastData.main.feels_like}</span>°</p>
     </div>
     <div class="sky-info">
       <p>Rain</p>
-      <img src="./assets/svg/rain.svg" alt="" class="icon">
+      <img src="${iconURL}" alt="" class="icon">
     </div>
   </div>
 </div>`
+    FORECAST_SCREEN_NODES.FORECAST_CARDS.insertAdjacentHTML('beforeend', card)
+  }
 }
 
 async function updateCityInCache(name, URL) {
@@ -113,7 +118,7 @@ async function weather(cityName) {
   try {
     const data = await getData(URL);
     if ('message' in data) {
-      throw new Error(`Error: ${data.message}`); 
+      throw new Error(`Error: ${data.message}`);
     }
 
     cache.push({
@@ -132,16 +137,14 @@ async function weather(cityName) {
 }
 
 async function forecast(cityName) {
-  const URL = `${serverURLforecast}?q=${cityName}&appid=${apiKey}`;
+  const URL = `${serverURLforecast}?q=${cityName}&appid=${apiKey}&units=metric`;
   try {
     const data = await getData(URL);
     renderForecastBlock(data);
   } catch (error) {
     showError(error.message);
   }
-} 
-
-forecast('moscow');
+}
 
 function formHandler(event) {
   event.preventDefault();
@@ -152,6 +155,7 @@ function formHandler(event) {
     return;
   }
   weather(cityName);
+  forecast(cityName);
 }
 
 form.addEventListener('submit', event => formHandler(event));
