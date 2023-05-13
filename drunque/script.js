@@ -88,8 +88,9 @@ function renderHistoryNode(data) {
 ui.form.addEventListener("submit", searchHandler);
 function searchHandler(event) {
   event.preventDefault();
-  const cityName = ui.formInput.value;
+  const cityName = ui.formInput.value.trim();
   renderTabNode(cityName);
+  ui.formInput.value = ""
 }
 
 ui.historyNode.addEventListener("click", historyHandler);
