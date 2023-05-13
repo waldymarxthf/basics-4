@@ -74,8 +74,9 @@ body{
 		display: block;
 	}
 	&__block {
-		width: 298px;
-		height: 345px;
+		width: 300px;
+		height: 391px;
+		border-right: 2px solid rgba(0, 0, 0, 0.2);
 		&-temp {
 			font-family: "Quicksand";
 			font-style: normal;
@@ -143,7 +144,6 @@ body{
 	&__location {
 		width: 302px;
 		height: 390px;
-		border-left: 2px solid rgba(0, 0, 0, 0.2);
 		&-add{
 			height: 68.5px;
 			border-bottom: 2px solid rgba(0, 0, 0, 0.2);
@@ -301,7 +301,7 @@ body{
 		justify-content: space-between;
 		position: absolute;
 		top: 345px;
-		width: 300px;
+		width: 298px;
 		border-top: 2px solid rgba(0, 0, 0, 0.2);
 		border-bottom-left-radius: 16px;
 		cursor: pointer;

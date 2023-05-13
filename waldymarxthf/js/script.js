@@ -29,7 +29,7 @@ const locations = loadFromLocalStorage("newLocation") || [];
 
 async function getCityWeather(location) {
 	const serverUrl = "http://api.openweathermap.org/data/2.5/weather";
-	const apiKey = "afc9f2df39f9e9e49eeb1afac7034d35";
+	const apiKey = "afc9f2df39f9e9e49eeb1afac7034d3";
 	let link = `${serverUrl}?q=${location}&appid=${apiKey}&units=metric`;
 	let response = await fetch(link);
 
@@ -241,6 +241,7 @@ addEventListener("DOMContentLoaded", async () => {
 		VARIABLES.TABS[0].classList.add("active");
 		VARIABLES.WEATHER_BLOCK[0].classList.add("active");
 	}
+
 });
 
 VARIABLES.NOW.LIKE.addEventListener("click", addLocation);
