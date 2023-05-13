@@ -12,7 +12,9 @@
 
 
 body {
-    background-color: #ffffff;
+    width: 1440px;
+    height: 100vh;
+    background: url(/basics-4/dkomarov/img/fon.jpeg);
     font-family: 'Roboto', sans-serif;
     color: #656565;
 }
@@ -24,10 +26,12 @@ h2 {
 .section {
     width: 600px;
     height: 435px;
-    background-color: #ffffff;
+    background-color: #00000038;
     position: absolute;
     margin: 100px 400px;
-    border-radius: 10px;
+    border-radius: 12px;
+    
+
 
 
 }
@@ -36,22 +40,23 @@ h2 {
     display: grid;
     width: 600px;
     height: 435px;
-    border: 2px solid #292929;
+    /* border: 1px solid #292929; */
     position: relative;
-    border-radius: 10px;
-    /* margin: 13px auto; */
+    border-radius: 12px;
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5)
 
 }
 
 
 .header {
-    width: 597px;
+    width: 600px;
     height: 45px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 20px;
-    border-bottom: 2px solid #292929;
+    border-bottom: .5px solid #292929;
+    
 }
 
 .header-input {
@@ -59,12 +64,18 @@ h2 {
     height: 43px;
     border: none;
     outline: none;
-    background-color: #ffffff;
+    background-color: #00000000;
     font-size: 18px;
+    
+}
+
+.header-input::-webkit-input-placeholder {
+    color: #ffffff6e;
+    font-size: 15px;
 }
 
 .search-img {
-    background-color: #ffffff;
+    background-color: #00000000;
 }
 
 .search-img {
@@ -80,12 +91,13 @@ h2 {
 .area {
     display: flex;
     justify-content: space-between;
+    
 }
 
 .content-area {
     width: 299px;
-    height: 388px;
-    border-right: 2px solid #292929;
+    height: 390px;
+    border-right: .5px solid #292929;
 
 }
 
@@ -101,12 +113,14 @@ h2 {
 }
 
 .now-btn-shape {
-    background-color: #ffffff;
+    background-color: #00000000;
     cursor: pointer;
 }
+
 .now-btn-shape-img {
-    background-color: #ffffff;
+    background-color: #00000000;
 }
+
 .temperature {
     padding-left: 20px;
     padding-top: 20px;
@@ -174,7 +188,7 @@ h2 {
 .forecast-days {
     width: 265px;
     height: 120px;
-    border: 1.5px solid #1a1a1a;
+    border: .5px solid #1a1a1a;
     margin-bottom: 10px;
     font-size: 18px;
     line-height: 1.5;
@@ -210,7 +224,7 @@ h2 {
     display: flex;
     justify-content: space-between;
     text-align: center;
-    border-top: 2px solid #292929;
+    border-top: .5px solid #292929;
 
 
 }
@@ -218,10 +232,11 @@ h2 {
 
 .tabs_item {
     display: flex;
-    width: 99px;
-    height: 44px;
-    border-right: 2px solid #292929;
-    font-size: 18px;
+    width: 100px;
+    height: 48px;
+    border-right: .5px solid #292929;
+    font-size: 12px;
+    text-transform: uppercase;
     align-items: center;
     justify-content: center;
     cursor: pointer;
@@ -235,9 +250,9 @@ h2 {
 /* локейшн  */
 
 .location-area_added-location {
-    width: 299px;
+    width: 301px;
     height: 68px;
-    border-bottom: 2px solid #292929;
+    border-bottom: .5px solid #292929;
 }
 
 .added-location {
@@ -262,6 +277,7 @@ h2 {
     color: #ffffff;
 
 }
+
 .active-tab:first-child {
     border-radius: 0 0 0 10px;
 }
@@ -282,7 +298,6 @@ h2 {
 }
 
 .new-element {
-
     cursor: pointer;
 }
 
@@ -293,12 +308,8 @@ h2 {
     width: 15px;
     height: 15px;
     position: relative;
-    left: 5px;  
-    background-color: #ffffff;
+    left: 5px;
+    background-color: #00000000;
     cursor: pointer;
 
 }
-
-
-
-

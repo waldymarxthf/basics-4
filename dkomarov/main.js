@@ -1,12 +1,8 @@
-const tabs = document.querySelectorAll('.tabs_item');
-const displayItem = document.querySelectorAll('.content-area_display');
-
-const inputValue = document.querySelector('.header-input');
-const formNode = document.querySelector('.header');
+import {tabs, displayItem, inputValue, formNode, nameShapeCity, addButtonShape, sectionItem} from "./modules/DOMconstants.js";
 
 
 function clearInput() {
-    inputValue.value = '';
+   return inputValue.value = '';
 }
 
 
@@ -72,7 +68,7 @@ function createDisplayDetails(data) {
     const minutesRise = new Date(data.sys.sunrise * 1000).getMinutes();
     const sunriseValue = hoursRise + ':' + minutesRise;
     sunrise.textContent = sunriseValue;
-    // console.log(sunriseValue);
+
     const hoursSet = new Date(data.sys.sunset * 1000).getHours();
     const minutesSet = new Date(data.sys.sunset * 1000).getMinutes();
     const sunsetValue = hoursSet + ':' + minutesSet;
@@ -90,16 +86,8 @@ function createDisplayDetails(data) {
     temperature.textContent = tempDetails.toFixed(0);
 };
 
-
-
-
-
-
 //FAVORITES CITIES
 
-const nameShapeCity = document.querySelector('.love-city');
-const addButtonShape = document.querySelector('.now-btn-shape-img');
-const sectionItem = document.querySelector('.locations');
 
 
 const array = JSON.parse(localStorage.getItem('array')) || [];
@@ -173,7 +161,7 @@ async function addFavoritesCity(newElem) {
     createDisplayDetails(data);
     clearInput();
 
-}
+};
 
 
 function render() {
@@ -190,9 +178,10 @@ function checkShape(name) {
         document.querySelector('.now-btn-shape').src = "/basics-4/dkomarov/img/Shape.svg";
     } else {
         document.querySelector('.now-btn-shape-img').src = "/basics-4/dkomarov/img/ShapeRED.svg";
-    }
-}
+    };
+};
 
+export {array, addTask, addCity, deleteCity, createElement, addFavoritesCity, render, checkShape}
 
 formNode.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -206,7 +195,5 @@ addButtonShape.addEventListener('click', () => {
     checkShape();
 
 });
-
-
 
 render();
