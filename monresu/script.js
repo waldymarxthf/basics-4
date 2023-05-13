@@ -63,7 +63,7 @@ function renderForecastBlock(data) {
       <p>Feels like: <span class="feelslike">${forecastData.main.feels_like}</span>°</p>
     </div>
     <div class="sky-info">
-      <p>Rain</p>
+      <p>${forecastData.weather[0].main}</p>
       <img src="${iconURL}" alt="" class="icon">
     </div>
   </div>
@@ -181,7 +181,7 @@ function renderFavCities() {
   for (const city of list) {
     const cityNode = document.createElement('li');
     cityNode.classList.add('city-names_city');
-    cityNode.textContent = city.name.charAt(0).toUpperCase() + city.name.slice(1);;
+    cityNode.textContent = city.name.charAt(0).toUpperCase() + city.name.slice(1);
     const closeBtn = document.createElement('span');
     closeBtn.textContent = 'x';
     closeBtn.classList.add('city-names_city-close')
@@ -193,6 +193,7 @@ function renderFavCities() {
     cityNode.addEventListener('click', function cityNodeHandler(e) {
       if (e.target.classList.contains('city-names_city-close')) { return; }
       weather(city.name.toLowerCase());
+      forecast(city.name.toLowerCase());
     })
     cityNode.appendChild(closeBtn);
     FAV_SCREEN_NODES.citiesContainer.appendChild(cityNode);
@@ -209,6 +210,7 @@ NOW_SCREEN_NODES.NOW_FAV_CITY.addEventListener('click', favBtnHandler)
 
 document.addEventListener('DOMContentLoaded', () => {
   weather(currCity);
-  inputCityNode.placeholder = currCity;
+  forecast(currCity);
+  inputCityNode.placeholder = currCity.charAt(0).toUpperCase() + currCity.slice(1);
 })
 renderFavCities()
