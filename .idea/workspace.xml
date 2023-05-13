@@ -4,17 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3763ba83-11f0-4af4-aa76-6ea74bd8ac12" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/dinamik567/image/cloud.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dinamik567/image/like.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dinamik567/image/rainy-cloud.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dinamik567/image/search.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dinamik567/module/storage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dinamik567" beforeDir="false" afterPath="$PROJECT_DIR$/dinamik567" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dinamik567/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/dinamik567/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dinamik567/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/dinamik567/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dinamik567/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/dinamik567/style.css" afterDir="false" />
-    </list>
+    <list default="true" id="3763ba83-11f0-4af4-aa76-6ea74bd8ac12" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -86,7 +76,7 @@
       <workItem from="1683717842630" duration="9201000" />
       <workItem from="1683837222746" duration="3320000" />
       <workItem from="1683983298236" duration="5087000" />
-      <workItem from="1683992207794" duration="6484000" />
+      <workItem from="1683992207794" duration="6800000" />
     </task>
     <servers />
   </component>
