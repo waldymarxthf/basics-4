@@ -11,8 +11,6 @@ export const createCardNow = (data) => {
   const cardNowSityName = createEl("div");
   const cardNowSityLike = createEl("div");
 
-  console.log(data);
-
   cardNow.classList.add("card", "card__now");
   cardNow.setAttribute("id", "card-now");
   cardNowTemperature.classList.add("card__now-temperature");

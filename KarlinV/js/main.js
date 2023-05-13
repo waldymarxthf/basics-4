@@ -32,16 +32,23 @@ weatherLocationList.addEventListener("click", async (event) => {
 });
 
 //получение значения
+
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
 
-  render(await getDataWeather(cityNameInputValue.value));
+  try {
+    const data = await getDataWeather(cityNameInputValue.value);
+    if (!data) return;
 
-  storage.setCurrentCity(cityNameInputValue.value);
+    storage.setCurrentCity(cityNameInputValue.value);
+    cityNameInputValue.setAttribute("placeholder", cityNameInputValue.value);
 
-  cityNameInputValue.setAttribute("placeholder", cityNameInputValue.value);
-
-  cityNameInputValue.value = "";
+    render(data);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    cityNameInputValue.value = "";
+  }
 });
 
 //вкладки
@@ -60,3 +67,4 @@ for (const tab of tabs) {
 render(await getDataWeather(startCity));
 cityNameInputValue.setAttribute("placeholder", startCity);
 renderCityList();
+cityNameInputValue.focus();
