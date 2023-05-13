@@ -6,10 +6,9 @@ import {
   serverUrl,
   apiKey,
   favoriteBtn,
-  city,
 } from "./modules/constants.mjs";
-import { renderInfo, renderFavorite, addCity } from "./modules/functions.mjs";
-import { setItem,getItem } from "./modules/localstorage.mjs";
+import { renderInfo, addCity, renderStorage } from "./modules/functions.mjs";
+import { setlastItem } from './modules/localstorage.mjs'
 
 tabs.forEach((tab, index) => {
   tab.addEventListener("click", () => {
@@ -20,13 +19,13 @@ tabs.forEach((tab, index) => {
   });
 });
 
-async function getData(apiKey,serverUrl) {
+async function getData(apiKey,serverUrl,name) {
   try {
-    const cityName = input.value;
+    const cityName = name;
     const response = await fetch(`${serverUrl}?q=${cityName}&appid=${apiKey}&units=metric`);
     const data = await response.json();
     if (!response.ok) throw new Error("Такого города не существует");
-    renderInfo(data)
+    renderInfo(data,cityName)
   } catch (e) {
     if(e.message === 'Failed to fetch') {
       alert('Неправильный адрес URL')
@@ -43,15 +42,19 @@ form.addEventListener("submit", (event) => {
 
 favoriteBtn.addEventListener('click', () => {
   addCity()
-  renderFavorite()
+  renderStorage()
 })
 
 document.addEventListener('click', (event) => {
   if (event.target.classList.contains('item')) {
     input.value = event.target.textContent
-    getData(apiKey,serverUrl)
+    getData(apiKey,serverUrl,input.value)
   }
 })
 
-document.addEventListener('DOMContentLoaded', renderFavorite())
+document.addEventListener('DOMContentLoaded', () => {
+  renderStorage()
+  renderInfo()
+}
+  )
 
