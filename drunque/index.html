@@ -11,8 +11,10 @@
     />
     <link rel="stylesheet" href="styles/reset.css" />
     <link rel="stylesheet" href="styles/style.css" />
-    <script defer src="scripts/tabs.js"></script>
-    <script defer src="scripts/script.js"></script>
+    <script type="module" defer src="modules/tabs.js"></script>
+    <script type="module" defer src="modules/server.js"></script>
+    <script type="module" defer src="modules/storage.js"></script>
+    <script type="module" defer src="script.js"></script>
   </head>
   <body>
     <div class="wrapper">
@@ -36,7 +38,9 @@
               </div>
               <div class="row">
                 <p id="now-city">Aktobe</p>
-                <button class="material-icons">favorite_border</button>
+                <button id="now-button" class="material-icons">
+                  favorite_border
+                </button>
               </div>
             </div>
             <div id="details" class="window">
@@ -53,84 +57,33 @@
             </div>
             <div id="forecast" class="window">
               <div class="container">
-                <p>Aktobe</p>
+                <p id="forecast-city">Aktobe</p>
               </div>
-              <div class="weather-list">
-                <div class="forecast-container">
-                  <div class="row">
-                    <p id="date">17 May</p>
-                    <p id="time">12:00</p>
-                  </div>
-                  <div class="row">
-                    <div class="col">
-                      <p>Weather: <span id="weather-desc">Rain</span></p>
-                      <p>
-                        Temperature:
-                        <span id="temp">13°</span>
-                      </p>
-                      <p>
-                        Feels-like:
-                        <span id="feels-like">10°</span>
-                      </p>
+              <div class="forecast-list">
+                <template id="forecast-template">
+                  <div class="forecast-container">
+                    <div class="row">
+                      <p class="forecast-date"></p>
+                      <p class="forecast-time"></p>
                     </div>
-                    <div class="col">
-                      <img
-                        src="https://openweathermap.org/img/wn/10n@2x.png"
-                        alt=""
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div class="forecast-container">
-                  <div class="row">
-                    <p id="date">17 May</p>
-                    <p id="time">15:00</p>
-                  </div>
-                  <div class="row">
-                    <div class="col">
-                      <p>Weather: <span id="weather-desc">Rain</span></p>
-                      <p>
-                        Temperature:
-                        <span id="temp">13°</span>
-                      </p>
-                      <p>
-                        Feels-like:
-                        <span id="feels-like">10°</span>
-                      </p>
-                    </div>
-                    <div class="col">
-                      <img
-                        src="https://openweathermap.org/img/wn/10n@2x.png"
-                        alt=""
-                      />
+                    <div class="row">
+                      <div class="col">
+                        <p>Weather: <span class="forecast-desc"></span></p>
+                        <p>
+                          Temperature:
+                          <span class="forecast-temp"></span>
+                        </p>
+                        <p>
+                          Feels like:
+                          <span class="forecast-feels-like"></span>
+                        </p>
+                      </div>
+                      <div class="col">
+                        <img class="forecast-image" src="https://openweathermap.org/img/wn/10n@2x.png" />
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="forecast-container">
-                  <div class="row">
-                    <p id="date">17 May</p>
-                    <p id="time">17:00</p>
-                  </div>
-                  <div class="row">
-                    <div class="col">
-                      <p>Weather: <span id="weather-desc">Rain</span></p>
-                      <p>
-                        Temperature:
-                        <span id="temp">13°</span>
-                      </p>
-                      <p>
-                        Feels-like:
-                        <span id="feels-like">10°</span>
-                      </p>
-                    </div>
-                    <div class="col">
-                      <img
-                        src="https://openweathermap.org/img/wn/10n@2x.png"
-                        alt=""
-                      />
-                    </div>
-                  </div>
-                </div>
+                </template>
               </div>
             </div>
           </div>
@@ -144,8 +97,7 @@
           <div class="heading">
             <p>Added locations:</p>
           </div>
-          <div class="history-list">
-          </div>
+          <div class="history-list"></div>
         </div>
       </div>
     </div>

@@ -106,6 +106,16 @@ body {
 .window#now .row:last-of-type {
   align-items: end;
 }
+
+#now-button {
+  transition: .5s transform;
+}
+
+
+.fav-active,
+#now-button:active {
+  transform: scale(1.1);
+}
 /* NOW */
 
 /* DETAILS */
@@ -133,6 +143,9 @@ body {
 /* DETAILS */
 
 /* FORECAST */
+.window#forecast > .container {
+  height: 23%;
+}
 .window#forecast .row {
   display: flex;
   justify-content: space-between;
@@ -152,7 +165,7 @@ body {
   justify-content: end;
 }
 
-.weather-list {
+.forecast-list {
   display: flex;
   flex-direction: column;
 
@@ -161,7 +174,7 @@ body {
   padding: 0 1rem;
 }
 
-.weather-list::-webkit-scrollbar {
+.forecast-list::-webkit-scrollbar {
   display: none;
 }
 

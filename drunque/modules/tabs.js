@@ -8,4 +8,3 @@ options.addEventListener("click", (event) => {
   const button = event.target
   button.classList.add("active")
 });
-
