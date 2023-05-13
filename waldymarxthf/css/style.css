@@ -98,6 +98,14 @@ body {
   padding: 0;
   margin: 7px 17px;
   cursor: pointer;
+  -webkit-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+}
+.weather__search button[type=submit]:hover {
+  -webkit-transform: scale(1.2);
+          transform: scale(1.2);
+  -webkit-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
 }
 .weather .active {
   display: block;
@@ -146,7 +154,6 @@ body {
 }
 .weather__block-content-like {
   width: 22px;
-  height: 22px;
   margin-right: 26px;
   cursor: pointer;
 }
@@ -155,9 +162,6 @@ body {
           transform: scale(1.2);
   -webkit-transition: all 0.1s ease-in-out;
   transition: all 0.1s ease-in-out;
-}
-.weather__block-content-like:hover .weather__block-content-like-path {
-  stroke: red;
 }
 .weather__block-content-city {
   margin-left: 12px;

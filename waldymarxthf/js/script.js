@@ -172,6 +172,17 @@ function addLocation() {
 			location: cityName,
 		});
 
+		let index = findLocationIndex(locations, cityName)
+		console.log(index)
+
+		locations.forEach(el => {
+			if (el.location === cityName) {
+				VARIABLES.NOW.CITY.src = "./assets/svg/heart-liked.svg"
+			} else {
+				VARIABLES.NOW.CITY.src = "./assets/svg/heart.svg"
+			}
+		})
+
 		saveToLocalStorage("newLocation", locations);
 		renderLocations();
 	} catch (error) {
