@@ -8,7 +8,10 @@ import {
   favoriteBtn,
 } from "./modules/constants.mjs";
 import { renderInfo, addCity, renderStorage } from "./modules/functions.mjs";
-import { setlastItem } from './modules/localstorage.mjs'
+import { loadFromLocalStorage, saveLocationToLocalStorage } from "./modules/localstorage.mjs";
+// import { setlastItem } from './modules/localstorage.mjs'
+
+export let listOfCities = []
 
 tabs.forEach((tab, index) => {
   tab.addEventListener("click", () => {
@@ -25,6 +28,7 @@ async function getData(apiKey,serverUrl,name) {
     const response = await fetch(`${serverUrl}?q=${cityName}&appid=${apiKey}&units=metric`);
     const data = await response.json();
     if (!response.ok) throw new Error("Такого города не существует");
+    saveLocationToLocalStorage('lastLocation', cityName)
     renderInfo(data,cityName)
   } catch (e) {
     if(e.message === 'Failed to fetch') {
@@ -42,7 +46,7 @@ form.addEventListener("submit", (event) => {
 
 favoriteBtn.addEventListener('click', () => {
   addCity()
-  renderStorage()
+  // renderStorage()
 })
 
 document.addEventListener('click', (event) => {
@@ -53,8 +57,13 @@ document.addEventListener('click', (event) => {
 })
 
 document.addEventListener('DOMContentLoaded', () => {
-  renderStorage()
   renderInfo()
+  listOfCities = loadFromLocalStorage('location') || []
+  let lastLocation = loadFromLocalStorage('lastLocation')
+  renderStorage()
+  getData(apiKey, serverUrl, lastLocation)
 }
   )
+
+// renderStorage(listOfCities)
 

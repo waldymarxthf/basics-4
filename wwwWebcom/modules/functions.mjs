@@ -1,5 +1,6 @@
-import {input,city,temperature,icon, favoriteList, listOfCities} from './constants.mjs'
-import { setItem,getItem, removeItem } from './localstorage.mjs'
+import {input,city,temperature,icon, favoriteList} from './constants.mjs'
+import { saveLocationToLocalStorage } from './localstorage.mjs'
+import { listOfCities } from '../script.js'
 
 let countId = 0
 
@@ -20,18 +21,23 @@ export function resetDom() {
 
 
 export function addCity() {
-	if(listOfCities.includes(city.textContent)) return
-	listOfCities.push(city.textContent)
+	// if(listOfCities.includes(city.textContent)) return
+	// listOfCities.push(city.textContent)
+	listOfCities.push({
+		location: city.textContent
+	})
 	console.log(listOfCities)
-	setItem(listOfCities)
+	// setItem(listOfCities)
+	saveLocationToLocalStorage('location', listOfCities)
+	renderStorage()
 }
 
 export function deleteCity(event){
 	const idBtn = event.target.getAttribute('id')
 	listOfCities.splice(idBtn,1)
 	// renderFavorite()
-	const nameBtn = event.target.getAttribute('name')
-	removeItem(nameBtn)
+	// const nameBtn = event.target.getAttribute('name')
+	// removeItem(nameBtn)
 	renderStorage()
 }
 
@@ -42,12 +48,20 @@ export function deleteCity(event){
 
 // }
 export function renderStorage() {
-	countId = 0
+	// countId = 0
 	resetDom();
-	const localStorageSize = localStorage.length
-    for (let i = 0; i < localStorageSize; i++) {
-		createEl(getItem(i))
-	}
+	// const localStorageSize = localStorage.length
+  //   for (let i = 0; i < localStorageSize; i++) {
+	// 	createEl(getItem(i))
+	// }
+
+
+	listOfCities.forEach(el => {
+		const result = createEl(el.location)
+		favoriteList.append(result)
+	})
+		// favoriteList.append(element)
+		// return element)
 }
 
 export function createEl(city) {
@@ -59,10 +73,11 @@ export function createEl(city) {
 	closeBtn.name = city
 
 	newCity.textContent = city
-	favoriteList.appendChild(newCity)
-	newCity.appendChild(closeBtn)
+	// favoriteList.appendChild(newCity)
+	// newCity.appendChild(closeBtn)
 
 	closeBtn.addEventListener('click', deleteCity)
+	return newCity
 }
 
 
