@@ -16,25 +16,26 @@ tabs.forEach((tab, index) => {
     })
 });
 
-// let currentCity = JSON.parse(localStorage.getItem('city'));
+let currentCity = JSON.parse(localStorage.getItem('city')) || [];
 
 
-async function getRequest() {
+
+async function getRequest(cityName) {
     try {
         const serverUrl = 'http://api.openweathermap.org/data/2.5/weather';
-        const cityNames = inputValue.value;
         // и куда вставлять это полученное значение?
-        // localStorage.setItem('city', JSON.stringify(cityNames))
+        localStorage.setItem('city', JSON.stringify(cityName))
 
         // console.log(cityNames);
+
         const apiKey = '2de34209accba46efc52dfd946a3c2b3';
-        const url = `${serverUrl}?q=${cityNames}&appid=${apiKey}&units=metric`;
+        const url = `${serverUrl}?q=${cityName}&appid=${apiKey}&units=metric`;
         const response = await fetch(url);
         const data = await response.json();
         console.log(data);
         createDisplayNow(data);
         createDisplayDetails(data);
-        clearInput();
+        // clearInput();
     }
     catch (Err) {
         console.error(Err.message)
@@ -184,8 +185,9 @@ function checkShape(name) {
 export {array, addTask, addCity, deleteCity, createElement, addFavoritesCity, render, checkShape}
 
 formNode.addEventListener('submit', (e) => {
+    const cityNames = inputValue.value;
     e.preventDefault();
-    getRequest();
+    getRequest(cityNames);
 
 });
 
@@ -195,5 +197,10 @@ addButtonShape.addEventListener('click', () => {
     checkShape();
 
 });
+
+window.addEventListener('DOMContentLoaded', () => {
+    currentCity = JSON.parse(localStorage.getItem('city')) || []
+    getRequest(currentCity)
+})
 
 render();
