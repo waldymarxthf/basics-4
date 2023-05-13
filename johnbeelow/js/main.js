@@ -4,7 +4,9 @@ import {
   CREATE_ELEMENT,
   clearInput,
   TOGGLE_LIKE,
+  animateIcon,
 } from './module/ui_elements.js'
+
 import {
   cityFavoriteList,
   currentCity,
@@ -13,9 +15,31 @@ import {
   deleteCity,
   checkInput,
   updateCurrentCity,
-} from './module/weather_logic.js'
-import { convertKelvinToCelsius } from './module/utils_conversion.js'
+} from './module/localstorage.js'
+
+import {
+  convertKelvinToCelsius,
+  convertUnixToDate,
+  convertUnixToTime,
+} from './module/utils_conversion.js'
+
 import { API, API_LOG, ERROR } from './module/data.js'
+
+document.onreadystatechange = function () {
+  if (document.readyState === 'complete') {
+    setTimeout(function () {
+      UI_ELEMENTS.LOADER.style.display = 'none'
+    }, 1000)
+  }
+}
+
+window.addEventListener('online', function () {
+  UI_ELEMENTS.LOADER.style.display = 'none'
+})
+
+window.addEventListener('offline', function () {
+  UI_ELEMENTS.LOADER.style.display = 'flex'
+})
 
 for (let button of UI_ELEMENTS.BUTTONS_ALL) {
   button.addEventListener('click', changeActiveButton)
@@ -26,6 +50,7 @@ document.addEventListener('DOMContentLoaded', handleContentLoaded)
 UI_ELEMENTS.INPUT_FORM.addEventListener('submit', (event) => {
   event.preventDefault()
   processingInputRequest(UI_ELEMENTS.INPUT_TEXT.value)
+  animateIcon()
   clearInput()
 })
 
@@ -47,6 +72,7 @@ function processingInputRequest(input) {
 
 const repeatRequest = (city) => {
   getWeatherData(city)
+  // getForecastData(city);
 }
 
 function getWeatherData(city) {
@@ -65,64 +91,53 @@ function getWeatherData(city) {
 function render(data) {
   try {
     updateCurrentCity(data.name)
-    updateCityList(data.name)
+    update.cityList(data.name)
+    update.temperature(data.main.temp)
+    update.weatherIcon(data.weather[0].icon)
+    update.feelsLike(data.main.feels_like)
+    update.weatherInfo(data.weather[0].main)
+    update.sunrise(data.sys.sunrise)
+    update.sunset(data.sys.sunset)
     checkLikeDisplay(data.name)
-    updateTemperature(data.main.temp)
-    updateWeatherIcon(data.weather[0].icon)
   } catch (error) {
     throw new Error(`${ERROR.FUNCTION}: ${error}`)
   }
 }
 
-function updateCityList(city) {
-  UI_ELEMENTS.ACTIVE_CITY.forEach((element) => {
-    element.textContent = city
-  })
-}
+const update = {
+  cityList: (city) => {
+    UI_ELEMENTS.ACTIVE_CITY.forEach((element) => {
+      element.textContent = city
+    })
+  },
 
-function updateTemperature(temperature) {
-  UI_ELEMENTS.TEMPERATURE.forEach((element) => {
-    if (element.classList.contains(CLASS.TEMPERATURE)) {
-      element.textContent = convertKelvinToCelsius(temperature)
-    }
-  })
-}
+  temperature: (temperature) => {
+    UI_ELEMENTS.TEMPERATURE.forEach((element) => {
+      if (element.classList.contains(CLASS.TEMPERATURE)) {
+        element.textContent = convertKelvinToCelsius(temperature)
+      }
+    })
+  },
 
-const updateWeatherIcon = (icon) =>
-  (UI_ELEMENTS.NOW_WEATHER_ICON.src = `${API.URL_IMG}/${icon}${API.IMG_SIZE_2X}`)
+  weatherIcon: (icon) => {
+    UI_ELEMENTS.NOW_WEATHER_ICON.src = `${API.URL_IMG}/${icon}${API.IMG_SIZE_2X}`
+  },
 
-const renderFavorite = () => {
-  UI_ELEMENTS.FAVORITES_LIST.replaceChildren()
-  cityFavoriteList.forEach((city) => createFavoriteCity(city.name))
-}
+  feelsLike: (temperature) => {
+    UI_ELEMENTS.FEELS_LIKE.textContent = convertKelvinToCelsius(temperature)
+  },
 
-function createFavoriteCity(name) {
-  const containerCity = CREATE_ELEMENT.DIV()
-  const cityName = CREATE_ELEMENT.A()
-  const deleteButton = CREATE_ELEMENT.BUTTON()
-  const whiteSpace = CREATE_ELEMENT.SPAN()
+  weatherInfo: (weather) => {
+    UI_ELEMENTS.DETAILS_WEATHER.textContent = weather
+  },
 
-  UI_ELEMENTS.FAVORITES_LIST.append(containerCity)
-  containerCity.append(cityName)
-  containerCity.append(whiteSpace)
-  containerCity.append(deleteButton)
+  sunrise: (time) => {
+    UI_ELEMENTS.DETAILS_SUNRISE.textContent = convertUnixToTime(time)
+  },
 
-  cityName.textContent = name
-  cityName.className = CLASS.CITY_INACTIVE
-  whiteSpace.textContent = ' '
-  deleteButton.textContent = '✖'
-  deleteButton.className = CLASS.DELETE_CITY
-
-  cityName.addEventListener('click', () => {
-    repeatRequest(name)
-    renderFavorite()
-  })
-
-  deleteButton.addEventListener('click', () => {
-    deleteCity(name)
-    checkLikeDisplay(name)
-    renderFavorite()
-  })
+  sunset: (time) => {
+    UI_ELEMENTS.DETAILS_SUNSET.textContent = convertUnixToTime(time)
+  },
 }
 
 const checkLikeDisplay = (name) => {
@@ -145,31 +160,60 @@ function getToggleLikeAction() {
   }
 }
 
+const renderFavorite = () => {
+  UI_ELEMENTS.FAVORITES_LIST.replaceChildren()
+  cityFavoriteList.forEach((city) => createFavoriteCity(city.name))
+}
+
+function createFavoriteCity(name) {
+  const containerCity = CREATE_ELEMENT.DIV()
+  const cityName = CREATE_ELEMENT.A()
+  const deleteButton = CREATE_ELEMENT.BUTTON()
+  const whiteSpace = CREATE_ELEMENT.SPAN()
+
+  cityName.textContent = name
+  cityName.className = CLASS.CITY_INACTIVE
+  whiteSpace.textContent = ' '
+  deleteButton.textContent = '✖'
+  deleteButton.className = CLASS.DELETE_CITY
+
+  UI_ELEMENTS.FAVORITES_LIST.append(containerCity)
+  containerCity.append(cityName)
+  containerCity.append(whiteSpace)
+  containerCity.append(deleteButton)
+
+  cityName.addEventListener('click', () => {
+    repeatRequest(name)
+    renderFavorite()
+    animateIcon()
+  })
+
+  deleteButton.addEventListener('click', () => {
+    deleteCity(name)
+    checkLikeDisplay(name)
+    renderFavorite()
+  })
+}
+
 function changeActiveButton(event) {
   const buttonClicked = event.target
   UI_ELEMENTS.BUTTONS_ALL.forEach((button) => {
-    if (buttonClicked === button) {
+    if (button === buttonClicked) {
       button.classList.add(CLASS.ACTIVE_BUTTON)
-    }
-    if (buttonClicked !== button) {
+    } else {
       button.classList.remove(CLASS.ACTIVE_BUTTON)
     }
   })
-  changeTabView(buttonClicked)
+  changeTabView(buttonClicked.dataset.tab)
 }
 
-function changeTabView(buttonClicked) {
-  const tabButton = buttonClicked.dataset.tab
-
-  UI_ELEMENTS.TABS.forEach((element) => {
-    const tab = element.dataset.tab
-    if (tab === tabButton) {
-      element.classList.remove(CLASS.INACTIVE_TAB)
+function changeTabView(tabButton) {
+  for (const element of UI_ELEMENTS.TABS) {
+    element.classList.remove(CLASS.ACTIVE_TAB)
+    element.classList.add(CLASS.INACTIVE_TAB)
+    if (element.dataset.tab === tabButton) {
       element.classList.add(CLASS.ACTIVE_TAB)
+      element.classList.remove(CLASS.INACTIVE_TAB)
     }
-    if (tab !== tabButton) {
-      element.classList.remove(CLASS.ACTIVE_TAB)
-      element.classList.add(CLASS.INACTIVE_TAB)
-    }
-  })
+  }
 }

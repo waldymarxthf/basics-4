@@ -8,6 +8,7 @@ export const API = {
 
 export const API_LOG = {
   SERVER_ERROR: 'Error loading',
+  NO_DATA_ERROR: 'The wrong name of the city was entered'
 }
 
 export const ERROR = {

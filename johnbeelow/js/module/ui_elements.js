@@ -10,6 +10,12 @@ export const UI_ELEMENTS = {
   LIKE: document.querySelector('.like'),
   FAVORITES_LIST: document.querySelector('.city-list-wrapper'),
   DELETE_CITY: document.querySelector('.delete_city'),
+  ICON: document.querySelector('.icon'),
+  LOADER: document.querySelector('#loader'),
+  FEELS_LIKE: document.querySelector('.feels-like'),
+  DETAILS_WEATHER: document.querySelector('.current-state'),
+  DETAILS_SUNRISE: document.querySelector('.time-sunrise'),
+  DETAILS_SUNSET: document.querySelector('.time-sunset'),
 }
 
 export const CLASS = {
@@ -26,22 +32,22 @@ export const CLASS = {
 }
 
 export const CREATE_ELEMENT = {
-  DIV: function () {
+  DIV: () => {
     return document.createElement('div')
   },
-  P: function () {
+  P: () => {
     return document.createElement('p')
   },
-  SPAN: function () {
+  SPAN: () => {
     return document.createElement('span')
   },
-  IMG: function () {
+  IMG: () => {
     return document.createElement('img')
   },
-  BUTTON: function () {
+  BUTTON: () => {
     return document.createElement('button')
   },
-  A: function () {
+  A: () => {
     return document.createElement('a')
   },
 }
@@ -49,12 +55,18 @@ export const CREATE_ELEMENT = {
 export const clearInput = () => UI_ELEMENTS.INPUT_FORM.reset()
 
 export const TOGGLE_LIKE = {
-  ACTIVE: function () {
+  ACTIVE: () => {
     UI_ELEMENTS.LIKE.classList.remove(CLASS.INACTIVE_LIKE)
     UI_ELEMENTS.LIKE.classList.add(CLASS.ACTIVE_LIKE)
   },
-  INACTIVE: function () {
+  INACTIVE: () => {
     UI_ELEMENTS.LIKE.classList.remove(CLASS.ACTIVE_LIKE)
     UI_ELEMENTS.LIKE.classList.add(CLASS.INACTIVE_LIKE)
   },
+}
+
+export const animateIcon = () => {
+  UI_ELEMENTS.ICON.style.animation = 'none'
+  UI_ELEMENTS.ICON.offsetHeight
+  UI_ELEMENTS.ICON.style.animation = null
 }
