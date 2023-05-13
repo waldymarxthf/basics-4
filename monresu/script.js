@@ -47,9 +47,10 @@ function renderDetailsBlock(data) {
 }
 
 function renderForecastBlock(data) {
+  FORECAST_SCREEN_NODES.FORECAST_CARDS.innerHTML = '';
   FORECAST_SCREEN_NODES.FORECAST_CITY_NAME.textContent = data.city.name;
   console.log(timeConverterDay(data.list[0].dt))
-  for (let i = 0; i < 7; i++) {
+  for (let i = 0; i < 3; i++) {
     const forecastData = data.list[i];
     const iconURL = `https://openweathermap.org/img/wn/${forecastData.weather[0].icon}@2x.png`
     const card = `<div class="weather__forecast-cards_card">
