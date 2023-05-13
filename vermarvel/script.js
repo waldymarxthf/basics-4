@@ -21,6 +21,7 @@ function resetInput() {
   // isFav = null;
 }
 function hideCheckbox() {
+  resetInput();
   dom.parentHeart.classList.add("hidden");
 }
 
@@ -68,6 +69,7 @@ function hideErrorBox() {
 
 // Starter algorithm
 function start() {
+  console.log("start");
   renderFavs();
   displayCurFav();
   console.log(curFav);
@@ -96,10 +98,6 @@ function tempFormatted(data) {
 }
 //%%%%%%%%%%%%%%% Business Logics  %%%%%%%%%%%%%%%%%%%%%
 
-// START
-
-start();
-
 // Data Processing
 
 // Process input (async/await) (DO NOT DELETE)
@@ -127,6 +125,10 @@ start();
 
 // Process input (chained promises)
 function getData() {
+  console.log(rawInput);
+  curFav = rawInput;
+  console.log(curFav);
+  store.set("curFav", curFav);
   const url = `${serverUrl}?q=${rawInput}&appid=${apiKey}`;
 
   fetch(url)
@@ -203,7 +205,7 @@ function displayData(cityName, temp, icon) {
   dom.detailsCity.textContent = cityName;
   dom.fcCity.textContent = cityName;
 
-  const imgUrl = `https://openweathermap.org/img/wn/${icon}@2x.png`;
+  const imgUrl = `https://openweathermap.org/img/wn/${icon}@4x.png`;
   dom.iconCloudImg.setAttribute("src", imgUrl);
   dom.nowPageTemp.textContent = `${temp}℃`;
   dom.detailsTemp.textContent = `Temperature: ${temp}℃`;
@@ -230,7 +232,8 @@ function displayForecast(arr, tZone) {
     const fcDateText = copiedLi.querySelector(".fc-date-text");
     const fcDate = convertTime(time.dt, tZone, false);
     fcDateText.textContent = fcDate;
-
+    const detDateText = document.querySelector("#details-date");
+    detDateText.textContent = fcDate;
     // add time
     const fcTimeText = copiedLi.querySelector(".fc-time-text");
     const fcTime = convertTime(time.dt, tZone, true);
@@ -268,26 +271,33 @@ function displayForecast(arr, tZone) {
 function renderFavs() {
   resetFavScr();
   console.log(keeper);
+  if (keeper.length === 0) return;
   keeper.forEach((city) => {
     // assemble a div
     const copiedDiv = dom.sourceFav.cloneNode(true);
     const textInside = copiedDiv.querySelector(".text");
     textInside.textContent = city;
+
     dom.parentFavs.appendChild(copiedDiv);
     copiedDiv.classList.remove("hidden");
+    copiedDiv.classList.remove("source-fav-div");
+    if (city === dom.detailsCity.textContent) {
+      copiedDiv.classList.add("cur-fav");
+    }
   });
 }
 
 // Display first FAV
 function displayCurFav() {
-  if (keeper.length > 0) {
-    console.log("rawInp", rawInput);
-    console.log("keeper", keeper);
-    rawInput = curFav || keeper[0] || "Shymkent";
-    getData();
-  } else {
-    return;
-  }
+  curFav = store.get("curFav") || "Shymkent";
+  console.log("curFav:", curFav);
+
+  //   console.log("rawInp", rawInput);
+  //   console.log("keeper 0", keeper?.[0]);
+
+  rawInput = curFav;
+
+  getData();
 }
 function deleteFav() {
   dom.input.value = uiCityName;
@@ -295,10 +305,10 @@ function deleteFav() {
   isFav = false;
   keeper = keeper.filter((city) => city !== uiCityName);
   if (keeper.length === 0) {
-    curFav = null;
+    curFav = "Shymkent";
   }
   // Store
-  store.set("curFav", JSON.stringify(curFav));
+  store.set("curFav", curFav);
   store.set("keeper", JSON.stringify(keeper));
   renderFavs();
 
@@ -309,25 +319,25 @@ function deleteFav() {
 
 function addCityToFavs() {
   try {
-    if (keeper.length > 8) {
-      throw new Error();
-    }
-    keeper.push(uiCityName);
+    const fav = dom.nowPageCity.textContent;
+
+    keeper.push(fav);
+
     // Store
     store.set("keeper", JSON.stringify(keeper));
-    console.log("stored");
   } catch (err) {
-    renderError(
-      "💥List is full; in order to add a city, delete one from the list💥"
-    );
+    renderError(`Something is wrong: ${err.message}`);
   }
 }
 //%%%%%%%%%%%%%%%%%  Listeners  %%%%%%%%%%%%%%%%%%%%%%%%
+
+document.addEventListener("DOMContentLoaded", start);
 
 // Submit
 dom.form.addEventListener("submit", function (event) {
   event.preventDefault();
   getInput();
+
   try {
     // start the process of retreiving data
     getData();
@@ -339,8 +349,11 @@ dom.form.addEventListener("submit", function (event) {
     renderError(`💥 Something went wrong!: ${err.message}💥`);
   }
 });
-// Hide checkbox when there's no active city
-dom.form.addEventListener("click", hideCheckbox);
+
+// Clear the input when it gets focus
+dom.input.addEventListener("focus", function () {
+  resetInput();
+});
 
 // Close Error Alert
 dom.errorBox.addEventListener("click", function (event) {
@@ -369,16 +382,26 @@ dom.checkboxHeart.addEventListener("change", function (event) {
 // Favs: manipulation (delete/display)
 dom.parentFavs.addEventListener("click", function (event) {
   const target = event.target;
+  console.log(target);
 
   // Display
-  if (target.classList.contains("text")) {
-    curFav = target.textContent;
+  if (
+    target.classList.contains("text") ||
+    target.classList.contains("fav-city")
+  ) {
+    console.log(
+      target.closest(".fav-city")?.querySelector(".text").textContent
+    );
+    curFav = target.closest(".fav-city")?.querySelector(".text").textContent;
+    console.log(curFav);
+
     // Store curFav
     store.set("curFav", curFav);
     dom.input.value = curFav;
     rawInput = curFav;
 
     getData();
+    renderFavs();
   }
 
   // Delete
@@ -410,8 +433,4 @@ dom.tabs.addEventListener("click", function (event) {
   pageToOpen.classList.remove("hidden");
 });
 
-// Further upgrade:
-
-// current favourite city in list highlighted
-
-// when user is on fc or det - search another town not possible - fix
+// Further upgrade and fixes:
