@@ -49,7 +49,6 @@ function renderDetailsBlock(data) {
 function renderForecastBlock(data) {
   FORECAST_SCREEN_NODES.FORECAST_CARDS.innerHTML = '';
   FORECAST_SCREEN_NODES.FORECAST_CITY_NAME.textContent = data.city.name;
-  console.log(timeConverterDay(data.list[0].dt))
   for (let i = 0; i < 3; i++) {
     const forecastData = data.list[i];
     const iconURL = `https://openweathermap.org/img/wn/${forecastData.weather[0].icon}@2x.png`
@@ -104,13 +103,14 @@ async function weather(cityName) {
   const URL = `${serverURL}?q=${cityName}&appid=${apiKey}&units=metric`;
   form.reset();
   const isCityInCache = cityExistsInCache(cache, cityName.toLowerCase());
-  if (isCityInCache[0] && isCityInCache[1]) {
+  const {cityInCache, timeCityInCache} = isCityInCache;
+  if (cityInCache && timeCityInCache) {
     loadCityFromCache(cityName);
     currCity = cityName;
     saveToLocalStorage('currCity', currCity)
     return;
   }
-  else if (isCityInCache[0] && !isCityInCache[1]) {
+  else if (cityInCache && !timeCityInCache) {
     updateCityInCache(cityName, URL);
     currCity = cityName;
     saveToLocalStorage('currCity', currCity);
