@@ -44,8 +44,8 @@ function createDisplayNow(data) {
     const temperature = data.main.temp;
     tempSpan.textContent = temperature.toFixed(0);
 
-    const iconId = data.weather[0].icon
-    const iconImg = `https://openweathermap.org/img/wn/${iconId}@4x.png`;
+    const iconId = data.weather[0].icon;
+    const iconImg = `./images/${iconId}.png`;
     const iconWeather = document.querySelector('.weather-icon img');
     iconWeather.src = iconImg;
     const cityName = document.querySelector('.location-target span');
