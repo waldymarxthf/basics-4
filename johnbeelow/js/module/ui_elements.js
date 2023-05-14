@@ -1,4 +1,4 @@
-export const UI_ELEMENTS = {
+const UI_ELEMENTS = {
   TABS: document.querySelectorAll('.tab'),
   BUTTONS_ALL: document.querySelectorAll('.tab-btn'),
   INPUT_FORM: document.querySelector('.search-form'),
@@ -18,7 +18,7 @@ export const UI_ELEMENTS = {
   DETAILS_SUNSET: document.querySelector('.time-sunset'),
 }
 
-export const CLASS = {
+const CLASS = {
   ACTIVE_BUTTON: 'active-btn',
   ACTIVE_TAB: 'active-tab',
   ACTIVE_CITY: 'active-city',
@@ -31,7 +31,7 @@ export const CLASS = {
   DELETE_CITY: 'delete_city',
 }
 
-export const CREATE_ELEMENT = {
+const CREATE_ELEMENT = {
   DIV: () => {
     return document.createElement('div')
   },
@@ -52,9 +52,7 @@ export const CREATE_ELEMENT = {
   },
 }
 
-export const clearInput = () => UI_ELEMENTS.INPUT_FORM.reset()
-
-export const TOGGLE_LIKE = {
+const TOGGLE_LIKE = {
   ACTIVE: () => {
     UI_ELEMENTS.LIKE.classList.remove(CLASS.INACTIVE_LIKE)
     UI_ELEMENTS.LIKE.classList.add(CLASS.ACTIVE_LIKE)
@@ -65,8 +63,19 @@ export const TOGGLE_LIKE = {
   },
 }
 
-export const animateIcon = () => {
+const animateIcon = () => {
   UI_ELEMENTS.ICON.style.animation = 'none'
   UI_ELEMENTS.ICON.offsetHeight
   UI_ELEMENTS.ICON.style.animation = null
+}
+
+const clearInput = () => UI_ELEMENTS.INPUT_FORM.reset()
+
+export {
+  UI_ELEMENTS,
+  CLASS,
+  CREATE_ELEMENT,
+  TOGGLE_LIKE,
+  animateIcon,
+  clearInput,
 }

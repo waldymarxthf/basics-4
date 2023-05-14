@@ -1,53 +1,63 @@
-import { API } from './data.js'
+import { API } from './API.js'
 
 const storage = {
-  saveFavoriteCities: (cityFavoriteList) => {
+  saveFavoriteCities(cityFavoriteList) {
     localStorage.setItem('cityFavoriteList', JSON.stringify(cityFavoriteList))
   },
-  saveCurrentCity: (currentCity) => {
+
+  saveCurrentCity(currentCity) {
     localStorage.setItem('currentCity', JSON.stringify(currentCity))
   },
-  getFavoriteCities: () => {
+
+  getFavoriteCities() {
     const storedCities = localStorage.getItem('cityFavoriteList')
-    if (storedCities) {
-      return JSON.parse(storedCities)
-    }
-    return []
+    return storedCities ? JSON.parse(storedCities) : []
   },
-  getCurrentCity: () => {
+
+  getCurrentCity() {
     const storedCity = localStorage.getItem('currentCity')
-    if (storedCity) {
-      return JSON.parse(storedCity)
-    }
-    return API.START_CITY
+    return storedCity ? JSON.parse(storedCity) : API.START_CITY
   },
 }
 
-export let currentCity = storage.getCurrentCity()
-export let cityFavoriteList = storage.getFavoriteCities()
+let currentCity = storage.getCurrentCity()
+let cityFavoriteList = storage.getFavoriteCities()
 
-export const isCityExist = (name) => 
+const isCityExist = (name) =>
   cityFavoriteList.find((city) => city.name === name)
 
 const findIndexCity = (name) =>
   cityFavoriteList.findIndex((city) => city.name === name)
 
-export const addCity = (name) => {
+const addCity = (name) => {
   if (isCityExist(name)) return
   cityFavoriteList.push({ name })
   storage.saveFavoriteCities(cityFavoriteList)
 }
 
-export const deleteCity = (name) => {
+const deleteCity = (name) => {
   cityFavoriteList.splice(findIndexCity(name), 1)
   storage.saveFavoriteCities(cityFavoriteList)
 }
 
-export function updateCurrentCity(city) {
+const updateCurrentCity = (city) => {
   currentCity = null
   currentCity = city
   storage.saveCurrentCity(city)
 }
+
+const checkInput = (value) => {
+  if (isInputValid(value) || !isInputNumber(value)) return
+  return getFirstUpperCase(value)
+}
+
+const isInputValid = (str) => !str || str.trim() === ''
+
+const isInputNumber = (number) => isNaN(number)
+
+const isLowerCase = (str) => str === str.toLowerCase()
+
+const isUpperCase = (str) => str === str.toUpperCase()
 
 const getFirstUpperCase = (str) => {
   if (isLowerCase(str)) {
@@ -59,12 +69,12 @@ const getFirstUpperCase = (str) => {
   return str
 }
 
-export const checkInput = (value) => {
-  if (isInputValid(value) || !isInputNumber(value)) return
-  return getFirstUpperCase(value)
+export {
+  currentCity,
+  cityFavoriteList,
+  isCityExist,
+  addCity,
+  deleteCity,
+  updateCurrentCity,
+  checkInput,
 }
-
-const isInputValid = (str) => !str || str.trim() === ''
-const isInputNumber = (number) => isNaN(number)
-const isLowerCase = (str) => str === str.toLowerCase()
-const isUpperCase = (str) => str === str.toUpperCase()
