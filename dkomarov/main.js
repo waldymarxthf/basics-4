@@ -23,10 +23,7 @@ let currentCity = JSON.parse(localStorage.getItem('city')) || [];
 async function getRequest(cityName) {
     try {
         const serverUrl = 'http://api.openweathermap.org/data/2.5/weather';
-        // и куда вставлять это полученное значение?
         localStorage.setItem('city', JSON.stringify(cityName))
-
-        // console.log(cityNames);
 
         const apiKey = '2de34209accba46efc52dfd946a3c2b3';
         const url = `${serverUrl}?q=${cityName}&appid=${apiKey}&units=metric`;
@@ -35,7 +32,7 @@ async function getRequest(cityName) {
         console.log(data);
         createDisplayNow(data);
         createDisplayDetails(data);
-        // clearInput();
+        clearInput();
     }
     catch (Err) {
         console.error(Err.message)
@@ -199,7 +196,7 @@ addButtonShape.addEventListener('click', () => {
 });
 
 window.addEventListener('DOMContentLoaded', () => {
-    currentCity = JSON.parse(localStorage.getItem('city')) || []
+    currentCity = JSON.parse(localStorage.getItem('city')) || '';
     getRequest(currentCity)
 })
 
