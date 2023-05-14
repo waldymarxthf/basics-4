@@ -1,6 +1,6 @@
 import { loadFromLocalStorage, saveToLocalStorage } from "./localstorage.js";
 import { createLocationElement } from "./ui.js";
-import { findLocationIndex } from "./utils.js";
+import { findLocationIndex, errorHandler } from "./utils.js";
 import { VARIABLES } from "./ui-variables.js";
 
 const locations = loadFromLocalStorage("newLocation") || [];
