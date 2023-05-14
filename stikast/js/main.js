@@ -11,10 +11,17 @@ import {
   screens,
 	detailsTitle,
 	detailsTemperature,
-	detailsFells,
+	detailsFeels,
 	detailsWeather,
 	detailsSunrise,
 	detailsSunset,
+	forecastTitle,
+	forecastDate,
+	forecastTime,
+	forecastTemperature,
+	forecastFeels,
+	forecastWeather,
+	forecastIcon,
 } from "./ui-elements.js";
 
 import {
@@ -125,7 +132,7 @@ async function updateDetails(data) {
 
 	detailsTitle.textContent = data.name;
 	detailsTemperature.textContent = Math.round(data.main.temp);
-	detailsFells.textContent = Math.round(data.main.feels_like);
+	detailsFeels.textContent = Math.round(data.main.feels_like);
 	detailsWeather.textContent = data.weather[0].main;
 	detailsSunrise.textContent = timeConverter(data.sys.sunrise, data.timezone)
 	detailsSunset.textContent = timeConverter(data.sys.sunset, data.timezone)
