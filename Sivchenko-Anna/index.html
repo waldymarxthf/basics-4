@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <title>ToDo</title>
 </head>
@@ -12,36 +15,40 @@
     <div class="container">
       <div class="priority-high">
         <p class="title">HIGH</p>
-        <div class="todo-add">
+        <div class="todo todo-add">
           <input type="text" class="todo-input" placeholder="Добавить важных дел">
-          <button class="btn-add"></button>
+          <button class="button btn-add"></button>
         </div>
-        <div class="todo-task">
-          <input type="checkbox">
-          <p>Вот вам и супер интересная тема. Вы наверняка заметили что ваши файлы с кодом становятся все объемнее, что хочется вынести некоторые вещи куда-то за пределы основной программы.</p>
-          <button class="btn-delete"></button>
+        <div class="todo todo-task">
+          <input type="checkbox" class="custom-checkbox" id="check-1">
+          <label for="check-1"></label>
+          <p class="task">Вот вам и супер интересная тема. <br>Вы наверняка заметили что ваши файлы с кодом становятся все объемнее, что хочется вынести некоторые вещи куда-то за пределы основной программы.</p>
+          <button class="button btn-delete"></button>
         </div>
-        <div class="todo-task">
-          <input type="checkbox">
-          <p>Сверстать этот TODO list</p>
-          <button class="btn-delete"></button>
+        <div class="todo todo-task">
+          <input type="checkbox" class="custom-checkbox" id="check-2">
+          <label for="check-2"></label>
+          <p class="task">Сверстать этот TODO list</p>
+          <button class="button btn-delete"></button>
         </div>
-        <div class="todo-task">
-          <input type="checkbox" checked>
-          <p>Начать делать задачу</p>
-          <button class="btn-delete"></button>
+        <div class="todo todo-task">
+          <input type="checkbox" class="custom-checkbox" id="check-3" checked>
+          <label for="check-3"></label>
+          <p class="task">Начать делать задачу</p>
+          <button class="button btn-delete"></button>
         </div>
       </div>
       <div class="priority-low">
         <p class="title">LOW</p>
-        <div class="todo-add">
+        <div class="todo todo-add">
           <input type="text" class="todo-input" placeholder="Добавить">
-          <button class="btn-add"></button>
+          <button class="button btn-add"></button>
         </div>
-        <div class="todo-task">
-          <input type="checkbox">
-          <p>Посмотреть ютубчик</p>
-          <button class="btn-delete"></button>
+        <div class="todo todo-task">
+          <input type="checkbox" class="custom-checkbox" id="check-4">
+          <label for="check-4"></label>
+          <p class="task">Посмотреть ютубчик</p>
+          <button class="button btn-delete"></button>
         </div>
       </div>
     </div>
