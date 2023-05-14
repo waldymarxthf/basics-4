@@ -189,6 +189,7 @@ function renderFavCities() {
     closeBtn.addEventListener('click', function closeBtnHandler() {
       removeCity(city.name);
       renderFavCities();
+      renderNowBlock({name: city.name})
       this.removeEventListener('click', closeBtnHandler)
     })
     cityNode.addEventListener('click', function cityNodeHandler(e) {
