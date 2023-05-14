@@ -22,7 +22,7 @@ export function findLocationIndex(locations, newLocation) {
 
 export function errorHandler(error) {
 	alert(error.message)
-	console.error(error.message)
+	console.error(error)
 }
 
 //* функция для обработчика ошибок
