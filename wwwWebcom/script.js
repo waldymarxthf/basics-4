@@ -56,8 +56,7 @@ document.addEventListener('click', (event) => {
   }
 })
 
-document.addEventListener('DOMContentLoaded', () => {
-  renderInfo()
+window.addEventListener('DOMContentLoaded', () => {
   listOfCities = loadFromLocalStorage('location') || []
   let lastLocation = loadFromLocalStorage('lastLocation')
   renderStorage()

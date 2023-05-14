@@ -10,8 +10,9 @@
 //   return localStorage.key(index)
 // }
 
-// export function removeItem(name) {
-//   localStorage.removeItem(name)
+// export function removeItem(array, index) {
+//   console.log(JSON.parse(localStorage.getItem(key)))
+//   localStorage.removeItem(array[index])
 // }
 
 // export function setlastItem() {
