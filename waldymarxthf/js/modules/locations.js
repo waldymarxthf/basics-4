@@ -48,7 +48,9 @@ export function deleteLocation(newLocation) {
 
 export function changeIcon() {
 	const currentLocation = VARIABLES.NOW.CITY.textContent;
-	const isLocationInArray = locations.some(el => el.location === currentLocation);
+	const isLocationInArray = locations.some(
+		(el) => el.location === currentLocation
+	);
 
 	if (isLocationInArray) {
 		VARIABLES.NOW.LIKE.src = "./assets/svg/heart-liked.svg";

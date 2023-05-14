@@ -1,14 +1,18 @@
 import { getWeatherData } from "./api.js";
-import { updateBlockNow, updateBlockDetails, updateBlockForecast } from "./ui.js";
 import { errorHandler } from "./utils.js";
 import { showLoader, hideLoader } from "./preloader.js";
 import { VARIABLES } from "./ui-variables.js";
+import {
+	updateBlockNow,
+	updateBlockDetails,
+	updateBlockForecast,
+} from "./ui.js";
 
 export async function updateWeather(location) {
 	showLoader();
 	try {
 		const [forecastData, weatherData] = await Promise.all([
-			getWeatherData('forecast', location),
+			getWeatherData("forecast", location),
 			getWeatherData("weather", location),
 		]);
 
@@ -16,11 +20,11 @@ export async function updateWeather(location) {
 		await updateBlockDetails(weatherData);
 		await updateBlockForecast(forecastData);
 
-		VARIABLES.FORM[0].placeholder = VARIABLES.NOW.CITY.textContent
+		VARIABLES.FORM[0].placeholder = VARIABLES.NOW.CITY.textContent;
 	} catch (error) {
 		errorHandler(error);
 	} finally {
-		setTimeout(hideLoader, 250)
+		setTimeout(hideLoader, 250);
 	}
 }
 
