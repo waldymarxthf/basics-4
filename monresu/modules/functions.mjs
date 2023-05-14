@@ -10,13 +10,21 @@ export async function getData(URL) {
 
 export function timeConverterTime(UNIX_timestamp) {
   const date = new Date((UNIX_timestamp) * 1000);
-  const normalTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', timeZone: 'UTC', hour12: false });
+  const normalTime = date.toLocaleTimeString([], { 
+    hour: '2-digit', 
+    minute: '2-digit', 
+    timeZone: 'UTC', 
+    hour12: false });
   return normalTime;
 }
 
 export function timeConverterDay(UNIX_timestamp) {
   const date = new Date((UNIX_timestamp) * 1000);
-  const normalTime = date.toLocaleString("en-GB", {day: 'numeric', month: 'long' });
+  const normalTime = date.toLocaleString("en-GB", {
+    day: 'numeric', 
+    month: 'long',
+    timeZone: 'Europe/London',
+  });
   return normalTime;
 }
 
