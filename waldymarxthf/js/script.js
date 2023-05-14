@@ -67,6 +67,7 @@ async function updateBlockNow(data) {
 	VARIABLES.NOW.TEMPERATURE.textContent = tempBlockNow;
 	VARIABLES.NOW.CITY.textContent = cityBlockNow;
 	VARIABLES.NOW.ICON.src = iconUrl;
+	changeIcon(locations);
 }
 
 //* обновляет блок NOW
@@ -130,7 +131,6 @@ async function updateBlockForecast(data) {
 //* обновляет блок FORECAST
 
 async function updateWeather(location) {
-	console.clear();
 	showLoader();
 	try {
 		let [cityWeatherDataForecast, cityWeatherData] = await Promise.all([
@@ -172,17 +172,6 @@ function addLocation() {
 			location: cityName,
 		});
 
-		let index = findLocationIndex(locations, cityName)
-		console.log(index)
-
-		locations.forEach(el => {
-			if (el.location === cityName) {
-				VARIABLES.NOW.CITY.src = "./assets/svg/heart-liked.svg"
-			} else {
-				VARIABLES.NOW.CITY.src = "./assets/svg/heart.svg"
-			}
-		})
-
 		saveToLocalStorage("newLocation", locations);
 		renderLocations();
 	} catch (error) {
@@ -198,6 +187,7 @@ function renderLocations() {
 		const newLocation = createLocationElement(element);
 		VARIABLES.LOCATIONS.LIST.append(newLocation);
 	});
+	changeIcon(locations);
 }
 
 //* рендерит локации из массива
@@ -213,12 +203,12 @@ function createLocationElement(element) {
 
 	newLocation.addEventListener("click", () => {
 		updateWeather(element.location);
-	});
+	}); //* при нажатии на город загружает его
 
 	newLocationBtn.addEventListener("click", (event) => {
 		event.stopPropagation();
 		deleteLocation(newLocation);
-	});
+	}); //* при нажатии на крестик удаляет нужный город
 
 	return newLocation;
 }
@@ -234,6 +224,19 @@ function deleteLocation(newLocation) {
 
 //* функция удаления локации
 
+function changeIcon() {
+	const currentLocation = VARIABLES.NOW.CITY.textContent;
+	const isLocationInArray = locations.some(el => el.location === currentLocation);
+
+	if (isLocationInArray) {
+		VARIABLES.NOW.LIKE.src = "./assets/svg/heart-liked.svg";
+	} else {
+		VARIABLES.NOW.LIKE.src = "./assets/svg/heart.svg";
+	}
+}
+
+//* функция, делает сердечко нажатым если город добавили в избранное
+
 addEventListener("DOMContentLoaded", async () => {
 	let savedLocation = loadFromLocalStorage("lastLocation");
 	if (!savedLocation) {
@@ -241,7 +244,8 @@ addEventListener("DOMContentLoaded", async () => {
 		saveToLocalStorage("lastLocation", savedLocation);
 	}
 	await updateWeather(savedLocation);
-
+	//* сохраняет последний выбранный город и загружает его
+	
 	const activeTabIndex = loadFromLocalStorage("index");
 	if (activeTabIndex !== null) {
 		VARIABLES.TABS.forEach(tabs => tabs.classList.remove('active'));
@@ -252,11 +256,11 @@ addEventListener("DOMContentLoaded", async () => {
 		VARIABLES.TABS[0].classList.add("active");
 		VARIABLES.WEATHER_BLOCK[0].classList.add("active");
 	}
-
+	//* сохраняет последний нажатый таб и загружает его
+	
+	renderLocations();
 });
 
 VARIABLES.NOW.LIKE.addEventListener("click", addLocation);
 
 VARIABLES.FORM.addEventListener("submit", weatherHandler);
-
-renderLocations();

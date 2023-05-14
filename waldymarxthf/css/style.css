@@ -359,6 +359,7 @@ body {
   -webkit-transform: scale(1.3);
           transform: scale(1.3);
   margin-right: 5px;
+  opacity: 0.8;
 }
 
 .tabs__items {
