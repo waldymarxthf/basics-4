@@ -8,7 +8,7 @@ import {
 } from './module/business-logic.js'
 
 document.addEventListener('DOMContentLoaded', () => {
-  setTimeout(() => (UI_ELEMENTS.LOADER.style.display = 'none'), 1000)
+  UI_ELEMENTS.LOADER_DISCONECTED.style.display = 'none'
 })
 
 document.addEventListener('DOMContentLoaded', handleContentLoaded)
@@ -30,9 +30,9 @@ UI_ELEMENTS.LIKE.addEventListener('click', (event) => {
 })
 
 window.addEventListener('online', () => {
-  UI_ELEMENTS.LOADER.style.display = 'none'
+  UI_ELEMENTS.LOADER_DISCONECTED.style.display = 'none'
 })
 
 window.addEventListener('offline', () => {
-  UI_ELEMENTS.LOADER.style.display = 'flex'
+  UI_ELEMENTS.LOADER_DISCONECTED.style.display = 'flex'
 })
