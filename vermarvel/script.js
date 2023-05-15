@@ -6,11 +6,11 @@ import store from "./store.mjs";
 // Variables
 let rawInput = null;
 let uiCityName = null;
-let isFav;
-let curFav = store.get("curFav") || "Shymkent";
+let curFav;
 
 const serverUrl = "http://api.openweathermap.org/data/2.5/weather";
-const apiKey = "f660a2fb1e4bad108d6160b7f58c555f&units=metric";
+const apiKey = "afc9f2df39f9e9e49eeb1afac7034d35";
+// const apiKey = "bee4bd6edc3ca09763c0dc89f33c92c4"; // spare apiKey
 
 let keeper = JSON.parse(store.get("keeper")) || [];
 
@@ -18,11 +18,6 @@ let keeper = JSON.parse(store.get("keeper")) || [];
 
 function resetInput() {
   dom.input.value = "";
-  // isFav = null;
-}
-function hideCheckbox() {
-  resetInput();
-  dom.parentHeart.classList.add("hidden");
 }
 
 // clear Favs
@@ -35,26 +30,26 @@ function getInput() {
   rawInput = dom.input.value;
 }
 
-// Check if the city is FAV
-function updateIsFavState() {
-  if (keeper.includes(uiCityName)) {
-    isFav = true;
-  } else if (!keeper.includes(uiCityName)) {
-    isFav = false;
+function toggleCheckbox() {
+  const isChecked = dom.checkboxHeart.checked;
+
+  if (isChecked) {
+    if (!keeper.includes(dom.nowPageCity.textContent)) {
+      // Add city to FAVS
+      keeper.push(dom.nowPageCity.textContent);
+      store.set("keeper", JSON.stringify(keeper));
+    }
+  } else {
+    console.log(keeper);
+    deleteFav(dom.nowPageCity.textContent);
+
+    // Delete from FAVs and save keeper
+    keeper = keeper.filter((city) => city !== uiCityName);
+    store.set("keeper", JSON.stringify(keeper));
   }
-}
-
-function displayCheckbox() {
-  dom.parentHeart.classList.remove("hidden");
-
-  if (isFav) {
-    dom.checkboxHeart.checked = true;
-  } else if (!isFav) {
-    dom.checkboxHeart.checked = false;
-  }
-
   renderFavs();
 }
+
 // Error
 function renderError(msg = "City not found!") {
   dom.errorMsg.textContent = msg;
@@ -67,13 +62,6 @@ function hideErrorBox() {
   dom.input.setAttribute("placeholder", "Search");
 }
 
-// Starter algorithm
-function start() {
-  console.log("start");
-  renderFavs();
-  displayCurFav();
-  console.log(curFav);
-}
 // Data processing
 function convertTime(time, tZone, boolean) {
   const date = new Date((time + tZone) * 1000);
@@ -98,38 +86,18 @@ function tempFormatted(data) {
 }
 //%%%%%%%%%%%%%%% Business Logics  %%%%%%%%%%%%%%%%%%%%%
 
-// Data Processing
-
-// Process input (async/await) (DO NOT DELETE)
-// async function getData() {
-//   try {
-//     const url = `${serverUrl}?q=${rawInput}&appid=${apiKey}`;
-
-//     const response = await fetch(url);
-//     if (!response.ok) throw new Error(`City not found (${response.status})`);
-//     // Decode
-//     const data = await response.json();
-
-//     // Process and distribute
-//     const icon = data.weather[0].icon;
-//     uiCityName = data.name;
-//     const uiTemp = Math.round(data.main.temp - 273.15);
-
-//     return displayData(uiCityName, uiTemp, icon);
-//     // Handle the errors
-//   } catch (err) {
-//     console.error(err);
-//     renderError(`💥 Error: ${err.message}`);
-//   }
-// }
-
 // Process input (chained promises)
 function getData() {
-  console.log(rawInput);
-  curFav = rawInput;
-  console.log(curFav);
+  if (!curFav || curFav === null || curFav === undefined) {
+    curFav = store.get("curFav") || rawInput || keeper[0] || "Shymkent";
+  }
+
+  if (!rawInput) {
+    rawInput = curFav;
+  }
+
   store.set("curFav", curFav);
-  const url = `${serverUrl}?q=${rawInput}&appid=${apiKey}`;
+  const url = `${serverUrl}?q=${rawInput}&appid=${apiKey}&units=metric`;
 
   fetch(url)
     .then((response) => {
@@ -137,24 +105,40 @@ function getData() {
       return response.json();
     })
     .then((data) => {
-      const lat = data.coord.lat;
-      const lon = data.coord.lon;
-      const detFeelsLike = tempFormatted(data.main.feels_like);
-      const detWeather = data.weather[0].main;
-      // time gap with UTC
+      const {
+        coord: { lon, lat },
+        main: { temp, feels_like: feels },
+        weather: [{ main: detWeather, icon }],
+        sys: { sunrise, sunset },
+        timezone: tZone,
+        name: uiCityName,
+      } = data;
 
-      const tZone = data.timezone;
-      const detSunrise = convertTime(data.sys.sunrise, tZone, true);
-      const detSunset = convertTime(data.sys.sunset, tZone, true);
+      const detFeelsLike = tempFormatted(feels);
+      const uiTemp = tempFormatted(temp);
+      const detSunrise = convertTime(sunrise, tZone, true);
+      const detSunset = convertTime(sunset, tZone, true);
 
-      const icon = data.weather[0].icon;
-      uiCityName = data.name;
-      const uiTemp = tempFormatted(data.main.temp);
+      displayNow({
+        uiCityName,
+        uiTemp,
+        icon,
+      });
 
-      displayData(uiCityName, uiTemp, icon);
-      displayDetails(detFeelsLike, detWeather, detSunrise, detSunset, tZone);
+      displayDetails({
+        detFeelsLike,
+        detWeather,
+        detSunrise,
+        detSunset,
+      });
 
-      getDataForecast(lat, lon, tZone);
+      getDataForecast({
+        lat,
+        lon,
+        tZone,
+      });
+
+      renderFavs();
       // Handle the errors
     })
     .catch((err) => {
@@ -167,9 +151,8 @@ function getData() {
     });
 }
 
-function getDataForecast(lat, lon, tZone) {
-  const forecastUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=daily,minutely,current,alerts&units=metric&appid=${apiKey}`;
-
+function getDataForecast({ lat, lon, tZone }) {
+  const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
   fetch(forecastUrl)
     .then((response) => {
       if (!response.ok)
@@ -177,15 +160,10 @@ function getDataForecast(lat, lon, tZone) {
       return response.json();
     })
     .then((data) => {
-      const arr = [
-        data.hourly[0],
-        data.hourly[1],
-        data.hourly[2],
-        data.hourly[3],
-      ];
-      displayForecast(arr, data.timezone_offset);
-
-      // (arr = data.hourly[0].dt) convertTime(data.hourly[0].dt, tZone);
+      // Destructuring: 3h forecasts (7 boxes)
+      const { list } = data;
+      const arr = list.slice(0, 7);
+      displayForecast(arr, tZone);
 
       // Handle the errors
     })
@@ -200,77 +178,82 @@ function getDataForecast(lat, lon, tZone) {
 }
 
 // Display the data
-function displayData(cityName, temp, icon) {
-  dom.nowPageCity.textContent = cityName;
-  dom.detailsCity.textContent = cityName;
-  dom.fcCity.textContent = cityName;
+function displayNow({ uiCityName, uiTemp, icon }) {
+  // set the corresponding checknox
+  dom.parentHeart.classList.remove("hidden");
+
+  keeper.includes(uiCityName)
+    ? (dom.checkboxHeart.checked = true)
+    : (dom.checkboxHeart.checked = false);
+
+  dom.nowPageCity.textContent = uiCityName;
+  dom.detailsCity.textContent = uiCityName;
+  dom.fcCity.textContent = uiCityName;
 
   const imgUrl = `https://openweathermap.org/img/wn/${icon}@4x.png`;
   dom.iconCloudImg.setAttribute("src", imgUrl);
-  dom.nowPageTemp.textContent = `${temp}℃`;
-  dom.detailsTemp.textContent = `Temperature: ${temp}℃`;
-  updateIsFavState();
-  displayCheckbox();
+  dom.nowPageTemp.textContent = `${uiTemp}℃`;
+  dom.detailsTemp.textContent = `Temperature: ${uiTemp}℃`;
 }
 
-function displayDetails(feelsLike, weather, sunrise, sunset) {
-  dom.detailsFeels.textContent = `Feels like: ${feelsLike}℃`;
-  dom.detailsWeather.textContent = `Weather: ${weather}`;
-  dom.detailsSunrise.textContent = `Sunrise: ${sunrise}`;
-  dom.detailsSunset.textContent = `Sunset: ${sunset}`;
+function displayDetails({ detFeelsLike, detWeather, detSunrise, detSunset }) {
+  dom.detailsFeels.textContent = `Feels like: ${detFeelsLike}℃`;
+  dom.detailsWeather.textContent = `Weather: ${detWeather}`;
+  dom.detailsSunrise.textContent = `Sunrise: ${detSunrise}`;
+  dom.detailsSunset.textContent = `Sunset: ${detSunset}`;
 }
 
 function displayForecast(arr, tZone) {
   // clear all
-
   dom.parentForecast.innerHTML = "";
   // run through the array with hourly weather
   arr.forEach((time) => {
+    const {
+      dt: curTime,
+      main: { temp, feels_like: feels },
+      weather: [{ main: fcPrecep, icon }],
+    } = time;
+
     // assemble a list item
     const copiedLi = dom.sourceForecast.cloneNode(true);
     // add date
     const fcDateText = copiedLi.querySelector(".fc-date-text");
-    const fcDate = convertTime(time.dt, tZone, false);
+    const fcDate = convertTime(curTime, tZone, false);
     fcDateText.textContent = fcDate;
     const detDateText = document.querySelector("#details-date");
     detDateText.textContent = fcDate;
     // add time
     const fcTimeText = copiedLi.querySelector(".fc-time-text");
-    const fcTime = convertTime(time.dt, tZone, true);
+    const fcTime = convertTime(curTime, tZone, true);
 
     fcTimeText.textContent = fcTime;
-    // add temp
+    // add temp abd feels like
     const fcTempText = copiedLi.querySelector(".fc-temp-text");
-    const fcTemp = tempFormatted(time.temp);
-    fcTempText.textContent = `Temperature: ${fcTemp}℃`;
-    // add Feels like
+    fcTempText.textContent = `Temperature: ${tempFormatted(temp)}℃`;
     const fcFeelsText = copiedLi.querySelector(".fc-feels-text");
-    const fcFeels = tempFormatted(time.feels_like);
-    fcFeelsText.textContent = `Feels like: ${fcFeels}℃`;
-    // add Precipitation/weather
+    fcFeelsText.textContent = `Feels like: ${tempFormatted(feels)}℃`;
+    // add Precipitation
     const fcPrecepText = copiedLi.querySelector(".fc-precep-text");
-    fcPrecepText.textContent = time.weather[0].main;
-    // add icon
+    fcPrecepText.textContent = fcPrecep;
+    // add weather icon
     const fcIcon = copiedLi.querySelector(".below-right");
-    const icon = time.weather[0].icon; // icon
-
     const img = document.createElement("img");
-    const imgUrl = `https://openweathermap.org/img/wn/${icon}@2x.png`;
+    const imgUrl = `https://openweathermap.org/img/wn/${icon}@4x.png`;
     img.src = imgUrl;
     fcIcon.appendChild(img);
     img.classList.add("mini-icon");
-
+    // nest the div and make it visible
     dom.parentForecast.appendChild(copiedLi);
     copiedLi.classList.remove("hidden");
   });
 }
 
-// %%%%%%%%%%%%%%%%%% MEMORY (FAVs) %%%%%%%%%%%%%%%%%%%%%%%%%%
+// %%%%%%%%%%%%%%%%%% FAVs %%%%%%%%%%%%%%%%%%%%%%%%%%
 
 // Render the Favourites list
 function renderFavs() {
   resetFavScr();
-  console.log(keeper);
+
   if (keeper.length === 0) return;
   keeper.forEach((city) => {
     // assemble a div
@@ -281,7 +264,7 @@ function renderFavs() {
     dom.parentFavs.appendChild(copiedDiv);
     copiedDiv.classList.remove("hidden");
     copiedDiv.classList.remove("source-fav-div");
-    if (city === dom.detailsCity.textContent) {
+    if (city === dom.nowPageCity.textContent) {
       copiedDiv.classList.add("cur-fav");
     }
   });
@@ -289,49 +272,28 @@ function renderFavs() {
 
 // Display first FAV
 function displayCurFav() {
-  curFav = store.get("curFav") || "Shymkent";
-  console.log("curFav:", curFav);
-
-  //   console.log("rawInp", rawInput);
-  //   console.log("keeper 0", keeper?.[0]);
-
   rawInput = curFav;
-
   getData();
 }
-function deleteFav() {
-  dom.input.value = uiCityName;
-  dom.checkboxHeart.checked = false;
-  isFav = false;
+
+function deleteFav(uiCityName) {
   keeper = keeper.filter((city) => city !== uiCityName);
-  if (keeper.length === 0) {
-    curFav = "Shymkent";
+  if (dom.nowPageCity.textContent === uiCityName) {
+    dom.checkboxHeart.checked = false;
   }
+  if (keeper.length === 0) {
+    curFav = uiCityName || "Shymkent";
+  }
+
   // Store
   store.set("curFav", curFav);
   store.set("keeper", JSON.stringify(keeper));
   renderFavs();
-
-  console.log(keeper);
-
-  // start();
 }
 
-function addCityToFavs() {
-  try {
-    const fav = dom.nowPageCity.textContent;
-
-    keeper.push(fav);
-
-    // Store
-    store.set("keeper", JSON.stringify(keeper));
-  } catch (err) {
-    renderError(`Something is wrong: ${err.message}`);
-  }
-}
 //%%%%%%%%%%%%%%%%%  Listeners  %%%%%%%%%%%%%%%%%%%%%%%%
 
-document.addEventListener("DOMContentLoaded", start);
+document.addEventListener("DOMContentLoaded", getData);
 
 // Submit
 dom.form.addEventListener("submit", function (event) {
@@ -362,43 +324,27 @@ dom.errorBox.addEventListener("click", function (event) {
     hideErrorBox();
   }
 });
-// Set Fav state + keeper manipulation
-dom.checkboxHeart.addEventListener("change", function (event) {
-  const target = event.target;
-  if (target.checked === true) {
-    isFav = true;
-    addCityToFavs();
-  }
-  if (target.checked === false) {
-    isFav = false;
-    deleteFav();
-    keeper = keeper.filter((city) => city !== uiCityName);
-    // Store
-    store.set("keeper", JSON.stringify(keeper));
-  }
-  renderFavs();
-});
+
+// Heart toggle
+dom.checkboxHeart.addEventListener("change", toggleCheckbox);
 
 // Favs: manipulation (delete/display)
 dom.parentFavs.addEventListener("click", function (event) {
   const target = event.target;
-  console.log(target);
 
   // Display
   if (
     target.classList.contains("text") ||
     target.classList.contains("fav-city")
   ) {
-    console.log(
-      target.closest(".fav-city")?.querySelector(".text").textContent
-    );
     curFav = target.closest(".fav-city")?.querySelector(".text").textContent;
-    console.log(curFav);
+    dom.input.textContent = curFav;
+    displayCurFav();
 
     // Store curFav
     store.set("curFav", curFav);
     dom.input.value = curFav;
-    rawInput = curFav;
+    // rawInput = curFav;
 
     getData();
     renderFavs();

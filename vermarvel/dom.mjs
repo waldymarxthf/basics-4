@@ -53,13 +53,6 @@ const fcPrecep = getDOM(".mid-right");
 const fcIcon = getDOM(".below-right");
 const parentForecast = getDOM(".forecast-hourly-container");
 
-// const fcPrecepText = getDOM(".fc-precep-text");
-// const fcTimeText = getDOM(".fc-time-text");
-// const fcTempText = getDOM(".fc-temp-text");
-// const fcIconText = getDOM(".fc-icon-text");
-// const fcFeelsText = getDOM(".fc-feels-text");
-// const fcDateText = getDOM(".fc-date-text");
-
 export default {
   input,
   nowPageCloud,
