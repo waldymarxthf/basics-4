@@ -154,21 +154,6 @@ function createForecast({ feelsLike, temperature, img, date, time, weather }) {
   containerBlock.append(imgIcon)
 }
 
-function getToggleLikeAction() {
-  if (UI_ELEMENTS.LIKE.classList.contains(CLASS.ACTIVE_LIKE)) {
-    deleteCity(currentCity)
-    checkLikeDisplay(currentCity)
-    renderFavorite()
-    return
-  }
-
-  if (!UI_ELEMENTS.LIKE.classList.contains(CLASS.ACTIVE_LIKE)) {
-    addCity(currentCity)
-    checkLikeDisplay(currentCity)
-    renderFavorite()
-    return
-  }
-}
 
 const renderFavorite = () => {
   UI_ELEMENTS.FAVORITES_LIST.replaceChildren()
@@ -205,6 +190,22 @@ function createFavoriteCity(name) {
   })
 }
 
+function getToggleLikeAction() {
+  if (UI_ELEMENTS.LIKE.classList.contains(CLASS.ACTIVE_LIKE)) {
+    deleteCity(currentCity)
+    checkLikeDisplay(currentCity)
+    renderFavorite()
+    return
+  }
+
+  if (!UI_ELEMENTS.LIKE.classList.contains(CLASS.ACTIVE_LIKE)) {
+    addCity(currentCity)
+    checkLikeDisplay(currentCity)
+    renderFavorite()
+    return
+  }
+}
+
 function changeActiveButton(event) {
   const buttonClicked = event.target
   UI_ELEMENTS.BUTTONS_ALL.forEach((button) =>
@@ -230,7 +231,7 @@ export {
   handleContentLoaded,
   processingInputRequest,
   repeatRequest,
-  getToggleLikeAction,
   renderFavorite,
+  getToggleLikeAction,
   changeActiveButton,
 }
