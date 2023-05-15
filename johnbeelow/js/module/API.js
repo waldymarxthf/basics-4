@@ -4,7 +4,6 @@ const API = {
   URL_IMG: 'http://openweathermap.org/img/wn',
   IMG_SIZE_2X: '@2x.png',
   KEY: `c10b7c9fa5189e53c936562e7d03f032`,
-  START_CITY: 'Miami',
 }
 
 const API_LOG = {
