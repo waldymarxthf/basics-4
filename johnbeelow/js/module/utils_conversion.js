@@ -1,7 +1,7 @@
 const convertKelvinToCelsius = (temperature) =>
   `${Math.round(temperature - 273.15)}°`
 
-function convertUnixToTime(time) {
+const convertUnixToTime = (time) => {
   const parseTime = new Date(time * 1000)
   const hours = correctionTime(parseTime.getHours())
   const minutes = correctionTime(parseTime.getMinutes())
@@ -9,7 +9,7 @@ function convertUnixToTime(time) {
   return outputTime
 }
 
-function convertUnixToDate(date) {
+const convertUnixToDate = (date) => {
   const parseDate = new Date(date * 1000)
   const day = parseDate.getDate()
   const month = parseDate.toLocaleString('en', { month: 'long' })
@@ -17,7 +17,7 @@ function convertUnixToDate(date) {
   return outputDate
 }
 
-function correctionTime(date) {
+const correctionTime = (date) => {
   return date.toString().padStart(2, '0')
 }
 
