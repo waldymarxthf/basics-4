@@ -117,11 +117,11 @@ const renderForecast = ({ list }) => {
       time: convertUnixToTime(element.dt),
       weather: element.weather[0].main,
     }
-    createForecastTabs(data)
+    createForecastBlock(data)
   })
 }
 
-const createForecastTabs = ({
+const createForecastBlock = ({
   date,
   time,
   temperature,
