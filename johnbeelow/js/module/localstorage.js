@@ -1,25 +1,42 @@
-import { API } from './API.js'
-
 const storage = {
   saveFavoriteCities(cityFavoriteList) {
-    localStorage.setItem('cityFavoriteList', JSON.stringify(cityFavoriteList))
+    try {
+      localStorage.setItem('cityFavoriteList', JSON.stringify(cityFavoriteList))
+    } catch (error) {
+      console.error(error)
+    }
   },
 
   saveCurrentCity(currentCity) {
-    localStorage.setItem('currentCity', JSON.stringify(currentCity))
+    try {
+      localStorage.setItem('currentCity', JSON.stringify(currentCity))
+    } catch (error) {
+      console.error(error)
+    }
   },
 
   getFavoriteCities() {
-    const storedCities = localStorage.getItem('cityFavoriteList')
-    return storedCities ? JSON.parse(storedCities) : []
+    try {
+      const storedCities = localStorage.getItem('cityFavoriteList')
+      return storedCities ? JSON.parse(storedCities) : []
+    } catch (error) {
+      console.error(error)
+      return []
+    }
   },
 
   getCurrentCity() {
-    const storedCity = localStorage.getItem('currentCity')
-    return storedCity ? JSON.parse(storedCity) : API.START_CITY
+    try {
+      const storedCity = localStorage.getItem('currentCity')
+      return storedCity ? JSON.parse(storedCity) : defaultCity
+    } catch (error) {
+      console.error(error)
+      return defaultCity
+    }
   },
 }
 
+const defaultCity = 'Miaimi'
 let currentCity = storage.getCurrentCity()
 let cityFavoriteList = storage.getFavoriteCities()
 
