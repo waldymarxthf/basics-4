@@ -248,7 +248,7 @@ function displayForecast(arr, tZone) {
   });
 }
 
-// %%%%%%%%%%%%%%%%%% FAVs %%%%%%%%%%%%%%%%%%%%%%%%%%
+// %%%%%%%%%%%%%%%%%%%%%%% FAVs %%%%%%%%%%%%%%%%%%%%%%%%%%
 
 // Render the Favourites list
 function renderFavs() {
@@ -304,9 +304,6 @@ dom.form.addEventListener("submit", function (event) {
     // start the process of retreiving data
     getData();
     resetInput();
-
-    // Store
-    // store.set("keeper", JSON.stringify(keeper));
   } catch (err) {
     renderError(`💥 Something went wrong!: ${err.message}💥`);
   }
