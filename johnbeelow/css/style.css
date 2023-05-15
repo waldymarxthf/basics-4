@@ -7,13 +7,11 @@
   --font3: 70px;
 }
 
-
 body {
   background-color: #242323;
   font-family: 'Roboto', sans-serif;
   font-size: 24px;
 }
-
 
 .main {
   height: 100vh;
@@ -22,8 +20,7 @@ body {
 
 /* =========================== LOADER ============================= */
 
-
-#loader{
+#loader {
   position: fixed;
   top: 0;
   left: 0;
@@ -36,43 +33,27 @@ body {
   z-index: 9999;
 }
 
-#loader .bar{
+#loader .bar {
   position: relative;
-  width: 55px;
-  height: 10px;
-  background-color: #333;
+
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  border: 5px solid rgba(255, 255, 255, 0.253);
+  border-top-color: #7ec052;
+  animation: spin 0.8s infinite linear;
+  top: 0.5%;
 }
-
-#loader .bar:before,
-#loader .bar:after{
-  content: "";
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  background-color: #ccc4af;
-}
-
-#loader .bar:before{
-  left: 115;
-  animation: loadingBar 1s ease-in-out infinite;
-}
-
-#loader .bar:after{
-  right: 115;
-  animation: loadingBar 1s ease-in-out 1s infinite;
-}
-
-
 
 @keyframes loadingBar {
-  0%{
-      transform: translateX(0);
+  0% {
+    transform: translateX(0);
   }
-  50%{
-      transform: translateX(50px);
+  50% {
+    transform: translateX(50px);
   }
-  100%{
-      transform: translateX(0);
+  100% {
+    transform: translateX(0);
   }
 }
 
@@ -82,6 +63,67 @@ body {
   }
   to {
     opacity: 1;
+  }
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* ======================== LOADER-DISCONECTED ======================= */
+
+#loader-disconected {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #242323b2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+#loader-disconected .bar-dis {
+  position: relative;
+
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  border: 5px solid rgba(255, 255, 255, 0.459);
+  border-top-color: #f32d2d;
+  animation: spin 0.8s infinite linear;
+  top: 0.5%;
+}
+
+@keyframes loadingBar {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(50px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
   }
 }
 
@@ -98,9 +140,8 @@ body {
   animation-name: fadeIn;
   animation-duration: 1s;
   border-radius: 10px;
-  overflow: hidden; 
+  overflow: hidden;
 }
-
 
 /* =========================== SEARCH ============================= */
 
@@ -189,7 +230,6 @@ body {
   margin: 0 auto 20% auto;
   animation: change-icon 2s 1;
 }
-
 
 @keyframes change-icon {
   0% {
@@ -407,8 +447,6 @@ body {
 .tab-btn:hover {
   color: rgb(230, 227, 210);
 }
-
-
 
 @media (max-width: 550px) {
   .forecast-block {
