@@ -149,10 +149,14 @@
     margin-left: -30px;
 }
 .img-heart{
+    cursor: pointer;
     width: 22px;
     height: 22px;
     mix-blend-mode: normal;
     opacity: 0.54;
+}
+.img-heart:hover{
+    background-color: rgb(167, 82, 56);
 }
 
 
@@ -164,17 +168,24 @@
     font-size: 24px;
 }
 .city-list{
+    
     margin-top: 30px;
     margin-left: -25px;
 }
+
 li{
-   
+    display: flex;
+    justify-content: space-around;
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
     font-size: 24px;
     line-height: 28px;
     list-style-type: none;
+}
+.close-list{
+    height: 10px;
+    width: 10px;
 }
 
 .wrapper-weather_container{
