@@ -29,7 +29,7 @@ function handleContentLoaded() {
   cityFavoriteList === ERROR.EMPTY_VALUE || renderFavorite()
 }
 
-const processingInputRequest = (input) => {
+const handleSendingData = (input) => {
   const output = checkInput(input)
   if (!output) return
   repeatRequest(output)
@@ -40,7 +40,7 @@ const repeatRequest = (city) => {
   getForecastData(city)
 }
 
-function getWeatherData(city) {
+const getWeatherData = (city) => {
   fetch(`${API.URL_WEATHER}?q=${city}&appid=${API.KEY}`)
     .then((response) => {
       if (!response.ok)
@@ -51,7 +51,7 @@ function getWeatherData(city) {
     .catch((error) => console.error(error))
 }
 
-function renderWeather({ weather, main, sys, name }) {
+const renderWeather = ({ weather, main, sys, name }) => {
   const data = {
     img: `${API.URL_IMG}/${weather[0].icon}${API.IMG_SIZE_2X}`,
     feelsLike: convertKelvinToCelsius(main.feels_like),
@@ -94,7 +94,7 @@ const updateCityList = (name) => {
   })
 }
 
-function getForecastData(city) {
+const getForecastData = (city) => {
   fetch(`${API.URL_FORECAST}?q=${city}&appid=${API.KEY}`)
     .then((response) => {
       if (!response.ok)
@@ -105,10 +105,10 @@ function getForecastData(city) {
     .catch((error) => console.error(error))
 }
 
-function renderForecast({ list }) {
-  UI_ELEMENTS.FORECAST_TAB_LIST.innerHTML = ''
+const renderForecast = ({ list }) => {
+  UI_ELEMENTS.FORECAST_TAB_LIST.replaceChildren()
 
-  for (let element of list) {
+  list.forEach((element) => {
     const data = {
       feelsLike: convertKelvinToCelsius(element.main.feels_like),
       temperature: convertKelvinToCelsius(element.main.temp),
@@ -117,11 +117,18 @@ function renderForecast({ list }) {
       time: convertUnixToTime(element.dt),
       weather: element.weather[0].main,
     }
-    createForecast(data)
-  }
+    createForecastTabs(data)
+  })
 }
 
-function createForecast({ feelsLike, temperature, img, date, time, weather }) {
+const createForecastTabs = ({
+  date,
+  time,
+  temperature,
+  weather,
+  feelsLike,
+  img,
+}) => {
   const containerBlock = CREATE_ELEMENT.DIV()
   const spanDate = CREATE_ELEMENT.SPAN()
   const spanTime = CREATE_ELEMENT.SPAN()
@@ -154,13 +161,12 @@ function createForecast({ feelsLike, temperature, img, date, time, weather }) {
   containerBlock.append(imgIcon)
 }
 
-
 const renderFavorite = () => {
   UI_ELEMENTS.FAVORITES_LIST.replaceChildren()
   cityFavoriteList.forEach((city) => createFavoriteCity(city.name))
 }
 
-function createFavoriteCity(name) {
+const createFavoriteCity = (name) => {
   const containerCity = CREATE_ELEMENT.DIV()
   const cityName = CREATE_ELEMENT.A()
   const deleteButton = CREATE_ELEMENT.BUTTON()
@@ -190,7 +196,7 @@ function createFavoriteCity(name) {
   })
 }
 
-function getToggleLikeAction() {
+const getToggleLikeAction = () => {
   if (UI_ELEMENTS.LIKE.classList.contains(CLASS.ACTIVE_LIKE)) {
     deleteCity(currentCity)
     checkLikeDisplay(currentCity)
@@ -206,7 +212,7 @@ function getToggleLikeAction() {
   }
 }
 
-function changeActiveButton(event) {
+const changeActiveButton = (event) => {
   const buttonClicked = event.target
   UI_ELEMENTS.BUTTONS_ALL.forEach((button) =>
     button === buttonClicked
@@ -216,7 +222,7 @@ function changeActiveButton(event) {
   changeTabView(buttonClicked.dataset.tab)
 }
 
-function changeTabView(tabButton) {
+const changeTabView = (tabButton) => {
   for (const element of UI_ELEMENTS.TABS) {
     element.classList.remove(CLASS.ACTIVE_TAB)
     element.classList.add(CLASS.INACTIVE_TAB)
@@ -229,7 +235,7 @@ function changeTabView(tabButton) {
 
 export {
   handleContentLoaded,
-  processingInputRequest,
+  handleSendingData,
   repeatRequest,
   renderFavorite,
   getToggleLikeAction,
