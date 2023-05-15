@@ -12,6 +12,7 @@ const UI_ELEMENTS = {
   DELETE_CITY: document.querySelector('.delete_city'),
   ICON: document.querySelector('.icon'),
   LOADER: document.querySelector('#loader'),
+  LOADER_DISCONECTED: document.querySelector('#loader-disconected'),
   FEELS_LIKE: document.querySelector('.feels-like'),
   DETAILS_WEATHER: document.querySelector('.current-state'),
   DETAILS_SUNRISE: document.querySelector('.time-sunrise'),
