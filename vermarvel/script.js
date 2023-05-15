@@ -84,10 +84,19 @@ function convertTime(time, tZone, boolean) {
 function tempFormatted(data) {
   return Math.round(data);
 }
+
+// Promise
+function getJSON(url, msg) {
+  return fetch(url).then((response) => {
+    if (!response.ok) throw new Error(`${msg} ${response.status}`);
+    return response.json();
+  });
+}
 //%%%%%%%%%%%%%%% Business Logics  %%%%%%%%%%%%%%%%%%%%%
 
 // Process input (chained promises)
 function getData() {
+  // Defining current favourite
   if (!curFav || curFav === null || curFav === undefined) {
     curFav = store.get("curFav") || rawInput || keeper[0] || "Shymkent";
   }
@@ -95,16 +104,13 @@ function getData() {
   if (!rawInput) {
     rawInput = curFav;
   }
-
+  // Store
   store.set("curFav", curFav);
-  const url = `${serverUrl}?q=${rawInput}&appid=${apiKey}&units=metric`;
 
-  fetch(url)
-    .then((response) => {
-      if (!response.ok) throw new Error(`City not found ${response.status}`);
-      return response.json();
-    })
+  const url = `${serverUrl}?q=${rawInput}&appid=${apiKey}&units=metric`;
+  getJSON(url, "City not found")
     .then((data) => {
+      console.log("details ----");
       const {
         coord: { lon, lat },
         main: { temp, feels_like: feels },
@@ -153,12 +159,7 @@ function getData() {
 
 function getDataForecast({ lat, lon, tZone }) {
   const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
-  fetch(forecastUrl)
-    .then((response) => {
-      if (!response.ok)
-        throw new Error(`Forecast not found ${response.status}`);
-      return response.json();
-    })
+  getJSON(forecastUrl, "Forecast not found")
     .then((data) => {
       // Destructuring: 3h forecasts (7 boxes)
       const { list } = data;
