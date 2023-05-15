@@ -36,17 +36,19 @@ function renderForecastTab(data) {
   ui.forecast.list.textContent = "";
 
   ui.forecast.cityName.textContent = data.city.name;
-  const forecastDataList = data.list.slice(0, 5);
+  const forecastDataList = data.list;
   const timezone = Math.floor(data.city.timezone / 3600);
 
   for (const data of forecastDataList) {
     const container = ui.forecast.createContainer();
     container.ui = ui.forecast.getUI(container);
+
     const formatDate = (unix) => {
       const date = new Date(unix * 1000).toString().split(" ");
       date[0] = date[0].slice(3);
       return date.slice(1, 3).join(" ");
     };
+    
     container.ui.date.textContent = formatDate(data.dt);
     container.ui.time.textContent = formatTime(data.dt, timezone);
 

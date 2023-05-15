@@ -11,7 +11,7 @@ function searchHandler(event) {
   const cityName = ui.formInput.value.trim();
   render(cityName);
   weatherStorage.setData("last-query", cityName);
-  ui.formInput.value = "";
+  ui.form.reset()
 }
 
 ui.historyNode.addEventListener("click", historyHandler);
