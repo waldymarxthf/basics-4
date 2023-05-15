@@ -41,7 +41,7 @@ const repeatRequest = (city) => {
 }
 
 function getWeatherData(city) {
-  fetch(`${API.URL_SERVER}?q=${city}&appid=${API.KEY}`)
+  fetch(`${API.URL_WEATHER}?q=${city}&appid=${API.KEY}`)
     .then((response) => {
       if (!response.ok)
         throw new Error(`${API_LOG.SERVER_ERROR}: ${response.status}`)
@@ -51,18 +51,18 @@ function getWeatherData(city) {
     .catch((error) => console.error(error))
 }
 
-function renderWeather({ name, main, weather, sys }) {
-  const parseWeather = {
-    temperature: convertKelvinToCelsius(main.temp),
+function renderWeather({ weather, main, sys, name }) {
+  const data = {
+    img: `${API.URL_IMG}/${weather[0].icon}${API.IMG_SIZE_2X}`,
     feelsLike: convertKelvinToCelsius(main.feels_like),
-    weather: weather[0].icon,
-    info: weather[0].main,
+    temperature: convertKelvinToCelsius(main.temp),
     sunrise: convertUnixToTime(sys.sunrise),
     sunset: convertUnixToTime(sys.sunset),
+    weather: weather[0].main,
   }
 
-  updateTemperature(parseWeather)
-  updateWeatherData(parseWeather)
+  updateTemperature(data)
+  updateWeatherData(data)
   updateCurrentCity(name)
   checkLikeDisplay(name)
   updateCityList(name)
@@ -77,10 +77,9 @@ const updateTemperature = ({ feelsLike, temperature }) => {
   )
 }
 
-const updateWeatherData = ({ weather, info, sunrise, sunset }) => {
-  const img = `${API.URL_IMG}/${weather}${API.IMG_SIZE_2X}`
+const updateWeatherData = ({ img, weather, sunrise, sunset }) => {
   UI_ELEMENTS.NOW_WEATHER_ICON.src = img
-  UI_ELEMENTS.DETAILS_WEATHER.textContent = info
+  UI_ELEMENTS.DETAILS_WEATHER.textContent = weather
   UI_ELEMENTS.DETAILS_SUNRISE.textContent = sunrise
   UI_ELEMENTS.DETAILS_SUNSET.textContent = sunset
 }
@@ -95,7 +94,65 @@ const updateCityList = (name) => {
   })
 }
 
-function getForecastData() {}
+function getForecastData(city) {
+  fetch(`${API.URL_FORECAST}?q=${city}&appid=${API.KEY}`)
+    .then((response) => {
+      if (!response.ok)
+        throw new Error(`${API_LOG.SERVER_ERROR}: ${response.status}`)
+      return response.json()
+    })
+    .then((data) => renderForecast(data))
+    .catch((error) => console.error(error))
+}
+
+function renderForecast({ list }) {
+  UI_ELEMENTS.FORECAST_TAB_LIST.innerHTML = ''
+
+  for (let element of list) {
+    const data = {
+      feelsLike: convertKelvinToCelsius(element.main.feels_like),
+      temperature: convertKelvinToCelsius(element.main.temp),
+      img: `${API.URL_IMG}/${element.weather[0].icon}.png`,
+      date: convertUnixToDate(element.dt),
+      time: convertUnixToTime(element.dt),
+      weather: element.weather[0].main,
+    }
+    createForecast(data)
+  }
+}
+
+function createForecast({ feelsLike, temperature, img, date, time, weather }) {
+  const containerBlock = CREATE_ELEMENT.DIV()
+  const spanDate = CREATE_ELEMENT.SPAN()
+  const spanTime = CREATE_ELEMENT.SPAN()
+  const spanTemperature = CREATE_ELEMENT.SPAN()
+  const spanWeather = CREATE_ELEMENT.SPAN()
+  const spanFeelsLike = CREATE_ELEMENT.SPAN()
+  const imgIcon = CREATE_ELEMENT.IMG()
+
+  containerBlock.className = CLASS.FORECAST_BLOCK
+  spanDate.className = CLASS.FORECAST_DATE
+  spanTime.className = CLASS.FORECAST_TIME
+  spanTemperature.className = CLASS.FORECAST_TEMPERATURE
+  spanWeather.className = CLASS.FORECAST_WEATHER
+  spanFeelsLike.className = CLASS.FORECAST_FEELS_LIKE
+  imgIcon.className = CLASS.FORECAST_IMG
+
+  spanDate.textContent = date
+  spanTime.textContent = time
+  spanTemperature.textContent = `Temperature: ${temperature}`
+  spanWeather.textContent = weather
+  spanFeelsLike.textContent = `Feels like: ${feelsLike}`
+  imgIcon.src = img
+
+  UI_ELEMENTS.FORECAST_TAB_LIST.append(containerBlock)
+  containerBlock.append(spanDate)
+  containerBlock.append(spanTime)
+  containerBlock.append(spanTemperature)
+  containerBlock.append(spanWeather)
+  containerBlock.append(spanFeelsLike)
+  containerBlock.append(imgIcon)
+}
 
 function getToggleLikeAction() {
   if (UI_ELEMENTS.LIKE.classList.contains(CLASS.ACTIVE_LIKE)) {

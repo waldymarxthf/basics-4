@@ -16,6 +16,7 @@ const UI_ELEMENTS = {
   DETAILS_WEATHER: document.querySelector('.current-state'),
   DETAILS_SUNRISE: document.querySelector('.time-sunrise'),
   DETAILS_SUNSET: document.querySelector('.time-sunset'),
+  FORECAST_TAB_LIST: document.querySelector('.tab-list-forecast'),
 }
 
 const CLASS = {
@@ -29,6 +30,13 @@ const CLASS = {
   CITY_INACTIVE: 'view_city_deactive',
   CITY_ACTIVE: 'view_city_active',
   DELETE_CITY: 'delete_city',
+  FORECAST_BLOCK: 'forecast-block',
+  FORECAST_DATE: 'forecast-date',
+  FORECAST_TIME: 'forecast-time',
+  FORECAST_TEMPERATURE: 'forecast-temperature',
+  FORECAST_WEATHER: 'forecast-state',
+  FORECAST_FEELS_LIKE: 'forecast-feels-like',
+  FORECAST_IMG: 'icon-item',
 }
 
 const CREATE_ELEMENT = {
