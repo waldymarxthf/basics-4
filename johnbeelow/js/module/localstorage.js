@@ -3,7 +3,7 @@ const storage = {
     try {
       localStorage.setItem('cityFavoriteList', JSON.stringify(cityFavoriteList))
     } catch (error) {
-      console.error(error)
+      console.error(error.message)
     }
   },
 
@@ -11,7 +11,7 @@ const storage = {
     try {
       localStorage.setItem('currentCity', JSON.stringify(currentCity))
     } catch (error) {
-      console.error(error)
+      console.error(error.message)
     }
   },
 
@@ -20,7 +20,7 @@ const storage = {
       const storedCities = localStorage.getItem('cityFavoriteList')
       return storedCities ? JSON.parse(storedCities) : []
     } catch (error) {
-      console.error(error)
+      console.error(error.message)
       return []
     }
   },
@@ -30,7 +30,7 @@ const storage = {
       const storedCity = localStorage.getItem('currentCity')
       return storedCity ? JSON.parse(storedCity) : defaultCity
     } catch (error) {
-      console.error(error)
+      console.error(error.message)
       return defaultCity
     }
   },
