@@ -105,9 +105,9 @@ const getForecastData = (city) => {
     })
     .then((data) => {
       renderForecast(data)
-      UI_ELEMENTS.LOADER.style.display = 'none'
     })
     .catch((error) => console.error(error))
+    .finally(() => (UI_ELEMENTS.LOADER.style.display = 'none'))
 }
 
 const renderForecast = ({ list }) => {
