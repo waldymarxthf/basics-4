@@ -95,13 +95,18 @@ const updateCityList = (name) => {
 }
 
 const getForecastData = (city) => {
+  UI_ELEMENTS.LOADER.style.display = 'flex'
+
   fetch(`${API.URL_FORECAST}?q=${city}&appid=${API.KEY}`)
     .then((response) => {
       if (!response.ok)
         throw new Error(`${API_LOG.SERVER_ERROR}: ${response.status}`)
       return response.json()
     })
-    .then((data) => renderForecast(data))
+    .then((data) => {
+      renderForecast(data)
+      UI_ELEMENTS.LOADER.style.display = 'none'
+    })
     .catch((error) => console.error(error))
 }
 
