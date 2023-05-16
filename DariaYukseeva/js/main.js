@@ -11,22 +11,21 @@ const weatherNowCity = getDOMElement('.selected-city-now');
 const btnAddFavoriteCity = getDOMElement('.favorite-btn');
 const favoriteCitiesList = getDOMElement('.favourite-cities-list');
 
-
 const storage = {
     favCities: [],
     lastCity: '',
+    
     getFavList: function (){
         return storage.favCities;
     },
     loadFavsList: function(){
-        if (loadFromLocalStorage('favCities')) {
+        if ( loadFromLocalStorage('favCities') ) {
             const localStorage = loadFromLocalStorage('favCities');
             storage.favCities = localStorage;
         }
-      
     },
     loadLastCity: function() {
-        if (loadFromLocalStorage('lastCity')) {
+        if ( loadFromLocalStorage('lastCity') ) {
             const localStorage = loadFromLocalStorage('lastCity');
             storage.lastCity = localStorage;
         }
@@ -54,7 +53,7 @@ async function showWeather(city) {
         // сохранение последнего загруженного города в локал сторедж
         storage.saveLastCity();
         
-        // изменение цвета у города вкладки now
+        // изменение цвета города вкладки now
         weatherNowCity.style.color = 'black';
         // отрисовка данных
         render(vars);
@@ -77,8 +76,7 @@ async function fetchNowWeather(city) {
         if (respons.ok) {          
             const data = await respons.json();
             return data;           
-        }
-        else {
+        } else {
             throw new Error((await respons.json()).message);
         }
     } catch (error) {
@@ -92,7 +90,7 @@ async function fetchNowWeather(city) {
 }
 // обработчик слушателя инпута 
 const inputHandler = () => {
-    if (searchCityInput.classList.contains('invalid-city')) {
+    if ( searchCityInput.classList.contains('invalid-city') ) {
     searchCityInput.classList.remove('invalid-city');
     }
 }
@@ -156,17 +154,17 @@ function renderWeatherNow(vars) {
 
     // добавление обработки события наведения мыши
     const iconHandler = () => {
-        weatherNowIcon.setAttribute('title', vars.precipitation); 
+        weatherNowIcon.title = vars.precipitation;
     };
     // добавление слушателя события наведения мыши на иконку
     weatherNowIcon.addEventListener('mouseenter', iconHandler);
 
     // добавление нового бэкграунда для кнопки при отрисовке избранного города
-    if (storage.hasFavListCity(vars.city)) {
+    if ( storage.hasFavListCity(vars.city) ) {
         
         btnAddFavoriteCity.classList.add('favorite-btn-for-saved-city');
-    }
-    else {
+    } else {
+
         btnAddFavoriteCity.className = 'favorite-btn';
     }
 }
@@ -176,7 +174,6 @@ function renderWeatherDetails(vars) {
     const weatherDetailsCity = getDOMElement('.selected-city-details');
     const weatherDetailsTemp = getDOMElement(".weather-details-temp");
     const weatherDetailsFeelsLike = getDOMElement(".weather-details-feels-like");
-    // 
     const weatherDetailsPrecipitation = getDOMElement(".weather-details-precipitation");
     const weatherDetailsSunrise = getDOMElement(".weather-details-sunrise");
     const weatherDetailsSunset = getDOMElement(".weather-details-sunset");
@@ -191,8 +188,9 @@ function renderWeatherDetails(vars) {
 
 // обработчик нажатия на кнопки табов
 const tabsBtnsHandler = (event) => {
-    if (event.target.classList.contains('tab-item')) {
+    if ( event.target.classList.contains('tab-item') ) {
         const btnIndex = Array.from(tabsBtn).indexOf(event.target);
+
         tabsBtn.forEach(tab => tab.classList.remove('active-tab'));
         Array.from(tabsBtn)[btnIndex].classList.add('active-tab');
         tabsContent.forEach(block => block.classList.add('inactive-block'));
@@ -203,11 +201,11 @@ const tabsBtnsHandler = (event) => {
 // обработчик формы поиска города
 const searchFormHandler = (event) => {
     const city = searchCityInput.value.trim();
+
     try {
         event.preventDefault();
         if (!city) {
-        throw new Error('Некорректное название города');
-                
+            throw new Error('Некорректное название города');      
         }
         showWeather(city);
     
@@ -225,8 +223,9 @@ const searchFormHandler = (event) => {
 const btnFavoriteCityHandler = () => {
     const city = weatherNowCity.textContent;
     const favList = storage.getFavList();
-    if (favList.length !== 0 && 
-        storage.hasFavListCity(city)) {
+    if ( favList.length !== 0 && 
+        storage.hasFavListCity(city) ) {
+        
         removeFavoriteCity(city);
         return;
     }
@@ -236,8 +235,6 @@ const btnFavoriteCityHandler = () => {
 // добавление в список избранных городов
 function addFavoriteCities(city) {
     addFavoriteCityToStorage(city);
-    //const favList = storage.loadFavsList();
-
     storage.saveFavList();
     renderFavoriteCities();
     showWeather(city);
@@ -253,6 +250,7 @@ function addFavoriteCityToStorage(city) {
 // отрисовка списка избранных городов
 function renderFavoriteCities() {
     favoriteCitiesList.innerHTML = '';
+    
     const favList = storage.getFavList();
     favList.forEach(city => addFavoriteCityNode(city));
   
@@ -296,17 +294,17 @@ function deleteFavoriteCityFromStorage(city) {
 // обработка слушателя списка избранных городов
 function favoriteCitiesListHandler(e) {
     const parentElement = e.target.closest('[data-city]');
-
     const city = parentElement.getAttribute('data-city');
     
-    if (e.target.classList.contains('favourite-cities-list-delete-btn')) {
+    if ( e.target.classList.contains('favourite-cities-list-delete-btn') ) {
         removeFavoriteCity(city);
         return;
     }
     
-    if (e.target.classList.contains('favourite-cities-list-item') || e.target.classList.contains('favourite-city-span')) {
+    if ( e.target.classList.contains('favourite-cities-list-item') || 
+    e.target.classList.contains('favourite-city-span') ) {
+        
         showWeather(city);
-        // 
         return;
     }
    
