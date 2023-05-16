@@ -47,3 +47,27 @@ function calc(event) {
     console.log(result);
     document.body.querySelector(".result").textContent = result;
 }
+
+
+function changeColor() {
+
+    let changeColorTime = setTimeout(function ColorTime() {
+
+        const colors = ['red', 'blue', 'green', 'orange', 'white'];
+
+        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+
+        const colorBtn = document.body.querySelector(".colorBtn");
+        const valueBtn = colorBtn.getAttribute('data-color');
+
+        const colorBody = document.body;
+        console.log(valueBtn);
+        colorBody.style.backgroundColor = valueBtn;
+
+        setTimeout(() => colorBody.style.backgroundColor = randomColor,2000);
+
+        changeColorTime = setTimeout(ColorTime, 4000);
+    },2000);
+}
+
+
