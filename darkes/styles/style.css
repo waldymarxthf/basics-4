@@ -36,8 +36,17 @@ button{
     padding: 0;
 }
 
+body {
+    background-image: url('../img/img-background.jpg');
+    background-size: cover;
+    background-position: top right;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-color: rgba(255, 255, 255, 0.665);
+}
+
 .container{
-    background-color: white;
+    backdrop-filter: blur(5px);
     margin-top: 70px;
     width: 600px;
     height: 435px;
@@ -61,14 +70,14 @@ button{
 
 .show-button:hover {
     transition: .3s;
-    transform: scale(1.02);
+    transform: scale(1.03);
 }
 
 .header__input{
+    background-color: transparent;
     border: none;
     outline: none;
     width: 90%;
-    background-color: white;
     color: black;
     font-weight: 500;
     margin: 6px 6px 6px 18px;
@@ -76,9 +85,18 @@ button{
     font-size: 17px;
 }
 
+.header__input::placeholder {
+ color:rgb(55, 55, 55);
+}
+
 .header__search{
     padding: 10px;
     padding-right: 18px;
+    transition: transform .3s ease;
+}
+
+.header__search:hover {
+    transform: scale(1.1);
 }
 
 .main-container{
@@ -118,12 +136,6 @@ button{
     top: 32%;
     left: 30%;
 }
-
-/* .main-info__absolute-container{
-    position: absolute;
-    top: 24%;
-    left: 19%;
-} */
 
 .main-info__bottom-container{
     display: flex;
@@ -174,6 +186,8 @@ button{
 }
 
 .del-button-show {
+    display: flex;
+    justify-content: space-between;
     animation: fade .5s ease forwards;
 }
 
@@ -181,9 +195,25 @@ button{
     animation: fade3 .5s ease forwards;
  }
 
+ @keyframes heartbeat {
+    0% {
+        transform: scale(1.2);
+    }
+    25% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+  }
+
 .heart {
     fill: red;
     animation: fade2 .9s ease forwards;
+    animation: heartbeat 2s ease forwards;
 }
 
 .delete-button {
@@ -194,12 +224,12 @@ button{
     background-size: 90%;
     width: 18px;
     height: 18px;
+    transition: transform .3s ease;
 }
 
 .delete-button:hover {
-    background: url(../img/trash.gif) center no-repeat;
     background-size: 90%;
-    transition: .3s;
+    transform: scale(1.1);
 }
 
 .main-info__degree{
@@ -223,6 +253,10 @@ button{
     font-size: 15px;
     border-top: 1px solid black;
     transition: all .3s
+}
+
+.btn-nav:not(.btn-nav-active):hover {
+    background-color: rgb(212, 212, 212);
 }
 
 .btn-nav:not(:last-child){
@@ -259,6 +293,7 @@ button{
 .rigth__item {
     display: flex;
     justify-content: space-between;
+    animation: fade-in 1s ease forwards;
 }
 
 .rigth__item:not(:last-child){
@@ -291,7 +326,6 @@ button{
 .main-info__town-name{
     font-weight: 600;
     font-size: 25px;
-
 }
 
 .main-info__top-container_third{
@@ -318,6 +352,7 @@ button{
     display: flex;
     padding: 6px 8px;
     border:1px solid black;
+    border-radius: 12px;
     height: 120px;
 }
 
@@ -330,6 +365,7 @@ button{
     justify-content: space-between;
     /* padding-right: 5px; */
 }
+
 .forecast-bottom-container{
     display: flex;
     justify-content: space-between;
@@ -349,8 +385,8 @@ button{
 }
 
 .empty-cities {
-    padding-top: 70px;
-    padding-bottom: 20px;
+    margin-top: 70px;
+    margin-bottom: 20px;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -359,8 +395,19 @@ button{
 }
 
 .empty-img {
+    border-radius: 14px;
     width: 40px;
     height: 40px;
+    animation: rotate-empty-img 4s linear infinite;
+}
+
+@keyframes rotate-empty-img {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 .type-img-of-weather{
@@ -369,4 +416,33 @@ button{
     width: 31px;
     height: 31px;
     margin: auto;
+    animation: rotate 1s ease forwards;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(10deg);
+    }
+    75% {
+        transform: rotate(-10deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+    opacity: 1;
+    }
+}
+
+.fade-in {
+    animation: fade-in 1s ease forwards;
 }

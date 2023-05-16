@@ -27,7 +27,7 @@ function showEmptyFavoriteList() {
    p.classList.add('empty-cities');
    p.textContent = "Hey, where are all your favorite cities? Looks like it's empty here.";
    img.classList.add('empty-img');
-   img.src = "./img/empty.gif";
+   img.src = './img/clear.png'
 
    p.append(img);
    li.append(p);
@@ -53,6 +53,7 @@ function removeFavoriteCity(cityName, li) {
    setLocalStorageParse('favoriteCities', favorites);
    const mainCityName = ELEMENTS.MAIN_CITY.textContent;
    likeChecked(mainCityName);
+   li.classList.remove('rigth__item');
    li.classList.add('del-button-show');
    setTimeout(() => {
       render()
