@@ -11,6 +11,9 @@ const weatherNowCity = getDOMElement('.selected-city-now');
 const btnAddFavoriteCity = getDOMElement('.favorite-btn');
 const favoriteCitiesList = getDOMElement('.favourite-cities-list');
 
+
+
+
 const storage = {
     favCities: [],
     lastCity: '',
@@ -45,10 +48,13 @@ const storage = {
 async function showWeather(city) {
     try {
         // получение данных с сервера
-        const data = await fetchNowWeather(city);
+        const data = await fetchNowWeather('weather', city);
+        const dataForecast = await fetchNowWeather('forecast', city);
        
         // подготовка необходимых данных
         const vars = process(data);
+
+        console.log(dataForecast);
         
         // сохранение последнего загруженного города в локал сторедж
         storage.saveLastCity();
@@ -66,10 +72,10 @@ async function showWeather(city) {
 }
 
 // получение данных от api
-async function fetchNowWeather(city) {
+async function fetchNowWeather(api, city) {
     try {
-        const ServerUrl = 'http://api.openweathermap.org/data/2.5/weather';
         const apiKey = '8b70971e38e651a72781439cafacf538';
+        const ServerUrl = `http://api.openweathermap.org/data/2.5/${api}`;
         const url = `${ServerUrl}?q=${city}&appid=${apiKey}&units=metric`;
 
         const respons = await fetch(url);
