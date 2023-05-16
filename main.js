@@ -1,14 +1,14 @@
-const btnCalc = document.body.querySelector(".buttonEquals");
+import {
+    btnCalc,
+    ADD,
+    MULTI,
+    SUBTRACT,
+    DIVISION,
+    ERROR,
+    getInputValue
+} from './constCalc.js';
 
-const ADD = 'add';
-const MULTI = 'multi';
-const SUBTRACT = 'subtract';
-const DIVISION = 'division';
-const ERROR = 'This is operation undefined';
-
-function getInputValue(sel) {
-    return document.querySelector(sel).value;
-}
+console.log(btnCalc);
 
 btnCalc.addEventListener('click', calc);
 
