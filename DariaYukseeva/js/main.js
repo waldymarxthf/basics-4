@@ -1,6 +1,6 @@
 // Задача: отображение погоды для выбранного города.
 
-import {getDOMElement, timeConverter, saveToLocalStorage, loadFromLocalStorage} from './utils.js'
+import {getDOMElement, timeConverter, dateConverter, saveToLocalStorage, loadFromLocalStorage} from './utils.js'
 
 const tabsContent = document.querySelectorAll('.tabs-content-item');
 const tabsBtn = document.querySelectorAll('.tab-item');
@@ -48,21 +48,20 @@ const storage = {
 async function showWeather(city) {
     try {
         // получение данных с сервера
-        const data = await fetchNowWeather('weather', city);
-        const dataForecast = await fetchNowWeather('forecast', city);
+        const data = await fetchWeather('weather', city);
+        const dataForecast = await fetchWeather('forecast', city);
        
         // подготовка необходимых данных
         const vars = process(data);
-
-        console.log(dataForecast);
-        
+        const varsForecast = processForecastData(dataForecast);
+                
         // сохранение последнего загруженного города в локал сторедж
         storage.saveLastCity();
         
         // изменение цвета города вкладки now
         weatherNowCity.style.color = 'black';
         // отрисовка данных
-        render(vars);
+        render(vars, varsForecast);
     }
     catch (e) {
         
@@ -72,7 +71,7 @@ async function showWeather(city) {
 }
 
 // получение данных от api
-async function fetchNowWeather(api, city) {
+async function fetchWeather(api, city) {
     try {
         const apiKey = '8b70971e38e651a72781439cafacf538';
         const ServerUrl = `http://api.openweathermap.org/data/2.5/${api}`;
@@ -127,8 +126,28 @@ function process(data) {
     return vars;
 }
 
+function processForecastData(data) {
+    const vars = {};
+    vars.city = data.city.name;
+    vars.timeZone = data.city.timezone;
+    vars.forecastList = [];
+    for (let i = 0; i < 5; i++) {
+        const list = {}
+        list.time = timeConverter(data.list[i].dt, vars.timeZone);
+        list.date = dateConverter(data.list[i].dt, vars.timeZone);
+        list.temp = Math.round(data.list[i].main.temp);
+        list.feelsLikeTemp = Math.round(data.list[i].main.feels_like);
+        list.precipitation = data.list[i].weather[0].main;
+        list.iconUrl = `https://openweathermap.org/img/wn/${data.list[i].weather[0].icon}@4x.png`;
+
+        vars.forecastList.push(list);
+    }
+    console.log(vars);
+    return vars;
+}
+
 // отрисовка данных
-function render(vars) {
+function render(vars, varsForecast) {
     const varsForNow = {
         city: vars.city,
         temp: vars.temp,
@@ -147,6 +166,8 @@ function render(vars) {
         sunset: vars.sunset,
     };
     renderWeatherDetails(varsForDetailes);
+
+    renderForecast(varsForecast);
 }
 
 // Отрисовка окна Now
@@ -190,6 +211,48 @@ function renderWeatherDetails(vars) {
     weatherDetailsPrecipitation.textContent = vars.precipitation;
     weatherDetailsSunrise.textContent = vars.sunrise;
     weatherDetailsSunset.textContent = vars.sunset;
+}
+
+function renderForecast(vars) {
+    const forecastBlock = getDOMElement('.weather-forecast');
+    forecastBlock.innerHTML = '';
+    
+    forecastBlock.insertAdjacentHTML('beforeend', 
+    `
+        <div class="selected-city-forecast">${vars.city}</div>
+    `
+    );
+
+    vars.forecastList.forEach (item => {
+        forecastBlock.insertAdjacentHTML('beforeend', 
+        `
+            <div class="forecast-hourly-item">
+                <div class="date-time-block">
+                    <div class="date">${item.date}</div>
+                    <div class="time">${item.time}</div>
+                </div>
+                <div class="forecast-hourly-weather ">
+                    <div class="forecast-hourly-weather-temp-wrapper">
+                        <div class="forecast-hourly-weather-temp">
+                            Temperature: ${item.temp}&#176;
+                        </div>
+                        <div class="forecast-hourly-weather-feels-temp">
+                            Feels like: ${item.feelsLikeTemp}&#176;
+                        </div>
+                    </div>
+                    <div class="forecast-hourly-weather-precipitation-wrapper">
+                        <div class="forecast-hourly-weather-precipitation">
+                            ${item.precipitation}
+                        </div>
+                        <div class="forecast-hourly-weather-precipitation-img">
+                            <img src="${item.iconUrl}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `);
+    })
+    
 }
 
 // обработчик нажатия на кнопки табов

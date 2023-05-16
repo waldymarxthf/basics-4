@@ -8,6 +8,13 @@ export function timeConverter(UNIX_timestamp, timeZone) {
     return time;
 }
 
+export function dateConverter(UNIX_timestamp, timeZone) {
+    const date = new Date((UNIX_timestamp + timeZone) * 1000);
+    const localDate = date.toLocaleString("en-GB", {month: 'long', day: 'numeric', timeZone: 'UTC' });
+    
+    return localDate;
+}
+
 export function saveToLocalStorage(key, object) {
     localStorage.setItem(key, JSON.stringify(object));
 }
