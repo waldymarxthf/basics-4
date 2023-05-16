@@ -10,11 +10,12 @@ export function timeConverter(time, timezone) {
 
 //* функция конвертации unix времени в обычное
 
-export function dateConverter(date) {
-	const newDate = new Date(date * 1000);
+export function dateConverter(date, timezone) {
+	const newDate = new Date((date + timezone) * 1000);
 	const humanDate = newDate.toLocaleString("en-GB", {
 		day: "numeric",
 		month: "long",
+		timeZone: "UTC"
 	});
 	return humanDate;
 }

@@ -66,7 +66,7 @@ export async function updateBlockForecast(data) {
 	VARIABLES.FORECAST.CITY.textContent = cityBlockForecast;
 
 	VARIABLES.FORECAST.DATE.forEach((date, index) => {
-		let dateBlockForecast = dateConverter(list[index].dt);
+		let dateBlockForecast = dateConverter(list[index].dt, city.timezone);
 		date.textContent = dateBlockForecast;
 	});
 
