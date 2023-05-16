@@ -152,10 +152,14 @@ body {
       -ms-flex-pack: justify;
           justify-content: space-between;
 }
+.weather__block-content .liked {
+  background: url(../assets/svg/heart-liked.svg) no-repeat;
+}
 .weather__block-content-like {
   width: 22px;
   margin-right: 26px;
   cursor: pointer;
+  background: url(../assets/svg/heart.svg) no-repeat;
 }
 .weather__block-content-like:hover {
   -webkit-transform: scale(1.2);

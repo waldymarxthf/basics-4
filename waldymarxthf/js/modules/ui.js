@@ -1,13 +1,9 @@
 import { saveToLocalStorage, loadFromLocalStorage } from "./localstorage.js";
-import { timeConverter, dateConverter } from "./utils.js";
-import { updateWeather } from "./weather.js";
+import { timeConverter, dateConverter, findLocationIndex, errorHandler } from "./utils.js";
+import { getWeatherData } from "./api.js";
 import { VARIABLES } from "./ui-variables.js";
-import {
-	addLocation,
-	deleteLocation,
-	renderLocations,
-	changeIcon,
-} from "./locations.js";
+
+let locations = loadFromLocalStorage("newLocation") || [];
 
 export function createLocationElement(element) {
 	const newLocation = document.createElement("li");
@@ -18,8 +14,8 @@ export function createLocationElement(element) {
 	newLocationBtn.classList.add("list-locations__item-btn");
 	newLocation.append(newLocationBtn);
 
-	newLocation.addEventListener("click", () => {
-		updateWeather(element.location);
+	newLocation.addEventListener("click", async () => {
+		renderTabs(await getWeatherData(element.location))
 	});
 
 	newLocationBtn.addEventListener("click", (event) => {
@@ -102,6 +98,66 @@ export async function updateBlockForecast(data) {
 
 //* обновляет блок FORECAST
 
+export function renderTabs([forecastData, weatherData]) {
+	updateBlockNow(weatherData);
+	updateBlockDetails(weatherData);
+	updateBlockForecast(forecastData);
+}
+
+export function renderLocations() {
+	VARIABLES.LOCATIONS.LIST.innerHTML = "";
+	let elems = locations.map((element) => createLocationElement(element));
+	VARIABLES.LOCATIONS.LIST.append(...elems);
+	changeIcon();
+}
+
+//* рендерит локации из массива
+
+export function addLocation() {
+	try {
+		const cityName = VARIABLES.NOW.CITY.textContent;
+
+		if (locations.some((el) => el.location === cityName)) {
+			locations = locations.filter((el) => el.location !== cityName)
+			renderLocations()
+			return
+		}
+
+		locations.push({
+			location: cityName,
+		});
+
+		saveToLocalStorage("newLocation", locations);
+		renderLocations();
+	} catch (error) {
+		errorHandler(error);
+	}
+}
+
+//* добавляет локацию в массив
+
+export function deleteLocation(newLocation) {
+	const index = findLocationIndex(locations, newLocation);
+	locations.splice(index, 1);
+	saveToLocalStorage("newLocation", locations);
+	renderLocations();
+}
+
+//* функция удаления локации
+
+export function changeIcon() {
+	const currentLocation = VARIABLES.NOW.CITY.textContent;
+	const isLocationInArray = locations.some((el) => el.location === currentLocation);
+
+	if (isLocationInArray) {
+		VARIABLES.NOW.LIKE.classList.add('liked')
+	} else {
+		VARIABLES.NOW.LIKE.classList.remove('liked')
+	}
+}
+
+//* функция, делает сердечко нажатым если город добавили в избранное
+
 export async function initializeUI() {
 	VARIABLES.TABS.forEach((tab, index) => {
 		tab.addEventListener("click", () => {
@@ -110,41 +166,32 @@ export async function initializeUI() {
 
 			tab.classList.add("active");
 			VARIABLES.WEATHER_BLOCK[index].classList.add("active");
-
-			saveToLocalStorage("index", index);
 		});
 	});
 
 	//* переключает табы
+	
+	VARIABLES.FORM.addEventListener("submit", async (event) => {
+		event.preventDefault();
+		const inputValue = new FormData(VARIABLES.FORM).get("city");
+		renderTabs(await getWeatherData(inputValue))
+		VARIABLES.FORM.reset();
+	});
 
+	//* обработчик событий на форму
+	
+	VARIABLES.NOW.LIKE.addEventListener("click", addLocation);
+	
+	//* обработчик событий на кнопку сердечка
+	
 	let savedLocation = loadFromLocalStorage("lastLocation");
 	if (!savedLocation) {
 		savedLocation = "Minsk";
 		saveToLocalStorage("lastLocation", savedLocation);
 	}
-	await updateWeather(savedLocation);
-	//* сохраняет последний выбранный город и загружает его
 
-	const activeTabIndex = loadFromLocalStorage("index");
-	if (activeTabIndex !== null) {
-		VARIABLES.TABS.forEach((tabs) => tabs.classList.remove("active"));
-		VARIABLES.WEATHER_BLOCK.forEach((w) => w.classList.remove("active"));
-		VARIABLES.TABS[activeTabIndex].classList.add("active");
-		VARIABLES.WEATHER_BLOCK[activeTabIndex].classList.add("active");
-	} else {
-		VARIABLES.TABS[0].classList.add("active");
-		VARIABLES.WEATHER_BLOCK[0].classList.add("active");
-	}
-	//* сохраняет последний нажатый таб и загружает его
-
-	VARIABLES.FORM.addEventListener("submit", (event) => {
-		event.preventDefault();
-		const inputValue = new FormData(VARIABLES.FORM).get("city");
-		updateWeather(inputValue);
-		VARIABLES.FORM.reset();
-	});
-
-	VARIABLES.NOW.LIKE.addEventListener("click", addLocation);
-
+	//* загружает последнюю локацию из локалСтораджа
+	
+	renderTabs(await getWeatherData(savedLocation))
 	renderLocations();
 }

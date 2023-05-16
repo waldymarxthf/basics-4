@@ -108,10 +108,14 @@ body{
 		&-content {
 			display: flex;
 			justify-content: space-between;
+			.liked{
+				background: url(../assets/svg/heart-liked.svg) no-repeat;
+			}
 			&-like {
 				width: 22px;
 				margin-right: 26px;
 				cursor: pointer;
+				background: url(../assets/svg/heart.svg) no-repeat;
 				&:hover{
 					transform: scale(1.2);
 					transition: all 0.1s ease-in-out;
