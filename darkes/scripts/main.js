@@ -64,7 +64,7 @@ function createFavoriteCity(item) {
    const showButton = document.createElement('button');
    const delButton = document.createElement('button');
 
-   showButton.textContent = cityName;
+   showButton.textContent = item;
 
    li.classList.add('rigth__item');
    showButton.classList.add('show-button');
