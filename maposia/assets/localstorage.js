@@ -1,5 +1,3 @@
-const favoriteListCities = JSON.parse(localStorage.getItem('favoriteCities')) || []
-let currentCity = JSON.parse(localStorage.getItem('currentCity')) || 'Укажите город'
 
 const storage = {
     saveFavoriteCities: function (favoriteCities) {
@@ -19,4 +17,4 @@ const storage = {
 
 }
 
-export {favoriteListCities, currentCity, storage}
+export default storage
