@@ -92,6 +92,10 @@ function render() {
       element.remove();
    });
 
+   document.querySelectorAll('.del-button-show').forEach(element => {
+      element.remove();
+   });
+
    favorites.forEach(item => {
       createFavoriteCity(item);
    });

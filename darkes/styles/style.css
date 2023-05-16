@@ -191,6 +191,10 @@ body {
     animation: fade .5s ease forwards;
 }
 
+.del-button-show:not(:last-child){
+    margin-bottom: 15px;
+}
+
 .heart-del {
     animation: fade3 .5s ease forwards;
  }
@@ -256,8 +260,9 @@ body {
 }
 
 .btn-nav:not(.btn-nav-active):hover {
-    background-color: rgb(212, 212, 212);
+    background-color: rgba(0, 0, 0, 0.166);
 }
+
 
 .btn-nav:not(:last-child){
     border-right: 1px solid black;
@@ -363,7 +368,6 @@ body {
 .forecast-top-container{
     display: flex;
     justify-content: space-between;
-    /* padding-right: 5px; */
 }
 
 .forecast-bottom-container{
