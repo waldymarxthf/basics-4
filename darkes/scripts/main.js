@@ -1,15 +1,15 @@
 import { ELEMENTS } from "./modules/elementsUI.js"
 import { setLocalStorageParse, getLocalStorage } from "./modules/localStorage.js";
-import { fetchDataForForecast } from "./modules/forecast.js";
 import { findCity } from "./modules/helpers.js";
-import { fetchData, likeChecked } from "./modules/weather.js";
+import { likeChecked } from "./modules/weather.js";
+import { fetchData } from "./modules/weatherAPI.js";
 
 export let favorites = [];
 
 function getNameCity(event) {
-   event.preventDefault()
+   event.preventDefault();
    let cityName = ELEMENTS.INPUT.value;
-   fetchData(cityName);
+   fetchData('weather', cityName);
 }
 
 function showCities(cityName) {
@@ -19,10 +19,20 @@ function showCities(cityName) {
 }
 
 function showEmptyFavoriteList() {
-   ELEMENTS.LIKE_CITIES.insertAdjacentHTML('beforeend', `
-   <li class="rigth__item">
-   <p class="empty-cities">Hey, where are all your favorite cities? Looks like it's empty here.<img class="empty-img" src="./img/empty.gif"/></p>
-   </li>`)
+   const li = document.createElement('li');
+   const p = document.createElement('p');
+   const img = document.createElement('img');
+
+   li.classList.add('rigth__item');
+   p.classList.add('empty-cities');
+   p.textContent = "Hey, where are all your favorite cities? Looks like it's empty here.";
+   img.classList.add('empty-img');
+   img.src = "./img/empty.gif";
+
+   p.append(img);
+   li.append(p);
+
+   ELEMENTS.LIKE_CITIES.append(li);
 }
 
 function addFavoriteCity() {
@@ -53,7 +63,6 @@ function createFavoriteCity(item) {
    const li = document.createElement('li');
    const showButton = document.createElement('button');
    const delButton = document.createElement('button');
-   const cityName = item;
 
    showButton.textContent = cityName;
 
@@ -63,12 +72,12 @@ function createFavoriteCity(item) {
    li.append(showButton, delButton);
 
    showButton.addEventListener('click', () => {
-      fetchData(cityName);
-      fetchDataForForecast(cityName);
+      fetchData('forecast', item);
+      fetchData('weather', item);
    });
 
    delButton.addEventListener('click', () => {
-      removeFavoriteCity(cityName, li);
+      removeFavoriteCity(item, li);
    });
 
    ELEMENTS.LIKE_CITIES.append(li);
@@ -99,8 +108,8 @@ ELEMENTS.BUTTON.LIKE_BTN.addEventListener('click', addFavoriteCity);
 document.addEventListener('DOMContentLoaded', () => {
    const lastCity = getLocalStorage('lastCity') || 'Abu Dhabi';
    if (lastCity) {
-      fetchData(lastCity);
-      fetchDataForForecast(lastCity);
+      fetchData('weather', lastCity);
+      fetchData('forecast', lastCity);
    }
    render();
 });

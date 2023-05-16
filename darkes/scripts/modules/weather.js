@@ -1,50 +1,18 @@
 import { ELEMENTS } from "./elementsUI.js";
-import { getTargetTime } from "./utils.js";
 import { findCity, roundNumber } from "./helpers.js";
 import { showWeatherImage } from "./weatherImage.js";
-import { setLocalStorage } from "./localStorage.js";
-import { fetchDataForForecast } from "./forecast.js";
+import { getTargetDay, getTargetTime } from "./utils.js";
 
-let isFetching = false;
-
-export async function fetchData(cityName) {
-   if (isFetching) {
-      return;
-   }
-   isFetching = true;
-
-   const serverUrl = 'http://api.openweathermap.org/data/2.5/weather';
-   const apiKey = 'afc9f2df39f9e9e49eeb1afac7034d35';
-   const url = `${serverUrl}?q=${cityName}&units=metric&appid=${apiKey}`;
-
-   try {
-      let response = await fetch(url)
-      if (response.ok) {
-         let data = await response.json();
-         showWeatherNow(data);
-         showWeatherDetails(data);
-         fetchDataForForecast(data.name)
-         setLocalStorage('lastCity', cityName);
-      } else {
-         throw new Error((await response.json()).message);
-      }
-   } catch (error) {
-      alert(error);
-   } finally {
-      isFetching = false;
-   }
-};
-
-function showWeatherNow(data) {
+export function showWeatherNow(data) {
    ELEMENTS.TEMP.textContent = roundNumber(data.main.temp) + '°';
    ELEMENTS.MAIN_CITY.textContent = data.name;
    ELEMENTS.FORM.reset();
 
    ELEMENTS.MAIN_IMG.src = showWeatherImage(data);
    likeChecked(data.name);
-}
+};
 
-function showWeatherDetails(data) {
+export function showWeatherDetails(data) {
    const { temp, feels_like } = data.main;
    const weather = data.weather[0].main;
    const { sunrise, sunset } = data.sys;
@@ -59,6 +27,20 @@ function showWeatherDetails(data) {
    ELEMENTS.MAIN_CITIES.forEach(element => {
       element.textContent = data.name;
    });
+};
+
+export function showWeatherForecast(data) {
+   for (let i = 0; i < 5; i++) {
+      let date = new Date(data.list[i].dt)
+
+      ELEMENTS.FORECAST.DAY[i].textContent = getTargetDay(data, date);
+      ELEMENTS.FORECAST.TIME[i].textContent = getTargetTime(data, date);
+      ELEMENTS.FORECAST.TEMPERATURE[i].textContent = roundNumber(data.list[i].main.temp) + '°';
+      ELEMENTS.FORECAST.FEELS_LIKE[i].textContent = roundNumber(data.list[i].main.feels_like) + '°';
+      ELEMENTS.FORECAST.TYPE_WEATHER[i].textContent = data.list[i].weather[0].main;
+      ELEMENTS.FORECAST.TYPE_IMG[i].style.background = `url(${showWeatherImage(data.list[i])}) no-repeat`;
+      ELEMENTS.FORECAST.TYPE_IMG[i].style.backgroundSize = '99%';
+   };
 };
 
 export function likeChecked(cityName) {
