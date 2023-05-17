@@ -21,6 +21,24 @@ function showError(error) {
   alert(error);
 }
 
+async function getWeatherForecast(cityName) {
+  const serverUrl = 'http://api.openweathermap.org/data/2.5/forecast';
+  const apiKey = 'f660a2fb1e4bad108d6160b7f58c555f';
+  const url = `${serverUrl}?q=${cityName}&appid=${apiKey}&units=metric`;
+
+  try {
+    const response = await fetch(url);
+    if (response.ok) {
+      const result = await response.json();
+      console.log(result);
+    } else {
+      throw new Error('Error');
+    }
+  } catch (error) {
+    showError(error);
+  }
+}
+
 function getWeatherData(cityName) {
   const serverUrl = 'http://api.openweathermap.org/data/2.5/weather';
   const apiKey = 'f660a2fb1e4bad108d6160b7f58c555f';
@@ -122,3 +140,5 @@ UI_ELEMENTS.LIKE_BTN.addEventListener('click', event => {
 
 UI_ELEMENTS.SEARCH_FORM.addEventListener('submit', submitSearchFormHandler);
 document.addEventListener('DOMContentLoaded', render);
+
+getWeatherForecast('Moscow');
