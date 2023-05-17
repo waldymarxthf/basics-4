@@ -38,15 +38,23 @@ function findIndexOfTask(task) {
   return toDoList.findIndex((item) => item.name === task);
 }
 
-//* функция добавления задачи в массив
+//* функция добавления задачи в массив и вывод ошибок
+
+let message;
+let error = new Error(message);
 
 function addTask(task, status = STATUS.TODO, priority = PRIORITY.HIGH) {
-  if (isInputEmpty(task)) {
-    console.log("Введите задачу");
-    return
-  }
+  try {
+    if (isInputEmpty(task)) {
+      throw new Error('Введите задачу')
+    }
 
-  if (!isTaskExist(task)) {
+    if (!isTaskExist(task)) {
+      throw new Error(`Задача '${task}' уже есть в списке`);
+    }
+  }
+  catch(err) {
+    alert(err.message);
     return;
   }
 
