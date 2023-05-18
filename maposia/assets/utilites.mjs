@@ -2,7 +2,7 @@ function convertUnix(timestamp, timezone) {
     return ((timestamp + timezone) * 1000)
 }
 
-function convertTime(timestamp, timezone = 0) {
+function convertTime(timestamp, timezone = '') {
     const date = new Date(convertUnix(timestamp, timezone))
     const options = {
         hour: '2-digit',
@@ -12,11 +12,12 @@ function convertTime(timestamp, timezone = 0) {
     return date.toLocaleTimeString([], options)
 }
 
-function convertDate(timestamp, timezone = 0) {
+function convertDate(timestamp, timezone = '') {
     const date = new Date(convertUnix(timestamp, timezone))
     const options = {
         day: '2-digit',
-        month: 'long'
+        month: 'long',
+        timeZone: 'UTC'
     }
     return date.toLocaleDateString([], options)
 }

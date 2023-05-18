@@ -47,6 +47,7 @@ const WEATHER_DETAILS = {
 }
 
 const WEATHER_FORECAST = {
+    CITY_NAME: getElement('.city-forecast'),
     LIST: getElement('.forecast-list'),
 
 }

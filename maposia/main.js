@@ -78,10 +78,11 @@ function setWeatherNow(data) {
 }
 
 function setWeatherForecast(forecastData) {
-
+    WEATHER_FORECAST.LIST.innerHTML = ''
+    WEATHER_FORECAST.CITY_NAME.textContent = storage.getCurrentCity()
     forecastData.list.forEach((el, index) => {
         if (index > 0 && index < 4) {
-            console.log('1')
+
             const forecastItem = document.createElement('div')
             const dateTimeNode = document.createElement('div')
             const date = document.createElement('div')
@@ -135,8 +136,8 @@ function setWeather(weatherData, forecastData) {
     setWeatherNow(weatherData)
     setWeatherDetails(weatherData)
     setWeatherForecast(forecastData)
-    console.log(weatherData)
-    console.log(forecastData)
+    // console.log(weatherData)
+    // console.log(forecastData)
 }
 
 async function getWeather(cityName, location) {
@@ -198,7 +199,6 @@ function listCityHandler(evt) {
         }
     }
     if (evt.target.className === 'del-btn') {
-        console.log(evt.target.parentNode.textContent)
         const index = FAVORITE_LIST_CITIES.indexOf(evt.target.parentNode.textContent)
         FAVORITE_LIST_CITIES.splice(index, 1)
         storage.saveFavoriteCities(FAVORITE_LIST_CITIES)
