@@ -1,60 +1,41 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ToDo list</title>
-    <link rel="stylesheet" href="./main.css">
-
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="reset.css"/>
+    <link rel="stylesheet" href="main.css"/>
+    <title></title>
 </head>
 <body>
-<main class="todo-list">
-    <h2>HIGH</h2>
-    <form class="high-priority-form">
-
-        <div class="adding-fild adding-for-high">
-            <input type="text" class=" adding-input input-for-high" placeholder="Добавить задачу с высоким приоритетом">
-            <input type="submit" class="btn-adding btn-adding-high" value="" alt="Добавить"></input>
+<div class="container">
+    <div class="todo">
+        <div class="todo__section">
+            <h5 class="todo__title">HIGH</h5>
+            <form class="form__high">
+                <div class="todo__add">
+                    <input type="text" placeholder="Добавить" class="input"/>
+                    <img src="add-icon.svg" alt="add-icon" class="todo__add-img"/>
+                </div>
+            </form>
+            <div class="tasks__high"></div>
         </div>
-        <div class="tasks-high-priority">
-            <div class="task-item task-high-priority">
-                <label>
-                    <input type="checkbox" class="input-checkbox">
-                    <div class="task-text">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde beatae quos possimus nostrum
-                        pariatur nobis sequi distinctio officia.
-                    </div>
-                </label>
-                <button class="btn-task-delete"></button>
-            </div>
-
+        <div class="todo__section">
+            <h5 class="todo__title">LOW</h5>
+            <form class="form__low">
+                <div class="todo__add">
+                    <input type="text" placeholder="Добавить" class="input"/>
+                    <img src="add-icon.svg" alt="add-icon" class="todo__add-img"/>
+                </div>
+            </form>
+            <div class="tasks__low"></div>
         </div>
-
-    </form>
-    <h2>LOW</h2>
-    <form class="low-priority-form">
-
-        <div class="adding-fild adding-for-low">
-            <input type="text" class="adding-input input-for-low" placeholder="Добавить задачу с низким приоритетом">
-            <input type="submit" class="btn-adding btn-adding-low" value="" alt="Добавить"></input>
-        </div>
-        <div class="tasks-low-priority">
-            <div class="task-item task-low-priority">
-                <label>
-                    <input type="checkbox" name="" class="input-checkbox">
-                    <div class="task-text">
-                        Lorem ipsum dolor sit amet
-                    </div>
-                </label>
-                <button class="btn-task-delete"></button>
-            </div>
-
-        </div>
-    </form>
-
-</main>
-
-<script src="main.js"></script>
+    </div>
+</div>
+<script src="main.js" type="module"></script>
 </body>
 </html>
