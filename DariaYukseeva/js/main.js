@@ -59,7 +59,7 @@ async function showWeather(city) {
         storage.saveLastCity();
         
         // изменение цвета города вкладки now
-        weatherNowCity.style.color = 'black';
+        weatherNowCity.style.color = '#FFFFFF';
         // отрисовка данных
         render(vars, varsForecast);
     }
@@ -115,7 +115,8 @@ function process(data) {
 
     vars.city = data.name;
     vars.temp = Math.round(data.main.temp);
-    vars.iconUrl = `https://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png`;
+    // vars.iconUrl = `https://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png`;
+    vars.iconUrl = `./assets/img/icons/${data.weather[0].icon}.png`;
     vars.feelsLikeTemp = Math.round(data.main.feels_like);
     vars.precipitation = data.weather[0].main;
     vars.timeZone = data.timezone;
@@ -126,6 +127,7 @@ function process(data) {
     return vars;
 }
 
+// выбор нужных данных из полученных для forecast
 function processForecastData(data) {
     const vars = {};
     vars.city = data.city.name;
@@ -138,7 +140,8 @@ function processForecastData(data) {
         list.temp = Math.round(data.list[i].main.temp);
         list.feelsLikeTemp = Math.round(data.list[i].main.feels_like);
         list.precipitation = data.list[i].weather[0].main;
-        list.iconUrl = `https://openweathermap.org/img/wn/${data.list[i].weather[0].icon}@4x.png`;
+        // list.iconUrl = `https://openweathermap.org/img/wn/${data.list[i].weather[0].icon}@4x.png`;
+        list.iconUrl = `./assets/img/icons/${data.list[i].weather[0].icon}.png`;
 
         vars.forecastList.push(list);
     }
@@ -213,20 +216,18 @@ function renderWeatherDetails(vars) {
     weatherDetailsSunset.textContent = vars.sunset;
 }
 
+// Отрисовка окна Forecast
 function renderForecast(vars) {
     const forecastBlock = getDOMElement('.weather-forecast');
     forecastBlock.innerHTML = '';
     
     forecastBlock.insertAdjacentHTML('beforeend', 
-    `
-        <div class="selected-city-forecast">${vars.city}</div>
-    `
+    `<div class="selected-city-forecast">${vars.city}</div>`
     );
 
     vars.forecastList.forEach (item => {
         forecastBlock.insertAdjacentHTML('beforeend', 
-        `
-            <div class="forecast-hourly-item">
+            `<div class="forecast-hourly-item">
                 <div class="date-time-block">
                     <div class="date">${item.date}</div>
                     <div class="time">${item.time}</div>
@@ -249,8 +250,8 @@ function renderForecast(vars) {
                         </div>
                     </div>
                 </div>
-            </div>
-        `);
+            </div>`
+        );
     })
     
 }
