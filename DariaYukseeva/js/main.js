@@ -62,6 +62,7 @@ async function showWeather(city) {
         weatherNowCity.style.color = '#FFFFFF';
         // отрисовка данных
         render(vars, varsForecast);
+        renderFavoriteCities();
     }
     catch (e) {
         
@@ -336,6 +337,11 @@ function addFavoriteCityNode(city) {
 
     spanCity.classList.add('favourite-city-span');
     favoriteCity.classList.add('favourite-cities-list-item');
+    if (weatherNowCity.textContent === city ||
+        storage.lastCity === city) {
+        favoriteCity.classList.add('active-city');
+    }
+    
     btnDeleteCity.classList.add('favourite-cities-list-delete-btn');
     favoriteCity.setAttribute('data-city', city);
     
@@ -373,11 +379,11 @@ function favoriteCitiesListHandler(e) {
     
     if ( e.target.classList.contains('favourite-cities-list-item') || 
     e.target.classList.contains('favourite-city-span') ) {
-        
         showWeather(city);
+        
         return;
     }
-   
+    
 }
 
 btnAddFavoriteCity.addEventListener('click', btnFavoriteCityHandler);
