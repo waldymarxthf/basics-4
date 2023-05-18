@@ -1,5 +1,5 @@
-const favoriteListCities = JSON.parse(localStorage.getItem('favoriteCities')) || []
-let currentCity = JSON.parse(localStorage.getItem('currentCity')) || 'Укажите город'
+const FAVORITE_LIST_CITIES = JSON.parse(localStorage.getItem('favoriteCities')) || []
+let CURRENT_CITY = JSON.parse(localStorage.getItem('currentCity')) || 'Укажите город'
 
 
 function getElement(tag) {
@@ -46,6 +46,10 @@ const WEATHER_DETAILS = {
     SUNSET: getElement('.performance-sunset'),
 }
 
+const WEATHER_FORECAST = {
+    LIST: getElement('.forecast-list'),
+
+}
 
 export {
     BUTTONS,
@@ -54,6 +58,7 @@ export {
     WEATHER_NOW,
     CITIES_LOCATIONS,
     WEATHER_DETAILS,
-    favoriteListCities,
-    currentCity
+    WEATHER_FORECAST,
+    FAVORITE_LIST_CITIES,
+    CURRENT_CITY,
 }

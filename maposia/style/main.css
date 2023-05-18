@@ -55,6 +55,7 @@ body {
     max-width: 300px;
     border-right: 1px black solid;
 }
+
 .weather-display-now {
 
 }
@@ -76,12 +77,14 @@ body {
     justify-content: space-between;
     margin-bottom: 17px;
 }
+
 .weather_city {
     font-size: 24px;
     line-height: 28px;
     margin-left: 12px;
 
 }
+
 .weather_like {
     margin-right: 26px;
 }
@@ -100,12 +103,12 @@ body {
     font-size: inherit;
     line-height: inherit;
     background-color: #ffffff;
-    border:none;
+    border: none;
     cursor: pointer;
 }
 
 
-.weather-switcher:not(:last-child){
+.weather-switcher:not(:last-child) {
     border-right: 1px black solid;
 }
 
@@ -118,10 +121,12 @@ body {
 .weather-locations {
     max-width: 300px;
 }
+
 .added-locations {
     padding: 33px 95px 7px 18px;
     border-bottom: 1px black solid;
 }
+
 .added-locations-text {
     font-size: 24px;
     line-height: 28px;
@@ -133,13 +138,15 @@ body {
     font-size: 24px;
     line-height: 28px;
 }
+
 .item-locations {
     cursor: pointer;
 }
 
-.item-locations:not(:last-child){
+.item-locations:not(:last-child) {
     margin-bottom: 14px;
 }
+
 .del-btn {
     margin-left: 10px;
 }
@@ -159,13 +166,16 @@ body {
     line-height: 28px;
 
 }
+
 .weather-performance-list {
     margin-bottom: 49px;
 }
+
 .weather-performance-item {
     font-size: 24px;
     line-height: 28px;
 }
+
 .weather-performance-item:not(:last-child) {
     margin-bottom: 14px;
 }
@@ -181,18 +191,20 @@ body {
 .weather-display-forecast::-webkit-scrollbar {
     display: none;
 }
+
 .city-forecast {
     display: block;
     margin: 33px 0 7px 18px;
     font-size: 24px;
     line-height: 28px;
-  color: #2d3240;
+    color: #2d3240;
 }
 
 .forecast-list {
     margin: 0 18px;
 
 }
+
 .forecast-item {
     border: 1px black solid;
     padding: 6px 12px 9px 8px;
@@ -200,13 +212,18 @@ body {
 }
 
 
-.hour-info-forecast,
-.temperature-info-forecast{
+.time-info-forecast,
+.temperature-info-forecast {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.hour-info-forecast {
+.time-info-forecast {
     margin-bottom: 27px;
+}
+
+.weather-type-icon {
+    width: 31px;
+    height: 31px;
 }

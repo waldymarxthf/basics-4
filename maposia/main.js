@@ -1,16 +1,18 @@
 import {
     BUTTONS,
-    DISPLAY,
-    SEARCH_FORM,
-    WEATHER_NOW,
     CITIES_LOCATIONS,
+    CURRENT_CITY,
+    DISPLAY,
+    FAVORITE_LIST_CITIES,
+    SEARCH_FORM,
+    WEATHER_FORECAST,
     WEATHER_DETAILS,
-    favoriteListCities,
-    currentCity
+    WEATHER_NOW,
+
 } from './assets/variables.js'
 
 import storage from './assets/localstorage.js'
-import convertTime from "./assets/utilites.mjs";
+import {convertTime, getUrlIcon} from "./assets/utilites.mjs";
 
 const serverUrl = 'http://api.openweathermap.org/data/2.5'
 const apiKey = 'f660a2fb1e4bad108d6160b7f58c555f'
@@ -64,24 +66,70 @@ function setWeatherDetails(data) {
 
 function setWeatherNow(data) {
     const idIcon = data.weather[0].icon
-    const currentCity = {
+    const currentWeather = {
         name: data.name,
         temperature: data.main.temp,
-        iconURL: `https://openweathermap.org/img/wn/${idIcon}@2x.png`,
+        iconURL: getUrlIcon(idIcon),
     }
-    WEATHER_NOW.CITY.textContent = currentCity.name
-    WEATHER_NOW.ICON.src = currentCity.iconURL
-    WEATHER_NOW.TEMPERATURE.textContent = Math.floor(currentCity.temperature) + '\u00B0'
-    storage.saveCurrentCity(currentCity.name)
+    WEATHER_NOW.CITY.textContent = currentWeather.name
+    WEATHER_NOW.ICON.src = currentWeather.iconURL
+    WEATHER_NOW.TEMPERATURE.textContent = Math.floor(currentWeather.temperature) + '\u00B0'
+    storage.saveCurrentCity(currentWeather.name)
 }
 
-function setWeatherForecast(data){
-    data.list.forEach((el, index)=>{
-        if(index > 0) {
-            console.log(el, index)
+function setWeatherForecast(forecastData) {
+
+    forecastData.list.forEach((el, index) => {
+        if (index > 0 && index < 4) {
+            console.log('1')
+            const forecastItem = document.createElement('div')
+            const dateTimeNode = document.createElement('div')
+            const date = document.createElement('div')
+            const time = document.createElement('time-forecast')
+            const weatherInfoNode = document.createElement('div')
+            const temperatureFeelsNode = document.createElement('div')
+            const temperature = document.createElement('p')
+            const feelsLike = document.createElement('p')
+            const weatherType = document.createElement('div')
+            const typeText = document.createElement('p')
+            const imgWeather = document.createElement('img')
+
+            forecastItem.classList.add('forecast-item')
+            dateTimeNode.classList.add('time-info-forecast')
+            date.classList.add('date-forecast')
+            time.classList.add('time-forecast')
+            weatherInfoNode.classList.add('temperature-info-forecast')
+            temperatureFeelsNode.classList.add('temperature-feels-forecast')
+            temperature.classList.add('temperature-forecast-text')
+            feelsLike.classList.add('feels-forecast-text')
+            weatherType.classList.add('weather-info-forecast')
+            typeText.classList.add('weather-type-text')
+            imgWeather.classList.add('weather-type-icon')
+
+            date.textContent = el.dt
+            time.textContent = convertTime(el.dt)
+            temperature.textContent = `Temperature: ${Math.floor(el.main.temp) + '\u00B0'}`
+            feelsLike.textContent = `Feels like: ${Math.floor(el.main.feels_like) + '\u00B0'}`
+            typeText.textContent = el.weather[0].main
+            const idIcon = el.weather[0].icon
+            imgWeather.src = getUrlIcon(idIcon)
+
+            dateTimeNode.appendChild(date)
+            dateTimeNode.appendChild(time)
+            weatherInfoNode.appendChild(temperatureFeelsNode)
+            temperatureFeelsNode.appendChild(temperature)
+            temperatureFeelsNode.appendChild(feelsLike)
+            weatherInfoNode.appendChild(weatherType)
+            weatherType.appendChild(typeText)
+            weatherType.appendChild(imgWeather)
+            forecastItem.appendChild(dateTimeNode)
+            forecastItem.appendChild(weatherInfoNode)
+
+            WEATHER_FORECAST.LIST.appendChild(forecastItem)
         }
     })
 }
+
 
 function setWeather(weatherData, forecastData) {
     setWeatherNow(weatherData)
@@ -94,8 +142,7 @@ async function getWeather(cityName, location) {
     try {
         let response = await fetch(url)
         if (response.ok) {
-            let data = await response.json()
-            return data
+            return await response.json()
         } else {
             throw new Error((await response.json()).message)
         }
@@ -118,7 +165,6 @@ async function searchCity(city) {
 }
 
 
-
 function createListCityNode(city) {
     const listItem = document.createElement('li')
     listItem.classList.add('item-locations')
@@ -132,11 +178,11 @@ function createListCityNode(city) {
 
 function likeButtonHandler() {
     const favoriteCity = WEATHER_NOW.CITY.textContent
-    if (favoriteListCities.length > 5) {
-        favoriteListCities.shift()
+    if (FAVORITE_LIST_CITIES.length > 5) {
+        FAVORITE_LIST_CITIES.shift()
     }
-    favoriteListCities.push(favoriteCity)
-    storage.saveFavoriteCities(favoriteListCities)
+    FAVORITE_LIST_CITIES.push(favoriteCity)
+    storage.saveFavoriteCities(FAVORITE_LIST_CITIES)
 
     render()
 
@@ -151,9 +197,9 @@ function listCityHandler(evt) {
     }
     if (evt.target.className === 'del-btn') {
         console.log(evt.target.parentNode.textContent)
-        const index = favoriteListCities.indexOf(evt.target.parentNode.textContent)
-        favoriteListCities.splice(index, 1)
-        storage.saveFavoriteCities(favoriteListCities)
+        const index = FAVORITE_LIST_CITIES.indexOf(evt.target.parentNode.textContent)
+        FAVORITE_LIST_CITIES.splice(index, 1)
+        storage.saveFavoriteCities(FAVORITE_LIST_CITIES)
         render()
 
         evt.target.parentNode.remove()
@@ -167,8 +213,8 @@ function render() {
     favoriteCities.forEach((city) => {
         createListCityNode(city)
     })
-    const currentCity = storage.getCurrentCity()
-    searchCity(currentCity)
+    // const currentCity = storage.getCurrentCity()
+    searchCity(CURRENT_CITY)
 }
 
 
