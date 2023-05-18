@@ -12,7 +12,7 @@ import {
 } from './assets/variables.js'
 
 import storage from './assets/localstorage.js'
-import {convertTime, getUrlIcon} from "./assets/utilites.mjs";
+import {convertTime, convertDate, getUrlIcon} from "./assets/utilites.mjs";
 
 const serverUrl = 'http://api.openweathermap.org/data/2.5'
 const apiKey = 'f660a2fb1e4bad108d6160b7f58c555f'
@@ -106,7 +106,7 @@ function setWeatherForecast(forecastData) {
             typeText.classList.add('weather-type-text')
             imgWeather.classList.add('weather-type-icon')
 
-            date.textContent = el.dt
+            date.textContent = convertDate(el.dt)
             time.textContent = convertTime(el.dt)
             temperature.textContent = `Temperature: ${Math.floor(el.main.temp) + '\u00B0'}`
             feelsLike.textContent = `Feels like: ${Math.floor(el.main.feels_like) + '\u00B0'}`
@@ -135,6 +135,8 @@ function setWeather(weatherData, forecastData) {
     setWeatherNow(weatherData)
     setWeatherDetails(weatherData)
     setWeatherForecast(forecastData)
+    console.log(weatherData)
+    console.log(forecastData)
 }
 
 async function getWeather(cityName, location) {

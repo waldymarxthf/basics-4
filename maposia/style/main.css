@@ -227,3 +227,7 @@ body {
     width: 31px;
     height: 31px;
 }
+
+.weather-info-forecast {
+    text-align: center;
+}
