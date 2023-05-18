@@ -172,7 +172,13 @@ body {
   display: flex;
   justify-content: space-between;
 }
-
+.weather__forecast-block-info-temp p{
+  margin-bottom: 10px;
+}
+.weather__forecast-block-info-rainfall{
+  width: 40px;
+  text-align: center;
+}
 
 .weather .container {
   display: -webkit-box;

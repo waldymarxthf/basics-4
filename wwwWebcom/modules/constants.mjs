@@ -20,12 +20,12 @@ const detailsSunset = document.querySelector('.sunset')
 
 //------------------------<elements for working with 'forcast'>--------
 const forecastCity = document.querySelector('.weather__forecast-city')
-const forecastDate = document.querySelector(".weather__forecast-block-date-datecurrent")
-const forecastTime = document.querySelector('.weather__forecast-block-date-time')
-const forecastTemperature = document.querySelector('.weather__forecast-block-info-temp-temperature')
-const forecastFeels = document.querySelector('.weather__forecast-block-info-temp-feelslike')
-const forecastRainfall = document.querySelector('.weather__forecast-block-info-rainfall-current')
-const forecastIcon = document.querySelector('.weather__forecast-block-info-rainfall-icon')
+const forecastDate = document.querySelectorAll(".weather__forecast-block-date-datecurrent")
+const forecastTime = document.querySelectorAll('.weather__forecast-block-date-time')
+const forecastTemperature = document.querySelectorAll('.weather__forecast-block-info-temp-temperature')
+const forecastFeels = document.querySelectorAll('.weather__forecast-block-info-temp-feelslike')
+const forecastRainfall = document.querySelectorAll('.weather__forecast-block-info-rainfall-current')
+const forecastIcon = document.querySelectorAll('.weather__forecast-block-info-rainfall-icon')
 
 
 

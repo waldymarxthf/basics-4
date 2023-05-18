@@ -81,7 +81,6 @@ function renderInfoNow(data, name) {
     temperature.textContent = `${Math.round(data.main.temp)}°`;
     icon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
   }
-  // input.value = "";
 }
 
 function renderInfoDetails(data, name) {
@@ -98,8 +97,24 @@ function renderInfoDetails(data, name) {
 function renderInfoForecast(data, name) {
   if (data) {
     forecastCity.textContent = name.slice(0, 1).toUpperCase() + name.slice(1);
-    forecastDate.textContent = dateConverter(data.list[0].dt, data.city.timezone)
-    forecastTime.textContent = timeConverter(data.list[0].dt, data.city.timezone)
+    forecastDate.forEach((el,index) => {
+      el.textContent = dateConverter(data.list[index].dt, data.city.timezone)
+    })
+    forecastTime.forEach((el,index) => {
+      el.textContent = timeConverter(data.list[index].dt, data.city.timezone)
+    })
+    forecastTemperature.forEach((el,index) => {
+      el.textContent = `${Math.round(data.list[index].main.temp)}`
+    })
+    forecastFeels.forEach((el,index) => {
+      el.textContent = `${Math.round(data.list[index].main.feels_like)}`
+    })
+    forecastRainfall.forEach((el,index) => {
+      el.textContent = data.list[index].weather[0].main
+    })
+    forecastIcon.forEach((el,index) => {
+      el.src = `https://openweathermap.org/img/wn/${data.list[index].weather[0].icon}@2x.png`
+    })
   }
 }
 
@@ -151,8 +166,8 @@ function createEl(city) {
 
 //-------------------------------------------------------------------------------------
 
-function timeConverter(UNIX_timestamp, timezone) {
-  let a = new Date(UNIX_timestamp * 1000);
+function timeConverter(UNIX_timestamp, timezone = 0) {
+  let a = new Date((UNIX_timestamp - timezone) * 1000);
   let hour = a.getHours();
   let min = a.getMinutes();
   if(min < 10) {
