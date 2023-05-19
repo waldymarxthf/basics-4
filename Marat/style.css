@@ -1,0 +1,253 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #E5E5E5;
+
+}
+
+.container {
+    /* display: block;
+    text-align: center;
+    align-items: center; */
+
+}
+
+.container_content {
+    background-color: #FFFFFF;
+    border: 1px solid black;
+    width: 600px;
+    height: 435px;
+    margin: auto;
+    margin-top: 150px;
+}
+
+.head_content {
+    border-bottom: 1px solid black;
+    height: 45px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.input {
+    height: 40px;
+    border: none;
+    outline: none;
+    margin-left: 20px;
+}
+
+.poisk {
+    border: none;
+    background: none;
+    font-size: x-large;
+    margin-right: 20px;
+}
+
+.left_content {
+    border: 1px solid black;
+    width: 298px;
+    height: 390px;
+}
+
+.text_temperature {
+
+    font-weight: 400;
+    font-size: 70px;
+    line-height: 82px;
+
+    color: #000000;
+    margin-left: 23px;
+    margin-top: 20px;
+}
+
+.oblako {
+
+    margin-top: 40px;
+    margin-left: 112px;
+}
+
+.left_content_bottom {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 98px;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.Aktobe {
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 28px;
+}
+
+.serdce {
+    font-size: x-large;
+
+
+}
+
+.left_content_button {
+    border: 1px solid black;
+    width: 298px;
+    height: 44px;
+    margin-top: 10px;
+}
+
+.now {
+    height: 40px;
+    width: 95px;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 21px;
+}
+
+.details {
+    height: 40px;
+    width: 95px;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 21px;
+}
+
+.forecast {
+    height: 40px;
+    width: 95px;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 21px;
+}
+
+.left_content2 {}
+
+.left_content_temperature2_Aktobe {
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 28px;
+    margin-left: 17px;
+    margin-top: 33px;
+
+}
+
+.left_content_temperature2 ul {
+    margin-top: 42px;
+    margin-left: 15px;
+    list-style-type: none;
+    margin-bottom: 40px;
+}
+
+.left_content_temperature2 li {
+    margin-top: 15px;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 28px;
+}
+
+.osnova {
+    display: flex;
+}
+
+.right_content {}
+
+.right_head_content {
+    border: 1px solid black;
+    width: 302px;
+    height: 68px;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 28px;
+}
+
+.right_head_content p {
+    margin-top: 33px;
+    margin-left: 18px;
+}
+
+.right_bottom_content {}
+
+.right_bottom_content ul {
+    list-style-type: none;
+    margin-left: 18px;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 28px;
+}
+
+.right_bottom_content li {
+    margin-top: 15px;
+}
+
+.left_content_temperature3 {}
+
+.left_content_temperature3_Aktobe {
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 28px;
+    margin-top: 33px;
+    margin-left: 18px;
+}
+
+.block1 {
+    margin-top: 7px;
+    margin-left: 18px;
+    border: 1px solid black;
+    width: 265px;
+    height: 120px;
+}
+
+.block1_data {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 21px;
+}
+
+.block1_temperature {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 38px;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 21px;
+}
+
+.block1_feels {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 21px;
+    margin-top: 5px;
+}
+
+.block2 {
+    margin-top: 9px;
+    margin-left: 18px;
+    border: 1px solid black;
+    width: 265px;
+    height: 120px;
+    margin-bottom: 28px;
+}
+.liCity{
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid black;
+    width: 270px;
+    border-radius: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    align-items: center;
+}
+.p2{
+    font-size: xx-large;
+    cursor: pointer;
+}
