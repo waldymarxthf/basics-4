@@ -6,9 +6,7 @@ const left_content_temperature2 = document.querySelector(".left_content_temperat
 const left_content_temperature3 = document.querySelector(".left_content_temperature3");
 const right_bottom_content = document.querySelector(".right_bottom_content");
 const serdce = document.querySelector(".serdce");
-const list = [
-    {name: "dubai"},
-];
+const list = [];
 
 if (localStorage.getItem('right_bottom_content')) {
     right_bottom_content.innerHTML = localStorage.getItem('right_bottom_content');
@@ -85,7 +83,7 @@ async function addLocation(e) {
         console.log(data);
         const gender = Math.floor(data.main.temp - 273);
         const feels_Like = Math.floor(data.main.feels_like - 273);
-        const Weather = data.weather[0].main
+        const Weather = data.weather[0].main;
 
         const sunrise = data.sys.sunrise;
         const datesr = new Date(sunrise * 1000);
@@ -125,14 +123,18 @@ function deleteLocation(name) {
     console.log(list);
     return;
 }
+function addedLocation(name){
+    list.push(name);
+    console.log(list);
+}
 
 const ul = document.createElement("ul");
-function createElement(event) {    
+function createElement() {    
     right_bottom_content.innerHTML = ""
     const li = document.createElement("li");
     const location = document.createElement("p");
     const x = document.createElement("p");
-    
+    console.log("cityName = " +  cityName);
     location.innerHTML = city.value;
     x.innerHTML = "&#215";
 
@@ -148,16 +150,31 @@ function createElement(event) {
     
     location.addEventListener("click", Likes);
 
-    list.push({ name: location.textContent });
-    console.log(list)
-    x.addEventListener("click", deleteLocation(location.textContent));
+    console.log(location.textContent)
+    serdce.addEventListener("click", addedLocation(location.textContent));
 
     // localStorage.setItem("right_bottom_content", right_bottom_content.innerHTML);
+    x.addEventListener("click", (event) => {
+        event.stopPropagation()
+        deleteLocation(location.textContent);
+    });
+   
+    
     return li;
 
 }
+function render(){
+    right_bottom_content.innerHTML = "";
+    for(const loc of list){
+        console.log(loc.name);
+        const locNode = createElement(loc.name);
+        right_bottom_content.appendChild(locNode);
+    }
+
+}
+render();
 async function Likes(event) {
-    const p = event.target
+    const p = event.target;
     console.log(p);
     Aktobe.textContent = p.textContent;
     console.log(p.textContent)
