@@ -123,19 +123,22 @@ function deleteLocation(name) {
     console.log(list);
     return;
 }
-function addedLocation(name){
-    list.push(name);
+function addedLocation(){
+    const name = Aktobe.textContent
+    list.push({
+        name
+    });
     console.log(list);
 }
 
 const ul = document.createElement("ul");
-function createElement() {    
+function createElement(cityName) {    
     right_bottom_content.innerHTML = ""
     const li = document.createElement("li");
     const location = document.createElement("p");
     const x = document.createElement("p");
-    console.log("cityName = " +  cityName);
-    location.innerHTML = city.value;
+    // console.log("cityName = " +  cityName);
+    location.innerHTML = cityName;
     x.innerHTML = "&#215";
 
     li.classList.add("liCity");
@@ -151,7 +154,7 @@ function createElement() {
     location.addEventListener("click", Likes);
 
     console.log(location.textContent)
-    serdce.addEventListener("click", addedLocation(location.textContent));
+    // serdce.addEventListener("click", addedLocation(location.textContent));
 
     // localStorage.setItem("right_bottom_content", right_bottom_content.innerHTML);
     x.addEventListener("click", (event) => {
@@ -187,6 +190,8 @@ async function Likes(event) {
     text_temperature.innerHTML = gender + "&#176";
 }
 
-serdce.addEventListener("click", createElement);
+serdce.addEventListener("click", () => {
+    addedLocation(),
+    render()
+});
 form.addEventListener("submit", addLocation);
-
