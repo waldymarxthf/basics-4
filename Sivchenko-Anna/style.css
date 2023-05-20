@@ -139,9 +139,6 @@ input[type="search" i]:focus {
 }
 
 .weather-icon {
-  background-image: url('./icons/cloud.svg');
-  height: 59px;
-  width: 78px;
   align-self: center;
 }
 
