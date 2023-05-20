@@ -6,7 +6,9 @@ const left_content_temperature2 = document.querySelector(".left_content_temperat
 const left_content_temperature3 = document.querySelector(".left_content_temperature3");
 const right_bottom_content = document.querySelector(".right_bottom_content");
 const serdce = document.querySelector(".serdce");
-const list = [];
+const list = [
+    {name: "dubai"},
+];
 
 if (localStorage.getItem('right_bottom_content')) {
     right_bottom_content.innerHTML = localStorage.getItem('right_bottom_content');
@@ -87,19 +89,13 @@ async function addLocation(e) {
 
         const sunrise = data.sys.sunrise;
         const datesr = new Date(sunrise * 1000);
-        const dates = datesr.getHours() + ":" +  datesr.getMinutes();
+        const dates = datesr.getHours() + ":" + datesr.getMinutes();
 
         const sunset = data.sys.sunset;
         const datess = new Date(sunset * 1000);
-        const dateess = datess.getHours() + ":" +  datess.getMinutes();
-
-        console.log(gender);
-        console.log(feels_Like);
-        console.log("Weather = " +  Weather);
-        console.log(dates);
-        console.log(dateess);
+        const dateess = datess.getHours() + ":" + datess.getMinutes();
         text_temperature.innerHTML = gender + "&#176";
-        Details_Temperature.innerHTML = "Temperature: " +  gender + "&#176";
+        Details_Temperature.innerHTML = "Temperature: " + gender + "&#176";
         Details_Feels.innerHTML = "Feels like: " + feels_Like + "&#176";
         Details_Weather.innerHTML = "Weather: " + Weather;
         Details_Sunrise.innerHTML = "Sunrise: " + dates;
@@ -115,32 +111,49 @@ async function addLocation(e) {
     }
 }
 
-const ul = document.createElement("ul");
+function findIndex(name) {
+    return list.findIndex(t => t.name === name);
+}
+function deleteLocation(name) {
+    const Index = findIndex(name);
+    console.log(Index);
+    if (Index === -1) {
+        console.error("Такого города нет в списке");
+        return;
+    }
+    list.splice(Index, 1);
+    console.log(list);
+    return;
+}
 
-function createElement(nameCity) {
+const ul = document.createElement("ul");
+function createElement(event) {    
     right_bottom_content.innerHTML = ""
     const li = document.createElement("li");
-    const p = document.createElement("p");
-    const p2 = document.createElement("p");
-    p.innerHTML = city.value;
-    p2.innerHTML = "&#215";
+    const location = document.createElement("p");
+    const x = document.createElement("p");
+    
+    location.innerHTML = city.value;
+    x.innerHTML = "&#215";
 
     li.classList.add("liCity");
-    p.classList.add("p");
-    p2.classList.add("p2");
+    location.classList.add("p");
+    x.classList.add("p2");
 
-    li.appendChild(p);
-    li.appendChild(p2);
+    li.appendChild(location);
+    li.appendChild(x);
     console.log(li);
     ul.appendChild(li);
     right_bottom_content.appendChild(ul);
-
-    p2.addEventListener("click", function () {
-        li.remove();
-    });
-    p.addEventListener("click", Likes);
     
-    localStorage.setItem("right_bottom_content", right_bottom_content.innerHTML);
+    location.addEventListener("click", Likes);
+
+    list.push({ name: location.textContent });
+    console.log(list)
+    x.addEventListener("click", deleteLocation(location.textContent));
+
+    // localStorage.setItem("right_bottom_content", right_bottom_content.innerHTML);
+    return li;
 
 }
 async function Likes(event) {
@@ -156,6 +169,7 @@ async function Likes(event) {
     console.log(gender - 273);
     text_temperature.innerHTML = gender + "&#176";
 }
+
 serdce.addEventListener("click", createElement);
 form.addEventListener("submit", addLocation);
 
