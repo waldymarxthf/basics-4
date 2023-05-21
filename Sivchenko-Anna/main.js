@@ -1,3 +1,8 @@
+const API = {
+  SERVER_URL: "http://api.openweathermap.org/data/2.5/weather",
+  API_KEY: "f660a2fb1e4bad108d6160b7f58c555f",
+};
+
 const form = document.querySelector(".search");
 const cityName = document.querySelector(".search-input");
 
@@ -6,28 +11,32 @@ const temperature = document.querySelector(".temperature");
 const weatherIcon = document.querySelector(".weather-icon");;
 
 
-async function getCity() {
+async function getWeather() {
   try {
     const city = cityName.value;
-    const serverUrl = 'http://api.openweathermap.org/data/2.5/weather';
-    const apiKey = 'f660a2fb1e4bad108d6160b7f58c555f';
-    const url = `${serverUrl}?q=${city}&appid=${apiKey}&units=metric`;
+    const url = `${API.SERVER_URL}?q=${city}&appid=${API.API_KEY}&units=metric`;
 
     let response = await fetch(url);
-    let data = await response.json();
+    if (response.ok) {
+      let data = await response.json();
+      setWeather(data);
+    } else {
+      throw new Error("Введите верное название города");
+    }
+  } catch (error) {
+    alert(error.message);
+  }
+}
 
-    temperature.textContent = `${Math.trunc(data.main.temp)}°`;
-    const icon = data.weather[0].icon;
-    const iconSrc = `https://openweathermap.org/img/wn/${icon}@2x.png`;
-    weatherIcon.src = iconSrc;
-    outCityName.textContent = data.name;
-  }
-  catch(err) {
-    console.log('Ошибка')
-  }
+function setWeather(data) {
+  temperature.textContent = `${Math.trunc(data.main.temp)}°`;
+  const icon = data.weather[0].icon;
+  const iconSrc = `https://openweathermap.org/img/wn/${icon}@2x.png`;
+  weatherIcon.src = iconSrc;
+  outCityName.textContent = data.name;
 }
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
-  getCity();
+  getWeather();
 });
