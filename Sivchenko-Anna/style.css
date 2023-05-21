@@ -142,30 +142,34 @@ input[type="search" i]:focus {
   align-self: center;
 }
 
-.city {
+.weather-now-city {
   line-height: 29px;
-  position: relative;
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.city,
+.city-details,
+.city-forecast {
   margin: 0;
 }
 
-.city-like::after {
-  content: url('./icons/heart.svg');
-  height: 22px;
-  width: 22px;
-  position: absolute;
-  right: 6%;
+.city-like {
+  cursor: pointer;
 }
 
-.weather-now__container .city {
+.weather-now__container .weather-now-city {
   margin-top: 58px;
   padding-left: 12px;
+  padding-right: 26px;
 }
 
-.weather-details__container .city {
+.weather-details__container .city-details {
   padding-left: 17px;
 }
 
-.weather-forecast__container .city {
+.weather-forecast__container .city-forecast {
   margin-bottom: 7px;
 }
 
@@ -243,7 +247,23 @@ input[type="search" i]:focus {
   padding-left: 18px;
 }
 
-.cities li {
+.city-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
   margin-bottom: 14px;
+  padding-right: 20px;
+  cursor: pointer;
+}
+
+.close-city {
+  background-image: url('./icons/close.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: inherit;
+  height: 22px;
+  width: 22px;
+  border: 0;
+  padding: 0;
   cursor: pointer;
 }
