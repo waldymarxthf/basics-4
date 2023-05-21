@@ -9,6 +9,12 @@ const inputName = document.querySelector(".search-input");
 const cityName = document.querySelector(".city");
 const temperature = document.querySelector(".temperature");
 const weatherIcon = document.querySelector(".weather-icon");
+const cityNameDetails = document.querySelector(".city-details");
+const temperatureDetails = document.querySelector(".details-temperature");
+const temperatureFeelsDetails = document.querySelector(".details-feels");
+const weatherDetails = document.querySelector(".details-weather");
+const sunriseDetails = document.querySelector(".details-sunrise");
+const sunsetDetails = document.querySelector(".details-sunset");
 
 const btnFavourite = document.querySelector(".city-like");
 const savedCities = document.querySelector(".cities");
@@ -56,12 +62,15 @@ function cleateElement(city) {
 
   const btnCloseCity = document.createElement("button");
   btnCloseCity.className = "close-city";
+  favouriteCity.append(btnCloseCity);
 
   btnCloseCity.addEventListener("click", () => {
     removeFavouriteCity(city.location);
   } );
 
-  favouriteCity.append(btnCloseCity);
+  favouriteCity.addEventListener('click', () => {
+    updateWeatherInfo(city.location);
+  } )
 
   return favouriteCity;
 }
@@ -88,17 +97,30 @@ function isCityExist(name) {
   return cities.find((item) => item.location === name);
 }
 
+//* функция обновления данных о погоде (получение + установка)
+
+async function updateWeatherInfo(city) {
+  try{
+    let cityWeather = await getWeather(city);
+    setWeatherNow(cityWeather);
+    setWeatherDetails(cityWeather);
+  }
+  catch(err) {
+    console.log(err)
+  }
+}
+
 // * функция получения данных погоды с API
 
-async function getWeather() {
+async function getWeather(city) {
   try {
-    const city = inputName.value;
     const url = `${API.SERVER_URL}?q=${city}&appid=${API.API_KEY}&units=metric`;
 
     let response = await fetch(url);
     if (response.ok) {
       let data = await response.json();
-      setWeatherNow(data);
+      // setWeatherNow(data);
+      return data
     } else if (isInputEmpty(city)) {
       throw new Error("Название города не введено");
     } else {
@@ -119,16 +141,31 @@ function setWeatherNow(data) {
   cityName.textContent = data.name;
 }
 
+// * функция установки данных погоды в раздел Details
+
+function setWeatherDetails(data) {
+  cityNameDetails.textContent = data.name;
+  temperatureDetails.textContent = `${Math.trunc(data.main.temp)}°`;
+  temperatureFeelsDetails.textContent = `${Math.trunc(data.main.feels_like)}°`;
+  weatherDetails.textContent = data.weather[0].main;
+  // sunriseDetails.textContent = data.sys.sunrise;
+}
+
 // * функция очистки поля ввода города
 
 function cleanInput() {
   form.reset();
 }
 
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
-  getWeather();
-  cleanInput();
-});
+//* функция получения данных города и запуск обновления погоды
 
+async function showWeather(event) {
+  event.preventDefault();
+  const city = inputName.value;
+  updateWeatherInfo(city);
+  cleanInput();
+}
+
+form.addEventListener("submit", showWeather);
 btnFavourite.addEventListener("click", addFavouriteCity);
+addEventListener("DOMContentLoaded", updateWeatherInfo("Vladivostok"));
