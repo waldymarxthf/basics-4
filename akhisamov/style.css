@@ -52,7 +52,7 @@ body {
     width: 30px;
     height: 30px;
     border: none;
-    background: url('./img/search.svg') no-repeat;
+    background: url('./img/search.png') no-repeat;
 }
 
 .weather__button:hover {
@@ -61,6 +61,31 @@ body {
 
 .weather__content {
     display: flex;
+}
+
+.btn_addi {
+    margin: 0; 
+    padding: 0; 
+    border: 0; 
+    outline: none; 
+    background-color: transparent;
+}
+
+.btn_addi:active {
+    background-color: grey;
+}
+
+.btn_add {
+    background-image: none; 
+    background-color: transparent;
+}
+.btn{
+    border: 1px black solid;
+    background-color: transparent;
+    transform: rotate(45deg);
+    border: none;
+    font-size: 20px;
+    width: 30px;
 }
 
 .weather__information {
@@ -107,7 +132,8 @@ body {
 }
 
 .tab-hidden {
-    min-height: 340px;
+    height: 340px;
+    overflow-y: scroll;
 }
 
 .tab-2 {
@@ -149,6 +175,7 @@ body {
     font-size: 24px;
     line-height: 28px;  
     max-height: 318px;
+    
     /* overflow-y: scroll; */
     /* overflow: hidden; */
 }
@@ -172,7 +199,7 @@ body {
 
 .img {
     text-align: center;
-    padding-top: 40px;
+    padding-top: 20px;
 }
 
 .tab-block__country {
@@ -182,7 +209,7 @@ body {
 }
 
 .tab-block {
-    margin-top: 98px;
+    margin-top: 20%;
     display: flex;
     justify-content: space-between;
 }
@@ -233,4 +260,14 @@ body {
     margin-top: 38px;
     margin-left: 10px;
     margin-right: 10px;
+}
+
+.img__forecast {
+    width: 31px;
+    height: 31px;
+    
+}
+
+.div_list {
+    display: flex;
 }
