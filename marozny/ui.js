@@ -1,5 +1,5 @@
-import { getData } from "./api.js";
-import { loadLocations, saveLocationToLocalStorage } from "./localstorage.js";
+import { updateBlock } from "./api.js";
+import { loadLocations, saveLocationToLocalStorage, saveLastLocationToLocalStorage } from "./localstorage.js";
 import { UI_ELEMENTS } from "./ui-elements.js";
 import { findLocationIndex, round, timeConverter } from "./utils.js";
 
@@ -13,6 +13,15 @@ UI_ELEMENTS.NOW.TABS.forEach((tab, index) => {
     UI_ELEMENTS.NOW.WEATHER_BLOCK[index].classList.add("active");
   });
 });
+
+function addToFavorite(name) {
+  storage.push({
+    location: name,
+  });
+  saveLocationToLocalStorage(storage);
+  saveLastLocationToLocalStorage(name);
+  renderLocations();
+}
 
 function loadDataNow(data) {
   const {
@@ -69,9 +78,10 @@ function createLocationElement(element) {
   newFavCity.append(deleteFavCity);
 
   newFavCity.addEventListener("click", () => {
-    getData(element.location);
+    updateBlock(element.location);
   });
-  deleteFavCity.addEventListener("click", () => {
+  deleteFavCity.addEventListener("click", (event) => {
+    event.stopPropagation();
     deleteLocation(newFavCity);
   });
   return newFavCity;
@@ -84,4 +94,6 @@ function deleteLocation(name) {
   renderLocations();
 }
 
-export { loadDataDetails, loadDataNow, renderLocations, createLocationElement, deleteLocation, storage };
+loadLocations(storage);
+renderLocations();
+export { loadDataDetails, loadDataNow, renderLocations, createLocationElement, deleteLocation, storage, addToFavorite };

@@ -1,21 +1,7 @@
-import { getData } from "./api.js";
-import {
-  loadLastLocation,
-  loadLocations,
-  saveLastLocationToLocalStorage,
-  saveLocationToLocalStorage,
-} from "./localstorage.js";
+import { getData, updateBlock } from "./api.js";
+import { loadLastLocation, loadLocations, saveLastLocationToLocalStorage } from "./localstorage.js";
 import { UI_ELEMENTS } from "./ui-elements.js";
-import { renderLocations, storage } from "./ui.js";
-
-function addToFavorite(name) {
-  storage.push({
-    location: name,
-  });
-  saveLocationToLocalStorage(storage);
-  saveLastLocationToLocalStorage(name);
-  renderLocations();
-}
+import { addToFavorite, renderLocations } from "./ui.js";
 
 addEventListener("DOMContentLoaded", async () => {
   let savedLocation = loadLastLocation();
@@ -25,20 +11,18 @@ addEventListener("DOMContentLoaded", async () => {
     saveLastLocationToLocalStorage(savedLocation);
   }
 
-  await getData(savedLocation);
+  await updateBlock(savedLocation);
 });
 
 UI_ELEMENTS.NOW.SEARCH_FORM.addEventListener("submit", (event) => {
   event.preventDefault();
   const cityName = UI_ELEMENTS.NOW.INPUT_CITY.value;
-  getData(cityName);
+  updateBlock(cityName);
   event.target.reset();
 });
 
 UI_ELEMENTS.NOW.FAVORITE_BUTTON.addEventListener("click", () => {
   let name = UI_ELEMENTS.NOW.CURRENT_CITY.textContent;
   addToFavorite(name);
+  renderLocations();
 });
-
-loadLocations(storage);
-renderLocations();
