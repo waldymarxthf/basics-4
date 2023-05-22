@@ -1,3 +1,4 @@
+// import { loadFormLocalStorage } from "./localStorage";
 const button_now = document.querySelector(".now");
 const button_details = document.querySelector(".details");
 const button_forecast = document.querySelector(".forecast");
@@ -70,43 +71,51 @@ const serverUrl = 'http://api.openweathermap.org/data/2.5/weather';
 const text_temperature = document.querySelector(".text_temperature");
 const apiKey = 'afc9f2df39f9e9e49eeb1afac7034d35';
 
+async function fetchServer() {
+    const url = `${serverUrl}?q=${city.value}&appid=${apiKey}`;
+    const response = await fetch(url);
+    const data = await response.json();
+    console.log(data);
+    return data;
+
+
+}
+function createElement2() {
+    // const url = `${serverUrl}?q=${city.value}&appid=${apiKey}`;
+    // const response = await fetch(url);
+    // const data = await response.json();
+    // console.log(data);
+    fetchServer();
+    const data = fetchServer();
+    console.log(data);
+    console.log(data.main);
+    const gender = Math.floor(data.main.temp - 273);
+    const feels_Like = Math.floor(data.main.feels_like - 273);
+    const Weather = data.weather[0].main;
+
+    const sunrise = data.sys.sunrise;
+    const datesr = new Date(sunrise * 1000);
+    const dates = datesr.getHours() + ":" + datesr.getMinutes();
+
+    const sunset = data.sys.sunset;
+    const datess = new Date(sunset * 1000);
+    const dateess = datess.getHours() + ":" + datess.getMinutes();
+
+    Aktobe.textContent = city.value;
+    left_content_temperature2_Aktobe.innerHTML = city.value;
+    text_temperature.innerHTML = gender + "&#176";
+    Details_Temperature.innerHTML = "Temperature: " + gender + "&#176";
+    Details_Feels.innerHTML = "Feels like: " + feels_Like + "&#176";
+    Details_Weather.innerHTML = "Weather: " + Weather;
+    Details_Sunrise.innerHTML = "Sunrise: " + dates;
+    Details_Sunset.innerHTML = "Sunset: " + dateess;
+}
 async function addLocation(e) {
     e.preventDefault();
     console.log(city.value);
-    Aktobe.textContent = city.value;
-    left_content_temperature2_Aktobe.innerHTML = city.value;
-    const url = `${serverUrl}?q=${city.value}&appid=${apiKey}`;
-    console.log(url);
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
-        console.log(data);
-        const gender = Math.floor(data.main.temp - 273);
-        const feels_Like = Math.floor(data.main.feels_like - 273);
-        const Weather = data.weather[0].main;
-
-        const sunrise = data.sys.sunrise;
-        const datesr = new Date(sunrise * 1000);
-        const dates = datesr.getHours() + ":" + datesr.getMinutes();
-
-        const sunset = data.sys.sunset;
-        const datess = new Date(sunset * 1000);
-        const dateess = datess.getHours() + ":" + datess.getMinutes();
-        text_temperature.innerHTML = gender + "&#176";
-        Details_Temperature.innerHTML = "Temperature: " + gender + "&#176";
-        Details_Feels.innerHTML = "Feels like: " + feels_Like + "&#176";
-        Details_Weather.innerHTML = "Weather: " + Weather;
-        Details_Sunrise.innerHTML = "Sunrise: " + dates;
-        Details_Sunset.innerHTML = "Sunset: " + dateess;
-        if (!response.ok) {
-            throw new Error("ошибка");
-        }
-
-    } catch (error) {
+    createElement2();
 
 
-
-    }
 }
 
 function findIndex(name) {
@@ -121,9 +130,10 @@ function deleteLocation(name) {
     }
     list.splice(Index, 1);
     console.log(list);
+    render();
     return;
 }
-function addedLocation(){
+function addedLocation() {
     const name = Aktobe.textContent
     list.push({
         name
@@ -132,8 +142,7 @@ function addedLocation(){
 }
 
 const ul = document.createElement("ul");
-function createElement(cityName) {    
-    right_bottom_content.innerHTML = ""
+function createElement(cityName) {
     const li = document.createElement("li");
     const location = document.createElement("p");
     const x = document.createElement("p");
@@ -150,7 +159,7 @@ function createElement(cityName) {
     console.log(li);
     ul.appendChild(li);
     right_bottom_content.appendChild(ul);
-    
+
     location.addEventListener("click", Likes);
 
     console.log(location.textContent)
@@ -161,14 +170,14 @@ function createElement(cityName) {
         event.stopPropagation()
         deleteLocation(location.textContent);
     });
-   
-    
+
+
     return li;
 
 }
-function render(){
+function render() {
     right_bottom_content.innerHTML = "";
-    for(const loc of list){
+    for (const loc of list) {
         console.log(loc.name);
         const locNode = createElement(loc.name);
         right_bottom_content.appendChild(locNode);
@@ -178,20 +187,37 @@ function render(){
 render();
 async function Likes(event) {
     const p = event.target;
-    console.log(p);
-    Aktobe.textContent = p.textContent;
-    console.log(p.textContent)
+
     const url = `${serverUrl}?q=${p.textContent}&appid=${apiKey}`;
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data);
+
     const gender = Math.floor(data.main.temp - 273);
-    console.log(gender - 273);
+    const feels_Like = Math.floor(data.main.feels_like - 273);
+    const Weather = data.weather[0].main;
+
+    const sunrise = data.sys.sunrise;
+    const datesr = new Date(sunrise * 1000);
+    const dates = datesr.getHours() + ":" + datesr.getMinutes();
+
+    const sunset = data.sys.sunset;
+    const datess = new Date(sunset * 1000);
+    const dateess = datess.getHours() + ":" + datess.getMinutes();
+
+    Aktobe.textContent = p.textContent;
+    left_content_temperature2_Aktobe.innerHTML = p.textContent;
     text_temperature.innerHTML = gender + "&#176";
+    text_temperature.innerHTML = gender + "&#176";
+    Details_Temperature.innerHTML = "Temperature: " + gender + "&#176";
+    Details_Feels.innerHTML = "Feels like: " + feels_Like + "&#176";
+    Details_Weather.innerHTML = "Weather: " + Weather;
+    Details_Sunrise.innerHTML = "Sunrise: " + dates;
+    Details_Sunset.innerHTML = "Sunset: " + dateess;
 }
 
 serdce.addEventListener("click", () => {
     addedLocation(),
-    render()
+        render()
 });
 form.addEventListener("submit", addLocation);
+
