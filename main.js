@@ -1,24 +1,49 @@
-import {formHighTodo, formLowTodo, formHighTaskTodo, formLowTaskTodo, textTask} from "./formVariableToDo";
+import {
+    formHighTodo,
+    formLowTodo,
+    formHighTaskTodo,
+    formLowTaskTodo,
+    textTaskHigh,
+    textTaskLow,
+    addClickTaskHigh,
+    addClickTaskLow
+} from "./formVariableToDo.js";
 
-function addTask(event) {
+function addTaskHigh(event) {
     event.preventDefault();
-    const newTask = createTask();
+    const textTask = textTaskHigh;
+    const newTask = createTask(textTask);
+    console.log(newTask);
     formHighTaskTodo.insertAdjacentHTML('afterbegin', newTask);
-    textTask.textContent = '';
+    textTaskHigh.value = '';
 }
 
-function createTask() {
-    const valueTask = textTask.textContent;
+function addTaskLow(event) {
+    event.preventDefault();
+    const textTask = textTaskLow;
+    const newTask = createTask(textTask);
+    console.log(newTask);
+    formLowTaskTodo.insertAdjacentHTML('afterbegin', newTask);
+    textTaskLow.value = '';
+}
+
+function createTask(textTask) {
+    const valueTask = textTask.value;
+    console.log(valueTask);
     const elementTask = `
           <div class="task">
               <div class="task__info">
                 <input type="checkbox"/>
                 <p class="task__text">${valueTask}</p>
               </div>
-              <img src="images/close-icon.svg" class="todo__del-img" />
+              <img src="close-icon.svg" class="todo__del-img" />
         </div>`;
     return elementTask;
 }
 
-formHighTodo.addEventListener('submit', addTask);
-formLowTodo.addEventListener('submit', addTask);
+
+formHighTodo.addEventListener('submit', addTaskHigh);
+formLowTodo.addEventListener('submit', addTaskLow);
+addClickTaskHigh.addEventListener('click', addTaskHigh);
+addClickTaskLow.addEventListener('click', addTaskLow);
+
