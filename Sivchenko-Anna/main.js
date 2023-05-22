@@ -16,73 +16,81 @@ const weatherDetails = document.querySelector(".details-weather");
 const sunriseDetails = document.querySelector(".details-sunrise");
 const sunsetDetails = document.querySelector(".details-sunset");
 
-const btnFavourite = document.querySelector(".city-like");
+const btnFavorite = document.querySelector(".city-like");
 const savedCities = document.querySelector(".cities");
-const cities = [];
+let favoriteCities = [];
 
 //* функция добавения города в массив
 
-function addFavouriteCity () {
-  const favouriteCity = cityName.textContent;
+function addFavoriteCity() {
+  const favoriteCity = cityName.textContent;
 
-  if (isInputEmpty(favouriteCity)) {
+  if (isInputEmpty(favoriteCity)) {
     alert("Введите название города");
     return;
   }
 
-  if(isCityExist(favouriteCity)) {
+  if (isCityExist(favoriteCity)) {
     alert("Выбранный город уже добавен в избранное");
-    return
+    return;
   }
 
-  cities.push({location: favouriteCity});
+  favoriteCities.push({ location: favoriteCity });
+  saveFavoriteCitiesInlocalStorage(favoriteCities);
   render();
 }
 
 //* функция удаления города из массива
 
-function removeFavouriteCity(city) {
+function removeFavoriteCity(city) {
   const index = findIndex(city);
-  cities.splice(index, 1);
-  render()
+  favoriteCities.splice(index, 1);
+  saveFavoriteCitiesInlocalStorage(favoriteCities);
+  render();
 }
 
 //* функция поиска индекса в массиве
 
 function findIndex(name) {
-  return cities.findIndex((item) => item.location === name)
+  return favoriteCities.findIndex((item) => item.location === name);
 }
 
 //* функция создания элемента списка избранных городов
 
 function cleateElement(city) {
-  const favouriteCity = document.createElement("li");
-  favouriteCity.className = "city-item";
-  favouriteCity.textContent = city.location;
+  const favoriteCity = document.createElement("li");
+  favoriteCity.className = "city-item";
+  favoriteCity.textContent = city.location;
 
   const btnCloseCity = document.createElement("button");
   btnCloseCity.className = "close-city";
-  favouriteCity.append(btnCloseCity);
+  favoriteCity.append(btnCloseCity);
 
   btnCloseCity.addEventListener("click", () => {
-    removeFavouriteCity(city.location);
+    removeFavoriteCity(city.location);
   } );
 
-  favouriteCity.addEventListener('click', () => {
+  favoriteCity.addEventListener("click", () => {
     updateWeatherInfo(city.location);
-  } )
+    saveCurrentCityInLocalStorage(city.location);
+  });
 
-  return favouriteCity;
+  return favoriteCity;
 }
 
 //* функция рендера блока с избранными городами
 
 function render() {
   savedCities.innerHTML = '';
-  cities.forEach((item) => {
-    const newFavouriteCity = cleateElement(item);
-    savedCities.append(newFavouriteCity);
-  })
+  favoriteCities = getFavoriteCitiesFromlocalStorage();
+
+  const cityName = getCurrentCityFromlocalStorage();
+  updateWeatherInfo(cityName)
+
+  favoriteCities.forEach((item) => {
+    const newFavoriteCity = cleateElement(item);
+    savedCities.append(newFavoriteCity);
+  });
 }
 
 //* функция проверки на пустую строку
@@ -94,7 +102,7 @@ function isInputEmpty(name) {
 //* функция проверки наличия города в массиве
 
 function isCityExist(name) {
-  return cities.find((item) => item.location === name);
+  return favoriteCities.find((item) => item.location === name);
 }
 
 //* функция обновления данных о погоде (получение + установка)
@@ -119,7 +127,6 @@ async function getWeather(city) {
     let response = await fetch(url);
     if (response.ok) {
       let data = await response.json();
-      // setWeatherNow(data);
       return data
     } else if (isInputEmpty(city)) {
       throw new Error("Название города не введено");
@@ -163,9 +170,37 @@ async function showWeather(event) {
   event.preventDefault();
   const city = inputName.value;
   updateWeatherInfo(city);
+  saveCurrentCityInLocalStorage(city);
   cleanInput();
 }
 
+//* функция сохранения списка городов в localStorage
+
+function saveFavoriteCitiesInlocalStorage(cities) {
+  const cityList = JSON.stringify(cities);
+  localStorage.setItem("favoriteCities", cityList);
+}
+
+//* функция получения списка городов из localStorage
+
+function getFavoriteCitiesFromlocalStorage() {
+  const cityList = localStorage.getItem("favoriteCities");
+  const result = JSON.parse(cityList);
+  return result || [];
+}
+
+//* функция сохранения актуального города в localStorage
+
+function saveCurrentCityInLocalStorage(cityName) {
+  localStorage.setItem("currentCity", cityName);
+}
+
+//* функция получения актуального города в localStorage
+
+function getCurrentCityFromlocalStorage() {
+  return localStorage.getItem("currentCity") || "Vladivostok";
+}
+
 form.addEventListener("submit", showWeather);
-btnFavourite.addEventListener("click", addFavouriteCity);
-addEventListener("DOMContentLoaded", updateWeatherInfo("Vladivostok"));
+btnFavorite.addEventListener("click", addFavoriteCity);
+document.addEventListener("DOMContentLoaded", render);
