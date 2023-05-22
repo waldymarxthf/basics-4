@@ -127,6 +127,7 @@ async function getWeather(city) {
     let response = await fetch(url);
     if (response.ok) {
       let data = await response.json();
+      console.log(data);
       return data
     } else if (isInputEmpty(city)) {
       throw new Error("Название города не введено");
@@ -152,10 +153,20 @@ function setWeatherNow(data) {
 
 function setWeatherDetails(data) {
   cityNameDetails.textContent = data.name;
-  temperatureDetails.textContent = `${Math.trunc(data.main.temp)}°`;
-  temperatureFeelsDetails.textContent = `${Math.trunc(data.main.feels_like)}°`;
+  temperatureDetails.textContent = `${Math.round(data.main.temp)}°`;
+  temperatureFeelsDetails.textContent = `${Math.round(data.main.feels_like)}°`;
   weatherDetails.textContent = data.weather[0].main;
-  // sunriseDetails.textContent = data.sys.sunrise;
+  sunriseDetails.textContent = convertUnixTime(data.sys.sunrise);
+  sunsetDetails.textContent = convertUnixTime(data.sys.sunset);
+}
+
+// * функция конвертирования времени из unix-формата
+
+function convertUnixTime(time) {
+  const date = new Date(time * 1000);
+  const hours = date.getHours().toString().padStart(2, "0");
+  const minutes = date.getMinutes().toString().padStart(2, "0");
+  return `${hours}:${minutes}`;
 }
 
 // * функция очистки поля ввода города
