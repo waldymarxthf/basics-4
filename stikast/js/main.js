@@ -33,6 +33,7 @@ import {
 
 import { timeConverter } from "./time-converter.js";
 
+const forecastUrl = "http://api.openweathermap.org/data/2.5/forecast";
 const serverUrl = "http://api.openweathermap.org/data/2.5/weather";
 const apiKey = "f660a2fb1e4bad108d6160b7f58c555f";
 
@@ -46,15 +47,16 @@ tabs.forEach((tab, index) => {
 	})
 })
 
-const locations = [];
+const locations = new Set();
 
 function addLocation() {
 	try {
-		if (locations.some((item) => item === nowCityName.textContent)) {
+		if (locations.has((item) => item === nowCityName.textContent)) {
 			throw new Error("Such a city has already been added");
 		}
 
-		locations.push(nowCityName.textContent);
+		locations.add(nowCityName.textContent);
+		console.log(locations)
 		saveLocation(locations);
 		renderAddedLocations();
 
@@ -79,8 +81,10 @@ function createAddedLocations(item) {
   addedLocationsList.append(newLocation);
 
   deleteButton.addEventListener("click", () => {
-    const index = locations.findIndex((item) => item === newLocation.textContent);
-    locations.splice(index, 1);
+    // const index = locations.findIndex((item) => item === newLocation.textContent);
+    // locations.splice(index, 1);
+		locations.delete(newLocation.textContent)
+		console.log(locations)
     saveLocation(locations);
     renderAddedLocations();
   });
@@ -97,6 +101,24 @@ function renderAddedLocations() {
   });
 }
 
+async function getForecast(location) {
+	try {
+		const url = `${forecastUrl}?q=${location}&appid=${apiKey}&units=metric`;
+		const response = await fetch(url);
+		
+    if (!response.ok) {
+      throw new Error((await response.json()).message);
+    } else {
+      const data = await response.json();
+			console.log(data)
+      return data;
+    }
+  } catch (error) {
+    alert(error.message);
+    console.log(error.message);
+  }
+}
+
 async function getWeather(location) {
   try {
     const url = `${serverUrl}?q=${location}&appid=${apiKey}&units=metric`;
@@ -106,7 +128,7 @@ async function getWeather(location) {
       throw new Error((await response.json()).message);
     } else {
       const data = await response.json();
-			console.log(data)
+			// console.log(data)
       return data;
     }
   } catch (error) {
@@ -138,14 +160,50 @@ async function updateDetails(data) {
 	detailsSunset.textContent = timeConverter(data.sys.sunset, data.timezone)
 }
 
+async function updateForecast(data) {
+	if (!data) {
+		throw new Error("No such city has been found");
+	}
+
+	forecastTitle.textContent = data.city.name;
+
+	forecastDate.forEach((date, index) => {
+		let dateForecast = new Date((data.list[index].dt) * 1000);
+		let convertDate = dateForecast.toLocaleString("en-GB", {day: "numeric", month: "long"});
+		date.textContent = convertDate;
+	})
+
+	forecastTime.forEach((time, index) => {
+		time.textContent = timeConverter(data.list[index].dt, data.city.timezone);
+	})
+
+	forecastTemperature.forEach((temp, index) => {
+		temp.textContent = Math.round(data.list[index].main.temp);
+	})
+
+	forecastFeels.forEach((feels, index) => {
+		feels.textContent = Math.round(data.list[index].main.feels_like);
+	})
+
+	forecastWeather.forEach((weather, index) => {
+		weather.textContent = data.list[index].weather[0].main;
+	})
+
+	forecastIcon.forEach((icon, index) => {
+		icon.src = `https://openweathermap.org/img/wn/${data.list[index].weather[0].icon}@2x.png`;
+	})
+}
+
 async function updateWeather(location) {
 	try {
 		const city = await getWeather(location);
+		const forecast = await getForecast(location);
 
 		saveLastLocation(location);
 
 		await updateNow(city);
 		await updateDetails(city);
+		await updateForecast(forecast);
 	} catch (error) {
 		console.error(error)
 	}
