@@ -1,14 +1,13 @@
-import { getData, updateBlock } from "./api.js";
-import { loadLastLocation, loadLocations, saveLastLocationToLocalStorage } from "./localstorage.js";
+import { loadLocations, saveLocationToLocalStorage } from "./localstorage.js";
 import { UI_ELEMENTS } from "./ui-elements.js";
-import { addToFavorite, renderLocations } from "./ui.js";
+import { addToFavorite, renderLocations, updateBlock } from "./ui.js";
 
-addEventListener("DOMContentLoaded", async () => {
-  let savedLocation = loadLastLocation();
+window.addEventListener("DOMContentLoaded", async () => {
+  let savedLocation = loadLocations("LastLocation");
 
   if (!savedLocation) {
     savedLocation = "Poznań";
-    saveLastLocationToLocalStorage(savedLocation);
+    saveLocationToLocalStorage("LastLocation", savedLocation);
   }
 
   await updateBlock(savedLocation);

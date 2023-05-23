@@ -1,5 +1,3 @@
-import { loadDataDetails, loadDataNow } from "./ui.js";
-
 const serverUrl = "http://api.openweathermap.org/data/2.5/weather";
 const apiKey = "afc9f2df39f9e9e49eeb1afac7034d35";
 
@@ -17,10 +15,4 @@ export async function getData(cityName) {
   } catch (error) {
     alert(error);
   }
-}
-
-export async function updateBlock(cityName) {
-  const city = await getData(cityName);
-  loadDataNow(city);
-  loadDataDetails(city);
 }

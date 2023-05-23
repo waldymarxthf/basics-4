@@ -1,9 +1,9 @@
-import { updateBlock } from "./api.js";
-import { loadLocations, saveLocationToLocalStorage, saveLastLocationToLocalStorage } from "./localstorage.js";
+import { getData } from "./api.js";
+import { loadLocations, saveLocationToLocalStorage } from "./localstorage.js";
 import { UI_ELEMENTS } from "./ui-elements.js";
 import { findLocationIndex, round, timeConverter } from "./utils.js";
 
-const storage = [] || loadLocations(storage);
+const storage = loadLocations("NewFavCity") || [];
 
 UI_ELEMENTS.NOW.TABS.forEach((tab, index) => {
   tab.addEventListener("click", () => {
@@ -18,9 +18,15 @@ function addToFavorite(name) {
   storage.push({
     location: name,
   });
-  saveLocationToLocalStorage(storage);
-  saveLastLocationToLocalStorage(name);
+  saveLocationToLocalStorage("NewFavCity", storage);
   renderLocations();
+}
+
+export async function updateBlock(cityName) {
+  const city = await getData(cityName);
+  loadDataNow(city);
+  loadDataDetails(city);
+  saveLocationToLocalStorage("LastLocation", cityName);
 }
 
 function loadDataNow(data) {
@@ -90,10 +96,10 @@ function createLocationElement(element) {
 function deleteLocation(name) {
   const index = findLocationIndex(storage, name);
   storage.splice(index, 1);
-  saveLocationToLocalStorage(storage);
+  saveLocationToLocalStorage("NewFavCity", storage);
   renderLocations();
 }
 
-loadLocations(storage);
+loadLocations("NewFavCity");
 renderLocations();
 export { loadDataDetails, loadDataNow, renderLocations, createLocationElement, deleteLocation, storage, addToFavorite };
