@@ -1,16 +1,21 @@
 
 const storage = {
-    saveFavoriteCities(favoriteCities){
-        localStorage.arrayCities = JSON.stringify(favoriteCities);
+    saveFavoriteCities(favoriteCitiesArr){
+        const favoriteCities = new Set(favoriteCitiesArr);
+        localStorage.arrayCities = JSON.stringify([...favoriteCities]);
     },
     setStartCity(startCity){
         localStorage.startCity = startCity;
     },
     getFavoriteCities(){
-        if(!localStorage.arrayCities){
-            return [];
-        } 
-        return JSON.parse(localStorage.arrayCities)
+        try{
+            if(!localStorage.arrayCities){
+                return [];
+            } 
+            return JSON.parse(localStorage.arrayCities)
+        } catch(err){
+            return console.log(err);
+        }
     },
     getCurrentCity(){
         if(!localStorage.startCity){

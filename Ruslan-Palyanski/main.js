@@ -19,6 +19,7 @@ function createHTMLElement(tag, selector, inner){
 }
 
 function showCities(){
+    let cities =  storage.getFavoriteCities();
     if(cities.length){
         cities.forEach(item => {
             const element = createHTMLElement('li', 'list__item', item)
@@ -41,7 +42,7 @@ function render(){
 function checkClick(event){
     if(event.target.classList.contains('list__btn')){
         const textElement = event.target.previousSibling.textContent;
-        cities = cities.filter(item => item !== textElement)
+        cities = cities.filter(item => item !== textElement);
         storage.saveFavoriteCities(cities)
         render()
     }
@@ -181,15 +182,25 @@ function createTabBlock(date, time, tm, feels, cloud, img){
 
 function addCity(){
     const myCity = city.textContent;
+    // 
     const result = cities.find(item => item === myCity);
     if(result){
-        alert('This city exists in your list')
-    } else {
-        cities.push(myCity)
-        storage.saveFavoriteCities(cities)
-        storage.setStartCity(myCity)
-        render()
-    }
+            alert('This city exists in your list')
+        }
+    cities.push(myCity)
+    storage.saveFavoriteCities(cities)
+    storage.setStartCity(myCity)
+    render()
+    // 
+    // const result = cities.find(item => item === myCity);
+    // if(result){
+    //     alert('This city exists in your list')
+    // } else {
+    //     cities.push(myCity)
+    //     storage.saveFavoriteCities(cities)
+    //     storage.setStartCity(myCity)
+    //     render()
+    // }
 }
 
 list.addEventListener('click', checkClick)
