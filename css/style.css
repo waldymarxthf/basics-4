@@ -172,10 +172,11 @@ line-height: 28px;
 .city-list{
   overflow-y: auto;
  height: 319px;
+
  
 }
-
 .city-list__items{
+  height: fit-content;
   width: 270px;
   background-color: lightslategray;
   border: 0px;
