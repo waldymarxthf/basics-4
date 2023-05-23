@@ -14,7 +14,8 @@ export function timeConverterTime(UNIX_timestamp) {
     hour: '2-digit', 
     minute: '2-digit', 
     timeZone: 'UTC', 
-    hour12: false });
+    hour12: false 
+  });
   return normalTime;
 }
 

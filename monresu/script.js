@@ -4,7 +4,8 @@ import { NOW_SCREEN_NODES, DETAILS_SCREEN_NODES, MODAL_NODES, FAV_SCREEN_NODES, 
 import { getData, timeConverterTime, timeConverterDay, cityExistsInCache, findIndexCityInCache, saveToLocalStorage, findCityIndex } from './modules/functions.mjs'
 
 let currCity = JSON.parse(localStorage.getItem('currCity')) || 'aktobe';
-const list = JSON.parse(localStorage.getItem('favCities')) || [];
+const storedList = (localStorage.getItem('favCities'));
+const list = new Set(storedList ? JSON.parse(storedList) : '');
 
 function modalErrorButtonHandler() {
   MODAL_NODES.modalError.style.display = 'none';
@@ -18,7 +19,7 @@ function showError(error) {
 }
 
 function renderNowBlock(data) {
-  if (findCityIndex(list, data.name.toLowerCase()) !== -1) {
+  if (list.has(data.name.toLowerCase())) {
     NOW_SCREEN_NODES.NOW_FAV_CITY.src = './assets/svg/shape-full.svg'
   }
   else {
@@ -77,14 +78,15 @@ async function updateCityInCache(name, URL) {
   const i = findIndexCityInCache(cache, name);
   cache[i].data = data;
   cache[i].time = new Date().getHours();
+  console.log(data)
   renderNowBlock(data);
   renderDetailsBlock(data);
   saveToLocalStorage('cache', cache);
 }
 
 function loadCityFromCache(name) {
-  renderNowBlock(cache[findIndexCityInCache(cache, name)].data, name);
-  renderDetailsBlock(cache[findIndexCityInCache(cache, name)].data, name);
+  renderNowBlock(cache[findIndexCityInCache(cache, name)].data);
+  renderDetailsBlock(cache[findIndexCityInCache(cache, name)].data);
 }
 
 tabsContainerNode.addEventListener('click', event => tabsContainerNodeHandler(event));
@@ -162,18 +164,24 @@ function formHandler(event) {
 form.addEventListener('submit', event => formHandler(event));
 
 function addCity(name) {
-  if (findCityIndex(list, name) !== -1) {
-    console.log('Город уже есть в списке');
-    return;
+  for (let city of list) {
+    if (city.name === name.toLowerCase()) {
+      console.log('Город уже есть в списке');
+      return;
+    }
   }
-  list.push({ name: name.toLowerCase() });
-  saveToLocalStorage('favCities', list);
+  list.add({ name: name.toLowerCase() });
+  saveToLocalStorage('favCities', [...list]);
 }
 
 function removeCity(name) {
-  const index = findCityIndex(list, name);
-  list.splice(index, 1);
-  saveToLocalStorage('favCities', list);
+  for (let city of list) {
+    if (city.name === name.toLowerCase()) {
+      list.delete(city);
+      break;
+    }
+  }
+  saveToLocalStorage('favCities', [...list]);
   return;
 }
 
@@ -189,7 +197,7 @@ function renderFavCities() {
     closeBtn.addEventListener('click', function closeBtnHandler() {
       removeCity(city.name);
       renderFavCities();
-      renderNowBlock({name: city.name})
+      weather(city.name)
       this.removeEventListener('click', closeBtnHandler)
     })
     cityNode.addEventListener('click', function cityNodeHandler(e) {
