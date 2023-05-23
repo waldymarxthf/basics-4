@@ -30,6 +30,7 @@ import {
 
 //-------------------------------------------------------------------------------------
 let listOfCities = [];
+let uniqueCities = [];
 
 let countId = 0;
 
@@ -125,21 +126,22 @@ function renderInfoForecast(data, name) {
 }
 
 //-------------------------------------------------------------------------------------
+function getUniqueItems(arr) {
+  const newSet = new Set(arr)
+  const newArr = Array.from(newSet)
+  return newArr
+}
+
 
 function addCity() {
-  for (let i = 0; i < listOfCities.length; i++) {
-    if (listOfCities[i].location === city.textContent) return;
-  }
-  listOfCities.push({
-    location: city.textContent,
-  });
-  renderStorage();
+  listOfCities.push(city.textContent);
+  uniqueCities = getUniqueItems(listOfCities)
+  return uniqueCities
 }
 
 function deleteCity(event) {
   const idBtn = event.target.getAttribute("id");
-  listOfCities.splice(idBtn, 1);
-  renderStorage();
+  uniqueCities.splice(idBtn, 1);
 }
 
 function resetDom() {
@@ -149,8 +151,8 @@ function resetDom() {
 function renderStorage() {
   countId = 0;
   resetDom();
-  listOfCities.forEach((el) => createEl(el.location));
-  saveLocationToLocalStorage("location", listOfCities);
+  uniqueCities.forEach((el) => createEl(el));
+  saveLocationToLocalStorage("location", uniqueCities);
 }
 
 //-------------------------------------------------------------------------------------
@@ -167,7 +169,11 @@ function createEl(city) {
   favoriteList.appendChild(newCity);
   newCity.appendChild(closeBtn);
 
-  closeBtn.addEventListener("click", deleteCity);
+  closeBtn.addEventListener("click", (event) => {
+    deleteCity(event);
+    console.log(event.target)
+    renderStorage();
+  });
 }
 
 //-------------------------------------------------------------------------------------
@@ -203,6 +209,9 @@ form.addEventListener("submit", (event) => {
 
 favoriteBtn.addEventListener("click", () => {
   addCity();
+  renderStorage();
+  console.log(listOfCities)
+  console.log(uniqueCities)
 });
 
 document.addEventListener("click", (event) => {
@@ -216,8 +225,11 @@ document.addEventListener("click", (event) => {
 
 window.addEventListener("DOMContentLoaded", () => {
   listOfCities = loadFromLocalStorage("location") || [];
+  uniqueCities = loadFromLocalStorage("location") || [];
   let lastLocation = loadFromLocalStorage("lastLocation");
   renderStorage();
   getData(apiKey, lastLocation, "weather");
   getData(apiKey, lastLocation, "forecast");
 });
+
+
