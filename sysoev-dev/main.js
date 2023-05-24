@@ -2,7 +2,7 @@ import { UI_ELEMENTS } from './js/ui.js';
 import { roundValue, convertDate } from './js/utils.js';
 import { storage } from './js/storage.js';
 
-let favoritesCitiesList = [];
+let favoritesCitiesList = new Set();
 
 function showWeatherData(data) {
   const iconUrl = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
@@ -30,7 +30,6 @@ async function getWeatherForecast(cityName) {
     const response = await fetch(url);
     if (response.ok) {
       const result = await response.json();
-      console.log(result);
     } else {
       throw new Error('Error');
     }
@@ -64,13 +63,11 @@ function submitSearchFormHandler(event) {
   event.target.reset();
 }
 
-function deleteFavoritesItem(name) {
-  const index = favoritesCitiesList.indexOf(name);
-  if (index >= 0) {
-    favoritesCitiesList.splice(index, 1);
-    storage.saveFavoriteCities(favoritesCitiesList);
-    render();
-  }
+function deleteFavoritesItem(cityName) {
+  favoritesCitiesList.delete(cityName);
+  storage.saveFavoriteCities(favoritesCitiesList);
+  console.log(favoritesCitiesList);
+  render();
 }
 
 function createFavoritesElement(cityName) {
@@ -92,22 +89,15 @@ function createFavoritesElement(cityName) {
   return item;
 }
 
-function findInFavoritesList(item) {
-  return favoritesCitiesList.includes(item);
-}
-
 function showFavoritesElement(element) {
   UI_ELEMENTS.FAVORITES_LIST.prepend(element);
 }
 
 function addFavoritesItemInList(cityName) {
-  const isValid = findInFavoritesList(cityName);
+  favoritesCitiesList.add(cityName);
   console.log(favoritesCitiesList);
-  if (!isValid) {
-    favoritesCitiesList.push(cityName);
-    storage.saveFavoriteCities(favoritesCitiesList);
-    render();
-  }
+  storage.saveFavoriteCities(favoritesCitiesList);
+  render();
 }
 
 function addFavoritesElement(cityName) {
