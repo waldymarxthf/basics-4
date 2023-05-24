@@ -1,21 +1,7 @@
-import { createEl, convertKelvinToCelsius } from "./config.js";
+import { createEl, convertKelvinToCelsius, updateCitySet } from "./config.js";
 import { renderCityList } from "./createLocationPoints.js";
-import { arrCityList, setArrCityList } from "./constants.js";
+import { arrCityList } from "./constants.js";
 import { storage } from "./saveLocalStorage.js";
-
-const workingWithAnArray = (option) => {
-  const setCities = new Set(option.array);
-
-  if (option.action === "has") {
-    return setCities[option.action](option.element);
-  }
-
-  setCities[option.action](option.element);
-
-  setArrCityList([...setCities]);
-
-  return [...setCities];
-};
 
 export const createCardNow = (data) => {
   const cardNow = createEl("div");
@@ -50,17 +36,13 @@ export const createCardNow = (data) => {
         cardNowSityLike.dataset.like = true;
         cardNowSityLike.style.backgroundImage = "url(./img/shape_true.svg)";
 
-        const newArrCityList = workingWithAnArray({ array: arrCityList, action: "add", element: data.city.name });
-
-        storage.setFavoriteCities(newArrCityList);
+        storage.setFavoriteCities(updateCitySet({ array: arrCityList, action: "add", element: data.city.name }));
         renderCityList();
       } else {
         cardNowSityLike.dataset.like = false;
         cardNowSityLike.style.backgroundImage = "url(./img/Shape.svg)";
 
-        const newArrCityList = workingWithAnArray({ array: arrCityList, action: "delete", element: data.city.name });
-
-        storage.setFavoriteCities(newArrCityList);
+        storage.setFavoriteCities(updateCitySet({ array: arrCityList, action: "delete", element: data.city.name }));
         renderCityList();
       }
     }
