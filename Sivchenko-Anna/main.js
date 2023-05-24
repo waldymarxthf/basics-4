@@ -1,29 +1,19 @@
-const API = {
-  SERVER_URL: "http://api.openweathermap.org/data/2.5/weather",
-  API_KEY: "f660a2fb1e4bad108d6160b7f58c555f",
-};
+import { UI_ELEMENTS, WEATHER } from "./variables.js";
+import { updateWeatherInfo } from "./api.js";
+import { isInputEmpty, findIndex, isCityExist, cleanInput } from "./utils.js";
+import {
+  saveFavoriteCitiesInlocalStorage,
+  getFavoriteCitiesFromlocalStorage,
+  saveCurrentCityInLocalStorage,
+  getCurrentCityFromlocalStorage,
+} from "./storage.js";
 
-const form = document.querySelector(".search");
-const inputName = document.querySelector(".search-input");
-
-const cityName = document.querySelector(".city");
-const temperature = document.querySelector(".temperature");
-const weatherIcon = document.querySelector(".weather-icon");
-const cityNameDetails = document.querySelector(".city-details");
-const temperatureDetails = document.querySelector(".details-temperature");
-const temperatureFeelsDetails = document.querySelector(".details-feels");
-const weatherDetails = document.querySelector(".details-weather");
-const sunriseDetails = document.querySelector(".details-sunrise");
-const sunsetDetails = document.querySelector(".details-sunset");
-
-const btnFavorite = document.querySelector(".city-like");
-const savedCities = document.querySelector(".cities");
-let favoriteCities = [];
+export let favoriteCities = [];
 
 //* функция добавения города в массив
 
 function addFavoriteCity() {
-  const favoriteCity = cityName.textContent;
+  const favoriteCity = WEATHER.NOW.CITY_NAME.textContent;
 
   if (isInputEmpty(favoriteCity)) {
     alert("Введите название города");
@@ -47,12 +37,6 @@ function removeFavoriteCity(city) {
   favoriteCities.splice(index, 1);
   saveFavoriteCitiesInlocalStorage(favoriteCities);
   render();
-}
-
-//* функция поиска индекса в массиве
-
-function findIndex(name) {
-  return favoriteCities.findIndex((item) => item.location === name);
 }
 
 //* функция создания элемента списка избранных городов
@@ -81,7 +65,7 @@ function cleateElement(city) {
 //* функция рендера блока с избранными городами
 
 function render() {
-  savedCities.innerHTML = '';
+  UI_ELEMENTS.CITIES_LIST.innerHTML = '';
   favoriteCities = getFavoriteCitiesFromlocalStorage();
 
   const cityName = getCurrentCityFromlocalStorage();
@@ -89,129 +73,21 @@ function render() {
 
   favoriteCities.forEach((item) => {
     const newFavoriteCity = cleateElement(item);
-    savedCities.append(newFavoriteCity);
+    UI_ELEMENTS.CITIES_LIST.append(newFavoriteCity);
   });
-}
-
-//* функция проверки на пустую строку
-
-function isInputEmpty(name) {
-  return !name.trim();
-}
-
-//* функция проверки наличия города в массиве
-
-function isCityExist(name) {
-  return favoriteCities.find((item) => item.location === name);
-}
-
-//* функция обновления данных о погоде (получение + установка)
-
-async function updateWeatherInfo(city) {
-  try{
-    let cityWeather = await getWeather(city);
-    setWeatherNow(cityWeather);
-    setWeatherDetails(cityWeather);
-  }
-  catch(err) {
-    console.log(err)
-  }
-}
-
-// * функция получения данных погоды с API
-
-async function getWeather(city) {
-  try {
-    const url = `${API.SERVER_URL}?q=${city}&appid=${API.API_KEY}&units=metric`;
-
-    let response = await fetch(url);
-    if (response.ok) {
-      let data = await response.json();
-      console.log(data);
-      return data
-    } else if (isInputEmpty(city)) {
-      throw new Error("Название города не введено");
-    } else {
-      throw new Error((await response.json()).message);
-    }
-  } catch (error) {
-    alert(error.message);
-  }
-}
-
-// * функция установки данных погоды в раздел Now
-
-function setWeatherNow(data) {
-  temperature.textContent = `${Math.trunc(data.main.temp)}°`;
-  const icon = data.weather[0].icon;
-  const iconSrc = `https://openweathermap.org/img/wn/${icon}@2x.png`;
-  weatherIcon.src = iconSrc;
-  cityName.textContent = data.name;
-}
-
-// * функция установки данных погоды в раздел Details
-
-function setWeatherDetails(data) {
-  cityNameDetails.textContent = data.name;
-  temperatureDetails.textContent = `${Math.round(data.main.temp)}°`;
-  temperatureFeelsDetails.textContent = `${Math.round(data.main.feels_like)}°`;
-  weatherDetails.textContent = data.weather[0].main;
-  sunriseDetails.textContent = convertUnixTime(data.sys.sunrise);
-  sunsetDetails.textContent = convertUnixTime(data.sys.sunset);
-}
-
-// * функция конвертирования времени из unix-формата
-
-function convertUnixTime(time) {
-  const date = new Date(time * 1000);
-  const hours = date.getHours().toString().padStart(2, "0");
-  const minutes = date.getMinutes().toString().padStart(2, "0");
-  return `${hours}:${minutes}`;
-}
-
-// * функция очистки поля ввода города
-
-function cleanInput() {
-  form.reset();
 }
 
 //* функция получения данных города и запуск обновления погоды
 
 async function showWeather(event) {
   event.preventDefault();
-  const city = inputName.value;
+  const city = UI_ELEMENTS.INPUT_NAME.value;
   updateWeatherInfo(city);
   saveCurrentCityInLocalStorage(city);
   cleanInput();
 }
 
-//* функция сохранения списка городов в localStorage
+UI_ELEMENTS.FORM.addEventListener("submit", showWeather);
+UI_ELEMENTS.BTN_FAVORITE.addEventListener("click", addFavoriteCity);
 
-function saveFavoriteCitiesInlocalStorage(cities) {
-  const cityList = JSON.stringify(cities);
-  localStorage.setItem("favoriteCities", cityList);
-}
-
-//* функция получения списка городов из localStorage
-
-function getFavoriteCitiesFromlocalStorage() {
-  const cityList = localStorage.getItem("favoriteCities");
-  const result = JSON.parse(cityList);
-  return result || [];
-}
-
-//* функция сохранения актуального города в localStorage
-
-function saveCurrentCityInLocalStorage(cityName) {
-  localStorage.setItem("currentCity", cityName);
-}
-
-//* функция получения актуального города в localStorage
-
-function getCurrentCityFromlocalStorage() {
-  return localStorage.getItem("currentCity") || "Vladivostok";
-}
-
-form.addEventListener("submit", showWeather);
-btnFavorite.addEventListener("click", addFavoriteCity);
-document.addEventListener("DOMContentLoaded", render);
+window.addEventListener("DOMContentLoaded", render);
