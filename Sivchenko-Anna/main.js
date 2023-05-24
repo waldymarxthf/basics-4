@@ -15,11 +15,6 @@ export let favoriteCities = [];
 function addFavoriteCity() {
   const favoriteCity = WEATHER.NOW.CITY_NAME.textContent;
 
-  if (isInputEmpty(favoriteCity)) {
-    alert("Введите название города");
-    return;
-  }
-
   if (isCityExist(favoriteCity)) {
     alert("Выбранный город уже добавен в избранное");
     return;
@@ -82,6 +77,12 @@ function render() {
 async function showWeather(event) {
   event.preventDefault();
   const city = UI_ELEMENTS.INPUT_NAME.value;
+
+  if (isInputEmpty(city)) {
+    alert("Введите название города");
+    return;
+  }
+
   updateWeatherInfo(city);
   saveCurrentCityInLocalStorage(city);
   cleanInput();

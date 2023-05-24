@@ -1,5 +1,5 @@
 import { API, WEATHER } from "./variables.js";
-import { isInputEmpty, convertUnixTime } from "./utils.js";
+import { convertUnixTime } from "./utils.js";
 
 // * функция получения данных погоды с API
 
@@ -8,16 +8,10 @@ export async function getWeather(city) {
     const url = `${API.SERVER_URL}?q=${city}&appid=${API.API_KEY}&units=metric`;
 
     let response = await fetch(url);
-    if (response.ok) {
-      let data = await response.json();
-      return data
-    } else if (isInputEmpty(city)) {
-      throw new Error("Название города не введено");
-    } else {
-      throw new Error((await response.json()).message);
-    }
+    let data = await response.json();
+    return data;
   } catch (error) {
-    alert(error.message);
+    throw new Error((await response.json()).error);
   }
 }
 
@@ -52,6 +46,6 @@ export async function updateWeatherInfo(city) {
     setWeatherDetails(cityWeather);
   }
   catch(err) {
-    console.log(err)
+    alert(err.message);
   }
 }
