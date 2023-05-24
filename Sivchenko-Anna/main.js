@@ -8,29 +8,30 @@ import {
   getCurrentCityFromlocalStorage,
 } from "./storage.js";
 
-export let favoriteCities = [];
+export const favoriteCities = new Set(getFavoriteCitiesFromlocalStorage());
 
 //* функция добавения города в массив
 
 function addFavoriteCity() {
   const favoriteCity = WEATHER.NOW.CITY_NAME.textContent;
 
-  if (isCityExist(favoriteCity)) {
+  if(favoriteCities.has(favoriteCity)) {
     alert("Выбранный город уже добавен в избранное");
     return;
   }
 
-  favoriteCities.push({ location: favoriteCity });
-  saveFavoriteCitiesInlocalStorage(favoriteCities);
+  favoriteCities.add(favoriteCity)
+  saveFavoriteCitiesInlocalStorage([...favoriteCities]);
+
   render();
 }
 
 //* функция удаления города из массива
 
 function removeFavoriteCity(city) {
-  const index = findIndex(city);
-  favoriteCities.splice(index, 1);
-  saveFavoriteCitiesInlocalStorage(favoriteCities);
+  favoriteCities.delete(city)
+  console.log(favoriteCities);
+  saveFavoriteCitiesInlocalStorage([...favoriteCities]);
   render();
 }
 
@@ -39,19 +40,19 @@ function removeFavoriteCity(city) {
 function cleateElement(city) {
   const favoriteCity = document.createElement("li");
   favoriteCity.className = "city-item";
-  favoriteCity.textContent = city.location;
+  favoriteCity.textContent = city;
 
   const btnCloseCity = document.createElement("button");
   btnCloseCity.className = "close-city";
   favoriteCity.append(btnCloseCity);
 
   btnCloseCity.addEventListener("click", () => {
-    removeFavoriteCity(city.location);
+    removeFavoriteCity(city);
   } );
 
   favoriteCity.addEventListener("click", () => {
-    updateWeatherInfo(city.location);
-    saveCurrentCityInLocalStorage(city.location);
+    updateWeatherInfo(city);
+    saveCurrentCityInLocalStorage(city);
   });
 
   return favoriteCity;
@@ -61,7 +62,6 @@ function cleateElement(city) {
 
 function render() {
   UI_ELEMENTS.CITIES_LIST.innerHTML = '';
-  favoriteCities = getFavoriteCitiesFromlocalStorage();
 
   const cityName = getCurrentCityFromlocalStorage();
   updateWeatherInfo(cityName)
