@@ -1,4 +1,4 @@
-import { createEl, convertKelvinToCelsius, updateCitySet } from "./config.js";
+import { createEl, convertKelvinToCelsius, addCityToList, removeCityFromList } from "./config.js";
 import { renderCityList } from "./createLocationPoints.js";
 import { arrCityList } from "./constants.js";
 import { storage } from "./saveLocalStorage.js";
@@ -36,13 +36,13 @@ export const createCardNow = (data) => {
         cardNowSityLike.dataset.like = true;
         cardNowSityLike.style.backgroundImage = "url(./img/shape_true.svg)";
 
-        storage.setFavoriteCities(updateCitySet({ array: arrCityList, action: "add", element: data.city.name }));
+        storage.setFavoriteCities(addCityToList({ array: arrCityList, element: data.city.name }));
         renderCityList();
       } else {
         cardNowSityLike.dataset.like = false;
         cardNowSityLike.style.backgroundImage = "url(./img/Shape.svg)";
 
-        storage.setFavoriteCities(updateCitySet({ array: arrCityList, action: "delete", element: data.city.name }));
+        storage.setFavoriteCities(removeCityFromList({ array: arrCityList, element: data.city.name }));
         renderCityList();
       }
     }

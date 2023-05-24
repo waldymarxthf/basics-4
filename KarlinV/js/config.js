@@ -34,19 +34,26 @@ export const convertUnixTimeToDate = (unixTime, timeZone) => {
 export const checkCityInList = (option) => {
   const { city, cityList } = option;
   const setCities = new Set(cityList);
+
   return setCities.has(city);
 };
 
-export const updateCitySet = (option) => {
-  const { array, action, element } = option;
+export const addCityToList = (option) => {
+  const { array, element } = option;
   const setCities = new Set(array);
 
-  if (action === "has") {
-    console.error("Для проверки наличия городов в списке, используйте функцию checkCityInList");
-    return;
-  }
+  setCities.add(element);
 
-  setCities[action](element);
+  setArrCityList([...setCities]);
+
+  return [...setCities];
+};
+
+export const removeCityFromList = (option) => {
+  const { array, element } = option;
+  const setCities = new Set(array);
+
+  setCities.delete(element);
 
   setArrCityList([...setCities]);
 
