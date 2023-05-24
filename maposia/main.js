@@ -17,6 +17,8 @@ import {convertTime, convertDate, getUrlIcon} from "./assets/utilites.mjs";
 const serverUrl = 'http://api.openweathermap.org/data/2.5'
 const apiKey = 'f660a2fb1e4bad108d6160b7f58c555f'
 
+const SetArray = new Set(JSON.parse(localStorage.getItem('favoriteCities')) || [])
+
 function buttonHandler(evt) {
     evt.target.classList.add('active')
     if (evt.target === BUTTONS.NOW) {
@@ -181,12 +183,14 @@ function createListCityNode(city) {
 
 function likeButtonHandler() {
     const favoriteCity = WEATHER_NOW.CITY.textContent
-    if (FAVORITE_LIST_CITIES.length > 5) {
-        FAVORITE_LIST_CITIES.shift()
-    }
-    FAVORITE_LIST_CITIES.push(favoriteCity)
-    storage.saveFavoriteCities(FAVORITE_LIST_CITIES)
-
+    //
+    // if (FAVORITE_LIST_CITIES.length > 5) {
+    //     FAVORITE_LIST_CITIES.shift()
+    // }
+    // FAVORITE_LIST_CITIES.push(favoriteCity)
+    // storage.saveFavoriteCities(FAVORITE_LIST_CITIES)
+    SetArray.add(favoriteCity)
+    storage.saveFavoriteCities([...SetArray])
     render()
 
 }
@@ -199,12 +203,10 @@ function listCityHandler(evt) {
         }
     }
     if (evt.target.className === 'del-btn') {
-        const index = FAVORITE_LIST_CITIES.indexOf(evt.target.parentNode.textContent)
-        FAVORITE_LIST_CITIES.splice(index, 1)
-        storage.saveFavoriteCities(FAVORITE_LIST_CITIES)
+        SetArray.delete(evt.target.parentNode.textContent)
+        storage.saveFavoriteCities([...SetArray])
         render()
 
-        evt.target.parentNode.remove()
     }
 
 }
@@ -215,8 +217,8 @@ function render() {
     favoriteCities.forEach((city) => {
         createListCityNode(city)
     })
-    // const currentCity = storage.getCurrentCity()
-    searchCity(CURRENT_CITY)
+    const currentCity = storage.getCurrentCity()
+    searchCity(currentCity)
 }
 
 
