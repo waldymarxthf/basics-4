@@ -10,20 +10,27 @@ const keeper = [];
 // Logic
 // Service functions
 
+// Contructor for task
+const Task = function (taskName, prio, id) {
+  (this.taskName = taskName),
+    (this.prio = prio),
+    (this.complete = false),
+    (this.id = id);
+};
 // Plus
 function addTask(event) {
   event.preventDefault();
 
   let prio = activeForm;
   let taskName;
+  if (activeForm === null || taskName === "") return;
   if (activeForm === "high") {
     taskName = dom.inputHigh.value;
   }
   if (activeForm === "low") {
     taskName = dom.inputLow.value;
   }
-  if (activeForm === null || taskName === "") return;
-  console.log(taskName, prio);
+
   addNewToMemory(taskName, prio);
 }
 
@@ -43,10 +50,10 @@ function addNewToMemory(taskName, prio) {
   const id = "id-" + Date.now();
 
   // creating an object
-  const newT = { task: taskName, complete: false, priority: prio, id: id };
+  const task = new Task(taskName, prio, id);
 
   // push to keeper
-  keeper.push(newT);
+  keeper.push(task);
   render();
 }
 
@@ -68,31 +75,31 @@ function render() {
   dom.parentLow.innerHTML = "";
 
   // run through the memory
-
+  console.log(keeper);
   keeper.forEach((obj) => {
     // create a div by a .hidden template
     const copiedDiv = dom.sourceDiv.cloneNode(true);
-
+    console.log(obj.taskName);
     // Add text
     const textInside = copiedDiv.querySelector(".text");
-    textInside.textContent = obj.task;
+    textInside.textContent = obj.taskName;
 
     // Add priority, status
     // Nest the div
     // (nesting into the corresponding (priority) container, corresponding (status): above or below
-    if (obj.priority === "high" && obj.complete === true) {
+    if (obj.prio === "high" && obj.complete === true) {
       dom.parentHigh.insertAdjacentElement("beforeend", copiedDiv);
       copiedDiv.classList.add("complete");
     }
-    if (obj.priority === "low" && obj.complete === true) {
+    if (obj.prio === "low" && obj.complete === true) {
       dom.parentLow.insertAdjacentElement("beforeend", copiedDiv);
       copiedDiv.classList.add("complete");
     }
-    if (obj.priority === "high" && obj.complete === false) {
+    if (obj.prio === "high" && obj.complete === false) {
       dom.parentHigh.insertAdjacentElement("afterbegin", copiedDiv);
     }
 
-    if (obj.priority === "low" && obj.complete === false) {
+    if (obj.prio === "low" && obj.complete === false) {
       dom.parentLow.insertAdjacentElement("afterbegin", copiedDiv);
     }
 
