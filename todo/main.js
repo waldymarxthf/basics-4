@@ -4,6 +4,14 @@ const low = document.querySelector('.low');
 const formHigh = document.querySelector('.form-high');
 const formLow = document.querySelector('.form-low');
 
+function Task(prioritу, task){
+    // this = {};
+    this.prioritу = prioritу;
+    this.status = 'unchecked';
+    this.task = task;
+    // return this;
+}
+
 const data = [
     {prioritу: 'HIGH', status: 'unchecked', task: 'This is super interesting theme. You know you fils whith code become big, you want takeout some things somewere from main program.'},
     {prioritу: 'HIGH', status: 'checked', task: 'Make this TODO list'},
