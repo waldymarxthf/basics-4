@@ -43,15 +43,27 @@ function isTaskExist(name) {
   return true;
 }
 
+function CreateTask(name, priority) {
+  this.name = name;
+  this.status = STATUSES.DEFAULT_STATUS;
+  this.priority = priority;
+}
+
 function addTask(name, status, priority) {
   if (!isTaskExist(name)) {
     return;
   }
-  list.push({
-    name,
-    status,
-    priority,
-  });
+
+  const task = new CreateTask(name, priority);
+
+  // list.push({
+  //   name,
+  //   status,
+  //   priority,
+  // });
+
+  list.push(task);
+  console.log(list);
 }
 
 export function deleteTask(name) {
@@ -108,7 +120,6 @@ function formsSubmitHandler(event) {
     addTask(inputLowValue, STATUSES.TODO, PRIORITIES.LOW);
     render();
   }
-  console.log(list);
   event.target.reset();
 }
 
