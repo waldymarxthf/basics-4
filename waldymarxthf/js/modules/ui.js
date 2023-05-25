@@ -115,6 +115,10 @@ export function renderLocations() {
 
 //* рендерит локации из массива
 
+function Locations(cityName) {
+	this.cityName = cityName
+}
+
 export function addLocation() {
 	try {
 		const cityName = VARIABLES.NOW.CITY.textContent;
@@ -124,7 +128,9 @@ export function addLocation() {
 			return
 		}
 
-		locations.add(cityName);
+		const city = new Locations(cityName)
+		locations.add(city.cityName);
+		console.log(locations)
 
 		saveToLocalStorage("newLocation", [...locations]);
 		renderLocations();
