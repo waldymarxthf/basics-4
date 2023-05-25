@@ -6,7 +6,7 @@ const left_content_temperature2 = document.querySelector(".left_content_temperat
 const left_content_temperature3 = document.querySelector(".left_content_temperature3");
 const right_bottom_content = document.querySelector(".right_bottom_content");
 const serdce = document.querySelector(".serdce");
-export const list = new Set();
+export const list = new Set(JSON.parse(localStorage.getItem('loc')) || []);
 
 if (localStorage.getItem('right_bottom_content')) {
     right_bottom_content.innerHTML = localStorage.getItem('right_bottom_content');
@@ -138,7 +138,7 @@ function addedLocation() {
 
 
     console.log("Set = " + setString);
-    localStorage.setItem('loc', JSON.stringify(list));
+    localStorage.setItem('loc', JSON.stringify([...list]));
 }
 
 const ul = document.createElement("ul");
@@ -176,12 +176,16 @@ function render() {
     // list = getFavoriteCityFromlocalStorage();
     // const cityName = getCurrentCityFromlocalStorage();
     // updateWeatherInfo(cityName)
-    for (const loc of list) {
-        console.log("render = " + loc);
-        const locNode = createElement(loc);
-        right_bottom_content.appendChild(locNode);
-    }
-    localStorage.getItem('loc');
+    // for (const loc of list) {
+    //     console.log("render = " + loc);
+    //     const locNode = createElement(loc);
+    //     right_bottom_content.appendChild(locNode);
+    // }
+    // localStorage.getItem('loc');
+    list.forEach(el => {
+        let elem = createElement(el)
+        right_bottom_content.append(elem)
+    })
 
 }
 render();
@@ -211,8 +215,8 @@ async function Likes(event) {
     Details_Weather.innerHTML = "Weather: " + Weather;
     Details_Sunrise.innerHTML = "Sunrise: " + dates;
     Details_Sunset.innerHTML = "Sunset: " + dateess;
-    localStorage.setItem('loc', JSON.stringify(list));
-    localStorage.getItem('loc');
+    // localStorage.setItem('loc', JSON.stringify(list));
+    // localStorage.getItem('loc');
 }
 
 serdce.addEventListener("click", () => {
