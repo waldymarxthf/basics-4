@@ -1,4 +1,3 @@
-// import { loadFormLocalStorage } from "./localStorage";
 const button_now = document.querySelector(".now");
 const button_details = document.querySelector(".details");
 const button_forecast = document.querySelector(".forecast");
@@ -7,7 +6,7 @@ const left_content_temperature2 = document.querySelector(".left_content_temperat
 const left_content_temperature3 = document.querySelector(".left_content_temperature3");
 const right_bottom_content = document.querySelector(".right_bottom_content");
 const serdce = document.querySelector(".serdce");
-const list = [];
+export const list = new Set();
 
 if (localStorage.getItem('right_bottom_content')) {
     right_bottom_content.innerHTML = localStorage.getItem('right_bottom_content');
@@ -80,7 +79,7 @@ async function fetchServer() {
 
 
 }
-async function calculations(){
+async function calculations() {
     const data = await fetchServer();
     const gender = Math.floor(data.main.temp - 273);
     const feels_Like = Math.floor(data.main.feels_like - 273);
@@ -97,7 +96,7 @@ async function calculations(){
     return array;
 }
 async function createElement2(city) {
-    let array =  await calculations();
+    let array = await calculations();
     console.log(array);
 
     Aktobe.textContent = city.value;
@@ -113,31 +112,34 @@ async function addLocation(e) {
     e.preventDefault();
     console.log(city.value);
     createElement2(city);
-
-
 }
 
 function findIndex(name) {
-    return list.findIndex(t => t.name === name);
+    return list.has(name);
 }
 function deleteLocation(name) {
     const Index = findIndex(name);
     console.log(Index);
-    if (Index === -1) {
+    if (Index === false) {
         console.error("Такого города нет в списке");
         return;
     }
-    list.splice(Index, 1);
-    console.log(list);
+    list.delete(name);
+    console.log("delete = " + name);
+    saveFavoriteCityInlocalStorage
     render();
     return;
 }
 function addedLocation() {
-    const name = Aktobe.textContent
-    list.push({
-        name
-    });
-    console.log(list);
+    const name = Aktobe.textContent;
+    console.log("name" + name);
+    list.add(name);
+    let setString = '';
+    setString += name + ' ';
+
+
+    console.log("Set = " + setString);
+    localStorage.setItem('loc', JSON.stringify(list));
 }
 
 const ul = document.createElement("ul");
@@ -159,12 +161,9 @@ function createElement(cityName) {
     ul.appendChild(li);
     right_bottom_content.appendChild(ul);
 
-    location.addEventListener("click",  Likes);
+    location.addEventListener("click", Likes);
 
     console.log(location.textContent)
-    // serdce.addEventListener("click", addedLocation(location.textContent));
-
-    // localStorage.setItem("right_bottom_content", right_bottom_content.innerHTML);
     x.addEventListener("click", (event) => {
         event.stopPropagation()
         deleteLocation(location.textContent);
@@ -176,26 +175,46 @@ function createElement(cityName) {
 }
 function render() {
     right_bottom_content.innerHTML = "";
+    // list = getFavoriteCityFromlocalStorage();
+    // const cityName = getCurrentCityFromlocalStorage();
+    // updateWeatherInfo(cityName)
     for (const loc of list) {
-        console.log(loc.name);
-        const locNode = createElement(loc.name);
+        console.log("render = " + loc);
+        const locNode = createElement(loc);
         right_bottom_content.appendChild(locNode);
     }
+    localStorage.getItem('loc');
 
 }
 render();
 async function Likes(event) {
     const p = event.target;
-    let array = await calculations();
-    console.log(array);
+    const url = `${serverUrl}?q=${p.textContent}&appid=${apiKey}`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    const gender = Math.floor(data.main.temp - 273);
+    const feels_Like = Math.floor(data.main.feels_like - 273);
+    const Weather = data.weather[0].main;
+
+    const sunrise = data.sys.sunrise;
+    const datesr = new Date(sunrise * 1000);
+    const dates = datesr.getHours() + ":" + datesr.getMinutes();
+
+    const sunset = data.sys.sunset;
+    const datess = new Date(sunset * 1000);
+    const dateess = datess.getHours() + ":" + datess.getMinutes();
+
     Aktobe.textContent = p.textContent;
     left_content_temperature2_Aktobe.innerHTML = p.textContent;
-    text_temperature.innerHTML = array[0] + "&#176";
-    Details_Temperature.innerHTML = "Temperature: " + array[0] + "&#176";
-    Details_Feels.innerHTML = "Feels like: " + array[1] + "&#176";
-    Details_Weather.innerHTML = "Weather: " + array[2];
-    Details_Sunrise.innerHTML = "Sunrise: " + array[3];
-    Details_Sunset.innerHTML = "Sunset: " + array[4];
+    text_temperature.innerHTML = gender + "&#176";
+    Details_Temperature.innerHTML = "Temperature: " + gender + "&#176";
+    Details_Feels.innerHTML = "Feels like: " + feels_Like + "&#176";
+    Details_Weather.innerHTML = "Weather: " + Weather;
+    Details_Sunrise.innerHTML = "Sunrise: " + dates;
+    Details_Sunset.innerHTML = "Sunset: " + dateess;
+    localStorage.setItem('loc', JSON.stringify(list));
+    localStorage.getItem('loc');
 }
 
 serdce.addEventListener("click", () => {
