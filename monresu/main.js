@@ -63,14 +63,14 @@ function render() {
 /* Функции добавления задач при отправке форм */
 function addTaskHigh(event) {
   event.preventDefault();
-  addTask(inputHighTaskNode.value, statuses.TODO, priorities.HIGH);
+  addTask(inputHighTaskNode.value, priorities.HIGH);
   inputHighTaskNode.value = '';
   render();
 }
 
 function addTaskLow(event) {
   event.preventDefault();
-  addTask(inputLowTaskNode.value, statuses.TODO, priorities.LOW)
+  addTask(inputLowTaskNode.value, priorities.LOW)
   inputLowTaskNode.value = '';
   render();
 }
@@ -79,5 +79,4 @@ inputHighNode.addEventListener('submit', addTaskHigh)
 inputLowNode.addEventListener('submit', addTaskLow)
 
 
-loadTasksFromLocalStorage(); 
 render()

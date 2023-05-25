@@ -22,17 +22,18 @@ const messages = {
   deleteTask: 'Задача удалена',
 }
 
-let list = [];
+let list = JSON.parse(localStorage.getItem('tasks')) || [];
+
+class Task {
+  constructor(name, priority) {
+    this.name = name;
+    this.status = statuses.TODO;
+    this.priority = priority;
+  }
+}
 
 function saveTasksInLocalStorage() {
   localStorage.setItem('tasks', JSON.stringify(list));
-}
-
-function loadTasksFromLocalStorage() {
-  const tasks = localStorage.getItem('tasks');
-  if (tasks) {
-    list = JSON.parse(tasks);
-  }
 }
 
 const isEmpty = (task) => { return !task.trim(); };
@@ -54,7 +55,7 @@ function isStatusExists(status) {
 }
 
 /* Добавление задачи в массив */
-function addTask(taskName, status = statuses.TODO, priority = priorities.LOW) {
+function addTask(taskName, priority = priorities.LOW) {
   try {
     if (isTaskExists(taskName)) {
       throw new Error('Такая задача уже есть!');
@@ -62,11 +63,7 @@ function addTask(taskName, status = statuses.TODO, priority = priorities.LOW) {
     if (isEmpty(taskName)) {
       throw new Error('Вы пытаетесь добавить пустую задачу!');
     }
-    const task = {
-      name: taskName,
-      status,
-      priority
-    };
+    const task = new Task(taskName, priority);
     list.push(task);
     saveTasksInLocalStorage();
   } catch(err) {
