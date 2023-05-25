@@ -28,15 +28,38 @@ const toDoList = [
   {} ,
 
 ];
-
-function addTask(name,priority,status){
-  toDoList.push({name,priority,status})
-  if(priority == "undefined"){
-console.log("! Please enter all data for "+name+" !")
-  }
-  console.clear()
-  console.log(toDoList)
+/*function User(name) {
+  this.name = name;
+  this.isAdmin = false;
 }
+
+let user = new User("Jack");
+
+*/
+
+
+/*task = { name: 'Task Name', status: ' TODO', priority: 'LOW'}
+сделать так
+task = new Task('Task Name', ' TODO', 'LOW')
+*/
+ 
+function createObject(name,priority,status){
+  this.name=name;
+  this.priority=priority;
+  this.status=status;
+}
+
+
+function addTask(task){
+  toDoList.push(task)
+  if(task.priority == "undefined"){
+console.log("! Please enter all data for "+task.name+" !")
+  }
+  clearInputHigh()
+  console.clear()
+ console.log(toDoList)
+}
+
 
 function delTask(nameDel){
  const delTask = toDoList.findIndex( task => task.name === nameDel)
@@ -55,8 +78,9 @@ function clearInputLow(){
 
 UI_ELEMNTS.FROM_HIGH.addEventListener('submit', (event) => {
   event.preventDefault();
-  addTask(UI_ELEMNTS.INPUT_HIGH.value,PRIOPITIES.HIGH,STATUS.TODO);
-  functionsUItaskHigh(UI_ELEMNTS.LIST_TASKS_HIGH);
+  let task = new createObject(UI_ELEMNTS.INPUT_HIGH.value ,PRIOPITIES.HIGH,STATUS.TODO)
+  addTask(task);
+  renderHigh(UI_ELEMNTS.LIST_TASKS_HIGH);
  
 })
 
@@ -67,13 +91,13 @@ UI_ELEMNTS.FROM_LOW.addEventListener('submit', (event) => {
  
 })
 
-function functionsUItaskHigh(listTasks) {
+ 
+function renderHigh(listTasks) {
  listTasks.innerHTML=""
   
 const taskHigh = toDoList.filter(task => task.priority===PRIOPITIES.HIGH);
 taskHigh.forEach(user=>{
-
-  const task = document.createElement("div")
+  const task = document.createObject("div")
   task.classList.add('task');
   task.innerHTML=`
     <input type="checkbox" class="checkBox">
@@ -108,9 +132,9 @@ clearInputHigh()
 function functionsUItaskLow(listTasks){
 UI_ELEMNTS.LIST_TASKS_LOW.innerHTML=""
 const taskLow = toDoList.filter(task => task.priority===PRIOPITIES.LOW);
-taskLow.forEach(user=>{
 
-  const task = document.createElement("div")
+taskLow.forEach(user=>{
+  const task = document.createObject("div")
   task.classList.add('task');
   task.innerHTML=`
     <input type="checkbox" class="checkBox">
