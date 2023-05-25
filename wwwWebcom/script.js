@@ -1,27 +1,5 @@
 import {
-  tabs,
-  windows,
-  form,
-  input,
-  apiKey,
-  favoriteBtn,
-  city,
-  temperature,
-  icon,
-  favoriteList,
-  detailsCity,
-  detailsTemperature,
-  detailsFeels,
-  detailsWeather,
-  detailsSunrise,
-  detailsSunset,
-  forecastCity,
-  forecastDate,
-  forecastTime,
-  forecastTemperature,
-  forecastFeels,
-  forecastRainfall,
-  forecastIcon,
+  VARIABLE_UI
 } from "./modules/constants.mjs";
 import {
   loadFromLocalStorage,
@@ -35,94 +13,102 @@ let uniqueCities = [];
 let countId = 0;
 
 //-------------------------------------------------------------------------------------
-tabs.forEach((tab, index) => {
+VARIABLE_UI.NOW.tabs.forEach((tab, index) => {
   tab.addEventListener("click", () => {
-    for (const tab of tabs) tab.classList.remove("active");
-    for (const window of windows) window.classList.remove("active");
-    tabs[index].classList.add("active");
-    windows[index].classList.add("active");
+    for (const tab of VARIABLE_UI.NOW.tabs) tab.classList.remove("active");
+    for (const window of VARIABLE_UI.NOW.windows) window.classList.remove("active");
+    VARIABLE_UI.NOW.tabs[index].classList.add("active");
+    VARIABLE_UI.NOW.windows[index].classList.add("active");
   });
 });
 
-//-------------------------------------------------------------------------------------
+function inputReset(){
+  VARIABLE_UI.NOW.input.value = ""
+}
 
-async function getData(apiKey, name, nameEndPoint) {
+//---------------------------------------------GET-DATA----------------------------------------
+
+async function getData(nameEndPoint,name) {
+
+  const cityName = name;
+  const apiKey = 'f660a2fb1e4bad108d6160b7f58c555f'
+  const serverUrl = "http://api.openweathermap.org/data/2.5";
+  const endPoint = nameEndPoint;
+  const response = await fetch(
+    `${serverUrl}/${endPoint}?q=${cityName}&appid=${apiKey}&units=metric`
+  );
+  const data = await response.json();
+
+  if (!response.ok) throw new Error("Такого города не существует");
+
+  saveLocationToLocalStorage("lastLocation", cityName);
+  return data
+}
+
+async function getInfoWeather(nameLocation) {
   try {
-    const cityName = name;
-    const serverUrl = "http://api.openweathermap.org/data/2.5";
-    const endPoint = nameEndPoint;
-    const response = await fetch(
-      `${serverUrl}/${endPoint}?q=${cityName}&appid=${apiKey}&units=metric`
-    );
-    const data = await response.json();
-
-    if (!response.ok) throw new Error("Такого города не существует");
-
-    saveLocationToLocalStorage("lastLocation", cityName);
-
-    if (endPoint === "weather") {
-      renderInfoNow(data, cityName);
-      renderInfoDetails(data, cityName);
-    }
-    if (endPoint === "forecast") {
-      renderInfoForecast(data, cityName);
-    }
-  } catch (e) {
-    if (e.message === "Failed to fetch") {
-      alert("Неправильный адрес URL");
-    } else {
-      alert(e.message);
+    return await Promise.all([
+      getData("weather",nameLocation),
+      getData("forecast",nameLocation)]
+    )
+  } catch (error) {
+      alert(error.message)
+      inputReset()
     }
   }
+
+
+function renderInfoWeather([weather,forecast]) {
+  renderInfoNow(weather)
+  renderInfoDetails(weather)
+  renderInfoForecast(forecast)
+}
+//---------------------------------------------RENDER-FUNCTIONS----------------------------------------
+
+function renderInfoNow(data) {
+  const { main, name, weather } = data
+  VARIABLE_UI.NOW.city.textContent = name;
+  VARIABLE_UI.NOW.temperature.textContent = `${Math.round(main.temp)}°`;
+  VARIABLE_UI.NOW.icon.src = `https://openweathermap.org/img/wn/${weather[0].icon}@2x.png`;
 }
 
-function renderInfoNow(data, name) {
-  if (data) {
-    city.textContent = name.slice(0, 1).toUpperCase() + name.slice(1);
-    temperature.textContent = `${Math.round(data.main.temp)}°`;
-    icon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
-  }
+function renderInfoDetails(data) {
+  const { name, main, weather, sys, timezone } = data;
+  VARIABLE_UI.DETAILS.city.textContent = name;
+  VARIABLE_UI.DETAILS.temperature.textContent = `${Math.round(main.temp)}`;
+  VARIABLE_UI.DETAILS.feels.textContent = `${Math.round(main.feels_like)}`;
+  VARIABLE_UI.DETAILS.weather.textContent = weather[0].main;
+  VARIABLE_UI.DETAILS.sunrise.textContent = timeConverter(sys.sunrise, timezone);
+  VARIABLE_UI.DETAILS.sunset.textContent = timeConverter(sys.sunset, timezone);
 }
 
-function renderInfoDetails(data, name) {
-  if (data) {
-    detailsCity.textContent = name.slice(0, 1).toUpperCase() + name.slice(1);
-    detailsTemperature.textContent = `${Math.round(data.main.temp)}`;
-    detailsFeels.textContent = `${Math.round(data.main.feels_like)}`;
-    detailsWeather.textContent = data.weather[0].main;
-    detailsSunrise.textContent = timeConverter(data.sys.sunrise,data.timezone);
-    detailsSunset.textContent = timeConverter(data.sys.sunset,data.timezone);
-  }
-}
+function renderInfoForecast(data) {
+  const { city, list } = data;
+  VARIABLE_UI.FORECAST.city.textContent = city.name;
 
-function renderInfoForecast(data, name) {
-  if (data) {
-    forecastCity.textContent = name.slice(0, 1).toUpperCase() + name.slice(1);
+  VARIABLE_UI.FORECAST.date.forEach((el, index) => {
+    el.textContent = dateConverter(list[index].dt, data.city.timezone)
+  })
 
-    forecastDate.forEach((el,index) => {
-      el.textContent = dateConverter(data.list[index].dt, data.city.timezone)
-    })
+  VARIABLE_UI.FORECAST.time.forEach((el, index) => {
+    el.textContent = timeConverter(list[index].dt)
+  })
 
-    forecastTime.forEach((el,index) => {
-      el.textContent = timeConverter(data.list[index].dt)
-    })
+  VARIABLE_UI.FORECAST.temperature.forEach((el, index) => {
+    el.textContent = `${Math.round(list[index].main.temp)}`
+  })
 
-    forecastTemperature.forEach((el,index) => {
-      el.textContent = `${Math.round(data.list[index].main.temp)}`
-    })
+  VARIABLE_UI.FORECAST.feels.forEach((el, index) => {
+    el.textContent = `${Math.round(list[index].main.feels_like)}`
+  })
 
-    forecastFeels.forEach((el,index) => {
-      el.textContent = `${Math.round(data.list[index].main.feels_like)}`
-    })
+  VARIABLE_UI.FORECAST.rainfall.forEach((el, index) => {
+    el.textContent = list[index].weather[0].main
+  })
 
-    forecastRainfall.forEach((el,index) => {
-      el.textContent = data.list[index].weather[0].main
-    })
-    
-    forecastIcon.forEach((el,index) => {
-      el.src = `https://openweathermap.org/img/wn/${data.list[index].weather[0].icon}@2x.png`
-    })
-  }
+  VARIABLE_UI.FORECAST.icon.forEach((el, index) => {
+    el.src = `https://openweathermap.org/img/wn/${list[index].weather[0].icon}@2x.png`
+  })
 }
 
 //-------------------------------------------------------------------------------------
@@ -134,7 +120,7 @@ function getUniqueItems(arr) {
 
 
 function addCity() {
-  listOfCities.push(city.textContent);
+  listOfCities.push(VARIABLE_UI.NOW.city.textContent);
   uniqueCities = getUniqueItems(listOfCities)
   return uniqueCities
 }
@@ -145,7 +131,7 @@ function deleteCity(event) {
 }
 
 function resetDom() {
-  favoriteList.innerHTML = "";
+  VARIABLE_UI.NOW.favoriteList.innerHTML = "";
 }
 
 function renderStorage() {
@@ -166,12 +152,11 @@ function createEl(city) {
   closeBtn.name = city;
 
   newCity.textContent = city;
-  favoriteList.appendChild(newCity);
+  VARIABLE_UI.NOW.favoriteList.appendChild(newCity);
   newCity.appendChild(closeBtn);
 
   closeBtn.addEventListener("click", (event) => {
     deleteCity(event);
-    console.log(event.target)
     renderStorage();
   });
 }
@@ -179,57 +164,53 @@ function createEl(city) {
 //-------------------------------------------------------------------------------------
 
 function timeConverter(time, timezone = 0) {
-	const newDate = new Date((time + timezone) * 1000);
-	const localTime = newDate.toLocaleTimeString([], {
-		hour: "2-digit",
-		minute: "2-digit",
-		timeZone: "UTC",
-	});
-	return localTime;
+  const newDate = new Date((time + timezone) * 1000);
+  const localTime = newDate.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "UTC",
+  });
+  return localTime;
 }
 
 function dateConverter(date, timezone) {
-	const newDate = new Date((date + timezone) * 1000);
-	const localDate = newDate.toLocaleString("en-GB", {
-		day: "numeric",
-		month: "long",
-		timeZone: "UTC"
-	});
-	return localDate;
+  const newDate = new Date((date + timezone) * 1000);
+  const localDate = newDate.toLocaleString("en-GB", {
+    day: "numeric",
+    month: "long",
+    timeZone: "UTC"
+  });
+  return localDate;
 }
 
 //---------------------------------------<Events>--------------------------------------
 
-form.addEventListener("submit", (event) => {
+
+VARIABLE_UI.NOW.form.addEventListener("submit", async (event) => {
   event.preventDefault();
-  getData(apiKey, input.value, "weather");
-  getData(apiKey, input.value, "forecast");
-  input.value = "";
+    renderInfoWeather(await getInfoWeather(VARIABLE_UI.NOW.input.value))
+  inputReset();
 });
 
-favoriteBtn.addEventListener("click", () => {
+VARIABLE_UI.NOW.favoriteBtn.addEventListener("click", () => {
   addCity();
   renderStorage();
-  console.log(listOfCities)
-  console.log(uniqueCities)
 });
 
-document.addEventListener("click", (event) => {
+document.addEventListener("click", async (event) => {
   if (event.target.classList.contains("item")) {
-    input.value = event.target.textContent;
-    getData(apiKey, input.value, "weather");
-    getData(apiKey, input.value, "forecast");
-    input.value = "";
+    VARIABLE_UI.NOW.input.value = event.target.textContent;
+    renderInfoWeather(await getInfoWeather(VARIABLE_UI.NOW.input.value))
+    inputReset();
   }
 });
 
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("DOMContentLoaded", async() => {
   listOfCities = loadFromLocalStorage("location") || [];
   uniqueCities = loadFromLocalStorage("location") || [];
   let lastLocation = loadFromLocalStorage("lastLocation");
   renderStorage();
-  getData(apiKey, lastLocation, "weather");
-  getData(apiKey, lastLocation, "forecast");
+  renderInfoWeather(await getInfoWeather(lastLocation))
 });
 
 
