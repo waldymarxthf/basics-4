@@ -1,14 +1,21 @@
-import { highForm, lowForm, newHighTask, newLowTask, highTasksList, lowTasksList } from "./ui-elements.js"
+import { highForm, lowForm, newHighTask, newLowTask, highTasksList, lowTasksList } from "./ui-elements.js";
+import { PRIORITIES, STATUSES } from "./constants.js";
 
 let toDoList = [];
 
-if (localStorage.getItem("ToDO")) {
-	toDoList = JSON.parse(localStorage.getItem("ToDO"));
+if (localStorage.getItem("ToDo")) {
+	toDoList = JSON.parse(localStorage.getItem("ToDo"));
 	render()
 }
 
 function isTaskEmpty(task) {
 	return !task.value.trim() ? true : false;
+}
+
+function CreateTask(name, priority, status) {
+	this.name = name;
+	this.priority = priority;
+	this.status = status;
 }
 
 highForm.addEventListener("submit", (event) => {
@@ -18,7 +25,7 @@ highForm.addEventListener("submit", (event) => {
 		if (isTaskEmpty(newHighTask)) {
 			throw new Error("Error! Enter a task!");
 		}
-		toDoList.push({ name: newHighTask.value, priority: "high", status: "to do" });
+		toDoList.push(new CreateTask(newHighTask.value, PRIORITIES.high, STATUSES.toDo));
 	}
 	catch(error) {
 		if (error.name === "Error") {
@@ -39,7 +46,7 @@ lowForm.addEventListener("submit", (event) => {
 			if (isTaskEmpty(newLowTask)) {
 				throw new Error("Error! Enter a task!");
 			}
-			toDoList.push({ name: newLowTask.value, priority: "low", status: "to do" });
+			toDoList.push(new CreateTask(newLowTask.value, PRIORITIES.low, STATUSES.toDo));
 		}
 		catch(error) {
 			if (error.name === "Error") {
@@ -82,7 +89,7 @@ function createTaskNode(name, priority, status) {
   form.appendChild(deleteButton);
   newTask.appendChild(form);
 
-	if (status === "done") {
+	if (status === STATUSES.done) {
 		newTask.classList.add(status);
 		realCheckbox.checked = true
 	}
@@ -99,11 +106,11 @@ function createTaskNode(name, priority, status) {
     const check = realCheckbox.checked;
     const index = toDoList.findIndex((task) => name === task.name);
     if (check) {
-      newTask.classList.add("done");
-      toDoList[index].status = "done";
+      newTask.classList.add(STATUSES.done);
+      toDoList[index].status = STATUSES.done;
     } else {
-      newTask.classList.remove("done");
-      toDoList[index].status = "to do";
+      newTask.classList.remove(STATUSES.done);
+      toDoList[index].status = STATUSES.toDo;
     }
 		saveToLocalStorage()
   });
@@ -118,12 +125,12 @@ function render() {
   lowTasksList.innerHTML = "";
 
   for (const item of toDoList) {
-    const nodeForAddTask = item.priority === "high" ? highTasksList : lowTasksList;
+    const nodeForAddTask = item.priority === PRIORITIES.high ? highTasksList : lowTasksList;
     const task = createTaskNode(item.name, item.priority, item.status);
     nodeForAddTask.appendChild(task);
   }
 }
 
 function saveToLocalStorage() {
-	localStorage.setItem("ToDO", JSON.stringify(toDoList))
+	localStorage.setItem("ToDo", JSON.stringify(toDoList))
 }
