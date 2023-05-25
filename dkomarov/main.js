@@ -54,7 +54,7 @@ function addItemLow(event) {
 let countId = 0;
 
 //функция создания элемента с высоким приоритетом
-function createElementHigh(taskBlockHigh, task, priority) {
+function createItemHigh(taskBlockHigh, task, priority) {
     const newElement = document.createElement('div'); 
     const checkBox = document.createElement('input');
     const taskText = document.createElement('p');
@@ -83,7 +83,7 @@ function createElementHigh(taskBlockHigh, task, priority) {
 };
 
 //функция создания элемента с низким приоритетом 
-function createElementLow(taskBlockLow, task, priority) {
+function createItemLow(taskBlockLow, task, priority) {
     const newElement = document.createElement('div'); 
     const checkBox = document.createElement('input');
     const taskText = document.createElement('p');
@@ -128,8 +128,8 @@ function render() {
     taskBlockLow.textContent = '';
     for (let obj of todoList) {
         obj.priority == PRIORITY.HIGH ?
-        createElementHigh(taskBlockHigh, obj.name, obj.status) :
-        createElementLow(taskBlockLow, obj.name, obj.status);
+        createItemHigh(taskBlockHigh, obj.name, obj.status) :
+        createItemLow(taskBlockLow, obj.name, obj.status);
     };
     
 
