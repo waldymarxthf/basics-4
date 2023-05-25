@@ -21,6 +21,7 @@ const data = [
 
 function makeElement(prioritу, status = 'unchecked', task){
     if(prioritу === 'HIGH'){
+        data.push(new Task('HIGH', task))
         hagh.insertAdjacentHTML('beforeEnd',`<div class="list-item">
             <div class="item-checkbox ${status}"></div>
             <div class="item-text">${task}</div>
@@ -28,6 +29,7 @@ function makeElement(prioritу, status = 'unchecked', task){
         </div>`)
     }
     if(prioritу === 'LOW'){
+        data.push(new Task('LOW', task))
         low.insertAdjacentHTML('beforeEnd',`<div class="list-item">
             <div class="item-checkbox ${status}"></div>
             <div class="item-text">${task}</div>
