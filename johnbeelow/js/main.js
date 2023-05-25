@@ -1,38 +1,85 @@
-import { UI_ELEMENTS, clearInput, animateIcon } from './module/ui_elements.js'
-
+import { createTag, UI_ELEMENTS } from './module/ui_elements.js'
 import {
-  handleContentLoaded,
-  handleSendingData,
-  getToggleLikeAction,
-  changeActiveButton,
-} from './module/business-logic.js'
+  STATUS,
+  PRIORITY,
+  toDoList,
+  addTask,
+  changeStatus,
+  deleteTask,
+} from './module/todo_program.js'
 
-document.addEventListener('DOMContentLoaded', () => {
-  UI_ELEMENTS.LOADER_DISCONECTED.style.display = 'none'
-})
+function constructorTaskUi(name, status, priority) {
+  const containerTask = createTag('div')
+  const labelTask = createTag('label')
+  const statusTask = createTag('input')
+  const textTask = createTag('span')
+  const deleteTaskButton = createTag('button')
 
-document.addEventListener('DOMContentLoaded', handleContentLoaded)
+  containerTask.classList.add('task')
+  statusTask.classList.add('checkbox')
+  statusTask.type = 'checkbox'
+  textTask.classList.add('task_text')
+  textTask.textContent = name
+  deleteTaskButton.classList.add('button_close_task')
+  deleteTaskButton.textContent = '×'
 
-for (let button of UI_ELEMENTS.BUTTONS_ALL) {
-  button.addEventListener('click', changeActiveButton)
+  priority.appendChild(containerTask)
+  containerTask.appendChild(labelTask)
+  labelTask.appendChild(statusTask)
+  labelTask.appendChild(textTask)
+  containerTask.appendChild(deleteTaskButton)
+
+  if (status === STATUS.DONE) {
+    statusTask.setAttribute('checked', true)
+    render()
+  }
+
+  deleteTaskButton.addEventListener('click', () => {
+    deleteTask(name)
+    render()
+  })
+
+  statusTask.addEventListener('change', () => {
+    status = statusTask.checked 
+    try {
+      changeStatus(name, status)
+    } catch (error) {
+      console.error('Извините, возникла ошибка в смене статуса:', error.stack);
+    }
+  })
 }
 
-UI_ELEMENTS.INPUT_FORM.addEventListener('submit', (event) => {
+function render() {
+  UI_ELEMENTS.PRIORITY_HIGH.innerHTML = ''
+  UI_ELEMENTS.PRIORITY_LOW.innerHTML = ''
+
+  for (let taskFind of toDoList) {
+    if (taskFind.priority === PRIORITY.HIGH) {
+      constructorTaskUi(
+        taskFind.name,
+        taskFind.status,
+        UI_ELEMENTS.PRIORITY_HIGH
+      )
+    }
+
+    if (taskFind.priority === PRIORITY.LOW) {
+      constructorTaskUi(
+        taskFind.name,
+        taskFind.status,
+        UI_ELEMENTS.PRIORITY_LOW
+      )
+    }
+  }
+}
+
+UI_ELEMENTS.INPUT_FORM_HIGHT.addEventListener('submit', (event) => {
   event.preventDefault()
-  handleSendingData(UI_ELEMENTS.INPUT_TEXT.value)
-  animateIcon()
-  clearInput()
+  addTask(UI_ELEMENTS.INPUT_TEXT_HIGH.value, STATUS.IN_PROGRESS, PRIORITY.HIGH)
+  render()
 })
 
-UI_ELEMENTS.LIKE.addEventListener('click', (event) => {
+UI_ELEMENTS.INPUT_FORM_LOW.addEventListener('submit', (event) => {
   event.preventDefault()
-  getToggleLikeAction()
-})
-
-window.addEventListener('online', () => {
-  UI_ELEMENTS.LOADER_DISCONECTED.style.display = 'none'
-})
-
-window.addEventListener('offline', () => {
-  UI_ELEMENTS.LOADER_DISCONECTED.style.display = 'flex'
+  addTask(UI_ELEMENTS.INPUT_TEXT_LOW.value, STATUS.IN_PROGRESS, PRIORITY.LOW)
+  render()
 })

@@ -1,502 +1,149 @@
-@import url('./reset.css');
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-
-:root {
-  --font1: 24px;
-  --font2: 18px;
-  --font3: 70px;
-}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600&display=swap');
 
 body {
-  background-color: #1e1f26;
-  font-family: 'Roboto', sans-serif;
-  font-size: 24px;
-}
-
-.main {
-  height: 100vh;
+  background: #252525;
+  font-family: 'Poppins', sans-serif;
   display: flex;
-}
-
-/* =========================== LOADER ============================= */
-
-#loader {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #1e1f26b4;
-  display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  z-index: 9999;
 }
-
-#loader .bar {
-  position: relative;
-
-  width: 50px;
-  height: 50px;
-  border-radius: 100%;
-  border: 5px solid rgba(255, 255, 255, 0.253);
-  border-top-color: #ffffff;
-  animation: spin 0.8s infinite linear;
-  top: 0.5%;
-}
-
-@keyframes loadingBar {
-  0% {
-    transform: translateX(0);
-  }
-  50% {
-    transform: translateX(50px);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes spin {
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-
-/* ======================== LOADER-DISCONECTED ======================= */
-
-#loader-disconected {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #1e1f26b7;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-#loader-disconected .bar-dis {
-  position: relative;
-
-  width: 50px;
-  height: 50px;
-  border-radius: 100%;
-  border: 5px solid rgba(255, 255, 255, 0.253);
-  border-top-color: #f75d5d;
-  animation: spin 0.8s infinite linear;
-  top: 0.5%;
-}
-
-@keyframes loadingBar {
-  0% {
-    transform: translateX(0);
-  }
-  50% {
-    transform: translateX(50px);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes spin {
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-
-
-/* =========================== ----- ========================== */
 
 .container {
-  display: flex;
-  flex-wrap: wrap;
-  width: 602px;
-  height: 437px;
-  border: 1px solid #000000;
-  margin: auto;
-  background-color: #32333bde;
-  animation-name: fadeIn;
-  animation-duration: 1s;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-/* =========================== SEARCH ============================= */
-
-.search-wrapper {
-  height: 10%;
-  width: 100%;
-  border-bottom: 1px solid rgb(0, 0, 0);
-}
-
-.search-form {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-.search-btn-label {
+  height: auto;
+  width: 420px;
   position: absolute;
-  margin: 10px 0 0 -46px;
+  top: 20%;
+  left: 50%;
+  transform: translate(-60%, -60%);
 }
 
-.search {
-  width: 100%;
-  height: 100%;
-  padding-left: 16px;
-  color: rgb(230, 227, 210);
-}
-
-.search-btn {
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
-}
-
-.search-btn:hover {
-  filter: invert(100%);
-}
-
-/* ======================= WEATHER-&-LOCATION ===================== */
-
-.weather-wrapper,
-.location-wrapper {
-  width: 50%;
-  height: 90%;
-  color: rgb(230, 227, 210);
-}
-
-.location-wrapper {
-  border-left: 1px solid rgb(0, 0, 0);
-  overflow: auto;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.location-wrapper::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-}
-
-.locations {
-  border-bottom: 1px solid rgb(0, 0, 0);
+.todo_container {
+  width: 476px;
+  height: auto;
+  border-radius: 15px;
+  background: rgb(28, 28, 28);
+  backdrop-filter: blur(35px);
+  border: 2px solid rgba(92, 92, 92, 0.205);
+  padding: 15px;
   overflow: hidden;
-}
-
-.weather-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.locations,
-.active-city-details,
-.active-city-forecast {
-  width: 100%;
-  height: 18%;
-  padding-left: 6%;
-  padding-top: 9%;
-}
-
-.active-tab {
-  display: flex;
-  flex-direction: column;
-  height: 90%;
-}
-
-.icon {
-  margin: 0 auto 20% auto;
-  animation: change-icon 2s 1;
-}
-
-@keyframes change-icon {
-  0% {
-    opacity: 0.1;
-    transform: scale(1.1);
-  }
-  100% {
-    opacity: 1.1;
-    transform: scale(1);
-  }
-}
-
-.like {
-  width: 22px;
-  height: 22px;
-  cursor: pointer;
-  color: rgb(230, 227, 210);
-}
-
-.like-active {
-  width: 22px;
-  height: 22px;
-  cursor: pointer;
-  color: rgb(240, 62, 62);
-}
-
-.like:hover {
-  color: rgb(247, 101, 101);
-  /* animation: pulse 0.3s infinite; */
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.3);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-.temperature-main {
-  font-size: var(--font3);
-  position: relative;
-  top: -3%;
-  left: -2%;
-}
-
-.now-tab {
-  justify-content: space-around;
-  padding: 0 6%;
-}
-
-.city-wrapper {
-  display: flex;
-  justify-content: space-between;
-}
-
-.city-list-wrapper,
-.tab-list-details {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding-left: 6%;
-  padding-top: 10%;
-}
-
-.city-list-wrapper {
-  padding-left: 5%;
-  padding-bottom: 10%;
-}
-
-.city {
-  cursor: pointer;
-  position: relative;
-  z-index: 1;
-  overflow: hidden;
-  width: max-content;
-  padding: 0 2%;
-}
-
-.city:hover {
-  color: rgb(230, 227, 210);
-}
-
-.city::after {
-  content: '';
-  background: #030101;
   position: absolute;
-  z-index: -1;
-  padding: 0.85em 0.75em;
-  display: block;
-  top: 0;
-  bottom: 0;
-  left: -100%;
-  right: 100%;
-  transition: all 0.55s;
 }
 
-.city:hover::after {
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  transition: all 0.55s;
-}
-
-.active-city-forecast {
-  min-height: 19.5%;
-}
-
-.tab-list-forecast {
-  padding: 0;
-  overflow: auto;
-  font-size: var(--font2);
-}
-
-.tab-list-forecast::-webkit-scrollbar {
-  display: none;
-}
-
-.tab-list-forecast {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.forecast-block {
-  width: 265px;
-  height: 120px;
-  border: 1px solid rgb(0, 0, 0);
-  border-radius: 10px; /* Added */
-  margin: auto;
-  margin-bottom: 9px;
+.priority {
   display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  background-color: #00000013;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 21px;
+  justify-content: center;
+  color: rgba(225, 222, 202, 0.921);
 }
 
-.forecast-date,
-.forecast-time {
-  padding-bottom: 9%;
-  padding-top: 3%;
-}
-
-.forecast-date,
-.forecast-temperature,
-.forecast-feels-like {
-  padding-left: 4%;
-}
-
-.forecast-temperature {
-  margin-top: 4px;
-}
-
-.forecast-time {
-  text-align: end;
-  padding-right: 4%;
-}
-
-.forecast-state {
-  margin-top: 4px;
-  padding-right: 5%;
-}
-
-.icon-item {
-  margin-right: 2%;
-  margin-top: -10px;
-}
-
-.inactive-tab {
-  display: none;
-}
-
-.second {
+.task {
+  padding: 5px;
   display: flex;
-  justify-content: space-between;
-  text-align: center;
+  border: 1px solid rgb(46, 46, 46);
+  border-radius: 6px;
+  margin-bottom: 8px;
+  background: #272626;
 }
 
-.temp-items {
+.task:hover {
+  padding: 5px;
   display: flex;
-  flex-direction: column;
-  align-items: baseline;
+  border: 1px solid rgba(229, 223, 194, 0.483);
+  border-radius: 6px;
+  margin-bottom: 8px;
+  transition: 0.6s;
 }
 
-/* ============================ TABS-BTN =========================== */
+.task label {
+  font-size: 18px;
+  color: #ded9c7c0;
+  width: 435px;
+  font-family: 'Poppins', sans-serif;
+}
 
-.tab-wrapper-btn {
+.add_task {
+  padding: 5px;
   display: flex;
-  border-top: 1px solid rgb(0, 0, 0);
-  height: 10%;
+  border: 1px solid rgb(44, 44, 44);
+  border-radius: 6px;
+  margin-bottom: 8px;
+  background: #161616;
 }
 
-.tab-btn {
-  flex: 0 0 33.333333%;
-  height: 101%;
-  font-size: var(--font2);
+.add_task input {
+  font-size: 18px;
+  color: #cfcdba;
+  border: 0px;
+  outline: none;
+  width: 400px;
+  background: rgba(0, 0, 0, 0);
+}
+
+.add_task:hover {
+  padding: 5px;
+  display: flex;
+  border: 1px solid rgb(229, 223, 194);
+  border-radius: 6px;
+  margin-bottom: 8px;
+  transition: 0.6s;
+}
+
+.add_task label {
+  width: 435px;
+  display: flex;
+}
+
+.button_add_task {
+  width: 38px;
+  height: 60px;
+  border: none;
+  background-color: transparent;
   cursor: pointer;
-  position: relative;
-  z-index: 1;
-  overflow: hidden;
+  font-weight: 200;
+  font-size: 43px;
+  transition: 0.4s;
+  user-select: none;
+  color: rgba(229, 223, 194, 0.287);
 }
 
-.now-btn,
-.details-btn {
-  border-right: 1px solid rgb(0, 0, 0);
+.button_add_task:hover {
+  color: rgb(229, 223, 194);
 }
 
-.active-btn {
-  color: rgb(230, 227, 210);
-  background-color: #000000c2;
+.button_close_task {
+  width: 34px;
+  height: 55px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-weight: 200;
+  font-size: 43px;
+  transition: 0.4s;
+  user-select: none;
+  color: rgba(229, 223, 194, 0.287);
 }
 
-.tab-btn:hover {
-  color: rgb(230, 227, 210);
+.button_close_task:hover {
+  color: rgb(213, 93, 93);
 }
 
-@media (max-width: 550px) {
-  .forecast-block {
-    max-width: 200px;
-  }
-}
-
-@media (max-width: 420px) {
-  :root {
-    --font1: 19px;
-    --font2: 13px;
-    --font3: 60px;
-  }
-
-  .forecast-block {
-    max-width: 175px;
-  }
-}
-
-/* ============================ ADDED =========================== */
-
-.delete_city {
-  color: rgba(114, 114, 114, 0.877);
-  font-size: 23px;
+.checkbox {
+  width: 1.3em;
+  height: 1.3em;
+  background-color: rgba(227, 223, 187, 0.229);
+  border-radius: 50%;
+  border: 1px solid rgb(18, 18, 18);
+  vertical-align: middle;
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
   cursor: pointer;
 }
 
-.delete_city:hover {
-  color: rgb(240, 62, 62);
-}
-
-.view_city_deactive {
-  position: relative;
-  text-align: center;
-  cursor: pointer;
-  color: rgb(145, 144, 144);
-}
-
-.view_city_active {
-  position: relative;
-  text-align: center;
-  cursor: no-drop;
-  color: rgb(230, 227, 210);
-  /* font-size: 120%; */
-}
-
-.view_city_deactive:hover {
-  color: rgb(230, 227, 210);
+.checkbox:checked {
+  background-color: rgb(155, 192, 46);
+  transition: 0.3s;
 }
