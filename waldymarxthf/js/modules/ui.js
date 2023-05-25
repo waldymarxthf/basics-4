@@ -1,5 +1,5 @@
 import { saveToLocalStorage, loadFromLocalStorage } from "./localstorage.js";
-import { timeConverter, dateConverter, findLocationIndex, errorHandler } from "./utils.js";
+import { timeConverter, dateConverter, errorHandler } from "./utils.js";
 import { getWeatherData } from "./api.js";
 import { VARIABLES } from "./ui-variables.js";
 
@@ -116,6 +116,10 @@ export function renderLocations() {
 //* рендерит локации из массива
 
 function Locations(cityName) {
+	if (!new.target) {
+		throw Error('Error: Incorrect invocation!')
+	}
+
 	this.cityName = cityName
 }
 
@@ -130,7 +134,6 @@ export function addLocation() {
 
 		const city = new Locations(cityName)
 		locations.add(city.cityName);
-		console.log(locations)
 
 		saveToLocalStorage("newLocation", [...locations]);
 		renderLocations();
