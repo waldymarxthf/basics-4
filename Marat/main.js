@@ -126,7 +126,6 @@ function deleteLocation(name) {
     }
     list.delete(name);
     console.log("delete = " + name);
-    saveFavoriteCityInlocalStorage
     render();
     return;
 }
@@ -150,7 +149,6 @@ function createElement(cityName) {
     // console.log("cityName = " +  cityName);
     location.innerHTML = cityName;
     x.innerHTML = "&#215";
-
     li.classList.add("liCity");
     location.classList.add("p");
     x.classList.add("p2");
