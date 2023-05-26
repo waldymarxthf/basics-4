@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="wrapper">
+
+    <header class="header">
+        <form class="search-form" action="">
+            <label>
+                <input class="search-input" type="search" placeholder="Aktobe">
+            </label>
+            <input class="search-button" src="./image/search.svg" type="image">
+        </form>
+    </header>
+
+    <div class="inner">
+        <div class="weather-screen">
+            <div class="inner__container">
+                <div class="weather-screen__now screen-now first-piece-screen active">
+                    <div class="screen-now__temperature"><span class="screen-now__temperature-digit">14</span><sup class="screen-now__degree">°</sup></div>
+                    <div class="screen-now__image-block">
+                        <img class="screen-now__image" src="./image/cloud.svg" alt="cloud">
+                    </div>
+                    <div class="screen-now__footer">
+                        <div class="screen-now__city">Aktobe</div>
+                        <img class="screen-now__like" src="./image/like.svg" alt="like" >
+                    </div>
+                </div>
+
+                <div class="weather-details details first-piece-screen">
+                    <div class="weather-city details__city">Aktobe</div>
+
+                    <ul class="details__list">
+
+                    </ul>
+                </div>
+
+                <div class="weather-forecast first-piece-screen">
+                    <div class="weather-city forecast__city">Aktobe</div>
+
+                    <div class="forecast-container weather-forecast__forecast-container">
+                        <div class="forecast-block forecast-container__forecast-block">
+                            <div class="forecast-block__header">
+                                <div class="forecast-block__header-day">17 May</div>
+                                <div class="forecast-block__header-time">12</div>
+                            </div>
+                            <div class="forecast-block__forecast">
+                                <ul class="list-indicators forecast-block__list-indicators">
+                                    <li class="list-indicators__item">Temperature: 13</li>
+                                    <li class="list-indicators__item">Feels like: 10</li>
+                                </ul>
+                                <div class="forecast-block__weather">
+                                    <span class="forecast-block__info">rain</span>
+                                    <img class="forecast-block__icon" src="./image/rainy-cloud.svg" alt="rainy-cloud">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="forecast-block forecast-container__forecast-block">
+                            <div class="forecast-block__header">
+                                <div class="forecast-block__header-day">17 May</div>
+                                <div class="forecast-block__header-time">15</div>
+                            </div>
+                            <div class="forecast-block__forecast">
+                                <ul class="list-indicators forecast-block__list-indicators">
+                                    <li class="list-indicators__item">Temperature: 13</li>
+                                    <li class="list-indicators__item">Feels like: 10</li>
+                                </ul>
+                                <div class="forecast-block__weather">
+                                    <span class="forecast-block__info">rain</span>
+                                    <img class="forecast-block__icon" src="./image/rainy-cloud.svg" alt="rainy-cloud">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="weather-tabs">
+                <ul class="weather-tabs__list">
+                    <li class="weather-tabs__item active">Now</li>
+                    <li class="weather-tabs__item">Details</li>
+                    <li class="weather-tabs__item">Forecast</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="locations-screen">
+            <div class="title-block locations-screen__title-block">
+                <div class="title-block__title">Added Locations:</div>
+            </div>
+            <ul class="list-locations locations-screen__list-locations">
+<!--                <li class="list-locations__item">Amur</li>-->
+<!--                <li class="list-locations__item">Samara</li>-->
+<!--                <li class="list-locations__item">Bali</li>-->
+<!--                <li class="list-locations__item">Dane</li>-->
+<!--                <li class="list-locations__item">Kilo</li>-->
+<!--                <li class="list-locations__item">Nur-Sultan</li>-->
+            </ul>
+        </div>
+
+    </div>
+</div>
+
+<script type="module"  src="main.js"></script>
+</body>
+</html>

@@ -1,117 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="AutoImportSettings">
-    <option name="autoReloadType" value="SELECTIVE" />
-  </component>
   <component name="ChangeListManager">
-    <list default="true" id="3763ba83-11f0-4af4-aa76-6ea74bd8ac12" name="Changes" comment="">
+    <list default="true" id="8c3dc796-fc87-43f0-93eb-733ee3c21e42" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/dinamik567/module/CONTROL_DETAILS.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dinamik567/module/LIST_OF_CITIES.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dinamik567/module/UI_ELEMENT.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dinamik567/module/URL.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dinamik567" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dinamik567/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/dinamik567/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dinamik567/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/dinamik567/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dinamik567/module/storage.js" beforeDir="false" afterPath="$PROJECT_DIR$/dinamik567/module/STORAGE.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dinamik567/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/dinamik567/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="HTML File" />
-        <option value="CSS File" />
-        <option value="JavaScript File" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/dinamik567" />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectId" id="2PLnKqjyky0bQliOOAgfqBnh7EF" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+  <component name="ProjectId" id="2QLRvA0GBnyUy5IFeO3NiF77z5a" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="false" />
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/1С/Strada_Projects/basics-4&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\1С\Strada_Projects\basics-4\dinamik567\image" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\1С\Strada_Projects\basics-4" />
-    </key>
-  </component>
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="3763ba83-11f0-4af4-aa76-6ea74bd8ac12" name="Changes" comment="" />
-      <created>1683245168234</created>
+      <changelist id="8c3dc796-fc87-43f0-93eb-733ee3c21e42" name="Changes" comment="" />
+      <created>1685131106167</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1683245168234</updated>
-      <workItem from="1683245170071" duration="4714000" />
-      <workItem from="1683367778557" duration="11431000" />
-      <workItem from="1683490313438" duration="2367000" />
-      <workItem from="1683493976453" duration="45000" />
-      <workItem from="1683494033762" duration="5652000" />
-      <workItem from="1683565259164" duration="659000" />
-      <workItem from="1683568975765" duration="1486000" />
-      <workItem from="1683633877981" duration="133000" />
-      <workItem from="1683634013652" duration="14283000" />
-      <workItem from="1683717842630" duration="9201000" />
-      <workItem from="1683837222746" duration="3320000" />
-      <workItem from="1683983298236" duration="5087000" />
-      <workItem from="1683992207794" duration="10616000" />
-      <workItem from="1684061963551" duration="4827000" />
-      <workItem from="1684072189642" duration="12120000" />
-      <workItem from="1684261347242" duration="6013000" />
-      <workItem from="1684336622687" duration="9604000" />
-      <workItem from="1684414654120" duration="8087000" />
-      <workItem from="1684672842317" duration="5623000" />
-      <workItem from="1684781763574" duration="860000" />
-      <workItem from="1685021222165" duration="3280000" />
-      <workItem from="1685034441439" duration="5242000" />
-      <workItem from="1685043690700" duration="615000" />
-      <workItem from="1685097988377" duration="1197000" />
-      <workItem from="1685115076525" duration="80000" />
-      <workItem from="1685115471519" duration="535000" />
+      <updated>1685131106167</updated>
+      <workItem from="1685131106412" duration="232000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
   </component>
 </project>
