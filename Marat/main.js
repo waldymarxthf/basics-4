@@ -1,3 +1,4 @@
+import { calculations, fetchLikes } from "./fetch.js";
 const button_now = document.querySelector(".now");
 const button_details = document.querySelector(".details");
 const button_forecast = document.querySelector(".forecast");
@@ -6,7 +7,7 @@ const left_content_temperature2 = document.querySelector(".left_content_temperat
 const left_content_temperature3 = document.querySelector(".left_content_temperature3");
 const right_bottom_content = document.querySelector(".right_bottom_content");
 const serdce = document.querySelector(".serdce");
-export const list = new Set(JSON.parse(localStorage.getItem('loc')) || []);
+const list = new Set(JSON.parse(localStorage.getItem('loc')) || []);
 
 if (localStorage.getItem('right_bottom_content')) {
     right_bottom_content.innerHTML = localStorage.getItem('right_bottom_content');
@@ -58,6 +59,8 @@ window.addEventListener("load", button);
 
 
 const city = document.querySelector(".input");
+const serverUrl = 'http://api.openweathermap.org/data/2.5/weather';
+const apiKey = 'afc9f2df39f9e9e49eeb1afac7034d35';
 const form = document.querySelector(".head_content");
 const Aktobe = document.querySelector(".Aktobe");
 const left_content_temperature2_Aktobe = document.querySelector(".left_content_temperature2_Aktobe");
@@ -66,35 +69,8 @@ const Details_Feels = document.querySelector(".Details_Feels");
 const Details_Weather = document.querySelector(".Details_Weather");
 const Details_Sunrise = document.querySelector(".Details_Sunrise");
 const Details_Sunset = document.querySelector(".Details_Sunset");
-const serverUrl = 'http://api.openweathermap.org/data/2.5/weather';
 const text_temperature = document.querySelector(".text_temperature");
-const apiKey = 'afc9f2df39f9e9e49eeb1afac7034d35';
 
-async function fetchServer() {
-    const url = `${serverUrl}?q=${city.value}&appid=${apiKey}`;
-    const response = await fetch(url);
-    const data = await response.json();
-    console.log(data);
-    return data;
-
-
-}
-async function calculations() {
-    const data = await fetchServer();
-    const gender = Math.floor(data.main.temp - 273);
-    const feels_Like = Math.floor(data.main.feels_like - 273);
-    const Weather = data.weather[0].main;
-
-    const sunrise = data.sys.sunrise;
-    const datesr = new Date(sunrise * 1000);
-    const dates = datesr.getHours() + ":" + datesr.getMinutes();
-
-    const sunset = data.sys.sunset;
-    const datess = new Date(sunset * 1000);
-    const dateess = datess.getHours() + ":" + datess.getMinutes();
-    let array = [gender, feels_Like, Weather, dates, dateess];
-    return array;
-}
 async function createElement2(city) {
     let array = await calculations();
     console.log(array);
@@ -124,8 +100,12 @@ function deleteLocation(name) {
         console.error("Такого города нет в списке");
         return;
     }
-    list.delete(name);
-    console.log("delete = " + name);
+    else {
+        list.delete(name);
+        console.log("delete = " + name);
+        localStorage.setItem('loc', JSON.stringify([...list]));
+    }
+
     render();
     return;
 }
@@ -173,28 +153,21 @@ function createElement(cityName) {
 }
 function render() {
     right_bottom_content.innerHTML = "";
-    // list = getFavoriteCityFromlocalStorage();
-    // const cityName = getCurrentCityFromlocalStorage();
-    // updateWeatherInfo(cityName)
-    // for (const loc of list) {
-    //     console.log("render = " + loc);
-    //     const locNode = createElement(loc);
-    //     right_bottom_content.appendChild(locNode);
-    // }
-    // localStorage.getItem('loc');
-    list.forEach(el => {
-        let elem = createElement(el)
-        right_bottom_content.append(elem)
-    })
-
+    for (const loc of list) {
+        console.log("render = " + loc);
+        const locNode = createElement(loc);
+        right_bottom_content.appendChild(locNode);
+    }
+    // list.forEach(el => {
+    //     let elem = createElement(el)
+    //     right_bottom_content.append(elem)
+    // })
 }
 render();
 async function Likes(event) {
     const p = event.target;
-    const url = `${serverUrl}?q=${p.textContent}&appid=${apiKey}`;
-    const response = await fetch(url);
-    const data = await response.json();
-
+    const data = await fetchLikes(p);
+    console.log(data);
     const gender = Math.floor(data.main.temp - 273);
     const feels_Like = Math.floor(data.main.feels_like - 273);
     const Weather = data.weather[0].main;
@@ -206,7 +179,6 @@ async function Likes(event) {
     const sunset = data.sys.sunset;
     const datess = new Date(sunset * 1000);
     const dateess = datess.getHours() + ":" + datess.getMinutes();
-
     Aktobe.textContent = p.textContent;
     left_content_temperature2_Aktobe.innerHTML = p.textContent;
     text_temperature.innerHTML = gender + "&#176";
