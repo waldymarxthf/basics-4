@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3763ba83-11f0-4af4-aa76-6ea74bd8ac12" name="Changes" comment="" />
+    <list default="true" id="3763ba83-11f0-4af4-aa76-6ea74bd8ac12" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dinamik567" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,7 +23,8 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/dinamik567" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -55,6 +59,9 @@
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\1С\Strada_Projects\basics-4\dinamik567\image" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\1С\Strada_Projects\basics-4" />
+    </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -76,7 +83,20 @@
       <workItem from="1683717842630" duration="9201000" />
       <workItem from="1683837222746" duration="3320000" />
       <workItem from="1683983298236" duration="5087000" />
-      <workItem from="1683992207794" duration="6800000" />
+      <workItem from="1683992207794" duration="10616000" />
+      <workItem from="1684061963551" duration="4827000" />
+      <workItem from="1684072189642" duration="12120000" />
+      <workItem from="1684261347242" duration="6013000" />
+      <workItem from="1684336622687" duration="9604000" />
+      <workItem from="1684414654120" duration="8087000" />
+      <workItem from="1684672842317" duration="5623000" />
+      <workItem from="1684781763574" duration="860000" />
+      <workItem from="1685021222165" duration="3280000" />
+      <workItem from="1685034441439" duration="5242000" />
+      <workItem from="1685043690700" duration="615000" />
+      <workItem from="1685097988377" duration="1197000" />
+      <workItem from="1685115076525" duration="80000" />
+      <workItem from="1685115471519" duration="535000" />
     </task>
     <servers />
   </component>
