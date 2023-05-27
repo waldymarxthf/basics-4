@@ -9,15 +9,16 @@ const stopwatch = {
 }
 
 let stopwatchStatus = false;
-let time = 0;
-
+let startTime = 0;
+let savedTimeBeforePause = 0;
 let timeId;
 
-// Запускаем отсчёт времени и вызываем функцию вывода в консоль каждую секунду
+// Запускаем отсчёт времени, запоминаем таймстамп старта и вызываем функцию вывода в консоль каждую секунду
 function startCount() {
     if (stopwatchStatus === false) {
         stopwatchBtnStart.className = 'active';
         stopwatchBtnStop.className = 'nonactive';
+        startTime = Date.now();
         timeId  = setInterval(() => {
             stepTime();
             refreshStopwatchDisplay();
@@ -28,21 +29,28 @@ function startCount() {
         
 }
 
-// Останавливаем секундомер
+// Останавливаем секундомер, высчитываем и сохраняем время с начала старта в секундах. Обнуляем время старта
 function stopCount() {
     clearInterval(timeId);
+
+    let currentTime = Date.now();
+    let timeInSec = Math.floor((currentTime - startTime)/1000);
+    
+    savedTimeBeforePause = timeInSec + savedTimeBeforePause;
+    startTime = 0;
     stopwatchStatus = false;
     stopwatchBtnStart.className = 'nonactive';
     stopwatchBtnStop.className = 'active';
 }
 
-// Изменяем время секундомера
+// Изменяем время секундомера с учётом сохранённого времени до паузы
 function stepTime() {
-    time++;
-    stopwatch.sec = time % 60;
+    let currentTime = Date.now();
+    let time = (currentTime - startTime)/1000 + savedTimeBeforePause;
+
+    stopwatch.sec = Math.round(time % 60);
     stopwatch.min = Math.floor(time / 60);
     stopwatch.hour = Math.floor(time / 3600);
-
 }
 
 // Если значение секунд и минут меньше 10, то добавляем к нему 0 в вывод. Выводим секундомер в консоль
@@ -58,15 +66,14 @@ function refreshStopwatchDisplay() {
         out.push(stopwatch[key]);
     }
     
-    console.clear();
-    console.log(out);
     document.querySelector('.out').innerHTML = out.join(':');
 }
 
 // Останавливаем отсчёт и сбрасываем показания секундомера
 function resetCount() {
     stopCount();
-    time = 0;
+    
+    savedTimeBeforePause = 0;
     stopwatch.sec = 0;
     stopwatch.min = 0;
     stopwatch.hour = 0;
