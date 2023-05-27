@@ -20,13 +20,28 @@ const Task = function (taskName, prio, id) {
 // Plus
 function addTask(event) {
   event.preventDefault();
-
+  const target = event.target;
+  // Guard clause
+  if (
+    target.parentElement.classList.contains("plus-low") &&
+    dom.inputLow.value === ""
+  )
+    return;
+  if (
+    target.parentElement.classList.contains("plus-high") &&
+    dom.inputHigh.value === ""
+  )
+    return;
   let prio = activeForm;
   let taskName;
+
   if (activeForm === null || taskName === "") return;
+
+  // Get data
   if (activeForm === "high") {
     taskName = dom.inputHigh.value;
   }
+
   if (activeForm === "low") {
     taskName = dom.inputLow.value;
   }
@@ -189,5 +204,3 @@ function checkboxHandler(event) {
 
 //-------------------------------------------------
 // Following modifications:
-
-// render() into a separate module
