@@ -67,6 +67,7 @@ function convertTime(time, tZone, boolean) {
     const hours = ("0" + date.getUTCHours()).slice(-2);
     const minutes = ("0" + date.getUTCMinutes()).slice(-2);
     const formattedTime = hours + ":" + minutes;
+
     return formattedTime;
   }
 
@@ -107,7 +108,6 @@ function getData() {
   const url = `${serverUrl}?q=${rawInput}&appid=${apiKey}&units=metric`;
   getJSON(url, "City not found")
     .then((data) => {
-      console.log("details ----");
       const {
         coord: { lon, lat },
         main: { temp, feels_like: feels },
