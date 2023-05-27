@@ -21,11 +21,14 @@ export function isCityExist(name) {
 
 // * функция конвертирования времени из unix-формата
 
-export function convertUnixTime(time) {
-  const date = new Date(time * 1000);
-  const hours = date.getHours().toString().padStart(2, "0");
-  const minutes = date.getMinutes().toString().padStart(2, "0");
-  return `${hours}:${minutes}`;
+export function convertUnixTime(time, timezone) {
+  const date = new Date((time + timezone) * 1000);
+  const localDate = date.toLocaleString("en-GB", {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "UTC",
+  });
+  return localDate;
 }
 
 // * функция очистки поля ввода города

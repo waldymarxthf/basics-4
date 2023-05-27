@@ -9,6 +9,7 @@ export async function getWeather(city) {
 
     let response = await fetch(url);
     let data = await response.json();
+    console.log(data)
     return data;
   } catch (error) {
     throw new Error((await response.json()).error);
@@ -33,8 +34,14 @@ export function setWeatherDetails(data) {
   WEATHER.DETAILS.CITY_NAME.textContent = data.name;
   WEATHER.DETAILS.TEMPERATURE.textContent = `${Math.round(data.main.temp)}°`;
   WEATHER.DETAILS.FEELS_LIKE.textContent = `${Math.round(data.main.feels_like)}°`;
-  WEATHER.DETAILS.SUNRISE.textContent = convertUnixTime(data.sys.sunrise);
-  WEATHER.DETAILS.SUNSET.textContent = convertUnixTime(data.sys.sunset);
+  WEATHER.DETAILS.SUNRISE.textContent = convertUnixTime(
+    data.sys.sunrise,
+    data.timezone
+  );
+  WEATHER.DETAILS.SUNSET.textContent = convertUnixTime(
+    data.sys.sunset,
+    data.timezone
+  );
 }
 
 //* функция обновления данных о погоде (получение + установка)
