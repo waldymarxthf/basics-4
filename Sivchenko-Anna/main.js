@@ -38,12 +38,17 @@ function findIndexOfTask(task) {
   return toDoList.findIndex((item) => item.name === task);
 }
 
+//* функция-конструктор задачи
+
+function CreateTask(task, priority) {
+  this.name = task;
+  this.status = STATUS.TODO;
+  this.priority = priority;
+}
+
 //* функция добавления задачи в массив и вывод ошибок
 
-let message;
-let error = new Error(message);
-
-function addTask(task, status = STATUS.TODO, priority = PRIORITY.HIGH) {
+function addTask(task, priority) {
   try {
     if (isInputEmpty(task)) {
       throw new Error('Введите задачу')
@@ -52,17 +57,14 @@ function addTask(task, status = STATUS.TODO, priority = PRIORITY.HIGH) {
     if (!isTaskExist(task)) {
       throw new Error(`Задача '${task}' уже есть в списке`);
     }
+
+    const newTask = new CreateTask(task, priority);
+    toDoList.push(newTask);
   }
   catch(err) {
     alert(err.message);
     return;
   }
-
-  toDoList.push({
-    name: task,
-    status: status,
-    priority: priority,
-  })
 }
 
 //* функция удаления задачи из массива
@@ -151,14 +153,14 @@ function render() {
 
 function addHighTask(event) {
   event.preventDefault();
-  addTask(formHighInput.value, STATUS.TODO, PRIORITY.HIGH);
+  addTask(formHighInput.value, PRIORITY.HIGH);
   clearInput(formHighInput);
   render();
 }
 
 function addLowTask(event) {
   event.preventDefault();
-  addTask(formLowInput.value, STATUS.TODO, PRIORITY.LOW);
+  addTask(formLowInput.value, PRIORITY.LOW);
   clearInput(formLowInput);
   render();
 }
