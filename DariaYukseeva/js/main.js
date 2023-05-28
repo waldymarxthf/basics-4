@@ -1,6 +1,7 @@
 // Задача: отображение погоды для выбранного города.
 
-import {getDOMElement, timeConverter, dateConverter, saveToLocalStorage, loadFromLocalStorage} from './utils.js'
+import {getDOMElement, timeConverter, dateConverter, saveToLocalStorage, loadFromLocalStorage} from './utils.js';
+import {CityValidationError, KeyError, FetchError, InternalError, MyError} from './errors.js';
 
 const tabsContent = document.querySelectorAll('.tabs-content-item');
 const tabsBtn = document.querySelectorAll('.tab-item');
@@ -63,9 +64,16 @@ async function showWeather(city) {
         render(vars, varsForecast);
         renderFavoriteCities();
     }
-    catch (e) {
+    catch (err) {
+        if (err instanceof MyError) {
+            alert(err);
+
+        } else if (err instanceof TypeError) {
+            alert(err + '\nСервис недоступен. Проверьте подключение к сети.');
+        } else {
+            alert(err);
+        }
         
-        console.log(e);
     }
     
 }
@@ -81,28 +89,26 @@ async function fetchWeather(api, city) {
         const data = await respons.json();
         return data;           
     } else {
-        throw new Error((await respons.json()).message);
+        errorSorting( (await respons.json()).message, city );
     }
-// } catch (error) {
-//     // обработка ошибки не найденного города отдельно
-//     if (error.message === 'city not found') {
-//         formSetError(city);
-//         return;
-//     }
-//     alert('Error: '+ error.message);
-       
-// }
 }
 
-function errorHandler(message, city) {
+function errorSorting(message, city) {
     if (message === 'city not found') {
+        formSetError(city);
         throw new CityValidationError(city);
-    }
-    if (message === 'Internal error') {
-        throw new CityValidationError(city);
-    }
-    if (message === 'city not found') {
-        throw new CityValidationError(city);
+
+    } else if ( message.includes('Failed to fetch') ) {
+        throw new FetchError("Произошла ошибка. Обратитесь к администратору");
+
+    } else if ( message.includes('Invalid API key') ) {
+        throw new KeyError("Произошла ошибка. Обратитесь к администратору");
+
+    } else if ( message.includes('Internal error') ) {
+        throw new InternalError("Произошла ошибка. Обратитесь к администратору");
+
+    } else {
+        throw new FetchError(message);
     }
 }
 
@@ -114,7 +120,7 @@ const inputHandler = () => {
 }
 // обработка ошибки не найденного города
 function formSetError(city) {
-    alert('Такой город не найден');
+    // alert('Такой город не найден');
     searchCityInput.value = city;
     searchCityInput.classList.add('invalid-city');
     //слушатель на изменения в инпуте 
@@ -158,7 +164,6 @@ function processForecastData(data) {
 
         vars.forecastList.push(list);
     }
-    console.log(vars);
     return vars;
 }
 
