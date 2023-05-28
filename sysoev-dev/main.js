@@ -4,6 +4,13 @@ import { storage } from './js/storage.js';
 
 let favoritesCitiesList = new Set();
 
+class ValidationError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'ValidationError';
+  }
+}
+
 function showWeatherData(data) {
   const iconUrl = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
   UI_ELEMENTS.NOW_TEMP.textContent = roundValue(data.main.temp);
@@ -21,38 +28,45 @@ function showError(error) {
   alert(error);
 }
 
-async function getWeatherForecast(cityName) {
-  const serverUrl = 'http://api.openweathermap.org/data/2.5/forecast';
-  const apiKey = 'f660a2fb1e4bad108d6160b7f58c555f';
-  const url = `${serverUrl}?q=${cityName}&appid=${apiKey}&units=metric`;
+// async function getWeatherForecast(cityName) {
+//   const serverUrl = 'http://api.openweathermap.org/data/2.5/forecast';
+//   const apiKey = 'f660a2fb1e4bad108d6160b7f58c555f';
+//   const url = `${serverUrl}?q=${cityName}&appid=${apiKey}&units=metric`;
 
-  try {
-    const response = await fetch(url);
-    if (response.ok) {
-      const result = await response.json();
-    } else {
-      throw new Error('Error');
-    }
-  } catch (error) {
-    showError(error);
-  }
-}
+//   try {
+//     const response = await fetch(url);
+//     if (response.ok) {
+//       const result = await response.json();
+//     } else {
+//       throw new Error('Error');
+//     }
+//   } catch (error) {
+//     showError(error);
+//   }
+// }
 
-function getWeatherData(cityName) {
+async function getWeatherData(cityName) {
   const serverUrl = 'http://api.openweathermap.org/data/2.5/weather';
   const apiKey = 'f660a2fb1e4bad108d6160b7f58c555f';
   const url = `${serverUrl}?q=${cityName}&appid=${apiKey}&units=metric`;
 
-  fetch(url)
-    .then(response => response.json())
-    .then(data => {
-      if (data.message) {
-        throw new Error(data.message);
-      }
-      return data;
-    })
-    .then(data => showWeatherData(data))
-    .catch(error => showError(error));
+  try {
+    let response = await fetch(url);
+    if (response.ok) {
+      const data = await response.json();
+      showWeatherData(data);
+    } else {
+      throw new ValidationError((await response.json()).message);
+    }
+  } catch (error) {
+    if (error instanceof ValidationError) {
+      showError(`Неверное название города: ${error.message}`);
+    } else if (error instanceof SyntaxError) {
+      showError(`Ошибка синтаксиса JSON: ${error.message}`);
+    } else {
+      showError(error);
+    }
+  }
 }
 
 function submitSearchFormHandler(event) {
@@ -131,4 +145,4 @@ UI_ELEMENTS.LIKE_BTN.addEventListener('click', event => {
 UI_ELEMENTS.SEARCH_FORM.addEventListener('submit', submitSearchFormHandler);
 document.addEventListener('DOMContentLoaded', render);
 
-getWeatherForecast('Moscow');
+// getWeatherForecast('Moscow');
