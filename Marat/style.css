@@ -1,0 +1,162 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: antiquewhite;
+}
+
+input {
+    outline: none;
+}
+
+.container {
+    display: block;
+    width: 350px;
+    height: 500px;
+    position: relative;
+    background-color: white;
+    margin: 100px auto;
+
+}
+
+.content_container {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.selection_HIGH {
+    position: relative;
+
+}
+
+.HIGH {
+    padding-top: 10px;
+    font-size: medium;
+    display: block;
+    text-align: center;
+}
+
+.form_High {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    align-items: center;
+    border: 1px solid;
+    height: 30px;
+    border-radius: 5px;
+}
+
+.form_High input {
+    text-align: center;
+    border: none;
+}
+.form_Low {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    align-items: center;
+    border: 1px solid;
+    height: 30px;
+    border-radius: 5px;
+}
+
+.form_Low input {
+    text-align: center;
+    border: none;
+}
+
+
+.form_High button {
+    width: 30px;
+    height: 20px;
+    border: none;
+    background-color: transparent;
+    font-size: xx-large;
+    margin-top: -12px;
+}
+.form_Low button {
+    width: 30px;
+    height: 20px;
+    border: none;
+    background-color: transparent;
+    font-size: xx-large;
+    margin-top: -12px;
+}
+
+.todo_high form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid;
+    border-radius: 5px;
+}
+
+.todo_high button {
+    background: transparent;
+    border: none;
+    font-size: xx-large;
+}
+.todo_low form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid;
+    border-radius: 5px;
+}
+
+.todo_low button {
+    background: transparent;
+    border: none;
+    font-size: xx-large;
+}
+
+.todo_input_chackbox {
+}
+
+.todo_input_chackbox::before{
+    position: absolute;
+    content: "";
+    width: 12px;
+    height: 12px;
+    border: 1px solid black;
+    border-radius: 50%;
+}
+.selection_LOW {
+    position: relative;
+}
+
+.selection_LOW form {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.LOW {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-size: medium;
+    display: block;
+    text-align: center;
+}
+
+.todo_task{
+}
+.todo_task{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid;
+    border-radius: 5px;
+}
+
+.done_task{
+    background-color: green;
+}
