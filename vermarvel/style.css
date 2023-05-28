@@ -32,10 +32,13 @@ body {
   border-top: none;
   border-left: none;
   border-right: none;
-
+  outline-style: none;
   height: 40px;
 }
-
+#search-input {
+  padding-left: 5px;
+  border-radius: 5px;
+}
 .form {
   background-color: transparent;
   width: 100%;

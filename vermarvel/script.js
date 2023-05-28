@@ -2,6 +2,8 @@
 
 import dom from "./dom.mjs";
 import store from "./store.mjs";
+import err from "./err.mjs";
+const { RunError, NotFoundError, ConnectionError } = err;
 
 // Variables
 let rawInput = null;
@@ -48,10 +50,12 @@ function toggleCheckbox() {
 }
 
 // Error
-function renderError(msg = "City not found!") {
+function renderError(msg) {
+  console.log("messsssage", msg);
   dom.errorMsg.textContent = msg;
   dom.errorBox.classList.remove("hidden");
   dom.input.setAttribute("placeholder", "");
+  // throw new Error(msg);
 }
 
 function hideErrorBox() {
@@ -84,16 +88,23 @@ function tempFormatted(data) {
 }
 
 // Promise
-function getJSON(url, msg) {
-  return fetch(url).then((response) => {
-    if (!response.ok) throw new Error(`${msg} ${response.status}`);
-    return response.json();
-  });
+function getJSON(url, errorMsg) {
+  return fetch(url)
+    .then((response) => {
+      if (!response.ok) {
+        throw new NotFoundError(errorMsg);
+      }
+      return response.json();
+    })
+    .catch((err) => {
+      throw new ConnectionError(err.message);
+    });
 }
 //%%%%%%%%%%%%%%% Business Logics  %%%%%%%%%%%%%%%%%%%%%
 
 // Process input (chained promises)
 function getData() {
+  hideErrorBox();
   // Defining current favourite
   if (!curFav || curFav === null || curFav === undefined) {
     curFav = store.get("curFav") || rawInput || keeper[0] || "Shymkent";
@@ -145,11 +156,14 @@ function getData() {
       // Handle the errors
     })
     .catch((err) => {
-      if (err.message.includes("Failed to fetch")) {
-        renderError(`💥 Error: Please check your internet connection`);
+      console.log(err);
+      if (err instanceof ConnectionError) {
+        renderError(`💥 ${err}`);
+      } else if (err instanceof NotFoundError) {
+        renderError(`💥 ${err}`);
       } else {
         console.error(err);
-        renderError(`💥 Error: ${err.message}`);
+        throw new RunError(`💥 ${err}`);
       }
     });
 }
@@ -166,11 +180,14 @@ function getDataForecast({ lat, lon, tZone }) {
       // Handle the errors
     })
     .catch((err) => {
-      if (err.message.includes("Failed to fetch")) {
-        renderError(`💥 Error: Please check your internet connection`);
+      console.log(err);
+      if (err instanceof ConnectionError) {
+        renderError(`💥 ${err}`);
+      } else if (err instanceof NotFoundError) {
+        renderError(`💥 ${err}`);
       } else {
         console.error(err);
-        renderError(`💥 Error: ${err.message}`);
+        throw new RunError(`💥 ${err}`);
       }
     });
 }
