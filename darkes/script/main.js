@@ -4,16 +4,12 @@ import { VALIDATION } from "./modules/validations.js";
 import { OPERATION } from "./modules/utilities.js";
 import { getLocalStorage, setLocalStorage } from "./modules/localStorage.js";
 
-export let list = [
-   { name: 'create a new practice task', priority: PRIORITY.HIGH, status: STATUS.TODO },
-   { name: 'make a bed', priority: PRIORITY.LOW, status: STATUS.DONE, },
-   { name: 'write a post', priority: PRIORITY.LOW, status: STATUS.TODO }
-];
+export let list = [];
 
 function Task(name, priority) {
    this.name = name;
-   this.priority = priority;
    this.status = STATUS.TODO;
+   this.priority = priority;
 }
 
 function addTask(name, priority) {
