@@ -12,8 +12,6 @@ const btnAddFavoriteCity = getDOMElement('.favorite-btn');
 const favoriteCitiesList = getDOMElement('.favourite-cities-list');
 
 
-
-
 const storage = {
     favCities: new Set(),
     lastCity: '',
@@ -74,27 +72,40 @@ async function showWeather(city) {
 
 // получение данных от api
 async function fetchWeather(api, city) {
-    try {
-        const apiKey = '8b70971e38e651a72781439cafacf538';
-        const ServerUrl = `http://api.openweathermap.org/data/2.5/${api}`;
-        const url = `${ServerUrl}?q=${city}&appid=${apiKey}&units=metric`;
+    const apiKey = '8b70971e38e651a72781439cafacf538';
+    const ServerUrl = `http://api.openweathermap.org/data/2.5/${api}`;
+    const url = `${ServerUrl}?q=${city}&appid=${apiKey}&units=metric`;
 
-        const respons = await fetch(url);
-        if (respons.ok) {          
-            const data = await respons.json();
-            return data;           
-        } else {
-            throw new Error((await respons.json()).message);
-        }
-    } catch (error) {
-        // обработка ошибки не найденного города отдельно
-        if (error.message === 'city not found') {
-            formSetError(city);
-            return;
-        }
-        alert('Error: '+ error.message);
+    const respons = await fetch(url);
+    if (respons.ok) {          
+        const data = await respons.json();
+        return data;           
+    } else {
+        throw new Error((await respons.json()).message);
+    }
+// } catch (error) {
+//     // обработка ошибки не найденного города отдельно
+//     if (error.message === 'city not found') {
+//         formSetError(city);
+//         return;
+//     }
+//     alert('Error: '+ error.message);
+       
+// }
+}
+
+function errorHandler(message, city) {
+    if (message === 'city not found') {
+        throw new CityValidationError(city);
+    }
+    if (message === 'Internal error') {
+        throw new CityValidationError(city);
+    }
+    if (message === 'city not found') {
+        throw new CityValidationError(city);
     }
 }
+
 // обработчик слушателя инпута 
 const inputHandler = () => {
     if ( searchCityInput.classList.contains('invalid-city') ) {
@@ -283,7 +294,7 @@ const searchFormHandler = (event) => {
     
     }
     catch (error){
-        alert('Error: '+ error);
+        alert(error);
                 
     }
     finally {
