@@ -3,8 +3,18 @@ import { UI_ELEMENTS } from "./variables.js";
 
 //* функция проверки на пустую строку
 
+export class EmptyNameError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = "EmptyNameError";
+  }
+}
+
 export function isInputEmpty(name) {
-  return !name.trim();
+  if (!name.trim()) {
+    throw new EmptyNameError("Введите название города");
+  }
+  return name;
 }
 
 //* функция поиска индекса в массиве

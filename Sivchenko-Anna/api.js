@@ -3,16 +3,27 @@ import { convertUnixTime } from "./utils.js";
 
 // * функция получения данных погоды с API
 
+class ErrorHandler extends Error {
+    constructor(message) {
+        super(message);
+        this.name = 'ErrorHandler';
+    }
+  }
+
 export async function getWeather(city) {
   try {
     const url = `${API.SERVER_URL}?q=${city}&appid=${API.API_KEY}&units=metric`;
 
     let response = await fetch(url);
+    
+    if (!response.ok) {
+      throw new ErrorHandler("Произошла ошибка при выполнении запроса");
+    }
+
     let data = await response.json();
-    console.log(data)
     return data;
   } catch (error) {
-    throw new Error((await response.json()).error);
+    throw new ErrorHandler("Такого города не существует, либо произошла ошибка при ответе от сервера");
   }
 }
 
@@ -52,7 +63,7 @@ export async function updateWeatherInfo(city) {
     setWeatherNow(cityWeather);
     setWeatherDetails(cityWeather);
   }
-  catch(err) {
-    alert(err.message);
+  catch(error) {
+    alert(error.message);
   }
 }

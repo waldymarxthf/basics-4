@@ -1,6 +1,6 @@
 import { UI_ELEMENTS, WEATHER } from "./variables.js";
 import { updateWeatherInfo } from "./api.js";
-import { isInputEmpty, findIndex, isCityExist, cleanInput } from "./utils.js";
+import { isInputEmpty, EmptyNameError, findIndex, isCityExist, cleanInput } from "./utils.js";
 import {
   saveFavoriteCitiesInlocalStorage,
   getFavoriteCitiesFromlocalStorage,
@@ -78,14 +78,19 @@ async function showWeather(event) {
   event.preventDefault();
   const city = UI_ELEMENTS.INPUT_NAME.value;
 
-  if (isInputEmpty(city)) {
-    alert("Введите название города");
-    return;
+  try {
+    isInputEmpty(city);
+    updateWeatherInfo(city);
+    saveCurrentCityInLocalStorage(city);
+  } catch (error) {
+    if (error instanceof EmptyNameError) {
+      alert(error.message);
+    } else {
+      throw error;
+    }
+  } finally {
+    cleanInput();
   }
-
-  updateWeatherInfo(city);
-  saveCurrentCityInLocalStorage(city);
-  cleanInput();
 }
 
 UI_ELEMENTS.FORM.addEventListener("submit", showWeather);
