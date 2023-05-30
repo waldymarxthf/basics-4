@@ -30,35 +30,46 @@ async function getData(city){
     const cityName = city;
     
     const url = createUrl(serverData.serverUrl, cityName, serverData.apiKey);
-    
-    const data = await fetch(url)
-                       .then(response => {
-                           if(response.ok){
-                               return response.json();
-                           }
-                           return Promise.reject(new Error(response.status));
-                       })
-                       .then(data => data)
-                       .catch(error => alert(error))
+
+    async function getData(){
+        try {
+            const response = await fetch(url);
+            return await response.json();
+        } catch(err){
+            console.log(err)
+        }
+    }
+
+    const data = await getData();
+   
 
 
     const forecastUrl = createUrl(serverData.serverForecastUrl, cityName, serverData.apiKey);
-    const data1 = await fetch(forecastUrl)
-                        .then(response => {
-                            if(response.ok){
-                                return response.json();
-                            }
-                            return Promise.reject(new Error(response.status));
-                        })
-                        .then(data => data)
-                        .catch(error => alert(error))
 
-    const [dataP1, dataP2] = await Promise.all([data, data1])
-                    .then(data => data)
-                    .catch(error => alert(error))
-                    .finally(() => removeLoader())
-    
-    return [dataP1, dataP2];
+    async function getData1(){
+        try{
+            const response = await fetch(forecastUrl);
+            return await response.json();
+        } catch(err){
+            console.log(err)
+        }
+    }
+
+    const data1 = await getData1();
+
+    async function getAllData(){
+        const dataAll = [data, data1];
+        try{
+            return await Promise.all(dataAll);
+        } catch(err){
+            console.log(err)
+        } finally{
+            removeLoader()
+        }
+    }
+
+    return await getAllData();
+
 }
 
 export {serverData, getData};

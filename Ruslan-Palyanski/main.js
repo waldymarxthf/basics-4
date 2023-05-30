@@ -13,6 +13,7 @@ const currentCity = storage.getCurrentCity();
 
 const [dataP1, dataP2] = await getData(currentCity);
 
+
 function showDetails(data){
     const tmpC = getCelsius(data.main.temp)
 
@@ -31,9 +32,8 @@ function showDetails(data){
     countryNodeTitle.forEach(item => item.textContent = data.name)
 }
 
-function showForecast(data){
+function showForecast(dataP2){
     tabContent.innerHTML = '';
-
     for(let i = 0; i < dataP2.list.length; ++i){
         const [data, time] = dataP2.list[i].dt_txt.split(' ');
         const {temp: tempK, feels_like: feels} = dataP2.list[i].main;
@@ -48,7 +48,7 @@ function showForecast(data){
     }
 }
 
-function render(dataP1, dataP2, cities){
+function render(dataP1, dataP2, cities, city){
     if(dataP1){
         showDetails(dataP1)
     }
@@ -61,6 +61,10 @@ function render(dataP1, dataP2, cities){
         showCities(cities)
     } else {
         showCities()
+    }
+
+    if(city){
+        place.textContent = city;
     }
 }
 
@@ -163,16 +167,9 @@ function addCity(){
     storage.saveFavoriteCities([...storage.getFavoriteCities(), myCity])
     storage.setStartCity(myCity)
 
-
-    // const result = cities.find(item => item === myCity);
-    // if(result){
-    //         alert('This city exists in your list')
-    //     }
-    // cities.push(myCity)
-
     const cities = storage.getFavoriteCities();
     
-    render(dataP1, dataP2, cities)
+    render(dataP1, dataP2, cities, myCity)
 }
 
 list.addEventListener('click', checkClick)
