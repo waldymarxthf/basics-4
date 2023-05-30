@@ -84,95 +84,102 @@ function tempFormatted(data) {
 }
 
 // Promise
-function getJSON(url, msg) {
-  return fetch(url).then((response) => {
+async function getJSON(url, msg) {
+  try {
+    const response = await fetch(url);
     if (!response.ok) throw new Error(`${msg} ${response.status}`);
-    return response.json();
-  });
+    return await response.json();
+  } catch (err) {
+    console.error(err);
+    renderError(`💥 Error: ${err.message}`);
+  }
 }
 //%%%%%%%%%%%%%%% Business Logics  %%%%%%%%%%%%%%%%%%%%%
 
 // Process input (chained promises)
-function getData() {
-  // Defining current favourite
-  if (!curFav || curFav === null || curFav === undefined) {
-    curFav = store.get("curFav") || rawInput || keeper[0] || "Shymkent";
-  }
+async function getData() {
+  try {
+    // Defining current favourite
+    if (!curFav || curFav === null || curFav === undefined) {
+      curFav = store.get("curFav") || rawInput || keeper[0] || "Shymkent";
+    }
 
-  if (!rawInput) {
-    rawInput = curFav;
-  }
-  // Store
-  store.set("curFav", curFav);
+    if (!rawInput) {
+      rawInput = curFav;
+    }
+    // Store
+    store.set("curFav", curFav);
 
-  const url = `${serverUrl}?q=${rawInput}&appid=${apiKey}&units=metric`;
-  getJSON(url, "City not found")
-    .then((data) => {
-      const {
-        coord: { lon, lat },
-        main: { temp, feels_like: feels },
-        weather: [{ main: detWeather, icon }],
-        sys: { sunrise, sunset },
-        timezone: tZone,
-        name: uiCityName,
-      } = data;
+    const url = `${serverUrl}?q=${rawInput}&appid=${apiKey}&units=metric`;
+    const data = await getJSON(url, "City not found");
 
-      const detFeelsLike = tempFormatted(feels);
-      const uiTemp = tempFormatted(temp);
-      const detSunrise = convertTime(sunrise, tZone, true);
-      const detSunset = convertTime(sunset, tZone, true);
+    const {
+      coord: { lon, lat },
+      main: { temp, feels_like: feels },
+      weather: [{ main: detWeather, icon }],
+      sys: { sunrise, sunset },
+      timezone: tZone,
+      name: uiCityName,
+    } = data;
 
-      displayNow({
-        uiCityName,
-        uiTemp,
-        icon,
-      });
+    const detFeelsLike = tempFormatted(feels);
+    const uiTemp = tempFormatted(temp);
+    const detSunrise = convertTime(sunrise, tZone, true);
+    const detSunset = convertTime(sunset, tZone, true);
 
-      displayDetails({
-        detFeelsLike,
-        detWeather,
-        detSunrise,
-        detSunset,
-      });
-
-      getDataForecast({
-        lat,
-        lon,
-        tZone,
-      });
-
-      renderFavs();
-      // Handle the errors
-    })
-    .catch((err) => {
-      if (err.message.includes("Failed to fetch")) {
-        renderError(`💥 Error: Please check your internet connection`);
-      } else {
-        console.error(err);
-        renderError(`💥 Error: ${err.message}`);
-      }
+    displayNow({
+      uiCityName,
+      uiTemp,
+      icon,
     });
+
+    displayDetails({
+      detFeelsLike,
+      detWeather,
+      detSunrise,
+      detSunset,
+    });
+
+    getDataForecast({
+      lat,
+      lon,
+      tZone,
+    });
+
+    renderFavs();
+    // Handle the errors
+  } catch (err) {
+    if (err.message.includes("Failed to fetch")) {
+      renderError(`💥 Error: Please check your internet connection`);
+    }
+    if (coord === undefined) {
+      renderError(`💥 Error: Wrong input data`);
+    } else {
+      console.error(err);
+      renderError(`💥 Error: ${err.message}`);
+    }
+  }
 }
 
-function getDataForecast({ lat, lon, tZone }) {
-  const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
-  getJSON(forecastUrl, "Forecast not found")
-    .then((data) => {
-      // Destructuring: 3h forecasts (7 boxes)
-      const { list } = data;
-      const arr = list.slice(0, 7);
-      displayForecast(arr, tZone);
+async function getDataForecast({ lat, lon, tZone }) {
+  try {
+    const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
 
-      // Handle the errors
-    })
-    .catch((err) => {
-      if (err.message.includes("Failed to fetch")) {
-        renderError(`💥 Error: Please check your internet connection`);
-      } else {
-        console.error(err);
-        renderError(`💥 Error: ${err.message}`);
-      }
-    });
+    const data = await getJSON(forecastUrl, "Forecast not found");
+
+    // Destructuring: 3h forecasts (7 boxes)
+    const { list } = data;
+    const arr = list.slice(0, 7);
+    displayForecast(arr, tZone);
+    // Handle the errors
+  } catch (err) {
+    if (err.message.includes("Failed to fetch")) {
+      renderError(`💥 Error: Please check your internet connection`);
+    } else {
+      console.error(err);
+      renderError(`💥 Error: ${err.message}`);
+    }
+  }
 }
 
 // Display the data
