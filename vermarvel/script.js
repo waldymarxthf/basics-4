@@ -50,12 +50,10 @@ function toggleCheckbox() {
 }
 
 // Error
-function renderError(msg) {
-  console.log("messsssage", msg);
-  dom.errorMsg.textContent = msg;
+function renderError(errorMessage) {
+  dom.errorMsg.textContent = errorMessage;
   dom.errorBox.classList.remove("hidden");
   dom.input.setAttribute("placeholder", "");
-  // throw new Error(msg);
 }
 
 function hideErrorBox() {
@@ -88,108 +86,94 @@ function tempFormatted(data) {
 }
 
 // Promise
-function getJSON(url, errorMsg) {
-  return fetch(url)
-    .then((response) => {
-      if (!response.ok) {
-        throw new NotFoundError(errorMsg);
-      }
-      return response.json();
-    })
-    .catch((err) => {
-      throw new ConnectionError(err.message);
-    });
+async function getJSON(url) {
+  try {
+    const response = await fetch(url);
+    if (response.status === 404) {
+      throw new NotFoundError();
+    }
+    return response.json();
+  } catch (err) {
+    if (err instanceof TypeError && err.message.includes("Failed to fetch")) {
+      throw new ConnectionError();
+    } else {
+      throw new RunError(`💥 ${err}`);
+    }
+  }
 }
 //%%%%%%%%%%%%%%% Business Logics  %%%%%%%%%%%%%%%%%%%%%
 
 // Process input (chained promises)
-function getData() {
+async function getData() {
   hideErrorBox();
-  // Defining current favourite
-  if (!curFav || curFav === null || curFav === undefined) {
-    curFav = store.get("curFav") || rawInput || keeper[0] || "Shymkent";
-  }
+  try {
+    // Defining current favourite
+    if (!curFav || curFav === null || curFav === undefined) {
+      curFav = store.get("curFav") || rawInput || keeper[0] || "Shymkent";
+    }
 
-  if (!rawInput) {
-    rawInput = curFav;
-  }
-  // Store
-  store.set("curFav", curFav);
+    if (!rawInput) {
+      rawInput = curFav;
+    }
+    // Store
+    store.set("curFav", curFav);
 
-  const url = `${serverUrl}?q=${rawInput}&appid=${apiKey}&units=metric`;
-  getJSON(url, "City not found")
-    .then((data) => {
-      const {
-        coord: { lon, lat },
-        main: { temp, feels_like: feels },
-        weather: [{ main: detWeather, icon }],
-        sys: { sunrise, sunset },
-        timezone: tZone,
-        name: uiCityName,
-      } = data;
+    const url = `${serverUrl}?q=${rawInput}&appid=${apiKey}&units=metric`;
+    const data = await getJSON(url, "City not found");
 
-      const detFeelsLike = tempFormatted(feels);
-      const uiTemp = tempFormatted(temp);
-      const detSunrise = convertTime(sunrise, tZone, true);
-      const detSunset = convertTime(sunset, tZone, true);
+    const {
+      coord: { lon, lat },
+      main: { temp, feels_like: feels },
+      weather: [{ main: detWeather, icon }],
+      sys: { sunrise, sunset },
+      timezone: tZone,
+      name: uiCityName,
+    } = data;
 
-      displayNow({
-        uiCityName,
-        uiTemp,
-        icon,
-      });
+    const detFeelsLike = tempFormatted(feels);
+    const uiTemp = tempFormatted(temp);
+    const detSunrise = convertTime(sunrise, tZone, true);
+    const detSunset = convertTime(sunset, tZone, true);
 
-      displayDetails({
-        detFeelsLike,
-        detWeather,
-        detSunrise,
-        detSunset,
-      });
-
-      getDataForecast({
-        lat,
-        lon,
-        tZone,
-      });
-
-      renderFavs();
-      // Handle the errors
-    })
-    .catch((err) => {
-      console.log(err);
-      if (err instanceof ConnectionError) {
-        renderError(`💥 ${err}`);
-      } else if (err instanceof NotFoundError) {
-        renderError(`💥 ${err}`);
-      } else {
-        console.error(err);
-        throw new RunError(`💥 ${err}`);
-      }
+    displayNow({
+      uiCityName,
+      uiTemp,
+      icon,
     });
+
+    displayDetails({
+      detFeelsLike,
+      detWeather,
+      detSunrise,
+      detSunset,
+    });
+
+    getDataForecast({
+      lat,
+      lon,
+      tZone,
+    });
+
+    renderFavs();
+    // Handle the errors
+  } catch (err) {
+    const errorMessage = err instanceof Error ? err.message : err;
+    renderError(errorMessage);
+  }
 }
-
-function getDataForecast({ lat, lon, tZone }) {
+async function getDataForecast({ lat, lon, tZone }) {
   const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
-  getJSON(forecastUrl, "Forecast not found")
-    .then((data) => {
-      // Destructuring: 3h forecasts (7 boxes)
-      const { list } = data;
-      const arr = list.slice(0, 7);
-      displayForecast(arr, tZone);
+  try {
+    const data = await getJSON(forecastUrl, "Forecast not found");
 
-      // Handle the errors
-    })
-    .catch((err) => {
-      console.log(err);
-      if (err instanceof ConnectionError) {
-        renderError(`💥 ${err}`);
-      } else if (err instanceof NotFoundError) {
-        renderError(`💥 ${err}`);
-      } else {
-        console.error(err);
-        throw new RunError(`💥 ${err}`);
-      }
-    });
+    // Destructuring: 3h forecasts (7 boxes)
+    const { list } = data;
+    const arr = list.slice(0, 7);
+    displayForecast(arr, tZone);
+  } catch (err) {
+    const errorMessage = err instanceof Error ? err.message : err;
+    renderError(errorMessage);
+  }
 }
 
 // Display the data

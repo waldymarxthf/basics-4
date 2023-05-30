@@ -6,15 +6,15 @@ class RunError extends Error {
 }
 
 class ConnectionError extends RunError {
-  constructor(message) {
-    super(message);
+  constructor() {
+    super("💥 Check your Internet connection");
     this.name = "ConnectionError";
   }
 }
 
 class NotFoundError extends RunError {
-  constructor(message) {
-    super(message);
+  constructor() {
+    super("💥 City not found");
     this.name = "NotFoundError";
   }
 }
