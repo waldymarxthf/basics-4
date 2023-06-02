@@ -41,9 +41,6 @@ function toggleCheckbox() {
   } else {
     console.log(keeper);
     deleteFav(dom.nowPageCity.textContent);
-
-    // Delete from FAVs and save keeper
-    keeper.splice(keeper.indexOf(uiCityName), 1);
     store.set("keeper", JSON.stringify(keeper));
   }
   renderFavs();
@@ -276,7 +273,18 @@ function displayCurFav() {
 }
 
 function deleteFav(uiCityName) {
-  keeper = keeper.filter((city) => city !== uiCityName);
+  // keeper = keeper.filter((city) => city !== uiCityName);
+  // Instead RECURSION:
+  function delCityRecursive(i = 0) {
+    if (i > keeper.length) return;
+    if (keeper[i] === uiCityName) {
+      return keeper.splice(i, 1);
+    }
+    i++;
+    return delCityRecursive(i);
+  }
+  delCityRecursive();
+
   if (dom.nowPageCity.textContent === uiCityName) {
     dom.checkboxHeart.checked = false;
   }
