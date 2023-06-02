@@ -62,6 +62,7 @@ async function showWeather(city) {
         weatherNowCity.style.color = '#FFFFFF';
         // отрисовка данных
         render(vars, varsForecast);
+        favoriteCitiesList.innerHTML = '';
         renderFavoriteCities();
     }
     catch (err) {
@@ -242,36 +243,42 @@ function renderForecast(vars) {
     forecastBlock.insertAdjacentHTML('beforeend', 
     `<div class="selected-city-forecast">${vars.city}</div>`
     );
+   
+    createInsert(vars.forecastList, forecastBlock);
+}
 
-    vars.forecastList.forEach (item => {
-        forecastBlock.insertAdjacentHTML('beforeend', 
-            `<div class="forecast-hourly-item">
-                <div class="date-time-block">
-                    <div class="date">${item.date}</div>
-                    <div class="time">${item.time}</div>
-                </div>
-                <div class="forecast-hourly-weather ">
-                    <div class="forecast-hourly-weather-temp-wrapper">
-                        <div class="forecast-hourly-weather-temp">
-                            Temperature: ${item.temp}&#176;
-                        </div>
-                        <div class="forecast-hourly-weather-feels-temp">
-                            Feels like: ${item.feelsLikeTemp}&#176;
-                        </div>
+function createInsert(list, block, index = 0) {
+    if (index === list.length) {
+        return;
+    }
+    const item = list[index];
+    block.insertAdjacentHTML('beforeend', 
+        `<div class="forecast-hourly-item">
+            <div class="date-time-block">
+                <div class="date">${item.date}</div>
+                <div class="time">${item.time}</div>
+            </div>
+            <div class="forecast-hourly-weather ">
+                <div class="forecast-hourly-weather-temp-wrapper">
+                    <div class="forecast-hourly-weather-temp">
+                        Temperature: ${item.temp}&#176;
                     </div>
-                    <div class="forecast-hourly-weather-precipitation-wrapper">
-                        <div class="forecast-hourly-weather-precipitation">
-                            ${item.precipitation}
-                        </div>
-                        <div class="forecast-hourly-weather-precipitation-img">
-                            <img src="${item.iconUrl}">
-                        </div>
+                    <div class="forecast-hourly-weather-feels-temp">
+                        Feels like: ${item.feelsLikeTemp}&#176;
                     </div>
                 </div>
-            </div>`
-        );
-    })
-    
+                <div class="forecast-hourly-weather-precipitation-wrapper">
+                    <div class="forecast-hourly-weather-precipitation">
+                        ${item.precipitation}
+                    </div>
+                    <div class="forecast-hourly-weather-precipitation-img">
+                        <img src="${item.iconUrl}">
+                    </div>
+                </div>
+            </div>
+        </div>`
+    );
+    createInsert(list, block, index + 1);
 }
 
 // обработчик нажатия на кнопки табов
@@ -324,7 +331,7 @@ const btnFavoriteCityHandler = () => {
 function addFavoriteCities(city) {
     addFavoriteCityToStorage(city);
     storage.saveFavList();
-    renderFavoriteCities();
+    
     showWeather(city);
 }
 
@@ -336,14 +343,14 @@ function addFavoriteCityToStorage(city) {
 }
 
 // отрисовка списка избранных городов
-function renderFavoriteCities() {
-    favoriteCitiesList.innerHTML = '';
+function renderFavoriteCities(index = 0) {
+    const favList = [...storage.getFavList()];
     
-    const favList = storage.getFavList();
-    for (const city of favList) {
-        addFavoriteCityNode(city);
+    if (index === favList.length) {
+        return;
     }
-      
+    addFavoriteCityNode(favList[index]);
+    renderFavoriteCities(index + 1);
 }
 
 // создание элемента в списке избранных городов
@@ -374,7 +381,6 @@ function addFavoriteCityNode(city) {
 // удаление города из списка избранных
 function removeFavoriteCity(city) {
     deleteFavoriteCityFromStorage(city);
-    renderFavoriteCities();
     showWeather(storage.lastCity);
 }
 
@@ -425,7 +431,6 @@ function init() {
     else {
         showWeather(storage.lastCity);
     }
-    renderFavoriteCities();
 }
 
 init();
