@@ -54,11 +54,15 @@ function render() {
   highTasksNode.innerHTML = '';
   lowTasksNode.innerHTML = '';
   
-  for (const el of list) {
+  function recursive(i) {
+    if (i >= list.length ) return;
+    const el = list[i];
     const nodeForAddTask = el.priority == priorities.HIGH ?  highTasksNode : lowTasksNode;
     const task = createTaskNode(el.name, el.status);
     nodeForAddTask.appendChild(task);
+    recursive(i + 1);
   }
+  recursive(0);
 }
 /* Функции добавления задач при отправке форм */
 function addTaskHigh(event) {
