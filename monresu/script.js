@@ -5,7 +5,7 @@ import { getData, timeConverterTime, timeConverterDay, cityExistsInCache, findIn
 
 let currCity = JSON.parse(localStorage.getItem('currCity')) || 'aktobe';
 const storedList = (localStorage.getItem('favCities'));
-const list = new Set(storedList ? JSON.parse(storedList) : '');
+const list = new Set(storedList ? JSON.parse(storedList) : []);
 
 function modalErrorButtonHandler() {
   MODAL_NODES.modalError.style.display = 'none';
@@ -190,7 +190,9 @@ function removeCity(name) {
 
 function renderFavCities() {
   FAV_SCREEN_NODES.citiesContainer.innerHTML = '';
-  for (const city of list) {
+  const recursiveRender = (i) => {
+    if (i >= list.length-1) return;
+    const city = [...list][i];
     const cityNode = document.createElement('li');
     cityNode.classList.add('city-names_city');
     cityNode.textContent = city.name.charAt(0).toUpperCase() + city.name.slice(1);
@@ -210,7 +212,9 @@ function renderFavCities() {
     })
     cityNode.appendChild(closeBtn);
     FAV_SCREEN_NODES.citiesContainer.appendChild(cityNode);
+    recursiveRender(i + 1);
   }
+  recursiveRender(0);
 }
 
 function favBtnHandler() {
