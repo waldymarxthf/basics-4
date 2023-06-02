@@ -33,12 +33,15 @@ export function cityExistsInCache(cache, name) {
   const now = new Date().getHours();
   const cityExist = cache.find(item => item.data.name.toLowerCase() === name) !== undefined;
   let dateGood = false;
-  for (let i = 0; i < cache.length; i++) {
+  function recursive (i) {
+    if (i >= cache.length-1) return;
     if (cache[i].time === now && cache[i].data.name.toLowerCase() === name) {
       dateGood = true;
-      break;
+      return;
     }
+    recursive(i +1);
   }
+  recursive(0);
   return [cityExist, dateGood];
 }
 
