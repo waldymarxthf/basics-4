@@ -50,27 +50,30 @@ function renderDetailsBlock(data) {
 function renderForecastBlock(data) {
   FORECAST_SCREEN_NODES.FORECAST_CARDS.innerHTML = '';
   FORECAST_SCREEN_NODES.FORECAST_CITY_NAME.textContent = data.city.name;
-  for (let i = 0; i < 3; i++) {
+  const recursive = (i) => {
+    if (i >= 3) return;
     const forecastData = data.list[i];
     const iconURL = `https://openweathermap.org/img/wn/${forecastData.weather[0].icon}@2x.png`
     const card = `<div class="weather__forecast-cards_card">
-  <div class="weather__forecast-cards_card-header">
-    <span class="date">${timeConverterDay(forecastData.dt)}</span>
-    <span class="timer">${timeConverterTime(forecastData.dt)}</span>
-  </div>
-  <div class="weather__forecast-cards_card-main">
-    <div class="text-info">
-      <p>Temperature: <span class="temperature">${forecastData.main.temp}</span>°</p>
-      <p>Feels like: <span class="feelslike">${forecastData.main.feels_like}</span>°</p>
-    </div>
-    <div class="sky-info">
-      <p>${forecastData.weather[0].main}</p>
-      <img src="${iconURL}" alt="" class="icon">
-    </div>
-  </div>
-</div>`
+      <div class="weather__forecast-cards_card-header">
+        <span class="date">${timeConverterDay(forecastData.dt)}</span>
+        <span class="timer">${timeConverterTime(forecastData.dt)}</span>
+      </div>
+      <div class="weather__forecast-cards_card-main">
+        <div class="text-info">
+          <p>Temperature: <span class="temperature">${forecastData.main.temp}</span>°</p>
+          <p>Feels like: <span class="feelslike">${forecastData.main.feels_like}</span>°</p>
+        </div>
+        <div class="sky-info">
+          <p>${forecastData.weather[0].main}</p>
+          <img src="${iconURL}" alt="" class="icon">
+        </div>
+      </div>
+    </div>`
     FORECAST_SCREEN_NODES.FORECAST_CARDS.insertAdjacentHTML('beforeend', card)
+    recursive(i+1);
   }
+  recursive(0);
 }
 
 async function updateCityInCache(name, URL) {
