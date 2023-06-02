@@ -13,8 +13,8 @@ let curFav;
 const serverUrl = "http://api.openweathermap.org/data/2.5/weather";
 const apiKey = "afc9f2df39f9e9e49eeb1afac7034d35";
 // const apiKey = "bee4bd6edc3ca09763c0dc89f33c92c4"; // spare apiKey
-let keeper = new Set();
-keeper = JSON.parse(store.get("keeper")) || [];
+// localStorage.removeItem("keeper");
+let keeper = JSON.parse(store.get("keeper")) || [];
 
 // Helper functions
 
@@ -37,14 +37,14 @@ function toggleCheckbox() {
 
   if (isChecked) {
     keeper.push(dom.nowPageCity.textContent);
-    store.set("keeper", JSON.stringify([...keeper]));
+    store.set("keeper", JSON.stringify(keeper));
   } else {
     console.log(keeper);
     deleteFav(dom.nowPageCity.textContent);
 
     // Delete from FAVs and save keeper
-    keeper.delete(uiCityName);
-    store.set("keeper", JSON.stringify([...keeper]));
+    keeper.splice(keeper.indexOf(uiCityName), 1);
+    store.set("keeper", JSON.stringify(keeper));
   }
   renderFavs();
 }
