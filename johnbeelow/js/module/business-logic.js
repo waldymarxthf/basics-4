@@ -111,9 +111,9 @@ const getForecastData = (city) => {
 }
 
 const renderForecast = ({ list }) => {
-  UI_ELEMENTS.FORECAST_TAB_LIST.replaceChildren()
-
-  list.forEach((element) => {
+  const renderForecastBlock = (index) => {
+    if (index >= list.length) return;
+    const element = list[index];
     const data = {
       feelsLike: convertKelvinToCelsius(element.main.feels_like),
       temperature: convertKelvinToCelsius(element.main.temp),
@@ -122,8 +122,12 @@ const renderForecast = ({ list }) => {
       time: convertUnixToTime(element.dt),
       weather: element.weather[0].main,
     }
-    createForecastBlock(data)
-  })
+    createForecastBlock(data);
+    renderForecastBlock(index + 1);
+  }
+
+  UI_ELEMENTS.FORECAST_TAB_LIST.replaceChildren();
+  renderForecastBlock(0);
 }
 
 const createForecastBlock = ({
