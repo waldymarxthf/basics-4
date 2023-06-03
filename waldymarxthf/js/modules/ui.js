@@ -1,6 +1,6 @@
 import { saveToLocalStorage, loadFromLocalStorage } from "./localstorage.js";
-import { timeConverter, dateConverter, errorHandler } from "./utils.js";
-import { getWeatherData } from "./api.js";
+import { timeConverter, dateConverter} from "./utils.js";
+import { getWeatherData} from "./api.js";
 import { VARIABLES } from "./ui-variables.js";
 
 const locations = new Set(loadFromLocalStorage("newLocation") || [])
@@ -102,6 +102,7 @@ export function renderTabs([forecastData, weatherData]) {
 	updateBlockNow(weatherData);
 	updateBlockDetails(weatherData);
 	updateBlockForecast(forecastData);
+
 }
 
 export function renderLocations() {
@@ -124,22 +125,18 @@ function Locations(cityName) {
 }
 
 export function addLocation() {
-	try {
-		const cityName = VARIABLES.NOW.CITY.textContent;
+	const cityName = VARIABLES.NOW.CITY.textContent;
 
-		if (locations.has(cityName)) {
-			deleteLocation(cityName)
-			return
-		}
-
-		const city = new Locations(cityName)
-		locations.add(city.cityName);
-
-		saveToLocalStorage("newLocation", [...locations]);
-		renderLocations();
-	} catch (error) {
-		errorHandler(error);
+	if (locations.has(cityName)) {
+		deleteLocation(cityName)
+		return
 	}
+
+	const city = new Locations(cityName)
+	locations.add(city.cityName);
+
+	saveToLocalStorage("newLocation", [...locations]);
+	renderLocations();
 }
 
 //* добавляет локацию в массив

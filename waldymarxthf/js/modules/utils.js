@@ -21,16 +21,3 @@ export function dateConverter(date, timezone) {
 }
 
 //* функция конвертации unix даты в нормальную
-
-export function findLocationIndex(locations, newLocation) {
-	return locations.findIndex((el) => el.location === newLocation.textContent);
-}
-
-//* функция нахождения локации из массива
-
-export function errorHandler(error) {
-	alert(error.message);
-	console.error(error);
-}
-
-//* функция для обработчика ошибок
