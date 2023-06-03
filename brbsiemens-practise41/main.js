@@ -3,10 +3,21 @@ import{clearInputHigh,clearInputLow} from './utils.js'
 
 const toDoList = [];
  
-function createObject(name,priority,status){
+function СreateObject(name,priority,status){
+  if (name=="") {
+    throw new ValidationError("Task name is not found");
+  }
   this.name=name;
   this.priority=priority;
   this.status=status;
+  return
+}
+
+class ValidationError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = "ValidationError";
+  }
 }
 
 
@@ -16,7 +27,7 @@ function addTask(task){
 console.log("! Please enter all data for "+task.name+" !")
   }
   clearInputHigh()
-  console.clear()
+ // console.clear()
  console.log(toDoList)
 }
 
@@ -28,29 +39,49 @@ function delTask(nameDel){
   }
 
 
-
 UI_ELEMNTS.FROM_HIGH.addEventListener('submit', (event) => {
   event.preventDefault();
-  let task = new createObject(UI_ELEMNTS.INPUT_HIGH.value ,PRIOPITIES.HIGH,STATUS.TODO)
+  try {
+  let task = new СreateObject(UI_ELEMNTS.INPUT_HIGH.value,PRIOPITIES.HIGH,STATUS.TODO)
   addTask(task);
-  renderHigh(UI_ELEMNTS.LIST_TASKS_HIGH);
- 
+const taskHigh = toDoList.filter(task => task.priority===PRIOPITIES.HIGH);
+  renderHigh(UI_ELEMNTS.LIST_TASKS_HIGH,taskHigh);
+  } catch (err) {
+    if (err instanceof ValidationError) {
+      alert("Error: " + err.message);
+    }  else {
+      throw err;
+    }
+  }  
 })
 
 UI_ELEMNTS.FROM_LOW.addEventListener('submit', (event) => {
   event.preventDefault();
-  let task = new createObject(UI_ELEMNTS.INPUT_LOW.value ,PRIOPITIES.LOW,STATUS.TODO)
+  try {
+  let task = new СreateObject(UI_ELEMNTS.INPUT_LOW.value,PRIOPITIES.LOW,STATUS.TODO)
   addTask(task);
   renderLow(UI_ELEMNTS.LIST_TASKS_LOW);
+  } catch (err) {
+    if (err instanceof ValidationError) {
+      alert("Error: " + err.message);
+    }  else {
+      throw err;
+    }
+  } 
  
 })
 
- 
-function renderHigh(listTasks) {
+function renderHigh(listTasks,taskHigh) {
  listTasks.innerHTML=""
-  
-const taskHigh = toDoList.filter(task => task.priority===PRIOPITIES.HIGH);
-taskHigh.forEach(user=>{
+
+//taskHigh.forEach(user=>{
+  //for(let i = 0;i<taskHigh.length;i++){
+   // let user=taskHigh[i]
+   if(taskHigh[0]==taskHigh[taskHigh.length - 1]){
+ return 
+   }
+   else{
+    let user=taskHigh
   const task = document.createElement("div")
   task.classList.add('task');
   task.innerHTML=`
@@ -78,10 +109,11 @@ checkBox.addEventListener('change',()=>{
   console.log(toDoList)
 })
   listTasks.append(task);
-})
+  renderHigh(listTasks.taskHigh)
+}}
 
 clearInputHigh()
-}
+
 
 function renderLow(listTasks){
 UI_ELEMNTS.LIST_TASKS_LOW.innerHTML=""
@@ -119,3 +151,9 @@ checkBox.addEventListener('change',()=>{
 clearInputLow()
 }
 
+function ShowTime(){
+  let now = new Date();
+  let date = now.getDate()
+  UI_ELEMNTS.TIME.append(`Today is the ${date}th`)
+}
+ShowTime()

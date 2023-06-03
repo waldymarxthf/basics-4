@@ -10,8 +10,8 @@ const UI_ELEMNTS = {
   FORM_BTN: document.querySelector('.addLowButton'),
   LIST_TASKS_LOW: document.querySelector('.list-taskLow'),
 
-  DEL_BTN: document.querySelectorAll('closeButton')
- 
+  DEL_BTN: document.querySelectorAll('.closeButton'),
+ TIME: document.querySelector('.date')
 }
 
 const PRIOPITIES = {

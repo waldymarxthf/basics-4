@@ -20,9 +20,19 @@ margin-right: 5px;
 margin-left: 5px;
 margin-right: 5px;
 }
-
+.date{
+  height: 100%;
+  width: fit-content;
+  margin-right: 45px;
+}
 .name{
+  display: flex;
  text-align: center;
+}
+.titleLow{
+  display: flex;
+ text-align: center;
+ margin-left: 157px;
 }
 
 .addHighForm{
