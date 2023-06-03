@@ -44,8 +44,8 @@ UI_ELEMNTS.FROM_HIGH.addEventListener('submit', (event) => {
   try {
   let task = new СreateObject(UI_ELEMNTS.INPUT_HIGH.value,PRIOPITIES.HIGH,STATUS.TODO)
   addTask(task);
-const taskHigh = toDoList.filter(task => task.priority===PRIOPITIES.HIGH);
-  renderHigh(UI_ELEMNTS.LIST_TASKS_HIGH,taskHigh);
+
+  renderHigh(UI_ELEMNTS.LIST_TASKS_HIGH);
   } catch (err) {
     if (err instanceof ValidationError) {
       alert("Error: " + err.message);
@@ -71,17 +71,15 @@ UI_ELEMNTS.FROM_LOW.addEventListener('submit', (event) => {
  
 })
 
-function renderHigh(listTasks,taskHigh) {
+function renderHigh(listTasks) {
  listTasks.innerHTML=""
-
-//taskHigh.forEach(user=>{
-  //for(let i = 0;i<taskHigh.length;i++){
-   // let user=taskHigh[i]
-   if(taskHigh[0]==taskHigh[taskHigh.length - 1]){
+ const taskHigh = toDoList.filter(task => task.priority===PRIOPITIES.HIGH);
+function recursive (i,taskHigh){
+   if(i>=taskHigh.length){
  return 
    }
    else{
-    let user=taskHigh
+    let user=taskHigh[i]
   const task = document.createElement("div")
   task.classList.add('task');
   task.innerHTML=`
@@ -109,8 +107,11 @@ checkBox.addEventListener('change',()=>{
   console.log(toDoList)
 })
   listTasks.append(task);
-  renderHigh(listTasks.taskHigh)
-}}
+  recursive(i+1,taskHigh)
+}
+}
+recursive(0,taskHigh)
+}
 
 clearInputHigh()
 
