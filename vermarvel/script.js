@@ -1,6 +1,6 @@
 "use strict";
 
-import dom from "./dom.mjs";
+import { dom } from "./dom.mjs";
 import store from "./store.mjs";
 import err from "./err.mjs";
 const { RunError, NotFoundError, ConnectionError } = err;
@@ -40,7 +40,7 @@ function toggleCheckbox() {
     store.set("keeper", JSON.stringify(keeper));
   } else {
     console.log(keeper);
-    deleteFav(dom.nowPageCity.textContent);
+    deleteFav(dom.nowPageCity.textContent, keeper);
     store.set("keeper", JSON.stringify(keeper));
   }
   renderFavs();
@@ -250,7 +250,7 @@ function displayForecast(arr, tZone) {
 function renderFavs() {
   resetFavScr();
 
-  if (keeper.length === 0) return;
+  if (!keeper.length) return;
   keeper.forEach((city) => {
     // assemble a div
     const copiedDiv = dom.sourceFav.cloneNode(true);
@@ -272,23 +272,23 @@ function displayCurFav() {
   getData();
 }
 
-function deleteFav(uiCityName) {
+function deleteFav(uiCityName, keeper) {
   // keeper = keeper.filter((city) => city !== uiCityName);
   // Instead RECURSION:
-  function delCityRecursive(i = 0) {
+  function delCityRecursive(i = 0, keeper) {
+    console.log(i, keeper);
     if (i > keeper.length) return;
     if (keeper[i] === uiCityName) {
       return keeper.splice(i, 1);
     }
-    i++;
-    return delCityRecursive(i);
+    return delCityRecursive(i + 1, keeper);
   }
-  delCityRecursive();
+  delCityRecursive(0, keeper);
 
   if (dom.nowPageCity.textContent === uiCityName) {
     dom.checkboxHeart.checked = false;
   }
-  if (keeper.length === 0) {
+  if (!keeper.length) {
     curFav = uiCityName || "Shymkent";
   }
 
@@ -359,7 +359,8 @@ dom.parentFavs.addEventListener("click", function (event) {
     const targetText =
       target.parentElement.parentElement.querySelector(".text");
     uiCityName = targetText.textContent;
-    deleteFav(uiCityName);
+    console.log(keeper);
+    deleteFav(uiCityName, keeper);
   }
 });
 
