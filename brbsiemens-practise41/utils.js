@@ -1,4 +1,4 @@
-import {PRIOPITIES,STATUS, UI_ELEMNTS } from './ui_elements.js';
+import {UI_ELEMNTS } from './ui_elements.js';
 function clearInputHigh(){
   UI_ELEMNTS.INPUT_HIGH.value=("")
 }
@@ -6,4 +6,10 @@ function clearInputHigh(){
 function clearInputLow(){
   UI_ELEMNTS.INPUT_LOW.value=("")
 }
-export{clearInputHigh,clearInputLow}
+
+function ShowTime(){
+  let now = new Date();
+  let date = now.getDate()
+  UI_ELEMNTS.TIME.append(`Today is the ${date}th`)
+}
+export{clearInputHigh,clearInputLow,ShowTime}
