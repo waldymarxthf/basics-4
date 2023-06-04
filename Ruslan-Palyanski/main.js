@@ -29,6 +29,7 @@ function showDetails(data){
     const icon = data.weather[0].icon;
     weatherIcon.setAttribute('src', `${serverData.serverImg}${icon}@2x.png`)
     place.textContent = data.name;
+
     countryNodeTitle.forEach(item => item.textContent = data.name)
 }
 
@@ -76,22 +77,47 @@ function createHTMLElement(tag, selector, inner){
     return element;
 }
 
+function createElementRecurs(citiesArr, lengthArr, i = 0){
+
+    if(i === lengthArr){
+        return;
+    } 
+
+    const element = createHTMLElement('li', 'list__item', citiesArr[i]);
+    list.append(element)
+
+    createElementRecurs(citiesArr, lengthArr, ++i)
+    
+}
+
 function showCities(){
     let cities =  storage.getFavoriteCities();
 
     deleteHTMLElement('.list__item')
 
     if(cities.length){
-        cities.forEach(item => {
-            const element = createHTMLElement('li', 'list__item', item)
-            list.append(element)
-        })
+        // cities.forEach(item => {
+        //     const element = createHTMLElement('li', 'list__item', item);
+        //     list.append(element)
+        // })
+
+        createElementRecurs(cities, cities.length, 0)
     }
+}
+
+function removeElementRecurs(nodeElements, nodeElementsLength, i = 0){
+    if(i === nodeElementsLength){
+        return;
+    }
+    nodeElements[i].remove()
+    removeElementRecurs(nodeElements, nodeElementsLength, ++i)
 }
 
 function deleteHTMLElement(selector){
     const nodeElements = document.querySelectorAll(selector);
-    nodeElements.forEach(item => item.remove())
+    // nodeElements.forEach(item => item.remove())
+
+    removeElementRecurs(nodeElements, nodeElements.length, 0)
 }
 
 
@@ -113,8 +139,22 @@ async function checkClick(event){
     }
 }
 
+function nodeTabPrintActive(nodeTab, nodeTabLangth, i = 0){
+    if(nodeTabLangth === i){
+        return;
+    }
+
+    nodeTab[i].classList.remove('active')
+
+    nodeTabPrintActive(nodeTab, nodeTabLangth, ++i)
+}
+
 function changeClass(event){
-    nodeTab.forEach(item => item.classList.remove('active'))
+    // nodeTab.forEach(item => item.classList.remove('active'))
+    // event.target.classList.add('active')
+
+    nodeTabPrintActive(nodeTab, nodeTab.length, 0)
+
     event.target.classList.add('active')
 }
 
