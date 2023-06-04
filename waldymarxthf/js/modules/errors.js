@@ -30,3 +30,16 @@ export function errorHandler(error) {
 		console.error("Ошибка:", error.message);
 	}
 }
+
+export function errorHandlerResponse(response) {
+	if (!response.ok) {
+
+		if (response.status === 401) {
+			throw new UnauthorizedError("Не авторизован");
+		} else if (response.status === 404) {
+			throw new NotFoundError("Такой город не найден");
+		}
+		
+		throw new CustomError("Повторите попытку позже");
+	}
+}

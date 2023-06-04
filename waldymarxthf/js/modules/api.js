@@ -1,4 +1,4 @@
-import { CustomError, UnauthorizedError, NotFoundError, errorHandler } from "./errors.js";
+import { errorHandler, errorHandlerResponse } from "./errors.js";
 import { hideLoader, showLoader } from "./preloader.js";
 import { saveToLocalStorage } from "./localstorage.js";
 
@@ -8,23 +8,14 @@ const apiKey = "afc9f2df39f9e9e49eeb1afac7034d35";
 export async function getData(endpoint, location) {
 	showLoader()
 	let link = `${serverUrl}/${endpoint}?q=${location}&appid=${apiKey}&units=metric`;
-
-	let response = await fetch(link);
-
-	if (!response.ok) {
-		setTimeout(hideLoader, 250);
-		if (response.status === 401) {
-			throw new UnauthorizedError("Не авторизован");
-		} else if (response.status === 404) {
-			throw new NotFoundError("Такой город не найден");
-		} else {
-			throw new CustomError("Повторите попытку позже");
-		}
+	try {
+		let response = await fetch(link);
+		await errorHandlerResponse(response)
+		saveToLocalStorage("lastLocation", location);
+		return response.json()
+	} finally {
+		setTimeout(hideLoader, 250)
 	}
-
-	saveToLocalStorage("lastLocation", location);
-	setTimeout(hideLoader, 250)
-	return response.json()
 }
 
 //* делает запрос по нужному городу на сервер и возвращает json

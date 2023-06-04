@@ -66,32 +66,32 @@ export async function updateBlockForecast(data) {
 	VARIABLES.FORECAST.CITY.textContent = cityBlockForecast;
 
 	VARIABLES.FORECAST.DATE.forEach((date, index) => {
-		let dateBlockForecast = dateConverter(list[index].dt, city.timezone);
+		const dateBlockForecast = dateConverter(list[index].dt, city.timezone);
 		date.textContent = dateBlockForecast;
 	});
 
 	VARIABLES.FORECAST.TIME.forEach((date, index) => {
-		let timeBlockForecast = timeConverter(list[index].dt, city.timezone);
+		const timeBlockForecast = timeConverter(list[index].dt, city.timezone);
 		date.textContent = timeBlockForecast;
 	});
 
 	VARIABLES.FORECAST.TEMPERATURE.forEach((temp, index) => {
-		let tempBlockForecast = Math.round(list[index].main.temp);
+		const tempBlockForecast = Math.round(list[index].main.temp);
 		temp.textContent = tempBlockForecast;
 	});
 
 	VARIABLES.FORECAST.PRECIPITATION.forEach((precipitaion, index) => {
-		let precipitationBlockForecast = list[index].weather[0].main;
+		const precipitationBlockForecast = list[index].weather[0].main;
 		precipitaion.textContent = precipitationBlockForecast;
 	});
 
 	VARIABLES.FORECAST.FEEL_LIKE.forEach((feelLike, index) => {
-		let feelLikeBlockForecast = Math.round(list[index].main.feels_like);
+		const feelLikeBlockForecast = Math.round(list[index].main.feels_like);
 		feelLike.textContent = feelLikeBlockForecast;
 	});
 
 	VARIABLES.FORECAST.ICON.forEach((icon, index) => {
-		let iconBlockForecast = list[index].weather[0].icon;
+		const iconBlockForecast = list[index].weather[0].icon;
 		icon.src = `./assets/weather_icons/${iconBlockForecast}.png`;
 	});
 }
@@ -106,9 +106,9 @@ export function renderTabs([forecastData, weatherData]) {
 }
 
 export function renderLocations() {
-	VARIABLES.LOCATIONS.LIST.innerHTML = "";
+	VARIABLES.LOCATIONS.LIST.textContent = "";
 	locations.forEach(el => {
-		let elems = createLocationElement(el)
+		const elems = createLocationElement(el)
 		VARIABLES.LOCATIONS.LIST.append(elems)
 	})
 	changeIcon();
@@ -165,11 +165,11 @@ export function changeIcon() {
 export async function initializeUI() {
 	VARIABLES.TABS.forEach((tab, index) => {
 		tab.addEventListener("click", () => {
-			VARIABLES.TABS.forEach((t) => t.classList.remove("active"));
-			VARIABLES.WEATHER_BLOCK.forEach((w) => w.classList.remove("active"));
+			VARIABLES.TABS.forEach((t) => t.classList.remove(VARIABLES.ACTIVE));
+			VARIABLES.WEATHER_BLOCK.forEach((w) => w.classList.remove(VARIABLES.ACTIVE));
 
-			tab.classList.add("active");
-			VARIABLES.WEATHER_BLOCK[index].classList.add("active");
+			tab.classList.add(VARIABLES.ACTIVE);
+			VARIABLES.WEATHER_BLOCK[index].classList.add(VARIABLES.ACTIVE);
 		});
 	});
 
@@ -188,11 +188,7 @@ export async function initializeUI() {
 	
 	//* обработчик событий на кнопку сердечка
 	
-	let savedLocation = loadFromLocalStorage("lastLocation");
-	if (!savedLocation) {
-		savedLocation = "Minsk";
-		saveToLocalStorage("lastLocation", savedLocation);
-	}
+	let savedLocation = loadFromLocalStorage("lastLocation") || 'Minsk';
 
 	//* загружает последнюю локацию из локалСтораджа
 	

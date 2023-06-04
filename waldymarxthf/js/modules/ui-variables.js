@@ -32,6 +32,7 @@ export const VARIABLES = {
 	LOCATIONS: {
 		LIST: document.querySelector('.list-locations'),
 	},
+	ACTIVE: 'active'
 };
 
 //* переменные
