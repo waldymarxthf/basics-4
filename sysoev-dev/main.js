@@ -127,11 +127,15 @@ function render() {
   favoritesCitiesList.forEach(item => addFavoritesElement(item));
 }
 
+function removeActiveClass(list, index = 0) {
+  if (index >= list.length) { return }
+  list[index].parentNode.classList.remove('tabs__buttons-item--active');
+  removeActiveClass(list, index + 1)
+}
+
 UI_ELEMENTS.TABS.forEach(item => {
   item.addEventListener('click', event => {
-    UI_ELEMENTS.TABS.forEach(item => {
-      item.parentNode.classList.remove('tabs__buttons-item--active');
-    });
+    removeActiveClass(UI_ELEMENTS.TABS)
     item.parentNode.classList.add('tabs__buttons-item--active');
   });
 });
@@ -144,5 +148,3 @@ UI_ELEMENTS.LIKE_BTN.addEventListener('click', event => {
 
 UI_ELEMENTS.SEARCH_FORM.addEventListener('submit', submitSearchFormHandler);
 document.addEventListener('DOMContentLoaded', render);
-
-// getWeatherForecast('Moscow');
