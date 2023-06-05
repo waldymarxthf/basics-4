@@ -139,12 +139,20 @@ function render() {
   listHigh.innerHTML = '';
   listLow.innerHTML = '';
 
-  for (const elem of toDoList) {
-    const nodeForAddTask = elem.priority == PRIORITY.HIGH ? listHigh : listLow;
-    const task = createTaskList(elem.name, elem.status);
+  createElement(toDoList, toDoList.length, i = 0);
+}
 
-    nodeForAddTask.appendChild(task);
+//* рекурсия, содающая элемент
+
+function createElement(Arr, ArrLength, i) {
+  if (i == ArrLength) {
+    return;
   }
+  let elem = Arr[i];
+  const nodeForAddTask = elem.priority == PRIORITY.HIGH ? listHigh : listLow;
+  const task = createTaskList(elem.name, elem.status);
+  nodeForAddTask.appendChild(task);
+  createElement(Arr, ArrLength, ++i);
 }
 
 //* Функция добавления задачи при отправке формы
