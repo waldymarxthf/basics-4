@@ -159,20 +159,25 @@ function createElement(cityName) {
 //         right_bottom_content.appendChild(locNode);
 //     }
 // }
-function render() {
-    right_bottom_content.innerHTML = "";
-
-    function recursive(i) {
-        if(i >= list.length) return;
-        console.log("render = " + list[i]);
-        const locNode = createElement(list[i]);
-        right_bottom_content.appendChild(locNode);
-        recursive(i + 1);
-        
+function renderRecursive(setIterator) {
+    const next = setIterator.next();
+    if (next.done) {
+      return;
     }
-    recursive(0);
-    
-}
+  
+    const loc = next.value;
+    console.log("render = " + loc);
+    const locNode = createElement(loc);
+    right_bottom_content.appendChild(locNode);
+  
+    renderRecursive(setIterator);
+  }
+  
+  function render() {
+    right_bottom_content.innerHTML = "";
+    const setIterator = list.values();
+    renderRecursive(setIterator);
+  }
 render();
 async function Likes(event) {
     const p = event.target;
