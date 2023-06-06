@@ -1,6 +1,7 @@
 import { UI_ELEMENTS } from './js/ui.js';
 import { roundValue, convertDate } from './js/utils.js';
 import { storage } from './js/storage.js';
+import { format } from 'date-fns'
 
 let favoritesCitiesList = new Set();
 
@@ -148,3 +149,6 @@ UI_ELEMENTS.LIKE_BTN.addEventListener('click', event => {
 
 UI_ELEMENTS.SEARCH_FORM.addEventListener('submit', submitSearchFormHandler);
 document.addEventListener('DOMContentLoaded', render);
+
+
+console.log(format(new Date(), "'Today is a' eeee"));
