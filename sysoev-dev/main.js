@@ -1,7 +1,7 @@
 import { UI_ELEMENTS } from './js/ui.js';
 import { roundValue, convertDate } from './js/utils.js';
 import { storage } from './js/storage.js';
-import { format } from 'date-fns'
+import { subDays,formatDistance,format } from 'date-fns'
 
 let favoritesCitiesList = new Set();
 
@@ -152,3 +152,4 @@ document.addEventListener('DOMContentLoaded', render);
 
 
 console.log(format(new Date(), "'Today is a' eeee"));
+console.log(formatDistance(subDays(new Date(), 370), new Date(), { addSuffix: true }));
