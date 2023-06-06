@@ -624,7 +624,7 @@ async function updateBlockNow(data) {
     const { main , name , weather  } = data;
     const tempBlockNow = Math.round(main.temp);
     const iconBlockNow = weather[0].icon;
-    const iconUrl = `../assets/weather_icons/${iconBlockNow}.png`;
+    const iconUrl = `./weather_icons/${iconBlockNow}.png`;
     (0, _uiVariablesJs.VARIABLES).NOW.TEMPERATURE.textContent = tempBlockNow;
     (0, _uiVariablesJs.VARIABLES).NOW.CITY.textContent = name;
     (0, _uiVariablesJs.VARIABLES).NOW.ICON.src = iconUrl;
@@ -670,7 +670,7 @@ async function updateBlockForecast(data) {
     });
     (0, _uiVariablesJs.VARIABLES).FORECAST.ICON.forEach((icon, index)=>{
         const iconBlockForecast = list[index].weather[0].icon;
-        const iconUrl = `../assets/weather_icons/${iconBlockForecast}.png`;
+        const iconUrl = `./weather_icons/${iconBlockForecast}.png`;
         icon.src = iconUrl;
     });
 }
