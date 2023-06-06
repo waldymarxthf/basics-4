@@ -3,6 +3,7 @@
 import { dom } from "./dom.mjs";
 import store from "./store.mjs";
 import err from "./err.mjs";
+import { format } from "date-fns";
 const { RunError, NotFoundError, ConnectionError } = err;
 
 // Variables
@@ -59,22 +60,22 @@ function hideErrorBox() {
 }
 
 // Data processing
-function convertTime(time, tZone, boolean) {
+function convertTime(time, tZone, standard) {
   const date = new Date((time + tZone) * 1000);
 
-  if (boolean === true) {
-    const hours = ("0" + date.getUTCHours()).slice(-2);
-    const minutes = ("0" + date.getUTCMinutes()).slice(-2);
-    const formattedTime = hours + ":" + minutes;
+  if (standard === "HH:mm") {
+    // const hours = ("0" + date.getUTCHours()).slice(-2);
+    // const minutes = ("0" + date.getUTCMinutes()).slice(-2);
+    // const formattedTime = hours + ":" + minutes;
 
-    return formattedTime;
+    return format(date, standard);
   }
 
-  if (boolean === false) {
-    const options = { day: "numeric", month: "short" };
-    let formattedDate = date.toLocaleDateString("en-US", options);
+  if (standard === "MMM dd") {
+    // const options = { day: "numeric", month: "short" };
+    // let formattedDate = date.toLocaleDateString("en-US", options);
 
-    return formattedDate;
+    return format(date, standard);
   }
 }
 
@@ -129,8 +130,8 @@ async function getData() {
 
     const detFeelsLike = tempFormatted(feels);
     const uiTemp = tempFormatted(temp);
-    const detSunrise = convertTime(sunrise, tZone, true);
-    const detSunset = convertTime(sunset, tZone, true);
+    const detSunrise = convertTime(sunrise, tZone, "HH:mm");
+    const detSunset = convertTime(sunset, tZone, "HH:mm");
 
     displayNow({
       uiCityName,
@@ -214,13 +215,13 @@ function displayForecast(arr, tZone) {
     const copiedLi = dom.sourceForecast.cloneNode(true);
     // add date
     const fcDateText = copiedLi.querySelector(".fc-date-text");
-    const fcDate = convertTime(curTime, tZone, false);
+    const fcDate = convertTime(curTime, tZone, "MMM dd");
     fcDateText.textContent = fcDate;
     const detDateText = document.querySelector("#details-date");
     detDateText.textContent = fcDate;
     // add time
     const fcTimeText = copiedLi.querySelector(".fc-time-text");
-    const fcTime = convertTime(curTime, tZone, true);
+    const fcTime = convertTime(curTime, tZone, "HH:mm");
 
     fcTimeText.textContent = fcTime;
     // add temp abd feels like
