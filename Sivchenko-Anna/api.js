@@ -9,7 +9,6 @@ export async function getWeather(city) {
 
     let response = await fetch(url);
     let data = await response.json();
-    console.log(data)
     return data;
   } catch (error) {
     throw new Error((await response.json()).error);

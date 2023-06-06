@@ -8,6 +8,38 @@ import {
   getCurrentCityFromlocalStorage,
 } from "./storage.js";
 
+//! эксперимент с date-fns
+
+import { format, formatDistance, subDays, formatRelative } from "../node_modules/date-fns";
+import { ru } from "../node_modules/date-fns/locale";
+
+const today = format(new Date(), "'Today is a' eeee");
+const todayLong = format(new Date(), "'Today is a' PPPPpppp");
+const result1 = format(new Date(2000, 0, 0), "MMMM");
+const result2 = format(new Date(2000, 0, 1), "MMMM");
+const bDay = format(new Date(1999, 1, 24), "d/MMM/YYY");
+console.log(today);
+console.log(todayLong);
+console.log(result1);
+console.log(result2);
+console.log(bDay);
+
+
+for (let i = 1; i < 8; i++) {
+  const daysAgo = formatDistance(subDays(new Date(), i), new Date(), {
+    addSuffix: true,
+  });
+  console.log(daysAgo);
+}
+
+const enFormat = formatRelative(subDays(new Date(), 3), new Date());
+const ruFormat = formatRelative(subDays(new Date(), 3), new Date(), {
+  locale: ru,
+});
+console.log(enFormat + '\n' + ruFormat);
+
+//!
+
 export let favoriteCities = [];
 
 //* функция добавения города в массив

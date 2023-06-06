@@ -1,0 +1,255 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Roboto, sans-serif;
+  font-size: 24px;
+  line-height: 28px;
+}
+
+li {
+  list-style: none;
+}
+
+.wrapper {
+  width: 600px;
+  border: 1px solid #000;
+  margin: 60px auto;
+}
+
+.search {
+  width: 100%;
+  color: #696969;
+  border: none;
+  border-bottom: 1px solid #000;
+  justify-content: space-between;
+  padding: 11px 17px 13px;
+  display: flex;
+}
+
+input[type="search" i] {
+  appearance: none;
+  width: 94%;
+  border: 0;
+  padding: 0;
+  font-size: 18px;
+  line-height: 21px;
+}
+
+input[type="search" i]:focus {
+  outline: 0;
+}
+
+.search-icon {
+  height: 23px;
+  width: 23px;
+  background-image: url("search.bba9e191.svg");
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-color: inherit;
+  border: 0;
+  padding: 0;
+}
+
+.search-icon:hover {
+  cursor: pointer;
+}
+
+.container {
+  display: flex;
+}
+
+.tabs__content {
+  width: 50%;
+  height: 390px;
+  border-right: 1px solid #000;
+  position: relative;
+  overflow: hidden;
+}
+
+.tabs__content input, .weather-now, .weather-details, .weather-forecast {
+  display: none;
+}
+
+.weather-now__container, .weather-details__container, .weather-forecast__container {
+  min-height: 341px;
+  flex-direction: column;
+  justify-content: space-between;
+  display: flex;
+}
+
+.weather-now__container {
+  padding: 20px 0 17px;
+}
+
+.weather-details__container {
+  padding: 33px 0 46px;
+}
+
+.weather-forecast__container {
+  padding: 33px 16px 0 18px;
+}
+
+.tabls-btn {
+  width: 33.3333%;
+  height: 48px;
+  z-index: 2;
+  text-align: center;
+  cursor: pointer;
+  background-color: #fff;
+  border: none;
+  border-top: 1px solid #000;
+  outline: none;
+  padding-top: 12px;
+  font-size: 18px;
+  line-height: 21px;
+  transition: color .15s ease-in-out, background-color .15s ease-in-out;
+  position: absolute;
+  bottom: 0;
+}
+
+.btn-now {
+  border-right: 1px solid #000;
+  left: 0;
+}
+
+.btn-details {
+  border-right: 1px solid #000;
+  left: 99px;
+}
+
+.btn-forecast {
+  right: 0;
+}
+
+.temperature {
+  margin-left: 11px;
+  font-size: 70px;
+  line-height: 82px;
+}
+
+.weather-icon {
+  align-self: center;
+}
+
+.weather-now-city {
+  justify-content: space-between;
+  margin: 0;
+  line-height: 29px;
+  display: flex;
+}
+
+.city, .city-details, .city-forecast {
+  margin: 0;
+}
+
+.city-like {
+  cursor: pointer;
+}
+
+.weather-now__container .weather-now-city {
+  margin-top: 58px;
+  padding-left: 12px;
+  padding-right: 26px;
+}
+
+.weather-details__container .city-details {
+  padding-left: 17px;
+}
+
+.weather-forecast__container .city-forecast {
+  margin-bottom: 7px;
+}
+
+.details {
+  margin: 0;
+  padding-left: 15px;
+}
+
+.details li {
+  margin-bottom: 14px;
+}
+
+.details li:last-child {
+  margin-bottom: 0;
+}
+
+.future-weather {
+  flex-direction: column;
+  gap: 10px;
+  display: flex;
+}
+
+.future-weather__card {
+  max-height: 120px;
+  border: 1px solid #000;
+  grid-template-columns: auto 45px;
+  align-items: center;
+  row-gap: 34px;
+  padding: 6px 10px 9px 8px;
+  font-size: 18px;
+  line-height: 21px;
+  display: grid;
+}
+
+.temperature-forecast p, .description p {
+  margin: 0;
+}
+
+.description-icon {
+  height: 31px;
+  width: 31px;
+  background-image: url("rain.a35be086.svg");
+}
+
+#btn-now:checked ~ .weather-now, #btn-details:checked ~ .weather-details, #btn-forecast:checked ~ .weather-forecast {
+  display: block;
+}
+
+#btn-now:checked + label, #btn-details:checked + label, #btn-forecast:checked + label {
+  color: #fff;
+  background: #000;
+}
+
+.location__content {
+  width: 50%;
+}
+
+.location {
+  border-bottom: 1px solid #000;
+  padding: 33px 0 7px 18px;
+}
+
+.location p {
+  margin: 0;
+}
+
+.cities {
+  margin: 0;
+  padding-top: 25px;
+  padding-left: 18px;
+}
+
+.city-item {
+  cursor: pointer;
+  justify-content: space-between;
+  align-items: end;
+  margin-bottom: 14px;
+  padding-right: 20px;
+  display: flex;
+}
+
+.close-city {
+  background-image: url("close.7a8ee68b.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: inherit;
+  height: 22px;
+  width: 22px;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+}
+
+/*# sourceMappingURL=index.df664a96.css.map */
