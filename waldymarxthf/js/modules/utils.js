@@ -1,25 +1,20 @@
 import { format} from 'date-fns'
+import { utcToZonedTime } from 'date-fns-tz'
 
 export function timeConverter(time, timezone) {
-	const newDate = new Date((time + timezone) * 1000);
-	const localDate = newDate.toLocaleTimeString([], {
-		hour: "2-digit",
-		minute: "2-digit",
-		timeZone: "UTC",
-	});
-	return localDate;
+	const newDate = new Date((time + timezone) * 1000)
+	const localDate = utcToZonedTime (newDate, 'UTC');
+	const date = format(localDate, 'HH:mm')
+	return date
 }
 
 //* функция конвертации unix времени в обычное
 
 export function dateConverter(date, timezone) {
 	const newDate = new Date((date + timezone) * 1000);
-	const humanDate = newDate.toLocaleString("en-GB", {
-		day: "numeric",
-		month: "long",
-		timeZone: "UTC"
-	});
-	return humanDate;
+	const localDate = utcToZonedTime (newDate, 'UTC');
+	const date1 = format(localDate, 'd MMM')
+	return date1;
 }
 
 //* функция конвертации unix даты в нормальную
