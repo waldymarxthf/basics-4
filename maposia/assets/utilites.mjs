@@ -1,9 +1,15 @@
+import {compareAsc, format} from 'date-fns'
+import {utcToZonedTime} from 'date-fns-tz'
+
 function convertUnix(timestamp, timezone) {
     return ((timestamp + timezone) * 1000)
 }
 
 function convertTime(timestamp, timezone = '') {
     const date = new Date(convertUnix(timestamp, timezone))
+    console.log(convertUnix(timestamp, timezone))
+    const newTime = utcToZonedTime(timestamp * 1000, timezone)
+    console.log(newTime)
     const options = {
         hour: '2-digit',
         minute: '2-digit',
@@ -13,13 +19,8 @@ function convertTime(timestamp, timezone = '') {
 }
 
 function convertDate(timestamp, timezone = '') {
-    const date = new Date(convertUnix(timestamp, timezone))
-    const options = {
-        day: '2-digit',
-        month: 'long',
-        timeZone: 'UTC'
-    }
-    return date.toLocaleDateString([], options)
+    return format(new Date(convertUnix(timestamp, timezone)), 'd MMM')
+
 }
 
 function getUrlIcon(id) {

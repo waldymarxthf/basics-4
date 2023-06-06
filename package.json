@@ -15,5 +15,12 @@
   "bugs": {
     "url": "https://github.com/StradaOne/basics-4/issues"
   },
-  "homepage": "https://github.com/StradaOne/basics-4#readme"
+  "homepage": "https://github.com/StradaOne/basics-4#readme",
+  "dependencies": {
+    "date-fns": "^2.30.0",
+    "date-fns-tz": "^2.0.0"
+  },
+  "devDependencies": {
+    "parcel": "^2.9.1"
+  }
 }
