@@ -1,7 +1,7 @@
-import { UI_ELEMENTS } from './js/ui.js';
-import { roundValue, convertDate } from './js/utils.js';
-import { storage } from './js/storage.js';
-import { subDays,formatDistance,format } from 'date-fns'
+import { subDays, formatDistance, format } from 'date-fns';
+import { UI_ELEMENTS } from './js/ui';
+import { roundValue, convertDate } from './js/utils';
+import { storage } from './js/storage';
 
 let favoritesCitiesList = new Set();
 
@@ -52,7 +52,7 @@ async function getWeatherData(cityName) {
   const url = `${serverUrl}?q=${cityName}&appid=${apiKey}&units=metric`;
 
   try {
-    let response = await fetch(url);
+    const response = await fetch(url);
     if (response.ok) {
       const data = await response.json();
       showWeatherData(data);
@@ -125,23 +125,23 @@ function render() {
   favoritesCitiesList = storage.getFavoriteCities();
   const cityName = storage.getCurrentCity();
   getWeatherData(cityName);
-  favoritesCitiesList.forEach(item => addFavoritesElement(item));
+  favoritesCitiesList.forEach((item) => addFavoritesElement(item));
 }
 
 function removeActiveClass(list, index = 0) {
-  if (index >= list.length) { return }
+  if (index >= list.length) { return; }
   list[index].parentNode.classList.remove('tabs__buttons-item--active');
-  removeActiveClass(list, index + 1)
+  removeActiveClass(list, index + 1);
 }
 
-UI_ELEMENTS.TABS.forEach(item => {
+UI_ELEMENTS.TABS.forEach((item) => {
   item.addEventListener('click', () => {
-    removeActiveClass(UI_ELEMENTS.TABS)
+    removeActiveClass(UI_ELEMENTS.TABS);
     item.parentNode.classList.add('tabs__buttons-item--active');
   });
 });
 
-UI_ELEMENTS.LIKE_BTN.addEventListener('click', event => {
+UI_ELEMENTS.LIKE_BTN.addEventListener('click', (event) => {
   const cityName = event.target.previousElementSibling.textContent;
   addFavoritesItemInList(cityName);
   event.target.classList.add('now-content__buttom-btn--active');
@@ -149,7 +149,6 @@ UI_ELEMENTS.LIKE_BTN.addEventListener('click', event => {
 
 UI_ELEMENTS.SEARCH_FORM.addEventListener('submit', submitSearchFormHandler);
 document.addEventListener('DOMContentLoaded', render);
-
 
 console.log(format(new Date(), "'Today is a' eeee"));
 console.log(formatDistance(subDays(new Date(), 370), new Date(), { addSuffix: true }));
