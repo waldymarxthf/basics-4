@@ -135,7 +135,7 @@ function removeActiveClass(list, index = 0) {
 }
 
 UI_ELEMENTS.TABS.forEach(item => {
-  item.addEventListener('click', event => {
+  item.addEventListener('click', () => {
     removeActiveClass(UI_ELEMENTS.TABS)
     item.parentNode.classList.add('tabs__buttons-item--active');
   });
