@@ -78,6 +78,21 @@ function submitSearchFormHandler(event) {
   event.target.reset();
 }
 
+function render() {
+  UI_ELEMENTS.FAVORITES_LIST.textContent = '';
+  favoritesCitiesList = storage.getFavoriteCities();
+  const cityName = storage.getCurrentCity();
+  getWeatherData(cityName);
+  favoritesCitiesList.forEach((item) => addFavoritesElement(item));
+}
+
+function addFavoritesItemInList(cityName) {
+  favoritesCitiesList.add(cityName);
+  console.log(favoritesCitiesList);
+  storage.saveFavoriteCities(favoritesCitiesList);
+  render();
+}
+
 function deleteFavoritesItem(cityName) {
   favoritesCitiesList.delete(cityName);
   storage.saveFavoriteCities(favoritesCitiesList);
@@ -108,24 +123,9 @@ function showFavoritesElement(element) {
   UI_ELEMENTS.FAVORITES_LIST.prepend(element);
 }
 
-function addFavoritesItemInList(cityName) {
-  favoritesCitiesList.add(cityName);
-  console.log(favoritesCitiesList);
-  storage.saveFavoriteCities(favoritesCitiesList);
-  render();
-}
-
 function addFavoritesElement(cityName) {
   const element = createFavoritesElement(cityName);
   showFavoritesElement(element);
-}
-
-function render() {
-  UI_ELEMENTS.FAVORITES_LIST.textContent = '';
-  favoritesCitiesList = storage.getFavoriteCities();
-  const cityName = storage.getCurrentCity();
-  getWeatherData(cityName);
-  favoritesCitiesList.forEach((item) => addFavoritesElement(item));
 }
 
 function removeActiveClass(list, index = 0) {
