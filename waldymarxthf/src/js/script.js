@@ -1,4 +1,4 @@
-import { initializeUI } from "./modules/ui.js";
+import { initializeUI } from "./modules/ui";
 
 window.addEventListener("DOMContentLoaded", async () => {
 	await initializeUI();

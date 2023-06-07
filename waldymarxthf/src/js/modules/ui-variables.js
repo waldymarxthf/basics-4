@@ -21,18 +21,18 @@ export const VARIABLES = {
 		SUNSET: document.querySelector(".sunset"),
 	},
 	FORECAST: {
-		CITY: document.querySelector('.weather__forecast-title'),
-		DATE: document.querySelectorAll('.block__title-date'),
-		TIME: document.querySelectorAll('.block__title-time'),
-		TEMPERATURE: document.querySelectorAll('.block__subtitle-temp span'),
-		PRECIPITATION: document.querySelectorAll('.weather__subtitle-rain'),
-		FEEL_LIKE: document.querySelectorAll('.block__text-feels span'),
-		ICON: document.querySelectorAll('.block__text-img'),
+		CITY: document.querySelector(".weather__forecast-title"),
+		DATE: document.querySelectorAll(".block__title-date"),
+		TIME: document.querySelectorAll(".block__title-time"),
+		TEMPERATURE: document.querySelectorAll(".block__subtitle-temp span"),
+		PRECIPITATION: document.querySelectorAll(".weather__subtitle-rain"),
+		FEEL_LIKE: document.querySelectorAll(".block__text-feels span"),
+		ICON: document.querySelectorAll(".block__text-img"),
 	},
 	LOCATIONS: {
-		LIST: document.querySelector('.list-locations'),
+		LIST: document.querySelector(".list-locations"),
 	},
-	ACTIVE: 'active'
+	ACTIVE: "active",
 };
 
 //* переменные

@@ -1,21 +1,21 @@
 export class CustomError extends Error {
 	constructor(message) {
 		super(message);
-		this.name = 'CustomError'
+		this.name = "CustomError";
 	}
 }
 
 export class UnauthorizedError extends CustomError {
 	constructor(message) {
 		super(message);
-		this.name = 'UnathorizedError'
+		this.name = "UnathorizedError";
 	}
 }
 
 export class NotFoundError extends CustomError {
 	constructor(message) {
 		super(message);
-		this.name = 'UnathorizedError'
+		this.name = "UnathorizedError";
 	}
 }
 
@@ -33,13 +33,12 @@ export function errorHandler(error) {
 
 export function errorHandlerResponse(response) {
 	if (!response.ok) {
-
 		if (response.status === 401) {
 			throw new UnauthorizedError("Не авторизован");
 		} else if (response.status === 404) {
 			throw new NotFoundError("Такой город не найден");
 		}
-		
+
 		throw new CustomError("Повторите попытку позже");
 	}
 }

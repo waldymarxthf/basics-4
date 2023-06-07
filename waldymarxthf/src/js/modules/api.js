@@ -1,20 +1,20 @@
-import { errorHandler, errorHandlerResponse } from "./errors.js";
-import { hideLoader, showLoader } from "./preloader.js";
-import { saveToLocalStorage } from "./localstorage.js";
+import { errorHandler, errorHandlerResponse } from "./errors";
+import { hideLoader, showLoader } from "./preloader";
+import { saveToLocalStorage } from "./localstorage";
 
 const serverUrl = "http://api.openweathermap.org/data/2.5";
 const apiKey = "afc9f2df39f9e9e49eeb1afac7034d35";
 
 export async function getData(endpoint, location) {
-	showLoader()
-	let link = `${serverUrl}/${endpoint}?q=${location}&appid=${apiKey}&units=metric`;
+	showLoader();
+	const link = `${serverUrl}/${endpoint}?q=${location}&appid=${apiKey}&units=metric`;
 	try {
-		let response = await fetch(link);
-		await errorHandlerResponse(response)
+		const response = await fetch(link);
+		await errorHandlerResponse(response);
 		saveToLocalStorage("lastLocation", location);
-		return response.json()
+		return response.json();
 	} finally {
-		setTimeout(hideLoader, 250)
+		setTimeout(hideLoader, 250);
 	}
 }
 
@@ -22,13 +22,10 @@ export async function getData(endpoint, location) {
 
 export async function getWeatherData(location) {
 	try {
-		return await Promise.all([
-			getData("forecast", location),
-			getData("weather", location),
-		])
-
+		return await Promise.all([getData("forecast", location), getData("weather", location)]);
 	} catch (error) {
 		errorHandler(error);
+		throw error;
 	}
 }
 

@@ -1,32 +1,22 @@
-import { saveToLocalStorage, loadFromLocalStorage } from "./localstorage.js";
-import { timeConverter, dateConverter} from "./utils.js";
-import { getWeatherData} from "./api.js";
-import { VARIABLES } from "./ui-variables.js";
+import { saveToLocalStorage, loadFromLocalStorage } from "./localstorage";
+import { timeConverter, dateConverter } from "./utils";
+import { getWeatherData } from "./api";
+import { VARIABLES } from "./ui-variables";
 
-const locations = new Set(loadFromLocalStorage("newLocation") || [])
+const locations = new Set(loadFromLocalStorage("newLocation") || []);
 
-export function createLocationElement(element) {
-	const newLocation = document.createElement("li");
-	newLocation.classList.add("list-locations__item");
-	newLocation.textContent = element;
+export function changeIcon() {
+	const currentLocation = VARIABLES.NOW.CITY.textContent;
+	const isLocationInArray = locations.has(currentLocation);
 
-	const newLocationBtn = document.createElement("button");
-	newLocationBtn.classList.add("list-locations__item-btn");
-	newLocation.append(newLocationBtn);
-
-	newLocation.addEventListener("click", async () => {
-		renderTabs(await getWeatherData(element))
-	});
-
-	newLocationBtn.addEventListener("click", (event) => {
-		event.stopPropagation();
-		deleteLocation(newLocation.textContent);
-	});
-
-	return newLocation;
+	if (isLocationInArray) {
+		VARIABLES.NOW.LIKE.classList.add("liked");
+	} else {
+		VARIABLES.NOW.LIKE.classList.remove("liked");
+	}
 }
 
-//* создает элементы локации
+//* функция, делает сердечко нажатым если город добавили в избранное
 
 export async function updateBlockNow(data) {
 	const { main, name, weather } = data;
@@ -67,33 +57,39 @@ export async function updateBlockForecast(data) {
 
 	VARIABLES.FORECAST.DATE.forEach((date, index) => {
 		const dateBlockForecast = dateConverter(list[index].dt, city.timezone);
-		date.textContent = dateBlockForecast;
+		const newDate = date;
+		newDate.textContent = dateBlockForecast;
 	});
 
 	VARIABLES.FORECAST.TIME.forEach((date, index) => {
 		const timeBlockForecast = timeConverter(list[index].dt, city.timezone);
-		date.textContent = timeBlockForecast;
+		const newDate = date;
+		newDate.textContent = timeBlockForecast;
 	});
 
 	VARIABLES.FORECAST.TEMPERATURE.forEach((temp, index) => {
 		const tempBlockForecast = Math.round(list[index].main.temp);
-		temp.textContent = tempBlockForecast;
+		const newTemp = temp;
+		newTemp.textContent = tempBlockForecast;
 	});
 
 	VARIABLES.FORECAST.PRECIPITATION.forEach((precipitaion, index) => {
 		const precipitationBlockForecast = list[index].weather[0].main;
-		precipitaion.textContent = precipitationBlockForecast;
+		const newPrecipitation = precipitaion;
+		newPrecipitation.textContent = precipitationBlockForecast;
 	});
 
 	VARIABLES.FORECAST.FEEL_LIKE.forEach((feelLike, index) => {
 		const feelLikeBlockForecast = Math.round(list[index].main.feels_like);
-		feelLike.textContent = feelLikeBlockForecast;
+		const newFeelLike = feelLike;
+		newFeelLike.textContent = feelLikeBlockForecast;
 	});
 
 	VARIABLES.FORECAST.ICON.forEach((icon, index) => {
 		const iconBlockForecast = list[index].weather[0].icon;
-		const iconUrl = `./weather_icons/${iconBlockForecast}.png`
-		icon.src = iconUrl
+		const iconUrl = `./weather_icons/${iconBlockForecast}.png`;
+		const newIcon = icon;
+		newIcon.src = iconUrl;
 	});
 }
 
@@ -103,37 +99,68 @@ export function renderTabs([forecastData, weatherData]) {
 	updateBlockNow(weatherData);
 	updateBlockDetails(weatherData);
 	updateBlockForecast(forecastData);
-
 }
+
+export function createLocationElement(element) {
+	const newLocation = document.createElement("li");
+	newLocation.classList.add("list-locations__item");
+	newLocation.textContent = element;
+
+	const newLocationBtn = document.createElement("button");
+	newLocationBtn.classList.add("list-locations__item-btn");
+	newLocation.append(newLocationBtn);
+
+	newLocation.addEventListener("click", async () => {
+		renderTabs(await getWeatherData(element));
+	});
+
+	newLocationBtn.addEventListener("click", (event) => {
+		event.stopPropagation();
+		// eslint-disable-next-line no-use-before-define
+		deleteLocation(newLocation.textContent);
+	});
+
+	return newLocation;
+}
+
+//* создает элементы локации
 
 export function renderLocations() {
 	VARIABLES.LOCATIONS.LIST.textContent = "";
-	locations.forEach(el => {
-		const elems = createLocationElement(el)
-		VARIABLES.LOCATIONS.LIST.append(elems)
-	})
+	locations.forEach((el) => {
+		const elems = createLocationElement(el);
+		VARIABLES.LOCATIONS.LIST.append(elems);
+	});
 	changeIcon();
 }
 
 //* рендерит локации из массива
 
+export const deleteLocation = function (newLocation) {
+	locations.delete(newLocation);
+	saveToLocalStorage("newLocation", [...locations]);
+	renderLocations();
+};
+
+//* функция удаления локации
+
 function Locations(cityName) {
 	if (!new.target) {
-		throw Error('Error: Incorrect invocation!')
+		throw Error("Error: Incorrect invocation!");
 	}
 
-	this.cityName = cityName
+	this.cityName = cityName;
 }
 
 export function addLocation() {
 	const cityName = VARIABLES.NOW.CITY.textContent;
 
 	if (locations.has(cityName)) {
-		deleteLocation(cityName)
-		return
+		deleteLocation(cityName);
+		return;
 	}
 
-	const city = new Locations(cityName)
+	const city = new Locations(cityName);
 	locations.add(city.cityName);
 
 	saveToLocalStorage("newLocation", [...locations]);
@@ -141,27 +168,6 @@ export function addLocation() {
 }
 
 //* добавляет локацию в массив
-
-export function deleteLocation(newLocation) {
-	locations.delete(newLocation);
-	saveToLocalStorage("newLocation", [...locations]);
-	renderLocations();
-}
-
-//* функция удаления локации
-
-export function changeIcon() {
-	const currentLocation = VARIABLES.NOW.CITY.textContent;
-	const isLocationInArray = locations.has(currentLocation);
-
-	if (isLocationInArray) {
-		VARIABLES.NOW.LIKE.classList.add('liked')
-	} else {
-		VARIABLES.NOW.LIKE.classList.remove('liked')
-	}
-}
-
-//* функция, делает сердечко нажатым если город добавили в избранное
 
 export async function initializeUI() {
 	VARIABLES.TABS.forEach((tab, index) => {
@@ -175,24 +181,24 @@ export async function initializeUI() {
 	});
 
 	//* переключает табы
-	
+
 	VARIABLES.FORM.addEventListener("submit", async (event) => {
 		event.preventDefault();
 		const inputValue = new FormData(VARIABLES.FORM).get("city");
-		renderTabs(await getWeatherData(inputValue))
+		renderTabs(await getWeatherData(inputValue));
 		VARIABLES.FORM.reset();
 	});
 
 	//* обработчик событий на форму
-	
+
 	VARIABLES.NOW.LIKE.addEventListener("click", addLocation);
-	
+
 	//* обработчик событий на кнопку сердечка
-	
-	let savedLocation = loadFromLocalStorage("lastLocation") || 'Minsk';
+
+	const savedLocation = loadFromLocalStorage("lastLocation") || "Minsk";
 
 	//* загружает последнюю локацию из локалСтораджа
-	
-	renderTabs(await getWeatherData(savedLocation))
+
+	renderTabs(await getWeatherData(savedLocation));
 	renderLocations();
 }

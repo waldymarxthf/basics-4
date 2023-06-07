@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap");
 
 * {
 	margin: 0;
@@ -18,7 +18,7 @@ a {
 	width: 300px;
 }
 
-body{
+body {
 	background: url(../assets/background.webp) no-repeat;
 	background-size: cover;
 	height: 929px;
@@ -33,7 +33,8 @@ body{
 	display: block;
 	background: rgba(255, 255, 255, 0.2);
 	background-size: cover;
-	box-shadow: 0px 40px 80px rgba(0, 0, 0, 0.1), inset 0px 4px 2px rgba(255, 255, 255, 0.25), inset 4px 4px 26px rgba(255, 255, 255, 0.25);
+	box-shadow: 0px 40px 80px rgba(0, 0, 0, 0.1), inset 0px 4px 2px rgba(255, 255, 255, 0.25),
+		inset 4px 4px 26px rgba(255, 255, 255, 0.25);
 	backdrop-filter: blur(40px);
 
 	border-radius: 16px;
@@ -55,7 +56,7 @@ body{
 			background-color: transparent;
 			border: none;
 			padding-left: 16px;
-			&::placeholder{
+			&::placeholder {
 				color: #696969;
 			}
 		}
@@ -69,13 +70,13 @@ body{
 			margin: 7px 17px;
 			cursor: pointer;
 			transition: all 0.1s ease-in-out;
-			&:hover{
+			&:hover {
 				transform: scale(1.2);
 				transition: all 0.1s ease-in-out;
 			}
 		}
 	}
-	.active{
+	.active {
 		display: block;
 	}
 	&__block {
@@ -99,7 +100,7 @@ body{
 			display: flex;
 			justify-content: center;
 			align-items: center;
-			&-img{
+			&-img {
 				width: 180px;
 				margin-bottom: 20px;
 				opacity: 0.9;
@@ -108,7 +109,7 @@ body{
 		&-content {
 			display: flex;
 			justify-content: space-between;
-			.liked{
+			.liked {
 				background: url(../assets/svg/heart-liked.svg) no-repeat;
 			}
 			&-like {
@@ -116,11 +117,10 @@ body{
 				margin-right: 26px;
 				cursor: pointer;
 				background: url(../assets/svg/heart.svg) no-repeat;
-				&:hover{
+				&:hover {
 					transform: scale(1.2);
 					transition: all 0.1s ease-in-out;
 				}
-
 			}
 			&-city {
 				margin-left: 12px;
@@ -133,15 +133,15 @@ body{
 			}
 		}
 	}
-	&__now{
+	&__now {
 		display: none;
 	}
-	&__details{
+	&__details {
 		display: none;
 		position: absolute;
 		top: 0;
 	}
-	&__forecast{
+	&__forecast {
 		display: none;
 		position: absolute;
 		top: 0;
@@ -149,7 +149,7 @@ body{
 	&__location {
 		width: 302px;
 		height: 390px;
-		&-add{
+		&-add {
 			height: 68.5px;
 			border-bottom: 2px solid rgba(0, 0, 0, 0.2);
 			font-family: "Quicksand";
@@ -161,14 +161,14 @@ body{
 			padding-top: 33.5px;
 			padding-left: 18px;
 		}
-		&-save{
+		&-save {
 			padding-top: 35px;
 			padding-left: 18px;
-			.list-locations{
+			.list-locations {
 				list-style: none;
 				margin: 0;
 				padding: 0;
-				&__item{
+				&__item {
 					display: flex;
 					justify-content: space-between;
 					font-family: "Quicksand";
@@ -178,22 +178,22 @@ body{
 					line-height: 40px;
 					color: #444444;
 					cursor: pointer;
-					&:hover{
+					&:hover {
 						transform: scale(1.025);
 						color: #ff6600;
 						transition: all 0.1s ease-in-out;
 						text-shadow: 5px 5px 10px rgb(215 105 0);
-						.list-locations__item-btn{
+						.list-locations__item-btn {
 							transition: all 0.1s ease-in-out;
 							transform: scale(1);
 							visibility: visible;
-							&:hover{
+							&:hover {
 								transform: scale(1.3);
 								transition: all 0.1s ease-in-out;
 							}
 						}
 					}
-					&-btn{
+					&-btn {
 						background: url(../assets/svg/close.svg) no-repeat;
 						visibility: hidden;
 						width: 25px;
@@ -209,8 +209,8 @@ body{
 			}
 		}
 	}
-	&__details{
-		&-title{
+	&__details {
+		&-title {
 			font-family: "Quicksand";
 			font-style: normal;
 			font-weight: 500;
@@ -220,13 +220,13 @@ body{
 			padding-top: 33px;
 			padding-left: 18px;
 		}
-		.list{
+		.list {
 			list-style: none;
 			margin: 0;
 			padding: 0;
 			padding-top: 42px;
 			padding-left: 18px;
-			&__item{
+			&__item {
 				font-family: "Quicksand";
 				font-style: normal;
 				font-weight: 500;
@@ -236,10 +236,10 @@ body{
 			}
 		}
 	}
-	&__forecast{
+	&__forecast {
 		height: 344.5px;
 		overflow: auto;
-		&-title{
+		&-title {
 			font-family: "Quicksand";
 			font-style: normal;
 			font-weight: 500;
@@ -249,16 +249,16 @@ body{
 			padding-top: 33px;
 			padding-left: 18px;
 		}
-		&-block{
+		&-block {
 			margin: 7px auto 0 auto;
 			width: 265px;
 			height: 120px;
 			border: 2px solid rgba(0, 0, 0, 0.2);
 			border-radius: 10px;
-			&:last-child{
+			&:last-child {
 				margin-bottom: 10px;
 			}
-			.block__title{
+			.block__title {
 				display: flex;
 				justify-content: space-between;
 				font-family: "Quicksand";
@@ -269,7 +269,7 @@ body{
 				color: #444444;
 				padding: 6px 12px 0 12px;
 			}
-			.block__subtitle{
+			.block__subtitle {
 				display: flex;
 				justify-content: space-between;
 				padding: 38px 12px 0 12px;
@@ -280,7 +280,7 @@ body{
 				line-height: 21px;
 				color: #444444;
 			}
-			.block__text{
+			.block__text {
 				display: flex;
 				justify-content: space-between;
 				padding: 0 12px 0 12px;
@@ -290,7 +290,7 @@ body{
 				font-size: 18px;
 				line-height: 21px;
 				color: #444444;
-				&-img{
+				&-img {
 					height: 30px;
 					transform: scale(1.3);
 					margin-right: 5px;
@@ -301,7 +301,7 @@ body{
 	}
 }
 
-.tabs{
+.tabs {
 	&__items {
 		display: flex;
 		justify-content: space-between;
@@ -311,14 +311,14 @@ body{
 		border-top: 2px solid rgba(0, 0, 0, 0.2);
 		border-bottom-left-radius: 16px;
 		cursor: pointer;
-		.active{
+		.active {
 			background: linear-gradient(135deg, rgba(136, 136, 136, 0.4), rgba(204, 204, 204, 0.4));
 			background-repeat: no-repeat;
 			background-size: 98px;
 			box-shadow: 0px 20px 20px -10px rgba(228, 228, 228, 0.404);
-			color: #FFFFFF;
+			color: #ffffff;
 			text-align: center;
-			&:first-child{
+			&:first-child {
 				border-bottom-left-radius: 16px;
 			}
 		}
@@ -339,10 +339,10 @@ body{
 }
 
 ::-webkit-scrollbar {
-  display: none;
+	display: none;
 }
 
-.preloader{
+.preloader {
 	position: absolute;
 	display: flex;
 	justify-content: center;
