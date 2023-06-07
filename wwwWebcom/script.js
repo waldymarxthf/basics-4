@@ -1,12 +1,11 @@
-import {
-  VARIABLE_UI
-} from "./modules/constants.mjs";
+import { format } from "date-fns";
+import { utcToZonedTime } from "date-fns-tz";
+import { VARIABLE_UI } from "./modules/constants.mjs";
 import {
   loadFromLocalStorage,
   saveLocationToLocalStorage,
 } from "./modules/localstorage.mjs";
-import { format } from "date-fns";
-import { utcToZonedTime } from "date-fns-tz";
+
 //-------------------------------------------------------------------------------------
 let listOfCities = [];
 let uniqueCities = [];
@@ -16,23 +15,23 @@ let countId = 0;
 //-------------------------------------------------------------------------------------
 VARIABLE_UI.NOW.tabs.forEach((tab, index) => {
   tab.addEventListener("click", () => {
-    for (const tab of VARIABLE_UI.NOW.tabs) tab.classList.remove("active");
-    for (const window of VARIABLE_UI.NOW.windows) window.classList.remove("active");
+    for (const el of VARIABLE_UI.NOW.tabs) el.classList.remove("active");
+    for (const window of VARIABLE_UI.NOW.windows)
+      window.classList.remove("active");
     VARIABLE_UI.NOW.tabs[index].classList.add("active");
     VARIABLE_UI.NOW.windows[index].classList.add("active");
   });
 });
 
-function inputReset(){
-  VARIABLE_UI.NOW.input.value = ""
+function inputReset() {
+  VARIABLE_UI.NOW.input.value = "";
 }
 
-//---------------------------------------------GET-DATA----------------------------------------
+// ---------------------------------------------GET-DATA----------------------------------------
 
-async function getData(nameEndPoint,name) {
-
+async function getData(nameEndPoint, name) {
   const cityName = name;
-  const apiKey = 'f660a2fb1e4bad108d6160b7f58c555f'
+  const apiKey = "f660a2fb1e4bad108d6160b7f58c555f";
   const serverUrl = "http://api.openweathermap.org/data/2.5";
   const endPoint = nameEndPoint;
   const response = await fetch(
@@ -43,31 +42,27 @@ async function getData(nameEndPoint,name) {
   if (!response.ok) throw new Error("Такого города не существует");
 
   saveLocationToLocalStorage("lastLocation", cityName);
-  return data
+  return data;
 }
 
-async function getInfoWeather(nameLocation) {
-  try {
-    return await Promise.all([
-      getData("weather",nameLocation),
-      getData("forecast",nameLocation)]
-    )
-  } catch (error) {
-      alert(error.message)
-      inputReset()
-    }
-  }
+// ---------------------------------------<Time and Date converters>----------------------------------------------
 
-
-function renderInfoWeather([weather,forecast]) {
-  renderInfoNow(weather)
-  renderInfoDetails(weather)
-  renderInfoForecast(forecast)
+function timeConverter(time, timezone = 0) {
+  const newDate = new Date((time + timezone) * 1000);
+  const localTime = utcToZonedTime(newDate, "UTC");
+  const dateFormat = format(localTime, "HH:mm");
+  return dateFormat;
 }
-//---------------------------------------------RENDER-FUNCTIONS----------------------------------------
 
+function dateConverter(date, timezone) {
+  const newDate = new Date((date + timezone) * 1000);
+  const localDate = utcToZonedTime(newDate, "UTC");
+  const dateFormat = format(localDate, "HH:mm");
+  return dateFormat;
+}
+// ---------------------------------------<Render-functions>----------------------------------------------
 function renderInfoNow(data) {
-  const { main, name, weather } = data
+  const { main, name, weather } = data;
   VARIABLE_UI.NOW.city.textContent = name;
   VARIABLE_UI.NOW.temperature.textContent = `${Math.round(main.temp)}°`;
   VARIABLE_UI.NOW.icon.src = `https://openweathermap.org/img/wn/${weather[0].icon}@2x.png`;
@@ -79,7 +74,10 @@ function renderInfoDetails(data) {
   VARIABLE_UI.DETAILS.temperature.textContent = `${Math.round(main.temp)}`;
   VARIABLE_UI.DETAILS.feels.textContent = `${Math.round(main.feels_like)}`;
   VARIABLE_UI.DETAILS.weather.textContent = weather[0].main;
-  VARIABLE_UI.DETAILS.sunrise.textContent = timeConverter(sys.sunrise, timezone);
+  VARIABLE_UI.DETAILS.sunrise.textContent = timeConverter(
+    sys.sunrise,
+    timezone
+  );
   VARIABLE_UI.DETAILS.sunset.textContent = timeConverter(sys.sunset, timezone);
 }
 
@@ -87,59 +85,66 @@ function renderInfoForecast(data) {
   const { city, list } = data;
   VARIABLE_UI.FORECAST.city.textContent = city.name;
 
-  VARIABLE_UI.FORECAST.date.forEach((el, index) => {
-    el.textContent = dateConverter(list[index].dt, data.city.timezone)
-  })
+  VARIABLE_UI.FORECAST.date.forEach((elem, index) => {
+    elem.textContent = dateConverter(list[index].dt, data.city.timezone);
+  });
 
-  VARIABLE_UI.FORECAST.time.forEach((el, index) => {
-    el.textContent = timeConverter(list[index].dt)
-  })
+  VARIABLE_UI.FORECAST.time.forEach((elem, index) => {
+    elem.textContent = timeConverter(list[index].dt);
+  });
 
-  VARIABLE_UI.FORECAST.temperature.forEach((el, index) => {
-    el.textContent = `${Math.round(list[index].main.temp)}`
-  })
+  VARIABLE_UI.FORECAST.temperature.forEach((elem, index) => {
+    elem.textContent = `${Math.round(list[index].main.temp)}`;
+  });
 
-  VARIABLE_UI.FORECAST.feels.forEach((el, index) => {
-    el.textContent = `${Math.round(list[index].main.feels_like)}`
-  })
+  VARIABLE_UI.FORECAST.feels.forEach((elem, index) => {
+    elem.textContent = `${Math.round(list[index].main.feels_like)}`;
+  });
 
-  VARIABLE_UI.FORECAST.rainfall.forEach((el, index) => {
-    el.textContent = list[index].weather[0].main
-  })
+  VARIABLE_UI.FORECAST.rainfall.forEach((elem, index) => {
+    elem.textContent = list[index].weather[0].main;
+  });
 
-  VARIABLE_UI.FORECAST.icon.forEach((el, index) => {
-    el.src = `https://openweathermap.org/img/wn/${list[index].weather[0].icon}@2x.png`
-  })
+  VARIABLE_UI.FORECAST.icon.forEach((elem, index) => {
+    elem.src = `https://openweathermap.org/img/wn/${list[index].weather[0].icon}@2x.png`;
+  });
+}
+
+// -----------------------------------------------------------------------------------------------------------------------------
+async function getInfoWeather(nameLocation) {
+  try {
+    return await Promise.all([
+      getData("weather", nameLocation),
+      getData("forecast", nameLocation),
+    ]);
+  } catch (error) {
+    console.log(error.message);
+    inputReset();
+  }
+}
+
+function renderInfoWeather([weather, forecast]) {
+  renderInfoNow(weather);
+  renderInfoDetails(weather);
+  renderInfoForecast(forecast);
 }
 
 //-------------------------------------------------------------------------------------
 function getUniqueItems(arr) {
-  const newSet = new Set(arr)
-  const newArr = Array.from(newSet)
-  return newArr
+  const newSet = new Set(arr);
+  const newArr = Array.from(newSet);
+  return newArr;
 }
-
 
 function addCity() {
   listOfCities.push(VARIABLE_UI.NOW.city.textContent);
-  uniqueCities = getUniqueItems(listOfCities)
-  return uniqueCities
+  uniqueCities = getUniqueItems(listOfCities);
+  return uniqueCities;
 }
 
 function deleteCity(event) {
   const idBtn = event.target.getAttribute("id");
   uniqueCities.splice(idBtn, 1);
-}
-
-function resetDom() {
-  VARIABLE_UI.NOW.favoriteList.innerHTML = "";
-}
-
-function renderStorage() {
-  countId = 0;
-  resetDom();
-  uniqueCities.forEach((el) => createEl(el));
-  saveLocationToLocalStorage("location", uniqueCities);
 }
 
 //-------------------------------------------------------------------------------------
@@ -162,28 +167,22 @@ function createEl(city) {
   });
 }
 
-//---------------------------------------<Time and Date converters>----------------------------------------------
-
-function timeConverter(time, timezone = 0) {
-  const newDate = new Date((time + timezone) * 1000);
-  const localTime = utcToZonedTime (newDate, 'UTC')
-  const dateFormat = format(localTime,'HH:mm')
-  return dateFormat;
+function resetDom() {
+  VARIABLE_UI.NOW.favoriteList.innerHTML = "";
 }
 
-function dateConverter(date, timezone) {
-  const newDate = new Date((date + timezone) * 1000);
-  const localDate = utcToZonedTime (newDate, 'UTC')
-  const dateFormat = format(localDate,'HH:mm')
-  return dateFormat;
+function renderStorage() {
+  countId = 0;
+  resetDom();
+  uniqueCities.forEach((el) => createEl(el));
+  saveLocationToLocalStorage("location", uniqueCities);
 }
 
-//---------------------------------------<Events>--------------------------------------
-
+// ---------------------------------------<Events>--------------------------------------
 
 VARIABLE_UI.NOW.form.addEventListener("submit", async (event) => {
   event.preventDefault();
-    renderInfoWeather(await getInfoWeather(VARIABLE_UI.NOW.input.value))
+  renderInfoWeather(await getInfoWeather(VARIABLE_UI.NOW.input.value));
   inputReset();
 });
 
@@ -195,17 +194,15 @@ VARIABLE_UI.NOW.favoriteBtn.addEventListener("click", () => {
 document.addEventListener("click", async (event) => {
   if (event.target.classList.contains("item")) {
     VARIABLE_UI.NOW.input.value = event.target.textContent;
-    renderInfoWeather(await getInfoWeather(VARIABLE_UI.NOW.input.value))
+    renderInfoWeather(await getInfoWeather(VARIABLE_UI.NOW.input.value));
     inputReset();
   }
 });
 
-window.addEventListener("DOMContentLoaded", async() => {
+window.addEventListener("DOMContentLoaded", async () => {
   listOfCities = loadFromLocalStorage("location") || [];
   uniqueCities = loadFromLocalStorage("location") || [];
-  let lastLocation = loadFromLocalStorage("lastLocation");
+  const lastLocation = loadFromLocalStorage("lastLocation");
   renderStorage();
-  renderInfoWeather(await getInfoWeather(lastLocation))
+  renderInfoWeather(await getInfoWeather(lastLocation));
 });
-
-
