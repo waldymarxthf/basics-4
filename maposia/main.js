@@ -183,12 +183,6 @@ function createListCityNode(city) {
 
 function likeButtonHandler() {
     const favoriteCity = WEATHER_NOW.CITY.textContent
-    //
-    // if (FAVORITE_LIST_CITIES.length > 5) {
-    //     FAVORITE_LIST_CITIES.shift()
-    // }
-    // FAVORITE_LIST_CITIES.push(favoriteCity)
-    // storage.saveFavoriteCities(FAVORITE_LIST_CITIES)
     SetArray.add(favoriteCity)
     storage.saveFavoriteCities([...SetArray])
     render()

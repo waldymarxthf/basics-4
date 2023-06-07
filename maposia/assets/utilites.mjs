@@ -6,21 +6,17 @@ function convertUnix(timestamp, timezone) {
 }
 
 function convertTime(timestamp, timezone = '') {
-    const date = new Date(convertUnix(timestamp, timezone))
-    console.log(convertUnix(timestamp, timezone))
-    const newTime = utcToZonedTime(timestamp * 1000, timezone)
-    console.log(newTime)
-    const options = {
-        hour: '2-digit',
-        minute: '2-digit',
-        timeZone: 'UTC'
-    }
-    return date.toLocaleTimeString([], options)
+    const newTime = new Date((timestamp + timezone) * 1000)
+    const localTime = utcToZonedTime(newTime, 'UTC');
+    const formatLocalTime = format(localTime, 'HH:mm')
+    return formatLocalTime
 }
 
 function convertDate(timestamp, timezone = '') {
-    return format(new Date(convertUnix(timestamp, timezone)), 'd MMM')
-
+    const newDate = new Date((timestamp + timezone) * 1000);
+    const localDate = utcToZonedTime(newDate, 'UTC');
+    const formatLocalDate = format(localDate, 'd MMM')
+    return formatLocalDate;
 }
 
 function getUrlIcon(id) {
