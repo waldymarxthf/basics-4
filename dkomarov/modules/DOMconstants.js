@@ -7,4 +7,6 @@ const nameShapeCity = document.querySelector('.love-city');
 const addButtonShape = document.querySelector('.now-btn-shape-img');
 const sectionItem = document.querySelector('.locations');
 
-export {tabs, displayItem, inputValue, formNode, nameShapeCity, addButtonShape, sectionItem}; 
+export {
+  tabs, displayItem, inputValue, formNode, nameShapeCity, addButtonShape, sectionItem,
+};
