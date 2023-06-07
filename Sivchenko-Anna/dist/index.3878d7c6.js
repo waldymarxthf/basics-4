@@ -581,30 +581,6 @@ var _variablesJs = require("./variables.js");
 var _apiJs = require("./api.js");
 var _utilsJs = require("./utils.js");
 var _storageJs = require("./storage.js");
-//! эксперимент с date-fns
-var _dateFns = require("../node_modules/date-fns");
-var _locale = require("../node_modules/date-fns/locale");
-const today = (0, _dateFns.format)(new Date(), "'Today is a' eeee");
-const todayLong = (0, _dateFns.format)(new Date(), "'Today is a' PPPPpppp");
-const result1 = (0, _dateFns.format)(new Date(2000, 0, 0), "MMMM");
-const result2 = (0, _dateFns.format)(new Date(2000, 0, 1), "MMMM");
-const bDay = (0, _dateFns.format)(new Date(1999, 1, 24), "d/MMM/YYY");
-console.log(today);
-console.log(todayLong);
-console.log(result1);
-console.log(result2);
-console.log(bDay);
-for(let i = 1; i < 8; i++){
-    const daysAgo = (0, _dateFns.formatDistance)((0, _dateFns.subDays)(new Date(), i), new Date(), {
-        addSuffix: true
-    });
-    console.log(daysAgo);
-}
-const enFormat = (0, _dateFns.formatRelative)((0, _dateFns.subDays)(new Date(), 3), new Date());
-const ruFormat = (0, _dateFns.formatRelative)((0, _dateFns.subDays)(new Date(), 3), new Date(), {
-    locale: (0, _locale.ru)
-});
-console.log(enFormat + "\n" + ruFormat);
 let favoriteCities = [];
 //* функция добавения города в массив
 function addFavoriteCity() {
@@ -670,7 +646,7 @@ async function showWeather(event) {
 (0, _variablesJs.UI_ELEMENTS).BTN_FAVORITE.addEventListener("click", addFavoriteCity);
 window.addEventListener("DOMContentLoaded", render);
 
-},{"./variables.js":"g1juc","./api.js":"jCGgd","./utils.js":"Z7hmX","./storage.js":"a4cNs","../node_modules/date-fns":"9yHCA","../node_modules/date-fns/locale":"lASMG","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"g1juc":[function(require,module,exports) {
+},{"./variables.js":"g1juc","./api.js":"jCGgd","./utils.js":"Z7hmX","./storage.js":"a4cNs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"g1juc":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "API", ()=>API);
@@ -795,6 +771,8 @@ parcelHelpers.export(exports, "convertUnixTime", ()=>convertUnixTime);
 parcelHelpers.export(exports, "cleanInput", ()=>cleanInput);
 var _mainJs = require("./main.js");
 var _variablesJs = require("./variables.js");
+var _dateFns = require("date-fns");
+var _dateFnsTz = require("date-fns-tz");
 function isInputEmpty(name) {
     return !name.trim();
 }
@@ -806,45 +784,20 @@ function isCityExist(name) {
 }
 function convertUnixTime(time, timezone) {
     const date = new Date((time + timezone) * 1000);
-    const localDate = date.toLocaleString("en-GB", {
-        hour: "2-digit",
-        minute: "2-digit",
-        timeZone: "UTC"
-    });
-    return localDate;
+    const correctTime = (0, _dateFnsTz.utcToZonedTime)(date, "UTC");
+    const localTime = (0, _dateFns.format)(correctTime, "HH:mm");
+    // const localDate = date.toLocaleString("en-GB", {
+    //   hour: "2-digit",
+    //   minute: "2-digit",
+    //   timeZone: "UTC",
+    // });
+    return localTime;
 }
 function cleanInput() {
     (0, _variablesJs.UI_ELEMENTS).FORM.reset();
 }
 
-},{"./main.js":"994m5","./variables.js":"g1juc","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"a4cNs":[function(require,module,exports) {
-//* функция сохранения списка городов в localStorage
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "saveFavoriteCitiesInlocalStorage", ()=>saveFavoriteCitiesInlocalStorage);
-//* функция получения списка городов из localStorage
-parcelHelpers.export(exports, "getFavoriteCitiesFromlocalStorage", ()=>getFavoriteCitiesFromlocalStorage);
-//* функция сохранения актуального города в localStorage
-parcelHelpers.export(exports, "saveCurrentCityInLocalStorage", ()=>saveCurrentCityInLocalStorage);
-//* функция получения актуального города в localStorage
-parcelHelpers.export(exports, "getCurrentCityFromlocalStorage", ()=>getCurrentCityFromlocalStorage);
-function saveFavoriteCitiesInlocalStorage(cities) {
-    const cityList = JSON.stringify(cities);
-    localStorage.setItem("favoriteCities", cityList);
-}
-function getFavoriteCitiesFromlocalStorage() {
-    const cityList = localStorage.getItem("favoriteCities");
-    const result = JSON.parse(cityList);
-    return result || [];
-}
-function saveCurrentCityInLocalStorage(cityName) {
-    localStorage.setItem("currentCity", cityName);
-}
-function getCurrentCityFromlocalStorage() {
-    return localStorage.getItem("currentCity") || "Vladivostok";
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"9yHCA":[function(require,module,exports) {
+},{"./main.js":"994m5","./variables.js":"g1juc","date-fns":"9yHCA","date-fns-tz":"ZjMvO","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"9yHCA":[function(require,module,exports) {
 // This file is generated automatically by `scripts/build/indices.ts`. Please, don't change it.
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
@@ -1568,25 +1521,21 @@ var _indexJsDefault238 = parcelHelpers.interopDefault(_indexJs238);
 var _indexJs239 = require("./constants/index.js");
 parcelHelpers.exportAll(_indexJs239, exports);
 
-},{"./add/index.js":false,"./addBusinessDays/index.js":false,"./addDays/index.js":false,"./addHours/index.js":false,"./addISOWeekYears/index.js":false,"./addMilliseconds/index.js":false,"./addMinutes/index.js":false,"./addMonths/index.js":false,"./addQuarters/index.js":false,"./addSeconds/index.js":false,"./addWeeks/index.js":false,"./addYears/index.js":false,"./areIntervalsOverlapping/index.js":false,"./clamp/index.js":false,"./closestIndexTo/index.js":false,"./closestTo/index.js":false,"./compareAsc/index.js":false,"./compareDesc/index.js":false,"./daysToWeeks/index.js":false,"./differenceInBusinessDays/index.js":false,"./differenceInCalendarDays/index.js":false,"./differenceInCalendarISOWeekYears/index.js":false,"./differenceInCalendarISOWeeks/index.js":false,"./differenceInCalendarMonths/index.js":false,"./differenceInCalendarQuarters/index.js":false,"./differenceInCalendarWeeks/index.js":false,"./differenceInCalendarYears/index.js":false,"./differenceInDays/index.js":false,"./differenceInHours/index.js":false,"./differenceInISOWeekYears/index.js":false,"./differenceInMilliseconds/index.js":false,"./differenceInMinutes/index.js":false,"./differenceInMonths/index.js":false,"./differenceInQuarters/index.js":false,"./differenceInSeconds/index.js":false,"./differenceInWeeks/index.js":false,"./differenceInYears/index.js":false,"./eachDayOfInterval/index.js":false,"./eachHourOfInterval/index.js":false,"./eachMinuteOfInterval/index.js":false,"./eachMonthOfInterval/index.js":false,"./eachQuarterOfInterval/index.js":false,"./eachWeekOfInterval/index.js":false,"./eachWeekendOfInterval/index.js":false,"./eachWeekendOfMonth/index.js":false,"./eachWeekendOfYear/index.js":false,"./eachYearOfInterval/index.js":false,"./endOfDay/index.js":false,"./endOfDecade/index.js":false,"./endOfHour/index.js":false,"./endOfISOWeek/index.js":false,"./endOfISOWeekYear/index.js":false,"./endOfMinute/index.js":false,"./endOfMonth/index.js":false,"./endOfQuarter/index.js":false,"./endOfSecond/index.js":false,"./endOfToday/index.js":false,"./endOfTomorrow/index.js":false,"./endOfWeek/index.js":false,"./endOfYear/index.js":false,"./endOfYesterday/index.js":false,"./format/index.js":"lnm6V","./formatDistance/index.js":"lPnhm","./formatDistanceStrict/index.js":false,"./formatDistanceToNow/index.js":false,"./formatDistanceToNowStrict/index.js":false,"./formatDuration/index.js":false,"./formatISO/index.js":false,"./formatISO9075/index.js":false,"./formatISODuration/index.js":false,"./formatRFC3339/index.js":false,"./formatRFC7231/index.js":false,"./formatRelative/index.js":"k1fV5","./fromUnixTime/index.js":false,"./getDate/index.js":false,"./getDay/index.js":false,"./getDayOfYear/index.js":false,"./getDaysInMonth/index.js":false,"./getDaysInYear/index.js":false,"./getDecade/index.js":false,"./getDefaultOptions/index.js":false,"./getHours/index.js":false,"./getISODay/index.js":false,"./getISOWeek/index.js":false,"./getISOWeekYear/index.js":false,"./getISOWeeksInYear/index.js":false,"./getMilliseconds/index.js":false,"./getMinutes/index.js":false,"./getMonth/index.js":false,"./getOverlappingDaysInIntervals/index.js":false,"./getQuarter/index.js":false,"./getSeconds/index.js":false,"./getTime/index.js":false,"./getUnixTime/index.js":false,"./getWeek/index.js":false,"./getWeekOfMonth/index.js":false,"./getWeekYear/index.js":false,"./getWeeksInMonth/index.js":false,"./getYear/index.js":false,"./hoursToMilliseconds/index.js":false,"./hoursToMinutes/index.js":false,"./hoursToSeconds/index.js":false,"./intervalToDuration/index.js":false,"./intlFormat/index.js":false,"./intlFormatDistance/index.js":false,"./isAfter/index.js":false,"./isBefore/index.js":false,"./isDate/index.js":false,"./isEqual/index.js":false,"./isExists/index.js":false,"./isFirstDayOfMonth/index.js":false,"./isFriday/index.js":false,"./isFuture/index.js":false,"./isLastDayOfMonth/index.js":false,"./isLeapYear/index.js":false,"./isMatch/index.js":false,"./isMonday/index.js":false,"./isPast/index.js":false,"./isSameDay/index.js":false,"./isSameHour/index.js":false,"./isSameISOWeek/index.js":false,"./isSameISOWeekYear/index.js":false,"./isSameMinute/index.js":false,"./isSameMonth/index.js":false,"./isSameQuarter/index.js":false,"./isSameSecond/index.js":false,"./isSameWeek/index.js":false,"./isSameYear/index.js":false,"./isSaturday/index.js":false,"./isSunday/index.js":false,"./isThisHour/index.js":false,"./isThisISOWeek/index.js":false,"./isThisMinute/index.js":false,"./isThisMonth/index.js":false,"./isThisQuarter/index.js":false,"./isThisSecond/index.js":false,"./isThisWeek/index.js":false,"./isThisYear/index.js":false,"./isThursday/index.js":false,"./isToday/index.js":false,"./isTomorrow/index.js":false,"./isTuesday/index.js":false,"./isValid/index.js":false,"./isWednesday/index.js":false,"./isWeekend/index.js":false,"./isWithinInterval/index.js":false,"./isYesterday/index.js":false,"./lastDayOfDecade/index.js":false,"./lastDayOfISOWeek/index.js":false,"./lastDayOfISOWeekYear/index.js":false,"./lastDayOfMonth/index.js":false,"./lastDayOfQuarter/index.js":false,"./lastDayOfWeek/index.js":false,"./lastDayOfYear/index.js":false,"./lightFormat/index.js":false,"./max/index.js":false,"./milliseconds/index.js":false,"./millisecondsToHours/index.js":false,"./millisecondsToMinutes/index.js":false,"./millisecondsToSeconds/index.js":false,"./min/index.js":false,"./minutesToHours/index.js":false,"./minutesToMilliseconds/index.js":false,"./minutesToSeconds/index.js":false,"./monthsToQuarters/index.js":false,"./monthsToYears/index.js":false,"./nextDay/index.js":false,"./nextFriday/index.js":false,"./nextMonday/index.js":false,"./nextSaturday/index.js":false,"./nextSunday/index.js":false,"./nextThursday/index.js":false,"./nextTuesday/index.js":false,"./nextWednesday/index.js":false,"./parse/index.js":false,"./parseISO/index.js":false,"./parseJSON/index.js":false,"./previousDay/index.js":false,"./previousFriday/index.js":false,"./previousMonday/index.js":false,"./previousSaturday/index.js":false,"./previousSunday/index.js":false,"./previousThursday/index.js":false,"./previousTuesday/index.js":false,"./previousWednesday/index.js":false,"./quartersToMonths/index.js":false,"./quartersToYears/index.js":false,"./roundToNearestMinutes/index.js":false,"./secondsToHours/index.js":false,"./secondsToMilliseconds/index.js":false,"./secondsToMinutes/index.js":false,"./set/index.js":false,"./setDate/index.js":false,"./setDay/index.js":false,"./setDayOfYear/index.js":false,"./setDefaultOptions/index.js":false,"./setHours/index.js":false,"./setISODay/index.js":false,"./setISOWeek/index.js":false,"./setISOWeekYear/index.js":false,"./setMilliseconds/index.js":false,"./setMinutes/index.js":false,"./setMonth/index.js":false,"./setQuarter/index.js":false,"./setSeconds/index.js":false,"./setWeek/index.js":false,"./setWeekYear/index.js":false,"./setYear/index.js":false,"./startOfDay/index.js":false,"./startOfDecade/index.js":false,"./startOfHour/index.js":false,"./startOfISOWeek/index.js":false,"./startOfISOWeekYear/index.js":false,"./startOfMinute/index.js":false,"./startOfMonth/index.js":false,"./startOfQuarter/index.js":false,"./startOfSecond/index.js":false,"./startOfToday/index.js":false,"./startOfTomorrow/index.js":false,"./startOfWeek/index.js":false,"./startOfWeekYear/index.js":false,"./startOfYear/index.js":false,"./startOfYesterday/index.js":false,"./sub/index.js":false,"./subBusinessDays/index.js":false,"./subDays/index.js":"8gyqn","./subHours/index.js":false,"./subISOWeekYears/index.js":false,"./subMilliseconds/index.js":false,"./subMinutes/index.js":false,"./subMonths/index.js":false,"./subQuarters/index.js":false,"./subSeconds/index.js":false,"./subWeeks/index.js":false,"./subYears/index.js":false,"./toDate/index.js":false,"./weeksToDays/index.js":false,"./yearsToMonths/index.js":false,"./yearsToQuarters/index.js":false,"./constants/index.js":false,"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"g6fAH":[function(require,module,exports) {
+},{"./add/index.js":false,"./addBusinessDays/index.js":false,"./addDays/index.js":false,"./addHours/index.js":false,"./addISOWeekYears/index.js":false,"./addMilliseconds/index.js":false,"./addMinutes/index.js":false,"./addMonths/index.js":false,"./addQuarters/index.js":false,"./addSeconds/index.js":false,"./addWeeks/index.js":false,"./addYears/index.js":false,"./areIntervalsOverlapping/index.js":false,"./clamp/index.js":false,"./closestIndexTo/index.js":false,"./closestTo/index.js":false,"./compareAsc/index.js":false,"./compareDesc/index.js":false,"./daysToWeeks/index.js":false,"./differenceInBusinessDays/index.js":false,"./differenceInCalendarDays/index.js":false,"./differenceInCalendarISOWeekYears/index.js":false,"./differenceInCalendarISOWeeks/index.js":false,"./differenceInCalendarMonths/index.js":false,"./differenceInCalendarQuarters/index.js":false,"./differenceInCalendarWeeks/index.js":false,"./differenceInCalendarYears/index.js":false,"./differenceInDays/index.js":false,"./differenceInHours/index.js":false,"./differenceInISOWeekYears/index.js":false,"./differenceInMilliseconds/index.js":false,"./differenceInMinutes/index.js":false,"./differenceInMonths/index.js":false,"./differenceInQuarters/index.js":false,"./differenceInSeconds/index.js":false,"./differenceInWeeks/index.js":false,"./differenceInYears/index.js":false,"./eachDayOfInterval/index.js":false,"./eachHourOfInterval/index.js":false,"./eachMinuteOfInterval/index.js":false,"./eachMonthOfInterval/index.js":false,"./eachQuarterOfInterval/index.js":false,"./eachWeekOfInterval/index.js":false,"./eachWeekendOfInterval/index.js":false,"./eachWeekendOfMonth/index.js":false,"./eachWeekendOfYear/index.js":false,"./eachYearOfInterval/index.js":false,"./endOfDay/index.js":false,"./endOfDecade/index.js":false,"./endOfHour/index.js":false,"./endOfISOWeek/index.js":false,"./endOfISOWeekYear/index.js":false,"./endOfMinute/index.js":false,"./endOfMonth/index.js":false,"./endOfQuarter/index.js":false,"./endOfSecond/index.js":false,"./endOfToday/index.js":false,"./endOfTomorrow/index.js":false,"./endOfWeek/index.js":false,"./endOfYear/index.js":false,"./endOfYesterday/index.js":false,"./format/index.js":"lnm6V","./formatDistance/index.js":false,"./formatDistanceStrict/index.js":false,"./formatDistanceToNow/index.js":false,"./formatDistanceToNowStrict/index.js":false,"./formatDuration/index.js":false,"./formatISO/index.js":false,"./formatISO9075/index.js":false,"./formatISODuration/index.js":false,"./formatRFC3339/index.js":false,"./formatRFC7231/index.js":false,"./formatRelative/index.js":false,"./fromUnixTime/index.js":false,"./getDate/index.js":false,"./getDay/index.js":false,"./getDayOfYear/index.js":false,"./getDaysInMonth/index.js":false,"./getDaysInYear/index.js":false,"./getDecade/index.js":false,"./getDefaultOptions/index.js":false,"./getHours/index.js":false,"./getISODay/index.js":false,"./getISOWeek/index.js":false,"./getISOWeekYear/index.js":false,"./getISOWeeksInYear/index.js":false,"./getMilliseconds/index.js":false,"./getMinutes/index.js":false,"./getMonth/index.js":false,"./getOverlappingDaysInIntervals/index.js":false,"./getQuarter/index.js":false,"./getSeconds/index.js":false,"./getTime/index.js":false,"./getUnixTime/index.js":false,"./getWeek/index.js":false,"./getWeekOfMonth/index.js":false,"./getWeekYear/index.js":false,"./getWeeksInMonth/index.js":false,"./getYear/index.js":false,"./hoursToMilliseconds/index.js":false,"./hoursToMinutes/index.js":false,"./hoursToSeconds/index.js":false,"./intervalToDuration/index.js":false,"./intlFormat/index.js":false,"./intlFormatDistance/index.js":false,"./isAfter/index.js":false,"./isBefore/index.js":false,"./isDate/index.js":false,"./isEqual/index.js":false,"./isExists/index.js":false,"./isFirstDayOfMonth/index.js":false,"./isFriday/index.js":false,"./isFuture/index.js":false,"./isLastDayOfMonth/index.js":false,"./isLeapYear/index.js":false,"./isMatch/index.js":false,"./isMonday/index.js":false,"./isPast/index.js":false,"./isSameDay/index.js":false,"./isSameHour/index.js":false,"./isSameISOWeek/index.js":false,"./isSameISOWeekYear/index.js":false,"./isSameMinute/index.js":false,"./isSameMonth/index.js":false,"./isSameQuarter/index.js":false,"./isSameSecond/index.js":false,"./isSameWeek/index.js":false,"./isSameYear/index.js":false,"./isSaturday/index.js":false,"./isSunday/index.js":false,"./isThisHour/index.js":false,"./isThisISOWeek/index.js":false,"./isThisMinute/index.js":false,"./isThisMonth/index.js":false,"./isThisQuarter/index.js":false,"./isThisSecond/index.js":false,"./isThisWeek/index.js":false,"./isThisYear/index.js":false,"./isThursday/index.js":false,"./isToday/index.js":false,"./isTomorrow/index.js":false,"./isTuesday/index.js":false,"./isValid/index.js":false,"./isWednesday/index.js":false,"./isWeekend/index.js":false,"./isWithinInterval/index.js":false,"./isYesterday/index.js":false,"./lastDayOfDecade/index.js":false,"./lastDayOfISOWeek/index.js":false,"./lastDayOfISOWeekYear/index.js":false,"./lastDayOfMonth/index.js":false,"./lastDayOfQuarter/index.js":false,"./lastDayOfWeek/index.js":false,"./lastDayOfYear/index.js":false,"./lightFormat/index.js":false,"./max/index.js":false,"./milliseconds/index.js":false,"./millisecondsToHours/index.js":false,"./millisecondsToMinutes/index.js":false,"./millisecondsToSeconds/index.js":false,"./min/index.js":false,"./minutesToHours/index.js":false,"./minutesToMilliseconds/index.js":false,"./minutesToSeconds/index.js":false,"./monthsToQuarters/index.js":false,"./monthsToYears/index.js":false,"./nextDay/index.js":false,"./nextFriday/index.js":false,"./nextMonday/index.js":false,"./nextSaturday/index.js":false,"./nextSunday/index.js":false,"./nextThursday/index.js":false,"./nextTuesday/index.js":false,"./nextWednesday/index.js":false,"./parse/index.js":false,"./parseISO/index.js":false,"./parseJSON/index.js":false,"./previousDay/index.js":false,"./previousFriday/index.js":false,"./previousMonday/index.js":false,"./previousSaturday/index.js":false,"./previousSunday/index.js":false,"./previousThursday/index.js":false,"./previousTuesday/index.js":false,"./previousWednesday/index.js":false,"./quartersToMonths/index.js":false,"./quartersToYears/index.js":false,"./roundToNearestMinutes/index.js":false,"./secondsToHours/index.js":false,"./secondsToMilliseconds/index.js":false,"./secondsToMinutes/index.js":false,"./set/index.js":false,"./setDate/index.js":false,"./setDay/index.js":false,"./setDayOfYear/index.js":false,"./setDefaultOptions/index.js":false,"./setHours/index.js":false,"./setISODay/index.js":false,"./setISOWeek/index.js":false,"./setISOWeekYear/index.js":false,"./setMilliseconds/index.js":false,"./setMinutes/index.js":false,"./setMonth/index.js":false,"./setQuarter/index.js":false,"./setSeconds/index.js":false,"./setWeek/index.js":false,"./setWeekYear/index.js":false,"./setYear/index.js":false,"./startOfDay/index.js":false,"./startOfDecade/index.js":false,"./startOfHour/index.js":false,"./startOfISOWeek/index.js":false,"./startOfISOWeekYear/index.js":false,"./startOfMinute/index.js":false,"./startOfMonth/index.js":false,"./startOfQuarter/index.js":false,"./startOfSecond/index.js":false,"./startOfToday/index.js":false,"./startOfTomorrow/index.js":false,"./startOfWeek/index.js":false,"./startOfWeekYear/index.js":false,"./startOfYear/index.js":false,"./startOfYesterday/index.js":false,"./sub/index.js":false,"./subBusinessDays/index.js":false,"./subDays/index.js":false,"./subHours/index.js":false,"./subISOWeekYears/index.js":false,"./subMilliseconds/index.js":false,"./subMinutes/index.js":false,"./subMonths/index.js":false,"./subQuarters/index.js":false,"./subSeconds/index.js":false,"./subWeeks/index.js":false,"./subYears/index.js":false,"./toDate/index.js":false,"./weeksToDays/index.js":false,"./yearsToMonths/index.js":false,"./yearsToQuarters/index.js":false,"./constants/index.js":false,"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"7Tp9s":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "default", ()=>addDays);
+parcelHelpers.export(exports, "default", ()=>addMilliseconds);
 var _indexJs = require("../_lib/toInteger/index.js");
 var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
 var _indexJs1 = require("../toDate/index.js");
 var _indexJsDefault1 = parcelHelpers.interopDefault(_indexJs1);
 var _indexJs2 = require("../_lib/requiredArgs/index.js");
 var _indexJsDefault2 = parcelHelpers.interopDefault(_indexJs2);
-function addDays(dirtyDate, dirtyAmount) {
+function addMilliseconds(dirtyDate, dirtyAmount) {
     (0, _indexJsDefault2.default)(2, arguments);
-    var date = (0, _indexJsDefault1.default)(dirtyDate);
+    var timestamp = (0, _indexJsDefault1.default)(dirtyDate).getTime();
     var amount = (0, _indexJsDefault.default)(dirtyAmount);
-    if (isNaN(amount)) return new Date(NaN);
-    if (!amount) // If 0 days, no-op to avoid changing times in the hour before end of DST
-    return date;
-    date.setDate(date.getDate() + amount);
-    return date;
+    return new Date(timestamp + amount);
 }
 
 },{"../_lib/toInteger/index.js":"f7kKX","../toDate/index.js":"fsust","../_lib/requiredArgs/index.js":"9wUgQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"f7kKX":[function(require,module,exports) {
@@ -1645,250 +1594,6 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "default", ()=>requiredArgs);
 function requiredArgs(required, args) {
     if (args.length < required) throw new TypeError(required + " argument" + (required > 1 ? "s" : "") + " required, but only " + args.length + " present");
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"7Tp9s":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "default", ()=>addMilliseconds);
-var _indexJs = require("../_lib/toInteger/index.js");
-var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
-var _indexJs1 = require("../toDate/index.js");
-var _indexJsDefault1 = parcelHelpers.interopDefault(_indexJs1);
-var _indexJs2 = require("../_lib/requiredArgs/index.js");
-var _indexJsDefault2 = parcelHelpers.interopDefault(_indexJs2);
-function addMilliseconds(dirtyDate, dirtyAmount) {
-    (0, _indexJsDefault2.default)(2, arguments);
-    var timestamp = (0, _indexJsDefault1.default)(dirtyDate).getTime();
-    var amount = (0, _indexJsDefault.default)(dirtyAmount);
-    return new Date(timestamp + amount);
-}
-
-},{"../_lib/toInteger/index.js":"f7kKX","../toDate/index.js":"fsust","../_lib/requiredArgs/index.js":"9wUgQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"h01l4":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "default", ()=>compareAsc);
-var _indexJs = require("../toDate/index.js");
-var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
-var _indexJs1 = require("../_lib/requiredArgs/index.js");
-var _indexJsDefault1 = parcelHelpers.interopDefault(_indexJs1);
-function compareAsc(dirtyDateLeft, dirtyDateRight) {
-    (0, _indexJsDefault1.default)(2, arguments);
-    var dateLeft = (0, _indexJsDefault.default)(dirtyDateLeft);
-    var dateRight = (0, _indexJsDefault.default)(dirtyDateRight);
-    var diff = dateLeft.getTime() - dateRight.getTime();
-    if (diff < 0) return -1;
-    else if (diff > 0) return 1;
-    else return diff;
-}
-
-},{"../toDate/index.js":"fsust","../_lib/requiredArgs/index.js":"9wUgQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"adZXy":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "default", ()=>differenceInCalendarDays);
-var _indexJs = require("../_lib/getTimezoneOffsetInMilliseconds/index.js");
-var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
-var _indexJs1 = require("../startOfDay/index.js");
-var _indexJsDefault1 = parcelHelpers.interopDefault(_indexJs1);
-var _indexJs2 = require("../_lib/requiredArgs/index.js");
-var _indexJsDefault2 = parcelHelpers.interopDefault(_indexJs2);
-var MILLISECONDS_IN_DAY = 86400000;
-function differenceInCalendarDays(dirtyDateLeft, dirtyDateRight) {
-    (0, _indexJsDefault2.default)(2, arguments);
-    var startOfDayLeft = (0, _indexJsDefault1.default)(dirtyDateLeft);
-    var startOfDayRight = (0, _indexJsDefault1.default)(dirtyDateRight);
-    var timestampLeft = startOfDayLeft.getTime() - (0, _indexJsDefault.default)(startOfDayLeft);
-    var timestampRight = startOfDayRight.getTime() - (0, _indexJsDefault.default)(startOfDayRight);
-    // Round the number of days to the nearest integer
-    // because the number of milliseconds in a day is not constant
-    // (e.g. it's different in the day of the daylight saving time clock shift)
-    return Math.round((timestampLeft - timestampRight) / MILLISECONDS_IN_DAY);
-}
-
-},{"../_lib/getTimezoneOffsetInMilliseconds/index.js":"bc74C","../startOfDay/index.js":"4Tvs3","../_lib/requiredArgs/index.js":"9wUgQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"bc74C":[function(require,module,exports) {
-/**
- * Google Chrome as of 67.0.3396.87 introduced timezones with offset that includes seconds.
- * They usually appear for dates that denote time before the timezones were introduced
- * (e.g. for 'Europe/Prague' timezone the offset is GMT+00:57:44 before 1 October 1891
- * and GMT+01:00:00 after that date)
- *
- * Date#getTimezoneOffset returns the offset in minutes and would return 57 for the example above,
- * which would lead to incorrect calculations.
- *
- * This function returns the timezone offset in milliseconds that takes seconds in account.
- */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "default", ()=>getTimezoneOffsetInMilliseconds);
-function getTimezoneOffsetInMilliseconds(date) {
-    var utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds()));
-    utcDate.setUTCFullYear(date.getFullYear());
-    return date.getTime() - utcDate.getTime();
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4Tvs3":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "default", ()=>startOfDay);
-var _indexJs = require("../toDate/index.js");
-var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
-var _indexJs1 = require("../_lib/requiredArgs/index.js");
-var _indexJsDefault1 = parcelHelpers.interopDefault(_indexJs1);
-function startOfDay(dirtyDate) {
-    (0, _indexJsDefault1.default)(1, arguments);
-    var date = (0, _indexJsDefault.default)(dirtyDate);
-    date.setHours(0, 0, 0, 0);
-    return date;
-}
-
-},{"../toDate/index.js":"fsust","../_lib/requiredArgs/index.js":"9wUgQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"8oypH":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "default", ()=>differenceInCalendarMonths);
-var _indexJs = require("../toDate/index.js");
-var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
-var _indexJs1 = require("../_lib/requiredArgs/index.js");
-var _indexJsDefault1 = parcelHelpers.interopDefault(_indexJs1);
-function differenceInCalendarMonths(dirtyDateLeft, dirtyDateRight) {
-    (0, _indexJsDefault1.default)(2, arguments);
-    var dateLeft = (0, _indexJsDefault.default)(dirtyDateLeft);
-    var dateRight = (0, _indexJsDefault.default)(dirtyDateRight);
-    var yearDiff = dateLeft.getFullYear() - dateRight.getFullYear();
-    var monthDiff = dateLeft.getMonth() - dateRight.getMonth();
-    return yearDiff * 12 + monthDiff;
-}
-
-},{"../toDate/index.js":"fsust","../_lib/requiredArgs/index.js":"9wUgQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"Eb6qZ":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "default", ()=>differenceInMilliseconds);
-var _indexJs = require("../toDate/index.js");
-var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
-var _indexJs1 = require("../_lib/requiredArgs/index.js");
-var _indexJsDefault1 = parcelHelpers.interopDefault(_indexJs1);
-function differenceInMilliseconds(dateLeft, dateRight) {
-    (0, _indexJsDefault1.default)(2, arguments);
-    return (0, _indexJsDefault.default)(dateLeft).getTime() - (0, _indexJsDefault.default)(dateRight).getTime();
-}
-
-},{"../toDate/index.js":"fsust","../_lib/requiredArgs/index.js":"9wUgQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"8lj6Z":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "default", ()=>differenceInMonths);
-var _indexJs = require("../toDate/index.js");
-var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
-var _indexJs1 = require("../differenceInCalendarMonths/index.js");
-var _indexJsDefault1 = parcelHelpers.interopDefault(_indexJs1);
-var _indexJs2 = require("../compareAsc/index.js");
-var _indexJsDefault2 = parcelHelpers.interopDefault(_indexJs2);
-var _indexJs3 = require("../_lib/requiredArgs/index.js");
-var _indexJsDefault3 = parcelHelpers.interopDefault(_indexJs3);
-var _indexJs4 = require("../isLastDayOfMonth/index.js");
-var _indexJsDefault4 = parcelHelpers.interopDefault(_indexJs4);
-function differenceInMonths(dirtyDateLeft, dirtyDateRight) {
-    (0, _indexJsDefault3.default)(2, arguments);
-    var dateLeft = (0, _indexJsDefault.default)(dirtyDateLeft);
-    var dateRight = (0, _indexJsDefault.default)(dirtyDateRight);
-    var sign = (0, _indexJsDefault2.default)(dateLeft, dateRight);
-    var difference = Math.abs((0, _indexJsDefault1.default)(dateLeft, dateRight));
-    var result;
-    // Check for the difference of less than month
-    if (difference < 1) result = 0;
-    else {
-        if (dateLeft.getMonth() === 1 && dateLeft.getDate() > 27) // This will check if the date is end of Feb and assign a higher end of month date
-        // to compare it with Jan
-        dateLeft.setDate(30);
-        dateLeft.setMonth(dateLeft.getMonth() - sign * difference);
-        // Math.abs(diff in full months - diff in calendar months) === 1 if last calendar month is not full
-        // If so, result must be decreased by 1 in absolute value
-        var isLastMonthNotFull = (0, _indexJsDefault2.default)(dateLeft, dateRight) === -sign;
-        // Check for cases of one full calendar month
-        if ((0, _indexJsDefault4.default)((0, _indexJsDefault.default)(dirtyDateLeft)) && difference === 1 && (0, _indexJsDefault2.default)(dirtyDateLeft, dateRight) === 1) isLastMonthNotFull = false;
-        result = sign * (difference - Number(isLastMonthNotFull));
-    }
-    // Prevent negative zero
-    return result === 0 ? 0 : result;
-}
-
-},{"../toDate/index.js":"fsust","../differenceInCalendarMonths/index.js":"8oypH","../compareAsc/index.js":"h01l4","../_lib/requiredArgs/index.js":"9wUgQ","../isLastDayOfMonth/index.js":"1as6x","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1as6x":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "default", ()=>isLastDayOfMonth);
-var _indexJs = require("../toDate/index.js");
-var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
-var _indexJs1 = require("../endOfDay/index.js");
-var _indexJsDefault1 = parcelHelpers.interopDefault(_indexJs1);
-var _indexJs2 = require("../endOfMonth/index.js");
-var _indexJsDefault2 = parcelHelpers.interopDefault(_indexJs2);
-var _indexJs3 = require("../_lib/requiredArgs/index.js");
-var _indexJsDefault3 = parcelHelpers.interopDefault(_indexJs3);
-function isLastDayOfMonth(dirtyDate) {
-    (0, _indexJsDefault3.default)(1, arguments);
-    var date = (0, _indexJsDefault.default)(dirtyDate);
-    return (0, _indexJsDefault1.default)(date).getTime() === (0, _indexJsDefault2.default)(date).getTime();
-}
-
-},{"../toDate/index.js":"fsust","../endOfDay/index.js":"kLkh7","../endOfMonth/index.js":"4tHlS","../_lib/requiredArgs/index.js":"9wUgQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kLkh7":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "default", ()=>endOfDay);
-var _indexJs = require("../toDate/index.js");
-var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
-var _indexJs1 = require("../_lib/requiredArgs/index.js");
-var _indexJsDefault1 = parcelHelpers.interopDefault(_indexJs1);
-function endOfDay(dirtyDate) {
-    (0, _indexJsDefault1.default)(1, arguments);
-    var date = (0, _indexJsDefault.default)(dirtyDate);
-    date.setHours(23, 59, 59, 999);
-    return date;
-}
-
-},{"../toDate/index.js":"fsust","../_lib/requiredArgs/index.js":"9wUgQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4tHlS":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "default", ()=>endOfMonth);
-var _indexJs = require("../toDate/index.js");
-var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
-var _indexJs1 = require("../_lib/requiredArgs/index.js");
-var _indexJsDefault1 = parcelHelpers.interopDefault(_indexJs1);
-function endOfMonth(dirtyDate) {
-    (0, _indexJsDefault1.default)(1, arguments);
-    var date = (0, _indexJsDefault.default)(dirtyDate);
-    var month = date.getMonth();
-    date.setFullYear(date.getFullYear(), month + 1, 0);
-    date.setHours(23, 59, 59, 999);
-    return date;
-}
-
-},{"../toDate/index.js":"fsust","../_lib/requiredArgs/index.js":"9wUgQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5uZgU":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "default", ()=>differenceInSeconds);
-var _indexJs = require("../differenceInMilliseconds/index.js");
-var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
-var _indexJs1 = require("../_lib/requiredArgs/index.js");
-var _indexJsDefault1 = parcelHelpers.interopDefault(_indexJs1);
-var _indexJs2 = require("../_lib/roundingMethods/index.js");
-function differenceInSeconds(dateLeft, dateRight, options) {
-    (0, _indexJsDefault1.default)(2, arguments);
-    var diff = (0, _indexJsDefault.default)(dateLeft, dateRight) / 1000;
-    return (0, _indexJs2.getRoundingMethod)(options === null || options === void 0 ? void 0 : options.roundingMethod)(diff);
-}
-
-},{"../differenceInMilliseconds/index.js":"Eb6qZ","../_lib/requiredArgs/index.js":"9wUgQ","../_lib/roundingMethods/index.js":"ilPgA","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ilPgA":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "getRoundingMethod", ()=>getRoundingMethod);
-var roundingMap = {
-    ceil: Math.ceil,
-    round: Math.round,
-    floor: Math.floor,
-    trunc: function trunc(value) {
-        return value < 0 ? Math.ceil(value) : Math.floor(value);
-    } // Math.trunc is not supported by IE
-};
-var defaultRoundingMethod = "trunc";
-function getRoundingMethod(method) {
-    return method ? roundingMap[method] : roundingMap[defaultRoundingMethod];
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lnm6V":[function(require,module,exports) {
@@ -3182,6 +2887,26 @@ var longFormatters = {
 };
 exports.default = longFormatters;
 
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"bc74C":[function(require,module,exports) {
+/**
+ * Google Chrome as of 67.0.3396.87 introduced timezones with offset that includes seconds.
+ * They usually appear for dates that denote time before the timezones were introduced
+ * (e.g. for 'Europe/Prague' timezone the offset is GMT+00:57:44 before 1 October 1891
+ * and GMT+01:00:00 after that date)
+ *
+ * Date#getTimezoneOffset returns the offset in minutes and would return 57 for the example above,
+ * which would lead to incorrect calculations.
+ *
+ * This function returns the timezone offset in milliseconds that takes seconds in account.
+ */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "default", ()=>getTimezoneOffsetInMilliseconds);
+function getTimezoneOffsetInMilliseconds(date) {
+    var utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds()));
+    utcDate.setUTCFullYear(date.getFullYear());
+    return date.getTime() - utcDate.getTime();
+}
+
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4R0Xq":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
@@ -3878,1268 +3603,614 @@ function buildMatchPatternFn(args) {
     };
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lPnhm":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ZjMvO":[function(require,module,exports) {
+// This file is generated automatically by `scripts/build/indices.js`. Please, don't change it.
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "default", ()=>formatDistance);
-var _indexJs = require("../_lib/defaultOptions/index.js");
-var _indexJs1 = require("../compareAsc/index.js");
-var _indexJsDefault = parcelHelpers.interopDefault(_indexJs1);
-var _indexJs2 = require("../differenceInMonths/index.js");
-var _indexJsDefault1 = parcelHelpers.interopDefault(_indexJs2);
-var _indexJs3 = require("../differenceInSeconds/index.js");
-var _indexJsDefault2 = parcelHelpers.interopDefault(_indexJs3);
-var _indexJs4 = require("../_lib/defaultLocale/index.js");
-var _indexJsDefault3 = parcelHelpers.interopDefault(_indexJs4);
-var _indexJs5 = require("../toDate/index.js");
-var _indexJsDefault4 = parcelHelpers.interopDefault(_indexJs5);
-var _indexJs6 = require("../_lib/cloneObject/index.js");
-var _indexJsDefault5 = parcelHelpers.interopDefault(_indexJs6);
-var _indexJs7 = require("../_lib/assign/index.js");
-var _indexJsDefault6 = parcelHelpers.interopDefault(_indexJs7);
-var _indexJs8 = require("../_lib/getTimezoneOffsetInMilliseconds/index.js");
-var _indexJsDefault7 = parcelHelpers.interopDefault(_indexJs8);
-var _indexJs9 = require("../_lib/requiredArgs/index.js");
-var _indexJsDefault8 = parcelHelpers.interopDefault(_indexJs9);
-var MINUTES_IN_DAY = 1440;
-var MINUTES_IN_ALMOST_TWO_DAYS = 2520;
-var MINUTES_IN_MONTH = 43200;
-var MINUTES_IN_TWO_MONTHS = 86400;
-function formatDistance(dirtyDate, dirtyBaseDate, options) {
-    var _ref, _options$locale;
-    (0, _indexJsDefault8.default)(2, arguments);
-    var defaultOptions = (0, _indexJs.getDefaultOptions)();
-    var locale = (_ref = (_options$locale = options === null || options === void 0 ? void 0 : options.locale) !== null && _options$locale !== void 0 ? _options$locale : defaultOptions.locale) !== null && _ref !== void 0 ? _ref : (0, _indexJsDefault3.default);
-    if (!locale.formatDistance) throw new RangeError("locale must contain formatDistance property");
-    var comparison = (0, _indexJsDefault.default)(dirtyDate, dirtyBaseDate);
-    if (isNaN(comparison)) throw new RangeError("Invalid time value");
-    var localizeOptions = (0, _indexJsDefault6.default)((0, _indexJsDefault5.default)(options), {
-        addSuffix: Boolean(options === null || options === void 0 ? void 0 : options.addSuffix),
-        comparison: comparison
-    });
-    var dateLeft;
-    var dateRight;
-    if (comparison > 0) {
-        dateLeft = (0, _indexJsDefault4.default)(dirtyBaseDate);
-        dateRight = (0, _indexJsDefault4.default)(dirtyDate);
-    } else {
-        dateLeft = (0, _indexJsDefault4.default)(dirtyDate);
-        dateRight = (0, _indexJsDefault4.default)(dirtyBaseDate);
-    }
-    var seconds = (0, _indexJsDefault2.default)(dateRight, dateLeft);
-    var offsetInSeconds = ((0, _indexJsDefault7.default)(dateRight) - (0, _indexJsDefault7.default)(dateLeft)) / 1000;
-    var minutes = Math.round((seconds - offsetInSeconds) / 60);
-    var months;
-    // 0 up to 2 mins
-    if (minutes < 2) {
-        if (options !== null && options !== void 0 && options.includeSeconds) {
-            if (seconds < 5) return locale.formatDistance("lessThanXSeconds", 5, localizeOptions);
-            else if (seconds < 10) return locale.formatDistance("lessThanXSeconds", 10, localizeOptions);
-            else if (seconds < 20) return locale.formatDistance("lessThanXSeconds", 20, localizeOptions);
-            else if (seconds < 40) return locale.formatDistance("halfAMinute", 0, localizeOptions);
-            else if (seconds < 60) return locale.formatDistance("lessThanXMinutes", 1, localizeOptions);
-            else return locale.formatDistance("xMinutes", 1, localizeOptions);
-        } else {
-            if (minutes === 0) return locale.formatDistance("lessThanXMinutes", 1, localizeOptions);
-            else return locale.formatDistance("xMinutes", minutes, localizeOptions);
-        }
-    } else if (minutes < 45) return locale.formatDistance("xMinutes", minutes, localizeOptions);
-    else if (minutes < 90) return locale.formatDistance("aboutXHours", 1, localizeOptions);
-    else if (minutes < MINUTES_IN_DAY) {
-        var hours = Math.round(minutes / 60);
-        return locale.formatDistance("aboutXHours", hours, localizeOptions);
-    // 1 day up to 1.75 days
-    } else if (minutes < MINUTES_IN_ALMOST_TWO_DAYS) return locale.formatDistance("xDays", 1, localizeOptions);
-    else if (minutes < MINUTES_IN_MONTH) {
-        var days = Math.round(minutes / MINUTES_IN_DAY);
-        return locale.formatDistance("xDays", days, localizeOptions);
-    // 1 month up to 2 months
-    } else if (minutes < MINUTES_IN_TWO_MONTHS) {
-        months = Math.round(minutes / MINUTES_IN_MONTH);
-        return locale.formatDistance("aboutXMonths", months, localizeOptions);
-    }
-    months = (0, _indexJsDefault1.default)(dateRight, dateLeft);
-    // 2 months up to 12 months
-    if (months < 12) {
-        var nearestMonth = Math.round(minutes / MINUTES_IN_MONTH);
-        return locale.formatDistance("xMonths", nearestMonth, localizeOptions);
-    // 1 year up to max Date
-    } else {
-        var monthsSinceStartOfYear = months % 12;
-        var years = Math.floor(months / 12);
-        // N years up to 1 years 3 months
-        if (monthsSinceStartOfYear < 3) return locale.formatDistance("aboutXYears", years, localizeOptions);
-        else if (monthsSinceStartOfYear < 9) return locale.formatDistance("overXYears", years, localizeOptions);
-        else return locale.formatDistance("almostXYears", years + 1, localizeOptions);
-    }
-}
-
-},{"../_lib/defaultOptions/index.js":"dWs8l","../compareAsc/index.js":"h01l4","../differenceInMonths/index.js":"8lj6Z","../differenceInSeconds/index.js":"5uZgU","../_lib/defaultLocale/index.js":"1rVeP","../toDate/index.js":"fsust","../_lib/cloneObject/index.js":"PgZBT","../_lib/assign/index.js":"hBuJM","../_lib/getTimezoneOffsetInMilliseconds/index.js":"bc74C","../_lib/requiredArgs/index.js":"9wUgQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"PgZBT":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "default", ()=>cloneObject);
-var _indexJs = require("../assign/index.js");
+parcelHelpers.export(exports, "format", ()=>(0, _indexJsDefault.default));
+parcelHelpers.export(exports, "formatInTimeZone", ()=>(0, _indexJsDefault1.default));
+parcelHelpers.export(exports, "getTimezoneOffset", ()=>(0, _indexJsDefault2.default));
+parcelHelpers.export(exports, "toDate", ()=>(0, _indexJsDefault3.default));
+parcelHelpers.export(exports, "utcToZonedTime", ()=>(0, _indexJsDefault4.default));
+parcelHelpers.export(exports, "zonedTimeToUtc", ()=>(0, _indexJsDefault5.default));
+var _indexJs = require("./format/index.js");
 var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
-function cloneObject(object) {
-    return (0, _indexJsDefault.default)({}, object);
-}
-
-},{"../assign/index.js":"hBuJM","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hBuJM":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "default", ()=>assign);
-function assign(target, object) {
-    if (target == null) throw new TypeError("assign requires that input parameter not be null or undefined");
-    for(var property in object)if (Object.prototype.hasOwnProperty.call(object, property)) target[property] = object[property];
-    return target;
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k1fV5":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "default", ()=>formatRelative);
-var _indexJs = require("../_lib/defaultOptions/index.js");
-var _indexJs1 = require("../differenceInCalendarDays/index.js");
-var _indexJsDefault = parcelHelpers.interopDefault(_indexJs1);
-var _indexJs2 = require("../format/index.js");
-var _indexJsDefault1 = parcelHelpers.interopDefault(_indexJs2);
-var _indexJs3 = require("../_lib/defaultLocale/index.js");
-var _indexJsDefault2 = parcelHelpers.interopDefault(_indexJs3);
-var _indexJs4 = require("../subMilliseconds/index.js");
-var _indexJsDefault3 = parcelHelpers.interopDefault(_indexJs4);
-var _indexJs5 = require("../toDate/index.js");
-var _indexJsDefault4 = parcelHelpers.interopDefault(_indexJs5);
-var _indexJs6 = require("../_lib/getTimezoneOffsetInMilliseconds/index.js");
-var _indexJsDefault5 = parcelHelpers.interopDefault(_indexJs6);
-var _indexJs7 = require("../_lib/requiredArgs/index.js");
-var _indexJsDefault6 = parcelHelpers.interopDefault(_indexJs7);
-var _indexJs8 = require("../_lib/toInteger/index.js");
-var _indexJsDefault7 = parcelHelpers.interopDefault(_indexJs8);
-function formatRelative(dirtyDate, dirtyBaseDate, options) {
-    var _ref, _options$locale, _ref2, _ref3, _ref4, _options$weekStartsOn, _options$locale2, _options$locale2$opti, _defaultOptions$local, _defaultOptions$local2;
-    (0, _indexJsDefault6.default)(2, arguments);
-    var date = (0, _indexJsDefault4.default)(dirtyDate);
-    var baseDate = (0, _indexJsDefault4.default)(dirtyBaseDate);
-    var defaultOptions = (0, _indexJs.getDefaultOptions)();
-    var locale = (_ref = (_options$locale = options === null || options === void 0 ? void 0 : options.locale) !== null && _options$locale !== void 0 ? _options$locale : defaultOptions.locale) !== null && _ref !== void 0 ? _ref : (0, _indexJsDefault2.default);
-    var weekStartsOn = (0, _indexJsDefault7.default)((_ref2 = (_ref3 = (_ref4 = (_options$weekStartsOn = options === null || options === void 0 ? void 0 : options.weekStartsOn) !== null && _options$weekStartsOn !== void 0 ? _options$weekStartsOn : options === null || options === void 0 ? void 0 : (_options$locale2 = options.locale) === null || _options$locale2 === void 0 ? void 0 : (_options$locale2$opti = _options$locale2.options) === null || _options$locale2$opti === void 0 ? void 0 : _options$locale2$opti.weekStartsOn) !== null && _ref4 !== void 0 ? _ref4 : defaultOptions.weekStartsOn) !== null && _ref3 !== void 0 ? _ref3 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.weekStartsOn) !== null && _ref2 !== void 0 ? _ref2 : 0);
-    if (!locale.localize) throw new RangeError("locale must contain localize property");
-    if (!locale.formatLong) throw new RangeError("locale must contain formatLong property");
-    if (!locale.formatRelative) throw new RangeError("locale must contain formatRelative property");
-    var diff = (0, _indexJsDefault.default)(date, baseDate);
-    if (isNaN(diff)) throw new RangeError("Invalid time value");
-    var token;
-    if (diff < -6) token = "other";
-    else if (diff < -1) token = "lastWeek";
-    else if (diff < 0) token = "yesterday";
-    else if (diff < 1) token = "today";
-    else if (diff < 2) token = "tomorrow";
-    else if (diff < 7) token = "nextWeek";
-    else token = "other";
-    var utcDate = (0, _indexJsDefault3.default)(date, (0, _indexJsDefault5.default)(date));
-    var utcBaseDate = (0, _indexJsDefault3.default)(baseDate, (0, _indexJsDefault5.default)(baseDate));
-    var formatStr = locale.formatRelative(token, utcDate, utcBaseDate, {
-        locale: locale,
-        weekStartsOn: weekStartsOn
-    });
-    return (0, _indexJsDefault1.default)(date, formatStr, {
-        locale: locale,
-        weekStartsOn: weekStartsOn
-    });
-}
-
-},{"../_lib/defaultOptions/index.js":"dWs8l","../differenceInCalendarDays/index.js":"adZXy","../format/index.js":"lnm6V","../_lib/defaultLocale/index.js":"1rVeP","../subMilliseconds/index.js":"lL2M9","../toDate/index.js":"fsust","../_lib/getTimezoneOffsetInMilliseconds/index.js":"bc74C","../_lib/requiredArgs/index.js":"9wUgQ","../_lib/toInteger/index.js":"f7kKX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"8gyqn":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "default", ()=>subDays);
-var _indexJs = require("../addDays/index.js");
-var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
-var _indexJs1 = require("../_lib/requiredArgs/index.js");
+var _indexJs1 = require("./formatInTimeZone/index.js");
 var _indexJsDefault1 = parcelHelpers.interopDefault(_indexJs1);
-var _indexJs2 = require("../_lib/toInteger/index.js");
+var _indexJs2 = require("./getTimezoneOffset/index.js");
 var _indexJsDefault2 = parcelHelpers.interopDefault(_indexJs2);
-function subDays(dirtyDate, dirtyAmount) {
-    (0, _indexJsDefault1.default)(2, arguments);
-    var amount = (0, _indexJsDefault2.default)(dirtyAmount);
-    return (0, _indexJsDefault.default)(dirtyDate, -amount);
-}
-
-},{"../addDays/index.js":"g6fAH","../_lib/requiredArgs/index.js":"9wUgQ","../_lib/toInteger/index.js":"f7kKX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lASMG":[function(require,module,exports) {
-// This file is generated automatically by `scripts/build/indices.ts`. Please, don't change it.
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "af", ()=>(0, _indexJsDefault.default));
-parcelHelpers.export(exports, "ar", ()=>(0, _indexJsDefault1.default));
-parcelHelpers.export(exports, "arDZ", ()=>(0, _indexJsDefault2.default));
-parcelHelpers.export(exports, "arEG", ()=>(0, _indexJsDefault3.default));
-parcelHelpers.export(exports, "arMA", ()=>(0, _indexJsDefault4.default));
-parcelHelpers.export(exports, "arSA", ()=>(0, _indexJsDefault5.default));
-parcelHelpers.export(exports, "arTN", ()=>(0, _indexJsDefault6.default));
-parcelHelpers.export(exports, "az", ()=>(0, _indexJsDefault7.default));
-parcelHelpers.export(exports, "be", ()=>(0, _indexJsDefault8.default));
-parcelHelpers.export(exports, "beTarask", ()=>(0, _indexJsDefault9.default));
-parcelHelpers.export(exports, "bg", ()=>(0, _indexJsDefault10.default));
-parcelHelpers.export(exports, "bn", ()=>(0, _indexJsDefault11.default));
-parcelHelpers.export(exports, "bs", ()=>(0, _indexJsDefault12.default));
-parcelHelpers.export(exports, "ca", ()=>(0, _indexJsDefault13.default));
-parcelHelpers.export(exports, "cs", ()=>(0, _indexJsDefault14.default));
-parcelHelpers.export(exports, "cy", ()=>(0, _indexJsDefault15.default));
-parcelHelpers.export(exports, "da", ()=>(0, _indexJsDefault16.default));
-parcelHelpers.export(exports, "de", ()=>(0, _indexJsDefault17.default));
-parcelHelpers.export(exports, "deAT", ()=>(0, _indexJsDefault18.default));
-parcelHelpers.export(exports, "el", ()=>(0, _indexJsDefault19.default));
-parcelHelpers.export(exports, "enAU", ()=>(0, _indexJsDefault20.default));
-parcelHelpers.export(exports, "enCA", ()=>(0, _indexJsDefault21.default));
-parcelHelpers.export(exports, "enGB", ()=>(0, _indexJsDefault22.default));
-parcelHelpers.export(exports, "enIE", ()=>(0, _indexJsDefault23.default));
-parcelHelpers.export(exports, "enIN", ()=>(0, _indexJsDefault24.default));
-parcelHelpers.export(exports, "enNZ", ()=>(0, _indexJsDefault25.default));
-parcelHelpers.export(exports, "enUS", ()=>(0, _indexJsDefault26.default));
-parcelHelpers.export(exports, "enZA", ()=>(0, _indexJsDefault27.default));
-parcelHelpers.export(exports, "eo", ()=>(0, _indexJsDefault28.default));
-parcelHelpers.export(exports, "es", ()=>(0, _indexJsDefault29.default));
-parcelHelpers.export(exports, "et", ()=>(0, _indexJsDefault30.default));
-parcelHelpers.export(exports, "eu", ()=>(0, _indexJsDefault31.default));
-parcelHelpers.export(exports, "faIR", ()=>(0, _indexJsDefault32.default));
-parcelHelpers.export(exports, "fi", ()=>(0, _indexJsDefault33.default));
-parcelHelpers.export(exports, "fr", ()=>(0, _indexJsDefault34.default));
-parcelHelpers.export(exports, "frCA", ()=>(0, _indexJsDefault35.default));
-parcelHelpers.export(exports, "frCH", ()=>(0, _indexJsDefault36.default));
-parcelHelpers.export(exports, "fy", ()=>(0, _indexJsDefault37.default));
-parcelHelpers.export(exports, "gd", ()=>(0, _indexJsDefault38.default));
-parcelHelpers.export(exports, "gl", ()=>(0, _indexJsDefault39.default));
-parcelHelpers.export(exports, "gu", ()=>(0, _indexJsDefault40.default));
-parcelHelpers.export(exports, "he", ()=>(0, _indexJsDefault41.default));
-parcelHelpers.export(exports, "hi", ()=>(0, _indexJsDefault42.default));
-parcelHelpers.export(exports, "hr", ()=>(0, _indexJsDefault43.default));
-parcelHelpers.export(exports, "ht", ()=>(0, _indexJsDefault44.default));
-parcelHelpers.export(exports, "hu", ()=>(0, _indexJsDefault45.default));
-parcelHelpers.export(exports, "hy", ()=>(0, _indexJsDefault46.default));
-parcelHelpers.export(exports, "id", ()=>(0, _indexJsDefault47.default));
-parcelHelpers.export(exports, "is", ()=>(0, _indexJsDefault48.default));
-parcelHelpers.export(exports, "it", ()=>(0, _indexJsDefault49.default));
-parcelHelpers.export(exports, "itCH", ()=>(0, _indexJsDefault50.default));
-parcelHelpers.export(exports, "ja", ()=>(0, _indexJsDefault51.default));
-parcelHelpers.export(exports, "jaHira", ()=>(0, _indexJsDefault52.default));
-parcelHelpers.export(exports, "ka", ()=>(0, _indexJsDefault53.default));
-parcelHelpers.export(exports, "kk", ()=>(0, _indexJsDefault54.default));
-parcelHelpers.export(exports, "km", ()=>(0, _indexJsDefault55.default));
-parcelHelpers.export(exports, "kn", ()=>(0, _indexJsDefault56.default));
-parcelHelpers.export(exports, "ko", ()=>(0, _indexJsDefault57.default));
-parcelHelpers.export(exports, "lb", ()=>(0, _indexJsDefault58.default));
-parcelHelpers.export(exports, "lt", ()=>(0, _indexJsDefault59.default));
-parcelHelpers.export(exports, "lv", ()=>(0, _indexJsDefault60.default));
-parcelHelpers.export(exports, "mk", ()=>(0, _indexJsDefault61.default));
-parcelHelpers.export(exports, "mn", ()=>(0, _indexJsDefault62.default));
-parcelHelpers.export(exports, "ms", ()=>(0, _indexJsDefault63.default));
-parcelHelpers.export(exports, "mt", ()=>(0, _indexJsDefault64.default));
-parcelHelpers.export(exports, "nb", ()=>(0, _indexJsDefault65.default));
-parcelHelpers.export(exports, "nl", ()=>(0, _indexJsDefault66.default));
-parcelHelpers.export(exports, "nlBE", ()=>(0, _indexJsDefault67.default));
-parcelHelpers.export(exports, "nn", ()=>(0, _indexJsDefault68.default));
-parcelHelpers.export(exports, "oc", ()=>(0, _indexJsDefault69.default));
-parcelHelpers.export(exports, "pl", ()=>(0, _indexJsDefault70.default));
-parcelHelpers.export(exports, "pt", ()=>(0, _indexJsDefault71.default));
-parcelHelpers.export(exports, "ptBR", ()=>(0, _indexJsDefault72.default));
-parcelHelpers.export(exports, "ro", ()=>(0, _indexJsDefault73.default));
-parcelHelpers.export(exports, "ru", ()=>(0, _indexJsDefault74.default));
-parcelHelpers.export(exports, "sk", ()=>(0, _indexJsDefault75.default));
-parcelHelpers.export(exports, "sl", ()=>(0, _indexJsDefault76.default));
-parcelHelpers.export(exports, "sq", ()=>(0, _indexJsDefault77.default));
-parcelHelpers.export(exports, "sr", ()=>(0, _indexJsDefault78.default));
-parcelHelpers.export(exports, "srLatn", ()=>(0, _indexJsDefault79.default));
-parcelHelpers.export(exports, "sv", ()=>(0, _indexJsDefault80.default));
-parcelHelpers.export(exports, "ta", ()=>(0, _indexJsDefault81.default));
-parcelHelpers.export(exports, "te", ()=>(0, _indexJsDefault82.default));
-parcelHelpers.export(exports, "th", ()=>(0, _indexJsDefault83.default));
-parcelHelpers.export(exports, "tr", ()=>(0, _indexJsDefault84.default));
-parcelHelpers.export(exports, "ug", ()=>(0, _indexJsDefault85.default));
-parcelHelpers.export(exports, "uk", ()=>(0, _indexJsDefault86.default));
-parcelHelpers.export(exports, "uz", ()=>(0, _indexJsDefault87.default));
-parcelHelpers.export(exports, "uzCyrl", ()=>(0, _indexJsDefault88.default));
-parcelHelpers.export(exports, "vi", ()=>(0, _indexJsDefault89.default));
-parcelHelpers.export(exports, "zhCN", ()=>(0, _indexJsDefault90.default));
-parcelHelpers.export(exports, "zhHK", ()=>(0, _indexJsDefault91.default));
-parcelHelpers.export(exports, "zhTW", ()=>(0, _indexJsDefault92.default));
-var _indexJs = require("./af/index.js");
-var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
-var _indexJs1 = require("./ar/index.js");
-var _indexJsDefault1 = parcelHelpers.interopDefault(_indexJs1);
-var _indexJs2 = require("./ar-DZ/index.js");
-var _indexJsDefault2 = parcelHelpers.interopDefault(_indexJs2);
-var _indexJs3 = require("./ar-EG/index.js");
+var _indexJs3 = require("./toDate/index.js");
 var _indexJsDefault3 = parcelHelpers.interopDefault(_indexJs3);
-var _indexJs4 = require("./ar-MA/index.js");
+var _indexJs4 = require("./utcToZonedTime/index.js");
 var _indexJsDefault4 = parcelHelpers.interopDefault(_indexJs4);
-var _indexJs5 = require("./ar-SA/index.js");
+var _indexJs5 = require("./zonedTimeToUtc/index.js");
 var _indexJsDefault5 = parcelHelpers.interopDefault(_indexJs5);
-var _indexJs6 = require("./ar-TN/index.js");
-var _indexJsDefault6 = parcelHelpers.interopDefault(_indexJs6);
-var _indexJs7 = require("./az/index.js");
-var _indexJsDefault7 = parcelHelpers.interopDefault(_indexJs7);
-var _indexJs8 = require("./be/index.js");
-var _indexJsDefault8 = parcelHelpers.interopDefault(_indexJs8);
-var _indexJs9 = require("./be-tarask/index.js");
-var _indexJsDefault9 = parcelHelpers.interopDefault(_indexJs9);
-var _indexJs10 = require("./bg/index.js");
-var _indexJsDefault10 = parcelHelpers.interopDefault(_indexJs10);
-var _indexJs11 = require("./bn/index.js");
-var _indexJsDefault11 = parcelHelpers.interopDefault(_indexJs11);
-var _indexJs12 = require("./bs/index.js");
-var _indexJsDefault12 = parcelHelpers.interopDefault(_indexJs12);
-var _indexJs13 = require("./ca/index.js");
-var _indexJsDefault13 = parcelHelpers.interopDefault(_indexJs13);
-var _indexJs14 = require("./cs/index.js");
-var _indexJsDefault14 = parcelHelpers.interopDefault(_indexJs14);
-var _indexJs15 = require("./cy/index.js");
-var _indexJsDefault15 = parcelHelpers.interopDefault(_indexJs15);
-var _indexJs16 = require("./da/index.js");
-var _indexJsDefault16 = parcelHelpers.interopDefault(_indexJs16);
-var _indexJs17 = require("./de/index.js");
-var _indexJsDefault17 = parcelHelpers.interopDefault(_indexJs17);
-var _indexJs18 = require("./de-AT/index.js");
-var _indexJsDefault18 = parcelHelpers.interopDefault(_indexJs18);
-var _indexJs19 = require("./el/index.js");
-var _indexJsDefault19 = parcelHelpers.interopDefault(_indexJs19);
-var _indexJs20 = require("./en-AU/index.js");
-var _indexJsDefault20 = parcelHelpers.interopDefault(_indexJs20);
-var _indexJs21 = require("./en-CA/index.js");
-var _indexJsDefault21 = parcelHelpers.interopDefault(_indexJs21);
-var _indexJs22 = require("./en-GB/index.js");
-var _indexJsDefault22 = parcelHelpers.interopDefault(_indexJs22);
-var _indexJs23 = require("./en-IE/index.js");
-var _indexJsDefault23 = parcelHelpers.interopDefault(_indexJs23);
-var _indexJs24 = require("./en-IN/index.js");
-var _indexJsDefault24 = parcelHelpers.interopDefault(_indexJs24);
-var _indexJs25 = require("./en-NZ/index.js");
-var _indexJsDefault25 = parcelHelpers.interopDefault(_indexJs25);
-var _indexJs26 = require("./en-US/index.js");
-var _indexJsDefault26 = parcelHelpers.interopDefault(_indexJs26);
-var _indexJs27 = require("./en-ZA/index.js");
-var _indexJsDefault27 = parcelHelpers.interopDefault(_indexJs27);
-var _indexJs28 = require("./eo/index.js");
-var _indexJsDefault28 = parcelHelpers.interopDefault(_indexJs28);
-var _indexJs29 = require("./es/index.js");
-var _indexJsDefault29 = parcelHelpers.interopDefault(_indexJs29);
-var _indexJs30 = require("./et/index.js");
-var _indexJsDefault30 = parcelHelpers.interopDefault(_indexJs30);
-var _indexJs31 = require("./eu/index.js");
-var _indexJsDefault31 = parcelHelpers.interopDefault(_indexJs31);
-var _indexJs32 = require("./fa-IR/index.js");
-var _indexJsDefault32 = parcelHelpers.interopDefault(_indexJs32);
-var _indexJs33 = require("./fi/index.js");
-var _indexJsDefault33 = parcelHelpers.interopDefault(_indexJs33);
-var _indexJs34 = require("./fr/index.js");
-var _indexJsDefault34 = parcelHelpers.interopDefault(_indexJs34);
-var _indexJs35 = require("./fr-CA/index.js");
-var _indexJsDefault35 = parcelHelpers.interopDefault(_indexJs35);
-var _indexJs36 = require("./fr-CH/index.js");
-var _indexJsDefault36 = parcelHelpers.interopDefault(_indexJs36);
-var _indexJs37 = require("./fy/index.js");
-var _indexJsDefault37 = parcelHelpers.interopDefault(_indexJs37);
-var _indexJs38 = require("./gd/index.js");
-var _indexJsDefault38 = parcelHelpers.interopDefault(_indexJs38);
-var _indexJs39 = require("./gl/index.js");
-var _indexJsDefault39 = parcelHelpers.interopDefault(_indexJs39);
-var _indexJs40 = require("./gu/index.js");
-var _indexJsDefault40 = parcelHelpers.interopDefault(_indexJs40);
-var _indexJs41 = require("./he/index.js");
-var _indexJsDefault41 = parcelHelpers.interopDefault(_indexJs41);
-var _indexJs42 = require("./hi/index.js");
-var _indexJsDefault42 = parcelHelpers.interopDefault(_indexJs42);
-var _indexJs43 = require("./hr/index.js");
-var _indexJsDefault43 = parcelHelpers.interopDefault(_indexJs43);
-var _indexJs44 = require("./ht/index.js");
-var _indexJsDefault44 = parcelHelpers.interopDefault(_indexJs44);
-var _indexJs45 = require("./hu/index.js");
-var _indexJsDefault45 = parcelHelpers.interopDefault(_indexJs45);
-var _indexJs46 = require("./hy/index.js");
-var _indexJsDefault46 = parcelHelpers.interopDefault(_indexJs46);
-var _indexJs47 = require("./id/index.js");
-var _indexJsDefault47 = parcelHelpers.interopDefault(_indexJs47);
-var _indexJs48 = require("./is/index.js");
-var _indexJsDefault48 = parcelHelpers.interopDefault(_indexJs48);
-var _indexJs49 = require("./it/index.js");
-var _indexJsDefault49 = parcelHelpers.interopDefault(_indexJs49);
-var _indexJs50 = require("./it-CH/index.js");
-var _indexJsDefault50 = parcelHelpers.interopDefault(_indexJs50);
-var _indexJs51 = require("./ja/index.js");
-var _indexJsDefault51 = parcelHelpers.interopDefault(_indexJs51);
-var _indexJs52 = require("./ja-Hira/index.js");
-var _indexJsDefault52 = parcelHelpers.interopDefault(_indexJs52);
-var _indexJs53 = require("./ka/index.js");
-var _indexJsDefault53 = parcelHelpers.interopDefault(_indexJs53);
-var _indexJs54 = require("./kk/index.js");
-var _indexJsDefault54 = parcelHelpers.interopDefault(_indexJs54);
-var _indexJs55 = require("./km/index.js");
-var _indexJsDefault55 = parcelHelpers.interopDefault(_indexJs55);
-var _indexJs56 = require("./kn/index.js");
-var _indexJsDefault56 = parcelHelpers.interopDefault(_indexJs56);
-var _indexJs57 = require("./ko/index.js");
-var _indexJsDefault57 = parcelHelpers.interopDefault(_indexJs57);
-var _indexJs58 = require("./lb/index.js");
-var _indexJsDefault58 = parcelHelpers.interopDefault(_indexJs58);
-var _indexJs59 = require("./lt/index.js");
-var _indexJsDefault59 = parcelHelpers.interopDefault(_indexJs59);
-var _indexJs60 = require("./lv/index.js");
-var _indexJsDefault60 = parcelHelpers.interopDefault(_indexJs60);
-var _indexJs61 = require("./mk/index.js");
-var _indexJsDefault61 = parcelHelpers.interopDefault(_indexJs61);
-var _indexJs62 = require("./mn/index.js");
-var _indexJsDefault62 = parcelHelpers.interopDefault(_indexJs62);
-var _indexJs63 = require("./ms/index.js");
-var _indexJsDefault63 = parcelHelpers.interopDefault(_indexJs63);
-var _indexJs64 = require("./mt/index.js");
-var _indexJsDefault64 = parcelHelpers.interopDefault(_indexJs64);
-var _indexJs65 = require("./nb/index.js");
-var _indexJsDefault65 = parcelHelpers.interopDefault(_indexJs65);
-var _indexJs66 = require("./nl/index.js");
-var _indexJsDefault66 = parcelHelpers.interopDefault(_indexJs66);
-var _indexJs67 = require("./nl-BE/index.js");
-var _indexJsDefault67 = parcelHelpers.interopDefault(_indexJs67);
-var _indexJs68 = require("./nn/index.js");
-var _indexJsDefault68 = parcelHelpers.interopDefault(_indexJs68);
-var _indexJs69 = require("./oc/index.js");
-var _indexJsDefault69 = parcelHelpers.interopDefault(_indexJs69);
-var _indexJs70 = require("./pl/index.js");
-var _indexJsDefault70 = parcelHelpers.interopDefault(_indexJs70);
-var _indexJs71 = require("./pt/index.js");
-var _indexJsDefault71 = parcelHelpers.interopDefault(_indexJs71);
-var _indexJs72 = require("./pt-BR/index.js");
-var _indexJsDefault72 = parcelHelpers.interopDefault(_indexJs72);
-var _indexJs73 = require("./ro/index.js");
-var _indexJsDefault73 = parcelHelpers.interopDefault(_indexJs73);
-var _indexJs74 = require("./ru/index.js");
-var _indexJsDefault74 = parcelHelpers.interopDefault(_indexJs74);
-var _indexJs75 = require("./sk/index.js");
-var _indexJsDefault75 = parcelHelpers.interopDefault(_indexJs75);
-var _indexJs76 = require("./sl/index.js");
-var _indexJsDefault76 = parcelHelpers.interopDefault(_indexJs76);
-var _indexJs77 = require("./sq/index.js");
-var _indexJsDefault77 = parcelHelpers.interopDefault(_indexJs77);
-var _indexJs78 = require("./sr/index.js");
-var _indexJsDefault78 = parcelHelpers.interopDefault(_indexJs78);
-var _indexJs79 = require("./sr-Latn/index.js");
-var _indexJsDefault79 = parcelHelpers.interopDefault(_indexJs79);
-var _indexJs80 = require("./sv/index.js");
-var _indexJsDefault80 = parcelHelpers.interopDefault(_indexJs80);
-var _indexJs81 = require("./ta/index.js");
-var _indexJsDefault81 = parcelHelpers.interopDefault(_indexJs81);
-var _indexJs82 = require("./te/index.js");
-var _indexJsDefault82 = parcelHelpers.interopDefault(_indexJs82);
-var _indexJs83 = require("./th/index.js");
-var _indexJsDefault83 = parcelHelpers.interopDefault(_indexJs83);
-var _indexJs84 = require("./tr/index.js");
-var _indexJsDefault84 = parcelHelpers.interopDefault(_indexJs84);
-var _indexJs85 = require("./ug/index.js");
-var _indexJsDefault85 = parcelHelpers.interopDefault(_indexJs85);
-var _indexJs86 = require("./uk/index.js");
-var _indexJsDefault86 = parcelHelpers.interopDefault(_indexJs86);
-var _indexJs87 = require("./uz/index.js");
-var _indexJsDefault87 = parcelHelpers.interopDefault(_indexJs87);
-var _indexJs88 = require("./uz-Cyrl/index.js");
-var _indexJsDefault88 = parcelHelpers.interopDefault(_indexJs88);
-var _indexJs89 = require("./vi/index.js");
-var _indexJsDefault89 = parcelHelpers.interopDefault(_indexJs89);
-var _indexJs90 = require("./zh-CN/index.js");
-var _indexJsDefault90 = parcelHelpers.interopDefault(_indexJs90);
-var _indexJs91 = require("./zh-HK/index.js");
-var _indexJsDefault91 = parcelHelpers.interopDefault(_indexJs91);
-var _indexJs92 = require("./zh-TW/index.js");
-var _indexJsDefault92 = parcelHelpers.interopDefault(_indexJs92);
 
-},{"./af/index.js":false,"./ar/index.js":false,"./ar-DZ/index.js":false,"./ar-EG/index.js":false,"./ar-MA/index.js":false,"./ar-SA/index.js":false,"./ar-TN/index.js":false,"./az/index.js":false,"./be/index.js":false,"./be-tarask/index.js":false,"./bg/index.js":false,"./bn/index.js":false,"./bs/index.js":false,"./ca/index.js":false,"./cs/index.js":false,"./cy/index.js":false,"./da/index.js":false,"./de/index.js":false,"./de-AT/index.js":false,"./el/index.js":false,"./en-AU/index.js":false,"./en-CA/index.js":false,"./en-GB/index.js":false,"./en-IE/index.js":false,"./en-IN/index.js":false,"./en-NZ/index.js":false,"./en-US/index.js":false,"./en-ZA/index.js":false,"./eo/index.js":false,"./es/index.js":false,"./et/index.js":false,"./eu/index.js":false,"./fa-IR/index.js":false,"./fi/index.js":false,"./fr/index.js":false,"./fr-CA/index.js":false,"./fr-CH/index.js":false,"./fy/index.js":false,"./gd/index.js":false,"./gl/index.js":false,"./gu/index.js":false,"./he/index.js":false,"./hi/index.js":false,"./hr/index.js":false,"./ht/index.js":false,"./hu/index.js":false,"./hy/index.js":false,"./id/index.js":false,"./is/index.js":false,"./it/index.js":false,"./it-CH/index.js":false,"./ja/index.js":false,"./ja-Hira/index.js":false,"./ka/index.js":false,"./kk/index.js":false,"./km/index.js":false,"./kn/index.js":false,"./ko/index.js":false,"./lb/index.js":false,"./lt/index.js":false,"./lv/index.js":false,"./mk/index.js":false,"./mn/index.js":false,"./ms/index.js":false,"./mt/index.js":false,"./nb/index.js":false,"./nl/index.js":false,"./nl-BE/index.js":false,"./nn/index.js":false,"./oc/index.js":false,"./pl/index.js":false,"./pt/index.js":false,"./pt-BR/index.js":false,"./ro/index.js":false,"./ru/index.js":"d1Q8X","./sk/index.js":false,"./sl/index.js":false,"./sq/index.js":false,"./sr/index.js":false,"./sr-Latn/index.js":false,"./sv/index.js":false,"./ta/index.js":false,"./te/index.js":false,"./th/index.js":false,"./tr/index.js":false,"./ug/index.js":false,"./uk/index.js":false,"./uz/index.js":false,"./uz-Cyrl/index.js":false,"./vi/index.js":false,"./zh-CN/index.js":false,"./zh-HK/index.js":false,"./zh-TW/index.js":false,"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"d1Q8X":[function(require,module,exports) {
+},{"./format/index.js":false,"./formatInTimeZone/index.js":false,"./getTimezoneOffset/index.js":false,"./toDate/index.js":false,"./utcToZonedTime/index.js":"dFmbz","./zonedTimeToUtc/index.js":false,"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lwKwP":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-var _indexJs = require("./_lib/formatDistance/index.js");
+parcelHelpers.export(exports, "default", ()=>toDate);
+var _indexJs = require("date-fns/_lib/toInteger/index.js");
 var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
-var _indexJs1 = require("./_lib/formatLong/index.js");
+var _indexJs1 = require("date-fns/_lib/getTimezoneOffsetInMilliseconds/index.js");
 var _indexJsDefault1 = parcelHelpers.interopDefault(_indexJs1);
-var _indexJs2 = require("./_lib/formatRelative/index.js");
+var _indexJs2 = require("../_lib/tzParseTimezone/index.js");
 var _indexJsDefault2 = parcelHelpers.interopDefault(_indexJs2);
-var _indexJs3 = require("./_lib/localize/index.js");
+var _indexJs3 = require("../_lib/tzPattern/index.js");
 var _indexJsDefault3 = parcelHelpers.interopDefault(_indexJs3);
-var _indexJs4 = require("./_lib/match/index.js");
-var _indexJsDefault4 = parcelHelpers.interopDefault(_indexJs4);
-/**
- * @type {Locale}
- * @category Locales
- * @summary Russian locale.
- * @language Russian
- * @iso-639-2 rus
- * @author Sasha Koss [@kossnocorp]{@link https://github.com/kossnocorp}
- * @author Lesha Koss [@leshakoss]{@link https://github.com/leshakoss}
- */ var locale = {
-    code: "ru",
-    formatDistance: (0, _indexJsDefault.default),
-    formatLong: (0, _indexJsDefault1.default),
-    formatRelative: (0, _indexJsDefault2.default),
-    localize: (0, _indexJsDefault3.default),
-    match: (0, _indexJsDefault4.default),
-    options: {
-        weekStartsOn: 1 /* Monday */ ,
-        firstWeekContainsDate: 1
-    }
+var MILLISECONDS_IN_HOUR = 3600000;
+var MILLISECONDS_IN_MINUTE = 60000;
+var DEFAULT_ADDITIONAL_DIGITS = 2;
+var patterns = {
+    dateTimePattern: /^([0-9W+-]+)(T| )(.*)/,
+    datePattern: /^([0-9W+-]+)(.*)/,
+    plainTime: /:/,
+    // year tokens
+    YY: /^(\d{2})$/,
+    YYY: [
+        /^([+-]\d{2})$/,
+        /^([+-]\d{3})$/,
+        /^([+-]\d{4})$/
+    ],
+    YYYY: /^(\d{4})/,
+    YYYYY: [
+        /^([+-]\d{4})/,
+        /^([+-]\d{5})/,
+        /^([+-]\d{6})/
+    ],
+    // date tokens
+    MM: /^-(\d{2})$/,
+    DDD: /^-?(\d{3})$/,
+    MMDD: /^-?(\d{2})-?(\d{2})$/,
+    Www: /^-?W(\d{2})$/,
+    WwwD: /^-?W(\d{2})-?(\d{1})$/,
+    HH: /^(\d{2}([.,]\d*)?)$/,
+    HHMM: /^(\d{2}):?(\d{2}([.,]\d*)?)$/,
+    HHMMSS: /^(\d{2}):?(\d{2}):?(\d{2}([.,]\d*)?)$/,
+    // time zone tokens (to identify the presence of a tz)
+    timeZone: (0, _indexJsDefault3.default)
 };
-exports.default = locale;
-
-},{"./_lib/formatDistance/index.js":"6PVsf","./_lib/formatLong/index.js":"kVgWw","./_lib/formatRelative/index.js":"gIkoH","./_lib/localize/index.js":"llzug","./_lib/match/index.js":"41RQA","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6PVsf":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-function declension(scheme, count) {
-    // scheme for count=1 exists
-    if (scheme.one !== undefined && count === 1) return scheme.one;
-    var rem10 = count % 10;
-    var rem100 = count % 100;
-    // 1, 21, 31, ...
-    if (rem10 === 1 && rem100 !== 11) return scheme.singularNominative.replace("{{count}}", String(count));
-    else if (rem10 >= 2 && rem10 <= 4 && (rem100 < 10 || rem100 > 20)) return scheme.singularGenitive.replace("{{count}}", String(count));
-    else return scheme.pluralGenitive.replace("{{count}}", String(count));
+function toDate(argument, dirtyOptions) {
+    if (arguments.length < 1) throw new TypeError("1 argument required, but only " + arguments.length + " present");
+    if (argument === null) return new Date(NaN);
+    var options = dirtyOptions || {};
+    var additionalDigits = options.additionalDigits == null ? DEFAULT_ADDITIONAL_DIGITS : (0, _indexJsDefault.default)(options.additionalDigits);
+    if (additionalDigits !== 2 && additionalDigits !== 1 && additionalDigits !== 0) throw new RangeError("additionalDigits must be 0, 1 or 2");
+    // Clone the date
+    if (argument instanceof Date || typeof argument === "object" && Object.prototype.toString.call(argument) === "[object Date]") // Prevent the date to lose the milliseconds when passed to new Date() in IE10
+    return new Date(argument.getTime());
+    else if (typeof argument === "number" || Object.prototype.toString.call(argument) === "[object Number]") return new Date(argument);
+    else if (!(typeof argument === "string" || Object.prototype.toString.call(argument) === "[object String]")) return new Date(NaN);
+    var dateStrings = splitDateString(argument);
+    var parseYearResult = parseYear(dateStrings.date, additionalDigits);
+    var year = parseYearResult.year;
+    var restDateString = parseYearResult.restDateString;
+    var date = parseDate(restDateString, year);
+    if (isNaN(date)) return new Date(NaN);
+    if (date) {
+        var timestamp = date.getTime();
+        var time = 0;
+        var offset;
+        if (dateStrings.time) {
+            time = parseTime(dateStrings.time);
+            if (isNaN(time)) return new Date(NaN);
+        }
+        if (dateStrings.timeZone || options.timeZone) {
+            offset = (0, _indexJsDefault2.default)(dateStrings.timeZone || options.timeZone, new Date(timestamp + time));
+            if (isNaN(offset)) return new Date(NaN);
+        } else {
+            // get offset accurate to hour in time zones that change offset
+            offset = (0, _indexJsDefault1.default)(new Date(timestamp + time));
+            offset = (0, _indexJsDefault1.default)(new Date(timestamp + time + offset));
+        }
+        return new Date(timestamp + time + offset);
+    } else return new Date(NaN);
 }
-function buildLocalizeTokenFn(scheme) {
-    return function(count, options) {
-        if (options !== null && options !== void 0 && options.addSuffix) {
-            if (options.comparison && options.comparison > 0) {
-                if (scheme.future) return declension(scheme.future, count);
-                else return "через " + declension(scheme.regular, count);
-            } else {
-                if (scheme.past) return declension(scheme.past, count);
-                else return declension(scheme.regular, count) + " назад";
-            }
-        } else return declension(scheme.regular, count);
+function splitDateString(dateString) {
+    var dateStrings = {};
+    var parts = patterns.dateTimePattern.exec(dateString);
+    var timeString;
+    if (!parts) {
+        parts = patterns.datePattern.exec(dateString);
+        if (parts) {
+            dateStrings.date = parts[1];
+            timeString = parts[2];
+        } else {
+            dateStrings.date = null;
+            timeString = dateString;
+        }
+    } else {
+        dateStrings.date = parts[1];
+        timeString = parts[3];
+    }
+    if (timeString) {
+        var token = patterns.timeZone.exec(timeString);
+        if (token) {
+            dateStrings.time = timeString.replace(token[1], "");
+            dateStrings.timeZone = token[1].trim();
+        } else dateStrings.time = timeString;
+    }
+    return dateStrings;
+}
+function parseYear(dateString, additionalDigits) {
+    var patternYYY = patterns.YYY[additionalDigits];
+    var patternYYYYY = patterns.YYYYY[additionalDigits];
+    var token;
+    // YYYY or ±YYYYY
+    token = patterns.YYYY.exec(dateString) || patternYYYYY.exec(dateString);
+    if (token) {
+        var yearString = token[1];
+        return {
+            year: parseInt(yearString, 10),
+            restDateString: dateString.slice(yearString.length)
+        };
+    }
+    // YY or ±YYY
+    token = patterns.YY.exec(dateString) || patternYYY.exec(dateString);
+    if (token) {
+        var centuryString = token[1];
+        return {
+            year: parseInt(centuryString, 10) * 100,
+            restDateString: dateString.slice(centuryString.length)
+        };
+    }
+    // Invalid ISO-formatted year
+    return {
+        year: null
     };
 }
-var formatDistanceLocale = {
-    lessThanXSeconds: buildLocalizeTokenFn({
-        regular: {
-            one: "меньше секунды",
-            singularNominative: "меньше {{count}} секунды",
-            singularGenitive: "меньше {{count}} секунд",
-            pluralGenitive: "меньше {{count}} секунд"
-        },
-        future: {
-            one: "меньше, чем через секунду",
-            singularNominative: "меньше, чем через {{count}} секунду",
-            singularGenitive: "меньше, чем через {{count}} секунды",
-            pluralGenitive: "меньше, чем через {{count}} секунд"
-        }
-    }),
-    xSeconds: buildLocalizeTokenFn({
-        regular: {
-            singularNominative: "{{count}} секунда",
-            singularGenitive: "{{count}} секунды",
-            pluralGenitive: "{{count}} секунд"
-        },
-        past: {
-            singularNominative: "{{count}} секунду назад",
-            singularGenitive: "{{count}} секунды назад",
-            pluralGenitive: "{{count}} секунд назад"
-        },
-        future: {
-            singularNominative: "через {{count}} секунду",
-            singularGenitive: "через {{count}} секунды",
-            pluralGenitive: "через {{count}} секунд"
-        }
-    }),
-    halfAMinute: function halfAMinute(_count, options) {
-        if (options !== null && options !== void 0 && options.addSuffix) {
-            if (options.comparison && options.comparison > 0) return "через полминуты";
-            else return "полминуты назад";
-        }
-        return "полминуты";
-    },
-    lessThanXMinutes: buildLocalizeTokenFn({
-        regular: {
-            one: "меньше минуты",
-            singularNominative: "меньше {{count}} минуты",
-            singularGenitive: "меньше {{count}} минут",
-            pluralGenitive: "меньше {{count}} минут"
-        },
-        future: {
-            one: "меньше, чем через минуту",
-            singularNominative: "меньше, чем через {{count}} минуту",
-            singularGenitive: "меньше, чем через {{count}} минуты",
-            pluralGenitive: "меньше, чем через {{count}} минут"
-        }
-    }),
-    xMinutes: buildLocalizeTokenFn({
-        regular: {
-            singularNominative: "{{count}} минута",
-            singularGenitive: "{{count}} минуты",
-            pluralGenitive: "{{count}} минут"
-        },
-        past: {
-            singularNominative: "{{count}} минуту назад",
-            singularGenitive: "{{count}} минуты назад",
-            pluralGenitive: "{{count}} минут назад"
-        },
-        future: {
-            singularNominative: "через {{count}} минуту",
-            singularGenitive: "через {{count}} минуты",
-            pluralGenitive: "через {{count}} минут"
-        }
-    }),
-    aboutXHours: buildLocalizeTokenFn({
-        regular: {
-            singularNominative: "около {{count}} часа",
-            singularGenitive: "около {{count}} часов",
-            pluralGenitive: "около {{count}} часов"
-        },
-        future: {
-            singularNominative: "приблизительно через {{count}} час",
-            singularGenitive: "приблизительно через {{count}} часа",
-            pluralGenitive: "приблизительно через {{count}} часов"
-        }
-    }),
-    xHours: buildLocalizeTokenFn({
-        regular: {
-            singularNominative: "{{count}} час",
-            singularGenitive: "{{count}} часа",
-            pluralGenitive: "{{count}} часов"
-        }
-    }),
-    xDays: buildLocalizeTokenFn({
-        regular: {
-            singularNominative: "{{count}} день",
-            singularGenitive: "{{count}} дня",
-            pluralGenitive: "{{count}} дней"
-        }
-    }),
-    aboutXWeeks: buildLocalizeTokenFn({
-        regular: {
-            singularNominative: "около {{count}} недели",
-            singularGenitive: "около {{count}} недель",
-            pluralGenitive: "около {{count}} недель"
-        },
-        future: {
-            singularNominative: "приблизительно через {{count}} неделю",
-            singularGenitive: "приблизительно через {{count}} недели",
-            pluralGenitive: "приблизительно через {{count}} недель"
-        }
-    }),
-    xWeeks: buildLocalizeTokenFn({
-        regular: {
-            singularNominative: "{{count}} неделя",
-            singularGenitive: "{{count}} недели",
-            pluralGenitive: "{{count}} недель"
-        }
-    }),
-    aboutXMonths: buildLocalizeTokenFn({
-        regular: {
-            singularNominative: "около {{count}} месяца",
-            singularGenitive: "около {{count}} месяцев",
-            pluralGenitive: "около {{count}} месяцев"
-        },
-        future: {
-            singularNominative: "приблизительно через {{count}} месяц",
-            singularGenitive: "приблизительно через {{count}} месяца",
-            pluralGenitive: "приблизительно через {{count}} месяцев"
-        }
-    }),
-    xMonths: buildLocalizeTokenFn({
-        regular: {
-            singularNominative: "{{count}} месяц",
-            singularGenitive: "{{count}} месяца",
-            pluralGenitive: "{{count}} месяцев"
-        }
-    }),
-    aboutXYears: buildLocalizeTokenFn({
-        regular: {
-            singularNominative: "около {{count}} года",
-            singularGenitive: "около {{count}} лет",
-            pluralGenitive: "около {{count}} лет"
-        },
-        future: {
-            singularNominative: "приблизительно через {{count}} год",
-            singularGenitive: "приблизительно через {{count}} года",
-            pluralGenitive: "приблизительно через {{count}} лет"
-        }
-    }),
-    xYears: buildLocalizeTokenFn({
-        regular: {
-            singularNominative: "{{count}} год",
-            singularGenitive: "{{count}} года",
-            pluralGenitive: "{{count}} лет"
-        }
-    }),
-    overXYears: buildLocalizeTokenFn({
-        regular: {
-            singularNominative: "больше {{count}} года",
-            singularGenitive: "больше {{count}} лет",
-            pluralGenitive: "больше {{count}} лет"
-        },
-        future: {
-            singularNominative: "больше, чем через {{count}} год",
-            singularGenitive: "больше, чем через {{count}} года",
-            pluralGenitive: "больше, чем через {{count}} лет"
-        }
-    }),
-    almostXYears: buildLocalizeTokenFn({
-        regular: {
-            singularNominative: "почти {{count}} год",
-            singularGenitive: "почти {{count}} года",
-            pluralGenitive: "почти {{count}} лет"
-        },
-        future: {
-            singularNominative: "почти через {{count}} год",
-            singularGenitive: "почти через {{count}} года",
-            pluralGenitive: "почти через {{count}} лет"
-        }
-    })
-};
-var formatDistance = function formatDistance(token, count, options) {
-    return formatDistanceLocale[token](count, options);
-};
-exports.default = formatDistance;
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kVgWw":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _indexJs = require("../../../_lib/buildFormatLongFn/index.js");
-var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
-var dateFormats = {
-    full: "EEEE, d MMMM y 'г.'",
-    long: "d MMMM y 'г.'",
-    medium: "d MMM y 'г.'",
-    short: "dd.MM.y"
-};
-var timeFormats = {
-    full: "H:mm:ss zzzz",
-    long: "H:mm:ss z",
-    medium: "H:mm:ss",
-    short: "H:mm"
-};
-var dateTimeFormats = {
-    any: "{{date}}, {{time}}"
-};
-var formatLong = {
-    date: (0, _indexJsDefault.default)({
-        formats: dateFormats,
-        defaultWidth: "full"
-    }),
-    time: (0, _indexJsDefault.default)({
-        formats: timeFormats,
-        defaultWidth: "full"
-    }),
-    dateTime: (0, _indexJsDefault.default)({
-        formats: dateTimeFormats,
-        defaultWidth: "any"
-    })
-};
-exports.default = formatLong;
-
-},{"../../../_lib/buildFormatLongFn/index.js":"h1FGd","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gIkoH":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _indexJs = require("../../../../_lib/isSameUTCWeek/index.js");
-var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
-var accusativeWeekdays = [
-    "воскресенье",
-    "понедельник",
-    "вторник",
-    "среду",
-    "четверг",
-    "пятницу",
-    "субботу"
+function parseDate(dateString, year) {
+    // Invalid ISO-formatted year
+    if (year === null) return null;
+    var token;
+    var date;
+    var month;
+    var week;
+    // YYYY
+    if (dateString.length === 0) {
+        date = new Date(0);
+        date.setUTCFullYear(year);
+        return date;
+    }
+    // YYYY-MM
+    token = patterns.MM.exec(dateString);
+    if (token) {
+        date = new Date(0);
+        month = parseInt(token[1], 10) - 1;
+        if (!validateDate(year, month)) return new Date(NaN);
+        date.setUTCFullYear(year, month);
+        return date;
+    }
+    // YYYY-DDD or YYYYDDD
+    token = patterns.DDD.exec(dateString);
+    if (token) {
+        date = new Date(0);
+        var dayOfYear = parseInt(token[1], 10);
+        if (!validateDayOfYearDate(year, dayOfYear)) return new Date(NaN);
+        date.setUTCFullYear(year, 0, dayOfYear);
+        return date;
+    }
+    // yyyy-MM-dd or YYYYMMDD
+    token = patterns.MMDD.exec(dateString);
+    if (token) {
+        date = new Date(0);
+        month = parseInt(token[1], 10) - 1;
+        var day = parseInt(token[2], 10);
+        if (!validateDate(year, month, day)) return new Date(NaN);
+        date.setUTCFullYear(year, month, day);
+        return date;
+    }
+    // YYYY-Www or YYYYWww
+    token = patterns.Www.exec(dateString);
+    if (token) {
+        week = parseInt(token[1], 10) - 1;
+        if (!validateWeekDate(year, week)) return new Date(NaN);
+        return dayOfISOWeekYear(year, week);
+    }
+    // YYYY-Www-D or YYYYWwwD
+    token = patterns.WwwD.exec(dateString);
+    if (token) {
+        week = parseInt(token[1], 10) - 1;
+        var dayOfWeek = parseInt(token[2], 10) - 1;
+        if (!validateWeekDate(year, week, dayOfWeek)) return new Date(NaN);
+        return dayOfISOWeekYear(year, week, dayOfWeek);
+    }
+    // Invalid ISO-formatted date
+    return null;
+}
+function parseTime(timeString) {
+    var token;
+    var hours;
+    var minutes;
+    // hh
+    token = patterns.HH.exec(timeString);
+    if (token) {
+        hours = parseFloat(token[1].replace(",", "."));
+        if (!validateTime(hours)) return NaN;
+        return hours % 24 * MILLISECONDS_IN_HOUR;
+    }
+    // hh:mm or hhmm
+    token = patterns.HHMM.exec(timeString);
+    if (token) {
+        hours = parseInt(token[1], 10);
+        minutes = parseFloat(token[2].replace(",", "."));
+        if (!validateTime(hours, minutes)) return NaN;
+        return hours % 24 * MILLISECONDS_IN_HOUR + minutes * MILLISECONDS_IN_MINUTE;
+    }
+    // hh:mm:ss or hhmmss
+    token = patterns.HHMMSS.exec(timeString);
+    if (token) {
+        hours = parseInt(token[1], 10);
+        minutes = parseInt(token[2], 10);
+        var seconds = parseFloat(token[3].replace(",", "."));
+        if (!validateTime(hours, minutes, seconds)) return NaN;
+        return hours % 24 * MILLISECONDS_IN_HOUR + minutes * MILLISECONDS_IN_MINUTE + seconds * 1000;
+    }
+    // Invalid ISO-formatted time
+    return null;
+}
+function dayOfISOWeekYear(isoWeekYear, week, day) {
+    week = week || 0;
+    day = day || 0;
+    var date = new Date(0);
+    date.setUTCFullYear(isoWeekYear, 0, 4);
+    var fourthOfJanuaryDay = date.getUTCDay() || 7;
+    var diff = week * 7 + day + 1 - fourthOfJanuaryDay;
+    date.setUTCDate(date.getUTCDate() + diff);
+    return date;
+}
+// Validation functions
+var DAYS_IN_MONTH = [
+    31,
+    28,
+    31,
+    30,
+    31,
+    30,
+    31,
+    31,
+    30,
+    31,
+    30,
+    31
 ];
-function _lastWeek(day) {
-    var weekday = accusativeWeekdays[day];
-    switch(day){
-        case 0:
-            return "'в прошлое " + weekday + " в' p";
-        case 1:
-        case 2:
-        case 4:
-            return "'в прошлый " + weekday + " в' p";
-        case 3:
-        case 5:
-        case 6:
-            return "'в прошлую " + weekday + " в' p";
+var DAYS_IN_MONTH_LEAP_YEAR = [
+    31,
+    29,
+    31,
+    30,
+    31,
+    30,
+    31,
+    31,
+    30,
+    31,
+    30,
+    31
+];
+function isLeapYearIndex(year) {
+    return year % 400 === 0 || year % 4 === 0 && year % 100 !== 0;
+}
+function validateDate(year, month, date) {
+    if (month < 0 || month > 11) return false;
+    if (date != null) {
+        if (date < 1) return false;
+        var isLeapYear = isLeapYearIndex(year);
+        if (isLeapYear && date > DAYS_IN_MONTH_LEAP_YEAR[month]) return false;
+        if (!isLeapYear && date > DAYS_IN_MONTH[month]) return false;
     }
+    return true;
 }
-function thisWeek(day) {
-    var weekday = accusativeWeekdays[day];
-    if (day === 2 /* Tue */ ) return "'во " + weekday + " в' p";
-    else return "'в " + weekday + " в' p";
+function validateDayOfYearDate(year, dayOfYear) {
+    if (dayOfYear < 1) return false;
+    var isLeapYear = isLeapYearIndex(year);
+    if (isLeapYear && dayOfYear > 366) return false;
+    if (!isLeapYear && dayOfYear > 365) return false;
+    return true;
 }
-function _nextWeek(day) {
-    var weekday = accusativeWeekdays[day];
-    switch(day){
-        case 0:
-            return "'в следующее " + weekday + " в' p";
-        case 1:
-        case 2:
-        case 4:
-            return "'в следующий " + weekday + " в' p";
-        case 3:
-        case 5:
-        case 6:
-            return "'в следующую " + weekday + " в' p";
-    }
+function validateWeekDate(year, week, day) {
+    if (week < 0 || week > 52) return false;
+    if (day != null && (day < 0 || day > 6)) return false;
+    return true;
 }
-var formatRelativeLocale = {
-    lastWeek: function lastWeek(date, baseDate, options) {
-        var day = date.getUTCDay();
-        if ((0, _indexJsDefault.default)(date, baseDate, options)) return thisWeek(day);
-        else return _lastWeek(day);
-    },
-    yesterday: "'вчера в' p",
-    today: "'сегодня в' p",
-    tomorrow: "'завтра в' p",
-    nextWeek: function nextWeek(date, baseDate, options) {
-        var day = date.getUTCDay();
-        if ((0, _indexJsDefault.default)(date, baseDate, options)) return thisWeek(day);
-        else return _nextWeek(day);
-    },
-    other: "P"
-};
-var formatRelative = function formatRelative(token, date, baseDate, options) {
-    var format = formatRelativeLocale[token];
-    if (typeof format === "function") return format(date, baseDate, options);
-    return format;
-};
-exports.default = formatRelative;
-
-},{"../../../../_lib/isSameUTCWeek/index.js":"afdYM","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"afdYM":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "default", ()=>isSameUTCWeek);
-var _indexJs = require("../requiredArgs/index.js");
-var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
-var _indexJs1 = require("../startOfUTCWeek/index.js");
-var _indexJsDefault1 = parcelHelpers.interopDefault(_indexJs1);
-function isSameUTCWeek(dirtyDateLeft, dirtyDateRight, options) {
-    (0, _indexJsDefault.default)(2, arguments);
-    var dateLeftStartOfWeek = (0, _indexJsDefault1.default)(dirtyDateLeft, options);
-    var dateRightStartOfWeek = (0, _indexJsDefault1.default)(dirtyDateRight, options);
-    return dateLeftStartOfWeek.getTime() === dateRightStartOfWeek.getTime();
+function validateTime(hours, minutes, seconds) {
+    if (hours != null && (hours < 0 || hours >= 25)) return false;
+    if (minutes != null && (minutes < 0 || minutes >= 60)) return false;
+    if (seconds != null && (seconds < 0 || seconds >= 60)) return false;
+    return true;
 }
 
-},{"../requiredArgs/index.js":"9wUgQ","../startOfUTCWeek/index.js":"dDZbE","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"llzug":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _indexJs = require("../../../_lib/buildLocalizeFn/index.js");
-var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
-var eraValues = {
-    narrow: [
-        "до н.э.",
-        "н.э."
-    ],
-    abbreviated: [
-        "до н. э.",
-        "н. э."
-    ],
-    wide: [
-        "до нашей эры",
-        "нашей эры"
-    ]
-};
-var quarterValues = {
-    narrow: [
-        "1",
-        "2",
-        "3",
-        "4"
-    ],
-    abbreviated: [
-        "1-й кв.",
-        "2-й кв.",
-        "3-й кв.",
-        "4-й кв."
-    ],
-    wide: [
-        "1-й квартал",
-        "2-й квартал",
-        "3-й квартал",
-        "4-й квартал"
-    ]
-};
-var monthValues = {
-    narrow: [
-        "Я",
-        "Ф",
-        "М",
-        "А",
-        "М",
-        "И",
-        "И",
-        "А",
-        "С",
-        "О",
-        "Н",
-        "Д"
-    ],
-    abbreviated: [
-        "янв.",
-        "фев.",
-        "март",
-        "апр.",
-        "май",
-        "июнь",
-        "июль",
-        "авг.",
-        "сент.",
-        "окт.",
-        "нояб.",
-        "дек."
-    ],
-    wide: [
-        "январь",
-        "февраль",
-        "март",
-        "апрель",
-        "май",
-        "июнь",
-        "июль",
-        "август",
-        "сентябрь",
-        "октябрь",
-        "ноябрь",
-        "декабрь"
-    ]
-};
-var formattingMonthValues = {
-    narrow: [
-        "Я",
-        "Ф",
-        "М",
-        "А",
-        "М",
-        "И",
-        "И",
-        "А",
-        "С",
-        "О",
-        "Н",
-        "Д"
-    ],
-    abbreviated: [
-        "янв.",
-        "фев.",
-        "мар.",
-        "апр.",
-        "мая",
-        "июн.",
-        "июл.",
-        "авг.",
-        "сент.",
-        "окт.",
-        "нояб.",
-        "дек."
-    ],
-    wide: [
-        "января",
-        "февраля",
-        "марта",
-        "апреля",
-        "мая",
-        "июня",
-        "июля",
-        "августа",
-        "сентября",
-        "октября",
-        "ноября",
-        "декабря"
-    ]
-};
-var dayValues = {
-    narrow: [
-        "В",
-        "П",
-        "В",
-        "С",
-        "Ч",
-        "П",
-        "С"
-    ],
-    short: [
-        "вс",
-        "пн",
-        "вт",
-        "ср",
-        "чт",
-        "пт",
-        "сб"
-    ],
-    abbreviated: [
-        "вск",
-        "пнд",
-        "втр",
-        "срд",
-        "чтв",
-        "птн",
-        "суб"
-    ],
-    wide: [
-        "воскресенье",
-        "понедельник",
-        "вторник",
-        "среда",
-        "четверг",
-        "пятница",
-        "суббота"
-    ]
-};
-var dayPeriodValues = {
-    narrow: {
-        am: "ДП",
-        pm: "ПП",
-        midnight: "полн.",
-        noon: "полд.",
-        morning: "утро",
-        afternoon: "день",
-        evening: "веч.",
-        night: "ночь"
-    },
-    abbreviated: {
-        am: "ДП",
-        pm: "ПП",
-        midnight: "полн.",
-        noon: "полд.",
-        morning: "утро",
-        afternoon: "день",
-        evening: "веч.",
-        night: "ночь"
-    },
-    wide: {
-        am: "ДП",
-        pm: "ПП",
-        midnight: "полночь",
-        noon: "полдень",
-        morning: "утро",
-        afternoon: "день",
-        evening: "вечер",
-        night: "ночь"
-    }
-};
-var formattingDayPeriodValues = {
-    narrow: {
-        am: "ДП",
-        pm: "ПП",
-        midnight: "полн.",
-        noon: "полд.",
-        morning: "утра",
-        afternoon: "дня",
-        evening: "веч.",
-        night: "ночи"
-    },
-    abbreviated: {
-        am: "ДП",
-        pm: "ПП",
-        midnight: "полн.",
-        noon: "полд.",
-        morning: "утра",
-        afternoon: "дня",
-        evening: "веч.",
-        night: "ночи"
-    },
-    wide: {
-        am: "ДП",
-        pm: "ПП",
-        midnight: "полночь",
-        noon: "полдень",
-        morning: "утра",
-        afternoon: "дня",
-        evening: "вечера",
-        night: "ночи"
-    }
-};
-var ordinalNumber = function ordinalNumber(dirtyNumber, options) {
+},{"date-fns/_lib/toInteger/index.js":"aXIAb","date-fns/_lib/getTimezoneOffsetInMilliseconds/index.js":"7XG25","../_lib/tzParseTimezone/index.js":"kzqA4","../_lib/tzPattern/index.js":"giQZf","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"aXIAb":[function(require,module,exports) {
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = toInteger;
+function toInteger(dirtyNumber) {
+    if (dirtyNumber === null || dirtyNumber === true || dirtyNumber === false) return NaN;
     var number = Number(dirtyNumber);
-    var unit = options === null || options === void 0 ? void 0 : options.unit;
-    var suffix;
-    if (unit === "date") suffix = "-е";
-    else if (unit === "week" || unit === "minute" || unit === "second") suffix = "-я";
-    else suffix = "-й";
-    return number + suffix;
-};
-var localize = {
-    ordinalNumber: ordinalNumber,
-    era: (0, _indexJsDefault.default)({
-        values: eraValues,
-        defaultWidth: "wide"
-    }),
-    quarter: (0, _indexJsDefault.default)({
-        values: quarterValues,
-        defaultWidth: "wide",
-        argumentCallback: function argumentCallback(quarter) {
-            return quarter - 1;
-        }
-    }),
-    month: (0, _indexJsDefault.default)({
-        values: monthValues,
-        defaultWidth: "wide",
-        formattingValues: formattingMonthValues,
-        defaultFormattingWidth: "wide"
-    }),
-    day: (0, _indexJsDefault.default)({
-        values: dayValues,
-        defaultWidth: "wide"
-    }),
-    dayPeriod: (0, _indexJsDefault.default)({
-        values: dayPeriodValues,
-        defaultWidth: "any",
-        formattingValues: formattingDayPeriodValues,
-        defaultFormattingWidth: "wide"
-    })
-};
-exports.default = localize;
+    if (isNaN(number)) return number;
+    return number < 0 ? Math.ceil(number) : Math.floor(number);
+}
+module.exports = exports.default;
 
-},{"../../../_lib/buildLocalizeFn/index.js":"5l2rZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"41RQA":[function(require,module,exports) {
+},{}],"7XG25":[function(require,module,exports) {
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = getTimezoneOffsetInMilliseconds;
+/**
+ * Google Chrome as of 67.0.3396.87 introduced timezones with offset that includes seconds.
+ * They usually appear for dates that denote time before the timezones were introduced
+ * (e.g. for 'Europe/Prague' timezone the offset is GMT+00:57:44 before 1 October 1891
+ * and GMT+01:00:00 after that date)
+ *
+ * Date#getTimezoneOffset returns the offset in minutes and would return 57 for the example above,
+ * which would lead to incorrect calculations.
+ *
+ * This function returns the timezone offset in milliseconds that takes seconds in account.
+ */ function getTimezoneOffsetInMilliseconds(date) {
+    var utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds()));
+    utcDate.setUTCFullYear(date.getFullYear());
+    return date.getTime() - utcDate.getTime();
+}
+module.exports = exports.default;
+
+},{}],"kzqA4":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-var _indexJs = require("../../../_lib/buildMatchFn/index.js");
+parcelHelpers.export(exports, "default", ()=>tzParseTimezone);
+var _indexJs = require("../tzTokenizeDate/index.js");
 var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
-var _indexJs1 = require("../../../_lib/buildMatchPatternFn/index.js");
+var _indexJs1 = require("../newDateUTC/index.js");
 var _indexJsDefault1 = parcelHelpers.interopDefault(_indexJs1);
-var matchOrdinalNumberPattern = /^(\d+)(-?(е|я|й|ое|ье|ая|ья|ый|ой|ий|ый))?/i;
-var parseOrdinalNumberPattern = /\d+/i;
-var matchEraPatterns = {
-    narrow: /^((до )?н\.?\s?э\.?)/i,
-    abbreviated: /^((до )?н\.?\s?э\.?)/i,
-    wide: /^(до нашей эры|нашей эры|наша эра)/i
+var MILLISECONDS_IN_HOUR = 3600000;
+var MILLISECONDS_IN_MINUTE = 60000;
+var patterns = {
+    timezone: /([Z+-].*)$/,
+    timezoneZ: /^(Z)$/,
+    timezoneHH: /^([+-]\d{2})$/,
+    timezoneHHMM: /^([+-]\d{2}):?(\d{2})$/
 };
-var parseEraPatterns = {
-    any: [
-        /^д/i,
-        /^н/i
-    ]
-};
-var matchQuarterPatterns = {
-    narrow: /^[1234]/i,
-    abbreviated: /^[1234](-?[ыои]?й?)? кв.?/i,
-    wide: /^[1234](-?[ыои]?й?)? квартал/i
-};
-var parseQuarterPatterns = {
-    any: [
-        /1/i,
-        /2/i,
-        /3/i,
-        /4/i
-    ]
-};
-var matchMonthPatterns = {
-    narrow: /^[яфмаисонд]/i,
-    abbreviated: /^(янв|фев|март?|апр|ма[йя]|июн[ья]?|июл[ья]?|авг|сент?|окт|нояб?|дек)\.?/i,
-    wide: /^(январ[ья]|феврал[ья]|марта?|апрел[ья]|ма[йя]|июн[ья]|июл[ья]|августа?|сентябр[ья]|октябр[ья]|октябр[ья]|ноябр[ья]|декабр[ья])/i
-};
-var parseMonthPatterns = {
-    narrow: [
-        /^я/i,
-        /^ф/i,
-        /^м/i,
-        /^а/i,
-        /^м/i,
-        /^и/i,
-        /^и/i,
-        /^а/i,
-        /^с/i,
-        /^о/i,
-        /^н/i,
-        /^я/i
-    ],
-    any: [
-        /^я/i,
-        /^ф/i,
-        /^мар/i,
-        /^ап/i,
-        /^ма[йя]/i,
-        /^июн/i,
-        /^июл/i,
-        /^ав/i,
-        /^с/i,
-        /^о/i,
-        /^н/i,
-        /^д/i
-    ]
-};
-var matchDayPatterns = {
-    narrow: /^[впсч]/i,
-    short: /^(вс|во|пн|по|вт|ср|чт|че|пт|пя|сб|су)\.?/i,
-    abbreviated: /^(вск|вос|пнд|пон|втр|вто|срд|сре|чтв|чет|птн|пят|суб).?/i,
-    wide: /^(воскресень[ея]|понедельника?|вторника?|сред[аы]|четверга?|пятниц[аы]|суббот[аы])/i
-};
-var parseDayPatterns = {
-    narrow: [
-        /^в/i,
-        /^п/i,
-        /^в/i,
-        /^с/i,
-        /^ч/i,
-        /^п/i,
-        /^с/i
-    ],
-    any: [
-        /^в[ос]/i,
-        /^п[он]/i,
-        /^в/i,
-        /^ср/i,
-        /^ч/i,
-        /^п[ят]/i,
-        /^с[уб]/i
-    ]
-};
-var matchDayPeriodPatterns = {
-    narrow: /^([дп]п|полн\.?|полд\.?|утр[оа]|день|дня|веч\.?|ноч[ьи])/i,
-    abbreviated: /^([дп]п|полн\.?|полд\.?|утр[оа]|день|дня|веч\.?|ноч[ьи])/i,
-    wide: /^([дп]п|полночь|полдень|утр[оа]|день|дня|вечера?|ноч[ьи])/i
-};
-var parseDayPeriodPatterns = {
-    any: {
-        am: /^дп/i,
-        pm: /^пп/i,
-        midnight: /^полн/i,
-        noon: /^полд/i,
-        morning: /^у/i,
-        afternoon: /^д[ен]/i,
-        evening: /^в/i,
-        night: /^н/i
+function tzParseTimezone(timezoneString, date, isUtcDate) {
+    var token;
+    var absoluteOffset;
+    // Empty string
+    if (!timezoneString) return 0;
+    // Z
+    token = patterns.timezoneZ.exec(timezoneString);
+    if (token) return 0;
+    var hours;
+    // ±hh
+    token = patterns.timezoneHH.exec(timezoneString);
+    if (token) {
+        hours = parseInt(token[1], 10);
+        if (!validateTimezone(hours)) return NaN;
+        return -(hours * MILLISECONDS_IN_HOUR);
     }
-};
-var match = {
-    ordinalNumber: (0, _indexJsDefault1.default)({
-        matchPattern: matchOrdinalNumberPattern,
-        parsePattern: parseOrdinalNumberPattern,
-        valueCallback: function valueCallback(value) {
-            return parseInt(value, 10);
-        }
-    }),
-    era: (0, _indexJsDefault.default)({
-        matchPatterns: matchEraPatterns,
-        defaultMatchWidth: "wide",
-        parsePatterns: parseEraPatterns,
-        defaultParseWidth: "any"
-    }),
-    quarter: (0, _indexJsDefault.default)({
-        matchPatterns: matchQuarterPatterns,
-        defaultMatchWidth: "wide",
-        parsePatterns: parseQuarterPatterns,
-        defaultParseWidth: "any",
-        valueCallback: function valueCallback(index) {
-            return index + 1;
-        }
-    }),
-    month: (0, _indexJsDefault.default)({
-        matchPatterns: matchMonthPatterns,
-        defaultMatchWidth: "wide",
-        parsePatterns: parseMonthPatterns,
-        defaultParseWidth: "any"
-    }),
-    day: (0, _indexJsDefault.default)({
-        matchPatterns: matchDayPatterns,
-        defaultMatchWidth: "wide",
-        parsePatterns: parseDayPatterns,
-        defaultParseWidth: "any"
-    }),
-    dayPeriod: (0, _indexJsDefault.default)({
-        matchPatterns: matchDayPeriodPatterns,
-        defaultMatchWidth: "wide",
-        parsePatterns: parseDayPeriodPatterns,
-        defaultParseWidth: "any"
-    })
-};
-exports.default = match;
+    // ±hh:mm or ±hhmm
+    token = patterns.timezoneHHMM.exec(timezoneString);
+    if (token) {
+        hours = parseInt(token[1], 10);
+        var minutes = parseInt(token[2], 10);
+        if (!validateTimezone(hours, minutes)) return NaN;
+        absoluteOffset = Math.abs(hours) * MILLISECONDS_IN_HOUR + minutes * MILLISECONDS_IN_MINUTE;
+        return hours > 0 ? -absoluteOffset : absoluteOffset;
+    }
+    // IANA time zone
+    if (isValidTimezoneIANAString(timezoneString)) {
+        date = new Date(date || Date.now());
+        var utcDate = isUtcDate ? date : toUtcDate(date);
+        var offset = calcOffset(utcDate, timezoneString);
+        var fixedOffset = isUtcDate ? offset : fixOffset(date, offset, timezoneString);
+        return -fixedOffset;
+    }
+    return NaN;
+}
+function toUtcDate(date) {
+    return (0, _indexJsDefault1.default)(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
+}
+function calcOffset(date, timezoneString) {
+    var tokens = (0, _indexJsDefault.default)(date, timezoneString);
+    // ms dropped because it's not provided by tzTokenizeDate
+    var asUTC = (0, _indexJsDefault1.default)(tokens[0], tokens[1] - 1, tokens[2], tokens[3] % 24, tokens[4], tokens[5], 0).getTime();
+    var asTS = date.getTime();
+    var over = asTS % 1000;
+    asTS -= over >= 0 ? over : 1000 + over;
+    return asUTC - asTS;
+}
+function fixOffset(date, offset, timezoneString) {
+    var localTS = date.getTime();
+    // Our UTC time is just a guess because our offset is just a guess
+    var utcGuess = localTS - offset;
+    // Test whether the zone matches the offset for this ts
+    var o2 = calcOffset(new Date(utcGuess), timezoneString);
+    // If so, offset didn't change, and we're done
+    if (offset === o2) return offset;
+    // If not, change the ts by the difference in the offset
+    utcGuess -= o2 - offset;
+    // If that gives us the local time we want, we're done
+    var o3 = calcOffset(new Date(utcGuess), timezoneString);
+    if (o2 === o3) return o2;
+    // If it's different, we're in a hole time. The offset has changed, but we don't adjust the time
+    return Math.max(o2, o3);
+}
+function validateTimezone(hours, minutes) {
+    return -23 <= hours && hours <= 23 && (minutes == null || 0 <= minutes && minutes <= 59);
+}
+var validIANATimezoneCache = {};
+function isValidTimezoneIANAString(timeZoneString) {
+    if (validIANATimezoneCache[timeZoneString]) return true;
+    try {
+        new Intl.DateTimeFormat(undefined, {
+            timeZone: timeZoneString
+        });
+        validIANATimezoneCache[timeZoneString] = true;
+        return true;
+    } catch (error) {
+        return false;
+    }
+}
 
-},{"../../../_lib/buildMatchFn/index.js":"2nEf9","../../../_lib/buildMatchPatternFn/index.js":"4GjCS","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["dFruI","994m5"], "994m5", "parcelRequire9681")
+},{"../tzTokenizeDate/index.js":"bFZ6t","../newDateUTC/index.js":"i0Ku6","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"bFZ6t":[function(require,module,exports) {
+/**
+ * Returns the [year, month, day, hour, minute, seconds] tokens of the provided
+ * `date` as it will be rendered in the `timeZone`.
+ */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "default", ()=>tzTokenizeDate);
+function tzTokenizeDate(date, timeZone) {
+    var dtf = getDateTimeFormat(timeZone);
+    return dtf.formatToParts ? partsOffset(dtf, date) : hackyOffset(dtf, date);
+}
+var typeToPos = {
+    year: 0,
+    month: 1,
+    day: 2,
+    hour: 3,
+    minute: 4,
+    second: 5
+};
+function partsOffset(dtf, date) {
+    try {
+        var formatted = dtf.formatToParts(date);
+        var filled = [];
+        for(var i = 0; i < formatted.length; i++){
+            var pos = typeToPos[formatted[i].type];
+            if (pos >= 0) filled[pos] = parseInt(formatted[i].value, 10);
+        }
+        return filled;
+    } catch (error) {
+        if (error instanceof RangeError) return [
+            NaN
+        ];
+        throw error;
+    }
+}
+function hackyOffset(dtf, date) {
+    var formatted = dtf.format(date).replace(/\u200E/g, "");
+    var parsed = /(\d+)\/(\d+)\/(\d+),? (\d+):(\d+):(\d+)/.exec(formatted);
+    // var [, fMonth, fDay, fYear, fHour, fMinute, fSecond] = parsed
+    // return [fYear, fMonth, fDay, fHour, fMinute, fSecond]
+    return [
+        parsed[3],
+        parsed[1],
+        parsed[2],
+        parsed[4],
+        parsed[5],
+        parsed[6]
+    ];
+}
+// Get a cached Intl.DateTimeFormat instance for the IANA `timeZone`. This can be used
+// to get deterministic local date/time output according to the `en-US` locale which
+// can be used to extract local time parts as necessary.
+var dtfCache = {};
+function getDateTimeFormat(timeZone) {
+    if (!dtfCache[timeZone]) {
+        // New browsers use `hourCycle`, IE and Chrome <73 does not support it and uses `hour12`
+        var testDateFormatted = new Intl.DateTimeFormat("en-US", {
+            hour12: false,
+            timeZone: "America/New_York",
+            year: "numeric",
+            month: "numeric",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit"
+        }).format(new Date("2014-06-25T04:00:00.123Z"));
+        var hourCycleSupported = testDateFormatted === "06/25/2014, 00:00:00" || testDateFormatted === "‎06‎/‎25‎/‎2014‎ ‎00‎:‎00‎:‎00";
+        dtfCache[timeZone] = hourCycleSupported ? new Intl.DateTimeFormat("en-US", {
+            hour12: false,
+            timeZone: timeZone,
+            year: "numeric",
+            month: "numeric",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit"
+        }) : new Intl.DateTimeFormat("en-US", {
+            hourCycle: "h23",
+            timeZone: timeZone,
+            year: "numeric",
+            month: "numeric",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit"
+        });
+    }
+    return dtfCache[timeZone];
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"i0Ku6":[function(require,module,exports) {
+/**
+ * Use instead of `new Date(Date.UTC(...))` to support years below 100 which doesn't work
+ * otherwise due to the nature of the
+ * [`Date` constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date#interpretation_of_two-digit_years.
+ *
+ * For `Date.UTC(...)`, use `newDateUTC(...).getTime()`.
+ */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "default", ()=>newDateUTC);
+function newDateUTC(fullYear, month, day, hour, minute, second, millisecond) {
+    var utcDate = new Date(0);
+    utcDate.setUTCFullYear(fullYear, month, day);
+    utcDate.setUTCHours(hour, minute, second, millisecond);
+    return utcDate;
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"giQZf":[function(require,module,exports) {
+/** Regex to identify the presence of a time zone specifier in a date string */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var tzPattern = /(Z|[+-]\d{2}(?::?\d{2})?| UTC| [a-zA-Z]+\/[a-zA-Z_]+(?:\/[a-zA-Z_]+)?)$/;
+exports.default = tzPattern;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dFmbz":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "default", ()=>utcToZonedTime);
+var _indexJs = require("../_lib/tzParseTimezone/index.js");
+var _indexJsDefault = parcelHelpers.interopDefault(_indexJs);
+var _indexJs1 = require("../toDate/index.js");
+var _indexJsDefault1 = parcelHelpers.interopDefault(_indexJs1);
+function utcToZonedTime(dirtyDate, timeZone, options) {
+    var date = (0, _indexJsDefault1.default)(dirtyDate, options);
+    var offsetMilliseconds = (0, _indexJsDefault.default)(timeZone, date, true);
+    var d = new Date(date.getTime() - offsetMilliseconds);
+    var resultDate = new Date(0);
+    resultDate.setFullYear(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
+    resultDate.setHours(d.getUTCHours(), d.getUTCMinutes(), d.getUTCSeconds(), d.getUTCMilliseconds());
+    return resultDate;
+}
+
+},{"../_lib/tzParseTimezone/index.js":"kzqA4","../toDate/index.js":"lwKwP","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"a4cNs":[function(require,module,exports) {
+//* функция сохранения списка городов в localStorage
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "saveFavoriteCitiesInlocalStorage", ()=>saveFavoriteCitiesInlocalStorage);
+//* функция получения списка городов из localStorage
+parcelHelpers.export(exports, "getFavoriteCitiesFromlocalStorage", ()=>getFavoriteCitiesFromlocalStorage);
+//* функция сохранения актуального города в localStorage
+parcelHelpers.export(exports, "saveCurrentCityInLocalStorage", ()=>saveCurrentCityInLocalStorage);
+//* функция получения актуального города в localStorage
+parcelHelpers.export(exports, "getCurrentCityFromlocalStorage", ()=>getCurrentCityFromlocalStorage);
+function saveFavoriteCitiesInlocalStorage(cities) {
+    const cityList = JSON.stringify(cities);
+    localStorage.setItem("favoriteCities", cityList);
+}
+function getFavoriteCitiesFromlocalStorage() {
+    const cityList = localStorage.getItem("favoriteCities");
+    const result = JSON.parse(cityList);
+    return result || [];
+}
+function saveCurrentCityInLocalStorage(cityName) {
+    localStorage.setItem("currentCity", cityName);
+}
+function getCurrentCityFromlocalStorage() {
+    return localStorage.getItem("currentCity") || "Vladivostok";
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["dFruI","994m5"], "994m5", "parcelRequire9681")
 
 //# sourceMappingURL=index.3878d7c6.js.map
