@@ -64,7 +64,9 @@ for (const tab of tabs) {
 }
 
 // start
-render(await getDataWeather(startCity));
-cityNameInputValue.setAttribute("placeholder", startCity);
-renderCityList();
-cityNameInputValue.focus();
+(async function () {
+  render(await getDataWeather(startCity));
+  cityNameInputValue.setAttribute("placeholder", startCity);
+  renderCityList();
+  cityNameInputValue.focus();
+})();

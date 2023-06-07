@@ -1,11 +1,18 @@
 {
-  "name": "karlinv",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC"
+	"name": "karlinv",
+	"version": "1.0.0",
+	"description": "",
+	"main": "dist/index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"date-fns": "^2.30.0",
+		"date-fns-tz": "^2.0.0"
+	},
+	"devDependencies": {
+		"parcel": "^2.9.1"
+	}
 }

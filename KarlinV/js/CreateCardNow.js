@@ -2,6 +2,8 @@ import { createEl, convertKelvinToCelsius } from "./config.js";
 import { renderCityList } from "./createLocationPoints.js";
 import { arrCityList } from "./constants.js";
 import { storage } from "./saveLocalStorage.js";
+import iconLikeCity from "../img/Shape.svg";
+import iconLikeCityActive from "../img/shape_true.svg";
 
 export const createCardNow = (data) => {
   const cardNow = createEl("div");
@@ -21,7 +23,8 @@ export const createCardNow = (data) => {
   cardNowSityLike.dataset.like = arrCityList.indexOf(data.city.name) === -1 ? false : true;
 
   if (cardNowSityLike.dataset.like === "true") {
-    cardNowSityLike.style.backgroundImage = "url(./img/shape_true.svg)";
+    // cardNowSityLike.classList.add("like-active");
+    cardNowSityLike.style.backgroundImage = `url(${iconLikeCityActive})`;
   }
 
   cardNowTemperature.textContent = `${convertKelvinToCelsius(data.list[0].main.temp)}°`;
@@ -34,14 +37,14 @@ export const createCardNow = (data) => {
     if (event.target.classList.value === "card__now-sity-like") {
       if (cardNowSityLike.dataset.like === "false") {
         cardNowSityLike.dataset.like = true;
-        cardNowSityLike.style.backgroundImage = "url(./img/shape_true.svg)";
+        cardNowSityLike.style.backgroundImage = `url(${iconLikeCityActive})`;
 
         arrCityList.push(data.city.name);
         storage.setFavoriteCities(arrCityList);
         renderCityList();
       } else {
         cardNowSityLike.dataset.like = false;
-        cardNowSityLike.style.backgroundImage = "url(./img/Shape.svg)";
+        cardNowSityLike.style.backgroundImage = `url(${iconLikeCity})`;
 
         const indexCity = arrCityList.indexOf(data.city.name);
         arrCityList.splice(indexCity, 1);

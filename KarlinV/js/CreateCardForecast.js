@@ -1,4 +1,6 @@
-import { createEl, convertKelvinToCelsius, convertUnixTimeToTime, convertUnixTimeToDate } from "./config.js";
+import { createEl, convertKelvinToCelsius } from "./config.js";
+import { SECOND } from "./constants.js";
+import { format } from "date-fns-tz";
 
 export const createCardForecast = (data) => {
   const cardForecast = createEl("div");
@@ -31,8 +33,8 @@ export const createCardForecast = (data) => {
     itemInfoRightContent.classList.add("card__forecast-item-info-right");
     itemInfoStatusIcon.classList.add("card__forecast-item-info-icon");
 
-    itemDay.textContent = convertUnixTimeToDate(dataItem.dt, +data.city.timezone);
-    itemTime.textContent = convertUnixTimeToTime(dataItem.dt, +data.city.timezone);
+    itemDay.textContent = format(new Date(dataItem.dt * SECOND), "dd MMM", { timeZone: +data.city.timezone });
+    itemTime.textContent = format(new Date(dataItem.dt * SECOND), "HH:mm", { timeZone: +data.city.timezone });
     itemInfoTemperature.textContent = `Temperature: ${convertKelvinToCelsius(dataItem.main.temp)}°`;
     itemInfoFeelsLike.textContent = `Feels like: ${convertKelvinToCelsius(dataItem.main.feels_like)}°`;
     itemInfoStatusText.textContent = dataItem.weather[0].main;

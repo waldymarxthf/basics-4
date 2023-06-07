@@ -1,12 +1,18 @@
-import { createEl, convertKelvinToCelsius, convertUnixTimeToTime } from "./config.js";
+import { createEl, convertKelvinToCelsius } from "./config.js";
+import { SECOND } from "./constants.js";
+import { format } from "date-fns-tz";
 
 export const createCardDetails = (data) => {
   const contentItemInfo = [
     `Temperature: ${convertKelvinToCelsius(data.list[0].main.temp)}°`,
     `Feels like: ${convertKelvinToCelsius(data.list[0].main.feels_like)}°`,
     `Weather: ${data.list[0].weather[0].main}`,
-    `Sunrise: ${convertUnixTimeToTime(data.city.sunrise, +data.city.timezone)}`,
-    `Sunset: ${convertUnixTimeToTime(data.city.sunset, +data.city.timezone)}`,
+    `Sunrise: ${format(new Date(data.city.sunrise * SECOND), "HH:mm", {
+      timeZone: +data.city.timezone,
+    })}`,
+    `Sunset: ${format(new Date(data.city.sunset * SECOND), "HH:mm", {
+      timeZone: +data.city.timezone,
+    })}`,
   ];
 
   const cardDetails = createEl("div");

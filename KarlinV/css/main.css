@@ -138,7 +138,7 @@ li {
 	left: 50%;
 	width: 200px;
 	height: 200px;
-	background-image: url("http://openweathermap.org/img/wn/04d.png");
+	/* background-image: url("http://openweathermap.org/img/wn/04d.png"); */
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-size: contain;
@@ -163,6 +163,13 @@ li {
 	background-position: center center;
 	cursor: pointer;
 }
+
+.card__now-sity-like.like-active {
+	background-image: url("../img/shape_true.svg");
+}
+
+/* "main": "index.html",
+ "type": "html", */
 .card__details {
 	padding: 33px 15px;
 }
