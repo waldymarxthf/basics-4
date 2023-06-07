@@ -222,5 +222,5 @@ likeButton.addEventListener("click", addLocation);
 loadLocations(locations);
 
 const lastLocation = loadLastLocation();
-await updateWeather(lastLocation)
+updateWeather(lastLocation)
 renderAddedLocations();
