@@ -5,7 +5,8 @@ import {
   loadFromLocalStorage,
   saveLocationToLocalStorage,
 } from "./modules/localstorage.mjs";
-
+import { format } from "date-fns";
+import { utcToZonedTime } from "date-fns-tz";
 //-------------------------------------------------------------------------------------
 let listOfCities = [];
 let uniqueCities = [];
@@ -161,26 +162,20 @@ function createEl(city) {
   });
 }
 
-//-------------------------------------------------------------------------------------
+//---------------------------------------<Time and Date converters>----------------------------------------------
 
 function timeConverter(time, timezone = 0) {
   const newDate = new Date((time + timezone) * 1000);
-  const localTime = newDate.toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit",
-    timeZone: "UTC",
-  });
-  return localTime;
+  const localTime = utcToZonedTime (newDate, 'UTC')
+  const dateFormat = format(localTime,'HH:mm')
+  return dateFormat;
 }
 
 function dateConverter(date, timezone) {
   const newDate = new Date((date + timezone) * 1000);
-  const localDate = newDate.toLocaleString("en-GB", {
-    day: "numeric",
-    month: "long",
-    timeZone: "UTC"
-  });
-  return localDate;
+  const localDate = utcToZonedTime (newDate, 'UTC')
+  const dateFormat = format(localDate,'HH:mm')
+  return dateFormat;
 }
 
 //---------------------------------------<Events>--------------------------------------
