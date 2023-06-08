@@ -1,8 +1,8 @@
 function timeConverter(UNIX_timestamp){
-  var a = new Date(UNIX_timestamp * 1000);
-  var hour = a.getHours();
-  var min = a.getMinutes();
-  var time = hour + ':' + min ;
+  const a = new Date(UNIX_timestamp * 1000);
+  const hour = a.getHours();
+  const min = a.getMinutes();
+  const time = hour + ':' + min ;
   return time;
 }
 

@@ -1,8 +1,9 @@
-import { format } from 'date-fns';
+//import { format } from 'date-fns';
+import{setCookie,readCookie} from './cookies.js'
 import { tabs, weatherBlock, UI_ELEMNTS } from './ui_elements.js';
 import { timeConverter } from './utils.js';
 
-console.log(format(new Date(2014, 1, 11), "yyyy-MM-dd"))
+//console.log(format(new Date(2014, 1, 11), "yyyy-MM-dd"))
 
 tabs.forEach((tab, index) => {
   tab.addEventListener('click', () => {
@@ -36,7 +37,8 @@ async function getCityFromAPI(input) {
 
   const data = await fetch(url);
   const result = await data.json()
-  localStorage.setItem("lastCity", cityName)
+  setCookie("lastCity", cityName)
+ // localStorage.setItem("lastCity", cityName)
   return result
 }
 
@@ -116,10 +118,10 @@ function clearInput(input) {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  let lastCity = localStorage.getItem("lastCity")
+  let lastCity = readCookie("lastCity")
   if (!lastCity) {
     lastCity = "Chernihiv"
-    localStorage.setItem("lastCity", lastCity)
+    setCookie("lastCity", lastCity)
   }
   updateWeather(lastCity)
 })
