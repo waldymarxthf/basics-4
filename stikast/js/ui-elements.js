@@ -1,14 +1,14 @@
 export {
-  searchForm,
-  searchInput,
-  nowTemperature,
-  nowCityName,
-  nowIcon,
-  likeButton,
+	searchForm,
+	searchInput,
+	nowTemperature,
+	nowCityName,
+	nowIcon,
+	likeButton,
 	like,
-  addedLocationsList,
-  tabs,
-  screens,
+	addedLocationsList,
+	tabs,
+	screens,
 	detailsTitle,
 	detailsTemperature,
 	detailsFeels,
@@ -51,4 +51,4 @@ const forecastTime = document.querySelectorAll(".forecast_time");
 const forecastTemperature = document.querySelectorAll(".forecast_temperature");
 const forecastFeels = document.querySelectorAll(".forecast_feels");
 const forecastWeather = document.querySelectorAll(".forecast_icon_text");
-const forecastIcon = document.querySelectorAll(".forecast_icon_img")
+const forecastIcon = document.querySelectorAll(".forecast_icon_img");
