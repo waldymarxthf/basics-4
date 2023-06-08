@@ -6,7 +6,6 @@ import {
   WEATHER_FORECAST,
   WEATHER_DETAILS,
   WEATHER_NOW,
-
 } from './assets/variables';
 
 import storage from './assets/localstorage';
