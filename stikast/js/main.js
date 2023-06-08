@@ -127,7 +127,7 @@ async function getWeather(location) {
     }
   } catch (error) {
     alert(error.message);
-    console.log(error.message);
+    // console.log(error.message);
   }
 }
 
@@ -199,7 +199,7 @@ async function updateWeather(location) {
 		await updateDetails(city);
 		await updateForecast(forecast);
 	} catch (error) {
-		console.error(error)
+		// console.error(error)
 	}
 }
 
