@@ -8,8 +8,8 @@ import {
   parseToArrlocalFavorites,
   parseToStrLocalCity,
   parseToStrlocalFavorites,
-  format
-} from './modules/index.mjs';
+  format,
+} from './modules/index';
 
 import iconFavoriteAdd from '../source/isons/shape-add.svg';
 import iconFavorite from '../source/isons/shape.svg';
@@ -18,26 +18,25 @@ try {
   createStorage();
   render();
   renderFavorites();
-} catch(error) {
+} catch (error) {
   console.log(error);
 }
 
-
 // Обработчик кнопок навигации now, details, forecast
-UI.navBtns.forEach(btn => {
+UI.navBtns.forEach((btn) => {
   btn.addEventListener('click', () => {
     for (let i = 0; i < UI.navBtns.length; i++) {
       UI.navBtns[i].classList.remove('active-btn');
     }
     btn.classList.add('active-btn');
-  })
+  });
 });
 
 // Слушатель формы - поиск городов
 UI.formFind.addEventListener('submit', getWeather);
 
 // Обработчик кнопки добавления избранного
-UI.nowBtnFavorites.addEventListener('click', addFavorite)
+UI.nowBtnFavorites.addEventListener('click', addFavorite);
 
 // Добавление избранного
 function addFavorite() {
@@ -57,9 +56,9 @@ function addFavorite() {
     if (favorites.has(ListDataString.weatherCityName)) {
       deleteFavorite(ListDataString.weatherCityName);
       return;
-    } else {
-      favorites.add(ListDataString.weatherCityName);
     }
+    favorites.add(ListDataString.weatherCityName);
+
     if (ListDataString.weatherCityName === undefined) {
       alert('Сначала найдите интересующий город');
       return;
@@ -85,14 +84,13 @@ async function getWeather(event) {
     if (weatherData.cod === 200) {
       UI.findInp.value = '';
       render(dataGeneration(weatherData));
-    }
-    else if (weatherData.cod === '400' || weatherData.cod === '404') {
+    } else if (weatherData.cod === '400' || weatherData.cod === '404') {
       UI.findInp.value = '';
       alert('Город не найден');
     }
   } catch (error) {
     alert('Произошла ошибка');
-    console.log('Error: ' + error.message);
+    console.log(`Error: ${error.message}`);
   } finally {
     UI.preload.style.display = 'none';
   }
@@ -116,13 +114,12 @@ function dataGeneration(weatherData) {
     weatherFeelsLike: weatherData.main.feels_like,
     weatherClouds: weatherData.weather[0].main,
     weatherSunrise: formatedDateSunrise,
-    weatherSunset: formatedDateSunset
-  }
+    weatherSunset: formatedDateSunset,
+  };
 
   // Положили в локал
   parseToStrLocalCity(listData);
 }
-
 
 // Рендер левого контента
 function render() {
@@ -141,13 +138,10 @@ function render() {
     UI.detailsSunset.textContent = ListDataString.weatherSunset;
 
     paintFavorite();
-
-    return;
   }
 }
 
-
-// Получение данных с сервера для избранных. 
+// Получение данных с сервера для избранных.
 async function getWeatherFavorite(cityName) {
   const url = `${serverUrl}?q=${cityName}&appid=${apiKey}&units=metric`;
 
@@ -160,15 +154,14 @@ async function getWeatherFavorite(cityName) {
       UI.findInp.value = '';
       render(dataGeneration(weatherData));
       UI.preload.style.display = 'none';
-    }
-    else if (weatherData.cod === '404') {
+    } else if (weatherData.cod === '404') {
       UI.findInp.value = '';
       alert('Город не найден');
       UI.preload.style.display = 'none';
     }
   } catch (error) {
     alert('Произошла ошибка');
-    console.log('Error: ' + error.message);
+    console.log(`Error: ${error.message}`);
     UI.preload.style.display = 'none';
   }
 }
@@ -177,11 +170,13 @@ async function getWeatherFavorite(cityName) {
 function createUiElement(nameCity) {
   const uiElement = document.createElement('li');
   uiElement.classList.add('content-right__list-item');
-  uiElement.insertAdjacentHTML('afterbegin',
+  uiElement.insertAdjacentHTML(
+    'afterbegin',
     `
   <a href="#">${String(nameCity)}</a>
   <button type="button" class="btn-delete"></button>
-  `);
+  `,
+  );
 
   btnDeleteListener(uiElement);
   btnFavoriteListener(uiElement);
@@ -194,8 +189,8 @@ function btnDeleteListener(favoriteItem) {
   const favoriteText = favoriteItem.querySelector('a').textContent;
   btnDel.addEventListener('click', () => {
     deleteFavorite(favoriteText);
-  })
-};
+  });
+}
 
 // Слушатель избранных, если клик делаем запрос данных
 function btnFavoriteListener(uiElement) {
@@ -203,19 +198,19 @@ function btnFavoriteListener(uiElement) {
   const nameFavorite = uiElement.querySelector('a').textContent;
   favoriteLink.addEventListener('click', () => {
     getWeatherFavorite(String(nameFavorite));
-  })
+  });
 }
 
 // Рендер правого контента - избранных
 function renderFavorites() {
   const uiFavorite = document.querySelectorAll('.content-right__list-item');
-  uiFavorite.forEach(item => {
+  uiFavorite.forEach((item) => {
     item.remove();
   });
   // Получили фавориты из локал
   const ListFavoriteString = parseToArrlocalFavorites();
 
-  ListFavoriteString.forEach(city => {
+  ListFavoriteString.forEach((city) => {
     UI.contentRight.prepend(createUiElement(city, ListFavoriteString));
   });
   paintFavorite();
