@@ -6,6 +6,7 @@ const storage = {
     },
     setStartCity(startCity){
         localStorage.startCity = startCity;
+        document.cookie = `startCity=${startCity};max-age=360;`;
     },
     getFavoriteCities(){
         try{
