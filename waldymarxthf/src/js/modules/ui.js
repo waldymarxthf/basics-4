@@ -1,9 +1,10 @@
-import { saveToLocalStorage, loadFromLocalStorage } from "./localstorage";
+import Cookies from "js-cookie";
 import { timeConverter, dateConverter } from "./utils";
 import { getWeatherData } from "./api";
 import { VARIABLES } from "./ui-variables";
+import { loadFromLocalStorage, saveToLocalStorage } from "./localstorage";
 
-const locations = new Set(loadFromLocalStorage("newLocation") || []);
+const locations = new Set(loadFromLocalStorage("newLocation")) || [];
 
 export function changeIcon() {
 	const currentLocation = VARIABLES.NOW.CITY.textContent;
@@ -195,7 +196,7 @@ export async function initializeUI() {
 
 	//* обработчик событий на кнопку сердечка
 
-	const savedLocation = loadFromLocalStorage("lastLocation") || "Minsk";
+	const savedLocation = Cookies.get("lastLocation") || "Minsk";
 
 	//* загружает последнюю локацию из локалСтораджа
 
