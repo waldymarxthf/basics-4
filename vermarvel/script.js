@@ -1,33 +1,37 @@
 "use strict";
 
 import { dom } from "./dom.mjs";
-import store from "./store.mjs";
+import { store, cookies } from "./store.mjs";
 import err from "./err.mjs";
 import { format } from "date-fns";
 const { RunError, NotFoundError, ConnectionError } = err;
+//MEMORY RESTART
+// store.clear();
+// localStorage.removeItem("keeper");
+//Restart Cookie:
+// decookify("Havana");
 
-// Variables
+// States nullified
 let rawInput = null;
-let uiCityName = null;
-let curFav;
+let curFav = null;
 
 const serverUrl = "http://api.openweathermap.org/data/2.5/weather";
 const apiKey = "afc9f2df39f9e9e49eeb1afac7034d35";
 // const apiKey = "bee4bd6edc3ca09763c0dc89f33c92c4"; // spare apiKey
-// localStorage.removeItem("keeper");
+
 let keeper = JSON.parse(store.get("keeper")) || [];
 
-// Helper functions
 
+// RESETS
 function resetInput() {
   dom.input.value = "";
 }
 
-// clear Favs
+// CLEAR FAVs SCREEN
 function resetFavScr() {
   dom.parentFavs.innerHTML = "";
 }
-
+// INPUTS
 // Get user input
 function getInput() {
   rawInput = dom.input.value;
@@ -38,6 +42,7 @@ function toggleCheckbox() {
 
   if (isChecked) {
     keeper.push(dom.nowPageCity.textContent);
+    keeper = getUniques(keeper);
     store.set("keeper", JSON.stringify(keeper));
   } else {
     console.log(keeper);
@@ -47,7 +52,8 @@ function toggleCheckbox() {
   renderFavs();
 }
 
-// Error
+//
+// ERRORS
 function renderError(errorMessage) {
   dom.errorMsg.textContent = errorMessage;
   dom.errorBox.classList.remove("hidden");
@@ -58,12 +64,13 @@ function hideErrorBox() {
   dom.errorBox.classList.add("hidden");
   dom.input.setAttribute("placeholder", "Search");
 }
-
+// Helper functions
 // Data processing
 function convertTime(time, tZone, standard) {
   const date = new Date((time + tZone) * 1000);
 
   if (standard === "HH:mm") {
+    // without libraries:
     // const hours = ("0" + date.getUTCHours()).slice(-2);
     // const minutes = ("0" + date.getUTCMinutes()).slice(-2);
     // const formattedTime = hours + ":" + minutes;
@@ -72,6 +79,7 @@ function convertTime(time, tZone, standard) {
   }
 
   if (standard === "MMM dd") {
+    // without libraries:
     // const options = { day: "numeric", month: "short" };
     // let formattedDate = date.toLocaleDateString("en-US", options);
 
@@ -83,6 +91,10 @@ function tempFormatted(data) {
   return Math.round(data);
 }
 
+// Clear of dupes
+function getUniques(array) {
+  return Array.from(new Set(array));
+}
 // Promise
 async function getJSON(url) {
   try {
@@ -100,23 +112,20 @@ async function getJSON(url) {
   }
 }
 //%%%%%%%%%%%%%%% Business Logics  %%%%%%%%%%%%%%%%%%%%%
-
+// GET DATA
 // Process input (chained promises)
 async function getData() {
   hideErrorBox();
   try {
-    // Defining current favourite
+    // Check for the current favourite
     if (!curFav || curFav === null || curFav === undefined) {
-      curFav = store.get("curFav") || rawInput || keeper[0] || "Shymkent";
+      curFav =
+        cookies.uncookify("curFav") || rawInput || keeper[0] || "Shymkent";
     }
 
-    if (!rawInput) {
-      rawInput = curFav;
-    }
-    // Store
-    store.set("curFav", curFav);
-
-    const url = `${serverUrl}?q=${rawInput}&appid=${apiKey}&units=metric`;
+    const url = `${serverUrl}?q=${
+      rawInput || curFav
+    }&appid=${apiKey}&units=metric`;
     const data = await getJSON(url, "City not found");
 
     const {
@@ -174,18 +183,19 @@ async function getDataForecast({ lat, lon, tZone }) {
   }
 }
 
-// Display the data
+// DISPLAY DATA
 function displayNow({ uiCityName, uiTemp, icon }) {
+  curFav = uiCityName;
   // set the corresponding checknox
   dom.parentHeart.classList.remove("hidden");
 
-  keeper.includes(uiCityName)
+  keeper.includes(curFav)
     ? (dom.checkboxHeart.checked = true)
     : (dom.checkboxHeart.checked = false);
 
-  dom.nowPageCity.textContent = uiCityName;
-  dom.detailsCity.textContent = uiCityName;
-  dom.fcCity.textContent = uiCityName;
+  dom.nowPageCity.textContent = curFav;
+  dom.detailsCity.textContent = curFav;
+  dom.fcCity.textContent = curFav;
 
   const imgUrl = `https://openweathermap.org/img/wn/${icon}@4x.png`;
   dom.iconCloudImg.setAttribute("src", imgUrl);
@@ -239,7 +249,7 @@ function displayForecast(arr, tZone) {
     img.src = imgUrl;
     fcIcon.appendChild(img);
     img.classList.add("mini-icon");
-    // nest the div and make it visible
+    // nest the div, make it visible
     dom.parentForecast.appendChild(copiedLi);
     copiedLi.classList.remove("hidden");
   });
@@ -247,11 +257,11 @@ function displayForecast(arr, tZone) {
 
 // %%%%%%%%%%%%%%%%%%%%%%% FAVs %%%%%%%%%%%%%%%%%%%%%%%%%%
 
-// Render the Favourites list
+// RENDER ALL FAVS
 function renderFavs() {
   resetFavScr();
-
   if (!keeper.length) return;
+  keeper = keeper = JSON.parse(store.get("keeper"));
   keeper.forEach((city) => {
     // assemble a div
     const copiedDiv = dom.sourceFav.cloneNode(true);
@@ -266,36 +276,35 @@ function renderFavs() {
     }
   });
 }
-
-// Display first FAV
-function displayCurFav() {
-  rawInput = curFav;
-  getData();
-}
-
-function deleteFav(uiCityName, keeper) {
-  // keeper = keeper.filter((city) => city !== uiCityName);
+// DELETE A CITY FROM FAVS
+function deleteFav(toBeDeleted, keeper) {
+  keeper = keeper.filter((city) => city !== toBeDeleted);
   // Instead RECURSION:
-  function delCityRecursive(i = 0, keeper) {
-    console.log(i, keeper);
-    if (i > keeper.length) return;
-    if (keeper[i] === uiCityName) {
-      return keeper.splice(i, 1);
-    }
-    return delCityRecursive(i + 1, keeper);
-  }
-  delCityRecursive(0, keeper);
+  // function delCityRecursive(i = 0, keeper) {
+  //   console.log(i, keeper);
+  //   if (i > keeper.length) return;
+  //   if (keeper[i] === uiCityName) {
+  //     return keeper.splice(i, 1);
+  //   }
+  //   return delCityRecursive(i + 1, keeper);
+  // }
+  // delCityRecursive(0, keeper);
 
-  if (dom.nowPageCity.textContent === uiCityName) {
+  // Store updated keeper
+  store.set("keeper", JSON.stringify(keeper));
+  // Check the heart checkbox
+  if (dom.nowPageCity.textContent === curFav) {
     dom.checkboxHeart.checked = false;
   }
+  // Declare the new curFav incase the keeper is empty
   if (!keeper.length) {
-    curFav = uiCityName || "Shymkent";
+    curFav = cookies.uncookify("curFav") || "Shymkent";
   }
 
   // Store
-  store.set("curFav", curFav);
-  store.set("keeper", JSON.stringify(keeper));
+  // store.set("curFav", curFav);
+  cookies.cookify("curFav", curFav);
+
   renderFavs();
 }
 
@@ -337,31 +346,25 @@ dom.checkboxHeart.addEventListener("change", toggleCheckbox);
 dom.parentFavs.addEventListener("click", function (event) {
   const target = event.target;
 
-  // Display
+  // DISPLAY a city
   if (
     target.classList.contains("text") ||
     target.classList.contains("fav-city")
   ) {
     curFav = target.closest(".fav-city")?.querySelector(".text").textContent;
-    dom.input.textContent = curFav;
-    displayCurFav();
 
-    // Store curFav
-    store.set("curFav", curFav);
-    dom.input.value = curFav;
-    // rawInput = curFav;
-
+    // Store curFav in cookie
+    cookies.cookify("curFav", curFav);
     getData();
-    renderFavs();
   }
 
-  // Delete
+  // DELETE a city
   if (target.classList.contains("fa-xmark")) {
     const targetText =
       target.parentElement.parentElement.querySelector(".text");
-    uiCityName = targetText.textContent;
-    console.log(keeper);
-    deleteFav(uiCityName, keeper);
+    const toBeDeleted = targetText.textContent;
+
+    deleteFav(toBeDeleted, keeper);
   }
 });
 
@@ -378,7 +381,7 @@ dom.tabs.addEventListener("click", function (event) {
   dom.forecastPage.classList.add("hidden");
 
   // Detect target page
-  const pageID = target.getAttribute("data-target");
+  const pageID = target.dataset.target;
   const pageToOpen = dom[pageID];
 
   // Open the target page

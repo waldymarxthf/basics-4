@@ -9,7 +9,6 @@ module.exports = {
     sourceType: "module",
   },
   rules: {
-    "space-in-parens": ["error", "always"],
     "comma-dangle": ["error", "always-multiline"],
     "indent": ["error", 2],
     "linebreak-style": ["error", "unix"],
