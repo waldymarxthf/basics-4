@@ -5,6 +5,8 @@ export const storage = {
   },
   saveCurrentCity(cityName) {
     localStorage.setItem('currentCity', cityName);
+    document.cookie = 'city=' + encodeURIComponent(cityName);
+    console.log(document.cookie);
   },
   getFavoriteCities() {
     const json = localStorage.getItem('favoriteCities');
