@@ -5,7 +5,6 @@ import {
   nowCityName,
   nowIcon,
   likeButton,
-	like,
   addedLocationsList,
   tabs,
   screens,
@@ -56,7 +55,7 @@ function addLocation() {
 		}
 
 		locations.add(nowCityName.textContent);
-		console.log(locations)
+		// console.log(locations)
 		saveLocation(locations);
 		renderAddedLocations();
 
@@ -84,7 +83,7 @@ function createAddedLocations(item) {
     // const index = locations.findIndex((item) => item === newLocation.textContent);
     // locations.splice(index, 1);
 		locations.delete(newLocation.textContent)
-		console.log(locations)
+		// console.log(locations)
     saveLocation(locations);
     renderAddedLocations();
   });
@@ -102,7 +101,6 @@ function renderAddedLocations() {
 }
 
 async function getForecast(location) {
-	try {
 		const url = `${forecastUrl}?q=${location}&appid=${apiKey}&units=metric`;
 		const response = await fetch(url);
 		
@@ -110,13 +108,9 @@ async function getForecast(location) {
       throw new Error((await response.json()).message);
     } else {
       const data = await response.json();
-			console.log(data)
+			// console.log(data)
       return data;
     }
-  } catch (error) {
-    alert(error.message);
-    console.log(error.message);
-  }
 }
 
 async function getWeather(location) {
@@ -168,8 +162,8 @@ async function updateForecast(data) {
 	forecastTitle.textContent = data.city.name;
 
 	forecastDate.forEach((date, index) => {
-		let dateForecast = new Date((data.list[index].dt) * 1000);
-		let convertDate = dateForecast.toLocaleString("en-GB", {day: "numeric", month: "long"});
+		const dateForecast = new Date((data.list[index].dt) * 1000);
+		const convertDate = dateForecast.toLocaleString("en-GB", {day: "numeric", month: "long"});
 		date.textContent = convertDate;
 	})
 
