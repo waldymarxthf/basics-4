@@ -40,15 +40,16 @@ const repeatRequest = (city) => {
   getForecastData(city)
 }
 
-const getWeatherData = (city) => {
-  fetch(`${API.URL_WEATHER}?q=${city}&appid=${API.KEY}`)
-    .then((response) => {
-      if (!response.ok)
-        throw new Error(`${API_LOG.SERVER_ERROR}: ${response.status}`)
-      return response.json()
-    })
-    .then((data) => renderWeather(data))
-    .catch((error) => console.error(error))
+const getWeatherData = async (city) => {
+  try {
+    const response = await fetch(
+      `${API.URL_WEATHER}?q=${city}&appid=${API.KEY}`
+    )
+    const data = await response.json()
+    renderWeather(data)
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 const renderWeather = ({ weather, main, sys, name }) => {
@@ -94,26 +95,28 @@ const updateCityList = (name) => {
   })
 }
 
-const getForecastData = (city) => {
+const getForecastData = async (city) => {
   UI_ELEMENTS.LOADER.style.display = 'flex'
 
-  fetch(`${API.URL_FORECAST}?q=${city}&appid=${API.KEY}`)
-    .then((response) => {
-      if (!response.ok)
-        throw new Error(`${API_LOG.SERVER_ERROR}: ${response.status}`)
-      return response.json()
-    })
-    .then((data) => {
-      renderForecast(data)
-    })
-    .catch((error) => console.error(error))
-    .finally(() => (UI_ELEMENTS.LOADER.style.display = 'none'))
+  try {
+    const response = await fetch(
+      `${API.URL_FORECAST}?q=${city}&appid=${API.KEY}`
+    )
+    const data = await response.json()
+    renderForecast(data)
+  } catch (error) {
+    console.error(error)
+  } finally {
+    UI_ELEMENTS.LOADER.style.display = 'none'
+  }
 }
+
+// Рекурсия:
 
 const renderForecast = ({ list }) => {
   const renderForecastBlock = (index) => {
-    if (index >= list.length) return;
-    const element = list[index];
+    if (index >= list.length) return
+    const element = list[index]
     const data = {
       feelsLike: convertKelvinToCelsius(element.main.feels_like),
       temperature: convertKelvinToCelsius(element.main.temp),
@@ -122,12 +125,12 @@ const renderForecast = ({ list }) => {
       time: convertUnixToTime(element.dt),
       weather: element.weather[0].main,
     }
-    createForecastBlock(data);
-    renderForecastBlock(index + 1);
+    createForecastBlock(data)
+    renderForecastBlock(index + 1)
   }
 
-  UI_ELEMENTS.FORECAST_TAB_LIST.replaceChildren();
-  renderForecastBlock(0);
+  UI_ELEMENTS.FORECAST_TAB_LIST.replaceChildren()
+  renderForecastBlock(0)
 }
 
 const createForecastBlock = ({
