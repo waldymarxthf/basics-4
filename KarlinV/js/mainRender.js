@@ -1,4 +1,4 @@
-import { weatherCards } from "./constants.js";
+import { weatherCards } from "./config.js";
 import { createCardNow } from "./CreateCardNow.js";
 import { createCardDetails } from "./CreateCardDetails.js";
 import { createCardForecast } from "./CreateCardForecast.js";

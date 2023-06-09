@@ -1,5 +1,5 @@
 import { createEl, convertKelvinToCelsius } from "./config.js";
-import { SECOND } from "./constants.js";
+import { SECOND } from "./config.js";
 import { format } from "date-fns-tz";
 
 export const createCardDetails = (data) => {

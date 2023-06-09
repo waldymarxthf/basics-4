@@ -1,6 +1,5 @@
-import { createEl, convertKelvinToCelsius } from "./config.js";
 import { renderCityList } from "./createLocationPoints.js";
-import { arrCityList } from "./constants.js";
+import { arrCityList, createEl, convertKelvinToCelsius } from "./config.js";
 import { storage } from "./saveLocalStorage.js";
 import iconLikeCity from "../img/Shape.svg";
 import iconLikeCityActive from "../img/shape_true.svg";

@@ -1,8 +1,8 @@
-import { form, cityNameInputValue, arrCityList, tabs } from "./constants.js";
+import { form, cityNameInputValue, arrCityList, tabs } from "./config.js";
 import { getDataWeather } from "./weatherForecastFetcher.js";
 import { renderCityList } from "./createLocationPoints.js";
 import { render } from "./mainRender.js";
-import { startCity, weatherLocationList } from "./constants.js";
+import { startCity, weatherLocationList } from "./config.js";
 import { storage } from "./saveLocalStorage.js";
 import { cookies } from "./saveCookie.js";
 
@@ -42,8 +42,8 @@ form.addEventListener("submit", async (event) => {
     const data = await getDataWeather(cityNameInputValue.value);
     if (!data) return;
 
-    cookies.setCurrentCity(cityNameInputValue.value); // сохранение в cookie
-    // storage.setCurrentCity(cityNameInputValue.value);
+    cookies.setCurrentCity(cityNameInputValue.value);
+
     cityNameInputValue.setAttribute("placeholder", cityNameInputValue.value);
 
     render(data);

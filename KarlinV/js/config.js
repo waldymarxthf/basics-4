@@ -1,3 +1,11 @@
+import { storage } from "./saveLocalStorage.js";
+import { cookies } from "./saveCookie.js";
+
+export const form = document.querySelector(".form");
+export const cityNameInputValue = document.querySelector(".form__input");
+export const weatherCards = document.querySelector(".weather__cards");
+export const weatherLocationList = document.querySelector(".weather__location-list");
+export const tabs = document.querySelectorAll(".tab");
 export const createEl = (element) => document.createElement(element);
 
 export const convertKelvinToCelsius = (temp) => {
@@ -6,25 +14,8 @@ export const convertKelvinToCelsius = (temp) => {
   return celsius;
 };
 
-export const convertUnixTimeToTime = (unixTime, timeZone) => {
-  const date = new Date(unixTime * 1000);
-  const tZone = Intl.DateTimeFormat().resolvedOptions()[timeZone];
-  const timeOptions = {
-    hour: "numeric",
-    minute: "numeric",
-    hour12: false,
-    timeZone: tZone,
-  };
-  return new Intl.DateTimeFormat("default", timeOptions).format(date);
-};
+export const SECOND = 1000;
 
-export const convertUnixTimeToDate = (unixTime, timeZone) => {
-  const date = new Date(unixTime * 1000);
-  const tZone = Intl.DateTimeFormat().resolvedOptions()[timeZone];
-  const dateOptions = {
-    day: "numeric",
-    month: "short",
-    timeZone: tZone,
-  };
-  return new Intl.DateTimeFormat("default", dateOptions).format(date);
-};
+export const startCity = cookies.getCurrentCity("currentCity") || storage.getCurrentCity("currentCity") || "Moscow";
+
+export const arrCityList = storage.getFavoriteCities("favoriteCities") || [];

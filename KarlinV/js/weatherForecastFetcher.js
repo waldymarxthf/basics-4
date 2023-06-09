@@ -1,7 +1,8 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 const serverUrlForecast = `http://api.openweathermap.org/data/2.5/forecast`;
-// const apiKey = "f660a2fb1e4bad108d6160b7f58c555f";
-// const serverUrlForecast = `http://api.openweathermap.org/data/2.5/weather`;
-const apiKey = "5d14a0541969bfa699b8bba3100075ed";
+const apiKey = process.env.API_KEY_WEATHER;
 const FORECAST_NUMBER_OF_DAYS = 5;
 
 export const getDataWeather = async (cityName) => {
@@ -16,6 +17,5 @@ export const getDataWeather = async (cityName) => {
     return data;
   } catch (error) {
     console.error(error);
-    // alert(error.message);
   }
 };

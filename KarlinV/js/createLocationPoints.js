@@ -1,5 +1,5 @@
 import { createEl } from "./config.js";
-import { weatherLocationList, arrCityList } from "./constants.js";
+import { weatherLocationList, arrCityList } from "./config.js";
 
 export const renderCityList = () => {
   weatherLocationList.innerHTML = "";
