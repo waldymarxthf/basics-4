@@ -26,9 +26,9 @@ body {
     height: 30px;
     border: 1px solid #fff;
     border-radius: 8px;
-    padding-left: 8px;
+    padding-left: 20px;
     background: url(../images/date-today-svgrepo-com.svg) no-repeat center right;
-    padding-right: 10px;
+    
 }
 
 .button {
@@ -38,11 +38,13 @@ body {
     background: #005ab9;
     border-radius: 8px;
     border: none;
-    margin-left: 8px;
+    margin-left: 15px;
     box-shadow: rgba(26, 21, 131, 0.893) 0px 30px 60px -12px inset, rgba(232, 25, 204, 0.956) 0px 18px 36px -18px inset;
 }
 
-p {
+
+
+.date-area {
     font-size: 24px;
-    margin: 8px 0;
+    margin-top: 10px;
 }

@@ -1,3 +1,7 @@
+import { formatDuration, intervalToDuration } from 'date-fns';
+import { format } from 'date-fns';
+import { ru } from "date-fns/locale";
+
 const parentNode = document.querySelector('.date-area');
 const inputNode = document.querySelector('.input');
 const formNode = document.querySelector('.form');
@@ -7,8 +11,15 @@ function clearInput() {
 }
 
 function createDateElement() {
-    const test = inputNode.value;
-    console.log(test);
+    const date = inputNode.value;
+    const dateNow = new Date();
+    const interval = intervalToDuration({
+        start: new Date(date),
+        end: dateNow
+    });
+    const durationFormat = formatDuration(interval, { format: ["years", "days", "hours"], locale: ru });
+    parentNode.textContent = durationFormat
+    console.log(durationFormat)
     clearInput();
 }
 
