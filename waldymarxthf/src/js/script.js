@@ -7,6 +7,8 @@ const VARIABLES = {
 	TIME_LEFT: document.querySelector(".timer-left--time"),
 };
 
+let intervalID;
+
 function calcTime(date) {
 	const duration = intervalToDuration({
 		start: new Date(date),
@@ -18,7 +20,11 @@ function calcTime(date) {
 }
 
 function renderDate(date) {
-	setInterval(() => {
+	if (intervalID) {
+		clearInterval(intervalID);
+	}
+
+	intervalID = setInterval(() => {
 		const result = calcTime(date);
 
 		VARIABLES.TIME_LEFT.textContent = result;
