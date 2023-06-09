@@ -1,10 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	font-family: "Roboto";
+	font-family: 'Roboto';
 }
 
 .weather {
@@ -65,7 +65,7 @@ body {
 			margin-top: 98px;
 			margin-bottom: 17px;
 			&-city {
-				font-family: "Roboto";
+				font-family: 'Roboto';
 				font-style: normal;
 				font-weight: 400;
 				font-size: 24px;
@@ -87,7 +87,7 @@ body {
 		&-add {
 			height: 68.5px;
 			border-bottom: 1px solid #000000;
-			font-family: "Roboto";
+			font-family: 'Roboto';
 			font-style: normal;
 			font-weight: 400;
 			font-size: 24px;
@@ -106,7 +106,7 @@ body {
 				&__item {
 					display: flex;
 					justify-content: space-between;
-					font-family: "Roboto";
+					font-family: 'Roboto';
 					font-style: normal;
 					font-weight: 400;
 					font-size: 24px;
@@ -145,7 +145,7 @@ body {
 		}
 	}
 	&__details {
-		font-family: "Roboto";
+		font-family: 'Roboto';
 		font-style: normal;
 		font-weight: 400;
 		font-size: 24px;
@@ -160,7 +160,7 @@ body {
 			padding-top: 42px;
 			padding-left: 15px;
 			&__items {
-				font-family: "Roboto";
+				font-family: 'Roboto';
 				font-style: normal;
 				font-weight: 400;
 				font-size: 24px;
@@ -193,7 +193,7 @@ body {
 			justify-content: center;
 			width: 99px;
 			height: 44px;
-			font-family: "Roboto";
+			font-family: 'Roboto';
 			font-style: normal;
 			font-weight: 400;
 			font-size: 18px;
