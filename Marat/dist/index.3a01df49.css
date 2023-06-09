@@ -1,0 +1,218 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #e5e5e5;
+}
+
+.container_content {
+  background-color: #fff;
+  border: 1px solid #000;
+  width: 600px;
+  height: 435px;
+  margin: 150px auto auto;
+}
+
+.head_content {
+  border-bottom: 1px solid #000;
+  justify-content: space-between;
+  height: 45px;
+  display: flex;
+}
+
+.input {
+  border: none;
+  outline: none;
+  height: 40px;
+  margin-left: 20px;
+}
+
+.poisk {
+  background: none;
+  border: none;
+  margin-right: 20px;
+  font-size: x-large;
+}
+
+.left_content {
+  border: 1px solid #000;
+  width: 298px;
+  height: 390px;
+}
+
+.text_temperature {
+  color: #000;
+  margin-top: 20px;
+  margin-left: 23px;
+  font-size: 70px;
+  font-weight: 400;
+  line-height: 82px;
+}
+
+.oblako {
+  margin-top: 40px;
+  margin-left: 112px;
+}
+
+.left_content_bottom {
+  justify-content: space-between;
+  margin-top: 98px;
+  margin-left: 15px;
+  margin-right: 15px;
+  display: flex;
+}
+
+.Aktobe {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 28px;
+}
+
+.serdce {
+  font-size: x-large;
+}
+
+.left_content_button {
+  border: 1px solid #000;
+  width: 298px;
+  height: 44px;
+  margin-top: 10px;
+}
+
+.now, .details, .forecast {
+  width: 95px;
+  height: 40px;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 21px;
+}
+
+.left_content_temperature2_Aktobe {
+  margin-top: 33px;
+  margin-left: 17px;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 28px;
+}
+
+.left_content_temperature2 ul {
+  margin-top: 42px;
+  margin-bottom: 40px;
+  margin-left: 15px;
+  list-style-type: none;
+}
+
+.left_content_temperature2 li {
+  margin-top: 15px;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 28px;
+}
+
+.osnova {
+  display: flex;
+}
+
+.right_head_content {
+  border: 1px solid #000;
+  width: 302px;
+  height: 68px;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 28px;
+}
+
+.right_head_content p {
+  margin-top: 33px;
+  margin-left: 18px;
+}
+
+.right_bottom_content ul {
+  margin-left: 18px;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 28px;
+  list-style-type: none;
+}
+
+.right_bottom_content li {
+  margin-top: 15px;
+}
+
+.left_content_temperature3_Aktobe {
+  margin-top: 33px;
+  margin-left: 18px;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 28px;
+}
+
+.block1 {
+  border: 1px solid #000;
+  width: 265px;
+  height: 120px;
+  margin-top: 7px;
+  margin-left: 18px;
+}
+
+.block1_data {
+  justify-content: space-between;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 21px;
+  display: flex;
+}
+
+.block1_temperature {
+  justify-content: space-between;
+  margin-top: 38px;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 21px;
+  display: flex;
+}
+
+.block1_feels {
+  justify-content: space-between;
+  margin-top: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 21px;
+  display: flex;
+}
+
+.block2 {
+  border: 1px solid #000;
+  width: 265px;
+  height: 120px;
+  margin-top: 9px;
+  margin-bottom: 28px;
+  margin-left: 18px;
+}
+
+.liCity {
+  border: 1px solid #000;
+  border-radius: 5px;
+  justify-content: space-between;
+  align-items: center;
+  width: 270px;
+  padding-left: 10px;
+  padding-right: 10px;
+  display: flex;
+}
+
+.p2 {
+  cursor: pointer;
+  font-size: xx-large;
+}
+
+/*# sourceMappingURL=index.3a01df49.css.map */
