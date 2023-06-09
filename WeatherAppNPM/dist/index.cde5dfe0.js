@@ -585,6 +585,7 @@ function LocalStorageSave() {
 var LastCity = JSON.parse(localStorage.getItem("Last")) || "Novokuzneck";
 function LocalStorageLast() {
     localStorage.setItem("Last", JSON.stringify(LastCity));
+    document.cookie = encodeURIComponent("Last") + "=" + encodeURIComponent(LastCity);
 }
 function LoadLast() {
     (0, _domJsDefault.default).mainInput.value = LastCity;

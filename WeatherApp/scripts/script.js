@@ -66,7 +66,6 @@ async function GetWeather(){
 			alert("Заполните поле поиска.")
 		} else{
 			Locations.forEach((lock) => {
-				console.log(lock);
 				if(lock == DOM.titleForLike.textContent){
 					DOM.likeIcon.classList.add('fill')
 					console.log("da")
@@ -84,7 +83,6 @@ function RenderMain(List){
 	DOM.mainSity[2].textContent = DOM.mainInput.value.toLowerCase().capitalize();
 	DOM.mainDegree.textContent = List.main.temp;
 	Locations.forEach((lock) => {
-		console.log(lock);
 		if(lock == DOM.titleForLike.textContent){
 			DOM.likeIcon.classList.add('fill')
 			console.log("da")

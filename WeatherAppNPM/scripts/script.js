@@ -11,6 +11,8 @@ var LastCity = JSON.parse(localStorage.getItem("Last")) || "Novokuzneck";
 
 function LocalStorageLast() {
   localStorage.setItem("Last", JSON.stringify(LastCity));
+  document.cookie =
+    encodeURIComponent("Last") + "=" + encodeURIComponent(LastCity);
 }
 
 function LoadLast() {
