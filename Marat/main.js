@@ -7,21 +7,8 @@ const left_content_temperature2 = document.querySelector(".left_content_temperat
 const left_content_temperature3 = document.querySelector(".left_content_temperature3");
 const right_bottom_content = document.querySelector(".right_bottom_content");
 const serdce = document.querySelector(".serdce");
-const list = new Set(JSON.parse(localStorage.getItem('loc')) || []);
+const list = new Set();
 
-function getItem(key){
-    const cookies = document.cookie.split(";")
-                .map(cookie => cookie.split("="))
-                .reduce((acc, [key, value]) => ({...acc,
-                    [key.trim()]: value
-                }), {});
-    console.log("cookies = " + cookies[key])
-
-     return cookies[key];
-}
-function setItem (key, value) {
-    document.cookie = `${key} =${value}; max-age=10`
-}
 
 if (localStorage.getItem('right_bottom_content')) {
     right_bottom_content.innerHTML = localStorage.getItem('right_bottom_content');
@@ -97,6 +84,18 @@ async function createElement2(city) {
     Details_Weather.innerHTML = "Weather: " + array[2];
     Details_Sunrise.innerHTML = "Sunrise: " + array[3];
     Details_Sunset.innerHTML = "Sunset: " + array[4];
+}
+function getItem(key){
+    const cookies = document.cookie.split(";")
+                .map(cookie => cookie.split("="))
+                .reduce((acc, [key, value]) => ({...acc,
+                    [key.trim()]: value
+                }), {});
+    console.log("cookies = " + cookies[key]);
+    return cookies[key];
+}
+function setItem (key, value) {
+    document.cookie = `${key}=${encodeURIComponent(value)}; max-age=3600; path=/`;
 }
 
 async function addLocation(e) {
