@@ -1,0 +1,47 @@
+body {
+    background-color: #131313;
+    color: #fff;
+    font-family: 'Hind', sans-serif;
+    font-family: 'Quicksand', sans-serif;
+
+}
+
+.section {
+    width: 500px;
+    height: 300px;
+    margin: 200px auto;
+    
+    
+}
+
+
+.form {
+    display: flex;
+    align-items: center;
+    margin: 15px 0 35px 0;
+}
+
+.input {
+    width: 350px;
+    height: 30px;
+    border: 1px solid #fff;
+    border-radius: 8px;
+    padding-left: 8px;
+    background: url(../images/date-today-svgrepo-com.svg) no-repeat center right;
+    padding-right: 10px;
+}
+
+.button {
+    width: 150px;
+    height: 32px;
+    color: #fff;
+    background: #005ab9;
+    border-radius: 8px;
+    border: none;
+    margin-left: 8px;
+}
+
+p {
+    font-size: 24px;
+    margin: 8px 0;
+}
