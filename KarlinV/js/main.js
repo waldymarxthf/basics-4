@@ -4,6 +4,7 @@ import { renderCityList } from "./createLocationPoints.js";
 import { render } from "./mainRender.js";
 import { startCity, weatherLocationList } from "./constants.js";
 import { storage } from "./saveLocalStorage.js";
+import { cookies } from "./saveCookie.js";
 
 //удаление из списка избранного
 weatherLocationList.addEventListener("click", async (event) => {
@@ -16,6 +17,7 @@ weatherLocationList.addEventListener("click", async (event) => {
   if (event.target.classList.value !== "weather__location-item-delete") {
     cityNameInputValue.setAttribute("placeholder", event.target.textContent);
 
+    cookies.setCurrentCity(event.target.textContent);
     storage.setCurrentCity(event.target.textContent);
 
     render(await getDataWeather(event.target.textContent));
@@ -40,7 +42,8 @@ form.addEventListener("submit", async (event) => {
     const data = await getDataWeather(cityNameInputValue.value);
     if (!data) return;
 
-    storage.setCurrentCity(cityNameInputValue.value);
+    cookies.setCurrentCity(cityNameInputValue.value); // сохранение в cookie
+    // storage.setCurrentCity(cityNameInputValue.value);
     cityNameInputValue.setAttribute("placeholder", cityNameInputValue.value);
 
     render(data);
