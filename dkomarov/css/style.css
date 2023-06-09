@@ -39,6 +39,7 @@ body {
     border-radius: 8px;
     border: none;
     margin-left: 8px;
+    box-shadow: rgba(26, 21, 131, 0.893) 0px 30px 60px -12px inset, rgba(232, 25, 204, 0.956) 0px 18px 36px -18px inset;
 }
 
 p {
