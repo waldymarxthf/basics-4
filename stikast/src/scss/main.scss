@@ -1,0 +1,70 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap");
+
+body {
+	font-family: "Inter";
+	font-size: 20px;
+	font-weight: 600;
+	line-height: 24px;
+
+	color: #303030;
+}
+
+.main {
+	display: flex;
+	justify-content: center;
+
+	margin-top: 200px;
+}
+
+.timer {
+	width: 800px;
+}
+
+.title {
+	margin-bottom: 18px;
+}
+
+.input {
+	margin-right: 30px;
+	padding: 14px;
+
+	width: 380px;
+	height: 50px;
+
+	border-radius: 8px;
+	border: 1px solid #e2e2e2;
+
+	&:focus {
+		border-color: #5e55d6;
+	}
+	&:hover {
+		cursor: pointer;
+	}
+	&::placeholder {
+		font-size: 18px;
+		font-weight: 400;
+		color: #d9d9d9;
+	}
+}
+
+::-webkit-calendar-picker-indicator {
+	color: #5e55d6;
+}
+
+::-webkit-calendar-picker-indicator:hover {
+	cursor: pointer;
+}
+
+.button {
+	width: 380px;
+	height: 50px;
+
+	border-radius: 8px;
+
+	color: #fff;
+	background-color: #5e55d6;
+
+	&:hover {
+		background-color: #5951cb;
+	}
+}
