@@ -1,4 +1,5 @@
-import { ValidInputError, isInputValid } from './errors.js'
+import { ValidInputError, isInputValid } from './errors'
+import Cookies from 'js-cookie'
 
 const storage = {
   saveFavoriteCities(cityFavoriteList) {
@@ -7,14 +8,6 @@ const storage = {
         'cityFavoriteList',
         JSON.stringify(Array.from(cityFavoriteList))
       )
-    } catch (error) {
-      console.error(error.message)
-    }
-  },
-
-  saveCurrentCity(currentCity) {
-    try {
-      localStorage.setItem('currentCity', JSON.stringify(currentCity))
     } catch (error) {
       console.error(error.message)
     }
@@ -29,11 +22,21 @@ const storage = {
       return new Set()
     }
   },
+}
+
+const cookies = {
+  saveCurrentCity(currentCity) {
+    try {
+      Cookies.set('currentCity', currentCity, { expires: 7 })
+    } catch (error) {
+      console.error(error.message)
+    }
+  },
 
   getCurrentCity() {
     try {
-      const storedCity = localStorage.getItem('currentCity')
-      return storedCity ? JSON.parse(storedCity) : defaultCity
+      const cookieCity = Cookies.get('currentCity')
+      return cookieCity ? cookieCity : defaultCity
     } catch (error) {
       console.error(error.message)
       return defaultCity
@@ -43,7 +46,7 @@ const storage = {
 
 const defaultCity = 'Miami'
 let cityFavoriteList = storage.getFavoriteCities()
-let currentCity = storage.getCurrentCity()
+let currentCity = cookies.getCurrentCity()
 
 const isCityExist = (name) => cityFavoriteList.has(name)
 
@@ -60,7 +63,7 @@ const deleteCity = (name) => {
 
 const updateCurrentCity = (city) => {
   currentCity = city
-  storage.saveCurrentCity(city)
+  cookies.saveCurrentCity(city)
 }
 
 const checkInput = (value) => {
