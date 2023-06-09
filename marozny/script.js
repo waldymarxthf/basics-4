@@ -11,8 +11,6 @@ window.addEventListener('DOMContentLoaded', async () => {
   }
 
   await updateBlock(savedLocation);
-
-  let start = Data.now();
 });
 
 UI_ELEMENTS.NOW.SEARCH_FORM.addEventListener('submit', (event) => {
