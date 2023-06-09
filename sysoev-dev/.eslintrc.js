@@ -11,6 +11,6 @@ module.exports = {
   rules: {
     'no-alert': 0,
     'no-console': 0,
-    'no-use-before-define': 'warn',
+    'import/prefer-default-export': 'off',
   },
 };

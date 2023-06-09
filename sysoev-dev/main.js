@@ -1,4 +1,4 @@
-import { subDays, formatDistance, format } from 'date-fns';
+// import { subDays, formatDistance, format } from 'date-fns';
 import { UI_ELEMENTS } from './js/ui';
 import { roundValue, convertDate } from './js/utils';
 import { storage } from './js/storage';
@@ -55,6 +55,7 @@ async function getWeatherData(cityName) {
     const response = await fetch(url);
     if (response.ok) {
       const data = await response.json();
+      storage.saveCurrentCity(data.name);
       showWeatherData(data);
     } else {
       throw new ValidationError((await response.json()).message);
@@ -74,7 +75,6 @@ function submitSearchFormHandler(event) {
   event.preventDefault();
   const cityName = UI_ELEMENTS.FORM_INPUT.value;
   getWeatherData(cityName);
-  storage.saveCurrentCity(cityName);
   event.target.reset();
 }
 
@@ -150,5 +150,5 @@ UI_ELEMENTS.LIKE_BTN.addEventListener('click', (event) => {
 UI_ELEMENTS.SEARCH_FORM.addEventListener('submit', submitSearchFormHandler);
 document.addEventListener('DOMContentLoaded', render);
 
-console.log(format(new Date(), "'Today is a' eeee"));
-console.log(formatDistance(subDays(new Date(), 370), new Date(), { addSuffix: true }));
+// console.log(format(new Date(), "'Today is a' eeee"));
+// console.log(formatDistance(subDays(new Date(), 370), new Date(), { addSuffix: true }));

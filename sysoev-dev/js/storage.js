@@ -5,14 +5,17 @@ export const storage = {
   },
   saveCurrentCity(cityName) {
     localStorage.setItem('currentCity', cityName);
-    document.cookie = 'city=' + encodeURIComponent(cityName);
-    console.log(document.cookie);
+    document.cookie = `city=${encodeURIComponent(cityName)}; max-age=3600`;
   },
   getFavoriteCities() {
     const json = localStorage.getItem('favoriteCities');
     return new Set(JSON.parse(json)) || new Set();
   },
   getCurrentCity() {
-    return localStorage.getItem('currentCity') || 'Aktobe';
+    const name = 'city';
+    const matches = document.cookie.match(new RegExp(
+      `(?:^|; )${name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1')}=([^;]*)`,
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
   },
 };
