@@ -29,7 +29,9 @@ function render(event) {
 
   if (interval.years) {
     format = ["years", "days", "hours"];
-  } else if (interval.days) {
+  }
+
+  if (interval.days) {
     format = ["days", "hours", "minutes"];
   }
 
