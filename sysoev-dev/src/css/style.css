@@ -54,14 +54,15 @@ body {
 
 .form__output-title {
   font-weight: 600;
-  font-size: 24px;
+  font-size: 20px;
   line-height: 29px;
   color: #000000;
+  margin-bottom: 0;
 }
 
 .form__output {
   font-weight: 600;
-  font-size: 42px;
+  font-size: 30px;
   line-height: 58px;
   color: #000000;
 }

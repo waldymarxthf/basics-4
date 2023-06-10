@@ -24,5 +24,6 @@ module.exports = {
     'no-var': 'error',
     'for-direction': 'error',
     'no-shadow': 'error',
+    'object-curly-newline': 'off',
   },
 };
