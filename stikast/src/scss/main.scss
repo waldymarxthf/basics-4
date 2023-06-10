@@ -24,6 +24,10 @@ body {
 	margin-bottom: 18px;
 }
 
+.form {
+	margin-bottom: 40px;
+}
+
 .input {
 	margin-right: 30px;
 	padding: 14px;
@@ -67,4 +71,20 @@ body {
 	&:hover {
 		background-color: #5951cb;
 	}
+}
+
+.result-title {
+	margin-bottom: 8px;
+
+	font-size: 24px;
+	line-height: 29px;
+
+	color: #000;
+}
+
+.result {
+	font-size: 48px;
+	line-height: 58px;
+
+	color: #000;
 }

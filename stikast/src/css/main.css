@@ -1,85 +1,102 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap");
 body {
-	font-family: "Inter";
-	font-size: 20px;
-	font-weight: 600;
-	line-height: 24px;
-	color: #303030;
+  font-family: "Inter";
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 24px;
+  color: #303030;
 }
 
 .main {
-	display: -webkit-box;
-	display: -ms-flexbox;
-	display: flex;
-	-webkit-box-pack: center;
-	-ms-flex-pack: center;
-	justify-content: center;
-	margin-top: 200px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-top: 200px;
 }
 
 .timer {
-	width: 800px;
+  width: 800px;
 }
 
 .title {
-	margin-bottom: 18px;
+  margin-bottom: 18px;
+}
+
+.form {
+  margin-bottom: 40px;
 }
 
 .input {
-	margin-right: 30px;
-	padding: 14px;
-	width: 380px;
-	height: 50px;
-	border-radius: 8px;
-	border: 1px solid #e2e2e2;
+  margin-right: 30px;
+  padding: 14px;
+  width: 380px;
+  height: 50px;
+  border-radius: 8px;
+  border: 1px solid #e2e2e2;
 }
 .input:focus {
-	border-color: #5e55d6;
+  border-color: #5e55d6;
 }
 .input:hover {
-	cursor: pointer;
+  cursor: pointer;
 }
 .input::-webkit-input-placeholder {
-	font-size: 18px;
-	font-weight: 400;
-	color: #d9d9d9;
+  font-size: 18px;
+  font-weight: 400;
+  color: #d9d9d9;
 }
 .input::-moz-placeholder {
-	font-size: 18px;
-	font-weight: 400;
-	color: #d9d9d9;
+  font-size: 18px;
+  font-weight: 400;
+  color: #d9d9d9;
 }
 .input:-ms-input-placeholder {
-	font-size: 18px;
-	font-weight: 400;
-	color: #d9d9d9;
+  font-size: 18px;
+  font-weight: 400;
+  color: #d9d9d9;
 }
 .input::-ms-input-placeholder {
-	font-size: 18px;
-	font-weight: 400;
-	color: #d9d9d9;
+  font-size: 18px;
+  font-weight: 400;
+  color: #d9d9d9;
 }
 .input::placeholder {
-	font-size: 18px;
-	font-weight: 400;
-	color: #d9d9d9;
+  font-size: 18px;
+  font-weight: 400;
+  color: #d9d9d9;
 }
 
 ::-webkit-calendar-picker-indicator {
-	color: #5e55d6;
+  color: #5e55d6;
 }
 
 ::-webkit-calendar-picker-indicator:hover {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 .button {
-	width: 380px;
-	height: 50px;
-	border-radius: 8px;
-	color: #fff;
-	background-color: #5e55d6;
+  width: 380px;
+  height: 50px;
+  border-radius: 8px;
+  color: #fff;
+  background-color: #5e55d6;
 }
 .button:hover {
-	background-color: #5951cb;
+  background-color: #5951cb;
+}
+
+.result-title {
+  margin-bottom: 8px;
+  font-size: 24px;
+  line-height: 29px;
+  color: #000;
+}
+
+.result {
+  font-size: 48px;
+  line-height: 58px;
+  color: #000;
 }
