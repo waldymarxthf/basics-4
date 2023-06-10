@@ -8,7 +8,7 @@
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"start": "parcel",
 		"build": "parcel build",
-		"lint": "eslint --fix src",
+		"lint": "eslint src --fix",
 		"format": "prettier --write src"
 	},
 	"author": "",
@@ -22,5 +22,9 @@
 		"eslint-plugin-prettier": "^4.2.1",
 		"parcel": "^2.9.2",
 		"prettier": "^2.8.8"
+	},
+	"dependencies": {
+		"date-fns": "^2.30.0",
+		"date-fns-tz": "^2.0.0"
 	}
 }
