@@ -5,6 +5,7 @@ import { ru } from "date-fns/locale";
 const parentNode = document.querySelector('.date-area');
 const inputNode = document.querySelector('.input');
 const formNode = document.querySelector('.form');
+const titleParentNode = document.querySelector('.title')
 
 function clearInput() {
     inputNode.value = '';
@@ -18,6 +19,7 @@ function createDateElement() {
         end: dateNow
     });
     const durationFormat = formatDuration(interval, { format: ["years", "days", "hours"], locale: ru });
+    titleParentNode.classList.add('active');
     parentNode.textContent = durationFormat
     console.log(durationFormat)
     clearInput();
