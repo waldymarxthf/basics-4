@@ -81,7 +81,7 @@ function submitSearchFormHandler(event) {
 function render() {
   UI_ELEMENTS.FAVORITES_LIST.textContent = '';
   favoritesCitiesList = storage.getFavoriteCities();
-  const cityName = storage.getCurrentCity();
+  const cityName = storage.getCurrentCity() ?? 'Aktobe';
   getWeatherData(cityName);
   favoritesCitiesList.forEach((item) => addFavoritesElement(item));
 }
@@ -129,7 +129,9 @@ function addFavoritesElement(cityName) {
 }
 
 function removeActiveClass(list, index = 0) {
-  if (index >= list.length) { return; }
+  if (index >= list.length) {
+    return;
+  }
   list[index].parentNode.classList.remove('tabs__buttons-item--active');
   removeActiveClass(list, index + 1);
 }
