@@ -582,6 +582,17 @@ var _apiJs = require("./api.js");
 var _utilsJs = require("./utils.js");
 var _storageJs = require("./storage.js");
 let favoriteCities = [];
+//* функция рендера блока с избранными городами
+function render() {
+    (0, _variablesJs.UI_ELEMENTS).CITIES_LIST.innerHTML = "";
+    favoriteCities = (0, _storageJs.getFavoriteCitiesFromlocalStorage)();
+    const cityName = (0, _storageJs.getCurrentCityFromlocalStorage)();
+    (0, _apiJs.updateWeatherInfo)(cityName);
+    favoriteCities.forEach((item)=>{
+        const newFavoriteCity = cleateElement(item);
+        (0, _variablesJs.UI_ELEMENTS).CITIES_LIST.append(newFavoriteCity);
+    });
+}
 //* функция добавения города в массив
 function addFavoriteCity() {
     const favoriteCity = (0, _variablesJs.WEATHER).NOW.CITY_NAME.textContent;
@@ -618,17 +629,6 @@ function cleateElement(city) {
         (0, _storageJs.saveCurrentCityInLocalStorage)(city.location);
     });
     return favoriteCity;
-}
-//* функция рендера блока с избранными городами
-function render() {
-    (0, _variablesJs.UI_ELEMENTS).CITIES_LIST.innerHTML = "";
-    favoriteCities = (0, _storageJs.getFavoriteCitiesFromlocalStorage)();
-    const cityName = (0, _storageJs.getCurrentCityFromlocalStorage)();
-    (0, _apiJs.updateWeatherInfo)(cityName);
-    favoriteCities.forEach((item)=>{
-        const newFavoriteCity = cleateElement(item);
-        (0, _variablesJs.UI_ELEMENTS).CITIES_LIST.append(newFavoriteCity);
-    });
 }
 //* функция получения данных города и запуск обновления погоды
 async function showWeather(event) {
@@ -4206,9 +4206,13 @@ function getFavoriteCitiesFromlocalStorage() {
 }
 function saveCurrentCityInLocalStorage(cityName) {
     localStorage.setItem("currentCity", cityName);
+    document.cookie = `city=${encodeURIComponent(cityName)}; max-age=3600`;
 }
 function getCurrentCityFromlocalStorage() {
-    return localStorage.getItem("currentCity") || "Vladivostok";
+    // return localStorage.getItem('currentCity') || 'Vladivostok';
+    const name = "Vladivostok";
+    const matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1") + "=([^;]*)"));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["dFruI","994m5"], "994m5", "parcelRequire9681")
