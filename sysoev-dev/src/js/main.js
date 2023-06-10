@@ -15,12 +15,12 @@ function comareDates(nowDate, endDate) {
   UI_ELEMENTS.OUTPUT_TITLE.textContent = 'Осталось';
 }
 
-function showInterval(date) {
-  UI_ELEMENTS.OUTPUT_YEAR.textContent = date.years;
-  UI_ELEMENTS.OUTPUT_DAY.textContent = date.days;
-  UI_ELEMENTS.OUTPUT_HOURS.textContent = date.hours;
-  UI_ELEMENTS.OUTPUT_MOUNTH.textContent = date.months;
-  UI_ELEMENTS.OUTPUT_MINUTES.textContent = date.minutes;
+function showInterval({ years, months, days, hours, minutes }) {
+  UI_ELEMENTS.OUTPUT_YEAR.textContent = years;
+  UI_ELEMENTS.OUTPUT_DAY.textContent = days;
+  UI_ELEMENTS.OUTPUT_HOURS.textContent = hours;
+  UI_ELEMENTS.OUTPUT_MOUNTH.textContent = months;
+  UI_ELEMENTS.OUTPUT_MINUTES.textContent = minutes;
 }
 
 function submitFormHandler(event) {
