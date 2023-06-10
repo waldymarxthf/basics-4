@@ -8,6 +8,7 @@ import {
 	loadFromLocalStorage,
 } from "./utils";
 import { CityValidationError, KeyError, FetchError, InternalError, MyError } from "./errors";
+import { getCookie, setCookie } from "./cookie";
 
 const tabsContent = document.querySelectorAll(".tabs-content-item");
 const tabsBtn = document.querySelectorAll(".tab-item");
@@ -32,9 +33,9 @@ const storage = {
 		}
 	},
 	loadLastCity: function () {
-		if (loadFromLocalStorage("lastCity")) {
-			const localStorage = loadFromLocalStorage("lastCity");
-			storage.lastCity = localStorage;
+		if (getCookie("lastCity")) {
+			const cookie = getCookie("lastCity");
+			storage.lastCity = cookie;
 		}
 	},
 	saveFavList: function () {
@@ -42,7 +43,7 @@ const storage = {
 		saveToLocalStorage("favCities", citiesArray);
 	},
 	saveLastCity: function () {
-		saveToLocalStorage("lastCity", storage.lastCity);
+		setCookie("lastCity", storage.lastCity);
 	},
 	hasFavListCity: function (city) {
 		return storage.favCities.has(city);
