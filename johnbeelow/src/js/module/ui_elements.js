@@ -4,4 +4,4 @@ const UI_ELEMENTS = {
   RESULT_DATE: document.querySelector('.result_date'),
 }
 
-export { UI_ELEMENTS }
+export default UI_ELEMENTS

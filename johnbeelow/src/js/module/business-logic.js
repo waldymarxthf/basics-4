@@ -1,6 +1,5 @@
 import { formatDuration, intervalToDuration } from 'date-fns'
 import ru from 'date-fns/locale/ru'
-import { UI_ELEMENTS } from './ui_elements'
 
 const calcDate = (value) => {
   const duration = intervalToDuration({
@@ -15,8 +14,4 @@ const calcDate = (value) => {
   return result
 }
 
-const renderDate = (value) => {
-  UI_ELEMENTS.RESULT_DATE.textContent = calcDate(value)
-}
-
-export { renderDate }
+export default calcDate
