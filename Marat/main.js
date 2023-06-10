@@ -7,8 +7,7 @@ const left_content_temperature2 = document.querySelector(".left_content_temperat
 const left_content_temperature3 = document.querySelector(".left_content_temperature3");
 const right_bottom_content = document.querySelector(".right_bottom_content");
 const serdce = document.querySelector(".serdce");
-const list = new Set();
-
+const list = new Set(JSON.parse(localStorage.getItem('loc')) || []);
 
 if (localStorage.getItem('right_bottom_content')) {
     right_bottom_content.innerHTML = localStorage.getItem('right_bottom_content');
@@ -35,7 +34,7 @@ button_details.addEventListener("click", function () {
 })
 button_forecast.addEventListener("click", function () {
     left_content_temperature.style.display = "none";
-    left_content_temperature2.style.display = "none";
+    left_content_temperature2.style.display = "none"
     left_content_temperature3.style.display = "";
     localStorage.setItem("displayType", "forecast");
 });
@@ -85,29 +84,28 @@ async function createElement2(city) {
     Details_Sunrise.innerHTML = "Sunrise: " + array[3];
     Details_Sunset.innerHTML = "Sunset: " + array[4];
 }
-function getItem(key){
-    const cookies = document.cookie.split(";")
-                .map(cookie => cookie.split("="))
-                .reduce((acc, [key, value]) => ({...acc,
-                    [key.trim()]: value
-                }), {});
-    console.log("cookies = " + cookies[key]);
-    return cookies[key];
-}
-function setItem (key, value) {
-    document.cookie = `${key}=${encodeURIComponent(value)}; max-age=3600; path=/`;
-}
-
 async function addLocation(e) {
     e.preventDefault();
     console.log(city.value);
     createElement2(city);
 }
-
+function setCookie(name, value, days) {
+    const expirationDate = new Date();
+    expirationDate.setDate(expirationDate.getDate() + days);
+  
+    const cookieValue = encodeURIComponent(value) + (days ? `; expires=${expirationDate.toUTCString()}` : '');
+    document.cookie = `${name}=${cookieValue}; path=/`;
+  }
+  function getItem(name) {
+    const cookies = document.cookie.split("; ")
+      .map(cookie => cookie.split("="))
+      .reduce((acc, [key, value]) => ({ ...acc, [key]: decodeURIComponent(value) }), {});
+    
+    return cookies[name];
+}
 function findIndex(name) {
     return list.has(name);
 }
-
 function deleteLocation(name) {
     const Index = findIndex(name);
     console.log(Index);
@@ -118,7 +116,7 @@ function deleteLocation(name) {
     else {
         list.delete(name);
         console.log("delete = " + name);
-        setItem('loc', JSON.stringify([...list]));
+        localStorage.setItem('loc', JSON.stringify([...list]));
     }
 
     render();
@@ -133,7 +131,7 @@ function addedLocation() {
 
 
     console.log("Set = " + setString);
-    setItem('loc', JSON.stringify([...list]));
+    localStorage.setItem('loc', JSON.stringify([...list]));
 }
 
 const ul = document.createElement("ul");
@@ -177,23 +175,29 @@ function createElement(cityName) {
 function renderRecursive(setIterator) {
     const next = setIterator.next();
     if (next.done) {
-        return;
+      return;
     }
-
+  
     const loc = next.value;
     console.log("render = " + loc);
     const locNode = createElement(loc);
     right_bottom_content.appendChild(locNode);
-
+  
     renderRecursive(setIterator);
-}
-
-function render() {
+  }
+  
+  function render() {
     right_bottom_content.innerHTML = "";
     const setIterator = list.values();
     renderRecursive(setIterator);
-}
+    const username = getItem('username');
+    Aktobe.textContent = username;
+  }
+
+
 render();
+
+
 async function Likes(event) {
     const p = event.target;
     const data = await fetchLikes(p);
@@ -219,9 +223,11 @@ async function Likes(event) {
     Details_Sunset.innerHTML = "Sunset: " + dateess;
     // localStorage.setItem('loc', JSON.stringify(list));
     // localStorage.getItem('loc');
+    
 }
 
 serdce.addEventListener("click", () => {
+    setCookie('username', Aktobe.textContent, 7);
     addedLocation(),
         render()
 });
