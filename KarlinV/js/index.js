@@ -6,18 +6,6 @@ el.dateInput.setAttribute("min", dateUtils.getCurrentDateISOString());
 
 el.dateBtn.addEventListener("click", render);
 
-el.dateInput.addEventListener("input", (event) => {
-  const selectedDate = new Date(event.target.value);
-
-  if (selectedDate < dateUtils.getCurrentDate()) {
-    event.target.setCustomValidity(
-      "Выберите дату, которая больше или равна текущей дате"
-    );
-  } else {
-    event.target.setCustomValidity("");
-  }
-});
-
 el.dateInput.addEventListener("keydown", (event) => {
   if (event.key === "Enter") render(event);
 });
@@ -36,8 +24,6 @@ function render(event) {
     start: dateUtils.getCurrentDate(),
     end: pastDate,
   });
-
-  console.log(interval);
 
   let format = ["hours", "minutes", "seconds"];
 
