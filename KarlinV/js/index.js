@@ -25,14 +25,14 @@ function render(event) {
     end: pastDate,
   });
 
-  let format = ["hours", "minutes", "seconds"];
+  let format = ["years", "months", "days", "hours", "minutes"];
 
-  if (interval.years) {
-    format = ["years", "days", "hours"];
+  if (interval.months) {
+    format = ["months", "days", "hours"];
   }
 
-  if (interval.days) {
-    format = ["days", "hours", "minutes"];
+  if (interval.years) {
+    format = ["years", "months", "days"];
   }
 
   const formattedDuration = formatDuration(interval, {
