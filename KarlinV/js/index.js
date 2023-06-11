@@ -1,5 +1,10 @@
 import { el, dateUtils } from "./config.js";
-import { intervalToDuration, formatDuration } from "date-fns";
+import {
+  formatDuration,
+  differenceInHours,
+  differenceInCalendarDays,
+  differenceInCalendarYears,
+} from "date-fns";
 import { ru } from "date-fns/locale";
 
 el.dateInput.setAttribute("min", dateUtils.getCurrentDateISOString());
@@ -20,25 +25,27 @@ function render(event) {
     return;
   }
 
-  const interval = intervalToDuration({
-    start: dateUtils.getCurrentDate(),
-    end: pastDate,
-  });
+  const diffInYears = differenceInCalendarYears(
+    dateUtils.getCurrentDate(),
+    pastDate
+  );
 
-  let format = ["years", "months", "days", "hours", "minutes"];
+  const remainingDays =
+    differenceInCalendarDays(dateUtils.getCurrentDate(), pastDate) % 365;
 
-  if (interval.months) {
-    format = ["months", "days", "hours"];
-  }
+  const diffInHours =
+    differenceInHours(dateUtils.getCurrentDate(), pastDate) % 24;
 
-  if (interval.years) {
-    format = ["years", "months", "days"];
-  }
+  const interval = {
+    years: Math.abs(diffInYears),
+    days: Math.abs(remainingDays),
+    hours: Math.abs(diffInHours),
+  };
 
   const formattedDuration = formatDuration(interval, {
     locale: ru,
     delimiter: " ",
-    format,
+    format: ["years", "days", "hours"],
   });
 
   el.countdownDisplay.classList.remove("load-save-data");
