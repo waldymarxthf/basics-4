@@ -5,11 +5,11 @@
   "main": "index.js",
   "source": "src/index.html",
   "scripts": {
-  "test": "echo \"Error: no test specified\" && exit 1",
-  "start": "parcel",
-  "build": "parcel build",
-  "lint": "eslint --fix .",
-  "format": "prettier --write ."
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel",
+    "build": "parcel build",
+    "lint": "eslint --fix .",
+    "format": "prettier --write ."
   },
   "author": "Sivchenko-Anna",
   "license": "ISC",
@@ -22,5 +22,8 @@
     "eslint-plugin-prettier": "^4.2.1",
     "parcel": "^2.9.2",
     "prettier": "^2.8.8"
+  },
+  "dependencies": {
+    "date-fns": "^2.30.0"
   }
 }

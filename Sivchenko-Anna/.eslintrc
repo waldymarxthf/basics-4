@@ -19,6 +19,6 @@
     "prefer-const": "warn",
     "no-var": "error",
     "for-direction": "error",
-    "no-shadow": "error",
+    "no-shadow": "error"
   }
 }
