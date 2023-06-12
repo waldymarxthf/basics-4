@@ -5,36 +5,27 @@ const input = document.querySelector(".date");
 const btn = document.querySelector(".btn");
 const resultNode = document.querySelector(".result");
 
-function getQuantityOfDays(date) {
-	const dateNow = Date.now();
-	// const dateNow = new Date();
-	const customDate = new Date(date).getTime();
-	console.log(new Date(date));
-	// const customDate = new Date(date);
-	// let durationInDays = formatDistanceStrict(dateNow, customDate, {
-	// 	unit: "day",
-	// 	locale: ru,
-	// });
-	// durationInDays = parseInt(durationInDays, 10);
-	const millisecondsInSecond = 1000;
-	const secondsInDay = 86400;
-	const durationInDays = (customDate - dateNow) / (millisecondsInSecond * secondsInDay);
-	console.log(dateNow);
-	console.log(customDate);
-	return durationInDays;
+function getQuantityOfDays(obj) {
+	let daysQuantity = obj.days;
+	if (obj.months > 0) {
+		const averageQuantityOfDaysInMonth = 30.4;
+		daysQuantity = Math.ceil(obj.months * averageQuantityOfDaysInMonth + obj.days);
+	}
+	return daysQuantity;
 }
 
 function getDurationObj(customDate) {
 	const durationObj = intervalToDuration({
-		start: new Date(),
-		end: new Date(customDate),
+		start: new Date(customDate),
+		end: new Date(),
 	});
-	let durationInDays = getQuantityOfDays(customDate);
+	let durationInDays = getQuantityOfDays(durationObj);
 	console.log(durationInDays);
-	const daysInYear = 365;
-	if (durationInDays >= daysInYear && durationInDays > 0) {
-		durationInDays %= daysInYear;
-	}
+	// const daysInYear = 365;
+	// if (durationInDays > daysInYear) {
+	// 	durationInDays -= daysInYear;
+	// }
+	// durationInDays = durationInDays > daysInYear ? daysInYear : durationInDays - daysInYear;
 	durationObj.days = durationInDays;
 	console.log(durationObj);
 	return durationObj;
