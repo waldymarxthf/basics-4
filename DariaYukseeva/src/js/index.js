@@ -1,4 +1,4 @@
-import { intervalToDuration, formatDuration, formatDistanceStrict } from "date-fns";
+import { intervalToDuration, formatDuration } from "date-fns";
 import { ru } from "date-fns/locale";
 
 const input = document.querySelector(".date");
@@ -14,6 +14,14 @@ function getQuantityOfDays(obj) {
 	return daysQuantity;
 }
 
+function isLeapYear(year) {
+	const leap = new Date(year, 1, 29).getDate();
+	if (leap === 29) {
+		return true;
+	}
+	return false;
+}
+
 function getDurationObj(customDate) {
 	const durationObj = intervalToDuration({
 		start: new Date(customDate),
@@ -21,12 +29,15 @@ function getDurationObj(customDate) {
 	});
 	let durationInDays = getQuantityOfDays(durationObj);
 	console.log(durationInDays);
-	// const daysInYear = 365;
-	// if (durationInDays > daysInYear) {
-	// 	durationInDays -= daysInYear;
-	// }
-	// durationInDays = durationInDays > daysInYear ? daysInYear : durationInDays - daysInYear;
-	durationObj.days = durationInDays;
+	const daysInYear = 365;
+	durationInDays = durationInDays < daysInYear ? durationInDays : durationInDays - daysInYear;
+	const year = new Date(customDate).getFullYear();
+	if (isLeapYear(year) && (+durationObj.years === 0 || +durationObj.years % 4 === 0)) {
+		durationObj.days = durationInDays + 1;
+		console.log(durationObj.days);
+	} else {
+		durationObj.days = durationInDays;
+	}
 	console.log(durationObj);
 	return durationObj;
 }
