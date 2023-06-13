@@ -1,13 +1,14 @@
 "use strict";
 // DAYS COUNTER
-import { formatDistanceStrict, isValid, format } from "date-fns";
-import { intervalToDuration } from "date-fns";
+import { isValid, format, compareAsc } from "date-fns";
 import moment from "moment";
 moment().format();
 import dom from "./dom.js";
 import { store } from "./store.js";
+// Dropdown calendar
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.css";
+// Reset storage
 // let state = store.clear();
 let state = store.get("state") || [];
 // Helper funcs
@@ -19,9 +20,19 @@ function resetInputs() {
 function resetItemsScr() {
   dom.parentItems.innerHTML = "";
 }
-
+function checkForFuture(input, now) {
+  if (input > now) return "to go";
+  if (input < now) return "left";
+}
+function checkForZero(number, string) {
+  if (number === 0) return "";
+  if (number > 0) return `<strong>${number}</strong> ${string}`;
+}
+function pastOrFutureClass(str) {
+  if (str.includes("left")) return "future";
+  if (str.includes("go")) return "past";
+}
 function capitalize(str) {
-  console.log(state);
   if (!str || typeof str !== "string") return str;
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
@@ -38,17 +49,14 @@ function formatDate(inputDate, standard) {
 
 function deleteItem(id) {
   state = state.filter((i) => i.id !== id);
-  console.log(state);
   store.set("state", state);
   return renderUI();
 }
-
+// Collecting data from dropdown calendar
 const fp = flatpickr(dom.dateSelect, {
   enableTime: true,
   dateFormat: "YYYY-mm-dd",
 });
-
-// import { formatDistanceStrict } from "date-fns";
 
 function timeDifference(inputDate) {
   const now = moment();
@@ -61,15 +69,36 @@ function timeDifference(inputDate) {
   const hours = diff.hours();
   const minutes = diff.minutes();
   const seconds = diff.seconds();
+  const agoOrLeft = checkForFuture(input, now);
 
-  return `<strong>${years}</strong> years <strong>${months}</strong> months <strong>${days}</strong> days <strong>${hours}</strong> hours <strong>${minutes}</strong> minutes <strong>${seconds}</strong> seconds`;
+  return `${checkForZero(years, "years")} ${checkForZero(
+    months,
+    "months"
+  )} ${checkForZero(days, "days")} <br/>
+  ${checkForZero(
+    hours,
+    "hours"
+  )} <strong>${minutes}</strong> minutes <strong>${seconds}</strong> seconds ${agoOrLeft}`;
 }
+setInterval(renderUI, 1000);
 
+function sortBigToSmall() {
+  state = state.sort(
+    (obj1, obj2) => new Date(obj1.inputDate) - new Date(obj2.inputDate)
+  );
+  store.set("state", state);
+  renderUI();
+}
+function sortSmallToBig() {
+  state = state.sort(
+    (obj2, obj1) => new Date(obj1.inputDate) - new Date(obj2.inputDate)
+  );
+  store.set("state", state);
+  renderUI();
+}
 //%%%%%%%%%%%%%%%%%% BUSINESS LOGICS %%%%%%%%%%%%%%%%%%%%
 function renderUI() {
-  // Clear the screens
   resetItemsScr();
-  // Get the updated state
   state = store.get("state") || [];
   // Guard clause
   if (!state.length) return;
@@ -78,8 +107,8 @@ function renderUI() {
     console.log(obj.inputDate);
     // Assemble a div
     const str = timeDifference(obj.inputDate);
-    console.log(str);
-    const html = `<div class="item item-template">
+
+    const html = `<div class="item ${pastOrFutureClass(str)}">
           <div class="upper-box">
             <div id="uiName">${obj.name}</div>
           </div>
@@ -93,15 +122,12 @@ function renderUI() {
             <div id="output">${str}</div>
           </div>
         </div>`;
-    // Append the div
+
     dom.parentItems.innerHTML += html;
   });
 }
 
-//%%%%%%%%%%%%%%%%%% EVENT-LISTENERS %%%%%%%%%%%%%%%%%%%%
-
-// Submit date and name, add an item to state
-dom.btnAdd.addEventListener("click", function (event) {
+function createItem(event) {
   event.preventDefault();
   const selectedDate = fp.selectedDates[0];
   console.log(selectedDate);
@@ -123,41 +149,38 @@ dom.btnAdd.addEventListener("click", function (event) {
   obj.dateUI = formatDate(selectedDate, "HH:mm, MMM dd, yyyy");
   obj.inputDate = selectedDate;
   obj.id = Math.round(Math.random() * 100000000);
-  console.log(selectedDate);
-  // Add the assembled item to the state
   state.push(obj);
-  // Store the updated state
   store.set("state", state);
-  // Clear the inputs
   resetInputs();
-  // Render all items
   renderUI();
-  console.log(obj);
-});
+}
+//%%%%%%%%%%%%%%%%%% EVENT-LISTENERS %%%%%%%%%%%%%%%%%%%%
 
-dom.parentItems.addEventListener("click", function (event) {
-  event.preventDefault();
-  console.log(event);
-  const target = event.target;
-
-  if (target.classList.contains("btn-settings")) {
-    console.log(event, target);
-    console.log("Settings are not yet ready");
-  }
-});
+// Submit date and name, add an item to state
+dom.btnAdd.addEventListener("click", (event) => createItem(event));
 
 dom.wrapper.addEventListener("click", function (event) {
   console.log(event);
   const target = event.target;
+  const id = Number(target.id);
 
   if (target.classList.contains("btn-del")) {
-    const id = Number(target.id);
     deleteItem(id);
-    console.log("deleteeeeeeeee", id);
+  }
+
+  if (
+    target.classList.contains("btn-sort-to-small") ||
+    target.classList.contains("icon-sort-to-small")
+  ) {
+    sortBigToSmall();
+  }
+  if (
+    target.classList.contains("btn-sort-to-big") ||
+    target.classList.contains("icon-sort-to-big")
+  ) {
+    sortSmallToBig();
   }
 });
-
-// Handle radio input
 
 // Start
 document.addEventListener("DOMContentLoaded", renderUI);
@@ -166,13 +189,15 @@ document.addEventListener("DOMContentLoaded", renderUI);
 // BUGS
 
 // FEATURES
-// Timeinterval
-// Add ago or left to the string
-// Sorting btn
-// classes for future and past items
 
 // DESIGN
 
+// REFACTOR
+
 //DONE TODAY:
-// Delete item *
-// bad calc ears, months, weeks, etc *
+// Sorting btn
+// Listeners
+// Timer
+// Reformat string
+// Add ago or left to the string
+// css classes for future and past items
