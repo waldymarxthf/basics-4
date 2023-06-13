@@ -112,10 +112,10 @@ body {
   gap: 10px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
 }
-.past {
-  background-color: #f1d8be;
-}
 .future {
+  background-color: #f9d0c0;
+}
+.past {
   background-color: #e3f2f6;
 }
 .upper-box {
@@ -222,7 +222,7 @@ label {
   font-weight: 700;
   color: rgb(249, 249, 249);
   border-radius: 30px;
-  background-color: #a2e5e8;
+  background-color: #09a6ef;
   width: 70%;
   height: 30%;
   margin-bottom: 10px;
