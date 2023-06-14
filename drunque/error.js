@@ -1,6 +1,6 @@
 export class PastDateError extends Error {
-  constructor(message) {
+  constructor (message) {
     super(message)
-    this.name = "PastDateError"
+    this.name = 'PastDateError'
   }
 }
