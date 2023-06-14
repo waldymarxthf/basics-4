@@ -29,6 +29,10 @@ class Div extends Element {
 		this.tag = 'div';
 	}
 }
+
+function Div2({className, id, content}) {
+	return 
+}
 class Span extends Element {
 	constructor({className, id, content}) {
 		super({className, id, content})
