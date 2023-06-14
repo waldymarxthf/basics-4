@@ -58,6 +58,15 @@ form input[type="submit"] {
   border: #5e55d6;
 }
 
+#result {
+  padding: .5rem;
+}
+
+.error {
+  background-color: black;
+  color: red;
+}
+
 @media (max-width: 768px) {
   form {
     flex-direction: column;
