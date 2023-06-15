@@ -1,23 +1,6 @@
 import { differenceInYears, differenceInDays, differenceInHours } from "date-fns";
-import { ELEMENTS } from "./ui.js";
-
-function animateCountup(element, targetValue) {
-	return new Promise((resolve) => {
-		let value = 0;
-
-		const animation = setInterval(() => {
-			if (value === targetValue) {
-				clearInterval(animation);
-				resolve();
-				return;
-			}
-
-			value++;
-			element.textContent = value;
-			flag = true;
-		}, 15);
-	});
-}
+import { animateCountup } from "./animation";
+import { ELEMENTS } from "./ui";
 
 async function calculateTime(date) {
 	const currentDate = new Date();
@@ -27,19 +10,23 @@ async function calculateTime(date) {
 		return;
 	}
 
+	const daysInYear = 365;
+	const hoursInDay = 24;
 	const yearsDiff = differenceInYears(targetDate, currentDate);
-	const daysDiff = differenceInDays(targetDate, currentDate) % 365;
-	const hoursDiff = differenceInHours(targetDate, currentDate) % 24;
+	const daysDiff = differenceInDays(targetDate, currentDate) % daysInYear;
+	const hoursDiff = differenceInHours(targetDate, currentDate) % hoursInDay;
 
 	await animateCountup(ELEMENTS.DATE.HOUR, hoursDiff);
 	await animateCountup(ELEMENTS.DATE.DAY, daysDiff);
 	await animateCountup(ELEMENTS.DATE.YEAR, yearsDiff);
 }
 
-ELEMENTS.BUTTON.addEventListener("click", () => {
+function buttonClick() {
 	const enteredDate = ELEMENTS.INPUT.value;
 	if (!enteredDate) {
 		return;
 	}
 	calculateTime(enteredDate);
-});
+}
+
+ELEMENTS.BUTTON.addEventListener('click', buttonClick);
