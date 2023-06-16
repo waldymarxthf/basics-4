@@ -36,6 +36,6 @@ const user = new Storage('test', STORAGE.SESSION)
 // testing
 user.get('Jex')
 user.set('Jex')
-console.log(user.isEmpty())
+// console.log(user.isEmpty())
 console.log(user.get('Jex'))
-// names.clear()
+// user.clear()
