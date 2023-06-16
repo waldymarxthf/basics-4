@@ -7,16 +7,21 @@ class Storage {
     this.method.setItem(this.name, value);
   }
   get() {
-    this.method.getItem(this.name);
+    return this.method.getItem(this.name);
   }
   clear() {
-    // this.method.removeItem(this.name);
+    this.method.setItem(this.name, '');
   }
-  isEmpty() {}
+  isEmpty() {
+    const value = this.get();
+    if (value === 'null' || value === 'undefined') {
+      return true;
+    }
+    return false;
+  }
 }
 
-// localStorage.setItem('test', 1);
 const names = new Storage('test1231');
-names.set('123');
+names.set('undefined');
 names.get();
-// names.clear();
+console.log(names.isEmpty());
