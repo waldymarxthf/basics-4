@@ -1,4 +1,4 @@
-import { intervalToDuration, formatDuration } from "date-fns";
+import { intervalToDuration, formatDuration, format } from "date-fns";
 import { ru } from "date-fns/locale";
 
 const input = document.querySelector(".date");
@@ -68,3 +68,10 @@ const btnHandler = (event) => {
 };
 
 btn.addEventListener("click", btnHandler);
+
+function setInputAttributeMin() {
+	const msInDay = 86400000;
+	const dateInFormat = format(Date.now() + msInDay, "yyyy-MM-dd");
+	input.setAttribute("min", dateInFormat);
+}
+setInputAttributeMin();

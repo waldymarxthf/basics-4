@@ -12,8 +12,6 @@ body {
 	height: 227px;
 	font-weight: 600;
 	margin: auto;
-	/* display: flex;
-	flex-direction: column; */
 }
 
 .form > label {
