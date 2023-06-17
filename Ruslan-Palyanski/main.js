@@ -4,21 +4,15 @@ import {form, input, temperatureNumber, place, buttonAddCity,
         city, list, weatherIcon, countryNodeTitle, 
         elementTemperature, elementFeels, elementWeather,
         elementSunrise, elementSunset, 
-        tabs, nodeTab, tabContent} from './constants.js';
+        tabs, nodeTab, tabDate, tabTime, tm, 
+        like, rain, imgPng, tab3, tabContent} from './constants.js';
 import {serverData, getData} from './server.js';
-import { compareAsc, format } from 'date-fns';
+
 
 const currentCity = storage.getCurrentCity();
 
+const [dataP1, dataP2] = await getData(currentCity);
 
-// const [dataP1, dataP2] = await getData(currentCity);
-
-let dataP1, dataP2;
-
-window.addEventListener("DOMContentLoaded", async () => {
-   [dataP1, dataP2] = await getData(currentCity);
-   render(dataP1, dataP2);
-})
 
 function showDetails(data){
     const tmpC = getCelsius(data.main.temp)
@@ -189,11 +183,10 @@ async function pushData(event){
 
 
 function createTabBlock(date, time, tm, feels, cloud, img){
-    const dataFns = format(new Date(date), 'yyyy-MM-dd');
     tabContent.insertAdjacentHTML('beforeEnd', `
         <div class="tab-3__block">
         <div class="tab-3__data">
-            <div class="tab-3__date">${dataFns}</div>
+            <div class="tab-3__date">${date}</div>
             <div class="tab-3__time">${time}</div>
         </div>
         <div class="tab-3__weaather">
@@ -209,7 +202,7 @@ function createTabBlock(date, time, tm, feels, cloud, img){
         </div>`)
 }
 
-async function addCity(){
+function addCity(){
     const myCity = city.textContent;
     storage.saveFavoriteCities([...storage.getFavoriteCities(), myCity])
     storage.setStartCity(myCity)
@@ -224,7 +217,7 @@ tabs.addEventListener('click', changeClass)
 form.addEventListener('submit', pushData)
 buttonAddCity.addEventListener('click', addCity)
 
-
+render(dataP1, dataP2)
 
 
 
