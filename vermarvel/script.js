@@ -1,6 +1,6 @@
 "use strict";
 
-import dom from "./dom.mjs";
+import { dom } from "./dom.mjs";
 import store from "./store.mjs";
 
 // States
@@ -213,36 +213,36 @@ function displayForecast(arr, tZone) {
     } = time;
 
     // assemble a list item
-    const divClone = dom.sourceForecast.cloneNode(true);
+    const cloneDiv = dom.sourceForecast.cloneNode(true);
     // add date
-    const fcDateText = divClone.querySelector(".fc-date-text");
+    const fcDateText = cloneDiv.querySelector(".fc-date-text");
     const fcDate = convertTime(curTime, tZone, "date");
     fcDateText.textContent = fcDate;
     const detDateText = document.querySelector("#details-date");
     detDateText.textContent = fcDate;
     // add time
-    const fcTimeText = copiedLi.querySelector(".fc-time-text");
+    const fcTimeText = cloneDiv.querySelector(".fc-time-text");
     const fcTime = convertTime(curTime, tZone, "time");
 
     fcTimeText.textContent = fcTime;
     // add temp abd feels like
-    const fcTempText = copiedLi.querySelector(".fc-temp-text");
+    const fcTempText = cloneDiv.querySelector(".fc-temp-text");
     fcTempText.textContent = `Temperature: ${tempFormatted(temp)}℃`;
-    const fcFeelsText = copiedLi.querySelector(".fc-feels-text");
+    const fcFeelsText = cloneDiv.querySelector(".fc-feels-text");
     fcFeelsText.textContent = `Feels like: ${tempFormatted(feels)}℃`;
     // add Precipitation
-    const fcPrecepText = copiedLi.querySelector(".fc-precep-text");
+    const fcPrecepText = cloneDiv.querySelector(".fc-precep-text");
     fcPrecepText.textContent = fcPrecep;
     // add weather icon
-    const fcIcon = copiedLi.querySelector(".below-right");
+    const fcIcon = cloneDiv.querySelector(".below-right");
     const img = document.createElement("img");
     const imgUrl = `https://openweathermap.org/img/wn/${icon}@4x.png`;
     img.src = imgUrl;
     fcIcon.appendChild(img);
     img.classList.add("mini-icon");
 
-    dom.parentForecast.appendChild(divClone);
-    divClone.classList.remove("hidden");
+    dom.parentForecast.appendChild(cloneDiv);
+    cloneDiv.classList.remove("hidden");
   });
 }
 function navigateTabs(event) {
@@ -270,7 +270,7 @@ function renderFavs() {
   favourites.forEach((city) => {
     // assemble a div
     const divClone = dom.sourceFav.cloneNode(true);
-    const textInside = copiedDiv.querySelector(".text");
+    const textInside = divClone.querySelector(".text");
     textInside.textContent = city;
 
     dom.parentFavs.appendChild(divClone);

@@ -2,7 +2,7 @@
 
 const getDOM = (s) => document.querySelector(s);
 // *****Variables********
-const dom = {
+export const dom = {
   // Elements
   form: getDOM(".form"),
   input: getDOM("#search-input"),
@@ -19,7 +19,7 @@ const dom = {
   // Error
   errorBox: getDOM(".error-box"),
   errorMsg: getDOM(".err-msg"),
-  errorDelete: getDOM("err-delete"),
+  errorDelete: getDOM(".err-delete"),
 
   // Pages
   nowPage: getDOM(".now-page"),
@@ -55,5 +55,3 @@ const dom = {
   fcIcon: getDOM(".below-right"),
   parentForecast: getDOM(".forecast-hourly-container"),
 };
-
-export { dom };
