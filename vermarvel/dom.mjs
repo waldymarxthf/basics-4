@@ -1,95 +1,59 @@
 // Exporting module: UI (DOM selectors)
 
-// *****Variables********
 const getDOM = (s) => document.querySelector(s);
-// Elements
-const form = getDOM(".form");
-const input = getDOM("#search-input");
-// Now Page
-const nowPageTemp = getDOM(".ui-temp");
-const nowPageCloud = getDOM(".cloud");
-// Tabs
-const tabs = getDOM(".lower");
-const tabNow = getDOM(".now");
-const tabDetails = getDOM(".details");
-const tabForecast = getDOM(".forecast");
-// Error
-const errorBox = getDOM(".error-box");
-const errorMsg = getDOM(".err-msg");
-const errorDelete = getDOM("err-delete");
+// *****Variables********
+const dom = {
+  // Elements
+  form: getDOM(".form"),
+  input: getDOM("#search-input"),
 
-// Pages
-const nowPage = getDOM(".now-page");
-const detailsPage = getDOM(".details-page");
-const forecastPage = getDOM(".forecast-page");
+  // Now Page
+  nowPageTemp: getDOM(".ui-temp"),
+  nowPageCloud: getDOM(".cloud"),
 
-// Now page
-const nowPageCity = getDOM(".ui-city");
-const iconCloudImg = getDOM(".icon-cloud-img");
-const sourceHeartEmpty = getDOM(".source-heart-empty");
-const sourceHeartFull = getDOM(".source-heart-full");
-const parentHeart = getDOM(".heart");
-const checkboxHeart = getDOM(".checkbox");
-const sourceFav = getDOM(".source-fav-div");
-const parentFavs = getDOM(".all-favs");
-const btnDelete = getDOM(".delete");
+  // Tabs
+  tabs: getDOM(".lower"),
+  tabNow: getDOM(".now"),
+  tabDetails: getDOM(".details"),
+  tabForecast: getDOM(".forecast"),
+  // Error
+  errorBox: getDOM(".error-box"),
+  errorMsg: getDOM(".err-msg"),
+  errorDelete: getDOM("err-delete"),
 
-// Details Page
-const detailsCity = getDOM("#details-city");
-const detailsTemp = getDOM("#temperature");
-const detailsFeels = getDOM("#feels");
-const detailsWeather = getDOM("#weather");
-const detailsSunrise = getDOM("#sunrise");
-const detailsSunset = getDOM("#sunset");
+  // Pages
+  nowPage: getDOM(".now-page"),
+  detailsPage: getDOM(".details-page"),
+  forecastPage: getDOM(".forecast-page"),
 
-// Forecast
-const fcCity = getDOM("#fc-city");
-const sourceForecast = getDOM(".source-forecast");
-const fcDate = getDOM(".above-left");
-const fcTemp = getDOM(".mid-left");
-const fcFeels = getDOM(".below-left");
-const fcTime = getDOM(".above-right");
-const fcPrecep = getDOM(".mid-right");
-const fcIcon = getDOM(".below-right");
-const parentForecast = getDOM(".forecast-hourly-container");
+  // Now page
+  nowPageCity: getDOM(".ui-city"),
+  iconCloudImg: getDOM(".icon-cloud-img"),
+  sourceHeartEmpty: getDOM(".source-heart-empty"),
+  sourceHeartFull: getDOM(".source-heart-full"),
+  parentHeart: getDOM(".heart"),
+  checkboxHeart: getDOM(".checkbox"),
+  sourceFav: getDOM(".source-fav-div"),
+  parentFavs: getDOM(".all-favs"),
+  btnDelete: getDOM(".delete"),
+  // Details Page
+  detailsCity: getDOM("#details-city"),
+  detailsTemp: getDOM("#temperature"),
+  detailsFeels: getDOM("#feels"),
+  detailsWeather: getDOM("#weather"),
+  detailsSunrise: getDOM("#sunrise"),
+  detailsSunset: getDOM("#sunset"),
 
-export default {
-  input,
-  nowPageCloud,
-  nowPageTemp,
-  tabs,
-  tabNow,
-  tabDetails,
-  tabForecast,
-  form,
-  errorBox,
-  nowPageCity,
-  iconCloudImg,
-  sourceHeartEmpty,
-  sourceHeartFull,
-  parentHeart,
-  checkboxHeart,
-  sourceFav,
-  parentFavs,
-  nowPage,
-  forecastPage,
-  detailsPage,
-  btnDelete,
-  detailsCity,
-  detailsTemp,
-  detailsFeels,
-  detailsWeather,
-  detailsSunrise,
-  detailsSunset,
-  fcCity,
-  errorMsg,
-  errorDelete,
-  fcDate,
-  fcFeels,
-  fcIcon,
-  fcPrecep,
-  fcTime,
-  fcTemp,
-  sourceForecast,
-  parentForecast,
+  // Forecast
+  fcCity: getDOM("#fc-city"),
+  sourceForecast: getDOM(".source-forecast"),
+  fcDate: getDOM(".above-left"),
+  fcTemp: getDOM(".mid-left"),
+  fcFeels: getDOM(".below-left"),
+  fcTime: getDOM(".above-right"),
+  fcPrecep: getDOM(".mid-right"),
+  fcIcon: getDOM(".below-right"),
+  parentForecast: getDOM(".forecast-hourly-container"),
 };
+
+export { dom };

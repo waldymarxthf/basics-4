@@ -3,16 +3,16 @@
 import dom from "./dom.mjs";
 import store from "./store.mjs";
 
-// Variables
+// States
 let rawInput = null;
 let uiCityName = null;
 let curFav;
+let favourites = JSON.parse(store.get("favourites")) || [];
 
+// Api
 const serverUrl = "http://api.openweathermap.org/data/2.5/weather";
 const apiKey = "afc9f2df39f9e9e49eeb1afac7034d35";
 // const apiKey = "bee4bd6edc3ca09763c0dc89f33c92c4"; // spare apiKey
-
-let keeper = JSON.parse(store.get("keeper")) || [];
 
 // Helper functions
 
@@ -20,12 +20,10 @@ function resetInput() {
   dom.input.value = "";
 }
 
-// clear Favs
 function resetFavScr() {
   dom.parentFavs.innerHTML = "";
 }
 
-// Get user input
 function getInput() {
   rawInput = dom.input.value;
 }
@@ -34,18 +32,17 @@ function toggleCheckbox() {
   const isChecked = dom.checkboxHeart.checked;
 
   if (isChecked) {
-    if (!keeper.includes(dom.nowPageCity.textContent)) {
+    if (!favourites.includes(dom.nowPageCity.textContent)) {
       // Add city to FAVS
-      keeper.push(dom.nowPageCity.textContent);
-      store.set("keeper", JSON.stringify(keeper));
+      favourites.push(dom.nowPageCity.textContent);
+      store.set("favourites", JSON.stringify(favourites));
     }
   } else {
-    console.log(keeper);
     deleteFav(dom.nowPageCity.textContent);
 
-    // Delete from FAVs and save keeper
-    keeper = keeper.filter((city) => city !== uiCityName);
-    store.set("keeper", JSON.stringify(keeper));
+    // Delete from FAVs and save favourites
+    favourites = favourites.filter((city) => city !== uiCityName);
+    store.set("favourites", JSON.stringify(favourites));
   }
   renderFavs();
 }
@@ -63,17 +60,18 @@ function hideErrorBox() {
 }
 
 // Data processing
-function convertTime(time, tZone, boolean) {
-  const date = new Date((time + tZone) * 1000);
+function convertTime(time, tZone, type) {
+  const msPerSecond = 1000;
+  const date = new Date((time + tZone) * msPerSecond);
 
-  if (boolean === true) {
+  if (type === "time") {
     const hours = ("0" + date.getUTCHours()).slice(-2);
     const minutes = ("0" + date.getUTCMinutes()).slice(-2);
-    const formattedTime = hours + ":" + minutes;
+    const formattedTime = `${hours} ":" ${minutes}`;
     return formattedTime;
   }
 
-  if (boolean === false) {
+  if (type === "date") {
     const options = { day: "numeric", month: "short" };
     let formattedDate = date.toLocaleDateString("en-US", options);
 
@@ -98,7 +96,7 @@ function getJSON(url, msg) {
 function getData() {
   // Defining current favourite
   if (!curFav || curFav === null || curFav === undefined) {
-    curFav = store.get("curFav") || rawInput || keeper[0] || "Shymkent";
+    curFav = store.get("curFav") || rawInput || favourites[0] || "Shymkent";
   }
 
   if (!rawInput) {
@@ -110,7 +108,6 @@ function getData() {
   const url = `${serverUrl}?q=${rawInput}&appid=${apiKey}&units=metric`;
   getJSON(url, "City not found")
     .then((data) => {
-      console.log("details ----");
       const {
         coord: { lon, lat },
         main: { temp, feels_like: feels },
@@ -122,8 +119,8 @@ function getData() {
 
       const detFeelsLike = tempFormatted(feels);
       const uiTemp = tempFormatted(temp);
-      const detSunrise = convertTime(sunrise, tZone, true);
-      const detSunset = convertTime(sunset, tZone, true);
+      const detSunrise = convertTime(sunrise, tZone, "time");
+      const detSunset = convertTime(sunset, tZone, "time");
 
       displayNow({
         uiCityName,
@@ -183,7 +180,7 @@ function displayNow({ uiCityName, uiTemp, icon }) {
   // set the corresponding checknox
   dom.parentHeart.classList.remove("hidden");
 
-  keeper.includes(uiCityName)
+  favourites.includes(uiCityName)
     ? (dom.checkboxHeart.checked = true)
     : (dom.checkboxHeart.checked = false);
 
@@ -216,16 +213,16 @@ function displayForecast(arr, tZone) {
     } = time;
 
     // assemble a list item
-    const copiedLi = dom.sourceForecast.cloneNode(true);
+    const divClone = dom.sourceForecast.cloneNode(true);
     // add date
-    const fcDateText = copiedLi.querySelector(".fc-date-text");
-    const fcDate = convertTime(curTime, tZone, false);
+    const fcDateText = divClone.querySelector(".fc-date-text");
+    const fcDate = convertTime(curTime, tZone, "date");
     fcDateText.textContent = fcDate;
     const detDateText = document.querySelector("#details-date");
     detDateText.textContent = fcDate;
     // add time
     const fcTimeText = copiedLi.querySelector(".fc-time-text");
-    const fcTime = convertTime(curTime, tZone, true);
+    const fcTime = convertTime(curTime, tZone, "time");
 
     fcTimeText.textContent = fcTime;
     // add temp abd feels like
@@ -243,30 +240,44 @@ function displayForecast(arr, tZone) {
     img.src = imgUrl;
     fcIcon.appendChild(img);
     img.classList.add("mini-icon");
-    // nest the div and make it visible
-    dom.parentForecast.appendChild(copiedLi);
-    copiedLi.classList.remove("hidden");
+
+    dom.parentForecast.appendChild(divClone);
+    divClone.classList.remove("hidden");
   });
 }
+function navigateTabs(event) {
+  const target = event.target;
 
+  if (!target) return;
+
+  // Hide all
+  dom.nowPage.classList.add("hidden");
+  dom.detailsPage.classList.add("hidden");
+  dom.forecastPage.classList.add("hidden");
+
+  // Detect target page
+  const pageID = target.getAttribute("data-target");
+  const pageToOpen = dom[pageID];
+  pageToOpen.classList.remove("hidden");
+}
 // %%%%%%%%%%%%%%%%%%%%%%% FAVs %%%%%%%%%%%%%%%%%%%%%%%%%%
 
 // Render the Favourites list
 function renderFavs() {
   resetFavScr();
 
-  if (keeper.length === 0) return;
-  keeper.forEach((city) => {
+  if (favourites.length === 0) return;
+  favourites.forEach((city) => {
     // assemble a div
-    const copiedDiv = dom.sourceFav.cloneNode(true);
+    const divClone = dom.sourceFav.cloneNode(true);
     const textInside = copiedDiv.querySelector(".text");
     textInside.textContent = city;
 
-    dom.parentFavs.appendChild(copiedDiv);
-    copiedDiv.classList.remove("hidden");
-    copiedDiv.classList.remove("source-fav-div");
+    dom.parentFavs.appendChild(divClone);
+    divClone.classList.remove("hidden");
+    divClone.classList.remove("source-fav-div");
     if (city === dom.nowPageCity.textContent) {
-      copiedDiv.classList.add("cur-fav");
+      divClone.classList.add("cur-fav");
     }
   });
 }
@@ -278,56 +289,21 @@ function displayCurFav() {
 }
 
 function deleteFav(uiCityName) {
-  keeper = keeper.filter((city) => city !== uiCityName);
+  favourites = favourites.filter((city) => city !== uiCityName);
   if (dom.nowPageCity.textContent === uiCityName) {
     dom.checkboxHeart.checked = false;
   }
-  if (keeper.length === 0) {
+  if (favourites.length === 0) {
     curFav = uiCityName || "Shymkent";
   }
 
   // Store
   store.set("curFav", curFav);
-  store.set("keeper", JSON.stringify(keeper));
+  store.set("favourites", JSON.stringify(favourites));
   renderFavs();
 }
 
-//%%%%%%%%%%%%%%%%%  Listeners  %%%%%%%%%%%%%%%%%%%%%%%%
-
-document.addEventListener("DOMContentLoaded", getData);
-
-// Submit
-dom.form.addEventListener("submit", function (event) {
-  event.preventDefault();
-  getInput();
-
-  try {
-    // start the process of retreiving data
-    getData();
-    resetInput();
-  } catch (err) {
-    renderError(`💥 Something went wrong!: ${err.message}💥`);
-  }
-});
-
-// Clear the input when it gets focus
-dom.input.addEventListener("focus", function () {
-  resetInput();
-});
-
-// Close Error Alert
-dom.errorBox.addEventListener("click", function (event) {
-  const target = event.target;
-  if (target.classList.contains("fa-xmark")) {
-    hideErrorBox();
-  }
-});
-
-// Heart toggle
-dom.checkboxHeart.addEventListener("change", toggleCheckbox);
-
-// Favs: manipulation (delete/display)
-dom.parentFavs.addEventListener("click", function (event) {
+function manipulateFavs(event) {
   const target = event.target;
 
   // Display
@@ -355,26 +331,39 @@ dom.parentFavs.addEventListener("click", function (event) {
     uiCityName = targetText.textContent;
     deleteFav(uiCityName);
   }
+}
+//%%%%%%%%%%%%%%%%%  Listeners  %%%%%%%%%%%%%%%%%%%%%%%%
+
+document.addEventListener("DOMContentLoaded", getData);
+
+// Submit
+dom.form.addEventListener("submit", function (event) {
+  event.preventDefault();
+  getInput();
+
+  try {
+    getData();
+    resetInput();
+  } catch (err) {
+    renderError(`💥 Something went wrong!: ${err.message}💥`);
+  }
 });
+
+// Clear the input when it gets focus
+dom.input.addEventListener("focus", function () {
+  resetInput();
+});
+
+// Close Error Alert
+dom.errorDelete.addEventListener("click", hideErrorBox);
+
+// Heart toggle
+dom.checkboxHeart.addEventListener("change", toggleCheckbox);
+
+// Favs: manipulation (delete/display)
+dom.parentFavs.addEventListener("click", (event) => manipulateFavs(event));
 
 // Navigation tabs
-dom.tabs.addEventListener("click", function (event) {
-  const target = event.target;
-
-  // Guard clause
-  if (!target) return;
-
-  // Hide all
-  dom.nowPage.classList.add("hidden");
-  dom.detailsPage.classList.add("hidden");
-  dom.forecastPage.classList.add("hidden");
-
-  // Detect target page
-  const pageID = target.getAttribute("data-target");
-  const pageToOpen = dom[pageID];
-
-  // Open the target page
-  pageToOpen.classList.remove("hidden");
-});
+dom.tabs.addEventListener("click", (event) => navigateTabs(event));
 
 // Further upgrade and fixes:
