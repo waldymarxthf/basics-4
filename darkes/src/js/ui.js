@@ -1,5 +1,5 @@
 export const ELEMENTS = {
-	BUTTON: document.querySelector(".calculate-button"),
+	FORM: document.querySelector(".date-input-container"),
 	INPUT: document.querySelector(".date-input"),
 	COUNTDOWN_TEXT: document.querySelector(".countdown-timer"),
 	DATE: {

@@ -28,11 +28,6 @@ body {
 .date-input-container {
 	display: flex;
 	align-items: center;
-	width: 100%;
-	height: 50px;
-	max-width: 300px;
-	border-radius: 12px;
-	box-shadow: 0 0 7px black;
 }
 
 .date-input {
@@ -44,13 +39,11 @@ body {
 	background-color: transparent;
 	color: #6c6c6c;
 	font-weight: 500;
-}
-
-.date-picker-button {
-	border: none;
-	background: none;
-	padding: 7px 10px;
-	cursor: pointer;
+	max-width: 300px;
+	border-radius: 12px;
+	box-shadow: 0 0 7px black;
+	width: 200px;
+	height: 50px;
 }
 
 .calculate-button {
@@ -63,9 +56,8 @@ body {
 	color: #ffffff;
 	font-size: 18px;
 	font-weight: 500;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 0 7px black;
 	cursor: pointer;
-	transition: background-color 0.3s ease;
 }
 
 .calculate-button:hover {
