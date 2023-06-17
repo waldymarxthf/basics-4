@@ -4,8 +4,8 @@ class Storage {
         sessionStorage: 'sessionStorage',
     };
 
-    constructor(name, storage, value) {
-        this.name = name;
+    constructor(key, storage, value) {
+        this.key = key;
         this.storage =
             storage === this.#storages.localStorage || storage === this.#storages.sessionStorage
                 ? storage
@@ -16,10 +16,10 @@ class Storage {
     set(value) {
         switch (this.storage) {
             case this.#storages.localStorage:
-                localStorage.setItem(this.name, value);
+                localStorage.setItem(this.key, value);
                 break;
             case this.#storages.sessionStorage:
-                sessionStorage.setItem(this.name, value);
+                sessionStorage.setItem(this.key, value);
                 break;
             default:
                 break;
@@ -29,10 +29,10 @@ class Storage {
     get() {
         switch (this.storage) {
             case this.#storages.localStorage:
-                return localStorage.getItem(this.name);
+                return localStorage.getItem(this.key);
                 break;
             case this.#storages.sessionStorage:
-                return sessionStorage.getItem(this.name);
+                return sessionStorage.getItem(this.key);
                 break;
             default:
                 break;
@@ -42,10 +42,10 @@ class Storage {
     clear() {
         switch (this.storage) {
             case this.#storages.localStorage:
-                localStorage.setItem(this.name, null);
+                localStorage.setItem(this.key, null);
                 break;
             case this.#storages.sessionStorage:
-                sessionStorage.setItem(this.name, null);
+                sessionStorage.setItem(this.key, null);
                 break;
             default:
                 break;
@@ -62,7 +62,7 @@ class Storage {
     };
 
     #checkStorage(storage) {
-        const value = storage.getItem(this.name);
+        const value = storage.getItem(this.key);
         return value === 'null' || value === 'undefined';
     }
 };
