@@ -1,27 +1,15 @@
-class Storage {
-  constructor(name, type = "local", defaultValue = null) {
-    this.name = name;
-    this.storage = type === "session" ? sessionStorage : localStorage;
-    this.defaultValue = defaultValue;
-  }
+import { Storage } from "./Storage.mjs";
 
-  get() {
-    const value = this.storage.getItem(this.name);
-    return value !== null ? JSON.parse(value) : this.defaultValue;
-  }
+const storage = new Storage("names", { type: "local", data: [1, 2, 3, 4] });
 
-  set(value) {
-    this.storage.setItem(this.name, JSON.stringify(value));
-  }
+console.log(storage.get());
 
-  clear() {
-    this.storage.removeItem(this.name);
-  }
+console.log(storage.isEmpty());
 
-  isEmpty() {
-    const value = this.get();
-    return value === null || value === undefined;
-  }
-}
+storage.set([8]);
 
-const name = new Storage("letters", "session", ["a", "b", "c"]);
+console.log(storage.get());
+
+storage.clear();
+
+console.log(storage.isEmpty());
