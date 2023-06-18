@@ -4,7 +4,7 @@ export class Storage {
 
     this.key = key;
     this.type = type === "session" ? sessionStorage : localStorage;
-    this.data = this.set(data);
+    this.set(data);
   }
 
   get() {
@@ -24,6 +24,6 @@ export class Storage {
   isEmpty() {
     const data = this.get();
 
-    return data === null || data === undefined;
+    return !data;
   }
 }
