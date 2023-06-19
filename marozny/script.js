@@ -4,10 +4,12 @@ import { UI_ELEMENTS } from './ui-elements.js';
 function differenceInDate(date) {
 	const currentDate = new Date();
 	const inputDate = new Date(date);
+	const daysInYear = 365;
+	const hoursInDay = 24;
 
 	const years = differenceInYears(inputDate, currentDate);
-	const days = differenceInDays(inputDate, currentDate) % 365;
-	const hours = differenceInHours(inputDate, currentDate) % 24;
+	const days = differenceInDays(inputDate, currentDate) % daysInYear;
+	const hours = differenceInHours(inputDate, currentDate) % hoursInDay;
 
 	createUI(years, days, hours);
 }
