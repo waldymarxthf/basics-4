@@ -23,6 +23,5 @@ class Storage {
 }
 
 const city = new Storage(localStorage, 'city', 'Yaroslavl');
-city.set()
-const stor = city.get();
 console.log(city)
+console.log(city.get())
