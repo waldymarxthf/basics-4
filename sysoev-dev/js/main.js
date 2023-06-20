@@ -1,27 +1,41 @@
+'use strict';
+
 class Storage {
-  constructor(name, method) {
-    this.name = name;
-    this.method = method ?? localStorage;
+  static storagesType = {
+    local: localStorage,
+    session: sessionStorage,
+  };
+
+  constructor(key, method = Storage.storagesType.local, value = 'Test value') {
+    this.key = key;
+    this.method = method;
+    this.value = value;
+    this.set(value);
   }
   set(value) {
-    this.method.setItem(this.name, value);
+    this.method.setItem(this.key, JSON.stringify(value));
   }
   get() {
-    return this.method.getItem(this.name);
+    try {
+      return JSON.parse(this.method.getItem(this.key));
+    } catch (error) {
+      console.log(error);
+    }
   }
   clear() {
-    this.method.setItem(this.name, '');
+    this.method.setItem(this.key, null);
   }
   isEmpty() {
-    const value = this.get();
-    if (value === 'null' || value === 'undefined') {
-      return true;
-    }
-    return false;
+    return !this.get();
   }
 }
 
 const names = new Storage('test1231');
-names.set('undefined');
-names.get();
+console.log(names.get());
+names.clear();
+console.log(names.get());
 console.log(names.isEmpty());
+
+const test = new Storage('wtf?', Storage.storagesType.local, 'xxxzxxx');
+console.log(test.get());
+console.log(test.isEmpty());
