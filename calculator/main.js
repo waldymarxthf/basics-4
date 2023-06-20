@@ -1,17 +1,20 @@
 import { answerLine } from "./answerLine.js";
 import { deleteAnswer } from "./deleteAnswer.js";
 
-//const equalButton = document.getElementById('equal');
-const form = document.getElementById('form');
+const equalButton = document.getElementById('equal');
+export const form = document.getElementById('form');
 const answer = document.getElementById('answer');
 const select = document.getElementById('action');
+
+
 
 export const line = document.getElementById('lineAnswers');
 
 
 
 
-function calculate(){
+function calculate(event){
+    event.preventDefault();
     const valueOne = Number(document.getElementById('valueOne').value);
     const valueTwo = Number(document.getElementById('valueTwo').value);
     const action = select.value;    
@@ -41,7 +44,7 @@ function calculate(){
 
 
 
-form.addEventListener("submit", calculate)
+equalButton.addEventListener("click", calculate)
 //equalButton.addEventListener("click", calculate); 
 line.addEventListener("click", deleteAnswer);
 
