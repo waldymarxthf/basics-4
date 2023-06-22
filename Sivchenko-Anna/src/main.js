@@ -1,21 +1,26 @@
 const STORAGE_TYPE = {
-	LOCAL: localStorage,
-	SESSION: sessionStorage,
+	LOCAL: "local",
+	SESSION: "session",
 };
 
 class Storage {
-	constructor(key, value, storage = STORAGE_TYPE.LOCAL) {
+	constructor(key, storage = STORAGE_TYPE.LOCAL, value = null) {
 		this.key = key;
+		this.storage = storage === STORAGE_TYPE.LOCAL ? localStorage : sessionStorage;
 		this.value = value;
-		this.storage = storage;
+		this.storage.setItem(key, value);
 	}
 
 	set(value) {
-		this.storage.setItem(this.key, value);
+		this.storage.setItem(this.key, JSON.stringify(value));
 	}
 
 	get() {
-		return this.storage.getItem(this.key);
+		try {
+			return JSON.parse(this.storage.getItem(this.key));
+		} catch (error) {
+			console.log(error);
+		}
 	}
 
 	clear() {
@@ -23,8 +28,7 @@ class Storage {
 	}
 
 	isEmpty() {
-		const item = this.storage.getItem(this.key);
-		return item === null || item === undefined;
+		return !this.get();
 	}
 }
 
