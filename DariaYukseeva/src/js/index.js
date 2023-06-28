@@ -1,12 +1,23 @@
+const storageTypes = {
+	local: localStorage,
+	session: sessionStorage,
+};
 class Storage {
-	constructor(key, storage, defaultValue) {
+	constructor(key, storage = storageTypes.local, defaultValue) {
 		this.key = key;
 		this.storage = storage;
 		this.defaultValue = defaultValue;
 	}
 
 	get() {
-		return JSON.parse(this.storage.getItem(this.key));
+		try {
+			if (!this.storage.getItem(this.key)) {
+				return this.defaultValue;
+			}
+			return JSON.parse(this.storage.getItem(this.key));
+		} catch (err) {
+			console.log(err);
+		}
 	}
 
 	set(value = this.defaultValue) {
@@ -18,17 +29,24 @@ class Storage {
 	}
 
 	isEmpty() {
-		return !this.get();
+		try {
+			return !JSON.parse(this.storage.getItem(this.key));
+		} catch (err) {
+			console.log(err);
+		}
 	}
 }
 
-const cities = new Storage("city", localStorage, "Moscow");
+const cities = new Storage("city", storageTypes.local, "Moscow");
+console.log(cities.get());
 cities.set("Ekaterinburg");
-const favCity = cities.get();
-cities.clear();
+// cities.clear();
+console.log(cities.get());
 const isEmptyCityStorage = cities.isEmpty();
-const user = new Storage("user", sessionStorage);
+const user = new Storage("user", storageTypes.session);
 user.set("Daria");
+console.log(user.get());
+
 user.clear();
 console.log(isEmptyCityStorage);
 console.log(user.isEmpty());
