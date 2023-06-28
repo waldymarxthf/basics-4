@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Chat</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Gudea:wght@400;700&family=Montserrat:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+
+    <script type="module" src="script.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <header>
+        <button class="btn-settings">
+          <i class="fa-solid fa-bars icon-settings"></i>
+        </button>
+        <div class="other-name">Sam</div>
+        <button class="btn-exit">
+          <i class="fa-solid fa-arrow-right-from-bracket icon-exit"></i>
+        </button>
+      </header>
+      <div class="chat-screen">
+        <dialog class="dialog-settings">
+          <div class="heading">Settings</div>
+          <form class="form-nickname" method="dialog">
+            <legend class="legend-dialog">Nickname</legend>
+            <div class="dialog-form-wrapper">
+              <input type="text" class="input-dialog" placeholder=" Nickname" />
+              <button class="btn-ok">
+                <i class="fa-regular fa-circle-check icon-ok"></i>
+              </button>
+            </div>
+          </form>
+        </dialog>
+        <div class="chat-tape">
+          <div class="user-message message">
+            <p class="user-name">Mike</p>
+            <p class="user-message-text delivered-message">Hey there!</p>
+            <div class="time-container">
+              <time><em>18:03</em></time>
+            </div>
+          </div>
+          <div class="other-message message">
+            <p class="other-name"><strong>Sam</strong></p>
+            <p class="other-message-text">
+              What's up! It's been a while seeing you, how's it going? How was
+              your trip to Cape Town last month?
+            </p>
+            <div class="time-container">
+              <time><em>18:47</em></time>
+            </div>
+          </div>
+          <div class="other-message message">
+            <p class="other-message-text">
+              I've been caught up with work lately, having this new challenging
+              project, no clue when it's over, frankly, but I would like to
+              catch up with you some day this month, what would you say?
+            </p>
+            <div class="time-container">
+              <time><em>18:47</em></time>
+            </div>
+          </div>
+          <div class="user-message message delivered-message">
+            <p class="user-message-text">
+              Oh yes, we have a lot to discuss, that trip to CT was quite an
+              adventure. I am currently out of town, will be back in a week,
+              would love to see you then
+            </p>
+            <div class="time-container">
+              <time><em>18:53</em></time>
+            </div>
+          </div>
+          <div class="other-message message">
+            <p class="other-name"><strong>Sam</strong></p>
+            <p class="other-message-text">
+              Oh, so you're out of town, nice! Sounds like a plan, see you then,
+              I'll call you closer to the day you're back to set the day and
+              venue. So have a good time! Cheers
+            </p>
+            <div class="time-container">
+              <time><em>18:55</em></time>
+            </div>
+          </div>
+          <div class="user-message message sent-message">
+            <p class="user-message-text">Great see you then, can't wait!</p>
+            <div class="time-container">
+              <time><em>19:53</em></time>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <form class="form-message">
+          <fieldset>
+            <input type="text" id="name-input" placeholder=" Message..." />
+            <button class="btn-send">
+              <i class="fa-solid fa-paper-plane"></i>
+            </button>
+          </fieldset>
+        </form>
+      </footer>
+    </main>
+    <script
+      src="https://kit.fontawesome.com/f6dababe73.js"
+      crossorigin="anonymous"
+    ></script>
+    <script type="module"></script>
+  </body>
+</html>
