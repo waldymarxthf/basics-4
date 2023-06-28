@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;1,300&display=swap');
+
+
+
+body {
+	font-family: 'Roboto', sans-serif;
+	background-color: #6E6C79;
+}
+
+.main {
+	margin: 60px auto;
+	padding: 8px;
+
+	width: 320px;
+	height: 533px;
+
+	outline: 1px solid #0A0A0E;
+
+	background-color: #3B3B3D;
+}
+
+.nav {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	margin-bottom: 8px;
+
+	button {
+		padding: 8px;
+		outline: 1px solid #0A0A0E;
+	}
+}
+
+.wrap {
+	margin-bottom: 8px;
+	padding: 8px;
+	
+	width: 304px;
+	height: 437px;
+	
+	overflow-y: scroll;
+
+	outline: 1px solid #0A0A0E;
+}
+
+.wrap::-webkit-scrollbar { width: 0; }
+
+.chat {
+	display: flex;
+	flex-direction: column;
+	justify-content: end;
+	row-gap: 8px;
+	min-height: 100%;
+}
+
+.chat-message {
+	width: fit-content;
+	padding: 8px;
+	line-height: 18.75px;
+}
+
+.time {
+	text-align: right;
+
+	font-size: 14px;
+	font-family: 'Roboto', sans-serif;
+	font-style: italic;
+}
+
+
+.sent-message {
+	align-self: flex-end;
+	text-align: right;
+	background-color: #8B7AA7;
+}
+
+.received-message {
+	text-align: left;
+	background-color: #8B7AA7;
+}
+
+.form {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	::placeholder {
+		color: #6E6C79;
+		opacity: 1;
+	}
+
+	:-ms-input-placeholder {
+			color: #6E6C79;
+	}
+
+	::-ms-input-placeholder {
+			color: #6E6C79;
+	}
+	
+	.message {
+		padding: 6px;
+	
+		width: 267px;
+		height: 32px;
+	
+		outline: 1px solid #0A0A0E;
+	}
+
+	.send {
+		width: 29px;
+		height: 32px;
+		
+		text-align: center;
+
+		background-color: #7AA999;
+	}
+}

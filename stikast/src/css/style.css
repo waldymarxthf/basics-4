@@ -1,0 +1,136 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;1,300&display=swap");
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: #6E6C79;
+}
+
+.main {
+  margin: 60px auto;
+  padding: 8px;
+  width: 320px;
+  height: 533px;
+  outline: 1px solid #0A0A0E;
+  background-color: #3B3B3D;
+}
+
+.nav {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 8px;
+}
+.nav button {
+  padding: 8px;
+  outline: 1px solid #0A0A0E;
+}
+
+.wrap {
+  margin-bottom: 8px;
+  padding: 8px;
+  width: 304px;
+  height: 437px;
+  overflow-y: scroll;
+  outline: 1px solid #0A0A0E;
+}
+
+.wrap::-webkit-scrollbar {
+  width: 0;
+}
+
+.chat {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: end;
+  row-gap: 8px;
+  min-height: 100%;
+}
+
+.chat-message {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 8px;
+  line-height: 18.75px;
+}
+
+.time {
+  text-align: right;
+  font-size: 14px;
+  font-family: "Roboto", sans-serif;
+  font-style: italic;
+}
+
+.sent-message {
+  -ms-flex-item-align: end;
+      align-self: flex-end;
+  text-align: right;
+  background-color: #8B7AA7;
+}
+
+.received-message {
+  text-align: left;
+  background-color: #8B7AA7;
+}
+
+.form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.form ::-webkit-input-placeholder {
+  color: #6E6C79;
+  opacity: 1;
+}
+.form ::-moz-placeholder {
+  color: #6E6C79;
+  opacity: 1;
+}
+.form :-ms-input-placeholder {
+  color: #6E6C79;
+  opacity: 1;
+}
+.form ::-ms-input-placeholder {
+  color: #6E6C79;
+  opacity: 1;
+}
+.form ::placeholder {
+  color: #6E6C79;
+  opacity: 1;
+}
+.form :-ms-input-placeholder {
+  color: #6E6C79;
+}
+.form ::-ms-input-placeholder {
+  color: #6E6C79;
+}
+.form .message {
+  padding: 6px;
+  width: 267px;
+  height: 32px;
+  outline: 1px solid #0A0A0E;
+}
+.form .send {
+  width: 29px;
+  height: 32px;
+  text-align: center;
+  background-color: #7AA999;
+}
