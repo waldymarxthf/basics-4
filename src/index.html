@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta httpequiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Модальное окно</title>
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <div class="main">
+    <div class="upper-btn">
+      <button class="settings-btn">Settings</button>
+      <button class="exit-btn">Exit</button>
+    </div>
+    <div class="mainScreen">
+      <div class="message-box-I">
+        <div class="message-text">Я: Добрый день!</div>
+<div class="message-time">18:45</div>
+      </div>
+      <div class="message-box-companion">
+        <div class="message-text">Собеседник: Добрый день!</div>
+<div class="message-time">18:45</div>
+      </div>
+      <div class="message-box-companion">
+        <div class="message-text">Собеседник: А это второе и, кажется, оно очень 
+          длинное, чтобы поместиться на 
+          одной строке</div>
+<div class="message-time">18:45</div>
+      </div>
+      <div class="message-box-I">
+        <div class="message-text">Я: Добрый день!</div>
+<div class="message-time">18:45</div>
+      </div>
+    </div>
+    <form action="#" class="chat-form">
+      <input type="text" placeholder="Enter message" autocomplete="off" class="chat-form-input">
+      <button type="submit" class="chat-form-btn"> -> </button>
+    </form>
+  </div>
+
+  
+  <div class="popup-container">
+		<div class="popup">
+			<div class="popup-header">
+				<p class="popup-title">Settings</p>
+				<button class="popup-btn-close">X</button>
+			</div>
+			<div>
+				<p class="popup-subtitle">Имя в чате</p>
+					<form class="popup_form">
+						<input type="text" class="popup_form-name" placeholder="Борис">
+            <button type="submit" class="popup-form-btn">-></button>
+					</form>
+			</div>
+		</div>
+	</div>
+  
+  <script defer src="js/index.js"></script>
+
+</body>
+
+</html>
