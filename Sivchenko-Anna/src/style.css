@@ -4,6 +4,7 @@
 	--text-color: #000000;
 	--time-color: #333333;
 	--popup-bg-color: #535353;
+	--main-bg-color: #FFFFFF;
 }
 
 body {
@@ -23,6 +24,7 @@ body {
 	height: 90vh;
 	background-color: rgb(248, 245, 245);
 	padding: 1vmin;
+	/* display: none; */
 }
 
 .chat {
@@ -67,7 +69,8 @@ body {
 	max-width: 267px;
 }
 
-.chat-send_message {
+.chat-send_message,
+.popup_form-name {
 	width: 100%;
 	height: 32px;
 	box-sizing: border-box;
@@ -76,7 +79,8 @@ body {
 	font-size: 16px;
 }
 
-.chat-send_message:focus {
+.chat-send_message:focus,
+.popup_form-name:focus {
 	outline: 1px solid var(--text-color);
 	box-shadow: 0 0 2px 2px rgba(221, 221, 221, 1);
 }
@@ -84,4 +88,65 @@ body {
 .chat-btn_send {
 	display: flex;
 	align-items: center;
+}
+
+.popup-container {
+	width: 90vmin;
+	max-width: 320px;
+	height: 92vh;
+	background-color: var(--popup-bg-color);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	display: none;
+}
+
+.popup {
+	height: 320px;
+	width: 85%;
+	display: flex;
+	flex-direction: column;
+	padding: 2vmin;
+	box-sizing: border-box;
+	background-color: var(--main-bg-color);
+}
+
+.popup-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 20%;
+}
+
+.popup-title {
+	margin: 0;
+}
+
+.popup-btn_close {
+	background-image: url('./assets/icon-close.svg');
+	background-position: center;
+	background-color: inherit;
+	border: 0;
+	height: 14px;
+	width: 14px;
+	padding: 0;
+	cursor: pointer;
+}
+
+.popup-subtitle {
+	margin: 0;
+	margin-bottom: 8px;
+}
+
+.popup-name {
+	display: flex;
+	justify-content: space-between;
+}
+
+.popup_form {
+	width: 85%;
+}
+
+.popup_form-name {
+	width: 100%;
 }
