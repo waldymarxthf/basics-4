@@ -1,7 +1,6 @@
 
 const formAddMessage = document.querySelector('.form');
 const inputMessage = document.querySelector('.input_ms');
-const contentBox = document.querySelector('.content-box');
 const content = document.querySelector('.content');
 const allMessages = document.getElementsByClassName('message');
 const lastElement = allMessages[allMessages.length - 1];
@@ -25,9 +24,9 @@ function createHtmlElementMessage(userName, message, date, flag){
         time.textContent = date || dateNow.getHours() + ' : ' + dateNow.getMinutes();
         
         const elementMessage = tp.content.cloneNode(true);
-        contentBox.append(elementMessage)
-        
-        lastElement.scrollIntoView()
+        content.append(elementMessage)
+
+        content.scrollTop = content.scrollHeight;
     }
 }
 
@@ -47,9 +46,9 @@ function addMessage(event){
 
 formAddMessage.addEventListener('submit', addMessage)
 
-// window.addEventListener('DOMContentLoaded', (event) => {
-//     lastElement.scrollIntoView()
-// })
+window.addEventListener('DOMContentLoaded', (event) => {
+    content.scrollTop = content.scrollHeight;
+})
 
 
 
