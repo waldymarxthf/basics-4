@@ -6,6 +6,8 @@ function convTime() {
   return newDate
 }
 
+const date = convTime()
+
 const parentNode = document.querySelector(".display");
 const inputNode = document.querySelector(".form__input");
 const formNode = document.querySelector(".form");
@@ -16,7 +18,7 @@ function createNewMessage(event) {
   if (inputNode.value != "") {
     const textElement = template.content.cloneNode(true);
     textElement.querySelector(".message-nickname").textContent = "Me:";
-    textElement.querySelector(".message-date").textContent = convTime();
+    textElement.querySelector(".message-date").textContent = date;
     textElement.querySelector("p").textContent = inputNode.value;
     parentNode.append(textElement);
     this.reset();
