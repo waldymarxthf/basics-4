@@ -1,10 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;1,300&display=swap');
+@import "./base/vars";
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;1,300&display=swap");
 
+.button {
+	padding: 8px;
+	background-color: $color-accent;
 
+	border-radius: 1rem;
+}
 
 body {
-	font-family: 'Roboto', sans-serif;
-	background-color: #6E6C79;
+	font-family: "Roboto", sans-serif;
+	background-color: $color-background;
 }
 
 .main {
@@ -12,11 +18,11 @@ body {
 	padding: 8px;
 
 	width: 320px;
-	height: 533px;
+	height: 537px;
 
-	outline: 1px solid #0A0A0E;
+	background-color: $color-dark;
 
-	background-color: #3B3B3D;
+	border-radius: 1rem;
 }
 
 .nav {
@@ -25,26 +31,25 @@ body {
 	align-items: center;
 
 	margin-bottom: 8px;
-
-	button {
-		padding: 8px;
-		outline: 1px solid #0A0A0E;
-	}
 }
 
 .wrap {
 	margin-bottom: 8px;
 	padding: 8px;
-	
+
 	width: 304px;
-	height: 437px;
-	
+	height: 438px;
+
 	overflow-y: scroll;
 
-	outline: 1px solid #0A0A0E;
+	// outline: 1px solid #0a0a0e;
+	border-radius: 1rem;
+	background-color: $color-background;
 }
 
-.wrap::-webkit-scrollbar { width: 0; }
+.wrap::-webkit-scrollbar {
+	width: 0;
+}
 
 .chat {
 	display: flex;
@@ -58,26 +63,32 @@ body {
 	width: fit-content;
 	padding: 8px;
 	line-height: 18.75px;
+
+	&_user {
+		text-align: left;
+		font-weight: 700;
+	}
+
+	&_time {
+		text-align: right;
+
+		font-size: 14px;
+		font-family: "Roboto", sans-serif;
+		font-style: italic;
+	}
 }
-
-.time {
-	text-align: right;
-
-	font-size: 14px;
-	font-family: 'Roboto', sans-serif;
-	font-style: italic;
-}
-
 
 .sent-message {
 	align-self: flex-end;
 	text-align: right;
-	background-color: #8B7AA7;
+	background-color: $color-accent;
+	border-radius: 10px 10px 0 10px;
 }
 
 .received-message {
 	text-align: left;
-	background-color: #8B7AA7;
+	background-color: #8b7aa7;
+	border-radius: 10px 10px 10px 0px;
 }
 
 .form {
@@ -86,46 +97,51 @@ body {
 	align-items: center;
 
 	::placeholder {
-		color: #6E6C79;
+		color: $color-light;
 		opacity: 1;
 	}
 
 	:-ms-input-placeholder {
-			color: #6E6C79;
+		color: $color-light;
 	}
 
 	::-ms-input-placeholder {
-			color: #6E6C79;
+		color: $color-light;
 	}
 }
 
 .message {
-	padding: 6px;
+	padding: 8px;
 
 	width: 267px;
 	height: 32px;
 
-	outline: 1px solid #0A0A0E;
+	color: $color-light;
+	background-color: $color-background;
+
+	border-radius: 1rem;
 }
 
 .send {
 	width: 29px;
 	height: 32px;
-	
+
 	text-align: center;
 
-	background-color: #7AA999;
-}
+	background-color: #66bb6a;
 
+	border-radius: 1rem;
+}
 
 .settings-menu {
 	margin: 200px auto;
 
 	border-radius: 15px;
-	background: #bbbbc2;
+	color: $color-light;
+	background: $color-dark;
 
 	display: block;
-	transform: scale(.2);
+	transform: scale(0.2);
 	opacity: 0;
 	transition: all 0.3s ease-out;
 	visibility: hidden;
@@ -153,8 +169,13 @@ body {
 	}
 
 	&_title {
+		margin-bottom: 8px;
 		text-align: center;
 		font-size: 24px;
+	}
+
+	&_text {
+		margin-left: 8px;
 	}
 
 	&_input {
@@ -162,8 +183,12 @@ body {
 		width: 293px;
 	}
 
+	&_button {
+		color: black;
+	}
+
 	&::backdrop {
-		background-color: #0A0A0E;
+		background-color: #0a0a0e;
 		opacity: 0.7;
 	}
 }
