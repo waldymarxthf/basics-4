@@ -13,7 +13,7 @@ function newMessage() {
     item.querySelector('.chat_message__avatar__img').src = './user-avatar.jpg';
   } else {
     // сообщение с сервера
-    message = 'test';
+    message = '';
     item.querySelector('.chat__message').classList.add('chat__message__them');
     item.querySelector('.chat__message__text').classList.add('chat__message__text__them');
   }
