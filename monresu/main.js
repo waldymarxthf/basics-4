@@ -1,32 +1,28 @@
-// Получаем элементы DOM
-const settingsButton = document.querySelector('.settings-button');
-const exitButton = document.querySelector('.exit-button');
-const settingsModal = document.getElementById('settings-modal');
-const closeButton = document.querySelector('.close-button');
-const formInputChatName = document.querySelector('.chat-name-input-form');
+const templateMessage = document.querySelector('#template-message');
+const formChatMessage = document.querySelector('.message-form');
+const inputMessageNode = document.querySelector('.message-input');
+const messageContainer = document.querySelector('.message-container');
 
-function closeModal() {
-  settingsModal.style.display = 'none';
-};
-function openModal() {
-  settingsModal.style.display = 'block';
-};
+function textIsValid(text) {
+  return text !== '' && text.trim() !== '';
+}
 
-formInputChatName.addEventListener('submit', (event) => {
-  event.preventDefault();
-  closeModal();
-});
+function addMyMessage(text) {
+  const messageElement = document.importNode(templateMessage.content, true);
+  const message = messageElement.querySelector('.message');
+  message.classList.add('my-message');
+  message.textContent = text; 
+  messageContainer.appendChild(message); 
+}
 
-settingsButton.addEventListener('click', () => {
-  openModal();
-});
 
-closeButton.addEventListener('click', () => {
-  closeModal()
-});
-
-window.addEventListener('click', (event) => {
-  if (event.target == settingsModal) {
-    closeModal();
+formChatMessage.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const text = inputMessageNode.value;
+  if (!textIsValid(text)) {
+    console.log('сообщение пустое');
+    return;
   }
+  addMyMessage(text);
+  formChatMessage.reset();
 });

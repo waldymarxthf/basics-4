@@ -32,13 +32,11 @@ body {
 .my-message {
   background-color: #e2f0ff;
   align-self: flex-end;
-  text-align: right;
 }
 
 .other-message {
   background-color: #f7f7f7;
   align-self: flex-start;
-  text-align: left;
 }
 
 .footer {
