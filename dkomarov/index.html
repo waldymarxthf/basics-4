@@ -12,36 +12,36 @@
     <title>Document</title>
   </head>
   <body>
-    <div class="wrapper blur">
+    <div class="wrapper">
       <div class="header">
         <button class="header__btn-settings">
             <img src="./static/icons8-settings-25.svg" alt="">
         </button>
-        <button class="header__btn-out">out</button>
+        <button class="header__btn-out">выйти</button>
       </div>
       <div class="display">
-        <div class="display-items__message">
-          <p class="message-nickname">Nickname:</p>
+        <!-- <div class="display-items__message">
+          <p class="message-nickname">Никнейм:</p>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
           <span class="message-date">18:45</span>
         </div>
         <div class="display-items__message me">
-          <p class="message-nickname left">Me:</p>
+          <p class="message-nickname left">Я:</p>
           <p>Lorem ipsum dolor sit amet</p>
           <span class="message-date">18:45</span>
         </div>
         <div class="display-items__message">
-          <p class="message-nickname">Nickname:</p>
+          <p class="message-nickname">Никнейм:</p>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
           <span class="message-date">18:45</span>
         </div>
         <div class="display-items__message">
-          <p class="message-nickname">Nickname:</p>
+          <p class="message-nickname">Никнейм:</p>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
           <span class="message-date">18:45</span>
         </div>
         <div class="display-items__message me">
-          <p class="message-nickname left">Me:</p>
+          <p class="message-nickname left">Я:</p>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe magni
             nulla, eaque deleniti harum rem!
@@ -49,23 +49,27 @@
           <span class="message-date">18:45</span>
         </div>
         <div class="display-items__message">
-            <p class="message-nickname">Nickname:</p>
+            <p class="message-nickname">Никнейм:</p>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
             <span class="message-date">18:45</span>
-          </div>
+        </div> -->
       </div>
+      <form action="#" class="form-another">
+        <input class="form__input-another" type="text" placeholder="message...">
+        <button class="form__button-send-another">send</button>
+      </form>
       <form action="#" class="form">
         <input class="form__input" type="text" placeholder="сообщение..." />
         <button class="form__button-send">-></button>
       </form>
     </div>
-    <div class="popup hidden active">
+    <div class="popup hidden">
       <div class="popup-header">
-        <p>Settings</p>
-        <button>close</button>
+        <p>Настройки</p>
+        <button>закрыть</button>
       </div>
       <div class="popup-logic">
-        <p>Nickname</p>
+        <p>Никнейм</p>
         <form action="#" class="popup-form__input">
           <input class="item-input" type="text">
           <button class="item-btn">-></button>
