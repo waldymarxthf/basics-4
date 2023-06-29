@@ -1,41 +1,45 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 
-body{
+body {
 	background: #242424;
+	overflow: auto;
 }
 
-.container{
+.container {
 	width: 800px;
-	margin: 0 auto;
+	margin: auto auto;
 }
 
-.chat{
-	&-header{
+.chat {
+	&-header {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		height: 50px;
-		&__btn-setting{
+		height: 60px;
+		&__btn-setting {
 			display: inline-block;
-			width: 200px;
+			width: 120px;
 			height: 32px;
 			border: none;
 			border-radius: 16px;
-			box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12);
+			box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+				0px 1px 5px 0px rgba(0, 0, 0, 0.12);
 			background: #5e55d6;
 			color: white;
 			font-family: Roboto;
 			font-size: 20px;
 			text-align: center;
 			cursor: pointer;
+			margin-right: 5px;
 		}
-		&__btn-quit{
+		&__btn-quit {
 			display: inline-block;
 			width: 100px;
 			height: 32px;
 			border: none;
 			border-radius: 16px;
-			box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12);;
+			box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+				0px 1px 5px 0px rgba(0, 0, 0, 0.12);
 			background: #5e55d6;
 			color: white;
 			font-family: Roboto;
@@ -44,129 +48,142 @@ body{
 			cursor: pointer;
 		}
 	}
-	&-window{
-		height: 700px;
-		border-radius: 16px;
-		margin-top: 50px;
+	&-name{
 		margin-bottom: 10px;
-		// background: #555555;
-		display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-		flex-direction: column;
+		&__title{
+			color: white;
+			font-family: Roboto;
+			font-size: 20px;
+		}
+		&__members{
+			color: #888888;
+			font-family: Roboto;
+			font-size: 13px;
+		}
+	}
+	&-window {
+		height: 782px;
+		max-width: 800px;
+		// border-radius: 16px;
+		border-top-left-radius: 16px;
+		border-top-right-radius: 16px;
+		// margin-bottom: 10px;
+		background: #444444;
 		overflow-y: scroll;
-		&__right{
-			margin: 5px 10px 5px 0;
-			margin-left: auto;
-			&-message{
+		overflow-x: hidden;
+		.wrapper {
+			display: flex;
+			justify-content: flex-end;
+			flex-direction: column;
+			min-height: 770px;
+		}
+		.chat-window__message {
+			&:last-child {
+				margin-bottom: 12px;
+			}
+			&-content{
 				background: #888888;
 				border-top-left-radius: 16px;
 				border-top-right-radius: 16px;
-				border-bottom-left-radius: 16px;
-				position: relative;
 				height: auto;
-				width: 400px;
-				box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12);
-				&::after{
-					position: absolute;
-					content: '';
-					bottom: 0;
-					right: -9px;
-					width: 15px;
-					height: 10px;
-					clip-path: url(#right-droplet);
-					background-color: inherit;
-				}
-				&-text{
-					padding: 10px 10px 0 10px;
-					word-wrap: break-word;
-					font-family: Roboto;
-					font-size: 12px;
-					font-weight: 400;
-					color: #FFFFFF;
-				}
-				&-time{
-					text-align: right;
-					padding-right: 10px;
-					color: #242424;
-					font-family: Roboto;
-					font-size: 12px;
-				}
+				max-width: 400px;
+				box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+					0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+				position: relative;
 			}
-			&-avatar{
-				&-img{
-					height: 40px;
-					width: 40px;
-					border-radius: 100%;
-				}
+
+			&-text {
+				padding: 5px 10px 0 10px;
+				word-wrap: break-word;
+				font-family: Roboto;
+				font-size: 14px;
+				color: #ffffff;
+				line-height: 1.5;
+			}
+
+			&-time {
+				text-align: right;
+				padding-right: 10px;
+				color: #cacaca;
+				font-family: Roboto;
+				font-size: 12px;
+			}
+
+			&-avatar-img {
+				height: 40px;
+				width: 40px;
+				border-radius: 100%;
+				margin-left: 5px;
+				margin-right: 5px;
+			}
+
+			&-nickname {
+				color: #5e55d6;
+				font-family: Roboto;
+				font-size: 14px;
+				font-weight: 700;
+				padding-top: 5px;
+				padding-left: 10px;
 			}
 		}
-		&__left{
+
+		.content-right{
+			border-bottom-left-radius: 16px;
+			background: #5e55d6;
+			&::after {
+				position: absolute;
+				content: "";
+				bottom: 0;
+				right: -9px;
+				width: 15px;
+				height: 9px;
+				clip-path: url(#right-droplet);
+				background-color: inherit;
+			}
+		}
+		.content-left{
+			border-bottom-right-radius: 16px;
+			background: #242424;
+			&::after {
+				position: absolute;
+				content: "";
+				bottom: 0;
+				left: -9px;
+				width: 16px;
+				height: 9px;
+				clip-path: url(#left-droplet);
+				background-color: inherit;
+				z-index: 1;
+			}
+		}
+
+		.message-right {
+			margin: 5px 5px 5px 0;
+			margin-left: auto;
+			position: relative;
+		}
+
+		.message-left {
 			margin: 5px 0;
 			margin-right: auto;
 			display: flex;
 			align-items: flex-end;
-			&-message{
-				background: #888888;
-				border-top-left-radius: 16px;
-				border-top-right-radius: 16px;
-				border-bottom-right-radius: 16px;
-				position: relative;
-				height: auto;
-				width: 400px;
-				margin-left: 5px;
-				box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12);
-				&::after{
-					position: absolute;
-					content: '';
-					bottom: 0;
-					left: -9px;
-					width: 16px;
-					height: 10px;
-					clip-path: url(#left-droplet);
-					background-color: inherit;
-					z-index: 1;
-				}
-				&-text{
-					padding: 0 10px 0 10px;
-					word-wrap: break-word;
-					font-family: Roboto;
-					font-size: 12px;
-					color: #FFFFFF;
-				}
-				&-time{
-					text-align: right;
-					padding-right: 10px;
-					color: #242424;
-					font-family: Roboto;
-					font-size: 12px;
-				}
-				&-nickname{
-					color: #5e55d6;
-					font-family: Roboto;
-					font-size: 14px;
-					font-weight: 700;
-					padding-top: 5px;
-					padding-left: 10px;
-				}
-			}
-			&-avatar{
-				margin-left: 5px;
-				&-img{
-					height: 40px;
-					width: 40px;
-					border-radius: 100%;
-				}
-			}
 		}
+
 	}
-	&-message{
+	&-message {
 		width: 800px;
 		position: relative;
-		margin-top: 40px;
-		&__input{
-			width: 800px;
-			background: #555555;
+		background: #444444;
+		height: 50px;
+		// padding-top: 10px;
+		border-bottom-left-radius: 16px;
+		border-bottom-right-radius: 16px;
+
+		&__input {
+			margin-left: 20px;
+			width: 760px;
+			background: #222222;
 			border: none;
 			border-radius: 16px;
 			height: 40px;
@@ -176,16 +193,16 @@ body{
 			padding-left: 15px;
 			outline: none;
 		}
-		&__btn{
+		&__btn {
 			border: none;
 			background: none;
 			height: 40px;
 			width: 40px;
 			position: absolute;
-			right: 0;
+			right: 26px;
 			// top: 5px;
 			cursor: pointer;
-			&-svg{
+			&-svg {
 				fill: rgb(94, 85, 214);
 				height: 20px;
 				width: 30px;
@@ -194,26 +211,26 @@ body{
 	}
 }
 
-.dialog{
+.dialog {
 	background: #242424;
 	border: none;
 	border-radius: 16px;
 	outline: none;
 	height: 400px;
 	width: 300px;
-	&__title{
+	&__title {
 		color: #777777;
 		font-family: Roboto;
 		font-size: 36px;
 		margin-bottom: 20px;
 	}
-	&__subtitle{
+	&__subtitle {
 		color: #777777;
 		font-family: Roboto;
 		font-size: 16px;
 		margin-bottom: 5px;
 	}
-	&-input{
+	&-input {
 		background: #555555;
 		border: none;
 		border-radius: 16px;
@@ -225,18 +242,18 @@ body{
 		padding-left: 15px;
 		outline: none;
 	}
-	&-btn{
+	&-btn {
 		border: none;
 		background: none;
 		cursor: pointer;
 		position: relative;
 		outline: none;
-		&-svg{
+		&-svg {
 			position: absolute;
 			top: -16px;
 			height: 22px;
 		}
-		&-close{
+		&-close {
 			border: none;
 			outline: none;
 			background: none;
@@ -246,36 +263,31 @@ body{
 			top: 10px;
 		}
 	}
-	&::backdrop{
-		background-color: rgb(0 0 0 / 0.6);
-    backdrop-filter: blur(10px);
+	&::backdrop {
+		background-color: rgba(255, 255, 255, 0.1);
+		backdrop-filter: blur(10px);
 	}
 }
 
-
 .chat-window::-webkit-scrollbar {
-	background-color:#242424;
-	width:16px;
+	background-color: #444444;
+	width: 16px;
+	border-radius: 16px;
 }
 
-/* background of the scrollbar except button or resizer */
 .chat-window::-webkit-scrollbar-track {
-	background-color:#242424
-}
-.chat-window::-webkit-scrollbar-track:hover {
-	background-color:#242424;
+	background-color: #444444;
+	border-top-right-radius: 16px;
 }
 
-/* scrollbar itself */
 .chat-window::-webkit-scrollbar-thumb {
-	background-color:#babac0;
-	border-radius:16px;
-	border:5px solid #242424;
-}
-.chat-window::-webkit-scrollbar-thumb:hover {
-	background-color:#a0a0a5;
-	border:5px solid #242424;
+	background-color: #babac0;
+	border-radius: 16px;
+	border: 5px solid #444444;
 }
 
-/* set button(top and bottom of the scrollbar) */
-.chat-window::-webkit-scrollbar-button {display:none}
+.chat-window:hover::-webkit-scrollbar-thumb {
+	background-color: #a0a0a5;
+	border: 5px solid #444444;
+}
+
