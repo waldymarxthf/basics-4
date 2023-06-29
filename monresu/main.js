@@ -1,32 +1,32 @@
-class Storage {
-  static types = {
-    'localStorage': localStorage,
-    'sessionStorage': sessionStorage
-  };
-  constructor(key, storage = Storage.types.localStorage, val = null) {
-    this.key = key;
-    this.storage = storage;
-    this.val = val;
-    this.storage.setItem(this.key, this.val);
-  };
-  get() {
-    return JSON.parse(this.storage.getItem(this.key));
-  };
-  set(val) {
-    this.storage.setItem(this.key, val);
-  };
-  clear() {
-    this.storage.removeItem(this.key);
-  };
-  isEmpty() {
-    return !this.storage.getItem(this.key);
-  };
+// Получаем элементы DOM
+const settingsButton = document.querySelector('.settings-button');
+const exitButton = document.querySelector('.exit-button');
+const settingsModal = document.getElementById('settings-modal');
+const closeButton = document.querySelector('.close-button');
+const formInputChatName = document.querySelector('.chat-name-input-form');
+
+function closeModal() {
+  settingsModal.style.display = 'none';
+};
+function openModal() {
+  settingsModal.style.display = 'block';
 };
 
-const names = new Storage('names', Storage.types.localStorage, '11111');
-console.log(names.get());
-names.set('228') // устанавливает значение для ключа names в localStorage;
-console.log(names.get() )// возвращает значение для ключа names в localStorage;
-names.clear() // очищает значение для ключа names в localStorage;
-console.log(names.get() ) // возвращает значение для ключа names в localStorage;
-console.log(names.isEmpty()) // вернет true если ключ names в localStorage имеет пустое значение (null || undefind);
+formInputChatName.addEventListener('submit', (event) => {
+  event.preventDefault();
+  closeModal();
+});
+
+settingsButton.addEventListener('click', () => {
+  openModal();
+});
+
+closeButton.addEventListener('click', () => {
+  closeModal()
+});
+
+window.addEventListener('click', (event) => {
+  if (event.target == settingsModal) {
+    closeModal();
+  }
+});

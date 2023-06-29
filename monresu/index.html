@@ -1,11 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Chat Layout</title>
+  <link rel="stylesheet" href="./style.css">
 </head>
+
 <body>
+  <div class="header">
+    <button class="settings-button">Настройки</button>
+    <button class="exit-button">Выйти</button>
+  </div>
+  
+  <div class="message-container">
+    <div class="message my-message">
+      Я: Привет!
+    </div>
+    <div class="message other-message">
+      Собеседник: привет!
+    </div>
+    <div class="message other-message">
+      А это очень длинное сообщение чтобы быть на одной строке Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum, dolorum! Recusandae, atque enim magnam labore veritatis error ad ea. Similique nostrum commodi eveniet odio atque ab incidunt labore. Necessitatibus, dolorem?
+    </div>
+    <div class="message my-message">
+      Капец
+    </div>
+  </div>
+  
+  <div class="footer">
+    <form class="message-form">
+      <input type="text" class="message-input" placeholder="Введите сообщение">
+      <button type="submit" class="send-button">Отправить</button>
+    </form>
+  </div>
+  
+  <div class="modal" id="settings-modal">
+    <div class="modal-content">
+      <span class="close-button">&times;</span>
+      <h2>Настройки</h2>
+      <form class="chat-name-input-form">
+        <input type="text" class="chat-name-input" placeholder="Введите имя в чате">
+      <button class="ok-button">ОК</button>
+      </form>
+    </div>
+  </div>
+
+  <template>
+    <div class="message my-message"></div>
+  </template>
+  
   <script src="./main.js"></script>
 </body>
+
 </html>
