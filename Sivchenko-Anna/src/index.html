@@ -16,12 +16,34 @@
 				<button class="chat-btn chat-btn_settings">Настройки</button>
 				<button class="chat-btn chat-btn_exit">Выйти</button>
 			</div>
-			<div class="chat-screen"></div>
+			<div class="chat-screen">
+				<div class="chat-message chat-message_user message_delivered">
+					<div>
+						<span class="user">Я</span>:
+						<span class="message-text">Привет</span>
+					</div>
+					<div class="message-time"><em>12:30</em></div>
+				</div>
+				<div class="chat-message chat-message_companion message_delivered">
+					<div>
+						<span class="user">Кот</span>:
+						<span class="message-text">Мяу! Надо покормить, почесать и погладить! Срочно!!!</span>
+					</div>
+					<div class="message-time"><em>12:35</em></div>
+				</div>
+				<div class="chat-message chat-message_user message_sent">
+					<div>
+						<span class="user">Я</span>:
+						<span class="message-text">Как насчёт поохотиться?</span>
+					</div>
+					<div class="message-time"><em>12:30</em></div>
+				</div>
+			</div>
 			<div class="chat-send">
 				<form class="chat-send_form">
 					<input type="text" class="chat-send_message" placeholder="сообщение..">
 				</form>
-				<button class="chat-btn chat-btn_send">-></button>
+				<button type="submit" class="chat-btn chat-btn_send">-></button>
 			</div>
 		</div>
 	</div>
