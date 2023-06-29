@@ -11,7 +11,7 @@
 	<main class="main">
 		
 		<nav class="nav">
-			<button class="settings">Настройки</button>
+			<button class="settings-button">Настройки</button>
 			<button class="exit">Выход</button>
 		</nav>
 
@@ -42,23 +42,6 @@
 				<p><span class="user">Я</span>: Добрый день!</p>
 				<p class="time">18:45</p>
 			</div>
-			<div class="chat-message received-message">
-				<p>
-					<span class="user">Собеседник</span>: А это второе и, кажется, оно очень 
-					длинное, чтобы поместиться на 
-					одной строке
-				</p>
-				<p class="time">18:45</p>
-			</div>
-
-			<div class="chat-message sent-message">
-				<p><span class="user">Я</span>: Добрый день!</p>
-				<p class="time">18:45</p>
-			</div>
-			<div class="chat-message sent-message">
-				<p><span class="user">Я</span>: Добрый день!</p>
-				<p class="time">18:45</p>
-			</div>
 
 		</section>
 
@@ -71,6 +54,18 @@
 			</form>
 		</section>
 
+		<dialog class="settings-menu">
+			<div class="settings-menu_body">
+				<h2 class="settings-menu_title">Настройки</h2>
+				<p class="settings-menu_text">Имя в чате:</p>
+				<form action="">
+					<input class="message settings-menu_input" type="text" placeholder="Имя"> <!-- переделать класс -->
+					<button class="send">-&#62;</button>                  
+				</form>
+			</div>
+		</dialog>
+
 	</main>
+	<script src="./js/main.js"></script>
 </body>
 </html>
