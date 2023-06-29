@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat</title>
+    <link rel="stylesheet" href="./css/style.css" />
+    <script defer src="/src/js/main.js" type="module"></script>
+  </head>
+
+  <body>
+    <div class="chat-wrapper">
+      <div class="chat-header">
+        <button class="chat-header-item settings"></button>
+        <p class="chat-header-item-logo">GalaxyGram</p>
+        <button class="chat-header-item logout"></button>
+      </div>
+      <div>
+        <div class="chat-mainWindow">
+          <div class="chat-mainWindow-wrapper">
+            <template id ="my_message">
+              <div class="chat-mainWindow-message my">
+                <div class="chat-mainWindow-message-info my">
+                  <p class="chat-mainWindow-message-info-nickName">Дмитрий</p>
+                  <p class="chat-mainWindow-message-info-text">Привет</p>
+                  <p class="chat-mainWindow-message-info-time">15:20</p>
+                </div>
+              </div>
+            </template>
+            <template id ="companion_message">
+              <div class="chat-mainWindow-message companion">
+                <div class="chat-mainWindow-message-info companion">
+                  <p class="chat-mainWindow-message-info-nickName">Дмитрий</p>
+                  <p class="chat-mainWindow-message-info-text">Привет</p>
+                  <p class="chat-mainWindow-message-info-time">15:20</p>
+                </div>
+              </div>
+            </template>
+          </div>
+        </div>
+      </div>
+      <div class="chat-footer">
+        <form class="chat-footer-form" action="">
+          <input
+            class="chat-footer-form-message_field"
+            type="text"
+            placeholder="Сообщение.."
+          />
+          <button class="chat-footer-form-send_message"></button>
+        </form>
+      </div>
+    </div>
+
+    <dialog  class="modalWindow">
+      <div class="modalWindow-header">
+        <h1 class="modalWindow-header-text">Настройки</h1>
+        <button class="modalWindow-header-close">X</button>
+      </div>
+      <p class="modalWindow-form-formName">Имя в чате:</p>
+      <form id ="modal_settings_form" action="" class="modalWindow-form">
+        <input id ="modal_settings_input" class="modalWindow-form-input" type="text" value="Дмитрий" />
+        <button id ="modal_settings_btn" class="modalWindow-form-button">-></button>
+      </form>
+    </dialog>
+  </body>
+</html>
