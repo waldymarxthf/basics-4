@@ -114,15 +114,19 @@ body {
     border: 1px solid #000;
     border-radius: 10px;
     margin-top: 8px;
+    overflow: hidden;
     height: calc(100vh - 106px);
     display: flex;
-    overflow-y: auto;
     flex-direction: column;
     justify-content: end;
+    .scroll {
+      overflow-y: auto;
+    }
     .myMassege {
       background-color: #f6f6f6;
       text-align: right;
       padding: 10px;
+      word-wrap: break-word;
       flex-shrink: 0;
       font-size: 16px;
       .name {

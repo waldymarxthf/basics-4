@@ -41,28 +41,32 @@
     <section class="chat__body">
       <div class="header"><button>Настройки</button><button>Выйти</button></div>
       <div class="chat__place">
-        <div class="myMassege sent">
-          <div class="name">
-            Я
-            <div class="time">18:45</div>
-          </div>
-          Добрый день!
-        </div>
-        <div class="companionMassege">
-          <div class="name">
-            Собеседник
-            <div class="time">18:45</div>
-          </div>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum
-          harum vel earum expedita tempora autem quidem eveniet hic molestias,
-          et voluptates corporis veniam ex quis saepe. Corrupti molestiae ex
-          odio!
+        <div class="scroll" id="place">
+          <template id="myMassege" class="myMassege sent">
+            <div class="name">
+              Я
+              <div class="time">18:45</div>
+            </div>
+            Добрый день!
+          </template>
+          <template class="companionMassege">
+            <div class="name">
+              Собеседник
+              <div class="time">18:45</div>
+            </div>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum
+            harum vel earum expedita tempora autem quidem eveniet hic molestias,
+            et voluptates corporis veniam ex quis saepe. Corrupti molestiae ex
+            odio!
+          </template>
         </div>
       </div>
-      <div class="input">
-        <input type="text" placeholder="сообщение.." />
+      <form id="form" class="input">
+        <input type="text" id="massage" placeholder="сообщение.." />
         <button class="button" type="submit">-></button>
-      </div>
+      </form>
     </section>
+
+    <script type="module" src="./scripts/script.js"></script>
   </body>
 </html>
