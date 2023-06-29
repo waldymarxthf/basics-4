@@ -69,6 +69,7 @@ body {
 	border-radius: 10px;
 	display: flex;
 	flex-direction: column;
+	max-width: 90%;
 }
 
 .chat-message_user {
@@ -79,9 +80,14 @@ body {
 	align-self: start;
 }
 
+.message-text {
+	word-wrap: break-word;
+}
+
 .message-time {
 	align-self: flex-end;
 	font-size: 14px;
+	font-style: italic;
 }
 
 .message_sent {
@@ -92,18 +98,17 @@ body {
 	background-color: var(--delivered-message-color);
 }
 
-/* .chat-send {
-	display: flex;
-	justify-content: space-between;
-} */
-
 .chat-send_form {
 	display: flex;
 	justify-content: space-between;
 	width: 100%;
 }
 
-.chat-send_message,
+.chat-send_input {
+	max-width: 267px;
+}
+
+.chat-send_input,
 .popup_form-name {
 	width: 100%;
 	height: 32px;
@@ -113,11 +118,7 @@ body {
 	font-size: 16px;
 }
 
-.chat-send_message {
-	max-width: 267px;
-}
-
-.chat-send_message:focus,
+.chat-send_input:focus,
 .popup_form-name:focus {
 	outline: 1px solid var(--text-color);
 	box-shadow: 0 0 2px 2px rgba(221, 221, 221, 1);
