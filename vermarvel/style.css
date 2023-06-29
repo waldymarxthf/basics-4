@@ -59,8 +59,8 @@ header {
 .chat-screen {
   overflow: scroll;
   display: flex;
-
-  /* gap: 5px; */
+  background: linear-gradient(rgb(224, 65, 134) 0%, rgb(16, 88, 169) 100%);
+  gap: 7px;
   align-items: flex-start;
   justify-content: center;
   flex-direction: column;
@@ -73,30 +73,61 @@ header {
   align-items: flex-start;
   justify-content: center;
   flex-direction: column;
-  background: linear-gradient(rgb(224, 65, 134) 0%, rgb(16, 88, 169) 100%);
+
   width: 100%;
   height: auto;
 }
 .message {
   width: 85%;
-  border-radius: 10px;
+
+  border-radius: 5px;
   padding: 10px;
-  /* margin: 25px; */
 }
 .user-message {
-  /* margin: 25px; */
+  position: relative;
   align-self: flex-end;
   margin-right: 5px;
+}
+.other-triangle {
+  rotate: 90deg;
+  margin-top: -12px;
+  margin-left: 30px;
+  color: rgb(78, 154, 241);
+}
+.user-triangle {
+  rotate: 90deg;
+  margin-top: -12px;
+  margin-left: 260px;
+
+  color: rgb(216, 246, 246);
+}
+.name {
+  font-weight: 700;
+  font-size: 14px;
+  color: rgb(68, 14, 100);
 }
 .other-name {
   font-weight: 700px;
   color: rgb(255, 255, 255);
 }
+.template-other-message {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0;
+}
+
 .other-message {
+  position: relative;
   background-color: rgb(78, 154, 241);
   align-self: flex-start;
   margin-left: 5px;
   margin-left: 10px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  /* border-bottom-left-radius: 5px; */
+  border-bottom-right-radius: 5px;
 }
 .time-container {
   display: flex;
