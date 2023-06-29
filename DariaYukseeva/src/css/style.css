@@ -1,5 +1,52 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
+:root {
+	--body-color: #fff;
+	--container-shadow: 0px 5px 10px 2px rgba(56, 83, 43, 0.2);
+	--menu-shadow: 0px -5px 5px -5px rgba(56, 83, 43, 0.6) inset;
+	--settings-bg-img: url("/src/assets/img/setting_icon.png");
+	--exit-bg-img: url("/src/assets/img/exit_icon.svg");
+	--message-field-bg-img: url("/src/assets/img/watermelon_bg.jpg");
+	--scrollbar-thumb-bg-color: 136, 188, 106;
+	/* --scrollbar-thumb-bg-color: rgba(136, 188, 106, .4); */
+	--message-bg: rgba(255, 255, 255, 0.9);
+	--message-color: #38532b;
+	--mark-bg-img: url("/src/assets/img/mark_icon.png");
+	--time-color: #333333;
+	--form-shadow: 0px 5px 5px -5px rgba(56, 83, 43, 0.6) inset;
+	--entry-field-color: #000;
+	--form-bg-color: #fff;
+	--btn-sending-bg-img: url("/src/assets/img/send_icon.png");
+	--popup-bg: rgba(143, 143, 143, 0.5);
+	--popup-cont-bg: #fff;
+	--popup-cont-color: rgb(56, 83, 43);
+	--popup-close-btn-bg-img: url("/src/assets/img/close_icon.png");
+	--setting-inp-col: rgb(56, 83, 43);
+}
+
+[data-theme="dark"] {
+	--body-color: #1d1d1d;
+	--container-shadow: 0px 5px 10px 5px rgba(207, 170, 255, 0.2);
+	--menu-shadow: 0px -5px 5px -5px rgba(207, 170, 255, 0.6) inset;
+	--settings-bg-img: url("/src/assets/img/dark_setting_icon.png");
+	--exit-bg-img: url("/src/assets/img/dark_exit_icon.png");
+	--message-field-bg-img: url("/src/assets/img/dark_bg.jpg");
+	--scrollbar-thumb-bg-color: rgba(207, 170, 255, .4);
+	--message-bg: rgba(36, 35, 35, 0.9);
+	--message-color: rgb(207, 170, 255);
+	--mark-bg-img: url("/src/assets/img/dark_mark_icon.png");
+	--time-color: #8d73af;
+	--form-shadow: 0px 5px 5px -5px rgba(207, 170, 255, 0.6) inset;
+	--entry-field-color: rgb(207, 170, 255);
+	--form-bg-color: #282828;
+	--btn-sending-bg-img: url("/src/assets/img/dark_send_icon.png");
+	--popup-bg: rgba(249, 249, 253, .2);
+	--popup-cont-bg: #282828;
+	--popup-cont-color: rgb(207, 170, 255);
+	--popup-close-btn-bg-img: url("/src/assets/img/dark_close_icon.png");
+	--setting-inp-col: rgb(207, 170, 255);
+}
+
 * {
 	font-family: 'Roboto', sans-serif;
 }
@@ -9,6 +56,7 @@ body {
 	display: flex;
 	align-items: center;
 	font-size: 16px;
+	background: var(--body-color);
 }
 button {
 	cursor: pointer;
@@ -22,9 +70,8 @@ button {
 	height: 80%;
 	margin: auto;
 	position: relative;
-	
 	border-radius: 10px;
-	/* box-shadow: 0px 5px 10px 2px rgba(56, 83, 43, 0.2); */
+	box-shadow: var(--container-shadow);
 }
 
 .menu {
@@ -35,24 +82,26 @@ button {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	/* box-shadow: 0px 5px 5px -2px rgba(56, 83, 43, 0.6); */
-	/* box-shadow: 0px -5px 5px -5px rgba(56, 83, 43, 0.6) inset; */
+	box-shadow: var(--menu-shadow);
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	background: var(--form-bg-color);
 }
 
 .settings {
-	/* background-image: url("../assets/img/settings_icon.svg"); */
+	background-image: var(--settings-bg-img);
 	width: 30px;
 	height: 30px;
 }
 
 .exit {
-	/* background-image: url("../assets/img/exit_icon.svg"); */
+	background-image: var(--exit-bg-img);
 	width: 38px;
 	height: 38px;
 }
 
 .message-field {
-	/* background-image: url("../assets/img/watermelon_bg.jpg"); */
+	background-image: var(--message-field-bg-img);
 	background-size: cover;
 	padding: 10px;
 	height: calc(100% - 48px * 2);
@@ -66,21 +115,21 @@ button {
 	width: 7px;
 	background-color: rgba(249, 249, 253, .0);
 }
-/* .message-field::-webkit-scrollbar-thumb {
-	background-color: rgba(136, 188, 106, .4);
-} */
+.message-field::-webkit-scrollbar-thumb {
+	background-color: rgba(var(--scrollbar-thumb-bg-color), .4);
+}
 /* .message-field::-webkit-scrollbar-track {
 	-webkit-box-shadow: 5px 5px 5px -5px rgba(34, 60, 80, 0.2) inset;
   background-color: rgba(249, 249, 253, .3);
 } */
 
 .message {
-	/* background:rgba(255, 255, 255, 0.9); */
+	background:var(--message-bg);
 	max-width: 70%;
 	border-radius: 15px 15px 15px 0;
 	padding: 10px;
 	cursor: default;
-	/* color: #38532b; */
+	color: var(--message-color);
 }
 
 .sent-message {
@@ -103,13 +152,13 @@ button {
 	font-weight: 300;
 	font-style: italic;
 	font-size: 14px;
-	/* color: #333333; */
+	color: var(--time-color);
 }
 
 .message-mark {
 	width: 12px;
 	height: 12px;
-	/* background-image: url("../assets/img/mark_icon.png"); */
+	background-image: var(--mark-bg-img);
 	background-size: cover;
 }
 
@@ -141,7 +190,10 @@ button {
 	bottom: 0;
 	height: 48px;
 	width: 100%;
-	/* box-shadow: 0px 5px 5px -5px rgba(56, 83, 43, 0.6) inset; */
+	box-shadow: var(--form-shadow);
+	border-bottom-right-radius: 10px;
+	border-bottom-left-radius: 10px;
+	background: var(--form-bg-color);
 }
 
 .entry-wrapper {
@@ -155,14 +207,15 @@ button {
 	outline: none;
 	width: 90%;
 	resize: none;
-	/* background-color: #fff; */
+	color: var(--entry-field-color);
+	background: var(--form-bg-color);
 }
 .entry-field::-webkit-scrollbar {
   width: 0;
 }
 
 .btn-sending-message {
-	/* background-image: url("../assets/img/send_icon.png"); */
+	background-image: var(--btn-sending-bg-img);
 	width: 25px;
 	height: 25px;
 	border: none;
@@ -175,6 +228,7 @@ button {
 	overflow: auto;
 	display: flex;
 	display: none;
+	background: var(--popup-bg);
 }
 
 .popup-content {
@@ -186,6 +240,8 @@ button {
 	display: flex;
 	flex-direction: column;
 	gap: 35px;
+	background: var(--popup-cont-bg);
+	color: var(--popup-cont-color);
 }
 
 .popup-header {
@@ -200,6 +256,7 @@ button {
 .popup-close-btn {
 	width: 17px;
 	height: 17px;
+	background-image: var(--popup-close-btn-bg-img);
 }
 
 .nickname-input {
@@ -208,15 +265,21 @@ button {
 	border-bottom: 1px solid;
 	outline: none;
 	width: 80%;
+	border-color: var(--setting-inp-col);
+	color: var(--setting-inp-col);
 }
 
 .popup-nickname-btn {
 	width: 18px;
 	height: 18px;
 	margin-left: 20px;
+	background-image: var(--btn-sending-bg-img);
 }
 
 .theme-btn {
 	cursor: pointer;
-	/* margin-left: 5px; */
+}
+
+.theme-btn:checked {
+	accent-color: var(--setting-inp-col);
 }

@@ -4,28 +4,17 @@ import { saveToLocalStorage, loadFromLocalStorage } from "./utiles";
 let theme = loadFromLocalStorage("chatAppTheme") || "light";
 
 export function changeTheme() {
-	const lightTheme = "/index.a0c69cb6.css";
-	const darkTheme = "/index.30d57794.css";
-	let currentTheme = variables.styleLink.getAttribute("href");
-	if (theme === "light") {
-		theme = "dark";
-		currentTheme = darkTheme;
-	} else {
-		theme = "light";
-		currentTheme = lightTheme;
-	}
-	variables.styleLink.setAttribute("href", currentTheme);
+	theme = theme === "light" ? "dark" : "light";
+	document.documentElement.setAttribute("data-theme", theme);
 	variables.popup.style.display = "none";
 	saveToLocalStorage("chatAppTheme", theme);
 }
 
 export function setTheme() {
-	if (theme === "light") {
-		variables.styleLink.setAttribute("href", "/index.a0c69cb6.css");
-	} else {
-		variables.styleLink.setAttribute("href", "/index.30d57794.css");
+	if (theme === "dark") {
 		variables.themeBtn.checked = true;
 	}
+	document.documentElement.setAttribute("data-theme", theme);
 }
 
 const popupAreaHandler = (e) => {
