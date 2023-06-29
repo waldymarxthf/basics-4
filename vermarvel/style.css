@@ -79,7 +79,6 @@ header {
 }
 .message {
   width: 85%;
-
   border-radius: 5px;
   padding: 10px;
 }
@@ -98,7 +97,6 @@ header {
   rotate: 90deg;
   margin-top: -12px;
   margin-left: 260px;
-
   color: rgb(216, 246, 246);
 }
 .name {
