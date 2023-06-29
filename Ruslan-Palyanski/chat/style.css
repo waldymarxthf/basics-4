@@ -74,7 +74,20 @@
     overflow-y: auto;
   }
 
-  .form {
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: white;
+  border-left: 1px solid rgb(190, 189, 189);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(212, 211, 211);
+}
+
+.form {
     width: 304px;
     margin: 0 auto;
     margin-top: 8px;
@@ -140,4 +153,8 @@
   .time {
     font-style: italic;
     text-align: right;
+  }
+
+  .text {
+    word-break: break-all;
   }
