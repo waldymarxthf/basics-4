@@ -130,6 +130,11 @@ button {
 	font-weight: 700;
 }
 
+.time-for-received {
+	margin-left: auto;
+	width: 50px;
+}
+
 .form {
 	padding: 10px;
 	position: absolute;
