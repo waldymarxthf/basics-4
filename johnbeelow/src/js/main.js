@@ -1,7 +1,7 @@
 import { UI_ELEMENTS, clearInput, updateScroll } from './module/ui_elements.js'
 import { convertTime } from './module/utils.js'
 
-function createMainMassage(value) {
+const createMainMassage = (value) => {
   if (value.trim() !== '') {
     const message = UI_ELEMENTS.MESSAGE_MAIN.content.cloneNode(true)
     message.querySelector('.message-text').textContent = value
