@@ -16,27 +16,35 @@
 				<button class="exit-btn">Exit</button>
 			</div>
 			<div class="mainScreen">
-
-				<div class="message-box-I">
-          <div class="message-sender">Я:</div>
-					<div class="message-text"> Добрый день!</div>
+     <div class="scroll">
+				<div class="message-box message-box-I">
+          <div class="sender-and-text">
+          <div class="message-sender">I: </div>
+					<div class="message-text"> Hello World!</div>
+        </div>
 					<div class="message-time">18:45</div>
 				</div>
    
-				<div class="message-box-companion">
-          <div class="message-sender">Boris:</div>
-					<div class="message-text"> Hello!</div>
+				<div class="message-box message-box-companion">
+          <div class="sender-and-text">
+          <div class="message-sender">Boris: </div>
+					<div class="message-text"> How are you?</div>
+        </div>
 					<div class="message-time">19:45</div>
 				</div>
-			</div>
+			
 
       <template id="myMessage">
-        <div class="message-box-I">
+        <div class="message-box">
+          <div class="sender-and-text">
+          <div class="message-sender"></div>
 					<div class="message-text"></div>
+        </div>
 					<div class="message-time"></div>
 				</div>
       </template>
-
+    </div>
+  </div>
       <!-- <template class="companionMessage">
 				<div class="message-box-companion">
 					<div class="message-text"></div>
@@ -48,6 +56,7 @@
 				<input type="text" placeholder="Enter message" autocomplete="off" class="chat-form-input" />
 				<button type="submit" class="chat-form-btn">-></button>
 			</form>
+   
 		</div>
 
 		<div class="popup-container">

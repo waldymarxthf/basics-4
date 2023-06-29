@@ -65,31 +65,27 @@ height: 437px;
 margin-left: 8px;
 margin-right: 8px;
 border: 1px solid black;
-display: flex;
-flex-direction: column;
-justify-content: end;
+overflow-y: auto;
+
+}
+.scroll{
+  display: flex;
+  justify-content: end;
+  flex-direction: column;
 }
 .message-box-I{
-  display: flex;
  margin-left: auto;
+}
+
+.message-box-companion{
+  margin-left: 8px;
+ }
+.message-box{
   margin-top: 8px;
   margin-right: 8px;
   margin-bottom: 8px;
-  padding: 8px;
-  width: fit-content;
-  height: fit-content;
-  background-color: #E5E5E5;
-  font-family: Roboto;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 19px;
-  letter-spacing: 0em;
-  text-align: left;
-  
-}
-.message-box-companion{
   display: flex;
-  margin: 8px;
+  flex-direction: column;
   padding: 8px;
   width: fit-content;
   height: fit-content;
@@ -100,8 +96,9 @@ justify-content: end;
   line-height: 19px;
   letter-spacing: 0em;
   text-align: left;
-  
-  
+}
+.sender-and-text{
+  display: flex;
 }
 .message-text{
   max-width: 272px;
