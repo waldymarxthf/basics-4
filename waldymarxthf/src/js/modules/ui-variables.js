@@ -1,4 +1,4 @@
-export const VARIABLES = {
+export const SELECTORS = {
 	CHAT: {
 		WINDOW_SELECTOR: ".wrapper",
 		TEMPLATE_SELECTOR: "#message-template",
@@ -8,7 +8,13 @@ export const VARIABLES = {
 		CONTENT_SELECTOR: ".chat-window__message-content",
 		AVATAR_SELECTOR: ".chat-window__message-avatar-img",
 		NICKNAME_SELECTOR: ".chat-window__message-nickname",
-		WINDOW: document.querySelector(".wrapper"),
+	},
+};
+
+export const DOM_ELEMENTS = {
+	CHAT: {
+		WINDOW: document.querySelector(SELECTORS.CHAT.WINDOW_SELECTOR),
+		TEMPLATE: document.querySelector(SELECTORS.CHAT.TEMPLATE_SELECTOR),
 	},
 	FORM: document.querySelector(".chat-message__form"),
 };

@@ -1,49 +1,51 @@
-import { VARIABLES, PROPERTIES } from "./modules/ui-variables";
+import { SELECTORS, DOM_ELEMENTS, PROPERTIES } from "./modules/ui-variables";
+import { isEmpty } from "./modules/utils";
 
 function renderMessage(nickname, text, avatar, time = "00:00") {
 	const type = nickname === "waldymarxthf" ? PROPERTIES.RIGHT_SIDE : PROPERTIES.LEFT_SIDE;
 	const {
-		WINDOW_SELECTOR,
-		TEMPLATE_SELECTOR,
 		MESSAGE_SELECTOR,
 		TEXT_SELECTOR,
 		TIME_SELECTOR,
 		CONTENT_SELECTOR,
 		AVATAR_SELECTOR,
 		NICKNAME_SELECTOR,
-	} = VARIABLES.CHAT;
+	} = SELECTORS.CHAT;
 
-	const chatWindow = document.querySelector(WINDOW_SELECTOR);
-	const template = document.querySelector(TEMPLATE_SELECTOR);
+	const { WINDOW, TEMPLATE } = DOM_ELEMENTS.CHAT;
 
-	const item = template.content.cloneNode(true);
+	const item = TEMPLATE.content.cloneNode(true);
 	const message = item.querySelector(MESSAGE_SELECTOR);
 
 	message.classList.add(`message-${type}`);
-	message.querySelector(TEXT_SELECTOR).textContent = text;
-	message.querySelector(TIME_SELECTOR).textContent = time;
-	message.querySelector(CONTENT_SELECTOR).classList.add(`content-${type}`);
 
-	if (type === PROPERTIES.LEFT_SIDE) {
-		const avatarElem = message.querySelector(AVATAR_SELECTOR);
-		const nicknameElem = message.querySelector(NICKNAME_SELECTOR);
+	if (!isEmpty(text)) {
+		message.querySelector(TEXT_SELECTOR).textContent = text;
+		message.querySelector(TIME_SELECTOR).textContent = time;
+		message.querySelector(CONTENT_SELECTOR).classList.add(`content-${type}`);
 
-		avatarElem.src = avatar;
-		avatarElem.parentElement.classList.remove(PROPERTIES.HIDDEN);
+		if (type === PROPERTIES.LEFT_SIDE) {
+			const avatarElem = message.querySelector(AVATAR_SELECTOR);
+			const nicknameElem = message.querySelector(NICKNAME_SELECTOR);
 
-		nicknameElem.textContent = nickname;
-		nicknameElem.classList.remove(PROPERTIES.HIDDEN);
+			avatarElem.src = avatar;
+			avatarElem.parentElement.classList.remove(PROPERTIES.HIDDEN);
+
+			nicknameElem.textContent = nickname;
+			nicknameElem.classList.remove(PROPERTIES.HIDDEN);
+		}
+
+		WINDOW.append(message);
 	}
 
-	chatWindow.append(message);
-	VARIABLES.CHAT.WINDOW.scrollIntoView(false);
+	WINDOW.scrollIntoView(false);
 }
 
-VARIABLES.FORM.addEventListener("submit", (event) => {
+DOM_ELEMENTS.FORM.addEventListener("submit", (event) => {
 	event.preventDefault();
-	const inputValue = new FormData(VARIABLES.FORM).get("message");
+	const inputValue = new FormData(DOM_ELEMENTS.FORM).get("message");
 	renderMessage("waldymarxthf", inputValue, "12:00");
-	VARIABLES.FORM.reset();
+	DOM_ELEMENTS.FORM.reset();
 });
 
 renderMessage("waldymarxthf", "Привет, это сообщение справа!", "12:00");
