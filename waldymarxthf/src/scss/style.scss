@@ -10,6 +10,10 @@ body {
 	margin: auto auto;
 }
 
+.hidden{
+	display: none;
+}
+
 .chat {
 	&-header {
 		display: flex;
