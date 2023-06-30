@@ -1,5 +1,5 @@
-import { variables } from "./ui_variables";
-import { changeTheme, setTheme } from "./ui";
+import { setTheme } from "./popups";
+import { pop } from "./ui";
 
 function init() {
 	setTheme();

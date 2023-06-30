@@ -1,88 +1,36 @@
-class Element {
-	constructor({ className, id, attribute, attValue, content }) {
-		this.className = className;
-		this.id = id;
-		this.attribute = attribute;
-		this.attValue = attValue;
-		this.content = content;
-	}
+import {
+	render,
+	Element,
+	ElementWithEvent,
+	Div,
+	Span,
+	Paragraph,
+	Image,
+	Form,
+	Button,
+	Input,
+	Label,
+} from "./DOM_render";
+import { variables } from "./ui_variables";
+import { saveToLocalStorage, loadFromLocalStorage } from "./utiles";
 
-	create() {
-		const block = document.createElement(this.tag);
-		if (this.className) {
-			block.classList.add(this.className);
-		}
-		if (this.id) {
-			block.setAttribute("id", this.id);
-		}
-		if (this.attribute) {
-			block.setAttribute(this.attribute, this.attValue);
-		}
-		return block;
-	}
-}
+export let theme = loadFromLocalStorage("chatAppTheme") || "light";
 
-class Div extends Element {
-	constructor({ className, id, attribute, attValue, content }) {
-		super({ className, id, attribute, attValue, content });
-		this.tag = "div";
-	}
-}
+const popupCloseBtnHandler = () => {
+	variables.popup.style.display = "none";
+	// const popupCloseBtn = document.querySelector(".popup-close-btn");
+	// const themeBtn = document.querySelector("#theme-btn");
+	// variables.popup.removeEventListener("click", popupAreaHandler);
+	// popupCloseBtn.removeEventListener("click", popupCloseBtnHandler);
+	// themeBtn.removeEventListener("click", themeBtnHandler);
+	variables.popup.innerHTML = "";
+};
 
-class Span extends Element {
-	constructor({ className, id, attribute, attValue, content }) {
-		super({ className, id, attribute, attValue, content });
-		this.tag = "span";
-	}
-
-	create() {
-		const span = super.create();
-		span.append(this.content);
-		return span;
-	}
-}
-
-class Paragraph extends Element {
-	constructor({ className, id, attribute, attValue, content }) {
-		super({ className, id, attribute, attValue, content });
-		this.tag = "p";
-	}
-}
-
-class Image extends Element {
-	constructor({ className, id, attribute, attValue, content }) {
-		super({ className, id, attribute, attValue, content });
-		this.tag = "img";
-	}
-}
-
-class Form extends Element {
-	constructor({ className, id, attribute, attValue, content }) {
-		super({ className, id, attribute, attValue, content });
-		this.tag = "form";
-	}
-}
-
-class Button extends Element {
-	constructor({ className, id, attribute, attValue, content }) {
-		super({ className, id, attribute, attValue, content });
-		this.tag = "button";
-	}
-}
-
-class Input extends Element {
-	constructor({ className, id, attribute, attValue, content }) {
-		super({ className, id, attribute, attValue, content });
-		this.tag = "input";
-	}
-}
-
-class Label extends Element {
-	constructor({ className, id, attribute, attValue, content }) {
-		super({ className, id, attribute, attValue, content });
-		this.tag = "label";
-	}
-}
+const themeBtnHandler = (e) => {
+	changeTheme(e.target);
+	variables.popup.style.display = "none";
+	variables.popup.innerHTML = "";
+};
 
 export const popupSettings = [
 	new Div({
@@ -97,6 +45,8 @@ export const popupSettings = [
 					}),
 					new Button({
 						className: "popup-close-btn",
+						event: "click",
+						callback: popupCloseBtnHandler,
 					}),
 				],
 			}),
@@ -129,6 +79,8 @@ export const popupSettings = [
 						id: "theme-btn",
 						attribute: "type",
 						attValue: "checkbox",
+						event: "click",
+						callback: themeBtnHandler,
 					}),
 				],
 			}),
@@ -136,17 +88,26 @@ export const popupSettings = [
 	}),
 ];
 
-export function render(domTree, root) {
-	for (let i = 0; i < domTree.length; i += 1) {
-		if (!domTree[i].content) {
-			root.append(domTree[i].create());
-			continue;
-		}
-		const node = root.appendChild(domTree[i].create());
-		if (!Array.isArray(domTree[i].content)) {
-			node.textContent = domTree[i].content;
-			continue;
-		}
-		render(domTree[i].content, node);
-	}
+export function changeTheme() {
+	theme = theme === "light" ? "dark" : "light";
+	document.documentElement.setAttribute("data-theme", theme);
+	saveToLocalStorage("chatAppTheme", theme);
 }
+
+export function setTheme() {
+	document.documentElement.setAttribute("data-theme", theme);
+}
+
+const popupAreaHandler = (e) => {
+	if (e.target === variables.popup) {
+		variables.popup.style.display = "none";
+		// const popupCloseBtn = document.querySelector(".popup-close-btn");
+		// const themeBtn = document.querySelector("#theme-btn");
+		// variables.popup.removeEventListener("click", popupAreaHandler);
+		// popupCloseBtn.removeEventListener("click", popupCloseBtnHandler);
+		// themeBtn.removeEventListener("click", themeBtnHandler);
+		variables.popup.innerHTML = "";
+	}
+};
+
+variables.popup.addEventListener("click", popupAreaHandler);
