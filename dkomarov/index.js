@@ -47,6 +47,8 @@ function addInfoMessage() {
 
 function test() {
   window.authentication.showModal();
+  window.authorization.close();
+
 }
 
 formForRequest.addEventListener('submit', () => {
