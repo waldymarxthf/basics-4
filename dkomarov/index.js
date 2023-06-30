@@ -1,17 +1,12 @@
-import { format } from "date-fns";
-
-function convTime() {
-  const date = new Date();
-  const newDate = format(date, 'HH:mm');
-  return newDate
-}
-
-const date = convTime()
+import { date } from "./modules/convTime"
 
 const parentNode = document.querySelector(".display");
 const inputNode = document.querySelector(".form__input");
 const formNode = document.querySelector(".form");
 const template = document.querySelector("#template");
+
+const openSettingsModal = document.querySelector('.header__btn-settings');
+const openCodeModal = document.querySelector('.authorization-btn-code');
 
 function createNewMessage(event) { 
   event.preventDefault();
@@ -26,3 +21,17 @@ function createNewMessage(event) {
 }
 
 formNode.addEventListener("submit", createNewMessage);
+
+openSettingsModal.addEventListener('click', () => {
+  window.myDialog.showModal();
+})
+
+openCodeModal.addEventListener('click', () => {
+  window.authentication.showModal();
+  window.authorization.close();
+  
+})
+
+window.addEventListener('DOMContentLoaded', () => {
+  window.authorization.showModal();
+})

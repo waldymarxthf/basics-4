@@ -20,7 +20,7 @@
         <button class="header__btn-settings">
           <img src="./static/icons8-settings-25.svg" alt="" />
         </button>
-        <button class="header__btn-out">выйти</button>
+        <button class="header__btn-in">выйти</button>
       </div>
       <div class="display">
         <!-- <div class="display-items__message">
@@ -73,19 +73,48 @@
         <button class="form__button-send">-></button>
       </form>
     </div>
-    <div class="popup hidden">
+    <dialog class="popup" id="myDialog">
+        <div class="popup-header">
+          <p>Настройки</p>
+          <button type="button"  onclick="window.myDialog.close()">закрыть</button>
+        </div>
+        <div class="popup-logic">
+          <p>Имя в чате</p>
+          <form action="#" class="popup-form__input">
+            <input class="item-input" type="text" />
+            <button class="item-btn">-></button>
+          </form>
+        </div>
+    </dialog>
+    <dialog class="authorization" id="authorization">
       <div class="popup-header">
-        <p>Настройки</p>
-        <button>закрыть</button>
+        <p>Авторизация</p>
+        <button type="button"  onclick="window.authorization.close()">закрыть</button>
       </div>
       <div class="popup-logic">
-        <p>Никнейм</p>
-        <form action="#" class="popup-form__input">
-          <input class="item-input" type="text" />
-          <button class="item-btn">-></button>
+        <p>Почта:</p>
+        <form action="#" class="authorization-form__input">
+          <input class="authorization-input" type="text" />
+          <button class="authorization-btn">Получить код</button>
+          <button class="authorization-btn-code">Ввести код</button>
         </form>
       </div>
-    </div>
+    </dialog>
+
+    <dialog class="authentication" id="authentication">
+      <div class="popup-header">
+        <p>Подтверждение</p>
+        <button type="button"  onclick="window.authentication.close()">закрыть</button>
+      </div>
+      <div class="popup-logic">
+        <p>Код:</p>
+        <form action="#" class="authentication-form__input">
+          <input class="authentication-input" type="text" />
+          <button class="authentication-btn">Войти</button>
+        </form>
+      </div>
+    </dialog>
+    
 
     <script src="./index.js" type="module"></script>
   </body>
