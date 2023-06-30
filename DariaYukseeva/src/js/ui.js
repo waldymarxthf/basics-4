@@ -1,19 +1,16 @@
 import { variables } from "./ui_variables";
 import { saveToLocalStorage, loadFromLocalStorage, getTime, isEmpty } from "./utiles";
+import { render, popupSettings } from "./popups";
 
 let theme = loadFromLocalStorage("chatAppTheme") || "light";
 
 export function changeTheme() {
 	theme = theme === "light" ? "dark" : "light";
 	document.documentElement.setAttribute("data-theme", theme);
-	variables.popup.style.display = "none";
 	saveToLocalStorage("chatAppTheme", theme);
 }
 
 export function setTheme() {
-	if (theme === "dark") {
-		variables.themeBtn.checked = true;
-	}
 	document.documentElement.setAttribute("data-theme", theme);
 }
 
@@ -39,20 +36,40 @@ function renderMessages(node) {
 const popupAreaHandler = (e) => {
 	if (e.target === variables.popup) {
 		variables.popup.style.display = "none";
+		const popupCloseBtn = document.querySelector(".popup-close-btn");
+		const themeBtn = document.querySelector("#theme-btn");
+		variables.popup.removeEventListener("click", popupAreaHandler);
+		popupCloseBtn.removeEventListener("click", popupCloseBtnHandler);
+		themeBtn.removeEventListener("click", themeBtnHandler);
+		variables.popup.innerHTML = "";
 	}
-};
-
-const settingsBtnHandler = () => {
-	variables.popup.style.display = "flex";
-	variables.popup.addEventListener("click", popupAreaHandler);
 };
 
 const popupCloseBtnHandler = () => {
 	variables.popup.style.display = "none";
+	const popupCloseBtn = document.querySelector(".popup-close-btn");
+	const themeBtn = document.querySelector("#theme-btn");
+	variables.popup.removeEventListener("click", popupAreaHandler);
+	popupCloseBtn.removeEventListener("click", popupCloseBtnHandler);
+	themeBtn.removeEventListener("click", themeBtnHandler);
+	variables.popup.innerHTML = "";
 };
 
 const themeBtnHandler = (e) => {
 	changeTheme(e.target);
+};
+
+const settingsBtnHandler = () => {
+	render(popupSettings, variables.popup);
+	const popupCloseBtn = document.querySelector(".popup-close-btn");
+	const themeBtn = document.querySelector("#theme-btn");
+	if (theme === "dark") {
+		themeBtn.checked = true;
+	}
+	variables.popup.style.display = "flex";
+	variables.popup.addEventListener("click", popupAreaHandler);
+	popupCloseBtn.addEventListener("click", popupCloseBtnHandler);
+	themeBtn.addEventListener("click", themeBtnHandler);
 };
 
 const btnSendingMessageHandler = (e) => {
@@ -65,9 +82,5 @@ const btnSendingMessageHandler = (e) => {
 };
 
 variables.settingsBtn.addEventListener("click", settingsBtnHandler);
-
-variables.popupCloseBtn.addEventListener("click", popupCloseBtnHandler);
-
-variables.themeBtn.addEventListener("click", themeBtnHandler);
 
 variables.btnSendMessage.addEventListener("click", btnSendingMessageHandler);
