@@ -49,6 +49,12 @@ document.addEventListener('click', e => {
 
 	if (element.id === 'enter-code-btn') {
 		openPopup({ title: 'Подтверждение', type: 'confirmation' });
+
+		return;
+	}
+
+	if (element.id === 'btn-settings') {
+		openPopup({ title: 'Настройки', type: 'settings' });
 	}
 });
 
@@ -79,5 +85,4 @@ btnLogin.addEventListener('click', e => {
 	e.preventDefault();
 
 	openPopup({ title: 'Авторизация', type: 'authorization' });
-	// openPopup({ title: 'Настройки', type: 'settings' });
 });
