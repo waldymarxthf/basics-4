@@ -1,12 +1,16 @@
-import { M_TEMPLATE, UI_ELEMNTS, tmpl } from "./ui_elements";
-import { clearInput, getTime, validEmpty } from "./utils";
+import { M_TEMPLATE, UI_ELEMNTS, tmpl, POPUP_SETTINGS, POPUP_LOGIN } from "./ui_elements";
+import { clearInput, getTime, validEmpty, ValidationError } from "./utils";
+import { getCode } from "./fetch";
 
-class ValidationError extends Error {
-	constructor(message) {
-		super(message);
-		this.name = "ValidationError";
+UI_ELEMNTS.MAIN_SETTINGS_BTN.addEventListener("click", () => {
+	POPUP_SETTINGS.SETTINGS_MENU.showModal();
+});
+
+POPUP_SETTINGS.SETTINGS_MENU.addEventListener("click", (event) => {
+	if (event.target === POPUP_SETTINGS.SETTINGS_MENU) {
+		POPUP_SETTINGS.SETTINGS_MENU.close();
 	}
-}
+});
 
 function render(message) {
 	UI_ELEMNTS.SCREEN.append(message);
@@ -32,6 +36,19 @@ UI_ELEMNTS.FORM.addEventListener("submit", (event) => {
 	event.preventDefault();
 	try {
 		createMessage(UI_ELEMNTS.INPUT.value);
+	} catch (err) {
+		if (err instanceof ValidationError) {
+			console.log(`Error: ${err.message}`);
+		} else {
+			throw err;
+		}
+	}
+});
+
+POPUP_LOGIN.LOGIN_BTN_GET.addEventListener("click", (event) => {
+	event.preventDefault();
+	try {
+		getCode();
 	} catch (err) {
 		if (err instanceof ValidationError) {
 			console.log(`Error: ${err.message}`);

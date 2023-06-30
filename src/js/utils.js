@@ -15,3 +15,10 @@ export function validEmpty(text) {
 export function clearInput() {
 	UI_ELEMNTS.INPUT.value = "";
 }
+
+export class ValidationError extends Error {
+	constructor(message) {
+		super(message);
+		this.name = "ValidationError";
+	}
+}
