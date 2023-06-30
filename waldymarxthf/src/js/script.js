@@ -1,10 +1,12 @@
 import Cookies from "js-cookie";
-import { SELECTORS, DOM_ELEMENTS, PROPERTIES } from "./modules/ui-variables";
+import { SELECTORS, DOM_ELEMENTS, PROPERTIES, TOKEN } from "./modules/constants";
 import { modalCloser, modalSwitcher, preventDefaultAction } from "./modules/modalActions";
-import { isEmpty } from "./modules/utils";
+import { isEmpty } from "./modules/validation";
 import { getData } from "./modules/api";
+import { toggleSendButton } from "./modules/ui";
 
 const { MODAL_AUTH, FORM_AUTH, ENTER_BUTTON } = DOM_ELEMENTS.AUTHORIZATION;
+const { WINDOW, TEMPLATE, FORM, APP, INPUT } = DOM_ELEMENTS.CHAT;
 const { MODAL_VERIF, BACK_BUTTON, LOGIN_BUTTON, FORM_VERIF } = DOM_ELEMENTS.VERIFICATION;
 
 function renderMessage(nickname, text, avatar, time = "00:00") {
@@ -17,8 +19,6 @@ function renderMessage(nickname, text, avatar, time = "00:00") {
 		AVATAR_SELECTOR,
 		NICKNAME_SELECTOR,
 	} = SELECTORS.CHAT;
-
-	const { WINDOW, TEMPLATE } = DOM_ELEMENTS.CHAT;
 
 	const item = TEMPLATE.content.cloneNode(true);
 	const message = item.querySelector(MESSAGE_SELECTOR);
@@ -56,11 +56,12 @@ renderMessage(
 	"12:01",
 );
 
-DOM_ELEMENTS.FORM.addEventListener("submit", (event) => {
+FORM.addEventListener("submit", (event) => {
 	event.preventDefault();
-	const inputValue = new FormData(DOM_ELEMENTS.FORM).get("message");
+	const inputValue = new FormData(FORM).get("message");
 	renderMessage("waldymarxthf", inputValue, "12:00");
-	DOM_ELEMENTS.FORM.reset();
+	FORM.reset();
+	toggleSendButton();
 });
 
 FORM_AUTH.addEventListener("submit", async (event) => {
@@ -71,9 +72,8 @@ FORM_AUTH.addEventListener("submit", async (event) => {
 
 FORM_VERIF.addEventListener("submit", (event) => {
 	event.preventDefault();
-	const inputValue = new FormData(FORM_VERIF).get("token");
-	Cookies.set("token", inputValue);
-	console.log(Cookies.get("token"));
+	const inputValue = new FormData(FORM_VERIF).get(TOKEN);
+	Cookies.set(TOKEN, inputValue);
 });
 
 ENTER_BUTTON.addEventListener("click", modalSwitcher(MODAL_AUTH, MODAL_VERIF));
@@ -83,6 +83,8 @@ MODAL_VERIF.addEventListener("cancel", modalSwitcher(MODAL_VERIF, MODAL_AUTH));
 MODAL_AUTH.addEventListener("cancel", preventDefaultAction);
 
 document.addEventListener("DOMContentLoaded", () => {
-	document.querySelector(".chat").classList.remove(PROPERTIES.HIDDEN);
+	APP.classList.remove(PROPERTIES.HIDDEN);
 	MODAL_AUTH.showModal();
 });
+
+INPUT.addEventListener("input", toggleSendButton);

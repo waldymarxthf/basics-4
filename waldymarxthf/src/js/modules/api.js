@@ -1,4 +1,5 @@
-import { validateEmail } from "./emailValidation";
+import { validateEmail } from "./validation";
+import { REQUEST_HEADER, REQUEST_METOD } from "./constants";
 
 const serverUrl = "https://edu.strada.one/api/user";
 
@@ -9,14 +10,11 @@ export async function getData(email) {
 		}
 
 		const response = await fetch(serverUrl, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json; charset=utf-8",
-			},
+			method: REQUEST_METOD.POST,
+			headers: REQUEST_HEADER.DEFAULT_HEADER,
 			body: JSON.stringify({ email }),
 		});
-		const result = await response.json();
-		console.log(result);
+		await response.json();
 	} catch (error) {
 		console.error(error);
 	}

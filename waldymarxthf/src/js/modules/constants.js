@@ -15,6 +15,10 @@ export const DOM_ELEMENTS = {
 	CHAT: {
 		WINDOW: document.querySelector(SELECTORS.CHAT.WINDOW_SELECTOR),
 		TEMPLATE: document.querySelector(SELECTORS.CHAT.TEMPLATE_SELECTOR),
+		FORM: document.querySelector(".chat-message__form"),
+		INPUT: document.querySelector(".chat-message__input"),
+		SEND_BUTTON: document.querySelector(".chat-message__btn"),
+		APP: document.querySelector(".chat"),
 	},
 	AUTHORIZATION: {
 		MODAL_AUTH: document.querySelector(".authorization"),
@@ -31,7 +35,6 @@ export const DOM_ELEMENTS = {
 		LOGIN_BUTTON: document.querySelector(".verification-login"),
 		BACK_BUTTON: document.querySelector(".verification-back"),
 	},
-	FORM: document.querySelector(".chat-message__form"),
 };
 
 export const PROPERTIES = {
@@ -39,3 +42,17 @@ export const PROPERTIES = {
 	LEFT_SIDE: "left",
 	RIGHT_SIDE: "right",
 };
+
+export const REQUEST_HEADER = {
+	DEFAULT_HEADER: {
+		"Content-Type": "application/json; charset=utf-8",
+	},
+};
+
+export const REQUEST_METOD = {
+	POST: "POST",
+	PATCH: "PATCH",
+	GET: "GET",
+};
+
+export const TOKEN = "token";
