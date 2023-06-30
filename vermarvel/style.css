@@ -146,18 +146,12 @@ header {
 dialog {
   font-size: 25px;
   border-radius: 10px;
-  background: linear-gradient(
-    rgba(236, 193, 208, 0.947) 0%,
-    rgba(194, 217, 242, 0.954) 100%
-  );
+  background: linear-gradient(rgb(236, 193, 208) 0%, rgb(194, 217, 242) 100%);
   border: none;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  flex-direction: column;
+
   gap: 15px;
   width: 250px;
-  height: 350px;
+  height: 200px;
   position: fixed;
   left: 50%;
   top: 50%;
@@ -227,6 +221,17 @@ button:active {
   transform: scale(0.9);
 }
 
+.btn-submit-code {
+  align-self: flex-end;
+}
+
+.btn-submit-code {
+  align-self: flex-end;
+}
+.input-btn-row {
+  display: flex;
+  align-items: flex-start;
+}
 .sent-message {
   background-color: rgb(216, 246, 246);
 }

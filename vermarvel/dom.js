@@ -5,12 +5,20 @@ const dom = {
   // *****Variables**
   // Elements
   formMessage: getEl(".form-message"),
-  formName: getEl("form-nickname"),
+  formName: getEl(".form-nickname"),
+  formEmail: getEl(".form-email"),
   inputMessage: getEl("#input-message"),
+  inputDialogEmail: getEl("#input-dialog-email"),
+  inputDialogName: getEl("#input-dialog-name"),
+  inputDialogConfirm: getEl("#input-dialog-confirm"),
   btnSend: getEl(".btn-send"),
+  btnSubmitCode: getEl(".btn-submit-code"),
   templateUserMessage: getEl(".template-user-message"),
   templateOtherMessage: getEl(".template-other-message"),
   parentMessages: getEl(".chat-screen"),
+  dialogAuth: getEl(".dialog-auth"),
+  dialogConfirm: getEl(".dialog-confirm"),
+  dialogSettings: getEl(".dialog-settings"),
 
   //   parentSets: getEl(".sets-container"),
   //   setTemplate: getEl(".set-template"),
@@ -45,10 +53,33 @@ const dom = {
   //     this.noticeDialog.showModal();
   //   },
 
-  //   closeDialog() {
-  //     this.confirmation.close();
-  //     this.noticeDialog.close();
-  //   },
+  closeDialog(open = "") {
+    console.log(open);
+    console.log(this.dialogAuth);
+    console.log(this.dialogSettings);
+    console.log(this.dialogConfirm);
+
+    this.dialogAuth.close();
+    this.dialogSettings.close();
+    this.dialogConfirm.close();
+
+    if (open === "settings") {
+      console.log("Opening settings dialog");
+      this.dialogSettings.showModal();
+    }
+    if (open === "auth") {
+      console.log("Opening auth dialog");
+      this.dialogAuth.showModal();
+    }
+    if (open === "confirm") {
+      console.log("Opening confirm dialog");
+      this.dialogConfirm.showModal();
+    }
+    if (open === "") {
+      console.log("No dialog to open");
+      return;
+    }
+  },
 
   //   displayConfirmationDelSet(set) {
   //     this.confirmation.value = set;

@@ -33,7 +33,6 @@ function placeUserMessage(text, timeStamp) {
   stamp.textContent = timeStamp;
   const messageText = clone.querySelector(".user-message-text");
   messageText.textContent = text;
-  //   console.log(clone);
   dom.parentMessages.appendChild(clone);
 }
 
@@ -48,8 +47,57 @@ function placeOtherMessage(text, timeStamp) {
   dom.parentMessages.appendChild(clone);
 }
 
+function getUserEmail(event) {
+  event.preventDefault();
+  const email = dom.inputDialogEmail.value;
+
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      // Add any other headers as needed
+    },
+    body: JSON.stringify({ email }),
+  };
+
+  fetch("https://edu.strada.one/api/user", requestOptions)
+    .then((response) => response.json())
+    .then((data) => {
+      // Handle the response data
+      console.log(data);
+    })
+    .catch((error) => {
+      // Handle any error that occurred
+      console.error(error);
+    });
+}
+
+// function authCheckCode() {
+//   // dom.inputDialogConfirm.value===
+// }
+
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%  Listeners  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+document.addEventListener("DOMContentLoaded", () => {
+  dom.closeDialog("auth");
+});
 
 dom.formMessage.addEventListener("submit", (event) => {
   getInput(event);
 });
+
+dom.formEmail.addEventListener("submit", (event) => {
+  getUserEmail(event);
+});
+
+dom.btnSubmitCode.addEventListener("click", (event) => {
+  const open = "confirm";
+  dom.closeDialog(open);
+});
+
+// Tasks
+
+// UI: Dialogs - improve
+// Logic: Dialogs
+// Feat:
+// Bugs
