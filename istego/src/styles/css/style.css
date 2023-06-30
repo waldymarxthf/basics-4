@@ -5,6 +5,10 @@
   box-sizing: border-box;
 }
 
+body {
+  background-color: #000000;
+}
+
 button {
   cursor: pointer;
 }
@@ -13,7 +17,6 @@ button {
   width: 100%;
   min-height: 100vh;
   overflow: hidden;
-  padding: 10px 0;
   padding: 2px;
 }
 
@@ -27,7 +30,7 @@ button {
   background-color: #282e33;
   border-radius: 10px;
   height: 100vh;
-  max-height: 500px;
+  max-height: 600px;
 }
 
 .chat-nav {
@@ -174,17 +177,13 @@ button {
   white-space: pre-wrap;
   overflow-x: hidden;
   overflow-y: auto;
+  outline: 0;
+  outline-offset: 0;
 }
 .chat-form .chat-form__inp:empty:before {
   content: attr(data-placeholder);
-  cursor: pointer;
+  cursor: text;
   color: grey;
-}
-.chat-form .chat-form__inp:active,
-.chat-form :hover,
-.chat-form :focus {
-  outline: 0;
-  outline-offset: 0;
 }
 .chat-form .chat-form__textarea {
   display: none;

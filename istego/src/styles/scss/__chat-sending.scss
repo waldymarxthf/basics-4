@@ -13,26 +13,20 @@
         font-size: 16px;
         letter-spacing: 0.5px;
         background-color: #282e33;
-        // background-color: #264055;
         color: #ffffff;
         overflow-wrap: break-word;
-        word-wrap:break-word;
+        word-wrap: break-word;
         white-space: pre-wrap;
         overflow-x: hidden;
         overflow-y: auto;
-    }
-
-    .chat-form__inp:empty:before {
-        content: attr(data-placeholder);
-        cursor: pointer;
-        color: grey;
-    }
-
-    .chat-form__inp:active,
-    :hover,
-    :focus {
         outline: 0;
         outline-offset: 0;
+
+        &:empty:before {
+            content: attr(data-placeholder);
+            cursor: text;
+            color: grey;
+        }
     }
 
     .chat-form__textarea {
