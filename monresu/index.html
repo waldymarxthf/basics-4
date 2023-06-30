@@ -9,9 +9,9 @@
 <body>
   <div class="header">
     <button class="settings-button">Настройки</button>
-    <button class="exit-button">Выйти</button>
+    <button class="exit-button">Войти</button>
   </div>
-  
+
   <div class="message-container">
     <div class="message my-message">
       Я: Привет!
@@ -20,27 +20,50 @@
       Собеседник: привет!
     </div>
     <div class="message other-message">
-      А это очень длинное сообщение чтобы быть на одной строке Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum, dolorum! Recusandae, atque enim magnam labore veritatis error ad ea. Similique nostrum commodi eveniet odio atque ab incidunt labore. Necessitatibus, dolorem?
+      А это очень длинное сообщение чтобы быть на одной строке Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      Cum, dolorum! Recusandae, atque enim magnam labore veritatis error ad ea. Similique nostrum commodi eveniet odio
+      atque ab incidunt labore. Necessitatibus, dolorem?
     </div>
     <div class="message my-message">
       Капец
     </div>
   </div>
-  
+
   <div class="footer">
     <form class="message-form">
-      <input type="text" class="message-input" placeholder="Введите сообщение">
+      <input type="text" class="message-input" placeholder="Введите сообщение" required>
       <button type="submit" class="send-button">Отправить</button>
     </form>
   </div>
-  
+
   <div class="modal" id="settings-modal">
     <div class="modal-content">
-      <span class="close-button">&times;</span>
+      <span class="close-button close-settings">&times;</span>
       <h2>Настройки</h2>
       <form class="chat-name-input-form">
-        <input type="text" class="chat-name-input" placeholder="Введите имя в чате">
-      <button class="ok-button">ОК</button>
+        <input type="text" class="chat-name-input" placeholder="Введите имя в чате" required>
+        <button class="ok-button">ОК</button>
+      </form>
+    </div>
+  </div>
+  <div class="modal" id="authrozation-modal">
+    <div class="modal-content">
+      <span class="close-button close-auth">&times;</span>
+      <h2>Авторизация</h2>
+      <form class="email-input-form">
+        <input type="email" class="email-input" placeholder="Введите почту" required>
+        <button class="sent-code">ПОЛУЧИТЬ КОД</button>
+      </form>
+      <button class="input-code">Ввести код</button>
+    </div>
+  </div>
+  <div class="modal" id="code-modal">
+    <div class="modal-content">
+      <span class="close-button close-code">&times;</span>
+      <h2>Подтверждение </h2>
+      <form class="code-input-form">
+        <input type="text" class="code-input" placeholder="Введите почту" required>
+        <button class="sent-code">Войти</button>
       </form>
     </div>
   </div>
@@ -48,7 +71,7 @@
   <template id="template-message">
     <div class="message"></div>
   </template>
-  
+
   <script src="./modules/modal.mjs"></script>
   <script src="./main.js" defer></script>
 </body>

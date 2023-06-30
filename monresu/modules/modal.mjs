@@ -1,30 +1,55 @@
 const settingsButton = document.querySelector('.settings-button');
 const settingsModal = document.getElementById('settings-modal');
-const closeButton = document.querySelector('.close-button');
+const closeBtnSettings = document.querySelector('.close-settings');
 const formInputChatName = document.querySelector('.chat-name-input-form');
 
-function closeModal() {
-  settingsModal.style.display = 'none';
+const authModal = document.querySelector('#authrozation-modal');
+const closeBtnAuth = document.querySelector('.close-auth');
+const logBtn = document.querySelector('.exit-button');
+const inputCodeBtn = document.querySelector('.input-code');
+
+const codeModal = document.querySelector('#code-modal');
+const closeBtnCode = document.querySelector('.close-code');
+
+function closeModal(modal) {
+  modal.style.display = 'none';
 };
-function openModal() {
-  settingsModal.style.display = 'block';
+function openModal(modal) {
+  modal.style.display = 'block';
 };
+
+inputCodeBtn.addEventListener('click', () => {
+  closeModal(authModal);
+  openModal(codeModal);
+});
+
+closeBtnCode.addEventListener('click', () => {
+  closeModal(codeModal);
+});
+
+logBtn.addEventListener('click', () => {
+  openModal(authModal);
+});
+
+closeBtnAuth.addEventListener('click', () => {
+  closeModal(authModal);
+});
 
 formInputChatName.addEventListener('submit', (event) => {
   event.preventDefault();
-  closeModal();
+  closeModal(settingsModal);
 });
 
 settingsButton.addEventListener('click', () => {
-  openModal();
+  openModal(settingsModal);
 });
 
-closeButton.addEventListener('click', () => {
-  closeModal()
+closeBtnSettings.addEventListener('click', () => {
+  closeModal(settingsModal)
 });
 
 window.addEventListener('click', (event) => {
   if (event.target == settingsModal) {
-    closeModal();
+    closeModal(settingsModal);
   }
 });
