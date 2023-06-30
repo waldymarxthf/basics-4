@@ -1,32 +1,20 @@
-import { format } from 'date-fns';
+import { getCurrentTime } from './modules/dateUtils';
+import { createMessage } from './modules/messageUtils';
+import { getElement, appendElement, setElementValue, setScrollTop } from './modules/domUtils';
 
-const messages = document.querySelector('.messages');
-const inputForm = document.querySelector('.input-form');
-const inputMessage = document.querySelector('.input-field');
-
-function createMessage(user, value, date, style) {
-	const template = document.querySelector('#copy-msg');
-	const copyMessage = template.content.cloneNode(true);
-
-	const message = copyMessage.querySelector('.message');
-	const messageText = copyMessage.querySelector('.message__text');
-	const messageTime = copyMessage.querySelector('.message__time');
-
-	message.classList.add(style);
-	messageText.textContent = `${user}: ${value}`;
-	messageTime.textContent = date;
-
-	return message;
-}
+const messages = getElement('.messages');
+const inputForm = getElement('.input-form');
+const inputMessage = getElement('.input-field');
+const url = 'https://edu.strada.one/api/user';
+const email = 'my@email.com';
 
 function render() {
-	const date = format(new Date(), 'HH:mm');
+	const date = getCurrentTime();
 	const message = createMessage('KarinV', inputMessage.value, date, 'my');
 
-	messages.append(message);
-
-	inputMessage.value = '';
-	messages.scrollTop = messages.scrollHeight;
+	appendElement(messages, message);
+	setElementValue(inputMessage, '');
+	setScrollTop(messages, messages.scrollHeight);
 }
 
 inputForm.addEventListener('submit', e => {
