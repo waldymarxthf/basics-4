@@ -9,6 +9,10 @@ body {
   margin: auto auto;
 }
 
+.hidden {
+  display: none;
+}
+
 .chat-header {
   display: -webkit-box;
   display: -ms-flexbox;
