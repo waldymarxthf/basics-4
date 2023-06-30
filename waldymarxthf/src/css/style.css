@@ -70,7 +70,7 @@ body {
   font-size: 13px;
 }
 .chat-window {
-  height: 782px;
+  height: 80vh;
   max-width: 800px;
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
@@ -89,7 +89,7 @@ body {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  min-height: 770px;
+  min-height: 80vh;
 }
 .chat-window .chat-window__message:last-child {
   margin-bottom: 12px;

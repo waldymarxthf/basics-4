@@ -66,12 +66,10 @@ body {
 		}
 	}
 	&-window {
-		height: 782px;
+		height: 80vh;
 		max-width: 800px;
-		// border-radius: 16px;
 		border-top-left-radius: 16px;
 		border-top-right-radius: 16px;
-		// margin-bottom: 10px;
 		background: #444444;
 		overflow-y: scroll;
 		overflow-x: hidden;
@@ -79,7 +77,8 @@ body {
 			display: flex;
 			justify-content: flex-end;
 			flex-direction: column;
-			min-height: 770px;
+			min-height: 80vh;
+
 		}
 		.chat-window__message {
 			&:last-child {
