@@ -22,6 +22,7 @@
             margin-bottom: 2px;
             overflow: hidden;
             word-wrap: break-word;
+            white-space: pre-wrap;
         }
 
         .chat-dialog__message-time {
@@ -51,11 +52,11 @@
     .in-message::before {
         content: "";
         position: absolute;
-        bottom: 4px;
-        left: -5px;
+        bottom: -1px;
+        left: -2px;
         width: 0;
         height: 0;
-        border: 8px solid transparent;
+        border: 10px solid transparent;
         border-bottom-color: #33393f;
         transform: rotate(-5deg);
     }
@@ -69,11 +70,11 @@
     .sent-message::before {
         content: "";
         position: absolute;
-        bottom: 4px;
-        right: -5px;
+        bottom: -1px;
+        right: -2px;
         width: 0;
         height: 0;
-        border: 8px solid transparent;
+        border: 10px solid transparent;
         border-bottom-color: #2a2f33;
         transform: rotate(5deg);
     }

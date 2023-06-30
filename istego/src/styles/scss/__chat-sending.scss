@@ -17,6 +17,7 @@
         color: #ffffff;
         overflow-wrap: break-word;
         word-wrap:break-word;
+        white-space: pre-wrap;
         overflow-x: hidden;
         overflow-y: auto;
     }
@@ -36,6 +37,7 @@
 
     .chat-form__textarea {
         display: none;
+        white-space: pre-wrap;
     }
 
     .btn-send {

@@ -32,19 +32,20 @@ UI.form.addEventListener("submit", (e) => {
     if (isEmptyEnterField()) {
         return;
     } else {
-        addMessage(valueMessageForm(), '12:00', 'sent-message');
-        console.log(valueMessageForm());
+        addMessage(getValueMessageForm(), '12:00', 'sent-message');
+        console.log(getValueMessageForm());
         clearEnterField();
         changeIconBtnSent();
     }
 });
 
-// Данные из формы (Сообщение)
-function valueMessageForm() {
+// Данные(текст сообщения) из формы
+function getValueMessageForm() {
     const formData = new FormData(UI.form);
     return formData.get("message");
 }
 
+// Очистка поля ввода
 function clearEnterField() {
     UI.enterField.textContent = "";
 }
@@ -70,10 +71,19 @@ function isEmptyEnterField() {
 // Смена иконки кнопки отправки
 function changeIconBtnSent() {
     if (isEmptyEnterField()) {
+        disableBtn(UI.btnSend, true);
+
         UI.btnSend.style.backgroundImage = ICONS.srcBtnDisabled;
     } else {
+        disableBtn(UI.btnSend, false);
+        
         UI.btnSend.style.backgroundImage = ICONS.srcBtnActive;
     }
+}
+
+// Диактивация кнопки
+function disableBtn(btn, btnStatus) {
+    btn.disabled = btnStatus;
 }
 
 // Добавление сообщения
@@ -88,3 +98,5 @@ function addMessage(textMessage, time, classMessage) {
 
     UI.dialogWindow.append(message);
 }
+
+// Вспомогательные функции
