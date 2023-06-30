@@ -24,4 +24,4 @@ export async function sendRequestToAPI(url, email) {
 	}
 }
 
-sendRequestToAPI();
+// sendRequestToAPI();

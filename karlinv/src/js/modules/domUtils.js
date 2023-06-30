@@ -1,5 +1,10 @@
+/* eslint-disable no-param-reassign */
 export function getElement(selector) {
 	return document.querySelector(selector);
+}
+
+export function createElement(element) {
+	return document.createElement(element);
 }
 
 export function appendElement(parent, child) {

@@ -58,6 +58,10 @@ li {
 	background: rgba(0, 0, 0, 0.2);
 }
 
+.btn:active:disabled {
+	background: transparent;
+}
+
 .messages {
 	display: flex;
 	flex-direction: column;
@@ -181,4 +185,8 @@ li {
 
 .popup .content button:last-child {
 	margin-left: 5px;
+}
+
+.popup-overlay.open {
+	display: flex;
 }
