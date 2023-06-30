@@ -8,17 +8,20 @@
     <link rel="stylesheet" href="./css/style.css" />
   </head>
   <body>
-    <section class="register__body window__body">
+    <section class="register__body window__body" id="register-body">
       <div class="block-title">Авторизация</div>
       <div class="block__use">
         <label for="inputEmail" class="label">Почта:</label>
         <input type="email" placeholder="" class="input" id="inputEmail" />
-        <button class="button" type="submit">Далее</button>
+        <button class="button" id="buttonNext" type="submit">Далее</button>
       </div>
       <div class="back"></div>
     </section>
-    <section class="confirmation__body window__body">
-      <div class="block-title">Подтверждение</div>
+    <section class="confirmation__body window__body" id="confirmation-body">
+      <div class="block-title">
+        Подтверждение
+        <div class="cross" id="cross-back">+</div>
+      </div>
       <div class="block__use">
         <label for="inputCode" class="label">Код:</label>
         <input type="number" placeholder="" class="input" id="inputCode" />
@@ -26,7 +29,7 @@
       </div>
       <div class="back"></div>
     </section>
-    <section class="settings__body window__body">
+    <section class="settings__body window__body" id="settings-body">
       <div class="block-title">
         Настройки
         <div class="cross">+</div>
@@ -38,8 +41,10 @@
       </div>
       <div class="back"></div>
     </section>
-    <section class="chat__body">
-      <div class="header"><button>Настройки</button><button>Выйти</button></div>
+    <section class="chat__body" id="chat-body">
+      <div class="header">
+        <button>Настройки</button><button id="button-logout">Выйти</button>
+      </div>
       <div class="chat__place">
         <div class="scroll" id="place">
           <template id="myMassege" class="myMassege sent">
