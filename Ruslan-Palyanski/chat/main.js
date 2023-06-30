@@ -7,9 +7,12 @@ const allMessages = document.getElementsByClassName('message');
 const lastElement = allMessages[allMessages.length - 1];
 const tp = document.querySelector('#tp');
 const dialogAutoriz = document.querySelector('.dialog_autoriz');
+const dialogConfirm = document.querySelector('.dialog_confirm');
 const body = document.querySelector('body');
 const dialogs = document.querySelectorAll('.dialog');
 const forms = document.querySelectorAll('form');
+// const buttonTextCode = document.querySelector('.button_text-code');
+const buttons = document.querySelectorAll('.button');
 
 function createHtmlElementMessage(userName, message, date, flag){
 
@@ -71,6 +74,17 @@ function closeDialog(event){
 formAddMessage.addEventListener('submit', addMessage)
 btnLogin.addEventListener('click', showDialog)
 body.addEventListener('click', closeDialog)
+
+for(const button of buttons){
+    if(button.classList.contains('button_text-code')){
+            button.addEventListener("click", (event) => {
+            for(const node of dialogs){
+                node.classList.remove('dialog__show')
+            }
+            dialogConfirm.classList.add('dialog__show')
+        })
+    }
+}
 
 for(const form of forms){
     // if(form.classList.contains('addName')){

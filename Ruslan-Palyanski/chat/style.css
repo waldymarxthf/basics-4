@@ -121,8 +121,8 @@
     top: 0;
     left: 0;
     background-color: #535353;
-    display: flex;
-    justify-content: center;
+    /* display: flex; */
+    /* justify-content: center; */
     display: none;
   }
 
@@ -130,11 +130,21 @@
     display: block;
   }
 
+  .dialog__btn {
+    font-size: 20px;
+  }
+
+  .dialog__btn:hover {
+    cursor: pointer;
+  }
+
   .dialog__window {
     width: 273px;
     height: 319px;
     background-color: #fff;
     padding: 14px;
+    margin: 0 auto;
+    margin-top: 5px;
   }
 
   .dialog__header {
@@ -162,4 +172,11 @@
 
   .text {
     word-break: break-all;
+  }
+
+  .button_text-code {
+    color: #000;
+    position: relative;
+    top: -32px;
+    left: 85px;
   }
