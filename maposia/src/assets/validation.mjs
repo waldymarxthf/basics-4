@@ -1,7 +1,7 @@
 import VARIABLES from "./varibles.mjs";
 
-function checkSender() {
+function iSender() {
   return !!VARIABLES.ELEMENTS.CHAT_INPUT.value
 }
 
-export default checkSender
+export default iSender
