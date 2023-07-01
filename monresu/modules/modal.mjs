@@ -2,6 +2,7 @@ const settingsButton = document.querySelector('.settings-button');
 const settingsModal = document.getElementById('settings-modal');
 const closeBtnSettings = document.querySelector('.close-settings');
 const formInputChatName = document.querySelector('.chat-name-input-form');
+const inputCodeForm = document.querySelector('.code-input-form');
 
 const authModal = document.querySelector('#authrozation-modal');
 const closeBtnAuth = document.querySelector('.close-auth');
@@ -17,6 +18,10 @@ function closeModal(modal) {
 function openModal(modal) {
   modal.style.display = 'block';
 };
+
+inputCodeForm.addEventListener('submit', () => {
+  closeModal(codeModal);
+});
 
 inputCodeBtn.addEventListener('click', () => {
   closeModal(authModal);

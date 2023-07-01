@@ -6,26 +6,41 @@ const messageContainer = document.querySelector('.message-container');
 const sentCodeForm = document.querySelector('.email-input-form');
 const emailInputNode = document.querySelector('.email-input');
 
+const codeInputForm = document.querySelector('.code-input-form');
+const codeInputNode = document.querySelector('.code-input');
+
 const chatNameInputForm = document.querySelector('.chat-name-input-form');
 const chatNameInputNode = document.querySelector('.chat-name-input');
 
-const name = 'Я';
+let userName = Cookies.get('name');
 
-chatNameInputForm.addEventListener('submit', () => {
-  fetch('https://edu.strada.one/api/user', {
-    method: 'PATCH',
+function sendAuthorizedRequest(url, method, data) {
+  const token = Cookies.get('verification-token');
+
+  if (!token) {
+    console.log('Нет токена лол');
+    return;
+  }
+
+  fetch(url, {
+    method: method,
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
     },
-    body: JSON.stringify( {name: name})
+    body: JSON.stringify(data)
   })
-  .then(() => {
-    console.log('Все зашибись');
+  .then(function(response) {
+    if (response.ok) {
+      return response.json();
+    } else {
+      console.log('ошибка');
+    }
   })
-  .catch((err) => {
-    console.log(err)
-  })
-})
+  .catch(function(error) {
+    console.log('ошибка' + error.message);
+  });
+}
 
 sentCodeForm.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -48,17 +63,41 @@ sentCodeForm.addEventListener('submit', (e) => {
   })
 });
 
+chatNameInputForm.addEventListener('submit', e => {
+  e.preventDefault();
+  const name = chatNameInputNode.value;
+  console.log(name)
+  const data = {
+    name: name,
+  };
+  userName = name;
+  sendAuthorizedRequest('https://edu.strada.one/api/user', 'PATCH', data);
+  Cookies.set('name', name);
+})
+
+codeInputForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const verificationToken = codeInputNode.value;
+  Cookies.set('verification-token', verificationToken);
+  console.log(Cookies.get('verification-token'));
+})
+
 function textIsValid(text) {
   return text !== '' && text.trim() !== '';
 }
 
-function addMyMessage(text, name) {
+function addMessage(text, name) {
   const messageElement = document.importNode(templateMessage.content, true);
   const message = messageElement.querySelector('.message');
-  message.classList.add('my-message');
+  const messageClass = name == userName ? 'my-message' : 'other-message';
+  message.classList.add(messageClass);
   message.textContent = name + ': ' + text; 
   messageContainer.appendChild(message); 
 }
+
+addMessage('ЭТО ТЕСТОВЫЙ ТЕКС', userName);
+addMessage('ЭТО ТЕСТОВЫЙ ТЕКС1', 'sadfjhkl');
+addMessage('ЭТО ТЕСТОВЫЙ ТЕ5КС', userName);
 
 
 formChatMessage.addEventListener('submit', (e) => {
@@ -68,6 +107,6 @@ formChatMessage.addEventListener('submit', (e) => {
     console.log('сообщение пустое');
     return;
   };
-  addMyMessage(text, name);
+  addMessage(text, userName);
   formChatMessage.reset();
 });

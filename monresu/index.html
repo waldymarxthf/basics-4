@@ -4,6 +4,7 @@
 <head>
   <title>Chat Layout</title>
   <link rel="stylesheet" href="./style.css">
+  <script src="https://unpkg.com/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
 </head>
 
 <body>
@@ -13,17 +14,6 @@
   </div>
 
   <div class="message-container">
-    <div class="message my-message">
-      Я: Привет!
-    </div>
-    <div class="message other-message">
-      Собеседник: привет!
-    </div>
-    <div class="message other-message">
-      А это очень длинное сообщение чтобы быть на одной строке Lorem ipsum dolor sit amet consectetur adipisicing elit.
-      Cum, dolorum! Recusandae, atque enim magnam labore veritatis error ad ea. Similique nostrum commodi eveniet odio
-      atque ab incidunt labore. Necessitatibus, dolorem?
-    </div>
   </div>
 
   <div class="footer">
@@ -59,7 +49,7 @@
       <span class="close-button close-code">&times;</span>
       <h2>Подтверждение </h2>
       <form class="code-input-form">
-        <input type="text" class="code-input" placeholder="Введите почту" required>
+        <input type="text" class="code-input" placeholder="Введите код" required>
         <button class="sent-code">Войти</button>
       </form>
     </div>
