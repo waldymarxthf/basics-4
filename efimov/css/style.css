@@ -18,7 +18,7 @@ body {
   height: 100vh; }
 
 .register__body {
-  display: none; }
+  display: block; }
 
 .confirmation__body {
   display: none; }
@@ -27,7 +27,7 @@ body {
   display: none; }
 
 .chat__body {
-  display: block; }
+  display: none; }
 
 .window__body {
   border: 1px #000 solid;
