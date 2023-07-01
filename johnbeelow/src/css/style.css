@@ -31,6 +31,7 @@ input[type='text'] {
 .btn_conainer {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 2px;
 }
 
 .img-setting {
@@ -47,17 +48,30 @@ input[type='text'] {
   filter: invert(80%);
 }
 
-.btn-exit {
+.img-exit {
   margin-left: 8px;
   margin-right: 8px;
   margin-top: 9px;
-  margin-bottom: 8px;
   width: 26px;
   height: 26px;
   filter: invert(42%);
 }
 
-.btn-exit:hover {
+.img-exit:hover {
+  cursor: pointer;
+  filter: invert(80%);
+}
+
+.img-enter {
+  margin-left: 8px;
+  margin-right: 8px;
+  margin-top: 8px;
+  width: 26px;
+  height: 26px;
+  filter: invert(42%);
+}
+
+.img-enter:hover {
   cursor: pointer;
   filter: invert(80%);
 }
@@ -85,7 +99,7 @@ input[type='text'] {
 
 .window_container {
   display: block;
-  overflow-y:  scroll;
+  overflow-y: scroll;
 }
 
 ::-webkit-scrollbar {
@@ -106,6 +120,9 @@ input[type='text'] {
 }
 
 .message--main-user {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
   margin-left: auto;
   margin-right: 8px;
   margin-bottom: 8px;
@@ -118,6 +135,9 @@ input[type='text'] {
 }
 
 .message--only-users {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
   margin-left: 8px;
   margin-right: 8px;
   margin-bottom: 8px;
@@ -177,7 +197,7 @@ input[type='text'] {
 .btn-emoji-form {
   margin-left: 10px;
   margin-right: 4px;
-  margin-top: 8px;
+  margin-top: 13px;
   margin-bottom: 8px;
   width: 21px;
   height: 21px;
@@ -236,9 +256,9 @@ input[type='text'] {
   filter: invert(80%);
 }
 
-/* -------------------------- POPUP WINDOWS-------------------------- */
+/* -------------------------- modal WINDOWS-------------------------- */
 
-.popup-conainer {
+.modal-container {
   position: fixed;
   left: 0;
   top: 0;
@@ -250,18 +270,18 @@ input[type='text'] {
   align-items: center;
   justify-content: center;
   backdrop-filter: blur(10px);
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity 0.2s, visibiliy 1s;
+  /* cursor: pointer; */
 }
 
-.popup-conainer.open {
-  visibility: visible;
-  opacity: 1;
+.close {
+  display: none;
 }
 
-.popup-box-setting {
+.show {
   display: flex;
+}
+
+.modal-box {
   flex-direction: column;
   width: 273px;
   height: 319px;
@@ -269,14 +289,15 @@ input[type='text'] {
   background-color: #15202e;
   border-radius: 10px;
   border: 1px solid rgba(205, 207, 214, 0.062);
+  /* cursor: default; */
 }
 
-.pop-header {
+.modal-header {
   display: flex;
   justify-content: space-between;
 }
 
-.popup-title {
+.modal-title {
   margin-top: 7px;
   margin-left: 9px;
   font-size: 17px;
@@ -284,39 +305,60 @@ input[type='text'] {
   cursor: default;
 }
 
-.popup-title-small {
+.modal-title-small {
   font-size: 16px;
   color: #ffffff6e;
   cursor: default;
 }
 
-.popup-btn-close {
-  margin-top: 3px;
+.modal-btn-close {
+  margin-top: 6px;
   margin-right: 8px;
   font-size: 17px;
   color: #a09999b9;
 }
 
-.popup-btn-close:hover {
+
+.modal-btn-close:hover {
   cursor: pointer;
   color: #ffffffdc;
 }
 
-.popup-title--user-name {
+.modal-title--enter {
   display: flex;
   align-items: center;
   margin-top: 80px;
   flex-direction: column;
 }
 
-.popup-form-setting-input {
+.modal-form-setting-input {
   display: flex;
   justify-content: space-between;
   margin-top: 10px;
 }
 
-.popup-setting-form-input {
+.modal-setting-form-input {
   width: 210px;
+  height: 32px;
+  padding: 8px;
+  background-color: #0e16218a;
+  border-radius: 5px;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.795);
+}
+
+.modal-auth-form-input {
+  width: 240px;
+  height: 32px;
+  padding: 8px;
+  background-color: #0e16218a;
+  border-radius: 5px;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.795);
+}
+
+.modal-validation-form-input {
+  width: 240px;
   height: 32px;
   padding: 8px;
   background-color: #0e16218a;
@@ -339,13 +381,40 @@ input[type='text'] {
   filter: invert(80%);
 }
 
-.logo-box {
+/* .logo-box {
+  display: flex;
   font-family: 'Dancing Script', cursive;
   font-size: 10px;
   color: #ffffff6e;
   cursor: default;
-}
+} */
 
 .pop-bottom {
   margin-top: 120px;
+}
+
+.buttons-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+}
+
+.btn {
+  margin-top: 8px;
+  width: 115px;
+  height: 34px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #0a0f164d;
+  color: #a09999b9;
+}
+
+.btn:hover {
+  color: #f3ececd8;
+}
+
+.enter-code {
+  margin-left: 8px;
 }
