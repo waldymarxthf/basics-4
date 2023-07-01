@@ -14,12 +14,22 @@ const M_TEMPLATE = {
 
 const POPUP_SETTINGS = {
 	SETTINGS_MENU: document.querySelector(".settings-menu"),
+	SETTINGS_INPUT: document.querySelector(".settings-menu_input"),
+	SETTINGS_BUTTON: document.querySelector(".settings-menu_button"),
+	SETTINGS_FORM: document.querySelector(".settings-menu_form"),
 };
 
 const POPUP_LOGIN = {
 	POPUP_LOGIN_MENU: document.querySelector(".login-menu"),
 	LOGIN_FORM: document.querySelector(".log-menu_form"),
+	LOGIN_INPUT: document.querySelector(".log-menu_input"),
 	LOGIN_BTN_GET: document.querySelector(".log-menu_button_get"),
 	LOGIN_BTN_SET: document.querySelector(".log-menu_button_set"),
 };
-export { UI_ELEMNTS, tmpl, M_TEMPLATE, POPUP_SETTINGS, POPUP_LOGIN };
+
+const POPUP_CONFIRM = {
+	CONFIRM_INPUT: document.querySelector(".confirm-menu_input"),
+	CONFIRM_BUTTON: document.querySelector(".confirm-menu_button_sign"),
+	CONFIRM_FORM: document.querySelector(".confirm-menu_form"),
+};
+export { UI_ELEMNTS, tmpl, M_TEMPLATE, POPUP_SETTINGS, POPUP_LOGIN, POPUP_CONFIRM };

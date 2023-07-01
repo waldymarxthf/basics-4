@@ -1,6 +1,15 @@
-import { M_TEMPLATE, UI_ELEMNTS, tmpl, POPUP_SETTINGS, POPUP_LOGIN } from "./ui_elements";
-import { clearInput, getTime, validEmpty, ValidationError } from "./utils";
-import { getCode } from "./fetch";
+// eslint-disable-next-line import/no-extraneous-dependencies
+import Cookies from "js-cookie";
+import {
+	M_TEMPLATE,
+	UI_ELEMNTS,
+	tmpl,
+	POPUP_SETTINGS,
+	POPUP_LOGIN,
+	POPUP_CONFIRM,
+} from "./ui_elements";
+import { clearInput, getTime, validEmpty, ValidationError, setCookie, getCookie } from "./utils";
+import { getCode, getUserInfo, changeName } from "./fetch";
 
 UI_ELEMNTS.MAIN_SETTINGS_BTN.addEventListener("click", () => {
 	POPUP_SETTINGS.SETTINGS_MENU.showModal();
@@ -16,8 +25,8 @@ function render(message) {
 	UI_ELEMNTS.SCREEN.append(message);
 }
 
-function createMessage(text) {
-	M_TEMPLATE.SENDER.textContent = "I: ";
+async function createMessage(text) {
+	M_TEMPLATE.SENDER.textContent = `${await getUserInfo()}: `;
 	M_TEMPLATE.TIME.textContent = getTime();
 	if (validEmpty(text)) {
 		// eslint-disable-next-line no-alert, no-undef
@@ -49,6 +58,35 @@ POPUP_LOGIN.LOGIN_BTN_GET.addEventListener("click", (event) => {
 	event.preventDefault();
 	try {
 		getCode();
+		POPUP_LOGIN.LOGIN_INPUT.value = "";
+	} catch (err) {
+		if (err instanceof ValidationError) {
+			console.log(`Error: ${err.message}`);
+		} else {
+			throw err;
+		}
+	}
+});
+
+POPUP_CONFIRM.CONFIRM_FORM.addEventListener("submit", (event) => {
+	event.preventDefault();
+	try {
+		getUserInfo();
+		setCookie();
+	} catch (err) {
+		if (err instanceof ValidationError) {
+			console.log(`Error: ${err.message}`);
+		} else {
+			throw err;
+		}
+	}
+});
+
+POPUP_SETTINGS.SETTINGS_FORM.addEventListener("submit", (event) => {
+	event.preventDefault();
+	try {
+		changeName();
+		getUserInfo();
 	} catch (err) {
 		if (err instanceof ValidationError) {
 			console.log(`Error: ${err.message}`);
