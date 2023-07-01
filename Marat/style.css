@@ -1,0 +1,119 @@
+* {
+    padding: 0;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.content {
+    border: 1px solid black;
+    text-align: center;
+    width: 300px;
+}
+
+.header_content {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px;
+}
+
+.message_content {
+    border: 1px solid black;
+    width: 290px;
+    height: 400px;
+    margin-left: 5px;
+}
+
+.bottom_content {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 5px;
+    margin-left: 5px;
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
+
+.input_message {
+    width: 260px;
+    height: 30px;
+}
+
+.sendMessage {
+    width: 20px;
+}
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 250px;
+    height: 400px;
+    background-color: rgba(0, 0, 0, 0.5);
+
+}
+
+.modal[open] {
+    background-color: white;
+    overflow: hidden;
+    border: none;
+}
+
+.modal_content_header {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+    text-align: center;
+    align-items: center;
+}
+
+.close {
+    font-size: xx-large;
+    cursor:pointer ;
+}
+
+.modal_content_main{
+    display: flex;
+    justify-content: space-between;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.modal_container p {
+    margin-left: 10px;
+}
+.modal_input{
+    height: 25px;
+    width: 200px;
+    margin-right: 10px;
+}
+
+.message_my {
+}
+.message {
+    border: 1px solid none;
+    height: 30px;
+    margin: 4px;
+    display: inline-flex;
+    justify-content: space-between;
+    background-color: antiquewhite;
+    list-style-type: none;
+}
+
+.message_text {
+    font-size: large;
+}
+.message_time {
+    font-size: xx-small;
+    margin-top: 18px;
+}
+.message_you {
+}
