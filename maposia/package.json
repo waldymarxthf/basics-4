@@ -21,6 +21,7 @@
   "dependencies": {
     "date-fns": "^2.30.0",
     "eslint-config-airbnb": "^19.0.4",
+    "js-cookie": "^3.0.5",
     "sass": "^1.63.2"
   },
   "devDependencies": {

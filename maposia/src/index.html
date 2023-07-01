@@ -124,6 +124,7 @@
                     <img src="./img/user2-avatar.jpg" alt="" class="chat_message__avatar__img">
                 </div>
                 <div class="chat__message__wrap">
+                    <span class="chat__message__username"></span>
                     <p class="chat__message__text">
                     </p>
                     <span class="chat__message__time"></span>
@@ -189,7 +190,7 @@
     </div>
 </dialog>
 
-<dialog class="chat__modal">
+<dialog class="chat__modal chat__auth">
     <div class="chat__modal__header">
         <div class="chat__modal__title">
             Авторизация
@@ -203,12 +204,22 @@
     </div>
     <div class="chat__modal__field">
         <form class="chat__modal__form chat__auth__form">
-            <label for="chat__modal__input" class="chat__modal__label">По email</label>
+            <label for="chat__auth__input" class="chat__modal__label">Введите почту:</label>
             <div class="chat__modal__input__wrap">
-                <input type="email" class="chat__modal__input chat__auth__input" id="chat__modal__input"
+                <input type="email" class="chat__modal__input chat__auth__input" id="chat__auth__input"
                        placeholder="Введите email">
                 <button class="chat__modal__submit chat__auth__btn">
                     <span>Получить код</span>
+                </button>
+            </div>
+        </form>
+        <form class="chat__modal__form chat__login__form">
+            <label for="chat__login__input" class="chat__modal__label">Введите код:</label>
+            <div class="chat__modal__input__wrap">
+                <input type="text" class="chat__modal__input chat__login__input" id="chat__login__input"
+                       placeholder="Укажите код из сообщения">
+                <button class="chat__modal__submit chat__login__btn">
+                    <span>Войти</span>
                 </button>
             </div>
         </form>
