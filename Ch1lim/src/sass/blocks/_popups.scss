@@ -67,6 +67,7 @@
         top: 0; left: 0; bottom: 0; right: 0;
         background-color: #fff;
         .authorization__email {
+            position: relative;
             .email {
                 &__textAuthorization {
                     margin-top: 21px;

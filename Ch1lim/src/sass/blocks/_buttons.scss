@@ -49,13 +49,14 @@
     }
     &__getCode {
         margin-top: 7px;
-        margin-left: 14px;
         width: 120px;
     }
     &__enterCode {
-        margin-top: 7px;
+        position: absolute;
         width: 120px;
-        margin-left: 2px;
+        top: 151px;
+        right: 13px;
+        
     }
     &__entrance {
         margin-top: 7px;
