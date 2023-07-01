@@ -53,14 +53,14 @@
                   id="input-dialog-email"
                   type="email"
                   pattern="[^ @]*@[^ @]*"
-                  placeholder="Enter your email"
+                  placeholder=" Enter your email"
                 />
                 <button class="btn-get-code">
                   <i class="fa-solid fa-arrow-up-right-from-square"></i>
                 </button>
               </div>
             </div>
-            <button class="btn-submit-code">Submit code</button>
+            <button class="btn-submit-code hidden">Submit code</button>
           </form>
         </dialog>
         <dialog class="dialog-confirm">
@@ -69,7 +69,7 @@
           <form class="form-confirm" method="dialog">
             <legend class="legend-dialog">Enter your code</legend>
             <div class="dialog-form-wrapper">
-              <input class="input-dialog-confirm" type="text" />
+              <input id="input-dialog-confirm" type="text" />
 
               <button class="btn-enter">
                 <i class="fa-solid fa-arrow-right-to-bracket icon-enter"></i>
