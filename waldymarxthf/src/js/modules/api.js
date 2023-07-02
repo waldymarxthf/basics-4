@@ -1,5 +1,6 @@
 import Cookies from "js-cookie";
 import { REQUEST_HEADER, REQUEST_METOD, SERVER_URL, TOKEN, USER_URL } from "./constants";
+import { errorHandler, ServerError, AuthorizationError } from "./errors";
 
 export async function getMailRequest(email) {
 	try {
@@ -8,9 +9,14 @@ export async function getMailRequest(email) {
 			headers: REQUEST_HEADER.DEFAULT_HEADER,
 			body: JSON.stringify({ email }),
 		});
+
+		if (!response.ok) {
+			throw new ServerError("Error from the server");
+		}
+
 		await response.json();
 	} catch (error) {
-		throw new Error(error.message);
+		errorHandler(error);
 	}
 }
 
@@ -24,12 +30,15 @@ export async function changeNameRequest(name) {
 			},
 			body: JSON.stringify({ name }),
 		});
+
 		if (!response.ok) {
-			return false;
+			throw new ServerError("Error from the server");
 		}
+
 		return await response.json();
 	} catch (error) {
-		throw new Error(error.message);
+		errorHandler(error);
+		return false;
 	}
 }
 
@@ -44,10 +53,11 @@ export async function getUserDataRequest(token) {
 		});
 
 		if (!response.ok) {
-			return false;
+			throw new AuthorizationError("Auntentication failed");
 		}
 		return await response.json();
 	} catch (error) {
-		throw new Error(error.message);
+		errorHandler(error);
+		return false;
 	}
 }
