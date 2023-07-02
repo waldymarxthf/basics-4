@@ -25,8 +25,8 @@ function render(message) {
 	UI_ELEMNTS.SCREEN.append(message);
 }
 
-async function createMessage(text) {
-	M_TEMPLATE.SENDER.textContent = `${await getUserInfo()}: `;
+function createMessage(text) {
+	M_TEMPLATE.SENDER.textContent = `${localStorage.getItem("lastName")} :`;
 	M_TEMPLATE.TIME.textContent = getTime();
 	if (validEmpty(text)) {
 		// eslint-disable-next-line no-alert, no-undef
@@ -93,5 +93,13 @@ POPUP_SETTINGS.SETTINGS_FORM.addEventListener("submit", (event) => {
 		} else {
 			throw err;
 		}
+	}
+});
+
+window.addEventListener("DOMContentLoaded", () => {
+	let lastCity = localStorage.getItem("lastCity");
+	if (!lastCity) {
+		lastCity = "Chernihiv";
+		localStorage.setItem("lastCity", lastCity);
 	}
 });

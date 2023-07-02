@@ -37,4 +37,5 @@ export async function changeName() {
 		},
 		body: JSON.stringify({ name: POPUP_SETTINGS.SETTINGS_INPUT.value }),
 	});
+	localStorage.setItem("lastName", POPUP_SETTINGS.SETTINGS_INPUT.value);
 }
