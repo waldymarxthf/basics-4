@@ -1,4 +1,6 @@
 
+import { storage } from "./modules/storage.js";
+
 const btnLogin = document.querySelector('.button_exit');
 const formAddMessage = document.querySelector('.form');
 const inputMessage = document.querySelector('.input_ms');
@@ -46,7 +48,7 @@ function isValid(message){
 
 function addMessage(event){
     event.preventDefault()
-    const name = getNameFromLocalStorage();
+    const name = storage.getName();
     createHtmlElementMessage(name, inputMessage.value, null, null)
     event.target.reset()
 }
@@ -113,10 +115,10 @@ async function getNameFromServer(){
 
 getNameFromServer()
 
-function getNameFromLocalStorage(){
-    const name = localStorage.name;
-    return name;
-}
+// function getNameFromLocalStorage(){
+//     const name = localStorage.name;
+//     return name;
+// }
 
 for(const form of forms){
     if(form.classList.contains('addName')){
