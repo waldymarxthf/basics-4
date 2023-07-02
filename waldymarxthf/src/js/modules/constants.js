@@ -2,6 +2,8 @@ export const TOKEN = "token";
 export const NICKNAME = "nickname";
 export const MESSAGE = "message";
 export const EMAIL = "email";
+export const THEME = "theme";
+export const DEFAULT_THEME = "strada";
 export const NAME_LENGTH = 3;
 
 export const SERVER_URL = "https://edu.strada.one/api/user";
@@ -32,6 +34,7 @@ export const DOM_ELEMENTS = {
 		SEND_BUTTON: document.querySelector(".chat-message__btn"),
 		APP: document.querySelector(".chat"),
 		ANCHOR: document.querySelector(".anchor"),
+		BODY: document.body,
 	},
 	AUTHORIZATION: {
 		MODAL_AUTH: document.querySelector(".authorization"),
@@ -54,6 +57,7 @@ export const DOM_ELEMENTS = {
 		INPUT_SETTINGS: document.querySelector(".settings-input"),
 		COMPLETE_SETTINGS: document.querySelector(".settings-complete"),
 		ERROR_SETTINGS: document.querySelector(".settings-error"),
+		THEME_SETTINGS: document.querySelector(".settings-theme-select"),
 	},
 };
 

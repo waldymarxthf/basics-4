@@ -1,5 +1,4 @@
 import Cookies from "js-cookie";
-import { showElement } from "./modules/utils";
 import { DOM_ELEMENTS, TOKEN, NICKNAME } from "./modules/constants";
 import {
 	handleFormAuth,
@@ -8,12 +7,13 @@ import {
 	handleFormMessage,
 } from "./modules/handler";
 import { modalSwitcher } from "./modules/modalActions";
-import { hideSendButton, renderMessage } from "./modules/ui";
+import { hideSendButton, renderMessage, initializeUI } from "./modules/ui";
 import { handleScrollVisibility, scrollToEnd } from "./modules/scroll";
+import { saveToLocalStorage } from "./modules/localStorage";
 
 const { MODAL_AUTH, FORM_AUTH, ENTER_BUTTON } = DOM_ELEMENTS.AUTHORIZATION;
-const { FORM_SETTINGS, MODAL_SETTINGS, INPUT_SETTINGS } = DOM_ELEMENTS.SETTINGS;
-const { FORM_MESSAGE, APP, INPUT_MESSAGE, SETTINGS_BUTTON, CHAT_WINDOW, QUIT_BUTTON, ANCHOR } =
+const { FORM_SETTINGS, MODAL_SETTINGS, INPUT_SETTINGS, THEME_SETTINGS } = DOM_ELEMENTS.SETTINGS;
+const { FORM_MESSAGE, INPUT_MESSAGE, SETTINGS_BUTTON, CHAT_WINDOW, QUIT_BUTTON, ANCHOR, BODY } =
 	DOM_ELEMENTS.CHAT;
 const { MODAL_VERIF, BACK_BUTTON, FORM_VERIF } = DOM_ELEMENTS.VERIFICATION;
 
@@ -54,11 +54,9 @@ SETTINGS_BUTTON.addEventListener("click", () => {
 	INPUT_SETTINGS.value = Cookies.get(NICKNAME);
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-	if (Cookies.get(TOKEN)) {
-		showElement(APP);
-		MODAL_AUTH.close();
-	} else {
-		MODAL_AUTH.showModal();
-	}
+THEME_SETTINGS.addEventListener("change", function () {
+	BODY.className = this.value;
+	saveToLocalStorage("theme", this.value);
 });
+
+document.addEventListener("DOMContentLoaded", initializeUI);

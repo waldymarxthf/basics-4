@@ -1,8 +1,12 @@
-import { DOM_ELEMENTS, PROPERTIES, SELECTORS } from "./constants";
+import Cookies from "js-cookie";
+import { DOM_ELEMENTS, PROPERTIES, SELECTORS, TOKEN, THEME, DEFAULT_THEME } from "./constants";
 import { isEmpty } from "./validation";
 import { showElement, hideElement } from "./utils";
+import { loadFromLocalStorage } from "./localStorage";
 
-const { INPUT_MESSAGE, SEND_BUTTON, TEMPLATE, WINDOW } = DOM_ELEMENTS.CHAT;
+const { INPUT_MESSAGE, SEND_BUTTON, TEMPLATE, WINDOW, APP, BODY } = DOM_ELEMENTS.CHAT;
+const { MODAL_AUTH } = DOM_ELEMENTS.AUTHORIZATION;
+const { THEME_SETTINGS } = DOM_ELEMENTS.SETTINGS;
 const {
 	MESSAGE_SELECTOR,
 	TEXT_SELECTOR,
@@ -44,4 +48,16 @@ export function renderMessage(nickname, text, avatar, time = "00:00") {
 	}
 
 	WINDOW.scrollIntoView(false);
+}
+
+export function initializeUI() {
+	if (Cookies.get(TOKEN)) {
+		showElement(APP);
+		MODAL_AUTH.close();
+	} else {
+		MODAL_AUTH.showModal();
+	}
+	const theme = loadFromLocalStorage(THEME) || DEFAULT_THEME;
+	BODY.className = theme;
+	THEME_SETTINGS.value = theme;
 }
