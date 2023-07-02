@@ -4,7 +4,3 @@ export function modalSwitcher(hideModal, showModal) {
 		showModal.showModal();
 	};
 }
-
-export function preventDefaultAction(event) {
-	event.preventDefault();
-}

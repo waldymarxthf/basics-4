@@ -2,7 +2,7 @@ import Cookies from "js-cookie";
 import { getMailRequest, getUserDataRequest, changeNameRequest } from "./api";
 import { DOM_ELEMENTS, EMAIL, TOKEN, NICKNAME, MESSAGE } from "./constants";
 import { renderMessage, hideSendButton } from "./ui";
-import { showError, hideError, showSuccess, hideSuccess, showElement, getFormData } from "./utils";
+import { showElement, getFormData, hideElement } from "./utils";
 import { validateEmail, validateName, validateToken } from "./validation";
 
 const { FORM_AUTH, ERROR_AUTH, COMPLETE_AUTH } = DOM_ELEMENTS.AUTHORIZATION;
@@ -24,17 +24,17 @@ export async function handleFormAuth(event) {
 		const inputValue = getFormData(FORM_AUTH, EMAIL);
 
 		if (validateEmail(inputValue)) {
-			hideError(ERROR_AUTH);
+			hideElement(ERROR_AUTH);
 			await getMailRequest(inputValue);
-			showSuccess(COMPLETE_AUTH);
+			showElement(COMPLETE_AUTH);
 			FORM_AUTH.reset();
 		} else {
-			showError(ERROR_AUTH);
-			hideSuccess(COMPLETE_AUTH);
+			showElement(ERROR_AUTH);
+			hideElement(COMPLETE_AUTH);
 		}
 	} catch (error) {
 		console.error(error.message);
-		showError(ERROR_AUTH);
+		showElement(ERROR_AUTH);
 	}
 }
 
@@ -44,7 +44,7 @@ export async function handleFormVerif(event) {
 		const inputValue = getFormData(FORM_VERIF, TOKEN);
 
 		if (validateToken(inputValue)) {
-			showError(ERROR_VERIF);
+			showElement(ERROR_VERIF);
 			FORM_VERIF.reset();
 			return;
 		}
@@ -54,15 +54,15 @@ export async function handleFormVerif(event) {
 			Cookies.set(TOKEN, inputValue, { expires: 7 });
 			Cookies.set(NICKNAME, isSuccess.name);
 			showElement(APP);
-			hideError(ERROR_VERIF);
+			hideElement(ERROR_VERIF);
 			MODAL_VERIF.close();
 		} else {
-			showError(ERROR_VERIF);
+			showElement(ERROR_VERIF);
 		}
 		FORM_VERIF.reset();
 	} catch (error) {
 		console.error(error.message);
-		showError(ERROR_VERIF);
+		showElement(ERROR_VERIF);
 	}
 }
 
@@ -72,19 +72,19 @@ export async function handleFormSettings(event) {
 		const inputValue = getFormData(FORM_SETTINGS, NICKNAME);
 
 		if (!validateName(inputValue)) {
-			hideSuccess(COMPLETE_SETTINGS);
-			showError(ERROR_SETTINGS);
+			hideElement(COMPLETE_SETTINGS);
+			showElement(ERROR_SETTINGS);
 			return;
 		}
 		const isSuccess = await changeNameRequest(inputValue);
 
 		if (isSuccess) {
 			Cookies.set(NICKNAME, inputValue);
-			hideError(ERROR_SETTINGS);
-			showSuccess(COMPLETE_SETTINGS);
+			hideElement(ERROR_SETTINGS);
+			showElement(COMPLETE_SETTINGS);
 		}
 	} catch (error) {
 		console.error(error.message);
-		showError(ERROR_SETTINGS);
+		showElement(ERROR_SETTINGS);
 	}
 }

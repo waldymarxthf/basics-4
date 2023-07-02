@@ -1,4 +1,5 @@
-import { REQUEST_HEADER, REQUEST_METOD, SERVER_URL, USER_URL } from "./constants";
+import Cookies from "js-cookie";
+import { REQUEST_HEADER, REQUEST_METOD, SERVER_URL, TOKEN, USER_URL } from "./constants";
 
 export async function getMailRequest(email) {
 	try {
@@ -17,7 +18,10 @@ export async function changeNameRequest(name) {
 	try {
 		const response = await fetch(SERVER_URL, {
 			method: REQUEST_METOD.PATCH,
-			headers: REQUEST_HEADER.AUTHORIZATION_HEADER,
+			headers: {
+				...REQUEST_HEADER.DEFAULT_HEADER,
+				Authorization: `Bearer ${Cookies.get(TOKEN)}`,
+			},
 			body: JSON.stringify({ name }),
 		});
 		if (!response.ok) {

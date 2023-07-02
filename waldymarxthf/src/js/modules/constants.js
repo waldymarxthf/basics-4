@@ -1,5 +1,3 @@
-import Cookies from "js-cookie";
-
 export const TOKEN = "token";
 export const NICKNAME = "nickname";
 export const MESSAGE = "message";
@@ -68,10 +66,6 @@ export const PROPERTIES = {
 export const REQUEST_HEADER = {
 	DEFAULT_HEADER: {
 		"Content-Type": "application/json; charset=utf-8",
-	},
-	AUTHORIZATION_HEADER: {
-		"Content-Type": "application/json; charset=utf-8",
-		Authorization: `Bearer ${Cookies.get(TOKEN)}`,
 	},
 };
 

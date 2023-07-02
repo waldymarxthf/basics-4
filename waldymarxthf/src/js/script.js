@@ -7,7 +7,7 @@ import {
 	handleFormVerif,
 	handleFormMessage,
 } from "./modules/handler";
-import { modalSwitcher, preventDefaultAction } from "./modules/modalActions";
+import { modalSwitcher } from "./modules/modalActions";
 import { hideSendButton, renderMessage } from "./modules/ui";
 import { handleScrollVisibility, scrollToEnd } from "./modules/scroll";
 
@@ -38,7 +38,10 @@ CHAT_WINDOW.addEventListener("scroll", handleScrollVisibility);
 ENTER_BUTTON.addEventListener("click", modalSwitcher(MODAL_AUTH, MODAL_VERIF));
 BACK_BUTTON.addEventListener("click", modalSwitcher(MODAL_VERIF, MODAL_AUTH));
 MODAL_VERIF.addEventListener("cancel", modalSwitcher(MODAL_VERIF, MODAL_AUTH));
-MODAL_AUTH.addEventListener("cancel", preventDefaultAction);
+
+MODAL_AUTH.addEventListener("cancel", (event) => {
+	event.preventDefault();
+});
 
 QUIT_BUTTON.addEventListener("click", () => {
 	MODAL_AUTH.showModal();

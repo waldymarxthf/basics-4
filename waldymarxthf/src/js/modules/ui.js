@@ -13,11 +13,7 @@ const {
 } = SELECTORS.CHAT;
 
 export function hideSendButton() {
-	if (!isEmpty(INPUT_MESSAGE.value)) {
-		showElement(SEND_BUTTON);
-	} else {
-		hideElement(SEND_BUTTON);
-	}
+	return !isEmpty(INPUT_MESSAGE.value) ? showElement(SEND_BUTTON) : hideElement(SEND_BUTTON);
 }
 
 export function renderMessage(nickname, text, avatar, time = "00:00") {
