@@ -1,17 +1,19 @@
-import { DOM_ELEMENTS, PROPERTIES } from "./constants";
+import { DOM_ELEMENTS } from "./constants";
+import { hideElement, showElement } from "./utils";
 
 const { ANCHOR, WINDOW } = DOM_ELEMENTS.CHAT;
 
 let lastScrollTop = 0;
+const SCROLL_HEIGHT = 200;
 
 export function handleScrollVisibility() {
 	if (
 		this.scrollTop < lastScrollTop &&
-		this.scrollHeight - this.scrollTop - this.clientHeight >= 200
+		this.scrollHeight - this.scrollTop - this.clientHeight >= SCROLL_HEIGHT
 	) {
-		ANCHOR.classList.remove(PROPERTIES.HIDDEN);
+		showElement(ANCHOR);
 	} else {
-		ANCHOR.classList.add(PROPERTIES.HIDDEN);
+		hideElement(ANCHOR);
 	}
 
 	lastScrollTop = this.scrollTop;

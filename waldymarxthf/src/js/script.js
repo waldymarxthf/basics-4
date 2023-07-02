@@ -1,5 +1,6 @@
 import Cookies from "js-cookie";
-import { DOM_ELEMENTS, PROPERTIES, TOKEN, NICKNAME } from "./modules/constants";
+import { showElement } from "./modules/utils";
+import { DOM_ELEMENTS, TOKEN, NICKNAME } from "./modules/constants";
 import {
 	handleFormAuth,
 	handleFormSettings,
@@ -52,7 +53,7 @@ SETTINGS_BUTTON.addEventListener("click", () => {
 
 document.addEventListener("DOMContentLoaded", () => {
 	if (Cookies.get(TOKEN)) {
-		APP.classList.remove(PROPERTIES.HIDDEN);
+		showElement(APP);
 		MODAL_AUTH.close();
 	} else {
 		MODAL_AUTH.showModal();

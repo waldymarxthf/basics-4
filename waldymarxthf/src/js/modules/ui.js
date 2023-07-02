@@ -1,5 +1,6 @@
 import { DOM_ELEMENTS, PROPERTIES, SELECTORS } from "./constants";
 import { isEmpty } from "./validation";
+import { showElement, hideElement } from "./utils";
 
 const { INPUT_MESSAGE, SEND_BUTTON, TEMPLATE, WINDOW } = DOM_ELEMENTS.CHAT;
 const {
@@ -13,9 +14,9 @@ const {
 
 export function hideSendButton() {
 	if (!isEmpty(INPUT_MESSAGE.value)) {
-		SEND_BUTTON.classList.remove(PROPERTIES.HIDDEN);
+		showElement(SEND_BUTTON);
 	} else {
-		SEND_BUTTON.classList.add(PROPERTIES.HIDDEN);
+		hideElement(SEND_BUTTON);
 	}
 }
 
@@ -37,10 +38,10 @@ export function renderMessage(nickname, text, avatar, time = "00:00") {
 			const nicknameElem = message.querySelector(NICKNAME_SELECTOR);
 
 			avatarElem.src = avatar;
-			avatarElem.parentElement.classList.remove(PROPERTIES.HIDDEN);
+			showElement(avatarElem.parentElement);
 
 			nicknameElem.textContent = nickname;
-			nicknameElem.classList.remove(PROPERTIES.HIDDEN);
+			showElement(nicknameElem);
 		}
 
 		WINDOW.append(message);

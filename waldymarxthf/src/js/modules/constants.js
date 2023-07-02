@@ -4,6 +4,10 @@ export const TOKEN = "token";
 export const NICKNAME = "nickname";
 export const MESSAGE = "message";
 export const EMAIL = "email";
+export const NAME_LENGTH = 3;
+
+export const SERVER_URL = "https://edu.strada.one/api/user";
+export const USER_URL = "https://edu.strada.one/api/user/me";
 
 export const SELECTORS = {
 	CHAT: {
