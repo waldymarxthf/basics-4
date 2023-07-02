@@ -1,8 +1,11 @@
 @charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+  letter-spacing: 0.4px;
 }
 
 body {
@@ -180,10 +183,20 @@ button {
   outline: 0;
   outline-offset: 0;
 }
-.chat-form .chat-form__inp:empty:before {
+.chat-form .chat-form__inp:after {
+  content: "";
+  color: #808080;
+  opacity: 0;
+  margin-left: 50px;
+  transition-duration: 0.1s;
+}
+.chat-form .chat-form__inp:empty:after {
   content: attr(data-placeholder);
   cursor: text;
-  color: grey;
+  color: #808080;
+  opacity: 1;
+  margin-left: 0px;
+  transition-duration: 0.1s;
 }
 .chat-form .chat-form__textarea {
   display: none;
@@ -199,6 +212,146 @@ button {
   background-repeat: no-repeat;
   background-size: 35px 35px;
   align-self: flex-end;
+}
+
+.modal-wrapper {
+  display: none;
+  position: absolute;
+  top: 0;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(28, 30, 30, 0.49);
+  backdrop-filter: blur(5px);
+}
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  height: 100%;
+  max-height: 500px;
+  border-radius: 10px;
+  padding: 15px;
+  background-color: #282e33;
+  position: relative;
+}
+.modal .modal__title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: "Roboto", sans-serif;
+  color: #8d939e;
+  font-size: 20px;
+  margin-bottom: 30px;
+}
+.modal .modal__btn-close {
+  width: 30px;
+  height: 30px;
+  background: none;
+  border: none;
+  background-image: url("../../icons/iconCloseWindow.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 30px 30px;
+}
+.modal .modal__content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+
+.modal-form {
+  width: 100%;
+  max-width: 300px;
+}
+.modal-form .modal-form__title {
+  margin-bottom: 5px;
+  color: #8d939e;
+  font-size: 18px;
+}
+.modal-form .modal-form__inp {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+  margin-bottom: 10px;
+}
+.modal-form .modal-form__inp .modal-input {
+  display: inline-block;
+  width: 100%;
+  outline: 0;
+  outline-offset: 0;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  background: none;
+  height: 30px;
+  color: #ffffff;
+}
+.modal-form .modal-form__inp .modal-form__btn-ok {
+  width: 30px;
+  height: 30px;
+  background: none;
+  border: none;
+  background-image: url("../../icons/iconOkDisabled.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 30px 30px;
+}
+.modal-form .modal-form__btns {
+  display: flex;
+  column-gap: 10px;
+}
+
+#modal-js.show-modal {
+  display: flex;
+}
+
+.modal-form__btn {
+  display: inline-block;
+  width: max-content;
+  border-radius: 5px;
+  border: none;
+  background-color: #8d939e;
+  color: #ffffff;
+  font-size: 16px;
+  padding: 5px 10px;
+}
+
+.active-btn {
+  background-color: #18ae56;
+}
+
+.hide-btn {
+  display: none;
+}
+
+.preload-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  margin-bottom: 30px;
+}
+.preload-wrapper .preload {
+  width: 130px;
+  height: 130px;
+}
+.preload-wrapper .preload img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -1,8 +1,15 @@
+// Шрифт
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+$roboto: 'Roboto', sans-serif;
+
 // Обнуление
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: $roboto;
+    letter-spacing: 0.4px;
 }
 
 body {
@@ -24,3 +31,5 @@ button {
 @import './_chat-nav';
 @import './_chat-dialog';
 @import './_chat-sending';
+@import './_modal';
+@import './_preload';

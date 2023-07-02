@@ -22,10 +22,22 @@
         outline: 0;
         outline-offset: 0;
 
-        &:empty:before {
+        &:after {
+            content: "";
+            color: #808080;
+            opacity: 0;
+            margin-left: 50px;
+            transition-duration: 0.1s;
+
+        }
+
+        &:empty:after {
             content: attr(data-placeholder);
             cursor: text;
-            color: grey;
+            color: #808080;
+            opacity: 1;
+            margin-left: 0px;
+            transition-duration: 0.1s;
         }
     }
 

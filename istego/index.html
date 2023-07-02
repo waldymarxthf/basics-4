@@ -18,6 +18,7 @@
 <body>
     <!-- Цвет для чата 13D7F1 -->
     <!-- Цвет серый settings 8D939E -->
+    <!-- Цвет зеленый  18ae56 -->
     <div class="wrapper">
         <div class="chat">
             <nav class="chat-nav">
@@ -39,7 +40,32 @@
             </div>
         </div>
     </div>
-
+    <div class="modal-wrapper" id="modal-js">
+        <div class="modal">
+            <div class="modal__title">
+                <p class="modal__title-text">
+                    Авторизация
+                </p>
+                <button type="button" class="modal__btn-close"></button>
+            </div>
+            <div class="modal__content">
+                <form class="modal-form">
+                    <p class="modal-form__title">
+                        Почта:
+                    </p>
+                    <div class="modal-form__inp">
+                        <input type="text" class="modal-input">
+                        <!-- <button type="#" class="modal-form__btn-ok" disabled></button> -->
+                    </div>
+                    <div class="modal-form__btns">
+                        <button type="button" class="modal-form__btn btn-give-code" disabled>Получить код</button>
+                        <button type="button" class="modal-form__btn btn-enter-code" >Ввести код</button>
+                        <button type="#" class="modal-form__btn btn-sing-in hide-btn disabled">Войти</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <template id="template">
         <div class="chat-dialog__message">
             <div class="chat-dialog__message-text">
@@ -50,7 +76,12 @@
             </div>
         </div>
     </template>
-    <script src="./src/js/script.js"></script>
+    <div class="preload-wrapper">
+        <div class="preload">
+            <img src="./src/preload/preload.svg" alt="Preload">
+        </div>
+    </div>
+    <script type="module" src="./src/js/script.js"></script>
 </body>
 
 </html>
