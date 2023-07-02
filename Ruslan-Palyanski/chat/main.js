@@ -3,8 +3,6 @@ const btnLogin = document.querySelector('.button_exit');
 const formAddMessage = document.querySelector('.form');
 const inputMessage = document.querySelector('.input_ms');
 const content = document.querySelector('.content');
-// const allMessages = document.getElementsByClassName('message');
-// const lastElement = allMessages[allMessages.length - 1];
 const tp = document.querySelector('#tp');
 const dialogName = document.querySelector('.dialog_name');
 const dialogAutoriz = document.querySelector('.dialog_autoriz');
@@ -12,7 +10,6 @@ const dialogConfirm = document.querySelector('.dialog_confirm');
 const body = document.querySelector('body');
 const dialogs = document.querySelectorAll('.dialog');
 const forms = document.querySelectorAll('form');
-// const buttonTextCode = document.querySelector('.button_text-code');
 const buttons = document.querySelectorAll('.button');
 
 function createHtmlElementMessage(userName, message, date, flag){
@@ -28,7 +25,7 @@ function createHtmlElementMessage(userName, message, date, flag){
         }
     
         const dateNow = new Date();
-        user.textContent = userName || 'I:';
+        user.textContent = userName || 'I';
         text.textContent = message;
         time.textContent = date || dateNow.getHours() + ' : ' + dateNow.getMinutes();
         
@@ -49,7 +46,8 @@ function isValid(message){
 
 function addMessage(event){
     event.preventDefault()
-    createHtmlElementMessage(null, inputMessage.value, null, null)
+    const name = getNameFromLocalStorage();
+    createHtmlElementMessage(name, inputMessage.value, null, null)
     event.target.reset()
 }
 
@@ -98,6 +96,27 @@ function getCookie(name) {
     ));
     return matches ? decodeURIComponent(matches[1]) : undefined;
   }
+
+async function getNameFromServer(){
+    const token = getCookie('token');
+    const response = await fetch('https://edu.strada.one/api/user/me', {
+        method: 'GET',
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json;charset=utf-8'
+          },   
+    });
+    const data = await response.json();
+    const name = data.name;
+    localStorage.name = name;
+}
+
+getNameFromServer()
+
+function getNameFromLocalStorage(){
+    const name = localStorage.name;
+    return name;
+}
 
 for(const form of forms){
     if(form.classList.contains('addName')){
