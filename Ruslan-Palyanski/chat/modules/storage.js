@@ -1,9 +1,9 @@
 
 const storage = {
-
-  // addName(){
-
-  // },
+  
+  addName(name){
+    localStorage.name = name;
+  },
 
   getName(){
      return localStorage.name; 

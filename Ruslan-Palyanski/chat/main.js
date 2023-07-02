@@ -1,18 +1,26 @@
 
 import { storage } from "./modules/storage.js";
 
-const btnLogin = document.querySelector('.button_exit');
-const formAddMessage = document.querySelector('.form');
-const inputMessage = document.querySelector('.input_ms');
-const content = document.querySelector('.content');
-const tp = document.querySelector('#tp');
-const dialogName = document.querySelector('.dialog_name');
-const dialogAutoriz = document.querySelector('.dialog_autoriz');
-const dialogConfirm = document.querySelector('.dialog_confirm');
-const body = document.querySelector('body');
-const dialogs = document.querySelectorAll('.dialog');
-const forms = document.querySelectorAll('form');
-const buttons = document.querySelectorAll('.button');
+function getElement(selector){
+    return document.querySelector(selector);
+}
+
+function getNodeList(selector){
+    return document.querySelectorAll(selector);
+}
+
+// const btnLogin = getElement('.button_exit');
+const formAddMessage = getElement('.form');
+const inputMessage = getElement('.input_ms');
+const content = getElement('.content');
+const tp = getElement('#tp');
+const dialogName = getElement('.dialog_name');
+const dialogAutoriz = getElement('.dialog_autoriz');
+const dialogConfirm = getElement('.dialog_confirm');
+// const body = getElement('body');
+const dialogs = getNodeList('.dialog');
+const forms = getNodeList('form');
+const buttons = getNodeList('.button');
 
 function createHtmlElementMessage(userName, message, date, flag){
 
@@ -53,51 +61,12 @@ function addMessage(event){
     event.target.reset()
 }
 
-function showDialog(){
-    const flag = dialogAutoriz.classList.contains('dialog__show');
-    if(!flag){
-        dialogAutoriz.classList.add('dialog__show');
-    } 
-}
-
-function closeDialog(event){
-    if(event.target.classList.contains('dialog') 
-        || event.target.classList.contains('dialog__btn')
-    ) {
-        for(const node of dialogs){
-            node.classList.remove('dialog__show')
-        }
-    }   
-}
-
-
-
-formAddMessage.addEventListener('submit', addMessage)
-btnLogin.addEventListener('click', showDialog)
-body.addEventListener('click', closeDialog)
-
-for(const button of buttons){
-    if(button.classList.contains('button_text-code')){
-            button.addEventListener("click", () => {
-            for(const node of dialogs){
-                node.classList.remove('dialog__show')
-            }
-            dialogConfirm.classList.add('dialog__show')
-        })
-    }
-    if(button.classList.contains('button_settings')){
-        button.addEventListener('click', () => {
-            dialogName.classList.add('dialog__show')
-        })
-    }
-}
-
 function getCookie(name) {
     let matches = document.cookie.match(new RegExp(
       "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
     ));
     return matches ? decodeURIComponent(matches[1]) : undefined;
-  }
+}
 
 async function getNameFromServer(){
     const token = getCookie('token');
@@ -109,16 +78,11 @@ async function getNameFromServer(){
           },   
     });
     const data = await response.json();
-    const name = data.name;
-    localStorage.name = name;
+    storage.addName(data.name)
 }
 
 getNameFromServer()
 
-// function getNameFromLocalStorage(){
-//     const name = localStorage.name;
-//     return name;
-// }
 
 for(const form of forms){
     if(form.classList.contains('addName')){
@@ -163,6 +127,48 @@ for(const form of forms){
         })
     }
 }
+
+
+function closeDialog(){
+    for(const dialog of dialogs){
+        dialog.classList.remove('dialog__show')
+    }
+}
+
+for(const dialog of dialogs){
+    dialog.addEventListener('click', (event) => {
+        if(event.target.classList.contains('dialog__btn')){
+            closeDialog()
+        }
+        if(event.target.classList.contains('dialog')){
+            closeDialog()
+        }
+    })
+}
+
+for(const button of buttons){
+    if(button.classList.contains('button_settings')){
+        button.addEventListener('click', () => {
+            closeDialog()
+            dialogName.classList.add('dialog__show')
+        })
+    }
+    if(button.classList.contains('button_exit')){
+        button.addEventListener('click', () => {
+            closeDialog()
+            dialogAutoriz.classList.add('dialog__show')
+        })
+    }
+    if(button.classList.contains('button_text-code')){
+        button.addEventListener('click', () => {
+            closeDialog()
+            dialogConfirm.classList.add('dialog__show')
+        })
+    }
+}
+
+
+formAddMessage.addEventListener('submit', addMessage)
 
 window.addEventListener('DOMContentLoaded', () => {
     content.scrollTop = content.scrollHeight;
