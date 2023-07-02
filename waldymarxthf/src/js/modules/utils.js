@@ -16,10 +16,14 @@ export function hideError(element, className = PROPERTIES.HIDDEN) {
 	element.classList.add(className);
 }
 
-export function hideSucces(element, className = PROPERTIES.HIDDEN) {
+export function hideSuccess(element, className = PROPERTIES.HIDDEN) {
 	element.classList.add(className);
 }
 
 export function hideElement(element, className = PROPERTIES.HIDDEN) {
 	element.classList.add(className);
+}
+
+export function getFormData(form, key) {
+	return new FormData(form).get(key);
 }

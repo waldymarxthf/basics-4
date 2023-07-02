@@ -15,7 +15,7 @@ export async function getMailRequest(email) {
 
 export async function changeNameRequest(name) {
 	try {
-		const response = await fetch(USER_URL, {
+		const response = await fetch(SERVER_URL, {
 			method: REQUEST_METOD.PATCH,
 			headers: REQUEST_HEADER.AUTHORIZATION_HEADER,
 			body: JSON.stringify({ name }),
