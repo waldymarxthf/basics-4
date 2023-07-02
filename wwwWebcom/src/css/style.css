@@ -180,8 +180,9 @@ body {
 } */
 
 /*--------------------------------Моадльные окна-----------------------------------------------*/
+/*--------------------------------Модальное окно настроек-----------------------------------------------*/
 
-.modalWindow {
+.modalWindow_settings {
   margin: auto auto;
   min-width: 280px;
   min-height: 320px;
@@ -191,20 +192,20 @@ body {
   border: none;
   border-radius: 10px;
 }
-.modalWindow::backdrop {
+.modalWindow_settings::backdrop {
   background-color: rgba(0, 0, 0, 0.932);
 }
 
-.modalWindow-header {
+.modalWindow_settings-header {
   display: flex;
   justify-content: space-between;
 }
 
-.modalWindow-header-text {
+.modalWindow_settings-header-text {
   font-size: 30px;
   margin-bottom: 10px;
 }
-.modalWindow-header-close {
+.modalWindow_settings-header-close {
   font-size: 25px;
   border: none;
   background-color: transparent;
@@ -213,16 +214,16 @@ body {
   padding-bottom: 7px;
 }
 
-.modalWindow-form {
+.modalWindow_settings-form {
   display: flex;
   justify-content: space-between;
 }
 
-.modalWindow-form-formName {
+.modalWindow_settings-form-formName {
   margin-bottom: 10px;
 }
 
-.modalWindow-form-input {
+.modalWindow_settings-form-input {
   outline: none;
   padding: 8px;
   width: 80%;
@@ -230,10 +231,145 @@ body {
   border-radius: 10px;
   border: none;
 }
-.modalWindow-form-button {
+.modalWindow_settings-form-button {
   width: 20%;
   border-radius: 10px;
   border: none;
   cursor: pointer;
 }
+
+/*--------------------------------Модальное окно авторизации-----------------------------------------------*/
+
+.modalWindow_autorization {
+  margin: auto auto;
+  min-width: 280px;
+  min-height: 320px;
+  padding: 16px 14px;
+  background: linear-gradient(20deg, #0f123ae0, #f1f5abe0);
+  color: white;
+  border: none;
+  border-radius: 10px;
+}
+.modalWindow_autorization::backdrop {
+  background-color: rgba(0, 0, 0, 0.932);
+}
+
+.modalWindow_autorization-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modalWindow_autorization-header-text {
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+.modalWindow_autorization-header-close {
+  font-size: 25px;
+  border: none;
+  background-color: transparent;
+  color: white;
+  cursor: pointer;
+  padding-bottom: 7px;
+}
+
+.modalWindow_autorization-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.modalWindow_autorization-form-formName {
+  margin-bottom: 10px;
+}
+
+.modalWindow_autorization-form-input {
+  width: 100%;
+  outline: none;
+  padding: 8px;
+  margin-right: 10px;
+  border-radius: 10px;
+  border: none;
+  margin-bottom: 8px;
+}
+
+.modalWindow_autorization-form-buttons_block{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.modalWindow_autorization-form-button {
+  min-width: 120px;
+  padding: 8px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+/*--------------------------------Модальное окно подтверждения-----------------------------------------------*/
+.modalWindow_verification {
+  margin: auto auto;
+  min-width: 280px;
+  min-height: 320px;
+  padding: 16px 14px;
+  background: linear-gradient(20deg, #0f123ae0, #f1f5abe0);
+  color: white;
+  border: none;
+  border-radius: 10px;
+}
+.modalWindow_verification::backdrop {
+  background-color: rgba(0, 0, 0, 0.932);
+}
+
+.modalWindow_verification-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modalWindow_verification-header-text {
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+.modalWindow_verification-header-close {
+  font-size: 25px;
+  border: none;
+  background-color: transparent;
+  color: white;
+  cursor: pointer;
+  padding-bottom: 7px;
+}
+
+.modalWindow_verification-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.modalWindow_verification-form-formName {
+  margin-bottom: 10px;
+}
+
+.modalWindow_verification-form-input {
+  width: 100%;
+  outline: none;
+  padding: 8px;
+  margin-right: 10px;
+  border-radius: 10px;
+  border: none;
+  margin-bottom: 8px;
+}
+
+.modalWindow_verification-form-buttons_block{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.modalWindow_verification-form-button {
+  width: 100%;
+  padding: 8px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+
 /*---------------------------------------------------------------------------------------------*/

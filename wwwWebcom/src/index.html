@@ -52,15 +52,42 @@
       </div>
     </div>
 
-    <dialog  class="modalWindow">
-      <div class="modalWindow-header">
-        <h1 class="modalWindow-header-text">Настройки</h1>
-        <button class="modalWindow-header-close">X</button>
+    <dialog  class="modalWindow_settings">
+      <div class="modalWindow_settings-header">
+        <h1 class="modalWindow_settings-header-text">Настройки</h1>
+        <button class="modalWindow_settings-header-close">X</button>
       </div>
-      <p class="modalWindow-form-formName">Имя в чате:</p>
-      <form id ="modal_settings_form" action="" class="modalWindow-form">
-        <input id ="modal_settings_input" class="modalWindow-form-input" type="text" value="Дмитрий" />
-        <button id ="modal_settings_btn" class="modalWindow-form-button">-></button>
+      <p class="modalWindow_settings-form-formName">Имя в чате:</p>
+      <form id ="modal_settings_form" action="" class="modalWindow_settings-form">
+        <input id ="modal_settings_input" class="modalWindow_settings-form-input" type="text" value="Дмитрий" />
+        <button id ="modal_settings_btn" class="modalWindow_settings-form-button">-></button>
+      </form>
+    </dialog>
+    <dialog  class="modalWindow_autorization">
+      <div class="modalWindow_autorization-header">
+        <h1 class="modalWindow_autorization-header-text">Авторизация</h1>
+        <button class="modalWindow_autorization-header-close">X</button>
+      </div>
+      <p class="modalWindow_autorization-form-formName">Почта:</p>
+      <form id ="modal_autorization_form" action="" class="modalWindow_autorization-form">
+        <input id ="modal_autorization_input" class="modalWindow_autorization-form-input" type="text" placeholder="Введите вашу почту" />
+        <div class="modalWindow_autorization-form-buttons_block">
+          <button id ="modal_autorization_btn_get" class="modalWindow_autorization-form-button">Получить код</button>
+          <button id ="modal_autorization_btn_enter" class="modalWindow_autorization-form-button">Ввести код</button>
+        </div>
+      </form>
+    </dialog>
+    <dialog  class="modalWindow_verification">
+      <div class="modalWindow_verification-header">
+        <h1 class="modalWindow_verification-header-text">Подтверждение</h1>
+        <button class="modalWindow_verification-header-close">X</button>
+      </div>
+      <p class="modalWindow_verification-form-formName">Код:</p>
+      <form id ="modal_verification_form" action="" class="modalWindow_verification-form">
+        <input id ="modal_verification_input" class="modalWindow_verification-form-input" type="text" placeholder="Введите ваш код" />
+        <div class="modalWindow_verification-form-buttons_block">
+          <button id ="modal_verification_btn" class="modalWindow_verification-form-button">Войти</button>
+        </div>
       </form>
     </dialog>
   </body>
