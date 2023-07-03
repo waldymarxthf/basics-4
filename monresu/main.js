@@ -1,112 +1,173 @@
-const templateMessage = document.querySelector('#template-message');
-const formChatMessage = document.querySelector('.message-form');
-const inputMessageNode = document.querySelector('.message-input');
-const messageContainer = document.querySelector('.message-container');
+import { openModal, closeModal } from "./modules/functions.mjs";
 
-const sentCodeForm = document.querySelector('.email-input-form');
-const emailInputNode = document.querySelector('.email-input');
+const settingsBtn = document.querySelector('.settings-button');
+const settingsModal = document.querySelector('.settings-modal');
 
-const codeInputForm = document.querySelector('.code-input-form');
-const codeInputNode = document.querySelector('.code-input');
+const templateMessage = document.querySelector('.template-message');
 
-const chatNameInputForm = document.querySelector('.chat-name-input-form');
-const chatNameInputNode = document.querySelector('.chat-name-input');
 
-let userName = Cookies.get('name');
+settingsBtn.addEventListener('click', () => {
+  openModal(settingsModal);
+  const closeBtn = document.querySelector('.close-settings');
+  closeBtn.addEventListener('click', function handler() {
+    closeModal(settingsModal);
+    removeEventListener('click', handler);
+  });
+});
 
-function sendAuthorizedRequest(url, method, data) {
-  const token = Cookies.get('verification-token');
+const authBtn = document.querySelector('.auth-button');
+const authModal = document.querySelector('.authrozation-modal');
 
-  if (!token) {
-    console.log('Нет токена лол');
-    return;
-  }
+authBtn.addEventListener('click', () => {
+  openModal(authModal);
+  const closeBtn = document.querySelector('.close-auth');
+  closeBtn.addEventListener('click', function handler() {
+    closeModal(authModal);
+    removeEventListener('click', handler);
+  });
+})
 
-  fetch(url, {
-    method: method,
+const emailForm = document.querySelector('.email-input-form');
+
+const API = {
+  URL: 'https://edu.strada.one/api',
+  USER: 'user',
+  ME: 'me',
+  MESSAGES: 'messages',
+}
+
+emailForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const email = new FormData(emailForm).get('email');
+  const response = await fetch(`${API.URL}/${API.USER}`, {
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
     },
-    body: JSON.stringify(data)
-  })
-  .then(function(response) {
-    if (response.ok) {
-      return response.json();
-    } else {
-      console.log('ошибка');
-    }
-  })
-  .catch(function(error) {
-    console.log('ошибка' + error.message);
+    body: JSON.stringify({ email })
+  });
+  console.log('Отправлено')
+});
+
+const chatNameInputForm = document.querySelector('.chat-name-input-form');
+
+let token = Cookies.get('token');
+
+
+chatNameInputForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  console.log(token);
+  closeModal(settingsModal);
+  const name = new FormData(chatNameInputForm).get('name');
+  const response = await fetch(`${API.URL}/${API.USER}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ name })
+  });
+  console.log('Имя изменено')
+  userName = await fetchData('name');
+  getData();
+});
+
+const getData = async () => {
+  const response = await fetch(`${API.URL}/${API.USER}/${API.ME}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (response.ok) {
+    console.log('Запрос на данные получен');
+  };
+  const data = await response.json();
+  return data;
+}
+
+
+const fetchData = async (prop) => {
+  const data = await getData();
+  return data[prop];
+}
+
+const submitForm = document.querySelector('.code-input-form');
+
+submitForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const code = new FormData(submitForm).get('code');
+  Cookies.set('token', code);
+  closeModal(submitModal);
+})
+
+const inputCodeBtn = document.querySelector('.input-code');
+const submitModal = document.querySelector('.submit-modal');
+
+inputCodeBtn.addEventListener('click', () => {
+  closeModal(authModal);
+  openModal(submitModal);
+});
+
+submitModal.addEventListener('click', (event) => {
+  if (event.target.classList.contains('close-button')) {
+    closeModal(submitModal);
+  };
+})
+
+let userName = await fetchData('name');
+
+const messageContainer = document.querySelector('.message-container');
+
+function renderMessage(author, message, time) {
+  const classMessage = author === userName ? 'my-message' : 'other-message';
+  const messageBlock = document.createElement('div');
+  messageBlock.append(templateMessage.content.cloneNode(true));
+  const authorMessage = messageBlock.querySelector('.author-message');
+  const textMessage = messageBlock.querySelector('.text-message');
+  const timeMessage = messageBlock.querySelector('.time-message');
+  messageBlock.classList.add('message');
+  authorMessage.textContent = author;
+  textMessage.textContent = ': ' + message;
+  timeMessage.textContent = time;
+  messageBlock.classList.add(classMessage);
+  messageContainer.append(messageBlock);
+};
+
+const getMessages = async () => {
+  const response = await fetch(`${API.URL}/${API.MESSAGES}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const data = await response.json();
+  return data;
+}
+
+async function renderMessages() {
+  const data = await getMessages();
+  const messages = data.messages;
+  messages.forEach(message => {
+    renderMessage(message.user.name, message.text, new Date(message.updatedAt).toLocaleTimeString('en-US'));
   });
 }
 
-sentCodeForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const email = emailInputNode.value;
-  const data = {
-    email: email,
-  };
-  fetch('https://edu.strada.one/api/user', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  })
-  .then(() => {
-    console.log('Все зашибись');
-  })
-  .catch((err) => {
-    console.log(err)
-  })
+renderMessages();
+
+renderMessage(userName, 'lorem imsum doler losdsihl lodm reig hudt jdom', '14:15');
+
+const messageForm = document.querySelector('.message-form');
+
+messageForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const textMessage = new FormData(messageForm).get('message');
+  const timeMessage = new Date().toLocaleTimeString('en-US');
+  renderMessage(userName, textMessage, timeMessage)
 });
 
-chatNameInputForm.addEventListener('submit', e => {
-  e.preventDefault();
-  const name = chatNameInputNode.value;
-  console.log(name)
-  const data = {
-    name: name,
-  };
-  userName = name;
-  sendAuthorizedRequest('https://edu.strada.one/api/user', 'PATCH', data);
-  Cookies.set('name', name);
-})
-
-codeInputForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const verificationToken = codeInputNode.value;
-  Cookies.set('verification-token', verificationToken);
-  console.log(Cookies.get('verification-token'));
-})
-
-function textIsValid(text) {
-  return text !== '' && text.trim() !== '';
-}
-
-function addMessage(text, name) {
-  const messageElement = document.importNode(templateMessage.content, true);
-  const message = messageElement.querySelector('.message');
-  const messageClass = name == userName ? 'my-message' : 'other-message';
-  message.classList.add(messageClass);
-  message.textContent = name + ': ' + text; 
-  messageContainer.appendChild(message); 
-}
-
-addMessage('ЭТО ТЕСТОВЫЙ ТЕКС', userName);
-addMessage('ЭТО ТЕСТОВЫЙ ТЕКС1', 'sadfjhkl');
-addMessage('ЭТО ТЕСТОВЫЙ ТЕ5КС', userName);
-
-
-formChatMessage.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const text = inputMessageNode.value;
-  if (!textIsValid(text)) {
-    console.log('сообщение пустое');
-    return;
-  };
-  addMessage(text, userName);
-  formChatMessage.reset();
-});
+setTimeout(() => {
+  messageContainer.scrollTop = messageContainer.scrollHeight;
+}, 1000)
