@@ -1,17 +1,23 @@
 {
   "name": "istego",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
+  "type": "module",
+  "source": "./index.html",
   "scripts": {
+    "start": "parcel",
+    "build": "parcel build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
+  "description": "",
+  "devDependencies": {
+    "@parcel/packager-raw-url": "^2.9.3",
+    "@parcel/transformer-sass": "^2.9.3",
+    "@parcel/transformer-webmanifest": "^2.9.3",
     "js-cookie": "^3.0.5",
-    "sass": "^1.63.6",
-    "save-dev": "^0.0.1-security"
+    "parcel": "^2.9.3"
   }
 }

@@ -6,6 +6,7 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
     .chat-nav__list-item {
         width: 30px;
@@ -23,5 +24,10 @@
 
     .btn-exit {
         background-image: url("../../icons/iconExitRed.svg");
+    }
+
+    .nickname {
+        color: #8d939e;
+        font-size: 18px;
     }
 }

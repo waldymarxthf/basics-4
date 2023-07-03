@@ -1,73 +1,28 @@
-import { Cookies } from 'js-cookie';
+import Cookies from 'js-cookie';
+import {
+    UI,
+    UI_MODAL,
+    ICONS,
+    TEMPLATE,
+    MODAL_TITLE,
+    tempContainer,
+    textarea,
+} from './modules/variables.mjs';
 
-Cookies.set('name', 'Ivan');
-
-const UI = {
-    dialogWindow: document.querySelector('.chat-dialog'),
-    enterFieldChat: document.querySelector('.chat-form__inp'),
-    btnSend: document.querySelector('.btn-send'),
-    form: document.querySelector('.chat-form'),
-    btnSettings: document.querySelector('.btn-settings'),
-    preload: document.querySelector('.preload-wrapper'),
+const URL = {
+    urlToken: 'https://edu.strada.one/api/user',
+    urlDataProfile: 'https://edu.strada.one/api/user/me',
 };
 
-const UI_MODAL = {
-    modal: document.querySelector('#modal-js'),
-    btnModalClose: document.querySelector('.modal__btn-close'),
-    btnGiveCode: document.querySelector('.btn-give-code'),
-    btnEnterCode: document.querySelector('.btn-enter-code'),
-    btnSingIn: document.querySelector('.btn-sing-in'),
-    enterFieldModal: document.querySelector('.modal-input'),
-    titleModal: document.querySelector('.modal__title-text'),
-    titleInputModal: document.querySelector('.modal-form__title'),
-};
+chekAuthorization();
 
-const ICONS = {
-    srcBtnDisabled: 'url("./src/icons/iconSendDisabled.svg")',
-    srcBtnActive: 'url("./src/icons/iconSend.svg")',
-};
-
-const tempContainer = document.querySelector('#template');
-const textarea = document.querySelector('.chat-form__textarea');
-
-const TEMPLATE = {
-    messageTimeTemplate: tempContainer.content.querySelector(
-        '.chat-dialog__message-time'
-    ),
-    messageTextTemlate: tempContainer.content.querySelector(
-        '.chat-dialog__message-text'
-    ),
-};
-
-// const MODAL_TITLE = {
-//     authorization: 'Авторизация',
-//     confirmation: 'Подтверждение',
-//     settings: 'Настройки',
-// };
-
-const MODAL_TITLE = {
-    authorization: {
-        title: 'Авторизация',
-        inputTitle: 'Почта:',
-        placeholder: 'Введите почту...',
-    },
-    confirmation: {
-        title: 'Подтверждение',
-        inputTitle: 'Код:',
-        placeholder: 'Введите код...',
-    },
-    settings: {
-        title: 'Настройки',
-        inputTitle: 'Имя в чате:',
-        placeholder: 'Введите имя...',
-    },
-};
-
+// Данные из поля чата в скрытое поле
 UI.enterFieldChat.addEventListener('input', () => {
     changeIconBtn(UI.enterFieldChat);
     textarea.value = getValueEnterChatField(UI.enterFieldChat);
 });
 
+//
 UI.form.addEventListener('submit', sendingMessage);
 
 document.addEventListener('keydown', (event) => {
@@ -79,64 +34,31 @@ document.addEventListener('keydown', (event) => {
 // ======================ПОЛУЧЕНИЕ ТОКЕНА========================
 // ==============================================================
 
-const URL = {
-    urlToken: 'https://edu.strada.one/api/user',
-    urlDataProfile: 'https://edu.strada.one/api/user/me',
-};
-
-const METHOD = {
-    get: 'GET',
-    post: 'POST',
-    patch: 'PATCH',
-};
-
-let token =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hcmFob3Zza2lpODFAZ21haWwuY29tIiwiaWF0IjoxNjg4MjMyMjAxLCJleHAiOjE2OTE4Mjg2MDF9.AtkLbBsUx1fAvpaP_Q53Gz5YJITqkm6UCdVwoSEAxtw';
-
-const HEADERS = {
-    'Content-type': 'application/json; charset=UTF-8',
-    Authorization: `Bearer ${token}`,
-};
-
 // Обработка поля ввода в модалке
 UI_MODAL.enterFieldModal.addEventListener('input', actionInputAuthorization);
 
 // Обработка клика ПОЛУЧИТЬ КОД
-UI_MODAL.btnGiveCode.addEventListener('click', () => {
-    if (isEmptyInputValue(UI_MODAL.enterFieldModal)) {
-        return;
-    }
-    getToken(
-        URL.urlToken,
-        METHOD.post,
-        HEADERS,
-        getValueInput(UI_MODAL.enterFieldModal)
-    )
-        .then((answer) => {
-            if (answer.status === 'true') {
-                clearInputField(UI_MODAL.enterFieldModal);
-                activeDisableBtn(UI_MODAL.btnGiveCode, 'disabled');
-                activeDisableBtn(UI_MODAL.btnEnterCode, 'active');
-            } else if (answer.status === 'false') {
-                activeDisableBtn(UI_MODAL.btnGiveCode, 'disabled');
-            }
-        })
-        .catch((error) => {
-            console.log(`Error: ${error.message}`);
-        });
-});
+UI_MODAL.btnGiveCode.addEventListener('click', getCode);
 
 // Обработка кнопки ввести код
 UI_MODAL.btnEnterCode.addEventListener('click', actionBtnEnterCode);
 
+// Обработка кнопки Войти
+UI_MODAL.btnSingIn.addEventListener('click', authorization);
+
+// =============================================================
+// =============================================================
+
 // запрос для получение токена
-async function getToken(url, method, headers, email) {
+async function getToken(url, email) {
     try {
         showHidePreload('flex');
 
         const response = await fetch(url, {
-            method: method,
-            headers: headers,
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+            },
             body: JSON.stringify({ email }),
         });
 
@@ -159,10 +81,96 @@ async function getToken(url, method, headers, email) {
     }
 }
 
-// getToken();
-// =============================================================
-// =============================================================
+// запрос для авторизации
+async function getAuthorization(url) {
+    try {
+        showHidePreload('flex');
 
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+                Authorization: `Bearer ${Cookies.get('token')}`,
+            },
+        });
+
+        const answer = await response.json();
+
+        if (response.status === 200) {
+            // console.log(answer.name);
+
+            return { status: 'true', answer };
+        } else {
+            console.log('ошибка', answer);
+            console.log(response.status);
+
+            return { status: 'false', answer };
+        }
+    } catch (error) {
+        console.log(`Error: ${error.message}`);
+    } finally {
+        showHidePreload('none');
+    }
+}
+
+// Получить подтверждение авторизации
+function authorization() {
+    if (isEmptyInputValue(UI_MODAL.enterFieldModal)) return;
+
+    setCookie('token', `${getValueInput(UI_MODAL.enterFieldModal)}`);
+    getAuthorization(URL.urlDataProfile)
+        .then((answer) => {
+            if (answer.status === 'true') {
+                clearInputField(UI_MODAL.enterFieldModal);
+                activeDisableBtn(UI_MODAL.btnSingIn, 'disabled');
+                // hideModal('none');
+                chekAuthorization();
+                console.log(answer);
+                UI.nickname.textContent = answer.answer.name;
+            } else if (answer.status === 'false') {
+                return;
+            }
+        })
+        .catch((error) => {
+            console.log(`Error: ${error.message}`);
+        });
+}
+
+// Получить код
+function getCode() {
+    if (isEmptyInputValue(UI_MODAL.enterFieldModal)) {
+        return;
+    }
+    getToken(URL.urlToken, getValueInput(UI_MODAL.enterFieldModal))
+        .then((answer) => {
+            if (answer.status === 'true') {
+                clearInputField(UI_MODAL.enterFieldModal);
+                activeDisableBtn(UI_MODAL.btnGiveCode, 'disabled');
+                activeDisableBtn(UI_MODAL.btnEnterCode, 'active');
+            } else if (answer.status === 'false') {
+                activeDisableBtn(UI_MODAL.btnGiveCode, 'disabled');
+            }
+        })
+        .catch((error) => {
+            console.log(`Error: ${error.message}`);
+        });
+}
+
+//Проверка на авторизацию при запуске приложения
+function chekAuthorization() {
+    if (getCookie('token')) {
+        hideModal();
+        UI_MODAL.modal.addEventListener('click', modalDelegationClick);
+    } else {
+        renderModal(
+            MODAL_TITLE.authorization.title,
+            MODAL_TITLE.authorization.inputTitle,
+            MODAL_TITLE.authorization.placeholder
+        );
+        showModal();
+        UI_MODAL.modal.removeEventListener('click', modalDelegationClick);
+    }
+}
 
 // Действия при вводе в input авторизации
 function actionInputAuthorization() {
@@ -177,7 +185,7 @@ function actionInputAuthorization() {
 
 // Действия при вводе в input подтверждения
 function actionInputConfirmation() {
-    if(isEmptyInputValue(UI_MODAL.enterFieldModal)) {
+    if (isEmptyInputValue(UI_MODAL.enterFieldModal)) {
         activeDisableBtn(UI_MODAL.btnSingIn, 'disabled');
         return;
     } else {
@@ -187,10 +195,11 @@ function actionInputConfirmation() {
 
 // Действие по кнопке ввести код
 function actionBtnEnterCode() {
-    if (isEmptyInputValue(UI_MODAL.enterFieldModal)) return;
-
     clearInputField(UI_MODAL.enterFieldModal);
-    UI_MODAL.enterFieldModal.removeEventListener('input', actionInputAuthorization);
+    UI_MODAL.enterFieldModal.removeEventListener(
+        'input',
+        actionInputAuthorization
+    );
     UI_MODAL.enterFieldModal.addEventListener('input', actionInputConfirmation);
 
     renderModal(
@@ -339,14 +348,17 @@ function addMessage(textMessage, time, classMessage) {
 
 UI.btnSettings.addEventListener('click', showModal);
 
-UI_MODAL.modal.addEventListener('click', (event) => {
+// UI_MODAL.modal.addEventListener('click', modalDelegationClick);
+
+// Делегирование модалки
+function modalDelegationClick(event) {
     if (
         event.target === UI_MODAL.btnModalClose ||
         event.target === UI_MODAL.modal
     ) {
         hideModal();
     }
-});
+}
 
 function showModal() {
     UI_MODAL.modal.classList.add('show-modal');
@@ -356,6 +368,14 @@ function hideModal() {
     UI_MODAL.modal.classList.remove('show-modal');
 }
 
+function setCookie(name, value) {
+    Cookies.set(name, value);
+}
+
+function getCookie(name) {
+    return Cookies.get(name);
+}
+
 // ======================================================
 // ======================================================
 
@@ -363,9 +383,173 @@ function hideModal() {
 // Локалсторедж
 // Добавление сообщений из локалсторедж
 // функцию рендер
-// отправка по нажатию enter
 // обработка ctrl + enter и shift + enter для переноса строки.
 // Чтобы курсос был при наведении на поля ввода черточкой
 // Функцию для получения времени
 // Объект с переменными для классов входящее/исходящее сообщение
 // Объект с данными для модалок
+
+const messages = [
+    {
+        _id: '649e270da697a600113f9622',
+        text: 'текст',
+        user: {
+            email: 'sonalavrushina@gmail.com',
+            name: 'pipupopi228',
+        },
+        createdAt: '2023-06-30T00:51:25.564Z',
+        updatedAt: '2023-06-30T00:51:25.564Z',
+        __v: 0,
+    },
+    {
+        _id: '649da944331fb50011c46b9c',
+        text: 'а',
+        user: {
+            email: 'sonalavrushina@gmail.com',
+            name: 'pipupopi228',
+        },
+        createdAt: '2023-06-29T15:54:44.680Z',
+        updatedAt: '2023-06-29T15:54:44.680Z',
+        __v: 0,
+    },
+    {
+        _id: '649da944331fb50011c46b9b',
+        text: 'ас',
+        user: {
+            email: 'sonalavrushina@gmail.com',
+            name: 'pipupopi228',
+        },
+        createdAt: '2023-06-29T15:54:44.200Z',
+        updatedAt: '2023-06-29T15:54:44.200Z',
+        __v: 0,
+    },
+    {
+        _id: '649b83907dec9f0010880346',
+        text: 'v',
+        user: {
+            email: 'sonalavrushina@gmail.com',
+            name: 'pipupopi228',
+        },
+        createdAt: '2023-06-28T00:49:20.007Z',
+        updatedAt: '2023-06-28T00:49:20.007Z',
+        __v: 0,
+    },
+    {
+        _id: '649b838f7dec9f0010880345',
+        text: 'v',
+        user: {
+            email: 'sonalavrushina@gmail.com',
+            name: 'pipupopi228',
+        },
+        createdAt: '2023-06-28T00:49:19.131Z',
+        updatedAt: '2023-06-28T00:49:19.131Z',
+        __v: 0,
+    },
+    {
+        _id: '649b838e7dec9f0010880344',
+        text: 'v',
+        user: {
+            email: 'sonalavrushina@gmail.com',
+            name: 'pipupopi228',
+        },
+        createdAt: '2023-06-28T00:49:18.973Z',
+        updatedAt: '2023-06-28T00:49:18.973Z',
+        __v: 0,
+    },
+    {
+        _id: '649b838e7dec9f0010880343',
+        text: 'v',
+        user: {
+            email: 'sonalavrushina@gmail.com',
+            name: 'pipupopi228',
+        },
+        createdAt: '2023-06-28T00:49:18.815Z',
+        updatedAt: '2023-06-28T00:49:18.815Z',
+        __v: 0,
+    },
+    {
+        _id: '649b838e7dec9f0010880342',
+        text: 'v',
+        user: {
+            email: 'sonalavrushina@gmail.com',
+            name: 'pipupopi228',
+        },
+        createdAt: '2023-06-28T00:49:18.646Z',
+        updatedAt: '2023-06-28T00:49:18.646Z',
+        __v: 0,
+    },
+    {
+        _id: '649b838e7dec9f0010880341',
+        text: 'v',
+        user: {
+            email: 'sonalavrushina@gmail.com',
+            name: 'pipupopi228',
+        },
+        createdAt: '2023-06-28T00:49:18.457Z',
+        updatedAt: '2023-06-28T00:49:18.457Z',
+        __v: 0,
+    },
+    {
+        _id: '649b838e7dec9f0010880340',
+        text: 'v',
+        user: {
+            email: 'sonalavrushina@gmail.com',
+            name: 'pipupopi228',
+        },
+        createdAt: '2023-06-28T00:49:18.275Z',
+        updatedAt: '2023-06-28T00:49:18.275Z',
+        __v: 0,
+    },
+    {
+        _id: '649b838e7dec9f001088033f',
+        text: 'v',
+        user: {
+            email: 'sonalavrushina@gmail.com',
+            name: 'pipupopi228',
+        },
+        createdAt: '2023-06-28T00:49:18.098Z',
+        updatedAt: '2023-06-28T00:49:18.098Z',
+        __v: 0,
+    },
+    {
+        _id: '649b838d7dec9f001088033e',
+        text: 'v',
+        user: {
+            email: 'sonalavrushina@gmail.com',
+            name: 'pipupopi228',
+        },
+        createdAt: '2023-06-28T00:49:17.916Z',
+        updatedAt: '2023-06-28T00:49:17.916Z',
+        __v: 0,
+    },
+    {
+        _id: '649b838d7dec9f001088033d',
+        text: 'f',
+        user: {
+            email: 'sonalavrushina@gmail.com',
+            name: 'pipupopi228',
+        },
+        createdAt: '2023-06-28T00:49:17.749Z',
+        updatedAt: '2023-06-28T00:49:17.749Z',
+        __v: 0,
+    },
+    {
+        _id: '649b838d7dec9f001088033c',
+        text: 'v',
+        user: {
+            email: 'sonalavrushina@gmail.com',
+            name: 'pipupopi228',
+        },
+        createdAt: '2023-06-28T00:49:17.549Z',
+        updatedAt: '2023-06-28T00:49:17.549Z',
+        __v: 0,
+    },
+];
+
+const div = document.getElementById('div-text');
+const messagesHTML = messages
+    .map((message) => `<p>${message.text}</p>`);
+
+    div.innerHTML = messagesHTML;
+console.log(messagesHTML);
+// div.innerHTML = messagesHTML;
