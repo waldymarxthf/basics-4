@@ -51,7 +51,7 @@ body {}
     width: 20px;
 }
 
-.modal {
+.modal_settings {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -62,10 +62,45 @@ body {}
 
 }
 
-.modal[open] {
+.modal_autorisation{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 250px;
+    height: 400px;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal_confirmation{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 250px;
+    height: 400px;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal_settings[open] {
     background-color: white;
     overflow: hidden;
     border: none;
+}
+
+.modal_autorisation[open]{
+    background-color: white;
+    overflow: hidden;
+    border: none;
+}
+.modal_confirmation[open]{
+    background-color: white;
+    overflow: hidden;
+    border: none;
+}
+.pochta{
+    margin-top: 30px;
+    margin-left: 20px;
 }
 
 .modal_content_header {
@@ -76,44 +111,70 @@ body {}
     align-items: center;
 }
 
-.close {
+.close_settings {
     font-size: xx-large;
-    cursor:pointer ;
+    cursor: pointer;
+}
+.close_autorisation {
+    font-size: xx-large;
+    cursor: pointer;
 }
 
-.modal_content_main{
+.close_confirmation{
+    font-size: xx-large;
+    cursor: pointer;
+}
+
+.modal_content_main {
     display: flex;
     justify-content: space-between;
     margin-left: 10px;
     margin-right: 10px;
 }
+
 .modal_container p {
     margin-left: 10px;
 }
-.modal_input{
+
+.modal_input {
     height: 25px;
     width: 200px;
     margin-right: 10px;
 }
 
 .message_my {
-}
-.message {
-    border: 1px solid none;
-    height: 30px;
-    margin: 4px;
     display: inline-flex;
-    justify-content: space-between;
-    background-color: antiquewhite;
+    flex-direction: column;
+    margin-left: 40%;
+}
+
+.message_content{
+}
+
+
+.message {
+    border: 1px solid;
+    flex-grow: 1;
+    margin: 4px;
+    display: inline-flex !important;
+    justify-content:space-between;
+    background-color: aliceblue;
     list-style-type: none;
 }
 
 .message_text {
+    padding: 5px;
     font-size: large;
 }
+
 .message_time {
-    font-size: xx-small;
-    margin-top: 18px;
+    font-size: small;
+    margin-top: 0;
+    align-self: flex-end;
 }
+
 .message_you {
+    display: inline-flex;
+    flex-direction: column;
+    margin-right: 20%;
 }

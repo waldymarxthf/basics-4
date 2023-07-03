@@ -43,19 +43,47 @@
             </form>
         </div>
     </div>
-    <dialog class="modal">
+    <dialog class="modal_settings">
         <div class="modal_container">
             <div class="modal_content_header">
                 <p>Настройки</p>
-                <p class="close">&#215</p>
+                <p class="close_settings">&#215</p>
             </div>
             <p>Имя в чате</p>
-            <div class="modal_content_main">
+            <form class="modal_content_main">
                 <input class="modal_input" type="text">
                 <button class="modal_button">-></button>
 
-            </div>
+            </form>
            
+        </div>
+    </dialog>
+
+    <dialog open class="modal_autorisation">
+        <div class="modal_container">
+            <div class="modal_content_header">
+                <p>Авторизация</p>
+                <p class="close_autorisation">&#215</p>
+            </div>
+            <form class="pochta">
+                <p>Почта</p>
+                <input class="modal_input autorisation" type="email" >
+                <button class="modal_button get_code">Получить код</button>
+                <button class="modal_button enter_code">Ввести код</button>
+            </form>
+        </div>
+    </dialog>
+    <dialog  class="modal_confirmation">
+        <div class="modal_container">
+            <div class="modal_content_header">
+                <p>Подтверждение</p>
+                <p class="close_confirmation">&#215</p>
+            </div>
+            <form class="form_confirmation">
+                <p>Код</p>
+                <input class="modal_input  code" type="number" >
+                <button class="modal_button">Войти</button>
+            </form>
         </div>
     </dialog>
     <!-- <h1>DIALOG</h1>
@@ -68,7 +96,7 @@
 
     </dialog>
     <button class="open_module">Открыть</button> -->
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 
 </html>
