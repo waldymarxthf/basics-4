@@ -1,5 +1,6 @@
 
 import { storage } from "./modules/storage.js";
+import { cookie } from "./modules/cookie.js";
 
 function getElement(selector){
     return document.querySelector(selector);
@@ -9,7 +10,6 @@ function getNodeList(selector){
     return document.querySelectorAll(selector);
 }
 
-// const btnLogin = getElement('.button_exit');
 const formAddMessage = getElement('.form');
 const inputMessage = getElement('.input_ms');
 const content = getElement('.content');
@@ -17,7 +17,6 @@ const tp = getElement('#tp');
 const dialogName = getElement('.dialog_name');
 const dialogAutoriz = getElement('.dialog_autoriz');
 const dialogConfirm = getElement('.dialog_confirm');
-// const body = getElement('body');
 const dialogs = getNodeList('.dialog');
 const forms = getNodeList('form');
 const buttons = getNodeList('.button');
@@ -61,15 +60,8 @@ function addMessage(event){
     event.target.reset()
 }
 
-function getCookie(name) {
-    let matches = document.cookie.match(new RegExp(
-      "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-    ));
-    return matches ? decodeURIComponent(matches[1]) : undefined;
-}
-
 async function getNameFromServer(){
-    const token = getCookie('token');
+    const token = cookie.getCookie('token');
     const response = await fetch('https://edu.strada.one/api/user/me', {
         method: 'GET',
         headers: {
@@ -79,10 +71,9 @@ async function getNameFromServer(){
     });
     const data = await response.json();
     storage.addName(data.name)
-}
+  }
 
-getNameFromServer()
-
+  getNameFromServer()
 
 for(const form of forms){
     if(form.classList.contains('addName')){
@@ -90,7 +81,7 @@ for(const form of forms){
             event.preventDefault()
             const formData = new FormData(form);
             const name = formData.get('inputName');
-            const token = getCookie('token');
+            const token = cookie.getCookie('token');
             await fetch('https://edu.strada.one/api/user', {
                 method: 'PATCH',
                 headers: {
@@ -114,7 +105,7 @@ for(const form of forms){
                   },
                 body: JSON.stringify({email})
             });
-            event.target.reset()
+            form.reset()
         })
     }
     if(form.classList.contains('confirm')){
@@ -123,7 +114,7 @@ for(const form of forms){
             const date = new Date(Date.now() +  604800e3);
             const formData = new FormData(form);
             const token = formData.get('inputToken');
-            document.cookie = `token=${token}; expires=${date}`;
+            cookie.setCookie(token, date)
         })
     }
 }
@@ -166,7 +157,6 @@ for(const button of buttons){
         })
     }
 }
-
 
 formAddMessage.addEventListener('submit', addMessage)
 
