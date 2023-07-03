@@ -120,7 +120,7 @@ let userName = await fetchData('name');
 
 const messageContainer = document.querySelector('.message-container');
 
-function renderMessage(author, message, time) {
+function createMessageElement(author, message, time) {
   const classMessage = author === userName ? 'my-message' : 'other-message';
   const messageBlock = document.createElement('div');
   messageBlock.append(templateMessage.content.cloneNode(true));
@@ -132,8 +132,8 @@ function renderMessage(author, message, time) {
   textMessage.textContent = ': ' + message;
   timeMessage.textContent = time;
   messageBlock.classList.add(classMessage);
-  messageContainer.append(messageBlock);
-};
+  return messageBlock;
+}
 
 const getMessages = async () => {
   const response = await fetch(`${API.URL}/${API.MESSAGES}`, {
@@ -150,14 +150,15 @@ const getMessages = async () => {
 async function renderMessages() {
   const data = await getMessages();
   const messages = data.messages;
-  messages.forEach(message => {
-    renderMessage(message.user.name, message.text, new Date(message.updatedAt).toLocaleTimeString('en-US'));
+
+  const messageElements = messages.map(message => {
+    return createMessageElement(message.user.name, message.text, new Date(message.updatedAt).toLocaleTimeString('en-US'));
   });
+
+  messageContainer.append(...messageElements);
 }
 
 renderMessages();
-
-renderMessage(userName, 'lorem imsum doler losdsihl lodm reig hudt jdom', '14:15');
 
 const messageForm = document.querySelector('.message-form');
 
