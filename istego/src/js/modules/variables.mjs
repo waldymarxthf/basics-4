@@ -1,5 +1,7 @@
 import srcBtnDisabled from '../../icons/iconSendDisabled.svg';
 import srcBtnActive from '../../icons/iconSend.svg';
+import srcBtnRenameActive from '../../icons/iconOkActive.svg';
+import srcBtnRenameDisabled from '../../icons/iconOkDisabled.svg';
 
 export const UI = {
     dialogWindow: document.querySelector('.chat-dialog'),
@@ -7,6 +9,7 @@ export const UI = {
     btnSend: document.querySelector('.btn-send'),
     form: document.querySelector('.chat-form'),
     btnSettings: document.querySelector('.btn-settings'),
+    btnSignOut: document.querySelector('.btn-exit'),
     preload: document.querySelector('.preload-wrapper'),
     nickname: document.querySelector('.nickname'),
 };
@@ -20,11 +23,14 @@ export const UI_MODAL = {
     enterFieldModal: document.querySelector('.modal-input'),
     titleModal: document.querySelector('.modal__title-text'),
     titleInputModal: document.querySelector('.modal-form__title'),
+    btnRename: document.querySelector('.btn-rename'),
 };
 
 export const ICONS = {
     srcBtnDisabled: `url("${srcBtnDisabled}")`,
     srcBtnActive: `url("${srcBtnActive}")`,
+    srcBtnRenameActive: `url("${srcBtnRenameActive}")`,
+    srcBtnRenameDisabled: `url("${srcBtnRenameDisabled}")`,
 };
 
 export const tempContainer = document.querySelector('#template');

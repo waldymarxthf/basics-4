@@ -18,7 +18,7 @@ chekAuthorization();
 
 // Данные из поля чата в скрытое поле
 UI.enterFieldChat.addEventListener('input', () => {
-    changeIconBtn(UI.enterFieldChat);
+    changeIconBtnChat(UI.enterFieldChat);
     textarea.value = getValueEnterChatField(UI.enterFieldChat);
 });
 
@@ -45,6 +45,9 @@ UI_MODAL.btnEnterCode.addEventListener('click', actionBtnEnterCode);
 
 // Обработка кнопки Войти
 UI_MODAL.btnSingIn.addEventListener('click', authorization);
+
+// Обработка кнопки Выйти
+UI.btnSignOut.addEventListener('click', leaveTheChat);
 
 // =============================================================
 // =============================================================
@@ -90,7 +93,7 @@ async function getAuthorization(url) {
             method: 'GET',
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
-                Authorization: `Bearer ${Cookies.get('token')}`,
+                Authorization: `Bearer ${getCookie('token')}`,
             },
         });
 
@@ -98,6 +101,40 @@ async function getAuthorization(url) {
 
         if (response.status === 200) {
             // console.log(answer.name);
+
+            return { status: 'true', answer };
+        } else {
+            console.log('ошибка', answer);
+            console.log(response.status);
+
+            return { status: 'false', answer };
+        }
+    } catch (error) {
+        console.log(`Error: ${error.message}`);
+    } finally {
+        showHidePreload('none');
+    }
+}
+
+// запрос на смену имени
+async function renameNickname(url, name) {
+    try {
+        showHidePreload('flex');
+
+        const response = await fetch(url, {
+            method: 'PATCH',
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+                Authorization: `Bearer ${getCookie('token')}`,
+            },
+            body: JSON.stringify({ name }),
+        });
+
+        const answer = await response.json();
+
+        if (response.status === 200) {
+            renderNicknameProfile(answer.name);
+            console.log(answer);
 
             return { status: 'true', answer };
         } else {
@@ -125,8 +162,12 @@ function authorization() {
                 activeDisableBtn(UI_MODAL.btnSingIn, 'disabled');
                 // hideModal('none');
                 chekAuthorization();
+                UI_MODAL.enterFieldModal.removeEventListener(
+                    'input',
+                    actionInputConfirmation
+                );
                 console.log(answer);
-                UI.nickname.textContent = answer.answer.name;
+                renderNicknameProfile(answer.answer.name);
             } else if (answer.status === 'false') {
                 return;
             }
@@ -156,11 +197,32 @@ function getCode() {
         });
 }
 
+// Смена имени
+function rename() {
+    if(isEmptyInputValue(UI_MODAL.enterFieldModal)) return;
+    renameNickname(URL.urlToken, getValueInput(UI_MODAL.enterFieldModal));
+    clearInputField(UI_MODAL.enterFieldModal);
+    changeIconBtnRename();
+}
+
 //Проверка на авторизацию при запуске приложения
 function chekAuthorization() {
     if (getCookie('token')) {
         hideModal();
         UI_MODAL.modal.addEventListener('click', modalDelegationClick);
+        renderModal(
+            MODAL_TITLE.settings.title,
+            MODAL_TITLE.settings.inputTitle,
+            MODAL_TITLE.settings.placeholder
+        );
+        showHideBtn(UI_MODAL.btnGiveCode, 'hide');
+        showHideBtn(UI_MODAL.btnEnterCode, 'hide');
+        showHideBtn(UI_MODAL.btnSingIn, 'hide');
+        showHideBtn(UI_MODAL.btnRename, 'show');
+        // Обработка поля input в смене имени
+        UI_MODAL.enterFieldModal.addEventListener('input', actionInputRename);
+          // Обработка кнопки сменить имя
+        UI_MODAL.btnRename.addEventListener('click', rename);
     } else {
         renderModal(
             MODAL_TITLE.authorization.title,
@@ -169,6 +231,8 @@ function chekAuthorization() {
         );
         showModal();
         UI_MODAL.modal.removeEventListener('click', modalDelegationClick);
+        UI_MODAL.enterFieldModal.removeEventListener('input', actionInputRename);
+        showHideBtn(UI_MODAL.btnRename, 'hide');
     }
 }
 
@@ -193,8 +257,14 @@ function actionInputConfirmation() {
     }
 }
 
+// Действия при вводе в input авторизации
+function actionInputRename() {
+    changeIconBtnRename();
+}
+
 // Действие по кнопке ввести код
 function actionBtnEnterCode() {
+    if (isEmptyInputValue(UI_MODAL.enterFieldModal)) return;
     clearInputField(UI_MODAL.enterFieldModal);
     UI_MODAL.enterFieldModal.removeEventListener(
         'input',
@@ -225,6 +295,19 @@ function renderModal(titleModal, titleInput, placeholder) {
     UI_MODAL.enterFieldModal.placeholder = placeholder;
     UI_MODAL.titleInputModal.textContent = titleInput;
 }
+// Выход из чата
+function leaveTheChat() {
+    removeCkookie('token');
+    chekAuthorization();
+    renderModal(
+        MODAL_TITLE.authorization.title,
+        MODAL_TITLE.authorization.inputTitle,
+        MODAL_TITLE.authorization.placeholder
+    );
+    showHideBtn(UI_MODAL.btnGiveCode, 'show');
+    showHideBtn(UI_MODAL.btnEnterCode, 'show');
+    showHideBtn(UI_MODAL.btnSingIn, 'hide');
+}
 
 // Отправка сообщения
 function sendingMessage(event) {
@@ -234,7 +317,7 @@ function sendingMessage(event) {
     } else {
         addMessage(getValueMessageForm(), '12:00', 'sent-message');
         clearEnterChatField();
-        changeIconBtn(UI.enterFieldChat);
+        changeIconBtnChat(UI.enterFieldChat);
     }
 }
 
@@ -242,6 +325,11 @@ function sendingMessage(event) {
 function showHidePreload(display) {
     UI.preload.style.display = display;
 }
+
+function renderNicknameProfile(nickname) {
+    UI.nickname.textContent = nickname;
+}
+
 
 // Активировать или диактивировать кнопку
 function activeDisableBtn(btn, action) {
@@ -313,7 +401,7 @@ function isEmptyInputValue(field) {
 }
 
 // Смена иконки кнопки отправки
-function changeIconBtn(field) {
+function changeIconBtnChat(field) {
     if (isEmptyEnterField(field)) {
         disableBtn(UI.btnSend, true);
 
@@ -322,6 +410,19 @@ function changeIconBtn(field) {
         disableBtn(UI.btnSend, false);
 
         UI.btnSend.style.backgroundImage = ICONS.srcBtnActive;
+    }
+}
+
+// Смена иконки кнопки в форме переименования ника
+function changeIconBtnRename() {
+    if (isEmptyInputValue(UI_MODAL.enterFieldModal)) {
+        disableBtn(UI_MODAL.btnRename, true);
+
+        UI_MODAL.btnRename.style.backgroundImage = ICONS.srcBtnRenameDisabled;
+    } else {
+        disableBtn(UI_MODAL.btnRename, false);
+
+        UI_MODAL.btnRename.style.backgroundImage = ICONS.srcBtnRenameActive;
     }
 }
 
@@ -374,6 +475,10 @@ function setCookie(name, value) {
 
 function getCookie(name) {
     return Cookies.get(name);
+}
+
+function removeCkookie(name) {
+    Cookies.remove(name);
 }
 
 // ======================================================
