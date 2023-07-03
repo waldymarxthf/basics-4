@@ -51,15 +51,21 @@ export const MODAL_TITLE = {
         title: 'Авторизация',
         inputTitle: 'Почта:',
         placeholder: 'Введите почту...',
+        notificationOk: 'Код успешно отправлен вам на почту!',
+        notificationError: 'Произошла ошибка, повторите снова или попозже',
     },
     confirmation: {
         title: 'Подтверждение',
         inputTitle: 'Код:',
         placeholder: 'Введите код...',
+        notificationError: 'Произошла ошибка, повторите снова или попозже',
+        notificationIncorrectCode: 'Не верный код авторизации',
     },
     settings: {
         title: 'Настройки',
         inputTitle: 'Имя в чате:',
         placeholder: 'Введите имя...',
+        notificationOk: 'Имя успешно изменено!',
+        notificationError: 'Произошла ошибка, повторите снова или попозже',
     },
 };

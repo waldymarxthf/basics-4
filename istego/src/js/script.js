@@ -10,10 +10,18 @@ import {
 import { setCookie, getCookie, removeCkookie } from './modules/ckookie.mjs';
 import {
     URL,
+    API_METHOD,
     getToken,
     confirmationAuthorization,
-    renameNickname,
+    getHistoryMessages,
+    getDataServer,
 } from './modules/api.mjs';
+import {
+    modalDelegationClick,
+    showModal,
+    hideModal,
+} from './modules/modal-functions.mjs';
+import { renderNicknameProfile } from './modules/help-functions.mjs';
 
 chekAuthorization();
 
@@ -23,7 +31,7 @@ UI.enterFieldChat.addEventListener('input', () => {
     textarea.value = getValueEnterChatField(UI.enterFieldChat);
 });
 
-//
+//Слушатель кнопки отправить сообщение
 UI.form.addEventListener('submit', sendingMessage);
 
 document.addEventListener('keydown', (event) => {
@@ -32,8 +40,8 @@ document.addEventListener('keydown', (event) => {
     }
 });
 
-// ======================ПОЛУЧЕНИЕ ТОКЕНА========================
-// ==============================================================
+// Слушатель кнопки настройки
+UI.btnSettings.addEventListener('click', showModal);
 
 // Обработка поля ввода в модалке
 UI_MODAL.enterFieldModal.addEventListener('input', actionInputAuthorization);
@@ -47,8 +55,44 @@ UI_MODAL.btnSingIn.addEventListener('click', authorization);
 // Обработка кнопки Выйти
 UI.btnSignOut.addEventListener('click', leaveTheChat);
 
+// ==========================ФУНКЦИИ============================
 // =============================================================
-// =============================================================
+
+//Проверка на авторизацию при запуске приложения
+function chekAuthorization() {
+    if (getCookie('token')) {
+        hideModal();
+        UI_MODAL.modal.addEventListener('click', modalDelegationClick);
+        renderModal(
+            MODAL_TITLE.settings.title,
+            MODAL_TITLE.settings.inputTitle,
+            MODAL_TITLE.settings.placeholder
+        );
+        showHideBtn(UI_MODAL.btnGiveCode, 'hide');
+        showHideBtn(UI_MODAL.btnEnterCode, 'hide');
+        showHideBtn(UI_MODAL.btnSingIn, 'hide');
+        showHideBtn(UI_MODAL.btnRename, 'show');
+        // Обработка поля input в смене имени
+        UI_MODAL.enterFieldModal.addEventListener('input', actionInputRename);
+        // Обработка кнопки сменить имя
+        UI_MODAL.btnRename.addEventListener('click', rename);
+        renderNicknameProfile(getCookie('nickname'));
+    } else {
+        renderModal(
+            MODAL_TITLE.authorization.title,
+            MODAL_TITLE.authorization.inputTitle,
+            MODAL_TITLE.authorization.placeholder
+        );
+        showModal();
+        UI_MODAL.modal.removeEventListener('click', modalDelegationClick);
+        UI_MODAL.enterFieldModal.removeEventListener(
+            'input',
+            actionInputRename
+        );
+        UI_MODAL.btnRename.removeEventListener('click', rename);
+        showHideBtn(UI_MODAL.btnRename, 'hide');
+    }
+}
 
 // Получить подтверждение авторизации
 function authorization() {
@@ -82,7 +126,10 @@ function getCode() {
     if (isEmptyInputValue(UI_MODAL.enterFieldModal)) {
         return;
     }
-    getToken(URL.urlToken, getValueInput(UI_MODAL.enterFieldModal))
+    // getToken(URL.urlToken, getValueInput(UI_MODAL.enterFieldModal))
+    getDataServer(URL.urlToken, API_METHOD.post, null, {
+        email: getValueInput(UI_MODAL.enterFieldModal),
+    })
         .then((answer) => {
             if (answer.status === 'true') {
                 clearInputField(UI_MODAL.enterFieldModal);
@@ -105,46 +152,18 @@ function getCode() {
 // Смена имени
 function rename() {
     if (isEmptyInputValue(UI_MODAL.enterFieldModal)) return;
-    renameNickname(URL.urlToken, getValueInput(UI_MODAL.enterFieldModal));
+    getDataServer(URL.urlToken, API_METHOD.patch, true, {
+        name: getValueInput(UI_MODAL.enterFieldModal),
+    })
+    .then(result => {
+        setCookie('nickname', result.answer.name);
+        renderNicknameProfile(getCookie('nickname'));
+    });
     clearInputField(UI_MODAL.enterFieldModal);
     changeIconBtnRename();
 }
 
-//Проверка на авторизацию при запуске приложения
-function chekAuthorization() {
-    if (getCookie('token')) {
-        hideModal();
-        UI_MODAL.modal.addEventListener('click', modalDelegationClick);
-        renderModal(
-            MODAL_TITLE.settings.title,
-            MODAL_TITLE.settings.inputTitle,
-            MODAL_TITLE.settings.placeholder
-        );
-        showHideBtn(UI_MODAL.btnGiveCode, 'hide');
-        showHideBtn(UI_MODAL.btnEnterCode, 'hide');
-        showHideBtn(UI_MODAL.btnSingIn, 'hide');
-        showHideBtn(UI_MODAL.btnRename, 'show');
-        // Обработка поля input в смене имени
-        UI_MODAL.enterFieldModal.addEventListener('input', actionInputRename);
-        // Обработка кнопки сменить имя
-        UI_MODAL.btnRename.addEventListener('click', rename);
-    } else {
-        renderModal(
-            MODAL_TITLE.authorization.title,
-            MODAL_TITLE.authorization.inputTitle,
-            MODAL_TITLE.authorization.placeholder
-        );
-        showModal();
-        UI_MODAL.modal.removeEventListener('click', modalDelegationClick);
-        UI_MODAL.enterFieldModal.removeEventListener(
-            'input',
-            actionInputRename
-        );
-        showHideBtn(UI_MODAL.btnRename, 'hide');
-    }
-}
-
-// Действия при вводе в input авторизации
+// Действия при вводе в input авторизации ПОЛУЧИТЬ КОД
 function actionInputAuthorization() {
     const valueField = getValueInput(UI_MODAL.enterFieldModal);
 
@@ -155,7 +174,7 @@ function actionInputAuthorization() {
     }
 }
 
-// Действия при вводе в input подтверждения
+// Действия при вводе в input подтверждения ВВЕСТИ КОД
 function actionInputConfirmation() {
     if (isEmptyInputValue(UI_MODAL.enterFieldModal)) {
         activeDisableBtn(UI_MODAL.btnSingIn, 'disabled');
@@ -165,7 +184,7 @@ function actionInputConfirmation() {
     }
 }
 
-// Действия при вводе в input авторизации
+// Действия при вводе в input СМЕНЫ ИМЕНИ
 function actionInputRename() {
     changeIconBtnRename();
 }
@@ -208,6 +227,7 @@ function renderModal(titleModal, titleInput, placeholder) {
 // Выход из чата
 function leaveTheChat() {
     removeCkookie('token');
+    removeCkookie('nickname');
     chekAuthorization();
     renderModal(
         MODAL_TITLE.authorization.title,
@@ -229,15 +249,6 @@ function sendingMessage(event) {
         clearEnterChatField();
         changeIconBtnChat(UI.enterFieldChat);
     }
-}
-
-// Показать/Скрыть preload
-function showHidePreload(display) {
-    UI.preload.style.display = display;
-}
-
-function renderNicknameProfile(nickname) {
-    UI.nickname.textContent = nickname;
 }
 
 // Активировать или диактивировать кнопку
@@ -351,32 +362,8 @@ function addMessage(textMessage, time, classMessage) {
     massageContainerTemp.classList.add(classMessage);
 
     UI.dialogWindow.append(message);
+    scrollBottomDialog();
 }
-
-// ===================Модальное окно=====================
-// ======================================================
-
-UI.btnSettings.addEventListener('click', showModal);
-
-// Делегирование модалки
-function modalDelegationClick(event) {
-    if (
-        event.target === UI_MODAL.btnModalClose ||
-        event.target === UI_MODAL.modal
-    ) {
-        hideModal();
-    }
-}
-
-function showModal() {
-    UI_MODAL.modal.classList.add('show-modal');
-}
-
-function hideModal() {
-    UI_MODAL.modal.classList.remove('show-modal');
-}
-// ======================================================
-// ======================================================
 
 // Разделить по модулям
 // Локалсторедж
@@ -385,3 +372,20 @@ function hideModal() {
 // обработка ctrl + enter и shift + enter для переноса строки.
 // Функцию для получения времени
 // Объект с переменными для классов входящее/исходящее сообщение
+// Поправить рендер никнейма
+
+function renderHistory() {
+    getHistoryMessages(URL.urlHistoryMessages)
+        .then((result) => result.answer.messages)
+        .then((messages) => {
+            messages.map((message) => {
+                addMessage(message.text, message.createdAt, 'sent-message');
+            });
+        });
+}
+
+renderHistory();
+
+function scrollBottomDialog() {
+    UI.dialogWindow.scrollTop = UI.dialogWindow.scrollHeight;
+}
