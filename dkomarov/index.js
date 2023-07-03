@@ -1,97 +1,84 @@
-import { date } from "./modules/convTime"
+import { date } from "./modules/convertationTime"
+import { format } from "date-fns";
+import { getCookie, setCookie } from "./modules/cookieAction";
+import { postData, changeName, getData } from "./modules/apiAction";
+
+//кнопка выйти 
+const buttonOut = document.querySelector('.header__btn-in');
 
 const parentNode = document.querySelector(".display");
 const inputNode = document.querySelector(".form__input");
 const formNode = document.querySelector(".form");
 const template = document.querySelector("#template");
 
-
+//authorization
 const openCodeModal = document.querySelector('.authorization-btn-code');
-const inputAuthorizationValue = document.querySelector('.authorization-input');
 const formForRequest = document.querySelector('.authorization-form__input');
 
-const authorizationInput = document.querySelector('.authentication-input');
+//authentication
 const authenticationButton = document.querySelector('.authentication-btn');
 
 
-//кнопка выйти 
-const buttonOut = document.querySelector('.header__btn-in');
-const settingNameInput = document.querySelector('.item-input');
 const settingForm = document.querySelector('.popup-form__input');
 
 //смена имени
 const openSettingsModal = document.querySelector('.header__btn-settings');
 
-function setCookie() {
-  const token = authorizationInput.value;
-  document.cookie = `token=${token}`;
-}
-
-//получение куки
-function getCookie() {
-  return document.cookie.split('; ').reduce((acc, item) => {
-    const [name, value] = item.split('=')
-    acc[name] = value
-    return acc
-  }, {})
-}
 
 const cookie = getCookie()
-const cookieName = cookie.token
+const cookieToken = cookie.token
 
+export {cookieToken};
 
-async function postData() {
-  const url = 'https://edu.strada.one/api/user';
-  const data = { email: inputAuthorizationValue.value };
-  const response = await fetch(url, {
-    method: 'POST', 
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  })
-  const result = await response.json()
-  console.log(result);
-}
-
-async function changeName() {
-  const name = settingNameInput.value;
-  const url = 'https://edu.strada.one/api/user';
-  const data = { name: name }
-  const response = await fetch(url, {
-    method: 'PATCH',
-    headers: {
-      Authorization: `Bearer ${cookieName}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  })
-  const result = await response.json();
-  console.log(result);
-}
-
-async function getData(cookieName) {
-  const url = 'https://edu.strada.one/api/user/me';
+//история сообщений
+async function getHistoryMessage(cookieToken) {
+  const url = 'https://edu.strada.one/api/messages/';
   const response = await fetch(url, {
     method: 'GET',
     headers: {
-      Authorization: `Bearer ${cookieName}`
+      Authorization: `Bearer ${cookieToken}`,
+      
     }
   })
-  const result = await response.json()
-  console.log(result)
+  const data = await response.json()
+  const arrayMessage = data.messages.reverse();
+  console.log(data) 
+  const nodeElement = arrayMessage.map((message) => {
+  parentNode.append(createNewMessage(message.user.name, message.text, message.createdAt))
+  return message
+  });
+  
+  console.log(nodeElement[299].createdAt)
 }
 
-function createNewMessage(event) { 
-  event.preventDefault();
-  if (inputNode.value != "") {
+getHistoryMessage(cookieToken)
+
+
+
+//reset input
+// function inputClear() {
+//   inputNode.value = ''
+// }
+
+
+function createNewMessage(nickname, text, timeMess) { 
+  // if (inputNode.value != '') {
     const textElement = template.content.cloneNode(true);
-    textElement.querySelector(".message-nickname").textContent = 'Me:';
-    textElement.querySelector(".message-date").textContent = date;
-    textElement.querySelector("p").textContent = inputNode.value;
-    parentNode.append(textElement);
-    this.reset();
-  }
+    const nameMessage = textElement.querySelector(".message-nickname").textContent = nickname;
+    textElement.querySelector(".message-date").textContent = timeMess; //date
+    textElement.querySelector("p").textContent = text; //было inputNode.value
+
+    if (nickname === nameMessage) {
+      textElement.querySelector("div").classList.add('display-items__message');
+      
+    } else {
+      textElement.querySelector("div").classList.add('me');
+    }
+
+    // parentNode.append(textElement);
+  return textElement;
+    // inputClear();
+  // }
 }
 
 function addInfoMessage() {
@@ -102,19 +89,22 @@ function addInfoMessage() {
   parentElem.append(textElem);
 }
 
-function test() {
+function showAuthenticationModal() {
   window.authentication.showModal();
   window.authorization.close();
-
 }
 
 formForRequest.addEventListener('submit', () => {
   postData();
   addInfoMessage()
-  setTimeout(test, 1500)
+  setTimeout(showAuthenticationModal, 1500)
 });
 
-formNode.addEventListener("submit", createNewMessage);
+formNode.addEventListener("submit", (event) => {
+  event.preventDefault();
+  createNewMessage('Me:', inputNode.value) //убрать инпут
+});
+
 
 openSettingsModal.addEventListener('click', () => {
   window.myDialog.showModal();
@@ -128,13 +118,16 @@ openCodeModal.addEventListener('click', () => {
 })
 
 authenticationButton.addEventListener('click', () => {
-  getData(cookieName)
+  getData(cookieToken)
   setCookie();
   window.authentication.close();
 });
 
 buttonOut.addEventListener('click', () => {
   window.authorization.showModal();
+  //очищать куки 
+  document.cookie = `token=${new Date(0)}`
+  //сделать смену кнопки на "войти"
 })
 
 settingForm.addEventListener('submit', () => {
@@ -143,5 +136,6 @@ settingForm.addEventListener('submit', () => {
 })
 
 window.addEventListener('DOMContentLoaded', () => {
-  getData(cookieName);
+  getData(cookieToken);
+  
 })
