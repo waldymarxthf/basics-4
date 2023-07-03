@@ -1,4 +1,3 @@
-import Cookies from 'js-cookie';
 import {
     UI,
     UI_MODAL,
@@ -8,11 +7,13 @@ import {
     tempContainer,
     textarea,
 } from './modules/variables.mjs';
-
-const URL = {
-    urlToken: 'https://edu.strada.one/api/user',
-    urlDataProfile: 'https://edu.strada.one/api/user/me',
-};
+import { setCookie, getCookie, removeCkookie } from './modules/ckookie.mjs';
+import {
+    URL,
+    getToken,
+    confirmationAuthorization,
+    renameNickname,
+} from './modules/api.mjs';
 
 chekAuthorization();
 
@@ -40,9 +41,6 @@ UI_MODAL.enterFieldModal.addEventListener('input', actionInputAuthorization);
 // Обработка клика ПОЛУЧИТЬ КОД
 UI_MODAL.btnGiveCode.addEventListener('click', getCode);
 
-// Обработка кнопки ввести код
-UI_MODAL.btnEnterCode.addEventListener('click', actionBtnEnterCode);
-
 // Обработка кнопки Войти
 UI_MODAL.btnSingIn.addEventListener('click', authorization);
 
@@ -52,110 +50,12 @@ UI.btnSignOut.addEventListener('click', leaveTheChat);
 // =============================================================
 // =============================================================
 
-// запрос для получение токена
-async function getToken(url, email) {
-    try {
-        showHidePreload('flex');
-
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8',
-            },
-            body: JSON.stringify({ email }),
-        });
-
-        const answer = await response.json();
-
-        if (response.status === 200) {
-            console.log(answer);
-
-            return { status: 'true' };
-        } else {
-            console.log('ошибка', answer);
-            console.log(response.status);
-
-            return { status: 'false' };
-        }
-    } catch (error) {
-        console.log(`Error: ${error.message}`);
-    } finally {
-        showHidePreload('none');
-    }
-}
-
-// запрос для авторизации
-async function getAuthorization(url) {
-    try {
-        showHidePreload('flex');
-
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8',
-                Authorization: `Bearer ${getCookie('token')}`,
-            },
-        });
-
-        const answer = await response.json();
-
-        if (response.status === 200) {
-            // console.log(answer.name);
-
-            return { status: 'true', answer };
-        } else {
-            console.log('ошибка', answer);
-            console.log(response.status);
-
-            return { status: 'false', answer };
-        }
-    } catch (error) {
-        console.log(`Error: ${error.message}`);
-    } finally {
-        showHidePreload('none');
-    }
-}
-
-// запрос на смену имени
-async function renameNickname(url, name) {
-    try {
-        showHidePreload('flex');
-
-        const response = await fetch(url, {
-            method: 'PATCH',
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8',
-                Authorization: `Bearer ${getCookie('token')}`,
-            },
-            body: JSON.stringify({ name }),
-        });
-
-        const answer = await response.json();
-
-        if (response.status === 200) {
-            renderNicknameProfile(answer.name);
-            console.log(answer);
-
-            return { status: 'true', answer };
-        } else {
-            console.log('ошибка', answer);
-            console.log(response.status);
-
-            return { status: 'false', answer };
-        }
-    } catch (error) {
-        console.log(`Error: ${error.message}`);
-    } finally {
-        showHidePreload('none');
-    }
-}
-
 // Получить подтверждение авторизации
 function authorization() {
     if (isEmptyInputValue(UI_MODAL.enterFieldModal)) return;
 
     setCookie('token', `${getValueInput(UI_MODAL.enterFieldModal)}`);
-    getAuthorization(URL.urlDataProfile)
+    confirmationAuthorization(URL.urlDataProfile)
         .then((answer) => {
             if (answer.status === 'true') {
                 clearInputField(UI_MODAL.enterFieldModal);
@@ -188,6 +88,11 @@ function getCode() {
                 clearInputField(UI_MODAL.enterFieldModal);
                 activeDisableBtn(UI_MODAL.btnGiveCode, 'disabled');
                 activeDisableBtn(UI_MODAL.btnEnterCode, 'active');
+                // Обработка кнопки ввести код
+                UI_MODAL.btnEnterCode.addEventListener(
+                    'click',
+                    actionBtnEnterCode
+                );
             } else if (answer.status === 'false') {
                 activeDisableBtn(UI_MODAL.btnGiveCode, 'disabled');
             }
@@ -199,7 +104,7 @@ function getCode() {
 
 // Смена имени
 function rename() {
-    if(isEmptyInputValue(UI_MODAL.enterFieldModal)) return;
+    if (isEmptyInputValue(UI_MODAL.enterFieldModal)) return;
     renameNickname(URL.urlToken, getValueInput(UI_MODAL.enterFieldModal));
     clearInputField(UI_MODAL.enterFieldModal);
     changeIconBtnRename();
@@ -221,7 +126,7 @@ function chekAuthorization() {
         showHideBtn(UI_MODAL.btnRename, 'show');
         // Обработка поля input в смене имени
         UI_MODAL.enterFieldModal.addEventListener('input', actionInputRename);
-          // Обработка кнопки сменить имя
+        // Обработка кнопки сменить имя
         UI_MODAL.btnRename.addEventListener('click', rename);
     } else {
         renderModal(
@@ -231,7 +136,10 @@ function chekAuthorization() {
         );
         showModal();
         UI_MODAL.modal.removeEventListener('click', modalDelegationClick);
-        UI_MODAL.enterFieldModal.removeEventListener('input', actionInputRename);
+        UI_MODAL.enterFieldModal.removeEventListener(
+            'input',
+            actionInputRename
+        );
         showHideBtn(UI_MODAL.btnRename, 'hide');
     }
 }
@@ -264,7 +172,7 @@ function actionInputRename() {
 
 // Действие по кнопке ввести код
 function actionBtnEnterCode() {
-    if (isEmptyInputValue(UI_MODAL.enterFieldModal)) return;
+    // if (isEmptyInputValue(UI_MODAL.enterFieldModal)) return;
     clearInputField(UI_MODAL.enterFieldModal);
     UI_MODAL.enterFieldModal.removeEventListener(
         'input',
@@ -280,7 +188,9 @@ function actionBtnEnterCode() {
 
     showHideBtn(UI_MODAL.btnGiveCode, 'hide');
     showHideBtn(UI_MODAL.btnEnterCode, 'hide');
+    activeDisableBtn(UI_MODAL.btnEnterCode, 'disabled');
     showHideBtn(UI_MODAL.btnSingIn, 'show');
+    UI_MODAL.btnEnterCode.removeEventListener('click', actionBtnEnterCode);
 }
 
 // ПОКАЗАТЬ/СКРЫТЬ КНОПКУ
@@ -329,7 +239,6 @@ function showHidePreload(display) {
 function renderNicknameProfile(nickname) {
     UI.nickname.textContent = nickname;
 }
-
 
 // Активировать или диактивировать кнопку
 function activeDisableBtn(btn, action) {
@@ -449,8 +358,6 @@ function addMessage(textMessage, time, classMessage) {
 
 UI.btnSettings.addEventListener('click', showModal);
 
-// UI_MODAL.modal.addEventListener('click', modalDelegationClick);
-
 // Делегирование модалки
 function modalDelegationClick(event) {
     if (
@@ -468,19 +375,6 @@ function showModal() {
 function hideModal() {
     UI_MODAL.modal.classList.remove('show-modal');
 }
-
-function setCookie(name, value) {
-    Cookies.set(name, value);
-}
-
-function getCookie(name) {
-    return Cookies.get(name);
-}
-
-function removeCkookie(name) {
-    Cookies.remove(name);
-}
-
 // ======================================================
 // ======================================================
 
@@ -489,7 +383,5 @@ function removeCkookie(name) {
 // Добавление сообщений из локалсторедж
 // функцию рендер
 // обработка ctrl + enter и shift + enter для переноса строки.
-// Чтобы курсос был при наведении на поля ввода черточкой
 // Функцию для получения времени
 // Объект с переменными для классов входящее/исходящее сообщение
-// Объект с данными для модалок
