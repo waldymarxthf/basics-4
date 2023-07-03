@@ -16,6 +16,7 @@ const inputCode = fastDOM("#inputCode");
 const buttonsettings = fastDOM("#button-settings");
 const changeName = fastDOM("#changeName");
 const inputName = fastDOM("#inputName");
+const cross = fastDOM("#cross");
 
 export default {
   form,
@@ -32,6 +33,7 @@ export default {
   buttonGo,
   inputCode,
   buttonsettings,
+  cross,
   inputName,
   changeName,
 };
