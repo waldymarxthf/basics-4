@@ -25,6 +25,6 @@
 		"for-direction": "error",
 		"no-shadow": "error",
 		"import/no-extraneous-dependencies": "off",
-		"import/extensions": "never"
+		"import/extensions": "off"
 	}
 }

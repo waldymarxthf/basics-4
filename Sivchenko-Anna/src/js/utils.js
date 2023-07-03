@@ -1,5 +1,3 @@
-import { VARIABLES } from "./variables.js";
-
 // * функция получения актуального времени
 
 export function getCurrentDate() {
@@ -12,12 +10,17 @@ export function getCurrentDate() {
 
 // * функция очистки поля ввода сообщения
 
-export function clearInput() {
-	VARIABLES.MESSAGE_FORM.reset();
+export function clearInput(value) {
+	value.reset();
 }
 
 // * функция проверки пустой строки
 
 export function isMessageEmpty(message) {
 	return !message.trim();
+}
+
+export function modalChange(actualModal, nextModal) {
+	actualModal.close();
+	nextModal.showModal();
 }

@@ -14,7 +14,7 @@
 		<div class="chat">
 			<div class="chat-header">
 				<button class="chat-btn chat-btn_settings">Настройки</button>
-				<button class="chat-btn chat-btn_exit">Выйти</button>
+				<button class="chat-btn chat-btn_exit chat-btn_sign-in">Войти</button>
 			</div>
 			<div class="chat-screen">
 				<div class="chat-message chat-message_user message_delivered">
@@ -56,23 +56,48 @@
 			</div>
 		</div>
 	</div>
-	<div class="popup-container">
-		<div class="popup">
-			<div class="popup-header">
-				<p class="popup-title">Настройки</p>
-				<button class="popup-btn_close"></button>
-			</div>
-			<div>
-				<p class="popup-subtitle">Имя в чате</p>
-				<div class="popup-name">
-					<form class="popup_form">
-						<input type="text" class="popup_form-name" placeholder="Анатолий">
-					</form>
-					<button class="chat-btn chat-btn_send">-></button>
-				</div>
-			</div>
+	<dialog class="modal authorization">
+		<div class="modal-header">
+			<p class="modal-title">Авторизация</p>
+			<button class="modal-btn_close"></button>
 		</div>
-	</div>
+		<div>
+			<p class="modal-subtitle">Почта:</p>
+			<form class="modal-form modal-form_authorization">
+				<input type="email" class="modal-form-input input-authorization">
+				<div>
+					<button class="authorization-btn authorization-btn_get chat-btn">Получить код</button>
+					<button class="authorization-btn authorization-btn_enter chat-btn">Ввести код</button>
+				</div>
+			</form>
+		</div>
+	</dialog>
+	<dialog class="modal verification">
+		<div class="modal-header">
+			<p class="modal-title">Подтверждение</p>
+			<button class="modal-btn_close"></button>
+		</div>
+		<div>
+			<p class="modal-subtitle">Код:</p>
+			<form class="modal-form modal-form_verification">
+				<input type="text" class="modal-form-input input-verification">
+				<button class="verification-btn chat-btn">Войти</button>
+			</form>
+		</div>
+	</dialog>
+	<dialog class="modal settings">
+		<div class="modal-header">
+			<p class="modal-title">Настройки</p>
+			<button class="modal-btn_close"></button>
+		</div>
+		<div>
+			<p class="modal-subtitle">Имя в чате</p>
+			<form class="modal-form modal-form_settings">
+				<input type="text" class="modal-form-input input-settings" placeholder="Анатолий">
+				<button class="chat-btn chat-btn_send settings-btn">-></button>
+			</form>
+		</div>
+	</dialog>
 	<script type="module" src="./js/main.js"></script>
 </body>
 </html>
