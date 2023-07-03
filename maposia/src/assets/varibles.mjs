@@ -20,13 +20,15 @@ const VARIABLES = {
       FORM: getElement('.chat__auth__form'),
       INPUT: getElement('.chat__auth__input'),
       NODE: getElement('.chat__auth'),
-      CONFIRM: {
+      VERIFICATION: {
         FORM: getElement('.chat__login__form'),
         INPUT: getElement('.chat__login__input')
       }
     }
   }
 }
+
+const URL = {}
 
 
 export default VARIABLES

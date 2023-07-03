@@ -40,84 +40,6 @@
     </div>
     <div class="chat__window">
         <div class="chat__messages">
-
-            <div class="chat__message chat__message__me">
-                <div class="chat__message__avatar">
-                    <img src="./img/user-avatar.jpg" alt="" class="chat_message__avatar__img">
-                </div>
-                <div class="chat__message__wrap">
-                    <p class="chat__message__text chat__message__text__me">Я: Добрый день!</p>
-                    <span class="chat__message__time">18:45</span>
-                </div>
-            </div>
-
-            <div class="chat__message chat__message__them">
-                <div class="chat__message__avatar">
-                    <img src="./img/user2-avatar.jpg" alt="" class="chat_message__avatar__img">
-                </div>
-                <div class="chat__message__wrap">
-                    <p class="chat__message__text chat__message__text__them">Собеседник:
-                        Добрый день!</p>
-                    <span class="chat__message__time">18:45</span>
-                </div>
-            </div>
-
-            <div class="chat__message chat__message__them">
-                <div class="chat__message__avatar">
-                    <img src="./img/user2-avatar.jpg" alt="" class="chat_message__avatar__img">
-                </div>
-                <div class="chat__message__wrap">
-                    <p class="chat__message__text chat__message__text__them">Собеседник:
-                        Добрый день!</p>
-                    <span class="chat__message__time">18:45</span>
-                </div>
-            </div>
-
-            <div class="chat__message chat__message__them">
-                <div class="chat__message__avatar">
-                    <img src="./img/user2-avatar.jpg" alt="" class="chat_message__avatar__img">
-                </div>
-                <div class="chat__message__wrap">
-                    <p class="chat__message__text chat__message__text__them">Собеседник:
-                        Добрый день!</p>
-                    <span class="chat__message__time">18:45</span>
-                </div>
-            </div>
-
-            <div class="chat__message chat__message__them">
-                <div class="chat__message__avatar">
-                    <img src="./img/user2-avatar.jpg" alt="" class="chat_message__avatar__img">
-                </div>
-                <div class="chat__message__wrap">
-                    <p class="chat__message__text chat__message__text__them">Собеседник:
-                        Добрый день!</p>
-                    <span class="chat__message__time">18:45</span>
-                </div>
-            </div>
-
-            <div class="chat__message chat__message__them">
-                <div class="chat__message__avatar">
-                    <img src="./img/user2-avatar.jpg" alt="" class="chat_message__avatar__img">
-                </div>
-                <div class="chat__message__wrap">
-                    <p class="chat__message__text chat__message__text__them">
-                        sadasdasdasdaвфр фыв фырв фыви фвиф ыивьфиыв ифыв в фыив ьфыивь иыфв фыв ифыв фыв фыв фыв
-                        kfjnsd</p>
-                    <span class="chat__message__time">18:45</span>
-                </div>
-            </div>
-            <div class="chat__message chat__message__me">
-                <div class="chat__message__avatar">
-                    <img src="./img/user-avatar.jpg" alt="" class="chat_message__avatar__img">
-                </div>
-                <div class="chat__message__wrap">
-                    <p class="chat__message__text chat__message__text__me">Я: Добрый
-                        день!</p>
-                    <span class="chat__message__time">18:45</span>
-                </div>
-            </div>
-        </div>
-
         <template id="template_chat_message">
             <div class="chat__message">
                 <div class="chat__message__avatar">
@@ -131,6 +53,8 @@
                 </div>
             </div>
         </template>
+
+    </div>
         <form class="chat__form">
             <input class="chat__form__input" value="" placeholder="Сообщение">
             <button class="chat__form__btn">
@@ -150,10 +74,8 @@
                 </svg>
             </button>
         </form>
-    </div>
-
 </div>
-<dialog class="chat__modal chat__setting">
+<dialog class="chat__modal chat__setting" >
     <div class="chat__modal__header chat__setting__header">
         <div class="chat__modal__title chat__setting__title">
             Настройки
@@ -170,7 +92,7 @@
             <label for="chat__setting__input" class="chat__setting__label">Имя в чате</label>
             <div class="chat__modal__input__wrap chat__setting__input__wrap">
                 <input type="text" class="chat__modal__input chat__setting__input" id="chat__setting__input"
-                       placeholder="Введите новое имя">
+                       placeholder="Введите новое имя" name="name">
                 <button class="chat__modal__submit chat__setting__submit">
                     <span>Изменить</span>
                 </button>
@@ -183,7 +105,6 @@
                     <input type='checkbox' class="chat__setting__theme__input" checked>
                     <span class='chat__setting__theme__slider'></span>
                 </label>
-
             </div>
             <div class="chat__setting__theme__current-label">Светлая тема</div>
         </div>
@@ -208,10 +129,13 @@
             <div class="chat__modal__input__wrap">
                 <input type="email" class="chat__modal__input chat__auth__input" id="chat__auth__input"
                        placeholder="Введите email">
+
                 <button class="chat__modal__submit chat__auth__btn">
                     <span>Получить код</span>
                 </button>
+
             </div>
+            <small class="chat__auth__input__message">test</small>
         </form>
         <form class="chat__modal__form chat__login__form">
             <label for="chat__login__input" class="chat__modal__label">Введите код:</label>

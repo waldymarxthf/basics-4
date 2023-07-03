@@ -96,7 +96,7 @@ body {
 
 .chat__messages {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   overflow: scroll;
   padding: 20px 20px;
 }
@@ -118,6 +118,7 @@ body {
 .chat__message__text__me {
   border: 1px #1D75DD solid;
   border-radius: 5px;
+  align-self: flex-end;
 }
 
 .chat__message__text__them {
@@ -132,6 +133,7 @@ body {
 }
 .chat__message__me > .chat__message__avatar {
   margin-left: 10px;
+  align-self: center;
 }
 .chat__message__me > div > span {
   align-self: flex-end;
@@ -145,6 +147,7 @@ body {
 }
 .chat__message__them > .chat__message__avatar {
   margin-right: 10px;
+  align-self: center;
 }
 
 .chat__message__wrap {
@@ -160,7 +163,6 @@ body {
 }
 
 .chat__message__username {
-  margin-top: 4px;
   color: #989BA1;
   font-size: 14px;
   font-weight: 400;
@@ -321,13 +323,12 @@ body {
 }
 
 dialog {
-  display: flex;
   position: fixed;
-  inset-block-start: 0px;
-  inset-block-end: 0px;
+  inset-block-start: 0;
+  inset-block-end: 0;
   flex-direction: column;
   opacity: 0;
-  transition: opacity 200ms;
+  transition: all 0.5s;
 }
 
 dialog[open] {
@@ -337,4 +338,8 @@ dialog[open] {
 
 dialog::backdrop {
   background-color: rgba(0, 0, 255, 0.2);
+}
+
+.input__error {
+  color: red;
 }
