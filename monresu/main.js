@@ -1,10 +1,22 @@
 import { openModal, closeModal } from "./modules/functions.mjs";
+import { getData, sendCode, changeName, getMessages, fetchData } from "./modules/api.mjs";
 
 const settingsBtn = document.querySelector('.settings-button');
 const settingsModal = document.querySelector('.settings-modal');
+const authBtn = document.querySelector('.auth-button');
+const authModal = document.querySelector('.authrozation-modal');
+const chatNameInputForm = document.querySelector('.chat-name-input-form');
+const emailForm = document.querySelector('.email-input-form');
+const submitForm = document.querySelector('.code-input-form');
+const inputCodeBtn = document.querySelector('.input-code');
+const submitModal = document.querySelector('.submit-modal');
+
+const messageForm = document.querySelector('.message-form');
 
 const templateMessage = document.querySelector('.template-message');
+const messageContainer = document.querySelector('.message-container');
 
+let userName = await fetchData('name');
 
 settingsBtn.addEventListener('click', () => {
   openModal(settingsModal);
@@ -15,9 +27,6 @@ settingsBtn.addEventListener('click', () => {
   });
 });
 
-const authBtn = document.querySelector('.auth-button');
-const authModal = document.querySelector('.authrozation-modal');
-
 authBtn.addEventListener('click', () => {
   openModal(authModal);
   const closeBtn = document.querySelector('.close-auth');
@@ -27,73 +36,20 @@ authBtn.addEventListener('click', () => {
   });
 })
 
-const emailForm = document.querySelector('.email-input-form');
-
-const API = {
-  URL: 'https://edu.strada.one/api',
-  USER: 'user',
-  ME: 'me',
-  MESSAGES: 'messages',
-}
-
 emailForm.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const email = new FormData(emailForm).get('email');
-  const response = await fetch(`${API.URL}/${API.USER}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ email })
-  });
-  console.log('Отправлено')
+  sendCode(emailForm);
 });
-
-const chatNameInputForm = document.querySelector('.chat-name-input-form');
-
-let token = Cookies.get('token');
-
 
 chatNameInputForm.addEventListener('submit', async (e) => {
   e.preventDefault();
-  console.log(token);
   closeModal(settingsModal);
   const name = new FormData(chatNameInputForm).get('name');
-  const response = await fetch(`${API.URL}/${API.USER}`, {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({ name })
-  });
+  changeName(name);
   console.log('Имя изменено')
-  userName = await fetchData('name');
+  userName = name;
   getData();
 });
-
-const getData = async () => {
-  const response = await fetch(`${API.URL}/${API.USER}/${API.ME}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  if (response.ok) {
-    console.log('Запрос на данные получен');
-  };
-  const data = await response.json();
-  return data;
-}
-
-
-const fetchData = async (prop) => {
-  const data = await getData();
-  return data[prop];
-}
-
-const submitForm = document.querySelector('.code-input-form');
 
 submitForm.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -101,9 +57,6 @@ submitForm.addEventListener('submit', (e) => {
   Cookies.set('token', code);
   closeModal(submitModal);
 })
-
-const inputCodeBtn = document.querySelector('.input-code');
-const submitModal = document.querySelector('.submit-modal');
 
 inputCodeBtn.addEventListener('click', () => {
   closeModal(authModal);
@@ -115,10 +68,6 @@ submitModal.addEventListener('click', (event) => {
     closeModal(submitModal);
   };
 })
-
-let userName = await fetchData('name');
-
-const messageContainer = document.querySelector('.message-container');
 
 function createMessageElement(author, message, time) {
   const classMessage = author === userName ? 'my-message' : 'other-message';
@@ -135,18 +84,6 @@ function createMessageElement(author, message, time) {
   return messageBlock;
 }
 
-const getMessages = async () => {
-  const response = await fetch(`${API.URL}/${API.MESSAGES}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  const data = await response.json();
-  return data;
-}
-
 async function renderMessages() {
   const data = await getMessages();
   const messages = data.messages;
@@ -160,13 +97,14 @@ async function renderMessages() {
 
 renderMessages();
 
-const messageForm = document.querySelector('.message-form');
-
 messageForm.addEventListener('submit', (event) => {
   event.preventDefault();
   const textMessage = new FormData(messageForm).get('message');
   const timeMessage = new Date().toLocaleTimeString('en-US');
-  renderMessage(userName, textMessage, timeMessage)
+  const node = createMessageElement(userName, textMessage, timeMessage);
+  messageContainer.append(node);  
+  messageContainer.scrollTop = messageContainer.scrollHeight;
+  messageForm.reset();
 });
 
 setTimeout(() => {
