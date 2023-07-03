@@ -2,21 +2,28 @@ import {
   DOM_ELEMENTS, TAG_DIALOG
 } from "./modules/constants.js";
 import { convertTime } from "./modules/utils.js";
-import {getCode,checkToken,changeName} from "./modules/request.js"
+import {getCode,checkToken,changeName,getMessages} from "./modules/request.js"
 import {COOKIES} from "./modules/cookies.js"
 import Cookies from "js-cookie";
 
 function checkUser(user) {
-    return user === 'Дмитрий' ? DOM_ELEMENTS.MY_TEMPLATE : DOM_ELEMENTS.COMPANION_TEMPLATE
+    return user === TAG_DIALOG.MODAL_INPUT_SET.value  ? DOM_ELEMENTS.MY_TEMPLATE : DOM_ELEMENTS.COMPANION_TEMPLATE
 }
 
-function renderMessage(template, value, date, nickname) {
+function renderMessage(value, date, nickname,template) {
   const item = template.content.cloneNode(true);
   item.querySelector(".chat-mainWindow-message-info-nickName").textContent = nickname;
   item.querySelector(".chat-mainWindow-message-info-text").textContent = value;
   item.querySelector(".chat-mainWindow-message-info-time").textContent = date;
-  DOM_ELEMENTS.MESSAGE_BLOCK.append(item);
+  return DOM_ELEMENTS.MESSAGE_BLOCK.append(item);
 }
+
+//--------------------------------------Рендер сообзений после загрузки html-----------------------------------------------------------//
+document.addEventListener('DOMContentLoaded', async() => {
+  const data = await getMessages(COOKIES.GET('User-code'))
+  const chatNodes = data.reverse().map((message) => renderMessage(message.text, convertTime(message.createdAt),message.user.name,checkUser(message.user.name)))
+  return chatNodes
+})
 
 
 //--------------------------------------СОБЫТИЯ-----------------------------------------------------------//
@@ -40,7 +47,7 @@ TAG_DIALOG.MODAL_FORM_SET.addEventListener('submit', async (event) => {
 //--------------------------------------Отправка сообщения-----------------------------------------------------------//
 DOM_ELEMENTS.FORM_SEND.addEventListener("submit", (event) => {
   event.preventDefault();
-  renderMessage(checkUser(TAG_DIALOG.MODAL_INPUT_SET.value), DOM_ELEMENTS.INPUT_MESSAGE.value, convertTime(), TAG_DIALOG.MODAL_INPUT_SET.value);
+  renderMessage(DOM_ELEMENTS.INPUT_MESSAGE.value, convertTime(), TAG_DIALOG.MODAL_INPUT_SET.value,checkUser(TAG_DIALOG.MODAL_INPUT_SET.value));
   DOM_ELEMENTS.INPUT_MESSAGE.value = "";
 });
 
