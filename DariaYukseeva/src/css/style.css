@@ -236,17 +236,19 @@ button {
 	width: 273px;
 	height: 319px;
 	border-radius: 10px;
-	padding: 15px;
+	padding: 14px;
 	display: flex;
 	flex-direction: column;
 	gap: 35px;
 	background: var(--popup-cont-bg);
 	color: var(--popup-cont-color);
+	position: relative;
 }
 
 .popup-header {
 	display: flex;
 	justify-content: space-between;
+	margin-top: 6px;
 }
 
 .head {
@@ -259,7 +261,7 @@ button {
 	background-image: var(--popup-close-btn-bg-img);
 }
 
-.nickname-input {
+.nickname-input, .email-input, .confirmation-input {
 	background: transparent;
 	border: none;
 	border-bottom: 1px solid;
@@ -267,6 +269,10 @@ button {
 	width: 80%;
 	border-color: var(--setting-inp-col);
 	color: var(--setting-inp-col);
+}
+
+.confirmation-input {
+	width: 98%;
 }
 
 .popup-nickname-btn {
@@ -282,4 +288,43 @@ button {
 
 .theme-btn:checked {
 	accent-color: var(--setting-inp-col);
+}
+
+.authorization-form {
+	position: absolute;
+	top: 110px;
+	width: 248px;
+}
+
+.email-input {
+	width: 100%;
+}
+
+.authorization-message {
+	display: none;
+	margin-top: 10px;
+}
+
+.authorization-message-visible-ok {
+	display: block;
+	color: rgb(0, 226, 0);
+}
+
+.authorization-message-visible-wrong {
+	display: block;
+	color: rgb(255, 42, 42);
+}
+
+.btn-wrapper {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+}
+
+.popup-get-code-btn, .popup-send-code-btn, .popup-enter-btn {
+	background: var(--setting-inp-col);
+	margin-top: 20px;
+	width: 115px;
+	height: 34px;
+	border-radius: 7px;
 }

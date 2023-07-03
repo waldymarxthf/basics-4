@@ -20,3 +20,8 @@ export function getTime() {
 export function isEmpty(mes) {
 	return !mes.trim();
 }
+
+export function emailValidate(email) {
+	const reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+	return reg.test(email);
+}

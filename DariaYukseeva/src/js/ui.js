@@ -1,6 +1,6 @@
 import { variables } from "./ui_variables";
 import { getTime, isEmpty } from "./utiles";
-import { popupSettings, theme } from "./popups";
+import { popupSettings, popupAuthorization, theme } from "./popups";
 import { render } from "./DOM_render";
 
 // let theme = loadFromLocalStorage("chatAppTheme") || "light";
@@ -62,7 +62,7 @@ function renderMessages(node) {
 // };
 
 const settingsBtnHandler = () => {
-	render(popupSettings, variables.popup);
+	render(popupSettings, variables.popupWindow);
 	// const popupCloseBtn = document.querySelector(".popup-close-btn");
 	const themeBtn = document.querySelector("#theme-btn");
 	if (theme === "dark") {
@@ -83,6 +83,13 @@ const btnSendingMessageHandler = (e) => {
 	renderMessages(message);
 };
 
+const exitBtnHandler = () => {
+	render(popupAuthorization, variables.popupWindow);
+	variables.popup.style.display = "flex";
+};
+
 variables.settingsBtn.addEventListener("click", settingsBtnHandler);
 
 variables.btnSendMessage.addEventListener("click", btnSendingMessageHandler);
+
+variables.exitEnterBtn.addEventListener("click", exitBtnHandler);

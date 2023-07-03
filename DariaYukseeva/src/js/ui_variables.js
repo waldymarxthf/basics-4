@@ -1,9 +1,8 @@
 export const variables = {
 	settingsBtn: document.querySelector(".settings"),
+	exitEnterBtn: document.querySelector(".exit"),
 	popup: document.querySelector("#popup"),
-	// popupContent: document.querySelector(".popup-content"),
-	// popupCloseBtn: document.getElementsByClassName(".popup-close-btn"),
-	// themeBtn: document.getElementById("#theme-btn"),
+	popupWindow: document.querySelector(".popup-content"),
 	styleLink: document.querySelector("#theme-link"),
 	inputForMessage: document.querySelector(".entry-field"),
 	messagesField: document.querySelector(".message-field"),
