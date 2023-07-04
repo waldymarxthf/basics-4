@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import {
 	render,
 	Element,
@@ -11,9 +12,9 @@ import {
 	Input,
 	Label,
 } from "./DOM_render";
-import { variables } from "./ui_variables";
+import { variables, apiVariables } from "./ui_variables";
 import { saveToLocalStorage, loadFromLocalStorage, emailValidate } from "./utiles";
-import { getCode } from "./requests";
+import { getCode, changeNameFetch, getUserInfoFetch } from "./api_requests";
 
 export let theme = loadFromLocalStorage("chatAppTheme") || "light";
 
@@ -42,16 +43,23 @@ const popupCloseBtnHandler = () => {
 const themeBtnHandler = (e) => {
 	changeTheme(e.target);
 	variables.popup.style.display = "none";
-	variables.popup.innerHTML = "";
+	variables.popupWindow.innerHTML = "";
 };
-const getCodeBtnHandler = (e) => {
+const getCodeBtnHandler = async (e) => {
 	e.preventDefault();
 	const inputEmailValue = document.querySelector(".email-input").value;
 	const authorizationMessageNode = document.querySelector(".authorization-message");
 	if (emailValidate(inputEmailValue)) {
-		authorizationMessageNode.textContent = "Проверьте email";
-		authorizationMessageNode.classList.add("authorization-message-visible-ok");
-		getCode(inputEmailValue);
+		const answer = await getCode(inputEmailValue);
+		// console.log(answer);
+		if (answer === true) {
+			authorizationMessageNode.textContent = "Проверьте email";
+			authorizationMessageNode.classList.add("authorization-message-visible-ok");
+		} else {
+			console.log(answer);
+			authorizationMessageNode.textContent = `Ошибка запроса: ${answer}`;
+			authorizationMessageNode.classList.add("authorization-message-visible-wrong");
+		}
 	} else {
 		authorizationMessageNode.textContent = "Email введён неверно";
 		authorizationMessageNode.classList.add("authorization-message-visible-wrong");
@@ -66,7 +74,25 @@ const enterCodeBtnHandler = (e) => {
 
 const enterConfirmationBtnHandler = (e) => {
 	e.preventDefault();
-	console.log("confirmed");
+	const inputCodeValue = document.querySelector(".confirmation-input").value;
+	Cookies.set(apiVariables.tokenCookieName, inputCodeValue, { expires: 30 });
+	variables.popup.style.display = "none";
+	variables.popupWindow.innerHTML = "";
+};
+
+const nicknameBtnHandler = async (e) => {
+	e.preventDefault();
+	const token = Cookies.get(apiVariables.tokenCookieName);
+	if (!token) {
+		const messageNode = document.querySelector(".authorization-message");
+		messageNode.textContent = `Необходимо сначала авторизоваться`;
+		messageNode.classList.add("authorization-message-visible-wrong");
+		return;
+	}
+	const inputNicknameValue = document.querySelector(".nickname-input").value;
+	await changeNameFetch(inputNicknameValue);
+	const nickname = await getUserInfoFetch();
+	Cookies.set(apiVariables.nickname, nickname.name, { expires: 30 });
 	variables.popup.style.display = "none";
 	variables.popupWindow.innerHTML = "";
 };
@@ -102,6 +128,11 @@ export const popupSettings = [
 				className: "popup-nickname-btn",
 				attribute: "type",
 				attValue: "submit",
+				event: "click",
+				callback: nicknameBtnHandler,
+			}),
+			new Div({
+				className: "authorization-message",
 			}),
 		],
 	}),

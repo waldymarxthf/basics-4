@@ -21,6 +21,7 @@
 	--popup-cont-bg: #fff;
 	--popup-cont-color: rgb(56, 83, 43);
 	--popup-close-btn-bg-img: url("/src/assets/img/close_icon.png");
+	--popup-btn-text-color:  #fff;
 	--setting-inp-col: rgb(56, 83, 43);
 }
 
@@ -31,7 +32,8 @@
 	--settings-bg-img: url("/src/assets/img/dark_setting_icon.png");
 	--exit-bg-img: url("/src/assets/img/dark_exit_icon.png");
 	--message-field-bg-img: url("/src/assets/img/dark_bg.jpg");
-	--scrollbar-thumb-bg-color: rgba(207, 170, 255, .4);
+	/* --scrollbar-thumb-bg-color: rgba(207, 170, 255, .4); */
+	--scrollbar-thumb-bg-color: 207, 170, 255;
 	--message-bg: rgba(36, 35, 35, 0.9);
 	--message-color: rgb(207, 170, 255);
 	--mark-bg-img: url("/src/assets/img/dark_mark_icon.png");
@@ -44,6 +46,7 @@
 	--popup-cont-bg: #282828;
 	--popup-cont-color: rgb(207, 170, 255);
 	--popup-close-btn-bg-img: url("/src/assets/img/dark_close_icon.png");
+	--popup-btn-text-color:  #000;
 	--setting-inp-col: rgb(207, 170, 255);
 }
 
@@ -327,4 +330,5 @@ button {
 	width: 115px;
 	height: 34px;
 	border-radius: 7px;
+	color: var(--popup-btn-text-color);
 }

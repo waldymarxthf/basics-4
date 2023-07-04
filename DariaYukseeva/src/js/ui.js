@@ -1,4 +1,5 @@
-import { variables } from "./ui_variables";
+import Cookies from "js-cookie";
+import { apiVariables, variables } from "./ui_variables";
 import { getTime, isEmpty } from "./utiles";
 import { popupSettings, popupAuthorization, theme } from "./popups";
 import { render } from "./DOM_render";
@@ -67,6 +68,11 @@ const settingsBtnHandler = () => {
 	const themeBtn = document.querySelector("#theme-btn");
 	if (theme === "dark") {
 		themeBtn.checked = true;
+	}
+	const nickname = Cookies.get(apiVariables.nickname);
+	if (nickname) {
+		const nicknameInput = document.querySelector(".nickname-input");
+		nicknameInput.value = nickname;
 	}
 	variables.popup.style.display = "flex";
 	// variables.popup.addEventListener("click", popupAreaHandler);

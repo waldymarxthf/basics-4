@@ -12,3 +12,8 @@ export const variables = {
 	templateMyMessage: document.querySelector("#temp-for-my-mes"),
 	templateOutsideMessage: document.querySelector("#temp-for-outside-mes"),
 };
+
+export const apiVariables = {
+	tokenCookieName: "token_for_chat",
+	nickname: "nickname_for_chat",
+};
