@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 import { getMailRequest, getUserDataRequest, changeNameRequest } from "./api";
-import { DOM_ELEMENTS, EMAIL, TOKEN, NICKNAME, MESSAGE, MY_EMAIL } from "./constants";
+import { DOM_ELEMENTS, EMAIL, TOKEN, NICKNAME, MESSAGE } from "./constants";
 import { createMessage, hideSendButton, renderMessages } from "./ui";
 import { showElement, getFormData, hideElement, timeConvert } from "./utils";
 import { validateEmail, validateName, validateToken, isEmpty } from "./validation";
@@ -17,7 +17,7 @@ export function handleFormMessage(event) {
 	if (!isEmpty(inputValue)) {
 		const message = createMessage({
 			text: inputValue,
-			email: MY_EMAIL,
+			email: Cookies.get(EMAIL),
 			nickname: Cookies.get(NICKNAME),
 			time: timeConvert(new Date()),
 		});
@@ -63,6 +63,7 @@ export async function handleFormVerif(event) {
 		if (isSuccess) {
 			Cookies.set(TOKEN, inputValue, { expires: 7 });
 			Cookies.set(NICKNAME, isSuccess.name);
+			Cookies.set(EMAIL, isSuccess.email);
 			showElement(APP);
 			hideElement(ERROR_VERIF);
 			renderMessages();

@@ -4,7 +4,7 @@ export const MEMBERS = [
 		email: "sonalavrushina@gmail.com",
 	},
 	{
-		icon: "./avatars/pipupopi.jpg",
+		icon: "./avatars/artem_dimitrov.jpg",
 		email: "art@strada.one",
 	},
 	{

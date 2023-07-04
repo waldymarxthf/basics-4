@@ -7,7 +7,7 @@ import {
 	TOKEN,
 	THEME,
 	DEFAULT_THEME,
-	MY_EMAIL,
+	EMAIL,
 } from "./constants";
 import { loadFromLocalStorage } from "./localStorage";
 import { MEMBERS, DEFAULT_ICON } from "./members";
@@ -40,7 +40,7 @@ export function changeIcon(email) {
 }
 
 export function createMessage({ text, email, nickname, time }) {
-	const type = email === MY_EMAIL ? PROPERTIES.RIGHT_SIDE : PROPERTIES.LEFT_SIDE;
+	const type = email === Cookies.get(EMAIL) ? PROPERTIES.RIGHT_SIDE : PROPERTIES.LEFT_SIDE;
 
 	const item = TEMPLATE.content.cloneNode(true);
 	const message = item.querySelector(MESSAGE_SELECTOR);

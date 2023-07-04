@@ -4,7 +4,6 @@ export const MESSAGE = "message";
 export const EMAIL = "email";
 export const THEME = "theme";
 export const DEFAULT_THEME = "strada";
-export const MY_EMAIL = "iliya.nov223@gmail.com";
 export const NAME_LENGTH = 3;
 
 export const SERVER_URL = "https://edu.strada.one/api/user";

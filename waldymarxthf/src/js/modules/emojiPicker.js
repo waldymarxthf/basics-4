@@ -9,6 +9,7 @@ style.textContent = `
 .picker {
 	border-radius: 16px;
 	box-shadow: -6px 6px 20px 5px rgba(0, 0, 0, 0.3);
+	z-index: 3;
 }
 
 .tabpanel::-webkit-scrollbar {

@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 import "emoji-picker-element";
 
-import { DOM_ELEMENTS, TOKEN, NICKNAME, PROPERTIES } from "./modules/constants";
+import { DOM_ELEMENTS, TOKEN, NICKNAME, PROPERTIES, THEME } from "./modules/constants";
 import { emojiPicker } from "./modules/emojiPicker";
 import {
 	handleFormAuth,
@@ -59,7 +59,7 @@ SETTINGS_BUTTON.addEventListener("click", () => {
 
 THEME_SETTINGS.addEventListener("change", function () {
 	BODY.className = this.value;
-	saveToLocalStorage("theme", this.value);
+	saveToLocalStorage(THEME, this.value);
 });
 
 EMOJI_BUTTON.addEventListener("click", () => {
