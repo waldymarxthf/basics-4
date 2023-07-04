@@ -1,6 +1,9 @@
 import Cookies from "js-cookie";
-import { saveCodeToCookie, getCodeFromCookie, updateUserName, getUserData } from "./module_js/cookie";
+import { presentTime } from "./module_js/data";
 import { main } from "./module_js/variables";
+import { checkToken, changeName } from "./module_js/request";
+import { codeToEmail } from "./module_js/request";
+
 
 
 main.seting_button.addEventListener('click', function () {
@@ -25,60 +28,43 @@ function generatorTemplate(messagee, time) {
     const spanText = li[0].querySelector(".message_text");
     const spanTime = li[0].querySelector(".message_time");
 
-    spanText.textContent = messagee;
+    spanText.textContent = main.modal_input_settings.value + ': ' +  messagee;
+    console.log(main.modal_input_settings.value)
+    console.log(spanText.textContent)
     spanTime.textContent = time;
 
     main.message_my.appendChild(clone);
 }
 main.form.addEventListener("submit", function (event) {
     event.preventDefault();
-    generatorTemplate(main.input_message.value, "19:28");
+    generatorTemplate(main.input_message.value, presentTime());
 });
 
-
-// Функция для отправления кода на почту
-async function codeToEmaol(event){
+main.modal_content_main.addEventListener('submit', function(event){
     event.preventDefault();
+    changeName(main.modal_input_settings.value, Cookies.get("code"));
+    main.modal_autorisation.close();
 
-    const email = document.querySelector(".autorisation").value;
-    console.log(email);
+})
 
-    try {
-        const response = await fetch('https://edu.strada.one/api/user', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email }),
-        });
 
-        if (response.ok) {
-            const data = await response.json();
-            console.log('Код отправлен на почту')
-        }
-        else {
-            console.log('Запрос откланен');
-        }
-    } catch (error) {
-        console.error('Error: ', error)
-    }
-}
-main.get_code.addEventListener("click", codeToEmaol);
+main.get_code.addEventListener("click", codeToEmail);
 
 
 main.form_confirmation.addEventListener('submit', async function (event) {
     event.preventDefault();
-    try {
+    try {   
         const code = document.querySelector(".code");
-        console.log(code.value);
-        await saveCodeToCookie(code.value);
-        await updateUserName('name');
-        await getUserData()
-
-        main.modal_confirmation.close();
-        main.modal_autorisation.close();
+        console.log(code.value)
+        const token =  checkToken(code.value);
+        console.log(token);
+        if(token) {
+            Cookies.set('code', code.value);
+            main.modal_confirmation.close();
+            main.modal_autorisation.close();
+        }
     } catch (error) {
-        console.error(error);
+        console.log('ОШИБКА');
 
     }
 
