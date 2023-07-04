@@ -1,4 +1,4 @@
-import { UI } from './variables.mjs';
+import { UI, CLASS } from './variables.mjs';
 import { format } from 'date-fns';
 
 // Показать/Скрыть preload
@@ -18,8 +18,8 @@ function scrollBottomDialog() {
 
 // ПОКАЗАТЬ/СКРЫТЬ КНОПКУ
 function showHideBtn(btn, action) {
-    if (action === 'hide') btn.classList.add('hide-btn');
-    if (action === 'show') btn.classList.remove('hide-btn');
+    if (action === 'hide') btn.classList.add(CLASS.hideBtn);
+    if (action === 'show') btn.classList.remove(CLASS.hideBtn);
 }
 
 // Диактивация кнопки
@@ -43,10 +43,10 @@ function validateEmail(email) {
 // Активировать или диактивировать кнопку
 function activeDisableBtn(btn, action) {
     if (action === 'active') {
-        btn.classList.add('active-btn');
+        btn.classList.add(CLASS.activeBtn);
         btn.disabled = '';
     } else if (action === 'disabled') {
-        btn.classList.remove('active-btn');
+        btn.classList.remove(CLASS.activeBtn);
         btn.disabled = 'false';
     }
 }
@@ -84,7 +84,7 @@ function correctDate(date) {
 }
 
 // Смена иконок у кнопок при вводе в поле
-function chengeIconBtn(field, btn, srcIconActive, scrIconDisabled) {
+function changeIconBtn(field, btn, srcIconActive, scrIconDisabled) {
     if (isEmptyField(field)) {
         disableBtn(btn, true);
 
@@ -108,5 +108,5 @@ export {
     getValueField,
     isEmptyField,
     correctDate,
-    chengeIconBtn
+    changeIconBtn
 };

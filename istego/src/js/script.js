@@ -28,14 +28,29 @@ import {
     getValueField,
     isEmptyField,
     correctDate,
-    chengeIconBtn
+    changeIconBtn,
 } from './modules/help-functions.mjs';
 
 chekAuthorization();
 
+// Обработка клика ПОЛУЧИТЬ КОД
+UI_MODAL.btnGiveCode.addEventListener('click', getCode);
+
+// Обработка поля ввода в модалке
+UI_MODAL.enterFieldModal.addEventListener('input', actionInputAuthorization);
+
+// Обработка кнопки Войти
+UI_MODAL.btnSingIn.addEventListener('click', enterCode);
+
+// Обработка кнопки Выйти
+UI.btnSignOut.addEventListener('click', leaveTheChat);
+
+// Слушатель кнопки настройки
+UI.btnSettings.addEventListener('click', showModal);
+
 // Данные из поля чата в скрытое поле
 UI.enterFieldChat.addEventListener('input', () => {
-    chengeIconBtn(
+    changeIconBtn(
         UI.enterFieldChat,
         UI.btnSend,
         ICONS.srcBtnActive,
@@ -52,21 +67,6 @@ document.addEventListener('keydown', (event) => {
         sendingMessage(event);
     }
 });
-
-// Слушатель кнопки настройки
-UI.btnSettings.addEventListener('click', showModal);
-
-// Обработка поля ввода в модалке
-UI_MODAL.enterFieldModal.addEventListener('input', actionInputAuthorization);
-
-// Обработка клика ПОЛУЧИТЬ КОД
-UI_MODAL.btnGiveCode.addEventListener('click', getCode);
-
-// Обработка кнопки Войти
-UI_MODAL.btnSingIn.addEventListener('click', authorization);
-
-// Обработка кнопки Выйти
-UI.btnSignOut.addEventListener('click', leaveTheChat);
 
 // ==========================ФУНКЦИИ============================
 // =============================================================
@@ -88,7 +88,7 @@ function chekAuthorization() {
         // Обработка поля input в смене имени
         UI_MODAL.enterFieldModal.addEventListener('input', actionInputRename);
         // Обработка кнопки сменить имя
-        UI_MODAL.btnRename.addEventListener('click', rename);
+        UI_MODAL.btnRename.addEventListener('click', renameNickname);
         renderNicknameProfile(getCookie('nickname'));
     } else {
         renderModal(
@@ -102,37 +102,9 @@ function chekAuthorization() {
             'input',
             actionInputRename
         );
-        UI_MODAL.btnRename.removeEventListener('click', rename);
+        UI_MODAL.btnRename.removeEventListener('click', renameNickname);
         showHideBtn(UI_MODAL.btnRename, 'hide');
     }
-}
-
-// Получить подтверждение авторизации
-function authorization() {
-    if (isEmptyField(UI_MODAL.enterFieldModal)) return;
-
-    setCookie('token', `${getValueField(UI_MODAL.enterFieldModal)}`);
-    getDataServer(URL.urlDataProfile, API_METHOD.get, true)
-        .then((answer) => {
-            if (answer.status === 'true') {
-                clearField(UI_MODAL.enterFieldModal);
-                activeDisableBtn(UI_MODAL.btnSingIn, 'disabled');
-                // hideModal('none');
-                chekAuthorization();
-                UI_MODAL.enterFieldModal.removeEventListener(
-                    'input',
-                    actionInputConfirmation
-                );
-                console.log(answer);
-                setCookie('nickname', answer.answer.name);
-                renderNicknameProfile(getCookie('nickname'));
-            } else if (answer.status === 'false') {
-                return;
-            }
-        })
-        .catch((error) => {
-            console.log(`Error: ${error.message}`);
-        });
 }
 
 // Получить код
@@ -161,8 +133,36 @@ function getCode() {
         });
 }
 
+// Получить подтверждение авторизации
+function enterCode() {
+    if (isEmptyField(UI_MODAL.enterFieldModal)) return;
+
+    setCookie('token', `${getValueField(UI_MODAL.enterFieldModal)}`);
+    getDataServer(URL.urlDataProfile, API_METHOD.get, true)
+        .then((answer) => {
+            if (answer.status === 'true') {
+                clearField(UI_MODAL.enterFieldModal);
+                activeDisableBtn(UI_MODAL.btnSingIn, 'disabled');
+                // hideModal('none');
+                chekAuthorization();
+                UI_MODAL.enterFieldModal.removeEventListener(
+                    'input',
+                    actionInputConfirmation
+                );
+                console.log(answer);
+                setCookie('nickname', answer.answer.name);
+                renderNicknameProfile(getCookie('nickname'));
+            } else if (answer.status === 'false') {
+                return;
+            }
+        })
+        .catch((error) => {
+            console.log(`Error: ${error.message}`);
+        });
+}
+
 // Смена имени
-function rename() {
+function renameNickname() {
     if (isEmptyField(UI_MODAL.enterFieldModal)) return;
     getDataServer(URL.urlToken, API_METHOD.patch, true, {
         name: getValueField(UI_MODAL.enterFieldModal),
@@ -171,7 +171,7 @@ function rename() {
         renderNicknameProfile(getCookie('nickname'));
     });
     clearField(UI_MODAL.enterFieldModal);
-    chengeIconBtn(
+    changeIconBtn(
         UI_MODAL.enterFieldModal,
         UI_MODAL.btnRename,
         ICONS.srcBtnRenameActive,
@@ -202,7 +202,7 @@ function actionInputConfirmation() {
 
 // Действия при вводе в input СМЕНЫ ИМЕНИ
 function actionInputRename() {
-    chengeIconBtn(
+    changeIconBtn(
         UI_MODAL.enterFieldModal,
         UI_MODAL.btnRename,
         ICONS.srcBtnRenameActive,
@@ -256,7 +256,7 @@ function sendingMessage(event) {
     } else {
         addMessage(getValueMessageForm(), new Date(), CLASS.sendingMessage);
         clearField(UI.enterFieldChat);
-        changeIconBtnChat(UI.enterFieldChat);
+        changeIconBtn(UI.enterFieldChat, UI.btnSend, ICONS.srcBtnActive, ICONS.srcBtnDisabled);
     }
 }
 
@@ -296,11 +296,8 @@ function renderHistory() {
 
 // renderHistory();
 
-// Разделить по модулям
 // Локалсторедж
 // Добавление сообщений из локалсторедж
 // функцию рендер
 // обработка ctrl + enter и shift + enter для переноса строки.
-// Функцию для получения времени
-// Объект с переменными для классов входящее/исходящее сообщение
 // Поправить рендер никнейма

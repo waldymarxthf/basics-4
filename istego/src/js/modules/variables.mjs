@@ -35,7 +35,9 @@ export const ICONS = {
 
 export const CLASS = {
     sendingMessage: 'sent-message',
-    inboxMessage: 'in-message'
+    inboxMessage: 'in-message',
+    hideBtn: 'hide-btn',
+    activeBtn: 'active-btn'
 }
 
 export const tempContainer = document.querySelector('#template');
