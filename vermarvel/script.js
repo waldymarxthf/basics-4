@@ -7,25 +7,49 @@ import { cookies } from "./cookie.js";
 // import utils from "./utils.mjs";
 
 let userNickName = null;
+let userEmail = null;
 let otherNickName = "Sam";
 const url = `https://edu.strada.one/api/user`;
+const urlMessages = `https://edu.strada.one/api/messages/`;
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%  Utils  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+function timeFormat(stamp) {
+  return stamp.slice(11, 16);
+}
+
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%  Business Logic  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function getInput(event, author = "user") {
   event.preventDefault();
   const token = cookies.uncookify("token");
   const text = dom.inputMessage.value;
-  const stamp = new Date().toString();
-  const timeStamp = stamp.slice(16, 21);
+  const now = new Date();
+  const stamp = now.toISOString().slice(0, -1);
+  const timeFormatted = timeFormat(stamp);
   dom.inputMessage.value = "";
 
-  return placeUserMessage(text, timeStamp, token);
-
-  // if (author === "other") {
-  //   return placeOtherMessage(text, timeStamp, author);
-  // }
+  return sendUserMessage(text, token);
 }
+// function sendUserMessage(text, token) {
+//   const requestOptions = {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//       Authorization: `Bearer ${token}`,
+//     },
+//     body: JSON.stringify(`{ message: ${text} }`),
+//   };
 
+//   fetch(urlMessages, requestOptions)
+//     .then((response) => response.json())
+//     .then((data) => {
+//       console.log(data);
+//     })
+//     .catch((error) => {
+//       console.error(error);
+//     });
+// }
 function placeUserMessage(text, timeStamp, token) {
   const clone = dom.templateUserMessage.content.cloneNode(true);
   const name = clone.querySelector(".name");
@@ -36,7 +60,6 @@ function placeUserMessage(text, timeStamp, token) {
   const messageText = clone.querySelector(".user-message-text");
   messageText.textContent = text;
   dom.parentMessages.appendChild(clone);
-  console.log("message done");
 }
 
 function placeOtherMessage(text, timeStamp) {
@@ -53,7 +76,7 @@ function placeOtherMessage(text, timeStamp) {
 function changeName(event) {
   event.preventDefault();
   const newName = dom.inputDialogName.value.trim();
-
+  saveName(newName);
   const token = cookies.uncookify("token");
   const requestOptions = {
     method: "PATCH",
@@ -61,7 +84,7 @@ function changeName(event) {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify(`{ name: ${newName} }`),
+    body: JSON.stringify({ name: newName }),
   };
 
   fetch(url, requestOptions)
@@ -74,27 +97,89 @@ function changeName(event) {
     });
 }
 
-function getUserEmail(event) {
+function submitUserEmail(event) {
   event.preventDefault();
   dom.btnSubmitCode.classList.remove("hidden");
-  const email = dom.inputDialogEmail.value;
+  userEmail = dom.inputDialogEmail.value.trim();
 
   const requestOptions = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ email }),
+    body: JSON.stringify({ email: userEmail }),
   };
 
   fetch(url, requestOptions)
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
+      // console.log(data);
     })
     .catch((error) => {
       console.error(error);
     });
+}
+
+function getHistory() {
+  const token = cookies.uncookify("token");
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  fetch(urlMessages, requestOptions)
+    .then((response) => response.json())
+    .then((data) => {
+      const array = data.messages.map(({ text, createdAt: time, user }) => ({
+        text,
+        time: timeFormat(time),
+        user: user.name,
+        email: user.email,
+      }));
+      console.log(array);
+      renderHistory(array);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+function prepareHTML(obj) {
+  if (obj.email !== userEmail) {
+    const clone = dom.templateOtherMessage.content.cloneNode(true);
+    const name = clone.querySelector(".other-name");
+
+    name.textContent = obj.user;
+    const stamp = clone.querySelector("em");
+    stamp.textContent = obj.time;
+    const messageText = clone.querySelector(".other-message-text");
+    messageText.textContent = obj.text;
+    return clone;
+  } else {
+    const clone = dom.templateUserMessage.content.cloneNode(true);
+    const name = clone.querySelector(".name");
+    console.log(userNickName);
+    name.textContent = obj.user;
+    const stamp = clone.querySelector("em");
+    stamp.textContent = timeStamp;
+    const messageText = clone.querySelector(".user-message-text");
+    messageText.textContent = text;
+    return clone;
+  }
+}
+
+function renderHistory(array) {
+  const nodes = array.reverse().map((m) => prepareHTML(m));
+  const strings = nodes.map((fragment) => {
+    const div = document.createElement("div");
+    div.appendChild(fragment.cloneNode("true"));
+
+    return div.innerHTML;
+  });
+  const html = strings.join("");
+  dom.tape.innerHTML += html;
 }
 
 function saveCode(event) {
@@ -105,12 +190,13 @@ function saveCode(event) {
   cookies.cookify("token", token);
   dom.closeDialog("settings");
 }
-function saveName(event) {
-  event.preventDefault();
-  userNickName = dom.inputDialogName.value;
+function saveName(newName) {
+  console.log("saving name");
+  userNickName = newName;
   console.log(userNickName);
   dom.inputDialogConfirm.value = "";
   dom.closeDialog();
+  getHistory();
 }
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%  Listeners  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -124,7 +210,7 @@ dom.formMessage.addEventListener("submit", (event) => {
 });
 
 dom.formAuthEmail.addEventListener("submit", (event) => {
-  getUserEmail(event);
+  submitUserEmail(event);
 });
 
 dom.formConfirm.addEventListener("submit", (event) => {
@@ -132,7 +218,7 @@ dom.formConfirm.addEventListener("submit", (event) => {
 });
 
 dom.formName.addEventListener("submit", (event) => {
-  saveName(event);
+  changeName(event);
 });
 
 dom.btnSubmitCode.addEventListener("click", (event) => {
@@ -143,6 +229,10 @@ dom.btnSubmitCode.addEventListener("click", (event) => {
 // Tasks
 
 // UI: Dialogs - improve
-// Logic: Dialogs
+
 // Feat:
-// Bugs
+// Errors UI
+// sending my messages to history
+// Bugs: не узнает имейл,
+
+// DONE today: // Logic: Dialogs, history load, selection prohibit, scroll,

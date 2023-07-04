@@ -4,7 +4,9 @@ const getEl = (s) => document.querySelector(s);
 const dom = {
   // *****Variables**
   // Elements
+
   parentMessages: getEl(".chat-screen"),
+  tape: getEl(".chat-tape"),
 
   formMessage: getEl(".form-message"),
   formName: getEl(".form-nickname"),
