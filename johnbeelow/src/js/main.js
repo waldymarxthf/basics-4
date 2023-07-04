@@ -1,8 +1,6 @@
 import {
   UI_ELEMENTS,
   clearInput,
-  createUsersMassage,
-  createBotMassage,
   replaceIcon,
   showModal,
   updateScroll,
@@ -12,13 +10,17 @@ import {
 import { getUserCode, changeUserName } from './module/api.js'
 import { cookies } from './module/storage.js'
 
+import { handleContentLoaded, createMainUserMassage } from './module/logic.js'
+
+document.addEventListener('DOMContentLoaded', handleContentLoaded)
+
 window.addEventListener('online', showLoader.online)
 
 window.addEventListener('offline', showLoader.offline)
 
 UI_ELEMENTS.INPUT_FORM.addEventListener('submit', (event) => {
   event.preventDefault()
-  createUsersMassage(UI_ELEMENTS.INPUT_TEXT.value)
+  createMainUserMassage(UI_ELEMENTS.INPUT_TEXT.value)
   clearInput(event)
   updateScroll()
 })
@@ -44,7 +46,6 @@ UI_ELEMENTS.ENTER_MESSENGER.addEventListener('click', (event) => {
   cookies.saveCode(UI_ELEMENTS.VALIDATION_INPUT_TEXT.value)
   showModal.clear(event)
   replaceIcon(UI_ELEMENTS.EXIT_BTN, UI_ELEMENTS.ENTER_BTN)
-  createBotMassage(UI_ELEMENTS.MESSAGE_WELCOME)
 })
 
 UI_ELEMENTS.GET_CODE.addEventListener('click', (event) => {

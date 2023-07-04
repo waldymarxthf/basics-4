@@ -1,10 +1,8 @@
-import { convertTime } from './utils.js'
-
 const UI_ELEMENTS = {
   SCROLL_FIX: document.querySelector('.window_container'),
   WINDOW_CHAT: document.querySelector('.window_container'),
   MESSAGE_MAIN: document.querySelector('#template--main-user'),
-  MESSAGE_WELCOME: document.querySelector('#welcome-message'),
+  MESSAGE_ONLY: document.querySelector('#template--only-user'),
   INPUT_FORM: document.querySelector('.input-form'),
   INPUT_TEXT: document.querySelector('.messenger-form-input'),
   MODAL_CONTAINER: document.querySelector('.modal-container'),
@@ -23,7 +21,7 @@ const UI_ELEMENTS = {
   VALIDATION_INPUT_TEXT: document.querySelector('.modal-validation-form-input'),
   INPUT_SETTING_FORM: document.querySelector('.modal-form-setting-input'),
   INPUT_SETTING_TEXT: document.querySelector('.modal-setting-form-input'),
-  IMG_COMLETE: document.querySelector('.img_complete'),
+  IMG_COMPLETE: document.querySelector('.img_complete'),
   IMG_ERROR: document.querySelector('.img_error'),
   LOADER: document.querySelector('.loader'),
   LOADER_DISCONECTED: document.querySelector('.loader-disconected'),
@@ -34,6 +32,8 @@ const CLASS = {
   CLOSE: 'close',
   MESSAGE_TEXT: '.message-text',
   MESSAGE_DATE: '.message-date',
+  MESSAGE_MAIN: '.message-text--main-user',
+  MESSAGE_ONLY: '.message-text--users',
   BTN_CLOSE: '.modal-btn-close',
   MODAL_CONTAINER: '.modal-container',
   MODAL_BOX: '.modal-box',
@@ -46,23 +46,6 @@ const clearInput = (event) => {
 
 const updateScroll = () => {
   UI_ELEMENTS.SCROLL_FIX.scrollTop = UI_ELEMENTS.SCROLL_FIX.scrollHeight
-}
-
-const createUsersMassage = (value, template = UI_ELEMENTS.MESSAGE_MAIN) => {
-  if (value.trim() !== '') {
-    const message = template.content.cloneNode(true)
-    message.querySelector(CLASS.MESSAGE_TEXT).textContent = value
-    message.querySelector(CLASS.MESSAGE_DATE).textContent = convertTime()
-    UI_ELEMENTS.WINDOW_CHAT.append(message)
-  }
-}
-
-const createBotMassage = (template) => {
-  setTimeout(() => {
-    const message = template.content.cloneNode(true)
-    message.querySelector(CLASS.MESSAGE_DATE).textContent = convertTime()
-    UI_ELEMENTS.WINDOW_CHAT.append(message)
-  }, 500)
 }
 
 const showModal = {
@@ -102,9 +85,9 @@ const replaceIcon = (openIcon, closeIcon) => {
 
 const showStatus = {
   complete: () => {
-    UI_ELEMENTS.IMG_COMLETE.classList.add(CLASS.SHOW)
+    UI_ELEMENTS.IMG_COMPLETE.classList.add(CLASS.SHOW)
     setTimeout(() => {
-      UI_ELEMENTS.IMG_COMLETE.classList.remove(CLASS.SHOW)
+      UI_ELEMENTS.IMG_COMPLETE.classList.remove(CLASS.SHOW)
     }, 1000)
   },
   error: () => {
@@ -124,8 +107,7 @@ const showLoader = {
 
 export {
   UI_ELEMENTS,
-  createUsersMassage,
-  createBotMassage,
+  CLASS,
   updateScroll,
   clearInput,
   replaceIcon,

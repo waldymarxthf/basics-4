@@ -237,7 +237,7 @@ input[type='text'] {
 }
 
 ::-webkit-scrollbar-track {
-  background: #0b101800;
+  background: #0b101863;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -306,7 +306,7 @@ input[type='text'] {
 .message-date {
   font-size: 11px;
   font-style: italic;
-  color: rgba(255, 255, 255, 0.795);
+  color: rgba(255, 255, 255, 0.295);
 }
 
 .message-check {
@@ -347,14 +347,14 @@ input[type='text'] {
   width: 200px;
   height: 32px;
   padding: 8px;
-  background-color: #0e16218a;
+  background-color: #0e1621d0;
   border-radius: 5px;
   font-size: 16px;
   color: rgba(255, 255, 255, 0.795);
 }
 
 .messenger-form-input:focus {
-  background-color: #0e1621d3;
+  background-color: #0e1621;
 }
 
 .btn-send-img-form {
