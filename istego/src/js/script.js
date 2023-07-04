@@ -4,31 +4,44 @@ import {
     ICONS,
     TEMPLATE,
     MODAL_TITLE,
+    CLASS,
     tempContainer,
     textarea,
-} from './modules/variables.mjs';
-import { setCookie, getCookie, removeCkookie } from './modules/ckookie.mjs';
-import {
     URL,
     API_METHOD,
-    getToken,
-    confirmationAuthorization,
-    getHistoryMessages,
-    getDataServer,
-} from './modules/api.mjs';
+} from './modules/variables.mjs';
+import { setCookie, getCookie, removeCkookie } from './modules/ckookie.mjs';
+import { getDataServer } from './modules/api.mjs';
 import {
     modalDelegationClick,
     showModal,
     hideModal,
+    renderModal,
 } from './modules/modal-functions.mjs';
-import { renderNicknameProfile } from './modules/help-functions.mjs';
+import {
+    renderNicknameProfile,
+    scrollBottomDialog,
+    showHideBtn,
+    validateEmail,
+    activeDisableBtn,
+    clearField,
+    getValueField,
+    isEmptyField,
+    correctDate,
+    chengeIconBtn
+} from './modules/help-functions.mjs';
 
 chekAuthorization();
 
 // Данные из поля чата в скрытое поле
 UI.enterFieldChat.addEventListener('input', () => {
-    changeIconBtnChat(UI.enterFieldChat);
-    textarea.value = getValueEnterChatField(UI.enterFieldChat);
+    chengeIconBtn(
+        UI.enterFieldChat,
+        UI.btnSend,
+        ICONS.srcBtnActive,
+        ICONS.srcBtnDisabled
+    );
+    textarea.value = getValueField(UI.enterFieldChat);
 });
 
 //Слушатель кнопки отправить сообщение
@@ -96,13 +109,13 @@ function chekAuthorization() {
 
 // Получить подтверждение авторизации
 function authorization() {
-    if (isEmptyInputValue(UI_MODAL.enterFieldModal)) return;
+    if (isEmptyField(UI_MODAL.enterFieldModal)) return;
 
-    setCookie('token', `${getValueInput(UI_MODAL.enterFieldModal)}`);
-    confirmationAuthorization(URL.urlDataProfile)
+    setCookie('token', `${getValueField(UI_MODAL.enterFieldModal)}`);
+    getDataServer(URL.urlDataProfile, API_METHOD.get, true)
         .then((answer) => {
             if (answer.status === 'true') {
-                clearInputField(UI_MODAL.enterFieldModal);
+                clearField(UI_MODAL.enterFieldModal);
                 activeDisableBtn(UI_MODAL.btnSingIn, 'disabled');
                 // hideModal('none');
                 chekAuthorization();
@@ -111,7 +124,8 @@ function authorization() {
                     actionInputConfirmation
                 );
                 console.log(answer);
-                renderNicknameProfile(answer.answer.name);
+                setCookie('nickname', answer.answer.name);
+                renderNicknameProfile(getCookie('nickname'));
             } else if (answer.status === 'false') {
                 return;
             }
@@ -123,16 +137,14 @@ function authorization() {
 
 // Получить код
 function getCode() {
-    if (isEmptyInputValue(UI_MODAL.enterFieldModal)) {
-        return;
-    }
-    // getToken(URL.urlToken, getValueInput(UI_MODAL.enterFieldModal))
+    if (isEmptyField(UI_MODAL.enterFieldModal)) return;
+
     getDataServer(URL.urlToken, API_METHOD.post, null, {
-        email: getValueInput(UI_MODAL.enterFieldModal),
+        email: getValueField(UI_MODAL.enterFieldModal),
     })
         .then((answer) => {
             if (answer.status === 'true') {
-                clearInputField(UI_MODAL.enterFieldModal);
+                clearField(UI_MODAL.enterFieldModal);
                 activeDisableBtn(UI_MODAL.btnGiveCode, 'disabled');
                 activeDisableBtn(UI_MODAL.btnEnterCode, 'active');
                 // Обработка кнопки ввести код
@@ -151,21 +163,25 @@ function getCode() {
 
 // Смена имени
 function rename() {
-    if (isEmptyInputValue(UI_MODAL.enterFieldModal)) return;
+    if (isEmptyField(UI_MODAL.enterFieldModal)) return;
     getDataServer(URL.urlToken, API_METHOD.patch, true, {
-        name: getValueInput(UI_MODAL.enterFieldModal),
-    })
-    .then(result => {
+        name: getValueField(UI_MODAL.enterFieldModal),
+    }).then((result) => {
         setCookie('nickname', result.answer.name);
         renderNicknameProfile(getCookie('nickname'));
     });
-    clearInputField(UI_MODAL.enterFieldModal);
-    changeIconBtnRename();
+    clearField(UI_MODAL.enterFieldModal);
+    chengeIconBtn(
+        UI_MODAL.enterFieldModal,
+        UI_MODAL.btnRename,
+        ICONS.srcBtnRenameActive,
+        ICONS.srcBtnRenameDisabled
+    );
 }
 
 // Действия при вводе в input авторизации ПОЛУЧИТЬ КОД
 function actionInputAuthorization() {
-    const valueField = getValueInput(UI_MODAL.enterFieldModal);
+    const valueField = getValueField(UI_MODAL.enterFieldModal);
 
     if (validateEmail(valueField)) {
         activeDisableBtn(UI_MODAL.btnGiveCode, 'active');
@@ -176,7 +192,7 @@ function actionInputAuthorization() {
 
 // Действия при вводе в input подтверждения ВВЕСТИ КОД
 function actionInputConfirmation() {
-    if (isEmptyInputValue(UI_MODAL.enterFieldModal)) {
+    if (isEmptyField(UI_MODAL.enterFieldModal)) {
         activeDisableBtn(UI_MODAL.btnSingIn, 'disabled');
         return;
     } else {
@@ -186,13 +202,18 @@ function actionInputConfirmation() {
 
 // Действия при вводе в input СМЕНЫ ИМЕНИ
 function actionInputRename() {
-    changeIconBtnRename();
+    chengeIconBtn(
+        UI_MODAL.enterFieldModal,
+        UI_MODAL.btnRename,
+        ICONS.srcBtnRenameActive,
+        ICONS.srcBtnRenameDisabled
+    );
 }
 
 // Действие по кнопке ввести код
 function actionBtnEnterCode() {
-    // if (isEmptyInputValue(UI_MODAL.enterFieldModal)) return;
-    clearInputField(UI_MODAL.enterFieldModal);
+    // if (isEmptyField(UI_MODAL.enterFieldModal)) return;
+    clearField(UI_MODAL.enterFieldModal);
     UI_MODAL.enterFieldModal.removeEventListener(
         'input',
         actionInputAuthorization
@@ -212,18 +233,6 @@ function actionBtnEnterCode() {
     UI_MODAL.btnEnterCode.removeEventListener('click', actionBtnEnterCode);
 }
 
-// ПОКАЗАТЬ/СКРЫТЬ КНОПКУ
-function showHideBtn(btn, action) {
-    if (action === 'hide') btn.classList.add('hide-btn');
-    if (action === 'show') btn.classList.remove('hide-btn');
-}
-
-// Рендер модального окна
-function renderModal(titleModal, titleInput, placeholder) {
-    UI_MODAL.titleModal.textContent = titleModal;
-    UI_MODAL.enterFieldModal.placeholder = placeholder;
-    UI_MODAL.titleInputModal.textContent = titleInput;
-}
 // Выход из чата
 function leaveTheChat() {
     removeCkookie('token');
@@ -242,36 +251,13 @@ function leaveTheChat() {
 // Отправка сообщения
 function sendingMessage(event) {
     event.preventDefault();
-    if (isEmptyEnterField(UI.enterFieldChat)) {
+    if (isEmptyField(UI.enterFieldChat)) {
         return;
     } else {
-        addMessage(getValueMessageForm(), '12:00', 'sent-message');
-        clearEnterChatField();
+        addMessage(getValueMessageForm(), new Date(), CLASS.sendingMessage);
+        clearField(UI.enterFieldChat);
         changeIconBtnChat(UI.enterFieldChat);
     }
-}
-
-// Активировать или диактивировать кнопку
-function activeDisableBtn(btn, action) {
-    if (action === 'active') {
-        btn.classList.add('active-btn');
-        btn.disabled = '';
-    } else if (action === 'disabled') {
-        btn.classList.remove('active-btn');
-        btn.disabled = 'false';
-    }
-}
-
-// Проверка поля на ссылки
-function containsLinks(text) {
-    const pattern = /(http:|https:)([^\s]+)/gi;
-    return pattern.test(text);
-}
-
-// Проверка корректности email
-function validateEmail(email) {
-    const pattern = /\S+@\S+\.\S+/;
-    return pattern.test(email);
 }
 
 // Данные(текст сообщения) из формы
@@ -280,81 +266,10 @@ function getValueMessageForm() {
     return formData.get('message');
 }
 
-// Очистка поля ввода в чате
-function clearEnterChatField() {
-    UI.enterFieldChat.textContent = '';
-}
-
-// Очистка поля ввода input
-function clearInputField(input) {
-    input.value = '';
-}
-
-// Текст поля ввода
-function getValueEnterChatField(field) {
-    const valueEnterField = field.textContent.trim();
-
-    return valueEnterField;
-}
-
-// Проверка поля ввода в чате на пустоту
-function isEmptyEnterField(field) {
-    const valueEnterField = getValueEnterChatField(field);
-
-    if (valueEnterField === '') return true;
-    if (valueEnterField) return false;
-}
-
-// Получение значения из input
-function getValueInput(input) {
-    const valueFiled = input.value.trim();
-
-    return valueFiled;
-}
-
-// Проверка поля ввода input на пустоту
-function isEmptyInputValue(field) {
-    const valueField = getValueInput(field);
-
-    if (valueField === '') return true;
-    if (valueField) return false;
-}
-
-// Смена иконки кнопки отправки
-function changeIconBtnChat(field) {
-    if (isEmptyEnterField(field)) {
-        disableBtn(UI.btnSend, true);
-
-        UI.btnSend.style.backgroundImage = ICONS.srcBtnDisabled;
-    } else {
-        disableBtn(UI.btnSend, false);
-
-        UI.btnSend.style.backgroundImage = ICONS.srcBtnActive;
-    }
-}
-
-// Смена иконки кнопки в форме переименования ника
-function changeIconBtnRename() {
-    if (isEmptyInputValue(UI_MODAL.enterFieldModal)) {
-        disableBtn(UI_MODAL.btnRename, true);
-
-        UI_MODAL.btnRename.style.backgroundImage = ICONS.srcBtnRenameDisabled;
-    } else {
-        disableBtn(UI_MODAL.btnRename, false);
-
-        UI_MODAL.btnRename.style.backgroundImage = ICONS.srcBtnRenameActive;
-    }
-}
-
-// Диактивация кнопки
-function disableBtn(btn, btnStatus) {
-    btn.disabled = btnStatus;
-}
-
 // Добавление сообщения
 function addMessage(textMessage, time, classMessage) {
     TEMPLATE.messageTextTemlate.textContent = textMessage;
-    TEMPLATE.messageTimeTemplate.textContent = time;
+    TEMPLATE.messageTimeTemplate.textContent = correctDate(time);
 
     let message = tempContainer.content.cloneNode(true);
 
@@ -365,6 +280,22 @@ function addMessage(textMessage, time, classMessage) {
     scrollBottomDialog();
 }
 
+function renderHistory() {
+    getDataServer(URL.urlHistoryMessages, API_METHOD.get, true)
+        .then((result) => result.answer.messages)
+        .then((messages) => {
+            messages.map((message) => {
+                addMessage(
+                    message.text,
+                    message.createdAt,
+                    CLASS.sendingMessage
+                );
+            });
+        });
+}
+
+// renderHistory();
+
 // Разделить по модулям
 // Локалсторедж
 // Добавление сообщений из локалсторедж
@@ -373,19 +304,3 @@ function addMessage(textMessage, time, classMessage) {
 // Функцию для получения времени
 // Объект с переменными для классов входящее/исходящее сообщение
 // Поправить рендер никнейма
-
-function renderHistory() {
-    getHistoryMessages(URL.urlHistoryMessages)
-        .then((result) => result.answer.messages)
-        .then((messages) => {
-            messages.map((message) => {
-                addMessage(message.text, message.createdAt, 'sent-message');
-            });
-        });
-}
-
-renderHistory();
-
-function scrollBottomDialog() {
-    UI.dialogWindow.scrollTop = UI.dialogWindow.scrollHeight;
-}

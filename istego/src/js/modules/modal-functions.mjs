@@ -18,4 +18,11 @@ function hideModal() {
     UI_MODAL.modal.classList.remove('show-modal');
 }
 
-export { modalDelegationClick, showModal, hideModal };
+// Рендер модального окна
+function renderModal(titleModal, titleInput, placeholder) {
+    UI_MODAL.titleModal.textContent = titleModal;
+    UI_MODAL.enterFieldModal.placeholder = placeholder;
+    UI_MODAL.titleInputModal.textContent = titleInput;
+}
+
+export { modalDelegationClick, showModal, hideModal, renderModal, };

@@ -33,6 +33,11 @@ export const ICONS = {
     srcBtnRenameDisabled: `url("${srcBtnRenameDisabled}")`,
 };
 
+export const CLASS = {
+    sendingMessage: 'sent-message',
+    inboxMessage: 'in-message'
+}
+
 export const tempContainer = document.querySelector('#template');
 export const textarea = document.querySelector('.chat-form__textarea');
 
@@ -68,4 +73,16 @@ export const MODAL_TITLE = {
         notificationOk: 'Имя успешно изменено!',
         notificationError: 'Произошла ошибка, повторите снова или попозже',
     },
+};
+
+export const URL = {
+    urlToken: 'https://edu.strada.one/api/user',
+    urlDataProfile: 'https://edu.strada.one/api/user/me',
+    urlHistoryMessages: 'https://edu.strada.one/api/messages/',
+};
+
+export const API_METHOD = {
+    get: 'GET',
+    post: 'POST',
+    patch: 'PATCH',
 };
