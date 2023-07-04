@@ -20,6 +20,8 @@ export function isMessageEmpty(message) {
 	return !message.trim();
 }
 
+// * функция смены модального окна
+
 export function modalChange(actualModal, nextModal) {
 	actualModal.close();
 	nextModal.showModal();
