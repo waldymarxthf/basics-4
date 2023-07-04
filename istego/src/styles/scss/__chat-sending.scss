@@ -1,7 +1,7 @@
 .chat-form {
     width: 100%;
     display: flex;
-    column-gap: 11px;
+    column-gap: 20px;
 
     .chat-form__inp {
         width: 100%;
@@ -23,12 +23,11 @@
         outline-offset: 0;
 
         &:after {
-            content: "";
+            content: '';
             color: #808080;
             opacity: 0;
             margin-left: 50px;
             transition-duration: 0.1s;
-
         }
 
         &:empty:after {
@@ -46,15 +45,60 @@
         white-space: pre-wrap;
     }
 
-    .btn-send {
-        width: 35px;
-        height: 35px;
+    .btn-send,
+    .btn-emoji {
+        min-width: 35px;
+        min-height: 35px;
         background: none;
-        background-image: url("../../icons/iconSendDisabled.svg");
         border: none;
         background-position: center;
         background-repeat: no-repeat;
         background-size: 35px 35px;
         align-self: flex-end;
     }
+
+    .btn-send {
+        background-image: url('../../icons/iconSendDisabled.svg');
+    }
+
+    .btn-emoji {
+        background-image: url('../../icons/iconEmojiDisabled.svg');
+        transition-duration: 0.1s;
+
+        &:hover {
+            background-image: url('../../icons/iconEmojiActive.svg');
+            transition-duration: 0.1s;
+        }
+
+        @media (hover: hover) {
+            &:hover + .emoji {
+                display: block;
+            }
+        }
+    }
+}
+
+/* Стилизация скролла */
+.chat-form__inp {
+    scrollbar-width: 7px; /* Для Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: #58595a #2d2e30; /* Для Firefox */
+}
+
+.chat-form__inp::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+    border-radius: 10px;
+    // background-color: #2d2e30;
+}
+
+/* Фон скролла */
+.chat-form__inp::-webkit-scrollbar-track {
+    background-color: #2d2e30; /* Для Chrome, Safari и Opera */
+}
+
+/* Индикатор  прокрутки */
+.chat-form__inp::-webkit-scrollbar-thumb {
+    background-color: #58595a; /* Для Chrome, Safari и Opera */
+    border-radius: 10px;
 }

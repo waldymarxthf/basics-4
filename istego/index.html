@@ -25,7 +25,7 @@
                 <div class="chat-nav__list">
                     <button type="button" class="chat-nav__list-item btn-settings">
                     </button>
-                    <p class="nickname">istego</p>
+                    <p class="nickname">...</p>
                     <button type="button" class="chat-nav__list-item btn-exit">
                     </button>
                 </div>
@@ -34,8 +34,15 @@
             </div>
             <div class="chat-sending">
                 <form class="chat-form">
-                    <pre contenteditable="true" data-placeholder="Написать сообщение..." class="chat-form__inp"></pre>
+                    <pre 
+                    contenteditable="true" 
+                    data-placeholder="Написать сообщение..." class="chat-form__inp"
+                    ></pre>
                     <textarea name="message" class="chat-form__textarea"></textarea>
+                    <button type="button" disabled class="chat-form__btn-emoji btn-emoji"></button>
+                    <div class="emoji">
+                        <emoji-picker class="dark"></emoji-picker>
+                    </div>
                     <button type="submit" disabled class="chat-form__btn btn-send"></button>
                 </form>
             </div>

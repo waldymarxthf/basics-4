@@ -30,6 +30,7 @@ import {
     correctDate,
     changeIconBtn,
 } from './modules/help-functions.mjs';
+import 'emoji-picker-element';
 
 chekAuthorization();
 
@@ -48,7 +49,7 @@ UI.btnSignOut.addEventListener('click', leaveTheChat);
 // Слушатель кнопки настройки
 UI.btnSettings.addEventListener('click', showModal);
 
-// Данные из поля чата в скрытое поле
+// Обработка поля ввода в чате
 UI.enterFieldChat.addEventListener('input', () => {
     changeIconBtn(
         UI.enterFieldChat,
@@ -67,6 +68,18 @@ document.addEventListener('keydown', (event) => {
         sendingMessage(event);
     }
 });
+
+// Обработка emodji
+UI.emoji.addEventListener('emoji-click', (event) => {
+        UI.enterFieldChat.textContent += event.detail.unicode;
+        changeIconBtn(
+            UI.enterFieldChat,
+            UI.btnSend,
+            ICONS.srcBtnActive,
+            ICONS.srcBtnDisabled
+        );
+        textarea.value = getValueField(UI.enterFieldChat);
+    });
 
 // ==========================ФУНКЦИИ============================
 // =============================================================
@@ -256,7 +269,12 @@ function sendingMessage(event) {
     } else {
         addMessage(getValueMessageForm(), new Date(), CLASS.sendingMessage);
         clearField(UI.enterFieldChat);
-        changeIconBtn(UI.enterFieldChat, UI.btnSend, ICONS.srcBtnActive, ICONS.srcBtnDisabled);
+        changeIconBtn(
+            UI.enterFieldChat,
+            UI.btnSend,
+            ICONS.srcBtnActive,
+            ICONS.srcBtnDisabled
+        );
     }
 }
 
@@ -275,7 +293,6 @@ function addMessage(textMessage, time, classMessage) {
 
     const massageContainerTemp = message.querySelector('.chat-dialog__message');
     massageContainerTemp.classList.add(classMessage);
-
     UI.dialogWindow.append(message);
     scrollBottomDialog();
 }

@@ -2,6 +2,8 @@ import srcBtnDisabled from '../../icons/iconSendDisabled.svg';
 import srcBtnActive from '../../icons/iconSend.svg';
 import srcBtnRenameActive from '../../icons/iconOkActive.svg';
 import srcBtnRenameDisabled from '../../icons/iconOkDisabled.svg';
+import srcBtnEmojiActive from '../../icons/iconEmojiActive.svg';
+import srcBtnEmojiDisabled from '../../icons/iconEmojiDisabled.svg';
 
 export const UI = {
     dialogWindow: document.querySelector('.chat-dialog'),
@@ -12,6 +14,8 @@ export const UI = {
     btnSignOut: document.querySelector('.btn-exit'),
     preload: document.querySelector('.preload-wrapper'),
     nickname: document.querySelector('.nickname'),
+    btnEmoji: document.querySelector('.btn-emoji'),
+    emoji: document.querySelector('emoji-picker')
 };
 
 export const UI_MODAL = {
@@ -31,6 +35,8 @@ export const ICONS = {
     srcBtnActive: `url("${srcBtnActive}")`,
     srcBtnRenameActive: `url("${srcBtnRenameActive}")`,
     srcBtnRenameDisabled: `url("${srcBtnRenameDisabled}")`,
+    srcBtnEmojiActive:`url("${srcBtnEmojiActive}")`,
+    srcBtnEmojiDisabled:`url("${srcBtnEmojiDisabled}")`,
 };
 
 export const CLASS = {

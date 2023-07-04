@@ -1,4 +1,5 @@
 .chat-dialog {
+    position: relative;
     height: 100%;
     width: 100%;
     background-color: #18191d;
@@ -7,10 +8,9 @@
     margin-bottom: 15px;
 
     .chat-dialog__message {
-        display: flex;
         column-gap: 10px;
         align-items: center;
-        padding: 10px 10px;
+        padding: 10px;
         width: max-content;
         max-width: calc(240px + (380 - 240) * ((100vw - 320px) / (768 - 320)));
         border-radius: 20px;
@@ -23,14 +23,15 @@
             overflow: hidden;
             word-wrap: break-word;
             white-space: pre-wrap;
+            margin-bottom: 5px;
         }
 
         .chat-dialog__message-time {
             color: #7b7c7e;
             text-align: right;
             font-size: 12px;
-            padding-top: 15px;
             align-self: flex-end;
+            white-space: nowrap;
         }
 
         @media (min-width: 768px) {
@@ -80,7 +81,7 @@
     }
 }
 
-/* Стилизация скролла для блока*/
+/* Стилизация скролла */
 .chat-dialog {
     overflow-y: auto;
     scrollbar-width: 7px; /* Для Firefox */
