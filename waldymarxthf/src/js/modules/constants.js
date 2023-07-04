@@ -9,6 +9,7 @@ export const NAME_LENGTH = 3;
 export const SERVER_URL = "https://edu.strada.one/api/user";
 export const USER_URL = "https://edu.strada.one/api/user/me";
 export const MESSAGES_URL = "https://edu.strada.one/api/messages/";
+export const BETTERTV_URL = "https://api.betterttv.net/3/cached/users/twitch/490702236";
 
 export const SELECTORS = {
 	CHAT: {
@@ -20,6 +21,7 @@ export const SELECTORS = {
 		CONTENT_SELECTOR: ".chat-window__message-content",
 		AVATAR_SELECTOR: ".chat-window__message-avatar-img",
 		NICKNAME_SELECTOR: ".chat-window__message-nickname",
+		TEXT_EMOJI_SELECTOR: "chat-window__message-text-emoji",
 	},
 };
 
@@ -38,6 +40,7 @@ export const DOM_ELEMENTS = {
 		BODY: document.body,
 		EMOJI_BUTTON: document.querySelector(".chat-message__emoji-btn"),
 		EMOJI_PICKER: document.querySelector(".emoji-picker"),
+		TEXT: document.querySelector(".chat-window__message-text-emoji"),
 	},
 	AUTHORIZATION: {
 		MODAL_AUTH: document.querySelector(".authorization"),

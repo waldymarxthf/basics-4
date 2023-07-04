@@ -530,6 +530,18 @@ emoji-picker {
   border: 5px solid #444444;
 }
 
+.chat-window__message-text-emoji {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  max-width: 400px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
 .glassmophism {
   background: url(../assets/img/background.png) no-repeat;
   background-size: cover;

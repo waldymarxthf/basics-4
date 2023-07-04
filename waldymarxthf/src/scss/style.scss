@@ -502,4 +502,11 @@ emoji-picker{
 	border: 5px solid #444444;
 }
 
+.chat-window__message-text-emoji{
+	align-items: center;
+	max-width: 400px;
+	display: flex;
+	flex-wrap: wrap;
+}
+
 @import "./blocks/themes"

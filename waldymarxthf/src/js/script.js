@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 import "emoji-picker-element";
 
-import { DOM_ELEMENTS, TOKEN, NICKNAME, PROPERTIES, THEME } from "./modules/constants";
+import { DOM_ELEMENTS, TOKEN, NICKNAME, PROPERTIES, THEME, EMAIL } from "./modules/constants";
 import { emojiPicker } from "./modules/emojiPicker";
 import {
 	handleFormAuth,
@@ -50,6 +50,7 @@ QUIT_BUTTON.addEventListener("click", () => {
 	MODAL_AUTH.showModal();
 	Cookies.remove(TOKEN);
 	Cookies.remove(NICKNAME);
+	Cookies.remove(EMAIL);
 });
 
 SETTINGS_BUTTON.addEventListener("click", () => {

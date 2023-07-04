@@ -1,5 +1,6 @@
 import Cookies from "js-cookie";
 import { getMessages } from "./api";
+import { addBetterTVEmoji } from "./betterTV";
 import {
 	DOM_ELEMENTS,
 	PROPERTIES,
@@ -39,7 +40,7 @@ export function changeIcon(email) {
 	return DEFAULT_ICON;
 }
 
-export function createMessage({ text, email, nickname, time }) {
+export async function createMessage({ text, email, nickname, time }) {
 	const type = email === Cookies.get(EMAIL) ? PROPERTIES.RIGHT_SIDE : PROPERTIES.LEFT_SIDE;
 
 	const item = TEMPLATE.content.cloneNode(true);
@@ -50,7 +51,7 @@ export function createMessage({ text, email, nickname, time }) {
 	const avatarElem = message.querySelector(AVATAR_SELECTOR);
 	const nicknameElem = message.querySelector(NICKNAME_SELECTOR);
 
-	textElem.textContent = text;
+	textElem.append(await addBetterTVEmoji(text));
 	timeElem.textContent = time;
 	message.classList.add(`message-${type}`);
 	contentElem.classList.add(`content-${type}`);
@@ -68,7 +69,7 @@ export function createMessage({ text, email, nickname, time }) {
 export async function renderMessages() {
 	const messagesData = await getMessages();
 	const reversedMessagesData = messagesData.messages.reverse();
-	const messages = reversedMessagesData.map((element) => {
+	const messagesPromises = reversedMessagesData.map((element) => {
 		const { user, text, createdAt } = element;
 		return createMessage({
 			text,
@@ -77,6 +78,7 @@ export async function renderMessages() {
 			time: timeConvert(createdAt),
 		});
 	});
+	const messages = await Promise.all(messagesPromises);
 	WINDOW.append(...messages);
 	WINDOW.scrollIntoView(false);
 }

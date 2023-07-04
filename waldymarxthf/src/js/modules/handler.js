@@ -10,12 +10,12 @@ const { FORM_VERIF, MODAL_VERIF, ERROR_VERIF } = DOM_ELEMENTS.VERIFICATION;
 const { FORM_SETTINGS, COMPLETE_SETTINGS, ERROR_SETTINGS } = DOM_ELEMENTS.SETTINGS;
 const { APP, FORM_MESSAGE, WINDOW } = DOM_ELEMENTS.CHAT;
 
-export function handleFormMessage(event) {
+export async function handleFormMessage(event) {
 	event.preventDefault();
 	const inputValue = getFormData(FORM_MESSAGE, MESSAGE);
 
 	if (!isEmpty(inputValue)) {
-		const message = createMessage({
+		const message = await createMessage({
 			text: inputValue,
 			email: Cookies.get(EMAIL),
 			nickname: Cookies.get(NICKNAME),

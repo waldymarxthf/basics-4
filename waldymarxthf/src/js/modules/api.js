@@ -7,6 +7,7 @@ import {
 	USER_URL,
 	MESSAGES_URL,
 	ERRORS,
+	BETTERTV_URL,
 } from "./constants";
 import { errorHandler, ServerError, AuthorizationError } from "./errors";
 
@@ -79,6 +80,21 @@ export async function getMessages() {
 				Authorization: `Bearer ${Cookies.get(TOKEN)}`,
 			},
 		});
+
+		if (!response.ok) {
+			throw new ServerError(ERRORS.SERVER_ERROR);
+		}
+
+		return await response.json();
+	} catch (error) {
+		errorHandler(error);
+		return false;
+	}
+}
+
+export async function getBetterTVEmoji() {
+	try {
+		const response = await fetch(BETTERTV_URL);
 
 		if (!response.ok) {
 			throw new ServerError(ERRORS.SERVER_ERROR);
