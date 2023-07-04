@@ -5,6 +5,102 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Чат - Strada Community</title>
+		<link rel="stylesheet" href="../src/css/style.min.css" />
+		<link rel="stylesheet" href="../src/css/reset.css" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap" rel="stylesheet" />
 	</head>
-	<body></body>
+	<body>
+		<section class="section hidden">
+			<div class="section-main__header">
+				<button class="section-main__settings" data-modal-target="#modal-settings">
+					<img src="../src/assets/icons-settings.png" alt="" />
+				</button>
+				<div class="section-radius__timer">0</div>
+				<button class="section-main__exit">
+					<img src="../src/assets/icons-exit.png" alt="" />
+				</button>
+			</div>
+			<div class="section-main__chat">
+				<div class="section-main__messenge">
+					<template id="template">
+						<div class="section-main-sender">
+							<p class="message__name"></p>
+							<p class="message__text"></p>
+							<p class="message__time"></p>
+						</div>
+						<div class="section-main-recipient">
+							<p class="message__name"></p>
+							<p class="message__text"></p>
+							<p class="message__time"></p>
+						</div>
+					</template>
+				</div>
+				<form class="section-main__send">
+					<input class="section-main__input" name="messenge" type="text" />
+					<button type="submit" class="section-main__btn">
+						<img src="../src/assets/send.png" alt="" />
+					</button>
+				</form>
+			</div>
+		</section>
+
+		<!-- PopUp's -->
+		<!-- Модалка авторизации -->
+		<dialog class="pop-up dialog-modal-auth">
+			<header class="header-modal-auth pop-up-header">
+				<div class="header-modal__title--auth pop-up-title">Авторизация</div>
+				<!-- <div class="header-modal__exit--auth pop-up-img">
+          <img src="img/icons-exit.png" alt="" />
+        </div> -->
+			</header>
+			<section class="section-modal-auth pop-up-section">
+				<div class="section-modal__auth--title pop-up-subtitle">Почта:</div>
+				<form action="#" class="section-modal__auth--form pop-up-form">
+					<input type="text" name="code" placeholder="Введите вашу почту" />
+					<button class="section-modal__auth-get pop-up-btn">Получить код</button>
+					<button
+						class="section-modal__auth-enter pop-up-btn"
+						data-modal-target="#modal-enter--code"
+					>
+						Ввести код
+					</button>
+				</form>
+			</section>
+		</dialog>
+		<!-- Модалка ввода кода -->
+		<dialog class="pop-up modal-enter--code" id="modal-enter--code">
+			<header class="header-modal-code pop-up-header">
+				<div class="header-modal__title--code pop-up-title">Подтверждение</div>
+				<div class="header-modal__exit--code pop-up-img close-modal">
+					<img src="../src/assets/icons-exit.png" alt="" />
+				</div>
+			</header>
+			<section class="section-modal-code pop-up-section">
+				<div class="section-modal__code--title pop-up-subtitle">Код:</div>
+				<form action="#" class="section-modal__code--form pop-up-form">
+					<input type="text" name="dialog-code" placeholder="Введите ваш код" />
+					<button class="section-modal__code-get pop-up-btn">Войти</button>
+				</form>
+			</section>
+		</dialog>
+		<!-- Модалка смены имени -->
+		<dialog class="pop-up modal-change--name" id="modal-settings">
+			<header class="header-modal-change pop-up-header">
+				<div class="header-modal__title--change pop-up-title">Настройки</div>
+				<div class="header-modal__exit--change pop-up-img close-modal">
+					<img src="../src/assets/icons-exit.png" alt="" />
+				</div>
+			</header>
+			<section class="section-modal-change pop-up-section">
+				<div class="section-modal__change--title pop-up-subtitle">Имя в чате:</div>
+				<form action="#" class="section-modal__change--form pop-up-form">
+					<input type="text" name="change-name" placeholder="Введите ваше имя" />
+					<button class="section-modal__change-get pop-up-btn">Сохранить</button>
+				</form>
+			</section>
+		</dialog>
+		<script src="../src/js/script.js"></script>
+	</body>
 </html>
