@@ -12,7 +12,7 @@
             <button class="setting header__button" type="button">Настройки</button>
             <button class="exit header__exit" type="button">Выход</button>
         </header>
-    </div>
+
 
     <div class="screen-chat">
         <div class="message screen-chat__message message-me">
@@ -49,18 +49,24 @@
         </div>
     </div>
 
-    <dialog class="modal">
-        <div class="screen">
+        <form class="screen-form" name="screen-form"  action="">
+            <input class="screen-form__sent-message" placeholder="Сообщение.." type="text">
+            <button class="screen-form__button">-></button>
+        </form>
+    </div>
+    <dialog open class="modal">
+        <div class="modal-screen">
             <header class="header screen__header">
                 <button class="setting header__button" type="button">Настройки</button>
                 <button class="button-close header__closed" type="button">X</button>
             </header>
 
-            <form name="authorization" action="">
-                <label for="nameId">
-                    <input id="nameId" class="nameId" type="text" placeholder="Стив">
-                    <input type="submit" value="->">
-                </label>
+            <form name="authorization" method="dialog" action="">
+                <div class="authorization__placeholder">Имя в чате</div>
+                <div class="authorization-inner">
+                    <input class="nameId" type="text" placeholder="Стив">
+                    <button class="authorization-button-confirm" type="submit">-></button>
+                </div>
             </form>
     </dialog>
 </div>
