@@ -1,6 +1,8 @@
 const tmpl = document.querySelector("#myMessage");
 const UI_ELEMNTS = {
+	POPUP_MAIN_MENU: document.querySelector(".main-menu"),
 	SCREEN: document.querySelector(".mainScreen"),
+	WRAP: document.querySelector(".wrap"),
 	INPUT: document.querySelector(".chat-form-input"),
 	FORM: document.querySelector(".chat-form"),
 	MAIN_SETTINGS_BTN: document.querySelector(".main-settings-btn"),
@@ -28,6 +30,7 @@ const POPUP_LOGIN = {
 };
 
 const POPUP_CONFIRM = {
+	POPUP_CONFIRM_MENU: document.querySelector(".confirm-menu"),
 	CONFIRM_INPUT: document.querySelector(".confirm-menu_input"),
 	CONFIRM_BUTTON: document.querySelector(".confirm-menu_button_sign"),
 	CONFIRM_FORM: document.querySelector(".confirm-menu_form"),

@@ -1,4 +1,5 @@
-import { POPUP_LOGIN, POPUP_CONFIRM, POPUP_SETTINGS } from "./ui_elements";
+/* eslint-disable no-undef */
+import { POPUP_LOGIN, POPUP_SETTINGS } from "./ui_elements";
 import { getCookie } from "./utils";
 
 export async function getCode() {
@@ -38,4 +39,16 @@ export async function changeName() {
 		body: JSON.stringify({ name: POPUP_SETTINGS.SETTINGS_INPUT.value }),
 	});
 	localStorage.setItem("lastName", POPUP_SETTINGS.SETTINGS_INPUT.value);
+}
+
+export async function getHistory() {
+	const token = getCookie();
+	const response = await fetch(" https://edu.strada.one/api/messages/ ", {
+		method: "GET",
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	});
+	const result = await response.json();
+	return result;
 }

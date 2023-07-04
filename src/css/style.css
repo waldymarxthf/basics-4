@@ -20,7 +20,18 @@ body {
 	height: 533px;
 	background-color: #D55448;
 }
-
+.main-menu[open] {
+	-webkit-transform: scale(1);
+	transform: scale(1);
+	opacity: 1;
+	visibility: visible;
+  border: 0px;
+  background-color: #7b635e;
+}
+.settings-menu::backdrop {
+	background-color: #896E69;
+	opacity: 0.7;
+}
 .upper-btn {
 	display: flex;
 	align-items: center;
@@ -65,34 +76,33 @@ body {
 	margin-left: 8px;
 	margin-right: 8px;
 	border: 1px solid black;
-	overflow-y: auto;
-  flex-direction: column;
-	display: flex;
-	justify-content: end;
+	overflow-y: scroll;
+padding-left: 8px;
+padding-right: 8px;
 }
-
+.wrap{
+  min-height: 437px;
+  justify-content: end;
+  display: flex;
+  flex-direction: column;
+}
 .message-box-I {
 	margin-left: auto;
   background-color: #F9F9FF;
-
-  
 }
 
 .message-box-companion {
-	margin-left: 8px;
   background-color: #896E69;
   color:#F9F9FF ;
 
 }
 .message-box {
 	margin-top: 8px;
-	margin-right: 8px;
 	margin-bottom: 8px;
 	display: flex;
 	flex-direction: column;
 	padding: 8px;
 	width: fit-content;
-	height: fit-content;
 	font-family: Roboto;
 	font-size: 16px;
 	font-weight: 400;
@@ -202,13 +212,6 @@ body {
 	background: #FFA577;
 	display: block;
 	opacity: 0;
-	visibility: hidden;
-}
-.log-menu[open] {
-	-webkit-transform: scale(1);
-	transform: scale(1);
-	opacity: 1;
-	visibility: visible;
 }
 .log-menu_body {
   margin: 5px;
