@@ -13,7 +13,7 @@
 	</head>
 	<body>
 		<main>
-			<section class="section hidden">
+			<section class="section">
 				<header class="section-main__header">
 					<button class="section-main__settings" data-modal-target="#modal-settings">
 						<img src="../src/assets/icons-settings.png" alt="settings icon" />
@@ -39,7 +39,13 @@
 						</template>
 					</article>
 					<form class="section-main__send">
-						<input class="section-main__input" name="messenge" type="text" required />
+						<input
+							class="section-main__input"
+							name="messenge"
+							type="text"
+							autocomplete="off"
+							required
+						/>
 						<button type="submit" class="section-main__btn">
 							<img src="../src/assets/send.png" alt="send button" />
 						</button>
@@ -49,7 +55,7 @@
 
 			<!-- PopUp's -->
 			<!-- Authorization modal -->
-			<dialog open class="pop-up dialog-modal-auth">
+			<dialog class="pop-up dialog-modal-auth">
 				<header class="header-modal-auth pop-up-header">
 					<h2 class="header-modal__title--auth pop-up-title">Authorization</h2>
 				</header>
@@ -64,9 +70,9 @@
 							placeholder="Enter your email"
 							required
 						/>
-						<button class="section-modal__auth-get pop-up-btn">Get code</button>
+						<button class="section-modal__auth-get pop-up-btn up">Get code</button>
 						<button
-							class="section-modal__auth-enter pop-up-btn"
+							class="section-modal__auth-enter pop-up-btn up"
 							data-modal-target="#modal-enter--code"
 						>
 							Enter code
@@ -76,10 +82,10 @@
 			</dialog>
 
 			<!-- Code entry modal -->
-			<dialog open class="pop-up modal-enter--code" id="modal-enter--code">
+			<dialog class="pop-up modal-enter--code" id="modal-enter--code">
 				<header class="header-modal-code pop-up-header">
 					<h2 class="header-modal__title--code pop-up-title">Confirmation</h2>
-					<button class="header-modal__exit--code pop-up-img close-modal">
+					<button class="header-modal__exit--code pop-up-img close-modal up">
 						<img src="../src/assets/icons-exit.png" alt="close modal icon" />
 					</button>
 				</header>
@@ -94,13 +100,13 @@
 							placeholder="Enter your code"
 							required
 						/>
-						<button class="section-modal__code-get pop-up-btn">Enter</button>
+						<button class="section-modal__code-get pop-up-btn up">Save</button>
 					</form>
 				</section>
 			</dialog>
 
 			<!-- Name change modal -->
-			<dialog open class="pop-up modal-change--name" id="modal-settings">
+			<dialog class="pop-up modal-change--name" id="modal-settings">
 				<header class="header-modal-change pop-up-header">
 					<h2 class="header-modal__title--change pop-up-title">Settings</h2>
 					<button class="header-modal__exit--change pop-up-img close-modal">
@@ -118,7 +124,7 @@
 							placeholder="Enter your name"
 							required
 						/>
-						<button class="section-modal__change-get pop-up-btn">Save</button>
+						<button class="section-modal__change-get pop-up-btn up">Save</button>
 					</form>
 				</section>
 			</dialog>
