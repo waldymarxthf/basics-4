@@ -17,6 +17,7 @@ const tp = getElement('#tp');
 const dialogName = getElement('.dialog_name');
 const dialogAutoriz = getElement('.dialog_autoriz');
 const dialogConfirm = getElement('.dialog_confirm');
+// const notice = getElement('.notice');
 const dialogs = getNodeList('.dialog');
 const forms = getNodeList('form');
 const buttons = getNodeList('.button');
@@ -94,6 +95,7 @@ for(const form of forms){
             const formData = new FormData(form);
             const name = formData.get('inputName');
             const token = cookie.getCookie('token');
+
             await fetch('https://edu.strada.one/api/user', {
                 method: 'PATCH',
                 headers: {
@@ -102,6 +104,10 @@ for(const form of forms){
                   },        
                 body: JSON.stringify({name})
             })
+            // notice.textContent = 'Отправка имени на сервер';
+            // if(response.ok){
+            //     notice.textContent = 'Имя изменено';
+            // }
             form.reset()
             getNameFromServer()
         })
