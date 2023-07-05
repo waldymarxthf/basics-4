@@ -37,11 +37,11 @@ chekAuthorization();
 // Обработка клика ПОЛУЧИТЬ КОД
 UI_MODAL.btnGiveCode.addEventListener('click', getCode);
 
-// Обработка поля ввода в модалке
-UI_MODAL.enterFieldModal.addEventListener('input', actionInputAuthorization);
+// Обработка поля ввода Получить код
+UI_MODAL.enterFieldModal.addEventListener('input', actionInputGetCode);
 
 // Обработка кнопки Войти
-UI_MODAL.btnSingIn.addEventListener('click', enterCode);
+UI_MODAL.btnSingIn.addEventListener('click', getConfirmAuthorization);
 
 // Обработка кнопки Выйти
 UI.btnSignOut.addEventListener('click', leaveTheChat);
@@ -69,17 +69,23 @@ document.addEventListener('keydown', (event) => {
     }
 });
 
-// Обработка emodji
+// Обработка клика по emodji
 UI.emoji.addEventListener('emoji-click', (event) => {
-        UI.enterFieldChat.textContent += event.detail.unicode;
-        changeIconBtn(
-            UI.enterFieldChat,
-            UI.btnSend,
-            ICONS.srcBtnActive,
-            ICONS.srcBtnDisabled
-        );
-        textarea.value = getValueField(UI.enterFieldChat);
-    });
+    UI.enterFieldChat.textContent += event.detail.unicode;
+    changeIconBtn(
+        UI.enterFieldChat,
+        UI.btnSend,
+        ICONS.srcBtnActive,ъ=
+        ICONS.srcBtnDisabled
+    );
+    const range = document.createRange();
+    const selection = window.getSelection();
+    range.selectNodeContents(UI.enterFieldChat);
+    range.collapse(false);
+    selection.removeAllRanges();
+    selection.addRange(range);
+    textarea.value = getValueField(UI.enterFieldChat);
+});
 
 // ==========================ФУНКЦИИ============================
 // =============================================================
@@ -146,8 +152,27 @@ function getCode() {
         });
 }
 
+// ввести код
+function actionBtnEnterCode() {
+    clearField(UI_MODAL.enterFieldModal);
+    UI_MODAL.enterFieldModal.removeEventListener('input', actionInputGetCode);
+    UI_MODAL.enterFieldModal.addEventListener('input', actionInputSignIn);
+
+    renderModal(
+        MODAL_TITLE.confirmation.title,
+        MODAL_TITLE.confirmation.inputTitle,
+        MODAL_TITLE.confirmation.placeholder
+    );
+
+    showHideBtn(UI_MODAL.btnGiveCode, 'hide');
+    showHideBtn(UI_MODAL.btnEnterCode, 'hide');
+    activeDisableBtn(UI_MODAL.btnEnterCode, 'disabled');
+    showHideBtn(UI_MODAL.btnSingIn, 'show');
+    UI_MODAL.btnEnterCode.removeEventListener('click', actionBtnEnterCode);
+}
+
 // Получить подтверждение авторизации
-function enterCode() {
+function getConfirmAuthorization() {
     if (isEmptyField(UI_MODAL.enterFieldModal)) return;
 
     setCookie('token', `${getValueField(UI_MODAL.enterFieldModal)}`);
@@ -156,15 +181,15 @@ function enterCode() {
             if (answer.status === 'true') {
                 clearField(UI_MODAL.enterFieldModal);
                 activeDisableBtn(UI_MODAL.btnSingIn, 'disabled');
-                // hideModal('none');
                 chekAuthorization();
                 UI_MODAL.enterFieldModal.removeEventListener(
                     'input',
-                    actionInputConfirmation
+                    actionInputSignIn
                 );
                 console.log(answer);
                 setCookie('nickname', answer.answer.name);
                 renderNicknameProfile(getCookie('nickname'));
+                UI_MODAL.btnGiveCode.removeEventListener('click', getCode);
             } else if (answer.status === 'false') {
                 return;
             }
@@ -177,6 +202,7 @@ function enterCode() {
 // Смена имени
 function renameNickname() {
     if (isEmptyField(UI_MODAL.enterFieldModal)) return;
+
     getDataServer(URL.urlToken, API_METHOD.patch, true, {
         name: getValueField(UI_MODAL.enterFieldModal),
     }).then((result) => {
@@ -193,7 +219,7 @@ function renameNickname() {
 }
 
 // Действия при вводе в input авторизации ПОЛУЧИТЬ КОД
-function actionInputAuthorization() {
+function actionInputGetCode() {
     const valueField = getValueField(UI_MODAL.enterFieldModal);
 
     if (validateEmail(valueField)) {
@@ -204,7 +230,7 @@ function actionInputAuthorization() {
 }
 
 // Действия при вводе в input подтверждения ВВЕСТИ КОД
-function actionInputConfirmation() {
+function actionInputSignIn() {
     if (isEmptyField(UI_MODAL.enterFieldModal)) {
         activeDisableBtn(UI_MODAL.btnSingIn, 'disabled');
         return;
@@ -223,29 +249,6 @@ function actionInputRename() {
     );
 }
 
-// Действие по кнопке ввести код
-function actionBtnEnterCode() {
-    // if (isEmptyField(UI_MODAL.enterFieldModal)) return;
-    clearField(UI_MODAL.enterFieldModal);
-    UI_MODAL.enterFieldModal.removeEventListener(
-        'input',
-        actionInputAuthorization
-    );
-    UI_MODAL.enterFieldModal.addEventListener('input', actionInputConfirmation);
-
-    renderModal(
-        MODAL_TITLE.confirmation.title,
-        MODAL_TITLE.confirmation.inputTitle,
-        MODAL_TITLE.confirmation.placeholder
-    );
-
-    showHideBtn(UI_MODAL.btnGiveCode, 'hide');
-    showHideBtn(UI_MODAL.btnEnterCode, 'hide');
-    activeDisableBtn(UI_MODAL.btnEnterCode, 'disabled');
-    showHideBtn(UI_MODAL.btnSingIn, 'show');
-    UI_MODAL.btnEnterCode.removeEventListener('click', actionBtnEnterCode);
-}
-
 // Выход из чата
 function leaveTheChat() {
     removeCkookie('token');
@@ -259,23 +262,24 @@ function leaveTheChat() {
     showHideBtn(UI_MODAL.btnGiveCode, 'show');
     showHideBtn(UI_MODAL.btnEnterCode, 'show');
     showHideBtn(UI_MODAL.btnSingIn, 'hide');
+    UI_MODAL.enterFieldModal.addEventListener('input', actionInputGetCode);
+    UI_MODAL.btnGiveCode.addEventListener('click', getCode);
 }
 
 // Отправка сообщения
 function sendingMessage(event) {
     event.preventDefault();
-    if (isEmptyField(UI.enterFieldChat)) {
-        return;
-    } else {
-        addMessage(getValueMessageForm(), new Date(), CLASS.sendingMessage);
-        clearField(UI.enterFieldChat);
-        changeIconBtn(
-            UI.enterFieldChat,
-            UI.btnSend,
-            ICONS.srcBtnActive,
-            ICONS.srcBtnDisabled
-        );
-    }
+
+    if (isEmptyField(UI.enterFieldChat)) return;
+
+    addMessage(getValueMessageForm(), new Date(), CLASS.sendingMessage);
+    clearField(UI.enterFieldChat);
+    changeIconBtn(
+        UI.enterFieldChat,
+        UI.btnSend,
+        ICONS.srcBtnActive,
+        ICONS.srcBtnDisabled
+    );
 }
 
 // Данные(текст сообщения) из формы
