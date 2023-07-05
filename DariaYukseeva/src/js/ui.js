@@ -60,6 +60,7 @@ export async function showMessageHistory() {
 const settingsBtnHandler = () => {
 	render(popupSettings, variables.popupWindow);
 	const themeBtn = document.querySelector("#theme-btn");
+	const inputNickname = document.querySelector(".nickname-input");
 	if (theme === "dark") {
 		themeBtn.checked = true;
 	}
@@ -69,6 +70,7 @@ const settingsBtnHandler = () => {
 		nicknameInput.value = nickname;
 	}
 	variables.popup.style.display = "flex";
+	inputNickname.focus();
 };
 
 const btnSendingMessageHandler = (e) => {
@@ -83,7 +85,9 @@ const btnSendingMessageHandler = (e) => {
 
 const exitBtnHandler = () => {
 	render(popupAuthorization, variables.popupWindow);
+	const inputEmail = document.querySelector(".email-input");
 	variables.popup.style.display = "flex";
+	inputEmail.focus();
 };
 
 variables.settingsBtn.addEventListener("click", settingsBtnHandler);

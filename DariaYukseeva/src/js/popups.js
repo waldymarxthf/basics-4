@@ -70,6 +70,8 @@ const enterCodeBtnHandler = (e) => {
 	e.preventDefault();
 	variables.popupWindow.innerHTML = "";
 	render(popupConfirmation, variables.popupWindow);
+	const inputCode = document.querySelector(".confirmation-input");
+	inputCode.focus();
 };
 
 const enterConfirmationBtnHandler = (e) => {
