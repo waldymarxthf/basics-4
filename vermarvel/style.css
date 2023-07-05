@@ -58,7 +58,8 @@ header {
 
 .chat-screen {
   /* display: flex; */
-  overflow: auto;
+  overflow-y: auto;
+  /* overflow: auto; */
   background: linear-gradient(rgb(224, 65, 134) 0%, rgb(16, 88, 169) 100%);
   gap: 7px;
   /* align-items: flex-start;
@@ -68,12 +69,13 @@ header {
   height: 80%;
 }
 .chat-tape {
+  /* overflow-y: auto; */
   gap: 15px;
   display: flex;
   align-items: flex-start;
   justify-content: end;
   flex-direction: column;
-  overflow-y: auto;
+  /* overflow-y: auto; */
   width: 100%;
   height: auto;
 }
@@ -96,7 +98,7 @@ header {
 }
 .user-triangle {
   rotate: 90deg;
-  margin-top: -12px;
+  margin-top: -21px;
   margin-left: 230px;
   color: rgb(216, 246, 246);
 }
@@ -163,9 +165,25 @@ dialog {
   transform: translate(-50%, -50%);
 }
 
-.input-dialog {
-  height: 30px;
+.icon-enter {
+  font-size: 25px;
+  color: rgb(108, 67, 244);
+}
+
+#input-dialog-email,
+#input-dialog-confirm,
+#input-dialog-name {
+  height: 35px;
   width: 180px;
+}
+.btn-get-code {
+  height: 35px;
+  padding-left: 5px;
+}
+.icon-get-code {
+  color: rgb(108, 67, 244);
+  font-size: 32px;
+  padding-bottom: 3px;
 }
 .form-nickname {
   display: flex;
@@ -222,23 +240,20 @@ button {
 }
 
 button:active {
-  color: rgb(240, 9, 9);
+  color: rgb(103, 19, 148);
   transform: scale(0.9);
 }
 
 .btn-submit-code {
   cursor: pointer;
-  background-color: pink;
+  background-color: rgb(203, 166, 229);
   border: none;
   border-radius: 5px;
-
   padding: 5px;
-}
-
-.btn-submit-code {
   align-self: flex-end;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
 }
+
 .input-btn-row {
   display: flex;
   align-items: flex-start;

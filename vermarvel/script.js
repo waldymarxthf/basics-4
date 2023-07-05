@@ -1,5 +1,5 @@
 "use strict";
-// CARDZLETTE
+// CHAT
 
 import dom from "./dom.js";
 import { cookies } from "./cookie.js";
@@ -8,7 +8,8 @@ import { cookies } from "./cookie.js";
 
 let userNickName = null;
 let userEmail = null;
-let otherNickName = "Sam";
+// let otherNickName = "Sam";
+let socket;
 const url = `https://edu.strada.one/api/user`;
 const urlMessages = `https://edu.strada.one/api/messages/`;
 
@@ -50,28 +51,38 @@ function getInput(event, author = "user") {
 //       console.error(error);
 //     });
 // }
-function placeUserMessage(text, timeStamp, token) {
-  const clone = dom.templateUserMessage.content.cloneNode(true);
+// function placeUserMessage(text, timeStamp, token) {
+//   const clone = dom.templateUserMessage.content.cloneNode(true);
+//   const name = clone.querySelector(".name");
+//   console.log(userNickName);
+//   name.textContent = userNickName;
+//   const stamp = clone.querySelector("em");
+//   stamp.textContent = obj.timeStamp;
+//   const messageText = clone.querySelector(".user-message-text");
+//   messageText.textContent = text;
+//   dom.parentMessages.appendChild(clone);
+// }
+
+function uiMessage(message) {
+  const data = JSON.parse(message.data);
+  console.log(data);
+  let clone;
+  if (data.user.email !== userEmail) {
+    clone = dom.templateOtherMessage.content.cloneNode(true);
+  } else {
+    clone = dom.templateUserMessage.content.cloneNode(true);
+  }
+
   const name = clone.querySelector(".name");
-  console.log(userNickName);
-  name.textContent = userNickName;
+  name.textContent = data.user.name;
   const stamp = clone.querySelector("em");
-  stamp.textContent = timeStamp;
-  const messageText = clone.querySelector(".user-message-text");
-  messageText.textContent = text;
-  dom.parentMessages.appendChild(clone);
+  stamp.textContent = timeFormat(data.updatedAt);
+  const messageText = clone.querySelector(".message-text");
+  messageText.textContent = data.text;
+  dom.tape.appendChild(clone);
 }
 
-function placeOtherMessage(text, timeStamp) {
-  const clone = dom.templateOtherMessage.content.cloneNode(true);
-  const name = clone.querySelector(".other-name");
-  name.textContent = otherNickName;
-  const stamp = clone.querySelector("time");
-  stamp.textContent = timeStamp;
-  const messageText = clone.querySelector(".other-message-text");
-  messageText.textContent = text;
-  dom.parentMessages.appendChild(clone);
-}
+//%%%%%%%%%%%%%%%%%%%%%%%%  REQUESTS TO SERVER  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function changeName(event) {
   event.preventDefault();
@@ -139,13 +150,17 @@ function getHistory() {
         user: user.name,
         email: user.email,
       }));
-      console.log(array);
+
       renderHistory(array);
     })
     .catch((error) => {
       console.error(error);
     });
+  // .finally(() => {
+  //   scrollTapeDown();
+  // });
 }
+
 function prepareHTML(obj) {
   if (obj.email !== userEmail) {
     const clone = dom.templateOtherMessage.content.cloneNode(true);
@@ -160,12 +175,12 @@ function prepareHTML(obj) {
   } else {
     const clone = dom.templateUserMessage.content.cloneNode(true);
     const name = clone.querySelector(".name");
-    console.log(userNickName);
+
     name.textContent = obj.user;
     const stamp = clone.querySelector("em");
-    stamp.textContent = timeStamp;
+    stamp.textContent = obj.time;
     const messageText = clone.querySelector(".user-message-text");
-    messageText.textContent = text;
+    messageText.textContent = obj.text;
     return clone;
   }
 }
@@ -180,23 +195,51 @@ function renderHistory(array) {
   });
   const html = strings.join("");
   dom.tape.innerHTML += html;
+  // Scroll to the uptodate messages
+  dom.parentMessages.scrollTo(0, dom.parentMessages.scrollHeight);
 }
 
 function saveCode(event) {
   event.preventDefault();
   const token = dom.inputDialogConfirm.value;
-  console.log(token);
   dom.inputDialogConfirm.value = "";
   cookies.cookify("token", token);
+
   dom.closeDialog("settings");
 }
 function saveName(newName) {
-  console.log("saving name");
+  let token = cookies.uncookify("token");
+  connect(token);
   userNickName = newName;
-  console.log(userNickName);
   dom.inputDialogConfirm.value = "";
   dom.closeDialog();
   getHistory();
+}
+
+function connect(token) {
+  return new Promise((resolve, reject) => {
+    socket = new WebSocket(`wss://edu.strada.one/websockets?${token}`);
+    socket.onopen = () => {
+      resolve();
+      socket.addEventListener("message", uiMessage);
+    };
+    socket.onerror = (error) => {
+      reject(error);
+    };
+  });
+}
+
+async function sendUserMessage(event) {
+  event.preventDefault();
+  try {
+    const textMessage = dom.inputMessage.value.trim();
+
+    socket.send(JSON.stringify({ text: textMessage }));
+  } catch (error) {
+    console.error(error);
+  } finally {
+    dom.inputMessage.value = "";
+  }
 }
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%  Listeners  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -206,7 +249,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 dom.formMessage.addEventListener("submit", (event) => {
-  getInput(event);
+  sendUserMessage(event);
 });
 
 dom.formAuthEmail.addEventListener("submit", (event) => {
@@ -231,8 +274,9 @@ dom.btnSubmitCode.addEventListener("click", (event) => {
 // UI: Dialogs - improve
 
 // Feat:
-// Errors UI
-// sending my messages to history
-// Bugs: не узнает имейл,
 
-// DONE today: // Logic: Dialogs, history load, selection prohibit, scroll,
+// Errors UI
+
+// Bugs: time bug
+
+// DONE today:// sending my messages to history // scrolldown

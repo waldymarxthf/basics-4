@@ -33,6 +33,8 @@
             <legend class="legend-dialog">Nickname</legend>
             <div class="dialog-form-wrapper">
               <input
+                pattern="^(?=.*\S).+$"
+                required
                 type="text"
                 id="input-dialog-name"
                 placeholder=" Nickname"
@@ -50,17 +52,22 @@
             <div class="dialog-form-wrapper-confirm">
               <div class="input-btn-row">
                 <input
+                  autofocus
                   id="input-dialog-email"
                   type="email"
                   pattern="[^ @]*@[^ @]*"
                   placeholder=" Enter your email"
                 />
                 <button class="btn-get-code">
-                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                  <i
+                    class="fa-solid fa-arrow-up-right-from-square icon-get-code"
+                  ></i>
                 </button>
               </div>
             </div>
-            <button class="btn-submit-code hidden">Submit code</button>
+            <button autofocus class="btn-submit-code hidden">
+              Submit code
+            </button>
           </form>
         </dialog>
         <dialog class="dialog-confirm">
@@ -87,7 +94,13 @@
       <footer>
         <form class="form-message">
           <fieldset>
-            <input type="text" id="input-message" placeholder=" Message..." />
+            <input
+              pattern="^(?=.*\S).+$"
+              required
+              type="text"
+              id="input-message"
+              placeholder=" Message..."
+            />
             <button class="btn-send">
               <i class="fa-solid fa-paper-plane"></i>
             </button>
@@ -99,7 +112,7 @@
       <div class="user-message message sent-message">
         <p class="user-name name"></p>
         <br />
-        <p class="user-message-text"></p>
+        <p class="user-message-text message-text"></p>
         <div class="time-container">
           <time><em></em></time>
         </div>
@@ -108,9 +121,9 @@
     </template>
     <template class="template-other-message">
       <div class="other-message message" contenteditable>
-        <p class="other-name"></p>
+        <p class="other-name name"></p>
         <br />
-        <p class="other-message-text"></p>
+        <p class="other-message-text message-text"></p>
         <div class="time-container">
           <time><em></em></time>
         </div>

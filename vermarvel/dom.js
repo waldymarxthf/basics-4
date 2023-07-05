@@ -34,19 +34,15 @@ const dom = {
     this.dialogConfirm.close();
 
     if (open === "settings") {
-      console.log("Opening settings dialog");
       this.dialogSettings.showModal();
     }
     if (open === "auth") {
-      console.log("Opening auth dialog");
       this.dialogAuth.showModal();
     }
     if (open === "confirm") {
-      console.log("Opening confirm dialog");
       this.dialogConfirm.showModal();
     }
     if (open === "") {
-      console.log("No dialog to open");
       return;
     }
   },

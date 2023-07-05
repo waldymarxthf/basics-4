@@ -6,7 +6,7 @@ export const cookies = {
     const expirationDate = time + convertToMsc(minutes);
     now.setTime(expirationDate);
     const cookie = `${key}=${value};expires=${now.toUTCString()};`;
-    console.log(cookie);
+
     document.cookie = cookie;
   },
 
