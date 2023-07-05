@@ -4,7 +4,7 @@
 .parcel-cache
 .dist
 node_modules
-.eslintrc
+.eslintrc.json
 .prettierrc
 package-lock.json
 package.json

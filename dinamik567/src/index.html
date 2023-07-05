@@ -47,6 +47,13 @@
             </p>
             <div class="message-time">18:45</div>
         </div>
+        <template class="message-template">
+                <p class="message-content">
+                    <span class="message-content__author"></span>
+                    <span class="message-content__text">Добрый день!</span>
+                </p>
+                <div class="message-time">18:45</div>
+        </template>
     </div>
 
         <form class="screen-form" name="screen-form"  action="">
@@ -54,20 +61,22 @@
             <button class="screen-form__button">-></button>
         </form>
     </div>
-    <dialog open class="modal">
-        <div class="modal-screen">
-            <header class="header screen__header">
-                <button class="setting header__button" type="button">Настройки</button>
-                <button class="button-close header__closed" type="button">X</button>
-            </header>
+    <dialog class="modal">
+        <div class="modal-inner">
+            <div class="modal-screen">
+                <header class="header screen__header">
+                    <button class="setting header__button" type="button">Настройки</button>
+                    <button class="button-close header__closed" type="button">X</button>
+                </header>
 
-            <form name="authorization" method="dialog" action="">
-                <div class="authorization__placeholder">Имя в чате</div>
-                <div class="authorization-inner">
-                    <input class="nameId" type="text" placeholder="Стив">
-                    <button class="authorization-button-confirm" type="submit">-></button>
-                </div>
-            </form>
+                <form name="authorization" method="dialog" action="">
+                    <div class="authorization__placeholder">Имя в чате</div>
+                    <div class="authorization-inner">
+                        <input class="nameId" type="text" placeholder="Стив">
+                        <button class="authorization-button-confirm" type="submit">-></button>
+                    </div>
+                </form>
+        </div>
     </dialog>
 </div>
 <script type="module" src="js/main.js"></script>
