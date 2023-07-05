@@ -26,12 +26,23 @@
             margin-bottom: 5px;
         }
 
-        .chat-dialog__message-time {
+        .dialog-info {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            column-gap: 10px;
+        }
+
+        .dialog-info__message-time, .dialog-info {
             color: #7b7c7e;
             text-align: right;
             font-size: 12px;
-            align-self: flex-end;
             white-space: nowrap;
+        }
+
+        .dialog-info {
+            font-size: 14px;
         }
 
         @media (min-width: 768px) {

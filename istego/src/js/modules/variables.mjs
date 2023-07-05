@@ -51,10 +51,13 @@ export const textarea = document.querySelector('.chat-form__textarea');
 
 export const TEMPLATE = {
     messageTimeTemplate: tempContainer.content.querySelector(
-        '.chat-dialog__message-time'
+        '.dialog-info__message-time'
     ),
     messageTextTemlate: tempContainer.content.querySelector(
         '.chat-dialog__message-text'
+    ),
+    messageNicknameTemlate: tempContainer.content.querySelector(
+        '.dialog-info__message-nickname'
     ),
 };
 

@@ -280,7 +280,7 @@ function sendingMessage(event) {
     event.preventDefault();
     if (isEmptyField(UI.enterFieldChat)) return;
     socket.send(JSON.stringify({ text: getValueMessageForm() }));
-    // addMessage(getValueMessageForm(), new Date(), CLASS.sendingMessage);
+    // addMessage(getValueMessageForm(), 'istego', new Date(), CLASS.sendingMessage);
     clearField(UI.enterFieldChat);
     changeIconBtn(
         UI.enterFieldChat,
@@ -297,9 +297,10 @@ function getValueMessageForm() {
 }
 
 // Добавление сообщения
-function addMessage(textMessage, time, classMessage) {
+function addMessage(textMessage, name, time, classMessage) {
     TEMPLATE.messageTextTemlate.textContent = textMessage;
     TEMPLATE.messageTimeTemplate.textContent = correctDate(time);
+    TEMPLATE.messageNicknameTemlate.textContent = name;
 
     let message = tempContainer.content.cloneNode(true);
 
@@ -318,12 +319,14 @@ function renderHistory() {
                 if (message.user.email === getCookie("email")) {
                     addMessage(
                         message.text,
+                        message.user.name,
                         message.updatedAt,
                         CLASS.sendingMessage
                     );
                 } else {
                     addMessage(
                         message.text,
+                        message.user.name,
                         message.updatedAt,
                         CLASS.inboxMessage
                     );
@@ -354,12 +357,14 @@ function connectionWebSocket() {
         if (serverAnswer.user.email === getCookie("email")) {
             addMessage(
                 serverAnswer.text,
+                serverAnswer.user.name,
                 serverAnswer.updatedAt,
                 CLASS.sendingMessage
             );
         } else {
             addMessage(
                 serverAnswer.text,
+                serverAnswer.user.name,
                 serverAnswer.updatedAt,
                 CLASS.inboxMessage
             );
