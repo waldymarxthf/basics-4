@@ -1,11 +1,11 @@
+import { format } from "date-fns";
+
 // * функция получения актуального времени
 
-export function getCurrentDate() {
-	const now = new Date();
-	const hours = now.getHours();
-	const min = String(now.getMinutes());
-	const actualTime = `${hours}:${min.padStart(2, "0")}`;
-	return actualTime;
+export function getCurrentTime(time) {
+	const newDate = new Date(time);
+	const date = format(newDate, "HH:mm");
+	return date;
 }
 
 // * функция очистки поля ввода сообщения

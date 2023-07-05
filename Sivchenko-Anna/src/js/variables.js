@@ -3,13 +3,10 @@ export const VARIABLES = {
 	MESSAGE_FORM: document.querySelector(".chat-send_form"),
 	CHAT_SCREEN: document.querySelector(".chat-screen"),
 	MESSAGE_TEMPLATE: document.querySelector("#message-template"),
-	USER: {
-		I: "Я",
-		COMPANION: "Кот",
-	},
 	API: {
 		SERVER_URL: "https://edu.strada.one/api/user",
 		USER_URL: "https://edu.strada.one/api/user/me",
+		MESSAGE_URL: "https://edu.strada.one/api/messages/",
 	},
 };
 

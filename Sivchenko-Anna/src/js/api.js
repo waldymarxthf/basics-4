@@ -66,3 +66,27 @@ export async function changeUserName(name) {
 		return false;
 	}
 }
+
+// * функция получения истории сообщений
+
+export async function getMessageHistory() {
+	try {
+		const token = Cookies.get("token");
+		const response = await fetch(VARIABLES.API.MESSAGE_URL, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json; charset=utf-8",
+				Authorization: `Bearer ${token}`,
+			},
+		});
+		if (!response.ok) {
+			console.log("Error from the server with getMessageHistory");
+		}
+		const data = await response.json();
+		console.log(data);
+		return data.messages;
+	} catch (err) {
+		console.log(err.message);
+		return false;
+	}
+}
