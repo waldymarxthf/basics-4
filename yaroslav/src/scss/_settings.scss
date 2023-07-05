@@ -1,0 +1,36 @@
+#template {
+	display: flex;
+	flex-direction: column;
+}
+
+.hidden {
+	display: none;
+}
+
+body {
+	display: flex;
+	justify-content: center;
+	background: #ffbb36;
+}
+
+main,
+input {
+	font-family: "Comfortaa", cursive;
+}
+
+button {
+	&:before {
+		content: "";
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		background: #ffbb36;
+		height: 0;
+		z-index: -1;
+		transition: height 0.3s ease-in-out;
+	}
+	&:hover:before {
+		height: 100%;
+	}
+}

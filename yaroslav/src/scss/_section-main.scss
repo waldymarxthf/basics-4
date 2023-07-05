@@ -1,0 +1,72 @@
+.section-main {
+	&__messenge {
+		margin: 38px 20px;
+		display: flex;
+		flex-direction: column;
+		overflow-y: scroll;
+		height: 490px;
+	}
+
+	&__chat {
+		border-radius: 31px;
+		background: #fff;
+		width: 375px;
+		height: 649px;
+		height: 732px;
+		word-wrap: break-word;
+	}
+
+	&-recipient {
+		width: 178px;
+		margin-bottom: 8px;
+		border-radius: 25px;
+		background: rgba(255, 199, 0, 0.25);
+		padding: 10px 20px;
+		color: #000;
+		font-size: 15px;
+		font-weight: 400;
+		letter-spacing: -0.3px;
+		align-self: flex-start;
+		margin: 5px 0;
+	}
+
+	&-sender {
+		border-radius: 25px;
+		background: rgba(255, 137, 51, 0.25);
+		color: #000;
+		font-size: 15px;
+		font-weight: 400;
+		letter-spacing: -0.3px;
+		width: 178px;
+		padding: 10px 20px;
+		align-self: flex-end;
+		margin: 5px 0;
+	}
+
+	&__send {
+		display: flex;
+		justify-content: center;
+		height: 66px;
+		border-radius: 164px;
+		border: 1px solid #e5e6e9;
+		outline: none;
+		align-items: center;
+		margin: 20px;
+
+		button {
+			border-radius: 100px;
+			background: #ffcb45;
+			width: 33px;
+			border: none;
+			cursor: pointer;
+			height: 33px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			img {
+				width: 15px;
+			}
+		}
+	}
+}

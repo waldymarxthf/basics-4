@@ -1,0 +1,91 @@
+.section {
+	height: 710px;
+	margin-top: 20px;
+	display: flex;
+	border-radius: 40px;
+	background: #000;
+	flex-direction: column;
+	justify-content: space-between;
+
+	&-main__header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		height: 110px;
+		padding: 15px;
+	}
+
+	&-main__settings {
+		background: #ffffff;
+		border: 1px solid #000000;
+		font-weight: 400;
+		font-size: 16px;
+		line-height: 19px;
+		color: #000000;
+		cursor: pointer;
+		background: transparent;
+		border: none;
+		outline: none;
+		img {
+			width: 35px;
+		}
+	}
+
+	&-radius__timer {
+		border: 1px solid;
+		width: 20px;
+		border-radius: 35px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	&-main__exit {
+		background: #ffffff;
+		border: 1px solid #000000;
+		font-weight: 400;
+		font-size: 16px;
+		line-height: 19px;
+		color: #000000;
+		cursor: pointer;
+		border: none;
+		background: transparent;
+		outline: none;
+		img {
+			width: 35px;
+		}
+	}
+
+	&-main__menu {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	&-main__chat {
+		input {
+			width: 267px;
+			height: 32px;
+			border: 1px solid #000000;
+			font-weight: 400;
+			font-size: 16px;
+			line-height: 19px;
+			color: #7c7c7c;
+			outline: none;
+			border: none;
+		}
+	}
+
+	&-main__mess {
+		display: flex;
+		flex-direction: column-reverse;
+		width: 375px;
+		height: 689px;
+		padding: 0 10px;
+		border-radius: 31px;
+		background: #fff;
+		overflow-y: auto;
+		&::-webkit-scrollbar {
+			width: 0 !important;
+		}
+	}
+}
