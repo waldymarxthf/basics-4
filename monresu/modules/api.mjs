@@ -1,6 +1,13 @@
-let token = Cookies.get('token');
+export let token = JSON.parse(localStorage.getItem('token'));
 
-export const getData = async () => {
+const API = {
+  URL: 'https://edu.strada.one/api',
+  USER: 'user',
+  ME: 'me',
+  MESSAGES: 'messages',
+};
+
+export const getData = async (token) => {
   const response = await fetch(`${API.URL}/${API.USER}/${API.ME}`, {
     method: 'GET',
     headers: {
@@ -8,9 +15,6 @@ export const getData = async () => {
       Authorization: `Bearer ${token}`,
     },
   });
-  if (response.ok) {
-    console.log('Запрос на данные получен');
-  };
   const data = await response.json();
   return data;
 };
@@ -36,6 +40,7 @@ export const changeName = async (name) => {
     },
     body: JSON.stringify({ name })
   });
+  location.reload();
 };
 
 export const getMessages = async () => {
@@ -51,13 +56,17 @@ export const getMessages = async () => {
 };
 
 export const fetchData = async (prop) => {
-  const data = await getData();
+  const data = await getData(token);
   return data[prop];
 };
 
-const API = {
-  URL: 'https://edu.strada.one/api',
-  USER: 'user',
-  ME: 'me',
-  MESSAGES: 'messages',
-};
+export const checkCode = async (code) => {
+  const response = await fetch(`${API.URL}/${API.USER}/${API.ME}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.status === 200;
+} 

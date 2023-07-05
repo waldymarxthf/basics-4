@@ -1,5 +1,5 @@
 import { openModal, closeModal } from "./modules/functions.mjs";
-import { getData, sendCode, changeName, getMessages, fetchData } from "./modules/api.mjs";
+import { getData, sendCode, changeName, getMessages, fetchData, token, checkCode } from "./modules/api.mjs";
 
 const settingsBtn = document.querySelector('.settings-button');
 const settingsModal = document.querySelector('.settings-modal');
@@ -16,7 +16,10 @@ const messageForm = document.querySelector('.message-form');
 const templateMessage = document.querySelector('.template-message');
 const messageContainer = document.querySelector('.message-container');
 
-let userName = await fetchData('name');
+const user = {
+  name: await fetchData('name'),
+  email: await fetchData('email'),
+};
 
 settingsBtn.addEventListener('click', () => {
   openModal(settingsModal);
@@ -46,16 +49,21 @@ chatNameInputForm.addEventListener('submit', async (e) => {
   closeModal(settingsModal);
   const name = new FormData(chatNameInputForm).get('name');
   changeName(name);
-  console.log('Имя изменено')
-  userName = name;
+  user.name = name;
   getData();
 });
 
 submitForm.addEventListener('submit', (e) => {
   e.preventDefault();
   const code = new FormData(submitForm).get('code');
-  Cookies.set('token', code);
-  closeModal(submitModal);
+  if (checkCode(code)) {
+    localStorage.setItem('token', JSON.stringify(code))
+    Cookies.set('token', code);
+    closeModal(submitModal);
+    return;
+  } else {
+    console.error('КОД НЕ ВЕРНЫЙ')
+  }
 })
 
 inputCodeBtn.addEventListener('click', () => {
@@ -69,27 +77,33 @@ submitModal.addEventListener('click', (event) => {
   };
 })
 
-function createMessageElement(author, message, time) {
-  const classMessage = author === userName ? 'my-message' : 'other-message';
+
+
+function createMessageElement(author, message, time, email, me = false) {
+  const classMessage = email === user.email ? 'my-message' : 'other-message';
   const messageBlock = document.createElement('div');
   messageBlock.append(templateMessage.content.cloneNode(true));
   const authorMessage = messageBlock.querySelector('.author-message');
   const textMessage = messageBlock.querySelector('.text-message');
   const timeMessage = messageBlock.querySelector('.time-message');
   messageBlock.classList.add('message');
-  authorMessage.textContent = author;
+  if (me) console.log(user.name)
+  authorMessage.textContent = !me ? author : user.name;
   textMessage.textContent = ': ' + message;
   timeMessage.textContent = time;
   messageBlock.classList.add(classMessage);
   return messageBlock;
 }
 
+
 async function renderMessages() {
   const data = await getMessages();
-  const messages = data.messages;
+  const messages = data.messages.reverse();
 
   const messageElements = messages.map(message => {
-    return createMessageElement(message.user.name, message.text, new Date(message.updatedAt).toLocaleTimeString('en-US'));
+    let me = false;
+    if (message.user.email === user.email) me = true;
+    return createMessageElement(message.user.name, message.text, new Date(message.updatedAt).toLocaleTimeString('en-US'), message.user.email, me);
   });
 
   messageContainer.append(...messageElements);
@@ -97,16 +111,33 @@ async function renderMessages() {
 
 renderMessages();
 
+const socket = new WebSocket(`wss://edu.strada.one/websockets?${token}`);
+socket.onmessage = function (event) {
+  const data = JSON.parse(event.data);
+  const author = data.user.name;
+  const email = data.user.email;
+  const text = data.text;
+  const timeMessage = new Date().toLocaleTimeString('en-US');
+  let me = false;
+  if (data.user.email === user.email) me = true;
+  const elem = createMessageElement(author, text, timeMessage, email, me);
+  messageContainer.append(elem);
+  messageContainer.scrollTop = messageContainer.scrollHeight;
+};
+socket.onerror = function (error) {
+  console.log(error);
+};
+
+
 messageForm.addEventListener('submit', (event) => {
   event.preventDefault();
   const textMessage = new FormData(messageForm).get('message');
-  const timeMessage = new Date().toLocaleTimeString('en-US');
-  const node = createMessageElement(userName, textMessage, timeMessage);
-  messageContainer.append(node);  
+  socket.send(JSON.stringify({ text: textMessage }));
   messageContainer.scrollTop = messageContainer.scrollHeight;
   messageForm.reset();
 });
 
 setTimeout(() => {
   messageContainer.scrollTop = messageContainer.scrollHeight;
-}, 1000)
+}, 1000);
+
