@@ -27,7 +27,7 @@ function render(){
 
     historyMessage.forEach(item => {
         return (
-            createHtmlElementMessage(item.user.name, item.text, item.createdAt)
+            createHtmlElementMessage(item.user.name, item.text, item.createdAt, item.user.email)
         )
     });
 
@@ -43,14 +43,13 @@ function createHtmlElementMessage(userName, message, date, flag){
         const text = tp.content.querySelector('.text');
         const time = tp.content.querySelector('.time');
     
-        if(flag){
+        if(flag === 'ruslapolyanski@yandex.ru'){
             blockMassage.classList.add('message_my')
         }
     
-        const dateNow = new Date();
-        user.textContent = userName || 'I';
+        user.textContent = userName;
         text.textContent = message;
-        time.textContent = date || dateNow.getHours() + ' : ' + dateNow.getMinutes();
+        time.textContent = date;
         
         const elementMessage = tp.content.cloneNode(true);
 
@@ -71,7 +70,14 @@ function isValid(message){
 function addMessage(event){
     event.preventDefault()
     const name = storage.get('name');
-    createHtmlElementMessage(name, inputMessage.value, null, true)
+    socket.send(
+        JSON.stringify({ text: inputMessage.value })
+    );
+    socket.onmessage = function(event) {
+        const data = JSON.parse(event.data);
+        const {text, createdAt , user: {name, email}} = data;
+        createHtmlElementMessage(name, text, createdAt, email)
+    };
     event.target.reset()
 }
 
@@ -138,6 +144,19 @@ for(const form of forms){
         })
     }
 }
+
+
+let socket = null;
+async function getWebSocket(){
+    const token = cookie.getCookie('token');
+    socket = new WebSocket(`wss://edu.strada.one/websockets?${token}`);
+    socket.onopen = function(){
+        formAddMessage.classList.remove('hide')
+    }
+}
+getWebSocket()
+
+
 
 async function getHistoryMessage(){
     const token = cookie.getCookie('token');
