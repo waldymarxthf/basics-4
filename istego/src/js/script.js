@@ -9,15 +9,15 @@ import {
     textarea,
     URL,
     API_METHOD,
-} from './modules/variables.mjs';
-import { setCookie, getCookie, removeCkookie } from './modules/ckookie.mjs';
-import { getDataServer } from './modules/api.mjs';
+} from "./modules/variables.mjs";
+import { setCookie, getCookie, removeCkookie } from "./modules/ckookie.mjs";
+import { getDataServer } from "./modules/api.mjs";
 import {
     modalDelegationClick,
     showModal,
     hideModal,
     renderModal,
-} from './modules/modal-functions.mjs';
+} from "./modules/modal-functions.mjs";
 import {
     renderNicknameProfile,
     scrollBottomDialog,
@@ -29,28 +29,32 @@ import {
     isEmptyField,
     correctDate,
     changeIconBtn,
-} from './modules/help-functions.mjs';
-import 'emoji-picker-element';
+    showHidePreload,
+} from "./modules/help-functions.mjs";
+import "emoji-picker-element";
+
+// Для webSocket
+let socket;
 
 chekAuthorization();
 
 // Обработка клика ПОЛУЧИТЬ КОД
-UI_MODAL.btnGiveCode.addEventListener('click', getCode);
+UI_MODAL.btnGiveCode.addEventListener("click", getCode);
 
 // Обработка поля ввода Получить код
-UI_MODAL.enterFieldModal.addEventListener('input', actionInputGetCode);
+UI_MODAL.enterFieldModal.addEventListener("input", actionInputGetCode);
 
 // Обработка кнопки Войти
-UI_MODAL.btnSingIn.addEventListener('click', getConfirmAuthorization);
+UI_MODAL.btnSingIn.addEventListener("click", getConfirmAuthorization);
 
 // Обработка кнопки Выйти
-UI.btnSignOut.addEventListener('click', leaveTheChat);
+UI.btnSignOut.addEventListener("click", leaveTheChat);
 
 // Слушатель кнопки настройки
-UI.btnSettings.addEventListener('click', showModal);
+UI.btnSettings.addEventListener("click", showModal);
 
 // Обработка поля ввода в чате
-UI.enterFieldChat.addEventListener('input', () => {
+UI.enterFieldChat.addEventListener("input", () => {
     changeIconBtn(
         UI.enterFieldChat,
         UI.btnSend,
@@ -61,22 +65,22 @@ UI.enterFieldChat.addEventListener('input', () => {
 });
 
 //Слушатель кнопки отправить сообщение
-UI.form.addEventListener('submit', sendingMessage);
+UI.form.addEventListener("submit", sendingMessage);
 
-document.addEventListener('keydown', (event) => {
-    if (event.code === 'Enter' && !event.ctrlKey && !event.shiftKey) {
+document.addEventListener("keydown", (event) => {
+    if (event.code === "Enter" && !event.ctrlKey && !event.shiftKey) {
         sendingMessage(event);
     }
 });
 
 // Обработка клика по emodji
-UI.emoji.addEventListener('emoji-click', (event) => {
+UI.emoji.addEventListener("emoji-click", (event) => {
     UI.enterFieldChat.textContent += event.detail.unicode;
     changeIconBtn(
         UI.enterFieldChat,
         UI.btnSend,
-        ICONS.srcBtnActive,ъ=
-        ICONS.srcBtnDisabled
+        ICONS.srcBtnActive,
+        (ъ = ICONS.srcBtnDisabled)
     );
     const range = document.createRange();
     const selection = window.getSelection();
@@ -92,23 +96,25 @@ UI.emoji.addEventListener('emoji-click', (event) => {
 
 //Проверка на авторизацию при запуске приложения
 function chekAuthorization() {
-    if (getCookie('token')) {
+    if (getCookie("token")) {
         hideModal();
-        UI_MODAL.modal.addEventListener('click', modalDelegationClick);
+        connectionWebSocket();
+        UI_MODAL.modal.addEventListener("click", modalDelegationClick);
         renderModal(
             MODAL_TITLE.settings.title,
             MODAL_TITLE.settings.inputTitle,
             MODAL_TITLE.settings.placeholder
         );
-        showHideBtn(UI_MODAL.btnGiveCode, 'hide');
-        showHideBtn(UI_MODAL.btnEnterCode, 'hide');
-        showHideBtn(UI_MODAL.btnSingIn, 'hide');
-        showHideBtn(UI_MODAL.btnRename, 'show');
+        showHideBtn(UI_MODAL.btnGiveCode, "hide");
+        showHideBtn(UI_MODAL.btnEnterCode, "hide");
+        showHideBtn(UI_MODAL.btnSingIn, "hide");
+        showHideBtn(UI_MODAL.btnRename, "show");
         // Обработка поля input в смене имени
-        UI_MODAL.enterFieldModal.addEventListener('input', actionInputRename);
+        UI_MODAL.enterFieldModal.addEventListener("input", actionInputRename);
         // Обработка кнопки сменить имя
-        UI_MODAL.btnRename.addEventListener('click', renameNickname);
-        renderNicknameProfile(getCookie('nickname'));
+        UI_MODAL.btnRename.addEventListener("click", renameNickname);
+        renderNicknameProfile(getCookie("nickname"));
+
     } else {
         renderModal(
             MODAL_TITLE.authorization.title,
@@ -116,13 +122,13 @@ function chekAuthorization() {
             MODAL_TITLE.authorization.placeholder
         );
         showModal();
-        UI_MODAL.modal.removeEventListener('click', modalDelegationClick);
+        UI_MODAL.modal.removeEventListener("click", modalDelegationClick);
         UI_MODAL.enterFieldModal.removeEventListener(
-            'input',
+            "input",
             actionInputRename
         );
-        UI_MODAL.btnRename.removeEventListener('click', renameNickname);
-        showHideBtn(UI_MODAL.btnRename, 'hide');
+        UI_MODAL.btnRename.removeEventListener("click", renameNickname);
+        showHideBtn(UI_MODAL.btnRename, "hide");
     }
 }
 
@@ -134,17 +140,17 @@ function getCode() {
         email: getValueField(UI_MODAL.enterFieldModal),
     })
         .then((answer) => {
-            if (answer.status === 'true') {
+            if (answer.status === "true") {
                 clearField(UI_MODAL.enterFieldModal);
-                activeDisableBtn(UI_MODAL.btnGiveCode, 'disabled');
-                activeDisableBtn(UI_MODAL.btnEnterCode, 'active');
+                activeDisableBtn(UI_MODAL.btnGiveCode, "disabled");
+                activeDisableBtn(UI_MODAL.btnEnterCode, "active");
                 // Обработка кнопки ввести код
                 UI_MODAL.btnEnterCode.addEventListener(
-                    'click',
+                    "click",
                     actionBtnEnterCode
                 );
-            } else if (answer.status === 'false') {
-                activeDisableBtn(UI_MODAL.btnGiveCode, 'disabled');
+            } else if (answer.status === "false") {
+                activeDisableBtn(UI_MODAL.btnGiveCode, "disabled");
             }
         })
         .catch((error) => {
@@ -155,8 +161,8 @@ function getCode() {
 // ввести код
 function actionBtnEnterCode() {
     clearField(UI_MODAL.enterFieldModal);
-    UI_MODAL.enterFieldModal.removeEventListener('input', actionInputGetCode);
-    UI_MODAL.enterFieldModal.addEventListener('input', actionInputSignIn);
+    UI_MODAL.enterFieldModal.removeEventListener("input", actionInputGetCode);
+    UI_MODAL.enterFieldModal.addEventListener("input", actionInputSignIn);
 
     renderModal(
         MODAL_TITLE.confirmation.title,
@@ -164,33 +170,34 @@ function actionBtnEnterCode() {
         MODAL_TITLE.confirmation.placeholder
     );
 
-    showHideBtn(UI_MODAL.btnGiveCode, 'hide');
-    showHideBtn(UI_MODAL.btnEnterCode, 'hide');
-    activeDisableBtn(UI_MODAL.btnEnterCode, 'disabled');
-    showHideBtn(UI_MODAL.btnSingIn, 'show');
-    UI_MODAL.btnEnterCode.removeEventListener('click', actionBtnEnterCode);
+    showHideBtn(UI_MODAL.btnGiveCode, "hide");
+    showHideBtn(UI_MODAL.btnEnterCode, "hide");
+    activeDisableBtn(UI_MODAL.btnEnterCode, "disabled");
+    showHideBtn(UI_MODAL.btnSingIn, "show");
+    UI_MODAL.btnEnterCode.removeEventListener("click", actionBtnEnterCode);
 }
 
 // Получить подтверждение авторизации
 function getConfirmAuthorization() {
     if (isEmptyField(UI_MODAL.enterFieldModal)) return;
 
-    setCookie('token', `${getValueField(UI_MODAL.enterFieldModal)}`);
+    setCookie("token", `${getValueField(UI_MODAL.enterFieldModal)}`);
     getDataServer(URL.urlDataProfile, API_METHOD.get, true)
         .then((answer) => {
-            if (answer.status === 'true') {
+            if (answer.status === "true") {
                 clearField(UI_MODAL.enterFieldModal);
-                activeDisableBtn(UI_MODAL.btnSingIn, 'disabled');
+                activeDisableBtn(UI_MODAL.btnSingIn, "disabled");
                 chekAuthorization();
                 UI_MODAL.enterFieldModal.removeEventListener(
-                    'input',
+                    "input",
                     actionInputSignIn
                 );
                 console.log(answer);
-                setCookie('nickname', answer.answer.name);
-                renderNicknameProfile(getCookie('nickname'));
-                UI_MODAL.btnGiveCode.removeEventListener('click', getCode);
-            } else if (answer.status === 'false') {
+                setCookie("nickname", answer.answer.name);
+                setCookie("email", answer.answer.email);
+                renderNicknameProfile(getCookie("nickname"));
+                UI_MODAL.btnGiveCode.removeEventListener("click", getCode);
+            } else if (answer.status === "false") {
                 return;
             }
         })
@@ -206,8 +213,8 @@ function renameNickname() {
     getDataServer(URL.urlToken, API_METHOD.patch, true, {
         name: getValueField(UI_MODAL.enterFieldModal),
     }).then((result) => {
-        setCookie('nickname', result.answer.name);
-        renderNicknameProfile(getCookie('nickname'));
+        setCookie("nickname", result.answer.name);
+        renderNicknameProfile(getCookie("nickname"));
     });
     clearField(UI_MODAL.enterFieldModal);
     changeIconBtn(
@@ -223,19 +230,19 @@ function actionInputGetCode() {
     const valueField = getValueField(UI_MODAL.enterFieldModal);
 
     if (validateEmail(valueField)) {
-        activeDisableBtn(UI_MODAL.btnGiveCode, 'active');
+        activeDisableBtn(UI_MODAL.btnGiveCode, "active");
     } else {
-        activeDisableBtn(UI_MODAL.btnGiveCode, 'disabled');
+        activeDisableBtn(UI_MODAL.btnGiveCode, "disabled");
     }
 }
 
 // Действия при вводе в input подтверждения ВВЕСТИ КОД
 function actionInputSignIn() {
     if (isEmptyField(UI_MODAL.enterFieldModal)) {
-        activeDisableBtn(UI_MODAL.btnSingIn, 'disabled');
+        activeDisableBtn(UI_MODAL.btnSingIn, "disabled");
         return;
     } else {
-        activeDisableBtn(UI_MODAL.btnSingIn, 'active');
+        activeDisableBtn(UI_MODAL.btnSingIn, "active");
     }
 }
 
@@ -251,28 +258,29 @@ function actionInputRename() {
 
 // Выход из чата
 function leaveTheChat() {
-    removeCkookie('token');
-    removeCkookie('nickname');
+    removeCkookie("token");
+    removeCkookie("nickname");
+    removeCkookie("email");
+    socket.close(1000, "работа закончена");
     chekAuthorization();
     renderModal(
         MODAL_TITLE.authorization.title,
         MODAL_TITLE.authorization.inputTitle,
         MODAL_TITLE.authorization.placeholder
     );
-    showHideBtn(UI_MODAL.btnGiveCode, 'show');
-    showHideBtn(UI_MODAL.btnEnterCode, 'show');
-    showHideBtn(UI_MODAL.btnSingIn, 'hide');
-    UI_MODAL.enterFieldModal.addEventListener('input', actionInputGetCode);
-    UI_MODAL.btnGiveCode.addEventListener('click', getCode);
+    showHideBtn(UI_MODAL.btnGiveCode, "show");
+    showHideBtn(UI_MODAL.btnEnterCode, "show");
+    showHideBtn(UI_MODAL.btnSingIn, "hide");
+    UI_MODAL.enterFieldModal.addEventListener("input", actionInputGetCode);
+    UI_MODAL.btnGiveCode.addEventListener("click", getCode);
 }
 
 // Отправка сообщения
 function sendingMessage(event) {
     event.preventDefault();
-
     if (isEmptyField(UI.enterFieldChat)) return;
-
-    addMessage(getValueMessageForm(), new Date(), CLASS.sendingMessage);
+    socket.send(JSON.stringify({ text: getValueMessageForm() }));
+    // addMessage(getValueMessageForm(), new Date(), CLASS.sendingMessage);
     clearField(UI.enterFieldChat);
     changeIconBtn(
         UI.enterFieldChat,
@@ -285,7 +293,7 @@ function sendingMessage(event) {
 // Данные(текст сообщения) из формы
 function getValueMessageForm() {
     const formData = new FormData(UI.form);
-    return formData.get('message');
+    return formData.get("message");
 }
 
 // Добавление сообщения
@@ -295,27 +303,84 @@ function addMessage(textMessage, time, classMessage) {
 
     let message = tempContainer.content.cloneNode(true);
 
-    const massageContainerTemp = message.querySelector('.chat-dialog__message');
+    const massageContainerTemp = message.querySelector(".chat-dialog__message");
     massageContainerTemp.classList.add(classMessage);
     UI.dialogWindow.append(message);
     scrollBottomDialog();
 }
 
+// Загрузка истории сообщений
 function renderHistory() {
     getDataServer(URL.urlHistoryMessages, API_METHOD.get, true)
         .then((result) => result.answer.messages)
         .then((messages) => {
-            messages.map((message) => {
-                addMessage(
-                    message.text,
-                    message.createdAt,
-                    CLASS.sendingMessage
-                );
+            messages.reverse().map((message) => {
+                if (message.user.email === getCookie("email")) {
+                    addMessage(
+                        message.text,
+                        message.updatedAt,
+                        CLASS.sendingMessage
+                    );
+                } else {
+                    addMessage(
+                        message.text,
+                        message.updatedAt,
+                        CLASS.inboxMessage
+                    );
+                }
             });
         });
 }
 
-// renderHistory();
+// Установка соединения с WebSocket
+function connectionWebSocket() {
+    socket = new WebSocket(
+        `wss://edu.strada.one/websockets?${getCookie("token")}`
+    );
+
+    socket.onopen = function (e) {
+        alert("[open] Соединение установлено");
+        if (socket.readyState === 0) {
+            alert('соединение не установлено!');
+        } else if (socket.readyState === 1) {
+            renderHistory();
+        }
+    };
+
+    socket.onmessage = function (event) {
+        const serverAnswer = JSON.parse(event.data);
+        console.log(serverAnswer);
+
+        if (serverAnswer.user.email === getCookie("email")) {
+            addMessage(
+                serverAnswer.text,
+                serverAnswer.updatedAt,
+                CLASS.sendingMessage
+            );
+        } else {
+            addMessage(
+                serverAnswer.text,
+                serverAnswer.updatedAt,
+                CLASS.inboxMessage
+            );
+        }
+    };
+
+    socket.onclose = function (event) {
+        if (event.wasClean) {
+            alert(
+                `[close] Соединение закрыто чисто, код=${event.code} причина=${event.reason}`
+            );
+        } else {
+            alert("[close] Соединение прервано");
+            connectionWebSocket();
+        }
+    };
+
+    socket.onerror = function (error) {
+        alert(`[error]`);
+    };
+}
 
 // Локалсторедж
 // Добавление сообщений из локалсторедж
