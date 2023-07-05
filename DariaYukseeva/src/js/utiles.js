@@ -12,8 +12,8 @@ export function loadFromLocalStorage(key) {
 	}
 }
 
-export function getTime() {
-	const time = format(new Date(), "HH:mm");
+export function getTime(date = Date.now()) {
+	const time = format(new Date(date), "HH:mm");
 	return time;
 }
 

@@ -3,68 +3,62 @@ import { apiVariables, variables } from "./ui_variables";
 import { getTime, isEmpty } from "./utiles";
 import { popupSettings, popupAuthorization, theme } from "./popups";
 import { render } from "./DOM_render";
+import { getMessagesFetch } from "./api_requests";
 
-// let theme = loadFromLocalStorage("chatAppTheme") || "light";
-
-// export function changeTheme() {
-// 	theme = theme === "light" ? "dark" : "light";
-// 	document.documentElement.setAttribute("data-theme", theme);
-// 	saveToLocalStorage("chatAppTheme", theme);
-// }
-
-// export function setTheme() {
-// 	document.documentElement.setAttribute("data-theme", theme);
-// }
 export const pop = "";
 
-function creatMessageNode(text, sender) {
+function creatMessageNode({ createdAt, text, updatedAt, email, userNickname }) {
 	let messageTemplate = null;
-	if (sender === "me") {
+	const userEmail = Cookies.get(apiVariables.email);
+	if (email === userEmail) {
 		messageTemplate = variables.templateMyMessage.content.cloneNode(true);
 		messageTemplate.querySelector(".text").textContent = text;
 		messageTemplate.querySelector(".time").textContent = getTime();
 	} else {
 		messageTemplate = variables.templateOutsideMessage.content.cloneNode(true);
-		messageTemplate.querySelector(".nickname").textContent = "собеседник";
+		messageTemplate.querySelector(".nickname").textContent = userNickname;
 		messageTemplate.querySelector(".text").textContent = text;
-		messageTemplate.querySelector(".time").textContent = getTime();
+		messageTemplate.querySelector(".time").textContent = getTime(createdAt);
 	}
 	return messageTemplate;
 }
 
 function renderMessages(node) {
-	variables.messagesField.append(node);
+	variables.messagesField.append(...node);
 }
 
-// const popupAreaHandler = (e) => {
-// 	if (e.target === variables.popup) {
-// 		variables.popup.style.display = "none";
-// 		const popupCloseBtn = document.querySelector(".popup-close-btn");
-// 		const themeBtn = document.querySelector("#theme-btn");
-// 		variables.popup.removeEventListener("click", popupAreaHandler);
-// 		popupCloseBtn.removeEventListener("click", popupCloseBtnHandler);
-// 		themeBtn.removeEventListener("click", themeBtnHandler);
-// 		variables.popup.innerHTML = "";
-// 	}
-// };
+function getProcessedMessageHistory(data) {
+	const { messages } = data;
+	const messagesArray = [];
+	messages.forEach((el) => {
+		const {
+			createdAt,
+			text,
+			updatedAt,
+			user: { email, name },
+		} = el;
+		const processedData = {
+			createdAt,
+			text,
+			updatedAt,
+			userEmail: email,
+			userNickname: name,
+		};
+		const messageNode = creatMessageNode(processedData);
+		messagesArray.push(messageNode);
+	});
+	return messagesArray.reverse();
+}
 
-// const popupCloseBtnHandler = () => {
-// 	variables.popup.style.display = "none";
-// 	const popupCloseBtn = document.querySelector(".popup-close-btn");
-// 	const themeBtn = document.querySelector("#theme-btn");
-// 	variables.popup.removeEventListener("click", popupAreaHandler);
-// 	popupCloseBtn.removeEventListener("click", popupCloseBtnHandler);
-// 	themeBtn.removeEventListener("click", themeBtnHandler);
-// 	variables.popup.innerHTML = "";
-// };
-
-// const themeBtnHandler = (e) => {
-// 	changeTheme(e.target);
-// };
+export async function showMessageHistory() {
+	const data = await getMessagesFetch();
+	const messagesArray = getProcessedMessageHistory(data);
+	renderMessages(messagesArray);
+	variables.messagesField.scrollTop += 1e9;
+}
 
 const settingsBtnHandler = () => {
 	render(popupSettings, variables.popupWindow);
-	// const popupCloseBtn = document.querySelector(".popup-close-btn");
 	const themeBtn = document.querySelector("#theme-btn");
 	if (theme === "dark") {
 		themeBtn.checked = true;
@@ -75,9 +69,6 @@ const settingsBtnHandler = () => {
 		nicknameInput.value = nickname;
 	}
 	variables.popup.style.display = "flex";
-	// variables.popup.addEventListener("click", popupAreaHandler);
-	// popupCloseBtn.addEventListener("click", popupCloseBtnHandler);
-	// themeBtn.addEventListener("click", themeBtnHandler);
 };
 
 const btnSendingMessageHandler = (e) => {
@@ -87,6 +78,7 @@ const btnSendingMessageHandler = (e) => {
 	if (isEmpty(messageText)) return;
 	const message = creatMessageNode(messageText, "me");
 	renderMessages(message);
+	variables.messagesField.scrollTop += 1e9;
 };
 
 const exitBtnHandler = () => {

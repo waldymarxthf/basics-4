@@ -14,7 +14,7 @@ import {
 } from "./DOM_render";
 import { variables, apiVariables } from "./ui_variables";
 import { saveToLocalStorage, loadFromLocalStorage, emailValidate } from "./utiles";
-import { getCode, changeNameFetch, getUserInfoFetch } from "./api_requests";
+import { codeFetch, changeNameFetch, getUserInfoFetch } from "./api_requests";
 
 export let theme = loadFromLocalStorage("chatAppTheme") || "light";
 
@@ -50,7 +50,7 @@ const getCodeBtnHandler = async (e) => {
 	const inputEmailValue = document.querySelector(".email-input").value;
 	const authorizationMessageNode = document.querySelector(".authorization-message");
 	if (emailValidate(inputEmailValue)) {
-		const answer = await getCode(inputEmailValue);
+		const answer = await codeFetch(inputEmailValue);
 		// console.log(answer);
 		if (answer === true) {
 			authorizationMessageNode.textContent = "Проверьте email";
@@ -91,8 +91,9 @@ const nicknameBtnHandler = async (e) => {
 	}
 	const inputNicknameValue = document.querySelector(".nickname-input").value;
 	await changeNameFetch(inputNicknameValue);
-	const nickname = await getUserInfoFetch();
-	Cookies.set(apiVariables.nickname, nickname.name, { expires: 30 });
+	const user = await getUserInfoFetch();
+	Cookies.set(apiVariables.nickname, user.name, { expires: 30 });
+	Cookies.set(apiVariables.email, user.email, { expires: 30 });
 	variables.popup.style.display = "none";
 	variables.popupWindow.innerHTML = "";
 };
@@ -121,8 +122,6 @@ export const popupSettings = [
 			}),
 			new Input({
 				className: "nickname-input",
-				attribute: "type",
-				attValue: "text",
 			}),
 			new Button({
 				className: "popup-nickname-btn",

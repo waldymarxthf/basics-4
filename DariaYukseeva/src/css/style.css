@@ -133,6 +133,7 @@ button {
 	padding: 10px;
 	cursor: default;
 	color: var(--message-color);
+	word-wrap: break-word;
 }
 
 .sent-message {

@@ -16,4 +16,5 @@ export const variables = {
 export const apiVariables = {
 	tokenCookieName: "token_for_chat",
 	nickname: "nickname_for_chat",
+	email: "user_email_for_chat",
 };

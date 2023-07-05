@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 import { apiVariables } from "./ui_variables";
 
-export async function getCode(email) {
+export async function codeFetch(email) {
 	const url = " https://edu.strada.one/api/user";
 	try {
 		const respons = await fetch(url, {
@@ -56,6 +56,24 @@ export async function getUserInfoFetch() {
 		});
 		const data = await respons.json();
 		console.log(data);
+		return data;
+	} catch (error) {
+		console.log(error);
+		return false;
+	}
+}
+
+export async function getMessagesFetch() {
+	const url = "https://edu.strada.one/api/messages/";
+	try {
+		const respons = await fetch(url, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json;charset=utf-8",
+				Authorization: `Bearer ${Cookies.get(apiVariables.tokenCookieName)}`,
+			},
+		});
+		const data = await respons.json();
 		return data;
 	} catch (error) {
 		console.log(error);
