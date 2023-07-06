@@ -15,7 +15,7 @@ export const UI = {
     preload: document.querySelector('.preload-wrapper'),
     nickname: document.querySelector('.nickname'),
     btnEmoji: document.querySelector('.btn-emoji'),
-    emoji: document.querySelector('emoji-picker')
+    emoji: document.querySelector('emoji-picker'),
 };
 
 export const UI_MODAL = {
@@ -28,39 +28,11 @@ export const UI_MODAL = {
     titleModal: document.querySelector('.modal__title-text'),
     titleInputModal: document.querySelector('.modal-form__title'),
     btnRename: document.querySelector('.btn-rename'),
+    btnBack: document.querySelector('.btn-back'),
+    notification: document.querySelector('.notification'),
+    notificationText: document.querySelector('.notification__text'),
+    notificationName: document.querySelector('.notification__text-name'),
 };
-
-export const ICONS = {
-    srcBtnDisabled: `url("${srcBtnDisabled}")`,
-    srcBtnActive: `url("${srcBtnActive}")`,
-    srcBtnRenameActive: `url("${srcBtnRenameActive}")`,
-    srcBtnRenameDisabled: `url("${srcBtnRenameDisabled}")`,
-    srcBtnEmojiActive:`url("${srcBtnEmojiActive}")`,
-    srcBtnEmojiDisabled:`url("${srcBtnEmojiDisabled}")`,
-};
-
-export const CLASS = {
-    sendingMessage: 'sent-message',
-    inboxMessage: 'in-message',
-    hideBtn: 'hide-btn',
-    activeBtn: 'active-btn'
-}
-
-export const tempContainer = document.querySelector('#template');
-export const textarea = document.querySelector('.chat-form__textarea');
-
-export const TEMPLATE = {
-    messageTimeTemplate: tempContainer.content.querySelector(
-        '.dialog-info__message-time'
-    ),
-    messageTextTemlate: tempContainer.content.querySelector(
-        '.chat-dialog__message-text'
-    ),
-    messageNicknameTemlate: tempContainer.content.querySelector(
-        '.dialog-info__message-nickname'
-    ),
-};
-
 
 export const MODAL_TITLE = {
     authorization: {
@@ -81,9 +53,42 @@ export const MODAL_TITLE = {
         title: 'Настройки',
         inputTitle: 'Имя в чате:',
         placeholder: 'Введите имя...',
-        notificationOk: 'Имя успешно изменено!',
+        notificationOk: 'Имя успешно изменено на ',
         notificationError: 'Произошла ошибка, повторите снова или попозже',
     },
+};
+
+export const ICONS = {
+    srcBtnDisabled: `url("${srcBtnDisabled}")`,
+    srcBtnActive: `url("${srcBtnActive}")`,
+    srcBtnRenameActive: `url("${srcBtnRenameActive}")`,
+    srcBtnRenameDisabled: `url("${srcBtnRenameDisabled}")`,
+    srcBtnEmojiActive:`url("${srcBtnEmojiActive}")`,
+    srcBtnEmojiDisabled:`url("${srcBtnEmojiDisabled}")`,
+};
+
+export const CLASS = {
+    sendingMessage: 'sent-message',
+    inboxMessage: 'in-message',
+    hideBtn: 'hide-btn',
+    activeBtn: 'active-btn',
+    notificationOk: 'show-notification-green',
+    notificationError: 'show-notification-red',
+}
+
+export const tempContainer = document.querySelector('#template');
+export const textarea = document.querySelector('.chat-form__textarea');
+
+export const TEMPLATE = {
+    messageTimeTemplate: tempContainer.content.querySelector(
+        '.dialog-info__message-time'
+    ),
+    messageTextTemlate: tempContainer.content.querySelector(
+        '.chat-dialog__message-text'
+    ),
+    messageNicknameTemlate: tempContainer.content.querySelector(
+        '.dialog-info__message-nickname'
+    ),
 };
 
 export const URL = {

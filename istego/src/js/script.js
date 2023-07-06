@@ -30,6 +30,8 @@ import {
     correctDate,
     changeIconBtn,
     showHidePreload,
+    showNotificationModal,
+    containsCyrillic,
 } from "./modules/help-functions.mjs";
 import "emoji-picker-element";
 
@@ -114,7 +116,6 @@ function chekAuthorization() {
         // Обработка кнопки сменить имя
         UI_MODAL.btnRename.addEventListener("click", renameNickname);
         renderNicknameProfile(getCookie("nickname"));
-
     } else {
         renderModal(
             MODAL_TITLE.authorization.title,
@@ -128,6 +129,8 @@ function chekAuthorization() {
             actionInputRename
         );
         UI_MODAL.btnRename.removeEventListener("click", renameNickname);
+        // Обработка кнопки ввести код
+        UI_MODAL.btnEnterCode.addEventListener("click", actionBtnEnterCode);
         showHideBtn(UI_MODAL.btnRename, "hide");
     }
 }
@@ -143,18 +146,16 @@ function getCode() {
             if (answer.status === "true") {
                 clearField(UI_MODAL.enterFieldModal);
                 activeDisableBtn(UI_MODAL.btnGiveCode, "disabled");
-                activeDisableBtn(UI_MODAL.btnEnterCode, "active");
-                // Обработка кнопки ввести код
-                UI_MODAL.btnEnterCode.addEventListener(
-                    "click",
-                    actionBtnEnterCode
-                );
+                showNotificationModal("Авторизация", "ok");
             } else if (answer.status === "false") {
                 activeDisableBtn(UI_MODAL.btnGiveCode, "disabled");
+                showNotificationModal("Авторизация", "error");
             }
         })
         .catch((error) => {
             console.log(`Error: ${error.message}`);
+            activeDisableBtn(UI_MODAL.btnGiveCode, "disabled");
+            showNotificationModal("Авторизация", "error");
         });
 }
 
@@ -162,7 +163,7 @@ function getCode() {
 function actionBtnEnterCode() {
     clearField(UI_MODAL.enterFieldModal);
     UI_MODAL.enterFieldModal.removeEventListener("input", actionInputGetCode);
-    UI_MODAL.enterFieldModal.addEventListener("input", actionInputSignIn);
+    showNotificationModal();
 
     renderModal(
         MODAL_TITLE.confirmation.title,
@@ -172,12 +173,31 @@ function actionBtnEnterCode() {
 
     showHideBtn(UI_MODAL.btnGiveCode, "hide");
     showHideBtn(UI_MODAL.btnEnterCode, "hide");
-    activeDisableBtn(UI_MODAL.btnEnterCode, "disabled");
     showHideBtn(UI_MODAL.btnSingIn, "show");
-    UI_MODAL.btnEnterCode.removeEventListener("click", actionBtnEnterCode);
+    showHideBtn(UI_MODAL.btnBack, "show");
+
+    UI_MODAL.enterFieldModal.addEventListener("input", actionInputSignIn);
+    UI_MODAL.btnBack.addEventListener("click", clickBtnBack);
 }
 
-// Получить подтверждение авторизации
+// Клик по кнопке назад
+function clickBtnBack() {
+    showHideBtn(UI_MODAL.btnBack, "hide");
+    showHideBtn(UI_MODAL.btnSingIn, "hide");
+    showHideBtn(UI_MODAL.btnGiveCode, "show");
+    showHideBtn(UI_MODAL.btnEnterCode, "show");
+    renderModal(
+        MODAL_TITLE.authorization.title,
+        MODAL_TITLE.authorization.inputTitle,
+        MODAL_TITLE.authorization.placeholder
+    );
+    UI_MODAL.enterFieldModal.addEventListener("input", actionInputGetCode);
+    UI_MODAL.btnBack.removeEventListener("click", clickBtnBack);
+    clearField(UI_MODAL.enterFieldModal);
+    showNotificationModal();
+}
+
+// Получить подтверждение авторизации кнопка ВОЙТИ
 function getConfirmAuthorization() {
     if (isEmptyField(UI_MODAL.enterFieldModal)) return;
 
@@ -187,22 +207,35 @@ function getConfirmAuthorization() {
             if (answer.status === "true") {
                 clearField(UI_MODAL.enterFieldModal);
                 activeDisableBtn(UI_MODAL.btnSingIn, "disabled");
+                showHideBtn(UI_MODAL.btnBack, "hide");
                 chekAuthorization();
                 UI_MODAL.enterFieldModal.removeEventListener(
                     "input",
                     actionInputSignIn
                 );
-                console.log(answer);
+                console.log("успешно", answer);
                 setCookie("nickname", answer.answer.name);
                 setCookie("email", answer.answer.email);
                 renderNicknameProfile(getCookie("nickname"));
+                UI_MODAL.btnEnterCode.removeEventListener(
+                    "click",
+                    actionBtnEnterCode
+                );
                 UI_MODAL.btnGiveCode.removeEventListener("click", getCode);
+                showNotificationModal();
             } else if (answer.status === "false") {
+                console.log(answer);
+                removeCkookie("token");
+                showNotificationModal(
+                    MODAL_TITLE.confirmation.title,
+                    "errorCode"
+                );
                 return;
             }
         })
         .catch((error) => {
-            console.log(`Error: ${error.message}`);
+            showNotificationModal(MODAL_TITLE.confirmation.title, "error");
+            console.log(`Error!!!!: ${error.message}`);
         });
 }
 
@@ -212,35 +245,53 @@ function renameNickname() {
 
     getDataServer(URL.urlToken, API_METHOD.patch, true, {
         name: getValueField(UI_MODAL.enterFieldModal),
-    }).then((result) => {
-        setCookie("nickname", result.answer.name);
-        renderNicknameProfile(getCookie("nickname"));
-    });
-    clearField(UI_MODAL.enterFieldModal);
-    changeIconBtn(
-        UI_MODAL.enterFieldModal,
-        UI_MODAL.btnRename,
-        ICONS.srcBtnRenameActive,
-        ICONS.srcBtnRenameDisabled
-    );
+    })
+        .then((result) => {
+            console.log("результат1", result);
+            setCookie("nickname", result.answer.name);
+            renderNicknameProfile(getCookie("nickname"));
+            UI_MODAL.notificationName.textContent = getCookie("nickname");
+            socket.close(1000, "работа закончена");
+            connectionWebSocket();
+            clearField(UI_MODAL.enterFieldModal);
+            changeIconBtn(
+                UI_MODAL.enterFieldModal,
+                UI_MODAL.btnRename,
+                ICONS.srcBtnRenameActive,
+                ICONS.srcBtnRenameDisabled
+            );
+            showNotificationModal("Настройки", "ok");
+            setTimeout(() => {
+                showNotificationModal();
+            }, 2000);
+        })
+        .catch((error) => {
+            console.log(error);
+            showNotificationModal("Настройки", "error");
+        });
 }
 
 // Действия при вводе в input авторизации ПОЛУЧИТЬ КОД
 function actionInputGetCode() {
     const valueField = getValueField(UI_MODAL.enterFieldModal);
 
-    if (validateEmail(valueField)) {
+    if (
+        validateEmail(valueField) &&
+        !containsCyrillic(getValueField(UI_MODAL.enterFieldModal))
+    ) {
         activeDisableBtn(UI_MODAL.btnGiveCode, "active");
     } else {
         activeDisableBtn(UI_MODAL.btnGiveCode, "disabled");
     }
 }
 
-// Действия при вводе в input подтверждения ВВЕСТИ КОД
+// Действия при вводе в input подтверждения поля ВОЙТИ
 function actionInputSignIn() {
-    if (isEmptyField(UI_MODAL.enterFieldModal)) {
+    if (
+        isEmptyField(UI_MODAL.enterFieldModal) ||
+        containsCyrillic(getValueField(UI_MODAL.enterFieldModal))
+    ) {
         activeDisableBtn(UI_MODAL.btnSingIn, "disabled");
-        return;
     } else {
         activeDisableBtn(UI_MODAL.btnSingIn, "active");
     }
@@ -342,9 +393,10 @@ function connectionWebSocket() {
     );
 
     socket.onopen = function (e) {
-        alert("[open] Соединение установлено");
+        console.log("[open] Соединение установлено");
         if (socket.readyState === 0) {
-            alert('соединение не установлено!');
+            showHidePreload("none");
+            alert("соединение не установлено!");
         } else if (socket.readyState === 1) {
             renderHistory();
         }
@@ -373,20 +425,22 @@ function connectionWebSocket() {
 
     socket.onclose = function (event) {
         if (event.wasClean) {
-            alert(
+            console.log(
                 `[close] Соединение закрыто чисто, код=${event.code} причина=${event.reason}`
             );
         } else {
-            alert("[close] Соединение прервано");
+            showHidePreload("flex");
+            console.log("[close] Соединение прервано");
             connectionWebSocket();
         }
     };
 
     socket.onerror = function (error) {
-        alert(`[error]`);
+        alert(error);
     };
 }
 
+// Если токен не корректный не записывать в куки
 // Локалсторедж
 // Добавление сообщений из локалсторедж
 // функцию рендер

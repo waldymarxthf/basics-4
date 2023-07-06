@@ -23,7 +23,7 @@
         <div class="chat">
             <nav class="chat-nav">
                 <div class="chat-nav__list">
-                    <button type="button" class="chat-nav__list-item btn-settings">
+                    <button type="button" title="Настройки" class="chat-nav__list-item btn-settings">
                     </button>
                     <div class="info-profile">
                         <div class="icon-profile">
@@ -31,7 +31,7 @@
                         </div>
                         <p class="nickname">...</p>
                     </div>
-                    <button type="button" class="chat-nav__list-item btn-exit">
+                    <button type="button" title="Выход" class="chat-nav__list-item btn-exit">
                     </button>
                 </div>
             </nav>
@@ -68,9 +68,22 @@
                         <button type="button" class="modal-form__btn-ok btn-rename" disabled></button>
                     </div>
                     <div class="modal-form__btns">
-                        <button type="button" class="modal-form__btn btn-give-code" disabled>Получить код</button>
-                        <button type="button" class="modal-form__btn btn-enter-code" disabled>Ввести код</button>
-                        <button type="button" class="modal-form__btn btn-sing-in hide-btn" disabled>Войти</button>
+                        <button type="button" class="modal-form__btn btn-give-code" disabled>
+                            Получить код
+                        </button>
+                        <button type="button" class="modal-form__btn btn-enter-code active-btn">
+                            Ввести код
+                        </button>
+                        <button type="button" class="modal-form__btn btn-back hide-btn active-btn">
+                            Назад
+                        </button>
+                        <button type="button" class="modal-form__btn btn-sing-in hide-btn" disabled>
+                            Войти
+                        </button>
+                    </div>
+                    <div class="notification">
+                        <span class="notification__text"></span>
+                        <span class="notification__text-name"></span>
                     </div>
                 </form>
             </div>
