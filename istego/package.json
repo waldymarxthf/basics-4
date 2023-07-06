@@ -17,11 +17,11 @@
     "@parcel/packager-raw-url": "^2.9.3",
     "@parcel/transformer-sass": "^2.9.3",
     "@parcel/transformer-webmanifest": "^2.9.3",
-    "js-cookie": "^3.0.5",
     "parcel": "^2.9.3"
   },
   "dependencies": {
     "date-fns": "^2.30.0",
-    "emoji-picker-element": "^1.18.3"
+    "emoji-picker-element": "^1.18.3",
+    "js-cookie": "^3.0.5"
   }
 }

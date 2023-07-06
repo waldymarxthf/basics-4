@@ -211,7 +211,6 @@ function getConfirmAuthorization() {
                     "input",
                     actionInputSignIn
                 );
-                console.log("успешно", answer);
                 setCookie("nickname", answer.answer.name);
                 setCookie("email", answer.answer.email);
                 renderNicknameProfile(getCookie("nickname"));
