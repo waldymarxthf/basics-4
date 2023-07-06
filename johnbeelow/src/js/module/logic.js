@@ -1,45 +1,48 @@
 import { getHistoryChat } from './api.js'
 import { UI_ELEMENTS, CLASS, updateScroll } from './ui_components.js'
 import { convertTime } from './utils.js'
+import { cookies } from './storage.js'
 
 const handleContentLoaded = async () => {
   await repeatRequest()
 }
 const repeatRequest = async () => {
   const data = await getHistoryChat()
-  await data.map((messages) => renderChatHistory(messages))
+  await data.map((messages) => parseMessage(messages))
 }
 
-const renderChatHistory = (massages) => {
+const parseMessage = (massage) => {
   const data = {
-    user: massages.user.name,
-    text: massages.text,
-    time: massages.createdAt,
+    user: massage.user.name,
+    email: massage.user.email,
+    text: massage.text,
+    time: massage.createdAt,
   }
-  createOnlyUsersMassage(data)
+  createMassages(data)
   updateScroll()
 }
 
-const createMainUserMassage = (text) => {
-  if (text.trim() !== '') {
-    const message = UI_ELEMENTS.MESSAGE_MAIN.content.cloneNode(true)
-    message.querySelector(CLASS.MESSAGE_TEXT).textContent = text
-    message.querySelector(CLASS.MESSAGE_DATE).textContent = convertTime()
-    UI_ELEMENTS.WINDOW_CHAT.append(message)
-  }
-}
+const createMassages = ({ user, email, text, time }) => {
+  const userMain = UI_ELEMENTS.MESSAGE_MAIN.content.cloneNode(true)
+  const userOnly = UI_ELEMENTS.MESSAGE_ONLY.content.cloneNode(true)
+  const userValidation = cookies.getEmail()
 
-const createOnlyUsersMassage = ({ user, text, time }) => {
-  const message = UI_ELEMENTS.MESSAGE_ONLY.content.cloneNode(true)
-  message.querySelector(CLASS.MESSAGE_ONLY).textContent = user
-  message.querySelector(CLASS.MESSAGE_TEXT).textContent = text
-  message.querySelector(CLASS.MESSAGE_DATE).textContent = convertTime(time)
-  UI_ELEMENTS.WINDOW_CHAT.append(message)
+  if (userValidation === email) {
+    userMain.querySelector(CLASS.MESSAGE_TEXT).textContent = text
+    userMain.querySelector(CLASS.MESSAGE_DATE).textContent = convertTime()
+    UI_ELEMENTS.WINDOW_CHAT.append(userMain)
+  }
+
+  if (userValidation !== email) {
+    userOnly.querySelector(CLASS.MESSAGE_ONLY).textContent = user
+    userOnly.querySelector(CLASS.MESSAGE_TEXT).textContent = text
+    userOnly.querySelector(CLASS.MESSAGE_DATE).textContent = convertTime(time)
+    UI_ELEMENTS.WINDOW_CHAT.append(userOnly)
+  }
 }
 
 export {
   handleContentLoaded,
-  renderChatHistory,
-  createMainUserMassage,
-  createOnlyUsersMassage,
+  parseMessage,
+  repeatRequest,
 }

@@ -58,28 +58,6 @@
             </div>
           </template>
 
-          <!-- <template id="welcome-message">
-            <div class="message--only-users">
-              <p class="message-text--users">StradaGram [Bot] 🤖</p>
-              <p class="message-text">Добро пожаловать 👋. Я искусственный интеллект приложения для обмена сообщениями:
-                StradaGram. Сейчас приложение на стадии разработки и тестирования. На данный момент, версия приложения:
-                0.0.7</p>
-              <div class="message-info">
-                <p class="message-date">00:00</p>
-              </div>
-            </div>
-          </template> -->
-
-          <!-- <div class="message--main-user">
-            <p class="message-text--main-user">Beelow</p>
-            <p class="message-text">Добрый утро !</p>
-            <div class="message-info">
-              <p class="message-date">07:30</p>
-              <img src="img/check-all.svg" alt="#" class="message-check">
-            </div>
-          </div> -->
-
-
         </div>
 
       </div>
@@ -123,13 +101,7 @@
               </button>
             </form>
 
-            <!-- <div class="pop-bottom">
-              <p class="logo-box">StradaGram</p>
-            </div> -->
-
-
           </div>
-
 
 
         </div>
@@ -145,8 +117,11 @@
 
             <p class="modal-title-small">Почта:</p>
             <form class="modal-form-auth-input">
-              <input type="email" class="modal-auth-form-input" placeholder="Email">
+              <input type="email" class="modal-auth-form-input" placeholder="Email" required
+                pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}">
             </form>
+
+            <div class="email-error close" id="error">Введите правильный email</div>
 
             <div class="buttons-group">
               <button class="btn get-code">Получить код</button>

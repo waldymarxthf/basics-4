@@ -10,7 +10,11 @@ import {
 import { getUserCode, changeUserName } from './module/api.js'
 import { cookies } from './module/storage.js'
 
-import { handleContentLoaded, createMainUserMassage } from './module/logic.js'
+import { handleContentLoaded } from './module/logic.js'
+
+import { updateSocket } from './module/websocket.js'
+
+import { validationEmail } from './module/ui_components.js'
 
 document.addEventListener('DOMContentLoaded', handleContentLoaded)
 
@@ -20,7 +24,7 @@ window.addEventListener('offline', showLoader.offline)
 
 UI_ELEMENTS.INPUT_FORM.addEventListener('submit', (event) => {
   event.preventDefault()
-  createMainUserMassage(UI_ELEMENTS.INPUT_TEXT.value)
+  updateSocket(UI_ELEMENTS.INPUT_TEXT.value)
   clearInput(event)
   updateScroll()
 })
@@ -50,6 +54,8 @@ UI_ELEMENTS.ENTER_MESSENGER.addEventListener('click', (event) => {
 
 UI_ELEMENTS.GET_CODE.addEventListener('click', (event) => {
   event.preventDefault()
+  validationEmail()
+  cookies.saveEmail(UI_ELEMENTS.AUTH_IMPUT_TEXT.value)
   getUserCode(UI_ELEMENTS.AUTH_IMPUT_TEXT.value)
 })
 
@@ -57,3 +63,4 @@ UI_ELEMENTS.INPUT_SETTING_FORM.addEventListener('submit', (event) => {
   event.preventDefault()
   changeUserName(UI_ELEMENTS.INPUT_SETTING_TEXT.value)
 })
+

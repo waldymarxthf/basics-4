@@ -25,6 +25,7 @@ const UI_ELEMENTS = {
   IMG_ERROR: document.querySelector('.img_error'),
   LOADER: document.querySelector('.loader'),
   LOADER_DISCONECTED: document.querySelector('.loader-disconected'),
+  ERROR_EMAIL: document.querySelector('.email-error'),
 }
 
 const CLASS = {
@@ -37,6 +38,7 @@ const CLASS = {
   BTN_CLOSE: '.modal-btn-close',
   MODAL_CONTAINER: '.modal-container',
   MODAL_BOX: '.modal-box',
+  INVALID: 'invalid',
 }
 
 const clearInput = (event) => {
@@ -105,6 +107,25 @@ const showLoader = {
   offline: () => UI_ELEMENTS.LOADER_DISCONECTED.classList.add(CLASS.SHOW),
 }
 
+const validationEmail = () => {
+  const input = UI_ELEMENTS.AUTH_IMPUT_TEXT
+  const text = UI_ELEMENTS.ERROR_EMAIL
+
+  input.onblur = () => {
+    if (!input.validity.valid) {
+      input.classList.add(CLASS.INVALID)
+      text.classList.add(CLASS.SHOW)
+    }
+  }
+
+  input.onfocus = () => {
+    if (input.classList.contains(CLASS.INVALID)) {
+      input.classList.remove(CLASS.INVALID)
+      text.classList.remove(CLASS.SHOW)
+    }
+  }
+}
+
 export {
   UI_ELEMENTS,
   CLASS,
@@ -114,4 +135,5 @@ export {
   showModal,
   showStatus,
   showLoader,
+  validationEmail,
 }

@@ -116,7 +116,6 @@ input[type='text'] {
   z-index: 9981;
 }
 
-
 .loader-disconected .bar-dis {
   position: relative;
 
@@ -548,4 +547,16 @@ input[type='text'] {
 
 .enter-code {
   margin-left: 8px;
+}
+
+/* -------------------------- focus validate -------------------------- */
+
+.invalid {
+  background-color: rgba(228, 60, 60, 0.678);
+}
+
+#error {
+  margin-top: 8px;
+  color: rgba(248, 76, 76, 0.884);
+  font-size: 12px;
 }
