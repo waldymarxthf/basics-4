@@ -69,6 +69,7 @@ UI.enterFieldChat.addEventListener("input", () => {
 //Слушатель кнопки отправить сообщение
 UI.form.addEventListener("submit", sendingMessage);
 
+//Слушатель клавиши enter отправить сообщение
 document.addEventListener("keydown", (event) => {
     if (event.code === "Enter" && !event.ctrlKey && !event.shiftKey) {
         sendingMessage(event);
@@ -135,6 +136,27 @@ function chekAuthorization() {
     }
 }
 
+// ввести код
+function actionBtnEnterCode() {
+    clearField(UI_MODAL.enterFieldModal);
+    UI_MODAL.enterFieldModal.removeEventListener("input", actionInputGetCode);
+    showNotificationModal();
+
+    renderModal(
+        MODAL_TITLE.confirmation.title,
+        MODAL_TITLE.confirmation.inputTitle,
+        MODAL_TITLE.confirmation.placeholder
+    );
+
+    showHideBtn(UI_MODAL.btnGiveCode, "hide");
+    showHideBtn(UI_MODAL.btnEnterCode, "hide");
+    showHideBtn(UI_MODAL.btnSingIn, "show");
+    showHideBtn(UI_MODAL.btnBack, "show");
+
+    UI_MODAL.enterFieldModal.addEventListener("input", actionInputSignIn);
+    UI_MODAL.btnBack.addEventListener("click", clickBtnBack);
+}
+
 // Получить код
 function getCode() {
     if (isEmptyField(UI_MODAL.enterFieldModal)) return;
@@ -159,42 +181,18 @@ function getCode() {
         });
 }
 
-// ввести код
-function actionBtnEnterCode() {
-    clearField(UI_MODAL.enterFieldModal);
-    UI_MODAL.enterFieldModal.removeEventListener("input", actionInputGetCode);
-    showNotificationModal();
+// Действия при вводе в input авторизации ПОЛУЧИТЬ КОД
+function actionInputGetCode() {
+    const valueField = getValueField(UI_MODAL.enterFieldModal);
 
-    renderModal(
-        MODAL_TITLE.confirmation.title,
-        MODAL_TITLE.confirmation.inputTitle,
-        MODAL_TITLE.confirmation.placeholder
-    );
-
-    showHideBtn(UI_MODAL.btnGiveCode, "hide");
-    showHideBtn(UI_MODAL.btnEnterCode, "hide");
-    showHideBtn(UI_MODAL.btnSingIn, "show");
-    showHideBtn(UI_MODAL.btnBack, "show");
-
-    UI_MODAL.enterFieldModal.addEventListener("input", actionInputSignIn);
-    UI_MODAL.btnBack.addEventListener("click", clickBtnBack);
-}
-
-// Клик по кнопке назад
-function clickBtnBack() {
-    showHideBtn(UI_MODAL.btnBack, "hide");
-    showHideBtn(UI_MODAL.btnSingIn, "hide");
-    showHideBtn(UI_MODAL.btnGiveCode, "show");
-    showHideBtn(UI_MODAL.btnEnterCode, "show");
-    renderModal(
-        MODAL_TITLE.authorization.title,
-        MODAL_TITLE.authorization.inputTitle,
-        MODAL_TITLE.authorization.placeholder
-    );
-    UI_MODAL.enterFieldModal.addEventListener("input", actionInputGetCode);
-    UI_MODAL.btnBack.removeEventListener("click", clickBtnBack);
-    clearField(UI_MODAL.enterFieldModal);
-    showNotificationModal();
+    if (
+        validateEmail(valueField) &&
+        !containsCyrillic(getValueField(UI_MODAL.enterFieldModal))
+    ) {
+        activeDisableBtn(UI_MODAL.btnGiveCode, "active");
+    } else {
+        activeDisableBtn(UI_MODAL.btnGiveCode, "disabled");
+    }
 }
 
 // Получить подтверждение авторизации кнопка ВОЙТИ
@@ -239,6 +237,18 @@ function getConfirmAuthorization() {
         });
 }
 
+// Действия при вводе в input подтверждения поля ВОЙТИ
+function actionInputSignIn() {
+    if (
+        isEmptyField(UI_MODAL.enterFieldModal) ||
+        containsCyrillic(getValueField(UI_MODAL.enterFieldModal))
+    ) {
+        activeDisableBtn(UI_MODAL.btnSingIn, "disabled");
+    } else {
+        activeDisableBtn(UI_MODAL.btnSingIn, "active");
+    }
+}
+
 // Смена имени
 function renameNickname() {
     if (isEmptyField(UI_MODAL.enterFieldModal)) return;
@@ -269,32 +279,6 @@ function renameNickname() {
             console.log(error);
             showNotificationModal("Настройки", "error");
         });
-}
-
-// Действия при вводе в input авторизации ПОЛУЧИТЬ КОД
-function actionInputGetCode() {
-    const valueField = getValueField(UI_MODAL.enterFieldModal);
-
-    if (
-        validateEmail(valueField) &&
-        !containsCyrillic(getValueField(UI_MODAL.enterFieldModal))
-    ) {
-        activeDisableBtn(UI_MODAL.btnGiveCode, "active");
-    } else {
-        activeDisableBtn(UI_MODAL.btnGiveCode, "disabled");
-    }
-}
-
-// Действия при вводе в input подтверждения поля ВОЙТИ
-function actionInputSignIn() {
-    if (
-        isEmptyField(UI_MODAL.enterFieldModal) ||
-        containsCyrillic(getValueField(UI_MODAL.enterFieldModal))
-    ) {
-        activeDisableBtn(UI_MODAL.btnSingIn, "disabled");
-    } else {
-        activeDisableBtn(UI_MODAL.btnSingIn, "active");
-    }
 }
 
 // Действия при вводе в input СМЕНЫ ИМЕНИ
@@ -440,7 +424,23 @@ function connectionWebSocket() {
     };
 }
 
-// Если токен не корректный не записывать в куки
+// Клик по кнопке назад
+function clickBtnBack() {
+    showHideBtn(UI_MODAL.btnBack, "hide");
+    showHideBtn(UI_MODAL.btnSingIn, "hide");
+    showHideBtn(UI_MODAL.btnGiveCode, "show");
+    showHideBtn(UI_MODAL.btnEnterCode, "show");
+    renderModal(
+        MODAL_TITLE.authorization.title,
+        MODAL_TITLE.authorization.inputTitle,
+        MODAL_TITLE.authorization.placeholder
+    );
+    UI_MODAL.enterFieldModal.addEventListener("input", actionInputGetCode);
+    UI_MODAL.btnBack.removeEventListener("click", clickBtnBack);
+    clearField(UI_MODAL.enterFieldModal);
+    showNotificationModal();
+}
+
 // Локалсторедж
 // Добавление сообщений из локалсторедж
 // функцию рендер
