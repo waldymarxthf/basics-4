@@ -1,4 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
+import Cookies from "js-cookie";
 import {
 	M_TEMPLATE,
 	UI_ELEMNTS,
@@ -7,8 +8,18 @@ import {
 	POPUP_LOGIN,
 	POPUP_CONFIRM,
 } from "./ui_elements";
-import { clearInput, getTime, validEmpty, ValidationError, setCookie } from "./utils";
+import { clearInput, getTime, validEmpty, ValidationError, setCookie, getCookie } from "./utils";
 import { getCode, getUserInfo, changeName, getHistory } from "./fetch";
+
+window.addEventListener("DOMContentLoaded", () => {
+	if (getCookie()) {
+		UI_ELEMNTS.POPUP_MAIN_MENU.showModal();
+	} else {
+		POPUP_LOGIN.POPUP_LOGIN_MENU.showModal();
+	}
+});
+// eslint-disable-next-line no-undef
+const socket = new WebSocket(`wss://edu.strada.one/websockets?${getCookie()}`);
 
 UI_ELEMNTS.MAIN_SETTINGS_BTN.addEventListener("click", () => {
 	POPUP_SETTINGS.SETTINGS_MENU.showModal();
@@ -30,34 +41,32 @@ POPUP_CONFIRM.POPUP_CONFIRM_MENU.addEventListener("click", (event) => {
 	}
 });
 
-function render(message) {
-	UI_ELEMNTS.SCREEN.append(message);
-}
-
-function createMessage(text) {
-	if (!localStorage.getItem("lastName")) {
-		localStorage.setItem("lastName", "I:");
-	}
-	M_TEMPLATE.SENDER.textContent = `${localStorage.getItem("lastName")}:`;
+function createMessage(name, email, text) {
+	M_TEMPLATE.SENDER.textContent = `${name}:`;
 	M_TEMPLATE.TIME.textContent = getTime();
+
 	if (validEmpty(text)) {
 		// eslint-disable-next-line no-alert, no-undef
 		alert("Please, enter some words)");
 		return;
 	}
-	clearInput();
 	M_TEMPLATE.TEXT.textContent = text;
+	clearInput();
 	const message = tmpl.content.cloneNode(true);
 	const targetElement = message.querySelector(".message-box");
-	targetElement.classList.add("message-box-I");
-	render(message);
+	if (email === "starcenkoboris2@gmail.com") {
+		targetElement.classList.add("message-box-I");
+	} else {
+		targetElement.classList.add("message-box-companion");
+	}
+	UI_ELEMNTS.SCREEN.append(message);
 	targetElement.scrollIntoView(false);
 }
 
-UI_ELEMNTS.FORM.addEventListener("submit", (event) => {
+function handlerMessage(event) {
 	event.preventDefault();
 	try {
-		createMessage(UI_ELEMNTS.INPUT.value);
+		socket.send(JSON.stringify({ text: UI_ELEMNTS.INPUT.value }));
 	} catch (err) {
 		if (err instanceof ValidationError) {
 			console.log(`Error: ${err.message}`);
@@ -65,7 +74,8 @@ UI_ELEMNTS.FORM.addEventListener("submit", (event) => {
 			throw err;
 		}
 	}
-});
+}
+UI_ELEMNTS.FORM.addEventListener("submit", handlerMessage);
 
 POPUP_LOGIN.LOGIN_BTN_GET.addEventListener("click", (event) => {
 	event.preventDefault();
@@ -79,15 +89,14 @@ POPUP_LOGIN.LOGIN_BTN_GET.addEventListener("click", (event) => {
 
 POPUP_CONFIRM.CONFIRM_FORM.addEventListener("submit", (event) => {
 	event.preventDefault();
-	if (POPUP_CONFIRM.CONFIRM_INPUT.value !== "") {
+	if (!getCookie()) {
 		UI_ELEMNTS.POPUP_MAIN_MENU.showModal();
 		POPUP_CONFIRM.POPUP_CONFIRM_MENU.close();
 		getUserInfo();
 		setCookie();
-	} else {
-		// eslint-disable-next-line no-alert, no-undef
-		alert("Enter your code)");
-	}
+	} else UI_ELEMNTS.POPUP_MAIN_MENU.showModal();
+	POPUP_CONFIRM.POPUP_CONFIRM_MENU.close();
+	getUserInfo();
 });
 
 POPUP_SETTINGS.SETTINGS_FORM.addEventListener("submit", (event) => {
@@ -104,30 +113,19 @@ POPUP_SETTINGS.SETTINGS_FORM.addEventListener("submit", (event) => {
 	}
 });
 
-window.addEventListener("DOMContentLoaded", () => {
-	try {
-		let lastName = localStorage.getItem("lastName");
-		if (!lastName) {
-			lastName = "I: ";
-			localStorage.setItem("lastName", lastName);
-		}
-	} catch (err) {
-		if (err instanceof ValidationError) {
-			// eslint-disable-next-line no-alert, no-undef
-			alert(`Некорректные данные: ${err.message}`);
-		} else if (err instanceof SyntaxError) {
-			// eslint-disable-next-line no-alert, no-undef
-			alert(`JSON Ошибка Синтаксиса: ${err.message}`);
-		} else {
-			throw err; // неизвестная ошибка, пробросить исключение (**)
-		}
-	}
-});
+socket.onmessage = async (event) => {
+	const data = JSON.parse(event.data);
+	createMessage(data.user.name, data.user.email, data.text);
+};
 
-window.addEventListener("DOMContentLoaded", async () => {
+async function showHistory() {
 	const history = await getHistory();
 	// eslint-disable-next-line no-plusplus
-	for (let i = 0; i < 300; i++) {
-		createMessage(history.messages[i].text);
+	for (let i = 1; i < 10; i++) {
+		createMessage(
+			history.messages[i].user.name,
+			history.messages[i].user.email,
+			history.messages[i].text,
+		);
 	}
-});
+}

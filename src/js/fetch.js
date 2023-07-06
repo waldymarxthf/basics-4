@@ -23,7 +23,6 @@ export async function getUserInfo() {
 		},
 	});
 	const result = await response.json();
-	console.log(result);
 	return result;
 }
 
@@ -50,5 +49,7 @@ export async function getHistory() {
 		},
 	});
 	const result = await response.json();
+	console.log(response);
+	console.log(result);
 	return result;
 }

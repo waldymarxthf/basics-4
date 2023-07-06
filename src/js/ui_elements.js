@@ -22,7 +22,7 @@ const POPUP_SETTINGS = {
 };
 
 const POPUP_LOGIN = {
-	POPUP_LOGIN_MENU: document.querySelector(".login-menu"),
+	POPUP_LOGIN_MENU: document.querySelector(".log-menu"),
 	LOGIN_FORM: document.querySelector(".log-menu_form"),
 	LOGIN_INPUT: document.querySelector(".log-menu_input"),
 	LOGIN_BTN_GET: document.querySelector(".log-menu_button_get"),
