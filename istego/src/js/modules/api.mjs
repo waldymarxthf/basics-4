@@ -16,7 +16,6 @@ async function getDataServer(url, method, moreHeader = null, value = null) {
             },
             body: value !== null ? JSON.stringify(value) : null,
         });
-
         const answer = await response.json();
         if (response.status === 200) {
             console.log(answer);
