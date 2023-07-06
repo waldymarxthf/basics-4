@@ -4,7 +4,7 @@ const getEl = (s) => document.querySelector(s);
 const dom = {
   // *****Variables**
   // Elements
-
+  main: getEl("main"),
   parentMessages: getEl(".chat-screen"),
   tape: getEl(".chat-tape"),
 
@@ -20,6 +20,7 @@ const dom = {
 
   btnSend: getEl(".btn-send"),
   btnSubmitCode: getEl(".btn-submit-code"),
+  btnSettings: getEl(".btn-settings"),
 
   templateUserMessage: getEl(".template-user-message"),
   templateOtherMessage: getEl(".template-other-message"),
@@ -27,6 +28,9 @@ const dom = {
   dialogAuth: getEl(".dialog-auth"),
   dialogConfirm: getEl(".dialog-confirm"),
   dialogSettings: getEl(".dialog-settings"),
+
+  errorSettings: getEl(".error-settings"),
+  errorAuth: getEl(".error-auth"),
 
   closeDialog(open = "") {
     this.dialogAuth.close();

@@ -148,6 +148,7 @@ header {
   font-size: 18px;
   color: rgb(108, 67, 244);
   margin-bottom: 10px;
+  padding-left: 10px;
 }
 
 dialog {
@@ -166,37 +167,75 @@ dialog {
 }
 
 .icon-enter {
-  font-size: 25px;
+  font-size: 32px;
   color: rgb(108, 67, 244);
+  padding-left: 2px;
 }
 
+.icon-get-code {
+  color: rgb(108, 67, 244);
+  font-size: 30px;
+  padding-bottom: 3px;
+}
+.icon-exit-settings,
+.icon-exit-confirm {
+  color: rgb(108, 67, 244);
+  font-size: 30px;
+  align-self: center;
+  margin-right: 18px;
+}
 #input-dialog-email,
 #input-dialog-confirm,
 #input-dialog-name {
   height: 35px;
   width: 180px;
 }
+
 .btn-get-code {
   height: 35px;
   padding-left: 5px;
 }
-.icon-get-code {
-  color: rgb(108, 67, 244);
-  font-size: 32px;
-  padding-bottom: 3px;
+
+.btn-ok {
+  align-self: center;
 }
+
 .form-nickname {
+  height: 50%;
+  width: 100%;
   display: flex;
-  align-items: self-start;
+  align-items: flex-start;
   justify-content: flex-start;
   flex-direction: column;
-  gap: 30px;
 }
-.dialog-form-wrapper {
+
+.error {
+  font-size: 14px;
+  color: red;
+}
+
+.error-settings {
+  height: 10%;
+  width: 100%;
+  padding-left: 11px;
+  padding-top: 10px;
+}
+.dialog-settings-header-wrap,
+.dialog-confirm-header-wrap {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  /* gap: 90px; */
+}
+
+.dialog-form-wrapper {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: self-start;
+  justify-content: flex-start;
+  padding-left: 11px;
+  gap: 5px;
 }
 .icon-ok {
   font-size: 25px;
@@ -247,11 +286,11 @@ button:active {
 .btn-submit-code {
   cursor: pointer;
   background-color: rgb(203, 166, 229);
-  border: none;
+  border: 1px solid rgb(108, 67, 244);
   border-radius: 5px;
   padding: 5px;
   align-self: flex-end;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
 }
 
 .input-btn-row {
