@@ -74,10 +74,12 @@ const enterCodeBtnHandler = (e) => {
 	inputCode.focus();
 };
 
-const enterConfirmationBtnHandler = (e) => {
+const enterConfirmationBtnHandler = async (e) => {
 	e.preventDefault();
 	const inputCodeValue = document.querySelector(".confirmation-input").value;
 	Cookies.set(apiVariables.tokenCookieName, inputCodeValue, { expires: 30 });
+	const user = await getUserInfoFetch();
+	Cookies.set(apiVariables.email, user.email, { expires: 30 });
 	variables.popup.style.display = "none";
 	variables.popupWindow.innerHTML = "";
 };
@@ -85,11 +87,16 @@ const enterConfirmationBtnHandler = (e) => {
 const nicknameBtnHandler = async (e) => {
 	e.preventDefault();
 	const token = Cookies.get(apiVariables.tokenCookieName);
+	const nickname = Cookies.get(apiVariables.nickname);
+	const messageNode = document.querySelector(".authorization-message");
 	if (!token) {
-		const messageNode = document.querySelector(".authorization-message");
 		messageNode.textContent = `Необходимо сначала авторизоваться`;
 		messageNode.classList.add("authorization-message-visible-wrong");
 		return;
+	}
+	if (!nickname) {
+		messageNode.textContent = `Необходимо ввести имя`;
+		messageNode.classList.add("authorization-message-visible-wrong");
 	}
 	const inputNicknameValue = document.querySelector(".nickname-input").value;
 	await changeNameFetch(inputNicknameValue);

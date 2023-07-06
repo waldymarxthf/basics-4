@@ -4,13 +4,14 @@ import { getTime, isEmpty } from "./utiles";
 import { popupSettings, popupAuthorization, theme } from "./popups";
 import { render } from "./DOM_render";
 import { getMessagesFetch } from "./api_requests";
+import { sendMessageByWs } from "./websocket";
 
 export const pop = "";
 
-function creatMessageNode({ createdAt, text, updatedAt, email, userNickname }) {
+export function creatMessageNode({ createdAt, text, updatedAt, userEmail, userNickname }) {
 	let messageTemplate = null;
-	const userEmail = Cookies.get(apiVariables.email);
-	if (email === userEmail) {
+	const myEmail = Cookies.get(apiVariables.email);
+	if (userEmail === myEmail) {
 		messageTemplate = variables.templateMyMessage.content.cloneNode(true);
 		messageTemplate.querySelector(".text").textContent = text;
 		messageTemplate.querySelector(".time").textContent = getTime();
@@ -23,7 +24,7 @@ function creatMessageNode({ createdAt, text, updatedAt, email, userNickname }) {
 	return messageTemplate;
 }
 
-function renderMessages(node) {
+export function renderMessages(node) {
 	variables.messagesField.append(...node);
 }
 
@@ -78,13 +79,18 @@ const btnSendingMessageHandler = (e) => {
 	const messageText = variables.inputForMessage.value;
 	variables.formForMessage.reset();
 	if (isEmpty(messageText)) return;
-	const message = creatMessageNode(messageText, "me");
-	renderMessages(message);
+	sendMessageByWs(messageText);
 	variables.messagesField.scrollTop += 1e9;
 };
 
-const exitBtnHandler = () => {
+const logoutBtnHandler = () => {
 	render(popupAuthorization, variables.popupWindow);
+	const authorizationMessageNode = document.querySelector(".authorization-message");
+	const token = Cookies.get(apiVariables.tokenCookieName);
+	if (!token) {
+		authorizationMessageNode.textContent = `Необходимо авторизоваться`;
+		authorizationMessageNode.classList.add("authorization-message-visible-wrong");
+	}
 	const inputEmail = document.querySelector(".email-input");
 	variables.popup.style.display = "flex";
 	inputEmail.focus();
@@ -94,4 +100,4 @@ variables.settingsBtn.addEventListener("click", settingsBtnHandler);
 
 variables.btnSendMessage.addEventListener("click", btnSendingMessageHandler);
 
-variables.exitEnterBtn.addEventListener("click", exitBtnHandler);
+variables.exitEnterBtn.addEventListener("click", logoutBtnHandler);
