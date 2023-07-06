@@ -31,7 +31,7 @@ import {
     changeIconBtn,
     showHidePreload,
     showNotificationModal,
-    containsCyrillic,
+    containsCyrillic
 } from "./modules/help-functions.mjs";
 import "emoji-picker-element";
 
@@ -314,7 +314,6 @@ function sendingMessage(event) {
     event.preventDefault();
     if (isEmptyField(UI.enterFieldChat)) return;
     socket.send(JSON.stringify({ text: getValueMessageForm() }));
-    // addMessage(getValueMessageForm(), 'istego', new Date(), CLASS.sendingMessage);
     clearField(UI.enterFieldChat);
     changeIconBtn(
         UI.enterFieldChat,
@@ -350,21 +349,7 @@ function renderHistory() {
         .then((result) => result.answer.messages)
         .then((messages) => {
             messages.reverse().map((message) => {
-                if (message.user.email === getCookie("email")) {
-                    addMessage(
-                        message.text,
-                        message.user.name,
-                        message.updatedAt,
-                        CLASS.sendingMessage
-                    );
-                } else {
-                    addMessage(
-                        message.text,
-                        message.user.name,
-                        message.updatedAt,
-                        CLASS.inboxMessage
-                    );
-                }
+                leftRightMessages(message);
             });
         });
 }
@@ -389,21 +374,7 @@ function connectionWebSocket() {
         const serverAnswer = JSON.parse(event.data);
         console.log(serverAnswer);
 
-        if (serverAnswer.user.email === getCookie("email")) {
-            addMessage(
-                serverAnswer.text,
-                serverAnswer.user.name,
-                serverAnswer.updatedAt,
-                CLASS.sendingMessage
-            );
-        } else {
-            addMessage(
-                serverAnswer.text,
-                serverAnswer.user.name,
-                serverAnswer.updatedAt,
-                CLASS.inboxMessage
-            );
-        }
+        leftRightMessages(serverAnswer);
     };
 
     socket.onclose = function (event) {
@@ -438,6 +409,25 @@ function clickBtnBack() {
     UI_MODAL.btnBack.removeEventListener("click", clickBtnBack);
     clearField(UI_MODAL.enterFieldModal);
     showNotificationModal();
+}
+
+// Распределение сообщений налево или право 
+function leftRightMessages(data) {
+    if (data.user.email === getCookie("email")) {
+        addMessage(
+            data.text,
+            data.user.name,
+            data.updatedAt,
+            CLASS.sendingMessage
+        );
+    } else {
+        addMessage(
+            data.text,
+            data.user.name,
+            data.updatedAt,
+            CLASS.inboxMessage
+        );
+    }
 }
 
 // Локалсторедж

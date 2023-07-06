@@ -166,5 +166,5 @@ export {
     correctDate,
     changeIconBtn,
     showNotificationModal,
-    containsCyrillic
+    containsCyrillic,
 };
