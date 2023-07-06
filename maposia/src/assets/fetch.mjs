@@ -1,7 +1,7 @@
-import VARIABLES from "./varibles.mjs";
+import { VARIABLES, BLOCKS } from "./varibles.mjs";
 import Cookies from "js-cookie";
 
-async function sendAuthCode() {
+async function getAuthCode() {
   const userData = {
     email: VARIABLES.ELEMENTS.AUTH.INPUT.value
   }
@@ -16,19 +16,17 @@ async function sendAuthCode() {
     });
     if (response.ok) {
       let result = await response
-      console.log(result)
+      BLOCKS.AUTH.classList.add('hide')
+      BLOCKS.VERIFICATION.classList.remove('hide')
     } else {
       throw new Error('Request failed with status ' + response.status)
     }
-
   } catch (error) {
     console.error('Error:', error.message)
   }
-
-
 }
 
-async function getUserInfo() {
+async function getUserData() {
   const token = Cookies.get('token')
   const url = 'https://edu.strada.one/api/user/me'
   try {
@@ -40,6 +38,7 @@ async function getUserInfo() {
     })
     if (response.ok) {
       let result = await response.json()
+      return console.log(result)
     } else {
       throw new Error('Request failed with status ' + response.status)
     }
@@ -49,7 +48,7 @@ async function getUserInfo() {
 }
 
 
-async function changeName() {
+async function setUserData() {
   const token = Cookies.get('token');
   const newName = VARIABLES.ELEMENTS.SETTING.INPUT.value;
   const data = {name: newName};
@@ -66,7 +65,7 @@ async function changeName() {
     if (response.ok) {
       VARIABLES.ELEMENTS.MAIN_USERNAME.textContent = newName;
       VARIABLES.ELEMENTS.SETTING.INPUT.value = '';
-      Cookies.set('username', newName)
+      Cookies.set('name', newName)
     } else {
       throw new Error('Request failed with status ' + response.status)
     }
@@ -97,4 +96,29 @@ async function loadChatData() {
   }
 }
 
-export { sendAuthCode, getUserInfo, changeName, loadChatData }
+async function authorization(token) {
+  const url = 'https://edu.strada.one/api/user/me'
+  try {
+    let response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    if (response.ok) {
+      let result = await response.json()
+      Cookies.set('token', token)
+      Cookies.set('name', result.name)
+      Cookies.set('email', result.email)
+      VARIABLES.ELEMENTS.AUTH.NODE.close();
+      return response
+    } else {
+      throw new Error('Request failed with status ' + response.status)
+    }
+
+  } catch (error) {
+    console.error('Error:', error.message)
+  }
+}
+
+export { getAuthCode, setUserData, loadChatData, authorization }

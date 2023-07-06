@@ -1,8 +1,8 @@
 const MESSAGES = {
   ERRORS: {
-    NAME_REQUIRED: 'Please enter your name',
-    EMAIL_REQUIRED: 'Please enter your email',
-    EMAIL_INVALID: 'Please enter a correct email address format'
+    NAME_REQUIRED: 'Пожалуйста, введите имя',
+    EMAIL_REQUIRED: 'Пожалуйста, введите email',
+    EMAIL_INVALID: 'Почта была введена не корректна'
   },
   SUCCESS:
       {
