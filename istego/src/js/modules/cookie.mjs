@@ -8,8 +8,8 @@ function getCookie(name) {
     return Cookies.get(name);
 }
 
-function removeCkookie(name) {
+function removeCookie(name) {
     Cookies.remove(name);
 }
 
-export { setCookie, getCookie, removeCkookie };
+export { setCookie, getCookie, removeCookie };

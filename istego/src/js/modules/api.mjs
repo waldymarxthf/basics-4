@@ -1,4 +1,4 @@
-import { getCookie } from "./ckookie.mjs";
+import { getCookie } from "./cookie.mjs";
 import { showHidePreload } from "./help-functions.mjs";
 import { URL, API_METHOD } from "./variables.mjs";
 

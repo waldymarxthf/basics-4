@@ -10,7 +10,7 @@ import {
     URL,
     API_METHOD,
 } from "./modules/variables.mjs";
-import { setCookie, getCookie, removeCkookie } from "./modules/ckookie.mjs";
+import { setCookie, getCookie, removeCookie } from "./modules/cookie.mjs";
 import { getDataServer } from "./modules/api.mjs";
 import {
     modalDelegationClick,
@@ -223,7 +223,7 @@ function getConfirmAuthorization() {
                 showNotificationModal();
             } else if (answer.status === "false") {
                 console.log(answer);
-                removeCkookie("token");
+                removeCookie("token");
                 showNotificationModal(
                     MODAL_TITLE.confirmation.title,
                     "errorCode"
@@ -293,9 +293,9 @@ function actionInputRename() {
 
 // Выход из чата
 function leaveTheChat() {
-    removeCkookie("token");
-    removeCkookie("nickname");
-    removeCkookie("email");
+    removeCookie("token");
+    removeCookie("nickname");
+    removeCookie("email");
     socket.close(1000, "работа закончена");
     chekAuthorization();
     renderModal(
@@ -445,4 +445,3 @@ function clickBtnBack() {
 // Добавление сообщений из локалсторедж
 // функцию рендер
 // обработка ctrl + enter и shift + enter для переноса строки.
-// Поправить рендер никнейма
