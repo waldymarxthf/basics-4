@@ -22,22 +22,27 @@ export function addClassToMessage(sender) {
 
 // * функция создания сообщения
 
-export function createMessage(userName, text, time, email) {
+export function createMessage({ userName, text, time, email }) {
 	const sender = email === Cookies.get("email") ? "I" : "COMPANION";
-	const message = VARIABLES.MESSAGE_TEMPLATE.content.cloneNode(true);
+	addClassToMessage(sender);
 	MESSAGE.SENDER.textContent = userName;
 	MESSAGE.TEXT.textContent = text;
-	MESSAGE.TIME.textContent = getCurrentTime(time);
-	addClassToMessage(sender);
-	addMessage(message);
+	MESSAGE.TIME.textContent = time;
+	const message = VARIABLES.MESSAGE_TEMPLATE.content.cloneNode(true);
+	return message;
 }
 
 // * функция рендера сообщений
 
 export async function renderMessages() {
 	const messagesData = await getMessageHistory();
-	const messages = messagesData.revers().forEach((element) => {
-		createMessage(element.user.name, element.text, getCurrentTime(element.createdAt));
+	const messages = messagesData.messages.reverse().forEach((element) => {
+		return createMessage({
+			userName: element.user.name,
+			text: element.text,
+			time: getCurrentTime(element.createdAt),
+			email: element.user.email,
+		});
 	});
 	VARIABLES.CHAT_SCREEN.append(...messages);
 }

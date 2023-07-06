@@ -67,11 +67,11 @@ async function handleSendMessageForm(event) {
 	}
 }
 
-function authorization() {
-	MODAL.AUTHORIZATION.DIALOG.showModal();
-}
+// function authorization() {
+// 	MODAL.AUTHORIZATION.DIALOG.showModal();
+// }
 
-document.addEventListener("DOMContentLoaded", authorization);
+// document.addEventListener("DOMContentLoaded", authorization);
 
 MODAL.AUTHORIZATION.FORM.addEventListener("submit", handleAuthenticationForm);
 MODAL.VERIFICATION.FORM.addEventListener("submit", handleVerificationForm);

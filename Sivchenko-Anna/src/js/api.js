@@ -83,8 +83,7 @@ export async function getMessageHistory() {
 			console.log("Error from the server with getMessageHistory");
 		}
 		const data = await response.json();
-		console.log(data);
-		return data.messages;
+		return data;
 	} catch (err) {
 		console.log(err.message);
 		return false;
