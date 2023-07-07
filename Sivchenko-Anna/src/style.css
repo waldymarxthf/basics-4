@@ -179,3 +179,15 @@ body {
 .input-settings {
 	width: 85%;
 }
+
+.invalid-email {
+	border: 1px solid red;
+}
+
+.valid-email {
+	border: 1px solid green;
+}
+
+.hidden {
+	display: none;
+}

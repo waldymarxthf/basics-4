@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 import { VARIABLES, MODAL, MESSAGE } from "./variables.js";
-import { clearInput, modalChange, isMessageEmpty, getCurrentTime } from "./utils.js";
+import { clearInput, modalChange, isMessageEmpty, getCurrentTime, isEmailValid } from "./utils.js";
 import { receiveCodeByEmail, getUserDataRequest, changeUserName } from "./api.js";
 import { createMessage, addMessage, renderMessages } from "./message.js";
 
@@ -8,8 +8,16 @@ async function handleAuthenticationForm(event) {
 	try {
 		event.preventDefault();
 		const email = MODAL.AUTHORIZATION.EMAIL.value;
-		await receiveCodeByEmail(email);
-		modalChange(MODAL.AUTHORIZATION.DIALOG, MODAL.VERIFICATION.DIALOG);
+		if (isEmailValid(email)) {
+			await receiveCodeByEmail(email);
+			MODAL.AUTHORIZATION.EMAIL.classList.toggle("valid-email");
+			MODAL.AUTHORIZATION.BTN_ENTER.removeAttribute("disabled");
+			MODAL.AUTHORIZATION.BTN_GET.setAttribute("disabled", true);
+		} else {
+			MODAL.AUTHORIZATION.EMAIL.classList.add("invalid-email");
+			console.log("Неверный email");
+		}
+		// modalChange(MODAL.AUTHORIZATION.DIALOG, MODAL.VERIFICATION.DIALOG);
 	} catch (err) {
 		console.log(err.message);
 	}
@@ -67,16 +75,14 @@ async function handleSendMessageForm(event) {
 	}
 }
 
-// function authorization() {
-// 	MODAL.AUTHORIZATION.DIALOG.showModal();
-// }
-
-// document.addEventListener("DOMContentLoaded", authorization);
-
 MODAL.AUTHORIZATION.FORM.addEventListener("submit", handleAuthenticationForm);
 MODAL.VERIFICATION.FORM.addEventListener("submit", handleVerificationForm);
 MODAL.SETTINGS.FORM.addEventListener("submit", handleSettinsForm);
 VARIABLES.MESSAGE_FORM.addEventListener("submit", handleSendMessageForm);
+
+MODAL.AUTHORIZATION.BTN_ENTER.addEventListener("click", () =>
+	modalChange(MODAL.AUTHORIZATION.DIALOG, MODAL.VERIFICATION.DIALOG),
+);
 
 VARIABLES.SETTINGS_BTN.addEventListener("click", () => {
 	MODAL.SETTINGS.DIALOG.showModal();
@@ -86,3 +92,9 @@ VARIABLES.SETTINGS_BTN.addEventListener("click", () => {
 MODAL.SETTINGS.BTN_CLOSE.addEventListener("click", () => {
 	MODAL.SETTINGS.DIALOG.close();
 });
+
+function authorization() {
+	MODAL.AUTHORIZATION.DIALOG.showModal();
+}
+
+document.addEventListener("DOMContentLoaded", authorization);
