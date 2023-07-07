@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { creatMessageNode } from "./message";
+import { creatMessageNode, processData } from "./message";
 import { apiVariables, variables } from "./ui_variables";
 import { popupAuthorization } from "./popups";
 import { render } from "./DOM_render";
@@ -11,19 +11,7 @@ const gettingMessageHandler = (event) => {
 	try {
 		const data = JSON.parse(event.data);
 		console.log(data);
-		const {
-			createdAt,
-			text,
-			updatedAt,
-			user: { email, name },
-		} = data;
-		const processedData = {
-			createdAt,
-			text,
-			updatedAt,
-			userEmail: email,
-			userNickname: name,
-		};
+		const processedData = processData(data);
 		const messageNode = creatMessageNode(processedData);
 		variables.messagesField.append(messageNode);
 		variables.messagesField.scrollTop += 1e9;

@@ -305,17 +305,17 @@ button {
 }
 
 .authorization-message {
-	display: none;
-	margin-top: 10px;
+	opacity: 0;
+	margin-top: 5px;
 }
 
 .authorization-message-visible-ok {
-	display: block;
+	opacity: 1;
 	color: rgb(0, 226, 0);
 }
 
 .authorization-message-visible-wrong {
-	display: block;
+	opacity: 1;
 	color: rgb(255, 42, 42);
 }
 

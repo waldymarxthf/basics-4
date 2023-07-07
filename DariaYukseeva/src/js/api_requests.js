@@ -44,14 +44,14 @@ export async function changeNameFetch(name) {
 	}
 }
 
-export async function getUserInfoFetch() {
+export async function getUserInfoFetch(token) {
 	const url = "https://edu.strada.one/api/user/me";
 	try {
 		const respons = await fetch(url, {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json;charset=utf-8",
-				Authorization: `Bearer ${Cookies.get(apiVariables.tokenCookieName)}`,
+				Authorization: `Bearer ${token}`,
 			},
 		});
 		const data = await respons.json();

@@ -53,9 +53,8 @@ const getCodeBtnHandler = async (e) => {
 	const authorizationMessageNode = document.querySelector(".authorization-message");
 	if (emailValidate(inputEmailValue)) {
 		const answer = await codeFetch(inputEmailValue);
-		// console.log(answer);
 		if (answer === true) {
-			authorizationMessageNode.textContent = "Проверьте email";
+			authorizationMessageNode.textContent = "Код отправлен на email";
 			authorizationMessageNode.classList.remove("authorization-message-visible-wrong");
 			authorizationMessageNode.classList.add("authorization-message-visible-ok");
 		} else {
@@ -81,11 +80,17 @@ const enterConfirmationBtnHandler = async (e) => {
 	e.preventDefault();
 	const nickname = Cookies.get(apiVariables.nickname);
 	const inputCodeValue = document.querySelector(".confirmation-input").value;
+	const user = await getUserInfoFetch(inputCodeValue);
+	console.log(user);
+	if (user === false || user.message === "Authentication failed!") {
+		const messageNode = document.querySelector(".authorization-message");
+		messageNode.textContent = `Неверный код`;
+		messageNode.classList.add("authorization-message-visible-wrong");
+		return;
+	}
 	Cookies.set(apiVariables.tokenCookieName, inputCodeValue, { expires: 30 });
-	const user = await getUserInfoFetch();
 	Cookies.set(apiVariables.email, user.email, { expires: 30 });
 	if (!nickname) {
-		console.log("name?!");
 		variables.popup.style.display = "none";
 		variables.popupWindow.innerHTML = "";
 		render(popupSettings, variables.popupWindow);
@@ -118,7 +123,7 @@ const nicknameBtnHandler = async (e) => {
 	}
 	const inputNicknameValue = document.querySelector(".nickname-input").value;
 	await changeNameFetch(inputNicknameValue);
-	const user = await getUserInfoFetch();
+	const user = await getUserInfoFetch(token);
 	Cookies.set(apiVariables.nickname, user.name, { expires: 30 });
 	variables.popup.style.display = "none";
 	variables.popupWindow.innerHTML = "";
@@ -252,6 +257,9 @@ export const popupConfirmation = [
 		content: [
 			new Div({ content: "Код:" }),
 			new Input({ className: "confirmation-input" }),
+			new Div({
+				className: "authorization-message",
+			}),
 			new Button({
 				className: "popup-enter-btn",
 				attribute: "type",
