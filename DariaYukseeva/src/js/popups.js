@@ -16,7 +16,7 @@ import { variables, apiVariables } from "./ui_variables";
 import { saveToLocalStorage, loadFromLocalStorage, emailValidate } from "./utiles";
 import { codeFetch, changeNameFetch, getUserInfoFetch } from "./api_requests";
 import { closeConnectionWs, connectWs } from "./websocket";
-import { showMessageHistory } from "./ui";
+import { showMessageHistory } from "./message";
 
 export let theme = loadFromLocalStorage("chatAppTheme") || "light";
 
@@ -120,7 +120,6 @@ const nicknameBtnHandler = async (e) => {
 	await changeNameFetch(inputNicknameValue);
 	const user = await getUserInfoFetch();
 	Cookies.set(apiVariables.nickname, user.name, { expires: 30 });
-	// Cookies.set(apiVariables.email, user.email, { expires: 30 });
 	variables.popup.style.display = "none";
 	variables.popupWindow.innerHTML = "";
 	closeConnectionWs();

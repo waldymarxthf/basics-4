@@ -9,6 +9,7 @@ export function loadFromLocalStorage(key) {
 		return JSON.parse(localStorage.getItem(key));
 	} catch (err) {
 		console.log(err);
+		return false;
 	}
 }
 

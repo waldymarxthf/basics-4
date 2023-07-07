@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { creatMessageNode } from "./ui";
+import { creatMessageNode } from "./message";
 import { apiVariables, variables } from "./ui_variables";
 import { popupAuthorization } from "./popups";
 import { render } from "./DOM_render";
