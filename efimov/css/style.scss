@@ -137,26 +137,46 @@ body {
       overflow-y: auto;
     }
     .myMassege {
-      background-color: #f6f6f6;
       text-align: right;
       padding: 10px;
-      word-wrap: break-word;
       flex-shrink: 0;
+      background-color: #f4effd;
+      margin-left: 5px;
+      margin-right: 5px;
+      margin-top: 5px;
+      margin-bottom: 5px;
+      border-radius: 10px;
       font-size: 16px;
+      word-wrap: break-word;
       .name {
         display: flex;
         font-family: NunitoBold;
         gap: 15px;
         justify-content: right;
       }
+      .text {
+        justify-content: right;
+        display: flex;
+        word-wrap: break-word;
+        .text-right {
+          max-width: 90%;
+          width: fit-content;
+          word-wrap: break-word;
+          text-align: left;
+        }
+      }
     }
-    .sent {
-      background-color: #f6f6f6;
-    }
+
     .companionMassege {
       text-align: left;
       padding: 10px;
       flex-shrink: 0;
+      background-color: #f4effd;
+      margin-left: 5px;
+      margin-right: 5px;
+      margin-top: 5px;
+      margin-bottom: 5px;
+      border-radius: 10px;
       word-wrap: break-word;
       font-size: 16px;
       .name {
@@ -164,6 +184,9 @@ body {
         display: flex;
         gap: 15px;
         justify-content: left;
+      }
+      .text-right {
+        max-width: 90%;
       }
     }
   }

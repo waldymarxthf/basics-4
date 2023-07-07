@@ -1,50 +1,9 @@
-import { Hours, Minutes } from "./date.js";
 import dom from "./dom.js";
 import { validateEmail } from "./validate.js";
 import axios from "axios";
 import Cookies from "js-cookie";
-
-dom.buttonLogOut.addEventListener("click", LogOut);
-function LogOut() {
-  Cookies.remove("code");
-  dom.chat.style.display = "none";
-  dom.register.style.display = "block";
-}
-
-function onstart() {
-  console.log(Cookies.get("code"));
-  if (Cookies.get("code") != undefined) {
-    dom.register.style.display = "none";
-    dom.confirm.style.display = "none";
-    dom.chat.style.display = "block";
-    zapros();
-  }
-}
-
-function zapros() {
-  axios.defaults.headers.common["Authorization"] = `Bearer ${Cookies.get(
-    "code"
-  )}`;
-  axios
-    .get("https://edu.strada.one/api/messages/ ")
-    .then((response) => {
-      showMassages(response.data.messages);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-}
-
-function showMassages(massages) {
-  massages.forEach((massage) => {
-    console.log(massage);
-    let myMassege = document.createElement("div");
-    myMassege.classList.add("companionMassege");
-    myMassege.innerHTML = `<div class='name'>${massage.user.name}<div class='time'>${massage.createdAt[11]}${massage.createdAt[12]}:${massage.createdAt[14]}${massage.createdAt[15]}</div></div>${massage.text}`;
-    dom.place.append(myMassege);
-    dom.place.scrollTo({ top: 9999999999 });
-  });
-}
+import { showComponentMassages } from "./rendermassages.js";
+import { askMassages } from "./rendermassages.js";
 
 dom.cross.addEventListener("click", () => {
   dom.register.style.display = "none";
@@ -53,34 +12,53 @@ dom.cross.addEventListener("click", () => {
   dom.settings.style.display = "none";
 });
 
+dom.buttonLogOut.addEventListener("click", () => {
+  Cookies.remove("code");
+  Cookies.remove("name");
+  dom.chat.style.display = "none";
+  dom.register.style.display = "block";
+  window.location.reload();
+});
+
+const socket = new WebSocket(
+  `wss://edu.strada.one/websockets?${Cookies.get("code")}`
+);
+
+function onstart() {
+  console.log(Cookies.get("code"));
+  if (Cookies.get("code") != undefined) {
+    dom.register.style.display = "none";
+    dom.confirm.style.display = "none";
+    dom.chat.style.display = "block";
+    askMassages();
+    newMassages();
+  }
+}
+
+function newMassages() {
+  socket.onmessage = function (event) {
+    console.log(event.data);
+    showComponentMassages(event.data);
+  };
+}
+
 dom.form.addEventListener("submit", (e) => {
   e.preventDefault();
   if (dom.input.value != "") {
-    createMassege();
+    socket.send(JSON.stringify({ text: `${dom.input.value}` }));
   }
 });
-
-function createMassege() {
-  let myMassege = document.createElement("div");
-  myMassege.classList.add("myMassege");
-  myMassege.innerHTML = `<div class='name'>Я<div class='time'>${Hours}:${Minutes}</div></div>${dom.input.value}`;
-  dom.place.append(myMassege);
-  dom.place.scrollTo({ top: 9999999999, behavior: "smooth" });
-}
 
 dom.buttonNext.addEventListener("click", sendCode);
 function sendCode() {
   if (dom.inputEmail.value !== "" && validateEmail(dom.inputEmail.value)) {
-    const url = "https://edu.strada.one/api/user";
     const data = { email: dom.inputEmail.value };
-
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
+    axios
+      .post("https://edu.strada.one/api/user", data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
       .then(() => {
         dom.register.style.display = "none";
         dom.confirm.style.display = "block";
@@ -99,10 +77,11 @@ dom.crossback.addEventListener("click", () => {
 dom.buttonGo.addEventListener("click", () => {
   const code = `${dom.inputCode.value}`;
   Cookies.set("code", code);
-  zapros();
+  askMassages();
   dom.register.style.display = "none";
   dom.confirm.style.display = "none";
-  dom.chat.style.display = "block";
+  dom.settings.style.display = "block";
+  dom.chat.style.display = "none";
 });
 
 dom.buttonsettings.addEventListener("click", () => {
@@ -111,6 +90,7 @@ dom.buttonsettings.addEventListener("click", () => {
 });
 
 dom.changeName.addEventListener("click", () => {
+  Cookies.set("name", dom.inputName.value);
   console.log(dom.inputName.value);
   if (dom.inputName.value != "") {
     axios.defaults.headers.common["Authorization"] = `Bearer ${Cookies.get(
@@ -118,14 +98,15 @@ dom.changeName.addEventListener("click", () => {
     )}`;
     axios
       .patch("https://edu.strada.one/api/user", {
-        name: `${dom.inputName.value}`,
+        name: `${Cookies.get("name")}`,
       })
       .then((response) => {
         console.log(response.data);
         dom.register.style.display = "none";
         dom.confirm.style.display = "none";
-        dom.chat.style.display = "block";
         dom.settings.style.display = "none";
+        dom.chat.style.display = "block";
+        window.location.reload();
       })
       .catch((error) => {
         console.error(error);
