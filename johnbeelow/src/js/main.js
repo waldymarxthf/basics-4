@@ -1,7 +1,6 @@
 import {
   UI_ELEMENTS,
   clearInput,
-  replaceIcon,
   showModal,
   updateScroll,
   showLoader,
@@ -12,7 +11,7 @@ import { cookies } from './module/storage.js'
 
 import { handleContentLoaded } from './module/logic.js'
 
-import { updateSocket } from './module/websocket.js'
+import { updateWebSocket, closeWebSocket } from './module/websocket.js'
 
 import { validationEmail } from './module/ui_components.js'
 
@@ -24,7 +23,7 @@ window.addEventListener('offline', showLoader.offline)
 
 UI_ELEMENTS.INPUT_FORM.addEventListener('submit', (event) => {
   event.preventDefault()
-  updateSocket(UI_ELEMENTS.INPUT_TEXT.value)
+  updateWebSocket(UI_ELEMENTS.INPUT_TEXT.value)
   clearInput(event)
   updateScroll()
 })
@@ -49,7 +48,7 @@ UI_ELEMENTS.ENTER_CODE_BTN.addEventListener('click', (event) => {
 UI_ELEMENTS.ENTER_MESSENGER.addEventListener('click', (event) => {
   cookies.saveCode(UI_ELEMENTS.VALIDATION_INPUT_TEXT.value)
   showModal.clear(event)
-  replaceIcon(UI_ELEMENTS.EXIT_BTN, UI_ELEMENTS.ENTER_BTN)
+  location.reload()
 })
 
 UI_ELEMENTS.GET_CODE.addEventListener('click', (event) => {
@@ -64,3 +63,9 @@ UI_ELEMENTS.INPUT_SETTING_FORM.addEventListener('submit', (event) => {
   changeUserName(UI_ELEMENTS.INPUT_SETTING_TEXT.value)
 })
 
+UI_ELEMENTS.EXIT_BTN.addEventListener('click', () => {
+  cookies.removeCode()
+  cookies.removeEmail()
+  closeWebSocket()
+  location.reload()
+})

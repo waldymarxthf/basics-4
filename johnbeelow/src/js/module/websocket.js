@@ -1,17 +1,17 @@
-import { cookies } from './storage.js'
 import { parseMessage } from './logic.js'
 
+let socket = null
 
-const updateSocket = (message) => {
-  const url = 'wss://edu.strada.one/websockets'
-  const token = cookies.getCode()
-  const socket = new WebSocket(`${url}?${token}`)
+const createWebSocket = (token) => {
+  let url = 'wss://edu.strada.one/websockets'
+  socket = new WebSocket(`${url}?${token}`)
 
   socket.onopen = () => {
-    socket.send(JSON.stringify({ text: message }))
+    console.log('[open] Соединение установлено')
   }
 
   socket.onmessage = (event) => {
+    console.log(`[message] Данные получены с сервера: ${event.data}`)
     const data = JSON.parse(event.data)
     parseMessage(data)
   }
@@ -33,4 +33,12 @@ const updateSocket = (message) => {
   }
 }
 
-export { updateSocket }
+const updateWebSocket = (message) => {
+  socket.send(JSON.stringify({ text: message }))
+}
+
+const closeWebSocket = () => {
+  socket.close()
+}
+
+export { createWebSocket, updateWebSocket, closeWebSocket }
