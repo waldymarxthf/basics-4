@@ -51,7 +51,6 @@ function createMessage(name, email, text) {
 		return;
 	}
 	M_TEMPLATE.TEXT.textContent = text;
-	clearInput();
 	const message = tmpl.content.cloneNode(true);
 	const targetElement = message.querySelector(".message-box");
 	if (email === "starcenkoboris2@gmail.com") {
@@ -67,6 +66,7 @@ function handlerMessage(event) {
 	event.preventDefault();
 	try {
 		socket.send(JSON.stringify({ text: UI_ELEMNTS.INPUT.value }));
+		clearInput();
 	} catch (err) {
 		if (err instanceof ValidationError) {
 			console.log(`Error: ${err.message}`);
@@ -118,14 +118,25 @@ socket.onmessage = async (event) => {
 	createMessage(data.user.name, data.user.email, data.text);
 };
 
-async function showHistory() {
+let startIndex = 0;
+let endIndex = 20;
+async function loadNewMessages() {
 	const history = await getHistory();
+	if (endIndex > 300) {
+		endIndex = 300;
+	}
+	const objects = history.messages.slice(startIndex, endIndex);
+	startIndex += 20;
+	endIndex += 20;
+
 	// eslint-disable-next-line no-plusplus
-	for (let i = 1; i < 10; i++) {
-		createMessage(
-			history.messages[i].user.name,
-			history.messages[i].user.email,
-			history.messages[i].text,
-		);
+	for (let i = 0; i < objects.length; i++) {
+		createMessage(objects[i].user.name, objects[i].user.email, objects[i].text);
 	}
 }
+
+UI_ELEMNTS.SCREEN.addEventListener("scroll", function () {
+	if (UI_ELEMNTS.SCREEN.scrollTop === 0) {
+		loadNewMessages();
+	}
+});

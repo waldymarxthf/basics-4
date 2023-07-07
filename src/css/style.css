@@ -81,7 +81,7 @@ padding-left: 8px;
 padding-right: 8px;
 }
 .wrap{
-  min-height: 437px;
+  height: 437px;
   justify-content: end;
   display: flex;
   flex-direction: column;
