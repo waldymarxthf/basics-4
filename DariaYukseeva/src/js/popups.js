@@ -15,6 +15,8 @@ import {
 import { variables, apiVariables } from "./ui_variables";
 import { saveToLocalStorage, loadFromLocalStorage, emailValidate } from "./utiles";
 import { codeFetch, changeNameFetch, getUserInfoFetch } from "./api_requests";
+import { closeConnectionWs, connectWs } from "./websocket";
+import { showMessageHistory } from "./ui";
 
 export let theme = loadFromLocalStorage("chatAppTheme") || "light";
 
@@ -54,6 +56,7 @@ const getCodeBtnHandler = async (e) => {
 		// console.log(answer);
 		if (answer === true) {
 			authorizationMessageNode.textContent = "Проверьте email";
+			authorizationMessageNode.classList.remove("authorization-message-visible-wrong");
 			authorizationMessageNode.classList.add("authorization-message-visible-ok");
 		} else {
 			console.log(answer);
@@ -76,15 +79,30 @@ const enterCodeBtnHandler = (e) => {
 
 const enterConfirmationBtnHandler = async (e) => {
 	e.preventDefault();
+	const nickname = Cookies.get(apiVariables.nickname);
 	const inputCodeValue = document.querySelector(".confirmation-input").value;
 	Cookies.set(apiVariables.tokenCookieName, inputCodeValue, { expires: 30 });
 	const user = await getUserInfoFetch();
 	Cookies.set(apiVariables.email, user.email, { expires: 30 });
+	if (!nickname) {
+		console.log("name?!");
+		variables.popup.style.display = "none";
+		variables.popupWindow.innerHTML = "";
+		render(popupSettings, variables.popupWindow);
+		const inputNickname = document.querySelector(".nickname-input");
+		const messageNode = document.querySelector(".authorization-message");
+		messageNode.textContent = `Необходимо ввести имя`;
+		messageNode.classList.add("authorization-message-visible-wrong");
+		variables.popup.style.display = "flex";
+		inputNickname.focus();
+		return;
+	}
 	variables.popup.style.display = "none";
 	variables.popupWindow.innerHTML = "";
 };
 
 const nicknameBtnHandler = async (e) => {
+	// debugger;
 	e.preventDefault();
 	const token = Cookies.get(apiVariables.tokenCookieName);
 	const nickname = Cookies.get(apiVariables.nickname);
@@ -102,9 +120,13 @@ const nicknameBtnHandler = async (e) => {
 	await changeNameFetch(inputNicknameValue);
 	const user = await getUserInfoFetch();
 	Cookies.set(apiVariables.nickname, user.name, { expires: 30 });
-	Cookies.set(apiVariables.email, user.email, { expires: 30 });
+	// Cookies.set(apiVariables.email, user.email, { expires: 30 });
 	variables.popup.style.display = "none";
 	variables.popupWindow.innerHTML = "";
+	closeConnectionWs();
+	connectWs(token);
+	showMessageHistory();
+	variables.messagesField.scrollTop += 1e9;
 };
 
 export const popupSettings = [

@@ -14,7 +14,7 @@ export function creatMessageNode({ createdAt, text, updatedAt, userEmail, userNi
 	if (userEmail === myEmail) {
 		messageTemplate = variables.templateMyMessage.content.cloneNode(true);
 		messageTemplate.querySelector(".text").textContent = text;
-		messageTemplate.querySelector(".time").textContent = getTime();
+		messageTemplate.querySelector(".time").textContent = getTime(createdAt);
 	} else {
 		messageTemplate = variables.templateOutsideMessage.content.cloneNode(true);
 		messageTemplate.querySelector(".nickname").textContent = userNickname;
