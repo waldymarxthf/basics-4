@@ -31,6 +31,9 @@ const dom = {
 
   errorSettings: getEl(".error-settings"),
   errorAuth: getEl(".error-auth"),
+  notice: getEl(".notice"),
+
+  authWrapper: getEl(".input-btn-row"),
 
   closeDialog(open = "") {
     this.dialogAuth.close();

@@ -47,6 +47,9 @@ footer {
 header {
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 }
 .btn-settings {
   padding-left: 20px;
@@ -69,16 +72,27 @@ header {
   height: 80%;
 }
 .chat-tape {
-  /* overflow-y: auto; */
+  scroll-behavior: smooth;
   gap: 15px;
   display: flex;
   align-items: flex-start;
   justify-content: end;
   flex-direction: column;
-  /* overflow-y: auto; */
+  overflow-y: auto;
   width: 100%;
   height: auto;
 }
+/* .chunk {
+  gap: 15px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: end;
+  flex-direction: column;
+
+  width: 100%;
+  height: auto;
+} */
+
 .message {
   width: 85%;
   border-radius: 5px;
@@ -110,6 +124,17 @@ header {
 .other-name {
   font-weight: 700px;
   color: rgb(255, 255, 255);
+}
+
+.notice {
+  border-radius: 8px;
+  text-align: center;
+  background-color: rgb(255, 255, 255);
+  width: 60%;
+  margin-left: 7px;
+  font: 8px;
+  font-weight: 700px;
+  color: rgb(9, 9, 9);
 }
 .template-other-message {
   display: flex;
@@ -284,13 +309,17 @@ button:active {
 }
 
 .btn-submit-code {
+  height: 40px;
+  width: 200px;
+  font-size: 20px;
+  color: rgb(108, 67, 244);
   cursor: pointer;
-  background-color: rgb(203, 166, 229);
+  background-color: rgb(242, 239, 244);
   border: 1px solid rgb(108, 67, 244);
   border-radius: 5px;
   padding: 5px;
   align-self: flex-end;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 15px rgba(247, 247, 247, 0.2);
 }
 
 .input-btn-row {
