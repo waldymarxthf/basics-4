@@ -171,26 +171,16 @@ function renderHistory(mode = "initial") {
   const html = strings.join("");
 
   dom.tape.insertAdjacentHTML("afterbegin", html);
-  // appendChunk(html);
+
   // Scroll down if the history download is at the chat openning
   if (mode === "initial") {
-    scrollToBottom();
+    setTimeout(scrollToBottom, 1000);
   }
 }
 
 function scrollToBottom() {
   dom.parentMessages.scrollTo(0, dom.parentMessages.scrollHeight);
 }
-
-// apend to tape
-// function appendChunk(html) {
-//   let chunk = document.createElement("div");
-//   chunk.classList.add("chunk");
-//   chunk.innerHTML += html;
-//   dom.tape.append(chunk);
-// }
-
-// render (add to html) another element of an array
 
 function prepareHTML(obj) {
   if (obj.email !== userEmail) {
@@ -234,6 +224,8 @@ function connect(token) {
     };
     socket.onerror = (error) => {
       reject(error);
+      disonnect();
+      connect(token);
     };
   });
 }
@@ -255,25 +247,11 @@ async function sendUserMessage(event) {
     console.error(error);
   } finally {
     dom.inputMessage.value = "";
+    setTimeout(scrollToBottom, 100);
   }
 }
 
-// function senseTopMargin() {
-//   let topMarginApproach = dom.tape.getBoundingClientRect().bottom - 300;
-//   console.log("scrolling", scrollY);
-//   if (dom.tape.scrollTop) console.log("top");
-//   console.log(topMarginApproach);
-// }
-
-//%%%%%%%%%%%%%%%%%%%%%%%%%%%  Listeners  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-// dom.tape.addEventListener(
-//   "scroll",
-//   function (e) {
-//     console.log(scro);
-//   },
-//   true
-// );
+//&&&&&&&&&&&&&&&&&&&&&& LISTENERS &&&&&&&&&&&&&&&&&&&&&&
 
 dom.tape.addEventListener(
   "scroll",
@@ -284,8 +262,6 @@ dom.tape.addEventListener(
 );
 
 dom.parentMessages.addEventListener("scroll", function (e) {
-  // document.querySelector(".other-name").innerText =
-  //   "window.scrollY: " + window.scrollY;
   const approach = 0;
   const scrollSpot = dom.tape.offsetTop - dom.parentMessages.scrollTop;
   if (scrollSpot >= approach) {
@@ -356,10 +332,10 @@ dom.main.addEventListener("click", (event) => {
 
 // UI:
 // check for unconnected ws: ws reconnect
-// Feat: loading 20 messages at at time controlled by the scroll event
+
 // Ref: Listeners
 // Errors UI
 
 // Bugs:
 
-// DONE today: local time bug fixed, update scroll fix, Dialogs - UI and logic improved, Auth input non empty
+// DONE today:
